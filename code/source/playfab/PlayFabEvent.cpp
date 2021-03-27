@@ -9,98 +9,82 @@ namespace PlayFab
 {
     PlayFabEvent::PlayFabEvent()
     {
-        this->eventContents.EventNamespace = "com.playfab.events.default";
+        //this->eventContents.m_eventNamespace = "com.playfab.events.default";
     }
 
-    void PlayFabEvent::SetName(const std::string& eventName)
+    void PlayFabEvent::SetName(const String& /*eventName*/)
     {
-        this->eventContents.Name = eventName;
+        //this->eventContents.m_name = eventName;
     }
 
-    const std::string& PlayFabEvent::GetName() const
+    String PlayFabEvent::GetName() const
     {
-        return this->eventContents.Name;
+        return this->eventContents.name;
     }
 
-    void PlayFabEvent::SetNamespace(const std::string& eventNamespace)
+    void PlayFabEvent::SetNamespace(const String& /*eventNamespace*/)
     {
-        this->eventContents.EventNamespace = eventNamespace;
+        //this->eventContents.m_eventNamespace = eventNamespace;
     }
 
-    void PlayFabEvent::SetEntity(const EventsModels::EntityKey& entity)
+    void PlayFabEvent::SetEntity(const EventsModels::EntityKey& /*entity*/)
     {
-        this->eventContents.Entity = entity;
+        //this->eventContents.m_entity = entity;
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const std::string& value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const String& /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const bool value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const bool /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const int8_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const int8_t /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const int16_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const int16_t /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const int32_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const int32_t /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const int64_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const int64_t /*value*/)
     {
-#ifdef PLAYFAB_PLATFORM_PLAYSTATION
-        this->eventContents.Payload[name] = value;
-#elif defined(PLAYFAB_PLATFORM_ANDROID)
-        this->eventContents.Payload[name] = (Int64)value;
-#elif defined(JSON_HAS_INT64)
-        this->eventContents.Payload[name] = (Json::Int64)value;
-#else // PLAYFAB_PLATFORM_ANDROID
-        this->eventContents.Payload[name] = (long long int)value;
-#endif // PLAYFAB_PLATFORM_ANDROID
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const uint8_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const uint8_t /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const uint16_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const uint16_t /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const uint32_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const uint32_t /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const uint64_t value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const uint64_t /*value*/)
     {
-#ifdef PLAYFAB_PLATFORM_PLAYSTATION
-        this->eventContents.Payload[name] = value;
-#elif defined(PLAYFAB_PLATFORM_ANDROID)
-        this->eventContents.Payload[name] = (Uint64)value;
-#elif defined(JSON_HAS_INT64)
-        this->eventContents.Payload[name] = (Json::UInt64)value;
-#else // PLAYFAB_PLATFORM_ANDROID
-        this->eventContents.Payload[name] = (long long unsigned int)value;
-#endif // PLAYFAB_PLATFORM_ANDROID
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 
-    void PlayFabEvent::SetProperty(const std::string& name, const double value)
+    void PlayFabEvent::SetProperty(const String& /*name*/, const double /*value*/)
     {
-        this->eventContents.Payload[name] = value;
+        //JsonUtils::ObjectAddMember(eventContents.Payload, JsonUtils::ToJson(name), value);
     }
 }
 
