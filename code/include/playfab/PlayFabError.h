@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabBaseModel.h>
+#include <BaseModel.h>
 #include <playfab/PlayFabJsonHeaders.h>
 
 namespace PlayFab
@@ -515,6 +515,7 @@ namespace PlayFab
         PlayFabErrorVirtualCurrencyCurrentlyUnavailable = 1512,
         PlayFabErrorSteamUserNotFound = 1513,
         PlayFabErrorElasticSearchOperationFailed = 1514,
+        PlayFabErrorNotImplemented = 1515,
         PlayFabErrorMatchmakingEntityInvalid = 2001,
         PlayFabErrorMatchmakingPlayerAttributesInvalid = 2002,
         PlayFabErrorMatchmakingQueueNotFound = 2016,
@@ -638,28 +639,31 @@ namespace PlayFab
     /// <summary>
     /// The wrapper around all PlayFab responses, and all fields needed in the case of an error
     /// </summary>
-    struct PlayFabError : public PlayFabBaseModel
+    struct PlayFabError : public BaseModel
     {
         // Serialized fields
         int HttpCode;
-        std::string HttpStatus;
+        String HttpStatus;
         PlayFabErrorCode ErrorCode;
-        std::string ErrorName;
-        std::string ErrorMessage;
-        Json::Value ErrorDetails;
-        Json::Value Data;
-        std::string RequestId;
+        String ErrorName;
+        String ErrorMessage;
+        JsonValue ErrorDetails;
+        JsonValue Data;
+
         // Non-serialized fields
-        std::string UrlPath;
-        Json::Value Request;
+        String RequestId;
 
-        void FromJson(const Json::Value& input) override;
-        Json::Value ToJson() const override;
+        PlayFabError() = default;
+        PlayFabError(const PlayFabError&) {};
+        ~PlayFabError() = default;
 
-        std::string GenerateErrorReport() const;
+        void FromJson(const JsonValue& input) override;
+        JsonValue ToJson() const override;
+
+        String GenerateErrorReport() const;
     };
 
-    typedef std::function<void(const PlayFabError& error, void* customData)> ErrorCallback;
+    typedef std::function<void(const PlayFabError& error)> ErrorCallback;
     typedef std::function<void(std::exception exception)> ExceptionCallback;
 
     enum class PlayFabExceptionCode

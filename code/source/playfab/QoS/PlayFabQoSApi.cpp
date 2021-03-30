@@ -7,14 +7,12 @@
 #include <playfab/QoS/PingResult.h>
 #include <playfab/QoS/PlayFabQoSApi.h>
 
-#include <playfab/PlayFabMultiplayerInstanceApi.h>
-#include <playfab/PlayFabMultiplayerDataModels.h>
-#include <playfab/PlayFabEventsInstanceApi.h>
-#include <playfab/PlayFabEventsDataModels.h>
+#include <Multiplayer/MultiplayerApi.h>
+#include <Multiplayer/MultiplayerDataModels.h>
+#include <Events/EventsApi.h>
+#include <Events/EventsDataModels.h>
 #include <playfab/PlayFabSettings.h>
-#include <playfab/PlayFabPluginManager.h>
 
-using namespace std;
 using namespace PlayFab::MultiplayerModels;
 using namespace PlayFab::EventsModels;
 
@@ -29,32 +27,9 @@ namespace PlayFab
             multiplayerApi = std::make_shared<PlayFabMultiplayerInstanceAPI>(PlayFabSettings::staticPlayer);
         }
 
-        bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container)
-        {
-            if (container.errorWrapper.HttpCode == 200)
-            {
-                resultCommon.FromJson(container.errorWrapper.Data);
-                resultCommon.Request = container.errorWrapper.Request;
-                return true;
-            }
-            else // Process the error case
-            {
-                if (PlayFabSettings::globalErrorHandler != nullptr)
-                {
-                    PlayFabSettings::globalErrorHandler(container.errorWrapper, container.GetCustomData());
-                }
-
-                if (container.errorCallback != nullptr)
-                {
-                    container.errorCallback(container.errorWrapper, container.GetCustomData());
-                }
-                return false;
-            }
-        }
-
         std::future<QoSResult> PlayFabQoSApi::GetQoSResultAsync(unsigned int numThreads, unsigned int timeoutMs)
         {
-            return async(launch::async, [&, numThreads, timeoutMs]() { return GetQoSResult(numThreads, timeoutMs); });
+            return std::async(std::launch::async, [&, numThreads, timeoutMs]() { return GetQoSResult(numThreads, timeoutMs); });
         }
 
         QoSResult PlayFabQoSApi::GetQoSResult(unsigned int numThreads, unsigned int timeoutMs)
@@ -89,7 +64,7 @@ namespace PlayFab
             // Wait for the PlayFabMultiplayerAPI::ListQosServers api to complete
             while (!listQosServersCompleted)
             {
-                this_thread::sleep_for(threadWaitTimespan);
+                std::this_thread::sleep_for(threadWaitTimespan);
             }
 
             size_t serverCount = regionMap.size(); // call thunderhead to get a list of all the data centers
@@ -101,15 +76,15 @@ namespace PlayFab
 
             // get a list of region pings that need to be done
             result.regionResults.reserve(serverCount);
-            vector<std::string> pings = GetPingList(static_cast<unsigned int>(serverCount));
+            Vector<String> pings = GetPingList(static_cast<unsigned int>(serverCount));
 
             // initialize accumulated results with empty (zeroed) ping results
-            unordered_map<std::string, PingResult> accumulatedPingResults;
+            UnorderedMap<String, PingResult> accumulatedPingResults;
             accumulatedPingResults.reserve(regionMap.size());
             InitializeAccumulatedPingResults(accumulatedPingResults);
 
             // Sockets that would be used to ping
-            vector<shared_ptr<QoSSocket>> sockets;
+            Vector<SharedPtr<QoSSocket>> sockets;
             result.errorCode = SetupSockets(sockets, numThreads, timeoutMs);
 
             // If no sockets were initialized, return as we cant do anything. The errorCode must already be set at this point
@@ -121,7 +96,7 @@ namespace PlayFab
             }
 
             // initialize the async ping results
-            vector<future<PingResult>> asyncPingResults(numThreads);
+            Vector<std::future<PingResult>> asyncPingResults(numThreads);
             InitializeAsyncPingResults(asyncPingResults);
 
             // ping servers
@@ -157,19 +132,19 @@ namespace PlayFab
 
         void PlayFabQoSApi::SendResultsToPlayFab(const QoSResult& result)
         {
-            Json::Value value;
-            value["ErrorCode"] = Json::Value(result.errorCode);
+            JsonValue value;
+            value.AddMember("ErrorCode", JsonValue{ result.errorCode }, JsonUtils::allocator);
 
-            Json::Value each_regionCenterResult;
+            JsonValue each_regionCenterResult{ rapidjson::kArrayType };
             for (int i = 0; i < result.regionResults.size(); ++i)
             {
-                Json::Value dcResult;
+                JsonValue dcResult;
 
-                dcResult["Region"] = Json::Value(result.regionResults[i].region);
-                dcResult["LatencyMs"] = Json::Value(result.regionResults[i].latencyMs);
-                dcResult["ErrorCode"] = Json::Value(result.regionResults[i].errorCode);
+                JsonUtils::ObjectAddMember(dcResult, "Region", result.regionResults[i].region.data());
+                JsonUtils::ObjectAddMember(dcResult, "LatencyMs", result.regionResults[i].latencyMs);
+                JsonUtils::ObjectAddMember(dcResult, "ErrorCode",result.regionResults[i].errorCode);
 
-                each_regionCenterResult[i] = dcResult;
+                each_regionCenterResult.PushBack(dcResult, JsonUtils::allocator); // TODO consider helper
             }
 
             value["RegionResults"] = each_regionCenterResult;
@@ -177,20 +152,22 @@ namespace PlayFab
             PlayFab::EventsModels::WriteEventsRequest request;
             PlayFab::EventsModels::EventContents eventContents;
 
-            eventContents.Name = "qos_result";
-            eventContents.EventNamespace = "playfab.servers";
-            eventContents.Payload = value;
-            request.Events.push_back(eventContents);
+            // TODO
+            //eventContents.m_name = "qos_result";
+            //eventContents.m_eventNamespace = "playfab.servers";
+            //eventContents.m_payload = value;
+            //request.m_events.push_back(eventContents);
 
-            eventsApi->WriteTelemetryEvents(request, WriteEventsSuccessCallBack, WriteEventsFailureCallBack);
+            // TODO allow setting queue here somehow
+            eventsApi->WriteTelemetryEvents(request, TaskQueue(), WriteEventsSuccessCallBack, WriteEventsFailureCallBack);
         }
 
-        void PlayFabQoSApi::WriteEventsSuccessCallBack(const WriteEventsResponse&, void*)
+        void PlayFabQoSApi::WriteEventsSuccessCallBack(const WriteEventsResponse&)
         {
             LOG_QOS("QoSResult successfully sent to PlayFab");
         }
 
-        void PlayFabQoSApi::WriteEventsFailureCallBack(const PlayFabError&, void*)
+        void PlayFabQoSApi::WriteEventsFailureCallBack(const PlayFabError&)
         {
             LOG_QOS("Failed to QoSResult sent to PlayFab");
         }
@@ -205,41 +182,41 @@ namespace PlayFab
             }
 
             ListQosServersForTitleRequest request;
-            multiplayerApi->ListQosServersForTitle(request, ListQosServersForTitleSuccessCallBack, ListQosServersForTitleFailureCallBack, reinterpret_cast<void*>(this));
+            multiplayerApi->ListQosServersForTitle(
+                request,
+                TaskQueue(), // TODO allow setting queue here somehow
+                std::bind(&PlayFabQoSApi::ListQosServersForTitleSuccessCallBack, this, std::placeholders::_1),
+                std::bind(&PlayFabQoSApi::ListQosServersForTitleFailureCallBack, this, std::placeholders::_1)
+            );
         }
 
-        void PlayFabQoSApi::ListQosServersForTitleSuccessCallBack(const ListQosServersForTitleResponse& result, void* customData)
+        void PlayFabQoSApi::ListQosServersForTitleSuccessCallBack(const ListQosServersForTitleResponse& result)
         {
-            // Custom data received is a pointer to our api object
-            PlayFabQoSApi* api = reinterpret_cast<PlayFabQoSApi*>(customData);
-
-            for (const QosServer& server : result.QosServers)
+            for (auto i = 0u; i < result.qosServersCount; ++i)
             {
-                api->regionMap[server.Region] = server.ServerUrl;
+                auto& server = result.qosServers[i];
+                regionMap[server->region] = server->serverUrl;
             }
 
-            api->listQosServersCompleted = true;
+            listQosServersCompleted = true;
         }
 
-        void PlayFabQoSApi::ListQosServersForTitleFailureCallBack(const PlayFabError&, void* customData)
+        void PlayFabQoSApi::ListQosServersForTitleFailureCallBack(const PlayFabError&)
         {
-            // Custom data received is a pointer to our api object
-            PlayFabQoSApi* api = reinterpret_cast<PlayFabQoSApi*>(customData);
-
             // Log the error and return
             LOG_QOS("Could not get the server list from thunderhead\n Error : " << error.ToJson() << endl);
-            api->listQosServersCompleted = true;
+            listQosServersCompleted = true;
         }
 
-        vector<std::string> PlayFabQoSApi::GetPingList(unsigned int serverCount)
+        Vector<String> PlayFabQoSApi::GetPingList(unsigned int serverCount)
         {
-            vector<std::string> pingList;
+            Vector<String> pingList;
             pingList.reserve(numOfPingIterations * serverCount);
 
             // Round Robin
             for (int i = 0; i < numOfPingIterations; ++i)
             {
-                for (unordered_map<std::string, string>::iterator it = regionMap.begin();
+                for (UnorderedMap<String, String>::iterator it = regionMap.begin();
                     it != regionMap.end();
                     ++it)
                 {
@@ -250,7 +227,7 @@ namespace PlayFab
             return pingList;
         }
 
-        void PlayFabQoSApi::InitializeAccumulatedPingResults(unordered_map<std::string, PingResult>& accumulatedPingResults)
+        void PlayFabQoSApi::InitializeAccumulatedPingResults(UnorderedMap<String, PingResult>& accumulatedPingResults)
         {
             for (auto it = regionMap.begin();
                 it != regionMap.end();
@@ -260,7 +237,7 @@ namespace PlayFab
             }
         }
 
-        int PlayFabQoSApi::SetupSockets(vector<shared_ptr<QoSSocket>>& sockets, unsigned int numThreads, unsigned int timeoutMs)
+        int PlayFabQoSApi::SetupSockets(Vector<SharedPtr<QoSSocket>>& sockets, unsigned int numThreads, unsigned int timeoutMs)
         {
             int lastErrorCode = 0;
 
@@ -269,7 +246,7 @@ namespace PlayFab
             // Setup sockets based on the number of threads
             for (unsigned int i = 0; i < numThreads; ++i)
             {
-                shared_ptr<QoSSocket> socket = make_shared<QoSSocket>();
+                SharedPtr<QoSSocket> socket = MakeShared<QoSSocket>();
 
                 int errorCode;
                 if ((errorCode = socket->ConfigureSocket(timeoutMs)) == 0)
@@ -285,20 +262,20 @@ namespace PlayFab
             return lastErrorCode;
         }
 
-        void PlayFabQoSApi::InitializeAsyncPingResults(vector<future<PingResult>>& asyncPingResults)
+        void PlayFabQoSApi::InitializeAsyncPingResults(Vector<std::future<PingResult>>& asyncPingResults)
         {
             for (int i = 0; i < asyncPingResults.size(); ++i)
             {
-                asyncPingResults[i] = future<PingResult>(); // create a fake future
+                asyncPingResults[i] = std::future<PingResult>(); // create a fake future
             }
         }
 
-        void PlayFabQoSApi::PingServers(const vector<std::string>& pings, vector<future<PingResult>>& asyncPingResults, const std::vector<std::shared_ptr<QoSSocket>>& sockets, unordered_map<std::string, PingResult>& accumulatedPingResults, unsigned int timeoutMs)
+        void PlayFabQoSApi::PingServers(const Vector<String>& pings, Vector<std::future<PingResult>>& asyncPingResults, const Vector<SharedPtr<QoSSocket>>& sockets, UnorderedMap<String, PingResult>& accumulatedPingResults, unsigned int timeoutMs)
         {
             int pingItr = 0;
             size_t numThreads = asyncPingResults.size();
             size_t numPings = pings.size();
-            vector<std::string> pingedServers(numThreads); // remember the server for which a ping is started
+            Vector<String> pingedServers(numThreads); // remember the server for which a ping is started
             while (pingItr < numPings)
             {
                 // Iterate over all the threads and servers that need to be pinged
@@ -311,8 +288,8 @@ namespace PlayFab
                         {
                             continue;
                         }
-                        future_status status = asyncPingResults[i].wait_for(threadWaitTimespan);
-                        if (status == future_status::ready)
+                        std::future_status status = asyncPingResults[i].wait_for(threadWaitTimespan);
+                        if (status == std::future_status::ready)
                         {
                             // Get the result
                             PingResult thisResult(asyncPingResults[i].get());
@@ -320,7 +297,7 @@ namespace PlayFab
                             // Update the result for the previous socket ping
                             UpdateAccumulatedPingResult(thisResult, pingedServers[i], accumulatedPingResults, timeoutMs);
                         }
-                        else if (status == future_status::timeout)
+                        else if (status == std::future_status::timeout)
                         {
                             // this ping is not complete yet, check the next one
                             continue;
@@ -352,7 +329,7 @@ namespace PlayFab
                     if (pingItr < numPings)
                     {
                         pingedServers[i] = pings[pingItr];
-                        asyncPingResults[i] = async(launch::async, GetQoSResultForRegion, sockets[i]);
+                        asyncPingResults[i] = async(std::launch::async, GetQoSResultForRegion, sockets[i]);
                         ++pingItr;
                     }
                 }
@@ -365,8 +342,8 @@ namespace PlayFab
                 if (asyncPingResults[i].valid())
                 {
                     std::chrono::milliseconds pingWaitTime = std::chrono::milliseconds(timeoutMs);
-                    future_status status = asyncPingResults[i].wait_for(pingWaitTime);
-                    if (status == future_status::ready)
+                    std::future_status status = asyncPingResults[i].wait_for(pingWaitTime);
+                    if (status == std::future_status::ready)
                     {
                         // Update the result for the previous socket ping
                         PingResult thisResult(asyncPingResults[i].get());
@@ -377,7 +354,7 @@ namespace PlayFab
         }
 
         // Add the new ping result to the unordered map.
-        void PlayFabQoSApi::UpdateAccumulatedPingResult(const PingResult& result, const std::string& region, std::unordered_map<std::string, PingResult>& accumulatedPingResults, unsigned int timeoutMs)
+        void PlayFabQoSApi::UpdateAccumulatedPingResult(const PingResult& result, const String& region, UnorderedMap<String, PingResult>& accumulatedPingResults, unsigned int timeoutMs)
         {
             if (result.errorCode != 0)
             {
@@ -396,7 +373,7 @@ namespace PlayFab
         // Parameters : Configured socket to ping
         // Return : The ping result
         // Note that the function eat any exceptions thrown to it.
-        PingResult PlayFabQoSApi::GetQoSResultForRegion(shared_ptr<QoSSocket> socket)
+        PingResult PlayFabQoSApi::GetQoSResultForRegion(SharedPtr<QoSSocket> socket)
         {
             // Ping a data center and return the ping time
             try

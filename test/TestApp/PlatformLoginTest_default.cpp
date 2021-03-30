@@ -18,16 +18,14 @@ using namespace ClientModels;
 
 namespace PlayFabUnit
 {
-    void OnErrorSharedCallback(const PlayFabError& error, void* customData)
+    void OnErrorSharedCallback(const PlayFabError& error, TestContext& testContext)
     {
-        TestContext* testContext = static_cast<TestContext*>(customData);
-        testContext->Fail("Unexpected error: " + error.GenerateErrorReport());
+        testContext.Fail("Unexpected error: " + std::string(error.GenerateErrorReport().data()));
     }
 
-    void OnPlatformLogin(const LoginResult& result, void* customData)
+    void OnPlatformLogin(const LoginResult& result, TestContext& testContext)
     {
-        TestContext* testContext = static_cast<TestContext*>(customData);
-        testContext->Pass("Custom: " + result.PlayFabId);
+        testContext.Pass("Custom: " + std::string(result.playFabId));
     }
 
     // CLIENT API
@@ -35,14 +33,16 @@ namespace PlayFabUnit
     void PlatformLoginTest::TestPlatformSpecificLogin(TestContext& testContext)
     {
         LoginWithCustomIDRequest request;
-        request.CustomId = PlayFabSettings::buildIdentifier;
-        request.CreateAccount = true;
+        request.customId = PlayFabSettings::buildIdentifier.data();
+        bool createAccount = true;
+        request.createAccount = &createAccount;
+        request.titleId = testTitleData.titleId.data();
 
         clientApi->LoginWithCustomID(request,
-            OnPlatformLogin,
-            OnErrorSharedCallback,
-            &testContext);
-
+            PlayFab::TaskQueue(),
+            std::bind(OnPlatformLogin, std::placeholders::_1, std::ref(testContext)),
+            std::bind(OnErrorSharedCallback, std::placeholders::_1, std::ref(testContext))
+        );
     }
 
     void PlatformLoginTest::AddTests()
@@ -50,7 +50,6 @@ namespace PlayFabUnit
         AddTest("TestPlatformSpecificLogin", &PlatformLoginTest::TestPlatformSpecificLogin);
         // Make sure PlayFab state is clean.
         PlayFabSettings::ForgetAllCredentials();
-        PlayFabSettings::staticSettings->titleId = testTitleData.titleId;
     }
 
     void PlatformLoginTest::ClassSetUp()

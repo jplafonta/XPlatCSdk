@@ -7,18 +7,18 @@ namespace PlayFab
     // Control whether all callbacks are threaded or whether the user manually controls callback timing from their main-thread
     // Note ANY api call may synchronously throw an exception if the title id is not set
     bool PlayFabSettings::threadedCallbacks = false;
-    const std::string PlayFabSettings::sdkVersion = "0.0.todaysDate";
-    const std::string PlayFabSettings::buildIdentifier = "xplatcsdk_manual";
-    const std::string PlayFabSettings::versionString = "XPlatCppSdk-0.0.todaysDate";
-    std::string PlayFabSettings::productionEnvironmentURL = ".playfabapi.com";
+    const String PlayFabSettings::sdkVersion = "0.0.todaysDate";
+    const String PlayFabSettings::buildIdentifier = "xplatcsdk_manual";
+    const String PlayFabSettings::versionString = "XPlatCppSdk-0.0.todaysDate";
+    String PlayFabSettings::productionEnvironmentURL = ".playfabapi.com";
     ErrorCallback PlayFabSettings::globalErrorHandler = nullptr;
 
-    const std::shared_ptr<PlayFabApiSettings> PlayFabSettings::staticSettings = std::make_shared<PlayFabApiSettings>();
-    const std::shared_ptr<PlayFabAuthenticationContext> PlayFabSettings::staticPlayer = std::make_shared<PlayFabAuthenticationContext>();
+    const SharedPtr<PlayFabApiSettings> PlayFabSettings::staticSettings = MakeShared<PlayFabApiSettings>();
+    const SharedPtr<PlayFabAuthenticationContext> PlayFabSettings::staticPlayer = MakeShared<PlayFabAuthenticationContext>();
 
 #if !defined(DISABLE_PLAYFABCLIENT_API)
-    const std::string PlayFabSettings::AD_TYPE_IDFA = "Idfa";
-    const std::string PlayFabSettings::AD_TYPE_ANDROID_ID = "Adid";
+    const String PlayFabSettings::AD_TYPE_IDFA = "Idfa";
+    const String PlayFabSettings::AD_TYPE_ANDROID_ID = "Adid";
 #endif
 
     void PlayFabSettings::ForgetAllCredentials()

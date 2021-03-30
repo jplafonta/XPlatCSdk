@@ -1,0 +1,46 @@
+#pragma once
+
+#if !defined(DISABLE_PLAYFABENTITY_API)
+
+#include <Localization/LocalizationDataModels.h>
+#include <playfab/HttpClient.h>
+#include <playfab/TaskQueue.h>
+
+namespace PlayFab
+{
+    class CallRequestContainerBase;
+    class CallRequestContainer;
+    class PlayFabApiSettings;
+    class PlayFabAuthenticationContext;
+
+    /// <summary>
+    /// Main interface for PlayFab Sdk, specifically all Localization APIs
+    /// </summary>
+    class PlayFabLocalizationInstanceAPI
+    {
+    private:
+        SharedPtr<PlayFabApiSettings> m_settings;
+        SharedPtr<PlayFabAuthenticationContext> m_context;
+        HttpClient const m_httpClient;
+
+    public:
+        PlayFabLocalizationInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
+        PlayFabLocalizationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
+
+        ~PlayFabLocalizationInstanceAPI() = default;
+        PlayFabLocalizationInstanceAPI(const PlayFabLocalizationInstanceAPI& source) = delete; // disable copy
+        PlayFabLocalizationInstanceAPI(PlayFabLocalizationInstanceAPI&&) = delete; // disable move
+        PlayFabLocalizationInstanceAPI& operator=(const PlayFabLocalizationInstanceAPI& source) = delete; // disable assignment
+        PlayFabLocalizationInstanceAPI& operator=(PlayFabLocalizationInstanceAPI&& other) = delete; // disable move assignment
+
+        SharedPtr<PlayFabApiSettings> GetSettings() const;
+        SharedPtr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
+        void ForgetAllCredentials();
+
+        // ------------ Generated API calls
+        void GetLanguageList(LocalizationModels::GetLanguageListRequest& request, const TaskQueue& queue, const ProcessApiCallback<LocalizationModels::GetLanguageListResponse> callback, const ErrorCallback errorCallback = nullptr);
+        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+    };
+}
+
+#endif
