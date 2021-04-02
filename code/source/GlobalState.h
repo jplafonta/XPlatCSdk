@@ -1,6 +1,8 @@
 #pragma once
 
 #include <playfab/PlayFabGlobal.h>
+#include <Client/ClientAuthApi.h>
+#include <Server/ServerAuthApi.h>
 
 namespace PlayFab
 {
@@ -10,6 +12,9 @@ namespace PlayFab
     public:
         GlobalState() = default;
         virtual ~GlobalState() = default;
+
+        ClientAuthAPI const ClientAuth;
+        ServerAuthAPI const ServerAuth;
     };
 }
 
