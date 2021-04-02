@@ -1,9 +1,9 @@
-#include <stdafx.h>
+#include "stdafx.h"
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <CloudScript/CloudScriptApi.h>
-#include <playfab/PlayFabSettings.h>
+#include "CloudScriptApi.h"
+#include "PlayFabSettings.h"
 
 #if defined(PLAYFAB_PLATFORM_WINDOWS)
 #pragma warning (disable: 4100) // formal parameters are part of a public interface
@@ -218,7 +218,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::PostFunctionResultForEntityTriggeredAction(
         PostFunctionResultForEntityTriggeredActionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -228,7 +228,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -250,7 +250,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::PostFunctionResultForFunctionExecution(
         PostFunctionResultForFunctionExecutionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -260,7 +260,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -282,7 +282,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::PostFunctionResultForPlayerTriggeredAction(
         PostFunctionResultForPlayerTriggeredActionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -292,7 +292,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -314,7 +314,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::PostFunctionResultForScheduledTask(
         PostFunctionResultForScheduledTaskRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -324,7 +324,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -346,7 +346,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::RegisterHttpFunction(
         RegisterHttpFunctionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -356,7 +356,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -378,7 +378,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::RegisterQueuedFunction(
         RegisterQueuedFunctionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -388,7 +388,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -410,7 +410,7 @@ namespace PlayFab
     void PlayFabCloudScriptInstanceAPI::UnregisterFunction(
         UnregisterFunctionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -420,7 +420,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -444,7 +444,6 @@ namespace PlayFab
         if (httpResult.serviceResponse.HttpCode == 200)
         {
             result.FromJson(httpResult.serviceResponse.Data);
-            JsonUtils::FromJson(httpResult.requestBody, result.Request);
             return true;
         }
         else // Process the error case

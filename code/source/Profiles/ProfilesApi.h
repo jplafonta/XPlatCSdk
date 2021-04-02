@@ -2,9 +2,9 @@
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <Profiles/ProfilesDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "ProfilesDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {
@@ -42,7 +42,7 @@ namespace PlayFab
         void GetProfile(ProfilesModels::GetEntityProfileRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetEntityProfileResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GetProfiles(ProfilesModels::GetEntityProfilesRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetEntityProfilesResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GetTitlePlayersFromMasterPlayerAccountIds(ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void SetGlobalPolicy(ProfilesModels::SetGlobalPolicyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::SetGlobalPolicyResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void SetGlobalPolicy(ProfilesModels::SetGlobalPolicyRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void SetProfileLanguage(ProfilesModels::SetProfileLanguageRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::SetProfileLanguageResponse> callback, const ErrorCallback errorCallback = nullptr);
         void SetProfilePolicy(ProfilesModels::SetEntityProfilePolicyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::SetEntityProfilePolicyResponse> callback, const ErrorCallback errorCallback = nullptr);
         static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);

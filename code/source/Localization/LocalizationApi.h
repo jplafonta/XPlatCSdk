@@ -2,9 +2,9 @@
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <Localization/LocalizationDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "LocalizationDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {

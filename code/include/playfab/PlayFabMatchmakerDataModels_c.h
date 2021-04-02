@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -22,14 +32,12 @@ enum class PlayFabMatchmakerRegion : uint32_t
 typedef struct PlayFabMatchmakerAuthUserRequest
 {
     const char* authorizationTicket;
-
 } PlayFabMatchmakerAuthUserRequest;
 
 typedef struct PlayFabMatchmakerAuthUserResponse
 {
     bool authorized;
     const char* playFabId;
-
 } PlayFabMatchmakerAuthUserResponse;
 
 typedef struct PlayFabMatchmakerItemInstance
@@ -51,7 +59,6 @@ typedef struct PlayFabMatchmakerItemInstance
     const char* unitCurrency;
     uint32_t unitPrice;
     PF_OPTIONAL int32_t* usesIncrementedBy;
-
 } PlayFabMatchmakerItemInstance;
 
 typedef struct PlayFabMatchmakerPlayerJoinedRequest
@@ -60,13 +67,7 @@ typedef struct PlayFabMatchmakerPlayerJoinedRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* lobbyId;
     const char* playFabId;
-
 } PlayFabMatchmakerPlayerJoinedRequest;
-
-typedef struct PlayFabMatchmakerPlayerJoinedResponse
-{
-
-} PlayFabMatchmakerPlayerJoinedResponse;
 
 typedef struct PlayFabMatchmakerPlayerLeftRequest
 {
@@ -74,13 +75,7 @@ typedef struct PlayFabMatchmakerPlayerLeftRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* lobbyId;
     const char* playFabId;
-
 } PlayFabMatchmakerPlayerLeftRequest;
-
-typedef struct PlayFabMatchmakerPlayerLeftResponse
-{
-
-} PlayFabMatchmakerPlayerLeftResponse;
 
 typedef struct PlayFabMatchmakerStartGameRequest
 {
@@ -91,7 +86,6 @@ typedef struct PlayFabMatchmakerStartGameRequest
     const char* externalMatchmakerEventEndpoint;
     const char* gameMode;
     PlayFabMatchmakerRegion region;
-
 } PlayFabMatchmakerStartGameRequest;
 
 typedef struct PlayFabMatchmakerStartGameResponse
@@ -101,7 +95,6 @@ typedef struct PlayFabMatchmakerStartGameResponse
     const char* serverIPV6Address;
     uint32_t serverPort;
     const char* serverPublicDNSName;
-
 } PlayFabMatchmakerStartGameResponse;
 
 typedef struct PlayFabMatchmakerUserInfoRequest
@@ -110,7 +103,6 @@ typedef struct PlayFabMatchmakerUserInfoRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     int32_t minCatalogVersion;
     const char* playFabId;
-
 } PlayFabMatchmakerUserInfoRequest;
 
 typedef struct PlayFabMatchmakerVirtualCurrencyRechargeTime
@@ -118,7 +110,6 @@ typedef struct PlayFabMatchmakerVirtualCurrencyRechargeTime
     int32_t rechargeMax;
     time_t rechargeTime;
     int32_t secondsToRecharge;
-
 } PlayFabMatchmakerVirtualCurrencyRechargeTime;
 
 typedef struct PlayFabMatchmakerUserInfoResponse
@@ -134,7 +125,6 @@ typedef struct PlayFabMatchmakerUserInfoResponse
     PF_COLLECTION_COUNT uint32_t virtualCurrencyCount;
     PF_MAP struct PlayFabMatchmakerVirtualCurrencyRechargeTimeDictionaryEntry* virtualCurrencyRechargeTimes;
     PF_COLLECTION_COUNT uint32_t virtualCurrencyRechargeTimesCount;
-
 } PlayFabMatchmakerUserInfoResponse;
 
 
@@ -147,3 +137,5 @@ typedef struct PlayFabMatchmakerVirtualCurrencyRechargeTimeDictionaryEntry
 
 
 #pragma pop_macro("IN")
+
+}

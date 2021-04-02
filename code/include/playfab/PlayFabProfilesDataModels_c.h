@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -27,14 +37,12 @@ typedef struct PlayFabProfilesEntityDataObject
     PlayFabJsonObject dataObject;
     const char* escapedDataObject;
     const char* objectName;
-
 } PlayFabProfilesEntityDataObject;
 
 typedef struct PlayFabProfilesEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabProfilesEntityKey;
 
 typedef struct PlayFabProfilesEntityLineage
@@ -45,7 +53,6 @@ typedef struct PlayFabProfilesEntityLineage
     const char* namespaceId;
     const char* titleId;
     const char* titlePlayerAccountId;
-
 } PlayFabProfilesEntityLineage;
 
 typedef struct PlayFabProfilesEntityPermissionStatement
@@ -56,7 +63,6 @@ typedef struct PlayFabProfilesEntityPermissionStatement
     PlayFabProfilesEffectType effect;
     PlayFabJsonObject principal;
     const char* resource;
-
 } PlayFabProfilesEntityPermissionStatement;
 
 typedef struct PlayFabProfilesEntityProfileFileMetadata
@@ -65,7 +71,6 @@ typedef struct PlayFabProfilesEntityProfileFileMetadata
     const char* fileName;
     time_t lastModified;
     int32_t size;
-
 } PlayFabProfilesEntityProfileFileMetadata;
 
 typedef struct PlayFabProfilesEntityStatisticChildValue
@@ -73,7 +78,6 @@ typedef struct PlayFabProfilesEntityStatisticChildValue
     const char* childName;
     const char* metadata;
     int32_t value;
-
 } PlayFabProfilesEntityStatisticChildValue;
 
 typedef struct PlayFabProfilesEntityStatisticValue
@@ -84,7 +88,6 @@ typedef struct PlayFabProfilesEntityStatisticValue
     const char* name;
     PF_OPTIONAL int32_t* value;
     int32_t version;
-
 } PlayFabProfilesEntityStatisticValue;
 
 typedef struct PlayFabProfilesEntityProfileBody
@@ -108,7 +111,6 @@ typedef struct PlayFabProfilesEntityProfileBody
     PF_MAP struct PlayFabProfilesEntityStatisticValueDictionaryEntry* statistics;
     PF_COLLECTION_COUNT uint32_t statisticsCount;
     int32_t versionNumber;
-
 } PlayFabProfilesEntityProfileBody;
 
 typedef struct PlayFabProfilesGetEntityProfileRequest
@@ -117,13 +119,11 @@ typedef struct PlayFabProfilesGetEntityProfileRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL bool* dataAsObject;
     PF_OPTIONAL PlayFabProfilesEntityKey* entity;
-
 } PlayFabProfilesGetEntityProfileRequest;
 
 typedef struct PlayFabProfilesGetEntityProfileResponse
 {
     PF_OPTIONAL PlayFabProfilesEntityProfileBody* profile;
-
 } PlayFabProfilesGetEntityProfileResponse;
 
 typedef struct PlayFabProfilesGetEntityProfilesRequest
@@ -133,28 +133,24 @@ typedef struct PlayFabProfilesGetEntityProfilesRequest
     PF_OPTIONAL bool* dataAsObject;
     PF_ARRAY PlayFabProfilesEntityKey** entities;
     PF_COLLECTION_COUNT uint32_t entitiesCount;
-
 } PlayFabProfilesGetEntityProfilesRequest;
 
 typedef struct PlayFabProfilesGetEntityProfilesResponse
 {
     PF_ARRAY PlayFabProfilesEntityProfileBody** profiles;
     PF_COLLECTION_COUNT uint32_t profilesCount;
-
 } PlayFabProfilesGetEntityProfilesResponse;
 
 typedef struct PlayFabProfilesGetGlobalPolicyRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabProfilesGetGlobalPolicyRequest;
 
 typedef struct PlayFabProfilesGetGlobalPolicyResponse
 {
     PF_ARRAY PlayFabProfilesEntityPermissionStatement** permissions;
     PF_COLLECTION_COUNT uint32_t permissionsCount;
-
 } PlayFabProfilesGetGlobalPolicyResponse;
 
 typedef struct PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest
@@ -164,7 +160,6 @@ typedef struct PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest
     PF_ARRAY const char** masterPlayerAccountIds;
     PF_COLLECTION_COUNT uint32_t masterPlayerAccountIdsCount;
     const char* titleId;
-
 } PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest;
 
 typedef struct PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse
@@ -172,7 +167,6 @@ typedef struct PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse
     const char* titleId;
     PF_MAP struct PlayFabProfilesEntityKeyDictionaryEntry* titlePlayerAccounts;
     PF_COLLECTION_COUNT uint32_t titlePlayerAccountsCount;
-
 } PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse;
 
 typedef struct PlayFabProfilesSetEntityProfilePolicyRequest
@@ -182,14 +176,12 @@ typedef struct PlayFabProfilesSetEntityProfilePolicyRequest
     PlayFabProfilesEntityKey* entity;
     PF_ARRAY PlayFabProfilesEntityPermissionStatement** statements;
     PF_COLLECTION_COUNT uint32_t statementsCount;
-
 } PlayFabProfilesSetEntityProfilePolicyRequest;
 
 typedef struct PlayFabProfilesSetEntityProfilePolicyResponse
 {
     PF_ARRAY PlayFabProfilesEntityPermissionStatement** permissions;
     PF_COLLECTION_COUNT uint32_t permissionsCount;
-
 } PlayFabProfilesSetEntityProfilePolicyResponse;
 
 typedef struct PlayFabProfilesSetGlobalPolicyRequest
@@ -198,13 +190,7 @@ typedef struct PlayFabProfilesSetGlobalPolicyRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_ARRAY PlayFabProfilesEntityPermissionStatement** permissions;
     PF_COLLECTION_COUNT uint32_t permissionsCount;
-
 } PlayFabProfilesSetGlobalPolicyRequest;
-
-typedef struct PlayFabProfilesSetGlobalPolicyResponse
-{
-
-} PlayFabProfilesSetGlobalPolicyResponse;
 
 typedef struct PlayFabProfilesSetProfileLanguageRequest
 {
@@ -213,14 +199,12 @@ typedef struct PlayFabProfilesSetProfileLanguageRequest
     PF_OPTIONAL PlayFabProfilesEntityKey* entity;
     PF_OPTIONAL int32_t* expectedVersion;
     const char* language;
-
 } PlayFabProfilesSetProfileLanguageRequest;
 
 typedef struct PlayFabProfilesSetProfileLanguageResponse
 {
     PF_OPTIONAL PlayFabProfilesOperationTypes* operationResult;
     PF_OPTIONAL int32_t* versionNumber;
-
 } PlayFabProfilesSetProfileLanguageResponse;
 
 
@@ -257,3 +241,5 @@ typedef struct PlayFabProfilesEntityKeyDictionaryEntry
 
 
 #pragma pop_macro("IN")
+
+}

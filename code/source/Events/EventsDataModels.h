@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabEventsDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabEventsEntityKey& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Id", input.id);
             JsonUtils::ObjectAddMember(output, "Type", input.type);
@@ -24,7 +23,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabEventsEventContents& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -40,7 +38,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabEventsWriteEventsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Events", input.events, input.eventsCount);
@@ -50,7 +47,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabEventsWriteEventsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AssignedEventIds", input.assignedEventIds, input.assignedEventIdsCount);
             return output;
@@ -72,16 +68,16 @@ namespace PlayFab
                 m_id{ src.m_id },
                 m_type{ src.m_type }
             {
-
                 id = m_id.empty() ? nullptr : m_id.data();
                 type = m_type.empty() ? nullptr : m_type.data();
             }
 
             ~EntityKey() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Id", m_id, id);
                 JsonUtils:: ObjectGetMember(input, "Type", m_type, type);
             }
@@ -113,7 +109,6 @@ namespace PlayFab
                 m_payload{ src.m_payload },
                 m_payloadJSON{ src.m_payloadJSON }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 eventNamespace = m_eventNamespace.empty() ? nullptr : m_eventNamespace.data();
@@ -126,9 +121,10 @@ namespace PlayFab
 
             ~EventContents() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "EventNamespace", m_eventNamespace, eventNamespace);
@@ -166,16 +162,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_events{ src.m_events }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 events = m_events.Empty() ? nullptr : m_events.Data();
             }
 
             ~WriteEventsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Events", m_events, events, eventsCount);
             }
@@ -200,15 +196,15 @@ namespace PlayFab
                 PlayFabEventsWriteEventsResponse{ src },
                 m_assignedEventIds{ src.m_assignedEventIds }
             {
-
                 assignedEventIds = m_assignedEventIds.Empty() ? nullptr : m_assignedEventIds.Data();
             }
 
             ~WriteEventsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AssignedEventIds", m_assignedEventIds, assignedEventIds, assignedEventIdsCount);
             }
 

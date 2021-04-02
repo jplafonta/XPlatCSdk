@@ -2,9 +2,9 @@
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <Multiplayer/MultiplayerDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "MultiplayerDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {
@@ -38,10 +38,10 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void CancelAllMatchmakingTicketsForPlayer(MultiplayerModels::CancelAllMatchmakingTicketsForPlayerRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CancelAllMatchmakingTicketsForPlayerResult> callback, const ErrorCallback errorCallback = nullptr);
-        void CancelAllServerBackfillTicketsForPlayer(MultiplayerModels::CancelAllServerBackfillTicketsForPlayerRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CancelAllServerBackfillTicketsForPlayerResult> callback, const ErrorCallback errorCallback = nullptr);
-        void CancelMatchmakingTicket(MultiplayerModels::CancelMatchmakingTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CancelMatchmakingTicketResult> callback, const ErrorCallback errorCallback = nullptr);
-        void CancelServerBackfillTicket(MultiplayerModels::CancelServerBackfillTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CancelServerBackfillTicketResult> callback, const ErrorCallback errorCallback = nullptr);
+        void CancelAllMatchmakingTicketsForPlayer(MultiplayerModels::CancelAllMatchmakingTicketsForPlayerRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void CancelAllServerBackfillTicketsForPlayer(MultiplayerModels::CancelAllServerBackfillTicketsForPlayerRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void CancelMatchmakingTicket(MultiplayerModels::CancelMatchmakingTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void CancelServerBackfillTicket(MultiplayerModels::CancelServerBackfillTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void CreateBuildAlias(MultiplayerModels::CreateBuildAliasRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::BuildAliasDetailsResponse> callback, const ErrorCallback errorCallback = nullptr);
         void CreateBuildWithCustomContainer(MultiplayerModels::CreateBuildWithCustomContainerRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CreateBuildWithCustomContainerResponse> callback, const ErrorCallback errorCallback = nullptr);
         void CreateBuildWithManagedContainer(MultiplayerModels::CreateBuildWithManagedContainerRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CreateBuildWithManagedContainerResponse> callback, const ErrorCallback errorCallback = nullptr);
@@ -51,13 +51,13 @@ namespace PlayFab
         void CreateServerBackfillTicket(MultiplayerModels::CreateServerBackfillTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CreateServerBackfillTicketResult> callback, const ErrorCallback errorCallback = nullptr);
         void CreateServerMatchmakingTicket(MultiplayerModels::CreateServerMatchmakingTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CreateMatchmakingTicketResult> callback, const ErrorCallback errorCallback = nullptr);
         void CreateTitleMultiplayerServersQuotaChange(MultiplayerModels::CreateTitleMultiplayerServersQuotaChangeRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::CreateTitleMultiplayerServersQuotaChangeResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteAsset(MultiplayerModels::DeleteAssetRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteBuild(MultiplayerModels::DeleteBuildRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteBuildAlias(MultiplayerModels::DeleteBuildAliasRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteBuildRegion(MultiplayerModels::DeleteBuildRegionRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteCertificate(MultiplayerModels::DeleteCertificateRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteContainerImageRepository(MultiplayerModels::DeleteContainerImageRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteRemoteUser(MultiplayerModels::DeleteRemoteUserRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteAsset(MultiplayerModels::DeleteAssetRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteBuild(MultiplayerModels::DeleteBuildRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteBuildAlias(MultiplayerModels::DeleteBuildAliasRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteBuildRegion(MultiplayerModels::DeleteBuildRegionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteCertificate(MultiplayerModels::DeleteCertificateRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteContainerImageRepository(MultiplayerModels::DeleteContainerImageRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void DeleteRemoteUser(MultiplayerModels::DeleteRemoteUserRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void EnableMultiplayerServersForTitle(MultiplayerModels::EnableMultiplayerServersForTitleRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EnableMultiplayerServersForTitleResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GetAssetUploadUrl(MultiplayerModels::GetAssetUploadUrlRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::GetAssetUploadUrlResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GetBuild(MultiplayerModels::GetBuildRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::GetBuildResponse> callback, const ErrorCallback errorCallback = nullptr);
@@ -74,7 +74,7 @@ namespace PlayFab
         void GetTitleEnabledForMultiplayerServersStatus(MultiplayerModels::GetTitleEnabledForMultiplayerServersStatusRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::GetTitleEnabledForMultiplayerServersStatusResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GetTitleMultiplayerServersQuotaChange(MultiplayerModels::GetTitleMultiplayerServersQuotaChangeRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::GetTitleMultiplayerServersQuotaChangeResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GetTitleMultiplayerServersQuotas(MultiplayerModels::GetTitleMultiplayerServersQuotasRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::GetTitleMultiplayerServersQuotasResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void JoinMatchmakingTicket(MultiplayerModels::JoinMatchmakingTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::JoinMatchmakingTicketResult> callback, const ErrorCallback errorCallback = nullptr);
+        void JoinMatchmakingTicket(MultiplayerModels::JoinMatchmakingTicketRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void ListArchivedMultiplayerServers(MultiplayerModels::ListMultiplayerServersRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::ListMultiplayerServersResponse> callback, const ErrorCallback errorCallback = nullptr);
         void ListAssetSummaries(MultiplayerModels::ListAssetSummariesRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::ListAssetSummariesResponse> callback, const ErrorCallback errorCallback = nullptr);
         void ListBuildAliases(MultiplayerModels::MultiplayerEmptyRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::ListBuildAliasesForTitleResponse> callback, const ErrorCallback errorCallback = nullptr);
@@ -91,13 +91,13 @@ namespace PlayFab
         void ListVirtualMachineSummaries(MultiplayerModels::ListVirtualMachineSummariesRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::ListVirtualMachineSummariesResponse> callback, const ErrorCallback errorCallback = nullptr);
         void RequestMultiplayerServer(MultiplayerModels::RequestMultiplayerServerRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::RequestMultiplayerServerResponse> callback, const ErrorCallback errorCallback = nullptr);
         void RolloverContainerRegistryCredentials(MultiplayerModels::RolloverContainerRegistryCredentialsRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::RolloverContainerRegistryCredentialsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ShutdownMultiplayerServer(MultiplayerModels::ShutdownMultiplayerServerRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UntagContainerImage(MultiplayerModels::UntagContainerImageRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void ShutdownMultiplayerServer(MultiplayerModels::ShutdownMultiplayerServerRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UntagContainerImage(MultiplayerModels::UntagContainerImageRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void UpdateBuildAlias(MultiplayerModels::UpdateBuildAliasRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::BuildAliasDetailsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateBuildName(MultiplayerModels::UpdateBuildNameRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateBuildRegion(MultiplayerModels::UpdateBuildRegionRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateBuildRegions(MultiplayerModels::UpdateBuildRegionsRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UploadCertificate(MultiplayerModels::UploadCertificateRequest& request, const TaskQueue& queue, const ProcessApiCallback<MultiplayerModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdateBuildName(MultiplayerModels::UpdateBuildNameRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdateBuildRegion(MultiplayerModels::UpdateBuildRegionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdateBuildRegions(MultiplayerModels::UpdateBuildRegionsRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UploadCertificate(MultiplayerModels::UploadCertificateRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
     };
 }

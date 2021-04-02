@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabAuthenticationDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabAuthenticationEntityKey& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Id", input.id);
             JsonUtils::ObjectAddMember(output, "Type", input.type);
@@ -24,7 +23,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabAuthenticationEntityLineage& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
             JsonUtils::ObjectAddMember(output, "GroupId", input.groupId);
@@ -38,7 +36,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabAuthenticationGetEntityTokenRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -48,7 +45,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabAuthenticationGetEntityTokenResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "EntityToken", input.entityToken);
@@ -59,7 +55,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabAuthenticationValidateEntityTokenRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "EntityToken", input.entityToken);
@@ -69,7 +64,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabAuthenticationValidateEntityTokenResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "IdentifiedDeviceType", input.identifiedDeviceType);
@@ -94,16 +88,16 @@ namespace PlayFab
                 m_id{ src.m_id },
                 m_type{ src.m_type }
             {
-
                 id = m_id.empty() ? nullptr : m_id.data();
                 type = m_type.empty() ? nullptr : m_type.data();
             }
 
             ~EntityKey() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Id", m_id, id);
                 JsonUtils:: ObjectGetMember(input, "Type", m_type, type);
             }
@@ -133,7 +127,6 @@ namespace PlayFab
                 m_titleId{ src.m_titleId },
                 m_titlePlayerAccountId{ src.m_titlePlayerAccountId }
             {
-
                 characterId = m_characterId.empty() ? nullptr : m_characterId.data();
                 groupId = m_groupId.empty() ? nullptr : m_groupId.data();
                 masterPlayerAccountId = m_masterPlayerAccountId.empty() ? nullptr : m_masterPlayerAccountId.data();
@@ -144,9 +137,10 @@ namespace PlayFab
 
             ~EntityLineage() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CharacterId", m_characterId, characterId);
                 JsonUtils:: ObjectGetMember(input, "GroupId", m_groupId, groupId);
                 JsonUtils:: ObjectGetMember(input, "MasterPlayerAccountId", m_masterPlayerAccountId, masterPlayerAccountId);
@@ -180,16 +174,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_entity{ src.m_entity }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
             }
 
             ~GetEntityTokenRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
             }
@@ -216,7 +210,6 @@ namespace PlayFab
                 m_entityToken{ src.m_entityToken },
                 m_tokenExpiration{ src.m_tokenExpiration }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 entityToken = m_entityToken.empty() ? nullptr : m_entityToken.data();
                 tokenExpiration = m_tokenExpiration ? m_tokenExpiration.operator->() : nullptr;
@@ -224,9 +217,10 @@ namespace PlayFab
 
             ~GetEntityTokenResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "EntityToken", m_entityToken, entityToken);
                 JsonUtils:: ObjectGetMember(input, "TokenExpiration", m_tokenExpiration, tokenExpiration, true);
@@ -254,16 +248,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_entityToken{ src.m_entityToken }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entityToken = m_entityToken.empty() ? nullptr : m_entityToken.data();
             }
 
             ~ValidateEntityTokenRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "EntityToken", m_entityToken, entityToken);
             }
@@ -291,7 +285,6 @@ namespace PlayFab
                 m_identityProvider{ src.m_identityProvider },
                 m_lineage{ src.m_lineage }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 identifiedDeviceType = m_identifiedDeviceType ? m_identifiedDeviceType.operator->() : nullptr;
                 identityProvider = m_identityProvider ? m_identityProvider.operator->() : nullptr;
@@ -300,9 +293,10 @@ namespace PlayFab
 
             ~ValidateEntityTokenResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "IdentifiedDeviceType", m_identifiedDeviceType, identifiedDeviceType);
                 JsonUtils:: ObjectGetMember(input, "IdentityProvider", m_identityProvider, identityProvider);

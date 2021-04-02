@@ -2,9 +2,9 @@
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <CloudScript/CloudScriptDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "CloudScriptDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {
@@ -43,13 +43,13 @@ namespace PlayFab
         void ListFunctions(CloudScriptModels::ListFunctionsRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::ListFunctionsResult> callback, const ErrorCallback errorCallback = nullptr);
         void ListHttpFunctions(CloudScriptModels::ListFunctionsRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::ListHttpFunctionsResult> callback, const ErrorCallback errorCallback = nullptr);
         void ListQueuedFunctions(CloudScriptModels::ListFunctionsRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::ListQueuedFunctionsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void PostFunctionResultForEntityTriggeredAction(CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void PostFunctionResultForFunctionExecution(CloudScriptModels::PostFunctionResultForFunctionExecutionRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void PostFunctionResultForPlayerTriggeredAction(CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void PostFunctionResultForScheduledTask(CloudScriptModels::PostFunctionResultForScheduledTaskRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RegisterHttpFunction(CloudScriptModels::RegisterHttpFunctionRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RegisterQueuedFunction(CloudScriptModels::RegisterQueuedFunctionRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnregisterFunction(CloudScriptModels::UnregisterFunctionRequest& request, const TaskQueue& queue, const ProcessApiCallback<CloudScriptModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
+        void PostFunctionResultForEntityTriggeredAction(CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void PostFunctionResultForFunctionExecution(CloudScriptModels::PostFunctionResultForFunctionExecutionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void PostFunctionResultForPlayerTriggeredAction(CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void PostFunctionResultForScheduledTask(CloudScriptModels::PostFunctionResultForScheduledTaskRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RegisterHttpFunction(CloudScriptModels::RegisterHttpFunctionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RegisterQueuedFunction(CloudScriptModels::RegisterQueuedFunctionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnregisterFunction(CloudScriptModels::UnregisterFunctionRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
     };
 }

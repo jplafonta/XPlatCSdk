@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -12,7 +22,6 @@ typedef struct PlayFabEventsEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabEventsEntityKey;
 
 typedef struct PlayFabEventsEventContents
@@ -26,7 +35,6 @@ typedef struct PlayFabEventsEventContents
     PF_OPTIONAL time_t* originalTimestamp;
     PlayFabJsonObject payload;
     const char* payloadJSON;
-
 } PlayFabEventsEventContents;
 
 typedef struct PlayFabEventsWriteEventsRequest
@@ -35,17 +43,17 @@ typedef struct PlayFabEventsWriteEventsRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_ARRAY PlayFabEventsEventContents** events;
     PF_COLLECTION_COUNT uint32_t eventsCount;
-
 } PlayFabEventsWriteEventsRequest;
 
 typedef struct PlayFabEventsWriteEventsResponse
 {
     PF_ARRAY const char** assignedEventIds;
     PF_COLLECTION_COUNT uint32_t assignedEventIdsCount;
-
 } PlayFabEventsWriteEventsResponse;
 
 
 // Events dictionary entry structs
 
 #pragma pop_macro("IN")
+
+}

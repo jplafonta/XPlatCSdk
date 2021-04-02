@@ -2,9 +2,9 @@
 
 #if defined(ENABLE_PLAYFABSERVER_API)
 
-#include <Matchmaker/MatchmakerDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "MatchmakerDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {
@@ -39,8 +39,8 @@ namespace PlayFab
 
         // ------------ Generated API calls
         void AuthUser(MatchmakerModels::AuthUserRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::AuthUserResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void PlayerJoined(MatchmakerModels::PlayerJoinedRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::PlayerJoinedResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void PlayerLeft(MatchmakerModels::PlayerLeftRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::PlayerLeftResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void PlayerJoined(MatchmakerModels::PlayerJoinedRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void PlayerLeft(MatchmakerModels::PlayerLeftRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void StartGame(MatchmakerModels::StartGameRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::StartGameResponse> callback, const ErrorCallback errorCallback = nullptr);
         void UserInfo(MatchmakerModels::UserInfoRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::UserInfoResponse> callback, const ErrorCallback errorCallback = nullptr);
         static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);

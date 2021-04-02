@@ -1,9 +1,9 @@
-#include <stdafx.h>
+#include "stdafx.h"
 
 #if defined(ENABLE_PLAYFABSERVER_API)
 
-#include <Matchmaker/MatchmakerApi.h>
-#include <playfab/PlayFabSettings.h>
+#include "MatchmakerApi.h"
+#include "PlayFabSettings.h"
 
 #if defined(PLAYFAB_PLATFORM_WINDOWS)
 #pragma warning (disable: 4100) // formal parameters are part of a public interface
@@ -90,7 +90,7 @@ namespace PlayFab
     void PlayFabMatchmakerInstanceAPI::PlayerJoined(
         PlayerJoinedRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<PlayerJoinedResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -100,7 +100,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            PlayerJoinedResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -122,7 +122,7 @@ namespace PlayFab
     void PlayFabMatchmakerInstanceAPI::PlayerLeft(
         PlayerLeftRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<PlayerLeftResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -132,7 +132,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            PlayerLeftResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -220,7 +220,6 @@ namespace PlayFab
         if (httpResult.serviceResponse.HttpCode == 200)
         {
             result.FromJson(httpResult.serviceResponse.Data);
-            JsonUtils::FromJson(httpResult.requestBody, result.Request);
             return true;
         }
         else // Process the error case

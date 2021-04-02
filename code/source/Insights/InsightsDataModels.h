@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabInsightsDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsEmptyRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             return output;
@@ -23,7 +22,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsPerformanceLevel& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ActiveEventExports", input.activeEventExports);
             JsonUtils::ObjectAddMember(output, "CacheSizeMB", input.cacheSizeMB);
@@ -39,7 +37,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsGetLimitsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "DefaultPerformanceLevel", input.defaultPerformanceLevel);
             JsonUtils::ObjectAddMember(output, "DefaultStorageRetentionDays", input.defaultStorageRetentionDays);
@@ -52,7 +49,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsGetOperationStatusResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Message", input.message);
             JsonUtils::ObjectAddMember(output, "OperationCompletedTime", input.operationCompletedTime, true);
@@ -68,7 +64,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsGetDetailsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "DataUsageMb", input.dataUsageMb);
             JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
@@ -82,7 +77,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsGetOperationStatusRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "OperationId", input.operationId);
@@ -92,7 +86,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsGetPendingOperationsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "OperationType", input.operationType);
@@ -102,7 +95,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsGetPendingOperationsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "PendingOperations", input.pendingOperations, input.pendingOperationsCount);
             return output;
@@ -111,7 +103,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsOperationResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Message", input.message);
             JsonUtils::ObjectAddMember(output, "OperationId", input.operationId);
@@ -122,7 +113,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsSetPerformanceRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "PerformanceLevel", input.performanceLevel);
@@ -132,7 +122,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabInsightsInsightsSetStorageRetentionRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "RetentionDays", input.retentionDays);
@@ -154,15 +143,15 @@ namespace PlayFab
                 PlayFabInsightsInsightsEmptyRequest{ src },
                 m_customTags{ src.m_customTags }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
             }
 
             ~InsightsEmptyRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
             }
 
@@ -185,9 +174,10 @@ namespace PlayFab
 
             ~InsightsPerformanceLevel() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ActiveEventExports", activeEventExports);
                 JsonUtils:: ObjectGetMember(input, "CacheSizeMB", cacheSizeMB);
                 JsonUtils:: ObjectGetMember(input, "Concurrency", concurrency);
@@ -204,14 +194,6 @@ namespace PlayFab
             }
 
         private:
-
-
-
-
-
-
-
-
         };
 
         struct InsightsGetLimitsResponse : public PlayFabInsightsInsightsGetLimitsResponse, public BaseResult
@@ -224,15 +206,15 @@ namespace PlayFab
                 PlayFabInsightsInsightsGetLimitsResponse{ src },
                 m_subMeters{ src.m_subMeters }
             {
-
                 subMeters = m_subMeters.Empty() ? nullptr : m_subMeters.Data();
             }
 
             ~InsightsGetLimitsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "DefaultPerformanceLevel", defaultPerformanceLevel);
                 JsonUtils:: ObjectGetMember(input, "DefaultStorageRetentionDays", defaultStorageRetentionDays);
                 JsonUtils:: ObjectGetMember(input, "StorageMaxRetentionDays", storageMaxRetentionDays);
@@ -246,10 +228,6 @@ namespace PlayFab
             }
 
         private:
-
-
-
-
             PointerArray<PlayFabInsightsInsightsPerformanceLevel, InsightsPerformanceLevel> m_subMeters;
         };
 
@@ -266,7 +244,6 @@ namespace PlayFab
                 m_operationType{ src.m_operationType },
                 m_status{ src.m_status }
             {
-
                 message = m_message.empty() ? nullptr : m_message.data();
                 operationId = m_operationId.empty() ? nullptr : m_operationId.data();
                 operationType = m_operationType.empty() ? nullptr : m_operationType.data();
@@ -275,9 +252,10 @@ namespace PlayFab
 
             ~InsightsGetOperationStatusResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Message", m_message, message);
                 JsonUtils:: ObjectGetMember(input, "OperationCompletedTime", operationCompletedTime, true);
                 JsonUtils:: ObjectGetMember(input, "OperationId", m_operationId, operationId);
@@ -295,12 +273,8 @@ namespace PlayFab
 
         private:
             String m_message;
-
             String m_operationId;
-
-
             String m_operationType;
-
             String m_status;
         };
 
@@ -316,7 +290,6 @@ namespace PlayFab
                 m_limits{ src.m_limits },
                 m_pendingOperations{ src.m_pendingOperations }
             {
-
                 errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
                 limits = m_limits ? m_limits.operator->() : nullptr;
                 pendingOperations = m_pendingOperations.Empty() ? nullptr : m_pendingOperations.Data();
@@ -324,9 +297,10 @@ namespace PlayFab
 
             ~InsightsGetDetailsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "DataUsageMb", dataUsageMb);
                 JsonUtils:: ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
                 JsonUtils:: ObjectGetMember(input, "Limits", m_limits, limits);
@@ -341,12 +315,9 @@ namespace PlayFab
             }
 
         private:
-
             String m_errorMessage;
             StdExtra::optional<InsightsGetLimitsResponse> m_limits;
             PointerArray<PlayFabInsightsInsightsGetOperationStatusResponse, InsightsGetOperationStatusResponse> m_pendingOperations;
-
-
         };
 
         struct InsightsGetOperationStatusRequest : public PlayFabInsightsInsightsGetOperationStatusRequest, public BaseRequest
@@ -360,16 +331,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_operationId{ src.m_operationId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 operationId = m_operationId.empty() ? nullptr : m_operationId.data();
             }
 
             ~InsightsGetOperationStatusRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "OperationId", m_operationId, operationId);
             }
@@ -395,16 +366,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_operationType{ src.m_operationType }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 operationType = m_operationType.empty() ? nullptr : m_operationType.data();
             }
 
             ~InsightsGetPendingOperationsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "OperationType", m_operationType, operationType);
             }
@@ -429,15 +400,15 @@ namespace PlayFab
                 PlayFabInsightsInsightsGetPendingOperationsResponse{ src },
                 m_pendingOperations{ src.m_pendingOperations }
             {
-
                 pendingOperations = m_pendingOperations.Empty() ? nullptr : m_pendingOperations.Data();
             }
 
             ~InsightsGetPendingOperationsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "PendingOperations", m_pendingOperations, pendingOperations, pendingOperationsCount);
             }
 
@@ -462,7 +433,6 @@ namespace PlayFab
                 m_operationId{ src.m_operationId },
                 m_operationType{ src.m_operationType }
             {
-
                 message = m_message.empty() ? nullptr : m_message.data();
                 operationId = m_operationId.empty() ? nullptr : m_operationId.data();
                 operationType = m_operationType.empty() ? nullptr : m_operationType.data();
@@ -470,9 +440,10 @@ namespace PlayFab
 
             ~InsightsOperationResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Message", m_message, message);
                 JsonUtils:: ObjectGetMember(input, "OperationId", m_operationId, operationId);
                 JsonUtils:: ObjectGetMember(input, "OperationType", m_operationType, operationType);
@@ -499,15 +470,15 @@ namespace PlayFab
                 PlayFabInsightsInsightsSetPerformanceRequest{ src },
                 m_customTags{ src.m_customTags }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
             }
 
             ~InsightsSetPerformanceRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "PerformanceLevel", performanceLevel);
             }
@@ -519,7 +490,6 @@ namespace PlayFab
 
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
-
         };
 
         struct InsightsSetStorageRetentionRequest : public PlayFabInsightsInsightsSetStorageRetentionRequest, public BaseRequest
@@ -532,15 +502,15 @@ namespace PlayFab
                 PlayFabInsightsInsightsSetStorageRetentionRequest{ src },
                 m_customTags{ src.m_customTags }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
             }
 
             ~InsightsSetStorageRetentionRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "RetentionDays", retentionDays);
             }
@@ -552,7 +522,6 @@ namespace PlayFab
 
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
-
         };
 
     }

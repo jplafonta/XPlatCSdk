@@ -1,9 +1,9 @@
-#include <stdafx.h>
+#include "stdafx.h"
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <Multiplayer/MultiplayerApi.h>
-#include <playfab/PlayFabSettings.h>
+#include "MultiplayerApi.h"
+#include "PlayFabSettings.h"
 
 #if defined(PLAYFAB_PLATFORM_WINDOWS)
 #pragma warning (disable: 4100) // formal parameters are part of a public interface
@@ -58,7 +58,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::CancelAllMatchmakingTicketsForPlayer(
         CancelAllMatchmakingTicketsForPlayerRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<CancelAllMatchmakingTicketsForPlayerResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -68,7 +68,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            CancelAllMatchmakingTicketsForPlayerResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -90,7 +90,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::CancelAllServerBackfillTicketsForPlayer(
         CancelAllServerBackfillTicketsForPlayerRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<CancelAllServerBackfillTicketsForPlayerResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -100,7 +100,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            CancelAllServerBackfillTicketsForPlayerResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -122,7 +122,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::CancelMatchmakingTicket(
         CancelMatchmakingTicketRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<CancelMatchmakingTicketResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -132,7 +132,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            CancelMatchmakingTicketResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -154,7 +154,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::CancelServerBackfillTicket(
         CancelServerBackfillTicketRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<CancelServerBackfillTicketResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -164,7 +164,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            CancelServerBackfillTicketResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -474,7 +474,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteAsset(
         DeleteAssetRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -484,7 +484,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -506,7 +506,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteBuild(
         DeleteBuildRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -516,7 +516,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -538,7 +538,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteBuildAlias(
         DeleteBuildAliasRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -548,7 +548,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -570,7 +570,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteBuildRegion(
         DeleteBuildRegionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -580,7 +580,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -602,7 +602,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteCertificate(
         DeleteCertificateRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -612,7 +612,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -634,7 +634,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteContainerImageRepository(
         DeleteContainerImageRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -644,7 +644,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -666,7 +666,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::DeleteRemoteUser(
         DeleteRemoteUserRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -676,7 +676,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1210,7 +1210,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::JoinMatchmakingTicket(
         JoinMatchmakingTicketRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<JoinMatchmakingTicketResult> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1220,7 +1220,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            JoinMatchmakingTicketResult outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1753,7 +1753,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::ShutdownMultiplayerServer(
         ShutdownMultiplayerServerRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1763,7 +1763,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1785,7 +1785,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::UntagContainerImage(
         UntagContainerImageRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1795,7 +1795,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1849,7 +1849,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::UpdateBuildName(
         UpdateBuildNameRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1859,7 +1859,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1881,7 +1881,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::UpdateBuildRegion(
         UpdateBuildRegionRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1891,7 +1891,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1913,7 +1913,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::UpdateBuildRegions(
         UpdateBuildRegionsRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1923,7 +1923,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1945,7 +1945,7 @@ namespace PlayFab
     void PlayFabMultiplayerInstanceAPI::UploadCertificate(
         UploadCertificateRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -1955,7 +1955,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -1979,7 +1979,6 @@ namespace PlayFab
         if (httpResult.serviceResponse.HttpCode == 200)
         {
             result.FromJson(httpResult.serviceResponse.Data);
-            JsonUtils::FromJson(httpResult.requestBody, result.Request);
             return true;
         }
         else // Process the error case

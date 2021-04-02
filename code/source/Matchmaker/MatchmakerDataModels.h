@@ -3,8 +3,8 @@
 #if defined(ENABLE_PLAYFABSERVER_API)
 
 #include <playfab/PlayFabMatchmakerDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerAuthUserRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AuthorizationTicket", input.authorizationTicket);
             return output;
@@ -23,7 +22,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerAuthUserResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Authorized", input.authorized);
             JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
@@ -33,7 +31,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerItemInstance& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
             JsonUtils::ObjectAddMember(output, "BundleContents", input.bundleContents, input.bundleContentsCount);
@@ -56,26 +53,16 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerPlayerJoinedRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "LobbyId", input.lobbyId);
             JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-            return output;
-        }
-
-        template<>
-        inline JsonValue ToJson<>(const PlayFabMatchmakerPlayerJoinedResponse& input)
-        {
-            UNREFERENCED_PARAMETER(input);
-            JsonValue output{ rapidjson::kObjectType };
             return output;
         }
 
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerPlayerLeftRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "LobbyId", input.lobbyId);
@@ -84,17 +71,8 @@ namespace PlayFab
         }
 
         template<>
-        inline JsonValue ToJson<>(const PlayFabMatchmakerPlayerLeftResponse& input)
-        {
-            UNREFERENCED_PARAMETER(input);
-            JsonValue output{ rapidjson::kObjectType };
-            return output;
-        }
-
-        template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerStartGameRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Build", input.build);
             JsonUtils::ObjectAddMember(output, "CustomCommandLineData", input.customCommandLineData);
@@ -108,7 +86,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerStartGameResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "GameID", input.gameID);
             JsonUtils::ObjectAddMember(output, "ServerIPV4Address", input.serverIPV4Address);
@@ -121,7 +98,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerUserInfoRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "MinCatalogVersion", input.minCatalogVersion);
@@ -132,7 +108,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerVirtualCurrencyRechargeTime& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "RechargeMax", input.rechargeMax);
             JsonUtils::ObjectAddMember(output, "RechargeTime", input.rechargeTime, true);
@@ -143,7 +118,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabMatchmakerUserInfoResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
             JsonUtils::ObjectAddMember(output, "IsDeveloper", input.isDeveloper);
@@ -171,15 +145,15 @@ namespace PlayFab
                 PlayFabMatchmakerAuthUserRequest{ src },
                 m_authorizationTicket{ src.m_authorizationTicket }
             {
-
                 authorizationTicket = m_authorizationTicket.empty() ? nullptr : m_authorizationTicket.data();
             }
 
             ~AuthUserRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AuthorizationTicket", m_authorizationTicket, authorizationTicket);
             }
 
@@ -202,15 +176,15 @@ namespace PlayFab
                 PlayFabMatchmakerAuthUserResponse{ src },
                 m_playFabId{ src.m_playFabId }
             {
-
                 playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
             }
 
             ~AuthUserResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Authorized", authorized);
                 JsonUtils:: ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
             }
@@ -221,7 +195,6 @@ namespace PlayFab
             }
 
         private:
-
             String m_playFabId;
         };
 
@@ -248,7 +221,6 @@ namespace PlayFab
                 m_unitCurrency{ src.m_unitCurrency },
                 m_usesIncrementedBy{ src.m_usesIncrementedBy }
             {
-
                 annotation = m_annotation.empty() ? nullptr : m_annotation.data();
                 bundleContents = m_bundleContents.Empty() ? nullptr : m_bundleContents.Data();
                 bundleParent = m_bundleParent.empty() ? nullptr : m_bundleParent.data();
@@ -267,9 +239,10 @@ namespace PlayFab
 
             ~ItemInstance() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Annotation", m_annotation, annotation);
                 JsonUtils:: ObjectGetMember(input, "BundleContents", m_bundleContents, bundleContents, bundleContentsCount);
                 JsonUtils:: ObjectGetMember(input, "BundleParent", m_bundleParent, bundleParent);
@@ -306,7 +279,6 @@ namespace PlayFab
             StdExtra::optional<time_t> m_purchaseDate;
             StdExtra::optional<int32_t> m_remainingUses;
             String m_unitCurrency;
-
             StdExtra::optional<int32_t> m_usesIncrementedBy;
         };
 
@@ -322,7 +294,6 @@ namespace PlayFab
                 m_lobbyId{ src.m_lobbyId },
                 m_playFabId{ src.m_playFabId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 lobbyId = m_lobbyId.empty() ? nullptr : m_lobbyId.data();
                 playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
@@ -330,9 +301,10 @@ namespace PlayFab
 
             ~PlayerJoinedRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "LobbyId", m_lobbyId, lobbyId);
                 JsonUtils:: ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
@@ -349,29 +321,6 @@ namespace PlayFab
             String m_playFabId;
         };
 
-        struct PlayerJoinedResponse : public PlayFabMatchmakerPlayerJoinedResponse, public BaseResult
-        {
-            PlayerJoinedResponse() : PlayFabMatchmakerPlayerJoinedResponse{}
-            {
-            }
-
-            PlayerJoinedResponse(const PlayerJoinedResponse&) = default;
-
-            ~PlayerJoinedResponse() = default;
-
-            void FromJson(const JsonValue&) override
-            {
-                
-            }
-
-            JsonValue ToJson() const override
-            { 
-                return JsonUtils::ToJson<PlayFabMatchmakerPlayerJoinedResponse>(*this);
-            }
-
-        private:
-        };
-
         struct PlayerLeftRequest : public PlayFabMatchmakerPlayerLeftRequest, public BaseRequest
         {
             PlayerLeftRequest() : PlayFabMatchmakerPlayerLeftRequest{}
@@ -384,7 +333,6 @@ namespace PlayFab
                 m_lobbyId{ src.m_lobbyId },
                 m_playFabId{ src.m_playFabId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 lobbyId = m_lobbyId.empty() ? nullptr : m_lobbyId.data();
                 playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
@@ -392,9 +340,10 @@ namespace PlayFab
 
             ~PlayerLeftRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "LobbyId", m_lobbyId, lobbyId);
                 JsonUtils:: ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
@@ -411,29 +360,6 @@ namespace PlayFab
             String m_playFabId;
         };
 
-        struct PlayerLeftResponse : public PlayFabMatchmakerPlayerLeftResponse, public BaseResult
-        {
-            PlayerLeftResponse() : PlayFabMatchmakerPlayerLeftResponse{}
-            {
-            }
-
-            PlayerLeftResponse(const PlayerLeftResponse&) = default;
-
-            ~PlayerLeftResponse() = default;
-
-            void FromJson(const JsonValue&) override
-            {
-                
-            }
-
-            JsonValue ToJson() const override
-            { 
-                return JsonUtils::ToJson<PlayFabMatchmakerPlayerLeftResponse>(*this);
-            }
-
-        private:
-        };
-
         struct StartGameRequest : public PlayFabMatchmakerStartGameRequest, public BaseRequest
         {
             StartGameRequest() : PlayFabMatchmakerStartGameRequest{}
@@ -448,7 +374,6 @@ namespace PlayFab
                 m_externalMatchmakerEventEndpoint{ src.m_externalMatchmakerEventEndpoint },
                 m_gameMode{ src.m_gameMode }
             {
-
                 build = m_build.empty() ? nullptr : m_build.data();
                 customCommandLineData = m_customCommandLineData.empty() ? nullptr : m_customCommandLineData.data();
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
@@ -458,9 +383,10 @@ namespace PlayFab
 
             ~StartGameRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Build", m_build, build);
                 JsonUtils:: ObjectGetMember(input, "CustomCommandLineData", m_customCommandLineData, customCommandLineData);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
@@ -480,7 +406,6 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_externalMatchmakerEventEndpoint;
             String m_gameMode;
-
         };
 
         struct StartGameResponse : public PlayFabMatchmakerStartGameResponse, public BaseResult
@@ -496,7 +421,6 @@ namespace PlayFab
                 m_serverIPV6Address{ src.m_serverIPV6Address },
                 m_serverPublicDNSName{ src.m_serverPublicDNSName }
             {
-
                 gameID = m_gameID.empty() ? nullptr : m_gameID.data();
                 serverIPV4Address = m_serverIPV4Address.empty() ? nullptr : m_serverIPV4Address.data();
                 serverIPV6Address = m_serverIPV6Address.empty() ? nullptr : m_serverIPV6Address.data();
@@ -505,9 +429,10 @@ namespace PlayFab
 
             ~StartGameResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "GameID", m_gameID, gameID);
                 JsonUtils:: ObjectGetMember(input, "ServerIPV4Address", m_serverIPV4Address, serverIPV4Address);
                 JsonUtils:: ObjectGetMember(input, "ServerIPV6Address", m_serverIPV6Address, serverIPV6Address);
@@ -524,7 +449,6 @@ namespace PlayFab
             String m_gameID;
             String m_serverIPV4Address;
             String m_serverIPV6Address;
-
             String m_serverPublicDNSName;
         };
 
@@ -539,16 +463,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_playFabId{ src.m_playFabId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
             }
 
             ~UserInfoRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "MinCatalogVersion", minCatalogVersion);
                 JsonUtils:: ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
@@ -561,7 +485,6 @@ namespace PlayFab
 
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
-
             String m_playFabId;
         };
 
@@ -575,9 +498,10 @@ namespace PlayFab
 
             ~VirtualCurrencyRechargeTime() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "RechargeMax", rechargeMax);
                 JsonUtils:: ObjectGetMember(input, "RechargeTime", rechargeTime, true);
                 JsonUtils:: ObjectGetMember(input, "SecondsToRecharge", secondsToRecharge);
@@ -589,9 +513,6 @@ namespace PlayFab
             }
 
         private:
-
-
-
         };
 
         struct UserInfoResponse : public PlayFabMatchmakerUserInfoResponse, public BaseResult
@@ -610,7 +531,6 @@ namespace PlayFab
                 m_virtualCurrency{ src.m_virtualCurrency },
                 m_virtualCurrencyRechargeTimes{ src.m_virtualCurrencyRechargeTimes }
             {
-
                 inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
                 playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
                 steamId = m_steamId.empty() ? nullptr : m_steamId.data();
@@ -622,9 +542,10 @@ namespace PlayFab
 
             ~UserInfoResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
                 JsonUtils:: ObjectGetMember(input, "IsDeveloper", isDeveloper);
                 JsonUtils:: ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
@@ -642,7 +563,6 @@ namespace PlayFab
 
         private:
             PointerArray<PlayFabMatchmakerItemInstance, ItemInstance> m_inventory;
-
             String m_playFabId;
             String m_steamId;
             String m_titleDisplayName;

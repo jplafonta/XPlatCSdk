@@ -2,9 +2,9 @@
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <Authentication/AuthenticationDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "AuthenticationDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {

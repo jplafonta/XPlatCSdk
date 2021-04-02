@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabGroupsDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsEntityKey& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Id", input.id);
             JsonUtils::ObjectAddMember(output, "Type", input.type);
@@ -24,7 +23,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsAcceptGroupApplicationRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -35,7 +33,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsAcceptGroupInvitationRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -46,7 +43,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsAddMembersRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -58,7 +54,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsApplyToGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AutoAcceptOutstandingInvite", input.autoAcceptOutstandingInvite);
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -70,7 +65,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsEntityWithLineage& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Key", input.key);
             JsonUtils::ObjectAddMember(output, "Lineage", input.lineage, input.lineageCount);
@@ -80,7 +74,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsApplyToGroupResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
@@ -91,7 +84,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsBlockEntityRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -102,7 +94,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsChangeMemberRoleRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "DestinationRoleId", input.destinationRoleId);
@@ -115,7 +106,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -126,7 +116,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AdminRoleId", input.adminRoleId);
             JsonUtils::ObjectAddMember(output, "Created", input.created, true);
@@ -141,7 +130,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRoleRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -153,7 +141,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRoleResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
             JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
@@ -164,7 +151,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsDeleteGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -174,7 +160,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsDeleteRoleRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -183,17 +168,8 @@ namespace PlayFab
         }
 
         template<>
-        inline JsonValue ToJson<>(const PlayFabGroupsEmptyResponse& input)
-        {
-            UNREFERENCED_PARAMETER(input);
-            JsonValue output{ rapidjson::kObjectType };
-            return output;
-        }
-
-        template<>
         inline JsonValue ToJson<>(const PlayFabGroupsEntityMemberRole& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
             JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
@@ -204,7 +180,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGetGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -215,7 +190,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGetGroupResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AdminRoleId", input.adminRoleId);
             JsonUtils::ObjectAddMember(output, "Created", input.created, true);
@@ -230,7 +204,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGroupApplication& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
@@ -241,7 +214,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGroupBlock& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -251,7 +223,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGroupInvitation& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -264,7 +235,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGroupRole& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
             JsonUtils::ObjectAddMember(output, "RoleName", input.roleName);
@@ -274,7 +244,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsGroupWithRoles& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Group", input.group);
             JsonUtils::ObjectAddMember(output, "GroupName", input.groupName);
@@ -286,7 +255,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsInviteToGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AutoAcceptOutstandingApplication", input.autoAcceptOutstandingApplication);
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -299,7 +267,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsInviteToGroupResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -312,7 +279,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsIsMemberRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -324,7 +290,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsIsMemberResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "IsMember", input.isMember);
             return output;
@@ -333,7 +298,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupApplicationsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -343,7 +307,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupApplicationsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Applications", input.applications, input.applicationsCount);
             return output;
@@ -352,7 +315,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupBlocksRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -362,7 +324,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupBlocksResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "BlockedEntities", input.blockedEntities, input.blockedEntitiesCount);
             return output;
@@ -371,7 +332,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupInvitationsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -381,7 +341,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupInvitationsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Invitations", input.invitations, input.invitationsCount);
             return output;
@@ -390,7 +349,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupMembersRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -400,7 +358,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListGroupMembersResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
             return output;
@@ -409,7 +366,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListMembershipOpportunitiesRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -419,7 +375,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListMembershipOpportunitiesResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Applications", input.applications, input.applicationsCount);
             JsonUtils::ObjectAddMember(output, "Invitations", input.invitations, input.invitationsCount);
@@ -429,7 +384,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListMembershipRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -439,7 +393,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsListMembershipResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Groups", input.groups, input.groupsCount);
             return output;
@@ -448,7 +401,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsRemoveGroupApplicationRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -459,7 +411,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsRemoveGroupInvitationRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -470,7 +421,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsRemoveMembersRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Group", input.group);
@@ -482,7 +432,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsUnblockEntityRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -493,7 +442,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "AdminRoleId", input.adminRoleId);
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -507,7 +455,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
@@ -518,7 +465,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRoleRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExpectedProfileVersion", input.expectedProfileVersion);
@@ -531,7 +477,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRoleResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
@@ -555,16 +500,16 @@ namespace PlayFab
                 m_id{ src.m_id },
                 m_type{ src.m_type }
             {
-
                 id = m_id.empty() ? nullptr : m_id.data();
                 type = m_type.empty() ? nullptr : m_type.data();
             }
 
             ~EntityKey() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Id", m_id, id);
                 JsonUtils:: ObjectGetMember(input, "Type", m_type, type);
             }
@@ -591,7 +536,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -599,9 +543,10 @@ namespace PlayFab
 
             ~AcceptGroupApplicationRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -630,7 +575,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -638,9 +582,10 @@ namespace PlayFab
 
             ~AcceptGroupInvitationRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -670,7 +615,6 @@ namespace PlayFab
                 m_members{ src.m_members },
                 m_roleId{ src.m_roleId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
                 members = m_members.Empty() ? nullptr : m_members.Data();
@@ -679,9 +623,10 @@ namespace PlayFab
 
             ~AddMembersRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "Members", m_members, members, membersCount);
@@ -713,7 +658,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 autoAcceptOutstandingInvite = m_autoAcceptOutstandingInvite ? m_autoAcceptOutstandingInvite.operator->() : nullptr;
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
@@ -722,9 +666,10 @@ namespace PlayFab
 
             ~ApplyToGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AutoAcceptOutstandingInvite", m_autoAcceptOutstandingInvite, autoAcceptOutstandingInvite);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
@@ -754,16 +699,16 @@ namespace PlayFab
                 m_key{ src.m_key },
                 m_lineage{ src.m_lineage }
             {
-
                 key = m_key ? m_key.operator->() : nullptr;
                 lineage = m_lineage.Empty() ? nullptr : m_lineage.Data();
             }
 
             ~EntityWithLineage() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Key", m_key, key);
                 JsonUtils:: ObjectGetMember(input, "Lineage", m_lineage, lineage, lineageCount);
             }
@@ -789,16 +734,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 group = m_group ? m_group.operator->() : nullptr;
             }
 
             ~ApplyToGroupResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Expires", expires, true);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -811,7 +756,6 @@ namespace PlayFab
 
         private:
             StdExtra::optional<EntityWithLineage> m_entity;
-
             StdExtra::optional<EntityKey> m_group;
         };
 
@@ -827,7 +771,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -835,9 +778,10 @@ namespace PlayFab
 
             ~BlockEntityRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -868,7 +812,6 @@ namespace PlayFab
                 m_members{ src.m_members },
                 m_originRoleId{ src.m_originRoleId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 destinationRoleId = m_destinationRoleId.empty() ? nullptr : m_destinationRoleId.data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -878,9 +821,10 @@ namespace PlayFab
 
             ~ChangeMemberRoleRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "DestinationRoleId", m_destinationRoleId, destinationRoleId);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -913,7 +857,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_groupName{ src.m_groupName }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 groupName = m_groupName.empty() ? nullptr : m_groupName.data();
@@ -921,9 +864,10 @@ namespace PlayFab
 
             ~CreateGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "GroupName", m_groupName, groupName);
@@ -954,7 +898,6 @@ namespace PlayFab
                 m_memberRoleId{ src.m_memberRoleId },
                 m_roles{ src.m_roles }
             {
-
                 adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
                 groupName = m_groupName.empty() ? nullptr : m_groupName.data();
@@ -964,9 +907,10 @@ namespace PlayFab
 
             ~CreateGroupResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AdminRoleId", m_adminRoleId, adminRoleId);
                 JsonUtils:: ObjectGetMember(input, "Created", created, true);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -983,11 +927,9 @@ namespace PlayFab
 
         private:
             String m_adminRoleId;
-
             EntityKey m_group;
             String m_groupName;
             String m_memberRoleId;
-
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_roles;
         };
 
@@ -1004,7 +946,6 @@ namespace PlayFab
                 m_roleId{ src.m_roleId },
                 m_roleName{ src.m_roleName }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
                 roleId = m_roleId.empty() ? nullptr : m_roleId.data();
@@ -1013,9 +954,10 @@ namespace PlayFab
 
             ~CreateGroupRoleRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "RoleId", m_roleId, roleId);
@@ -1045,16 +987,16 @@ namespace PlayFab
                 m_roleId{ src.m_roleId },
                 m_roleName{ src.m_roleName }
             {
-
                 roleId = m_roleId.empty() ? nullptr : m_roleId.data();
                 roleName = m_roleName.empty() ? nullptr : m_roleName.data();
             }
 
             ~CreateGroupRoleResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
                 JsonUtils:: ObjectGetMember(input, "RoleId", m_roleId, roleId);
                 JsonUtils:: ObjectGetMember(input, "RoleName", m_roleName, roleName);
@@ -1066,7 +1008,6 @@ namespace PlayFab
             }
 
         private:
-
             String m_roleId;
             String m_roleName;
         };
@@ -1082,16 +1023,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
             }
 
             ~DeleteGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
             }
@@ -1118,7 +1059,6 @@ namespace PlayFab
                 m_group{ src.m_group },
                 m_roleId{ src.m_roleId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
                 roleId = m_roleId.empty() ? nullptr : m_roleId.data();
@@ -1126,9 +1066,10 @@ namespace PlayFab
 
             ~DeleteRoleRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "RoleId", m_roleId, roleId);
@@ -1145,29 +1086,6 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct EmptyResponse : public PlayFabGroupsEmptyResponse, public BaseResult
-        {
-            EmptyResponse() : PlayFabGroupsEmptyResponse{}
-            {
-            }
-
-            EmptyResponse(const EmptyResponse&) = default;
-
-            ~EmptyResponse() = default;
-
-            void FromJson(const JsonValue&) override
-            {
-                
-            }
-
-            JsonValue ToJson() const override
-            { 
-                return JsonUtils::ToJson<PlayFabGroupsEmptyResponse>(*this);
-            }
-
-        private:
-        };
-
         struct EntityMemberRole : public PlayFabGroupsEntityMemberRole, public BaseModel
         {
             EntityMemberRole() : PlayFabGroupsEntityMemberRole{}
@@ -1180,7 +1098,6 @@ namespace PlayFab
                 m_roleId{ src.m_roleId },
                 m_roleName{ src.m_roleName }
             {
-
                 members = m_members.Empty() ? nullptr : m_members.Data();
                 roleId = m_roleId.empty() ? nullptr : m_roleId.data();
                 roleName = m_roleName.empty() ? nullptr : m_roleName.data();
@@ -1188,9 +1105,10 @@ namespace PlayFab
 
             ~EntityMemberRole() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Members", m_members, members, membersCount);
                 JsonUtils:: ObjectGetMember(input, "RoleId", m_roleId, roleId);
                 JsonUtils:: ObjectGetMember(input, "RoleName", m_roleName, roleName);
@@ -1219,7 +1137,6 @@ namespace PlayFab
                 m_group{ src.m_group },
                 m_groupName{ src.m_groupName }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = m_group ? m_group.operator->() : nullptr;
                 groupName = m_groupName.empty() ? nullptr : m_groupName.data();
@@ -1227,9 +1144,10 @@ namespace PlayFab
 
             ~GetGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "GroupName", m_groupName, groupName);
@@ -1260,7 +1178,6 @@ namespace PlayFab
                 m_memberRoleId{ src.m_memberRoleId },
                 m_roles{ src.m_roles }
             {
-
                 adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
                 groupName = m_groupName.empty() ? nullptr : m_groupName.data();
@@ -1270,9 +1187,10 @@ namespace PlayFab
 
             ~GetGroupResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AdminRoleId", m_adminRoleId, adminRoleId);
                 JsonUtils:: ObjectGetMember(input, "Created", created, true);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -1289,11 +1207,9 @@ namespace PlayFab
 
         private:
             String m_adminRoleId;
-
             EntityKey m_group;
             String m_groupName;
             String m_memberRoleId;
-
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_roles;
         };
 
@@ -1308,16 +1224,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 group = m_group ? m_group.operator->() : nullptr;
             }
 
             ~GroupApplication() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Expires", expires, true);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -1330,7 +1246,6 @@ namespace PlayFab
 
         private:
             StdExtra::optional<EntityWithLineage> m_entity;
-
             StdExtra::optional<EntityKey> m_group;
         };
 
@@ -1345,16 +1260,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 group = (PlayFabGroupsEntityKey*)&m_group;
             }
 
             ~GroupBlock() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
             }
@@ -1382,7 +1297,6 @@ namespace PlayFab
                 m_invitedEntity{ src.m_invitedEntity },
                 m_roleId{ src.m_roleId }
             {
-
                 group = m_group ? m_group.operator->() : nullptr;
                 invitedByEntity = m_invitedByEntity ? m_invitedByEntity.operator->() : nullptr;
                 invitedEntity = m_invitedEntity ? m_invitedEntity.operator->() : nullptr;
@@ -1391,9 +1305,10 @@ namespace PlayFab
 
             ~GroupInvitation() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Expires", expires, true);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "InvitedByEntity", m_invitedByEntity, invitedByEntity);
@@ -1407,7 +1322,6 @@ namespace PlayFab
             }
 
         private:
-
             StdExtra::optional<EntityKey> m_group;
             StdExtra::optional<EntityWithLineage> m_invitedByEntity;
             StdExtra::optional<EntityWithLineage> m_invitedEntity;
@@ -1425,16 +1339,16 @@ namespace PlayFab
                 m_roleId{ src.m_roleId },
                 m_roleName{ src.m_roleName }
             {
-
                 roleId = m_roleId.empty() ? nullptr : m_roleId.data();
                 roleName = m_roleName.empty() ? nullptr : m_roleName.data();
             }
 
             ~GroupRole() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "RoleId", m_roleId, roleId);
                 JsonUtils:: ObjectGetMember(input, "RoleName", m_roleName, roleName);
             }
@@ -1461,7 +1375,6 @@ namespace PlayFab
                 m_groupName{ src.m_groupName },
                 m_roles{ src.m_roles }
             {
-
                 group = m_group ? m_group.operator->() : nullptr;
                 groupName = m_groupName.empty() ? nullptr : m_groupName.data();
                 roles = m_roles.Empty() ? nullptr : m_roles.Data();
@@ -1469,9 +1382,10 @@ namespace PlayFab
 
             ~GroupWithRoles() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "GroupName", m_groupName, groupName);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
@@ -1486,7 +1400,6 @@ namespace PlayFab
         private:
             StdExtra::optional<EntityKey> m_group;
             String m_groupName;
-
             PointerArray<PlayFabGroupsGroupRole, GroupRole> m_roles;
         };
 
@@ -1504,7 +1417,6 @@ namespace PlayFab
                 m_group{ src.m_group },
                 m_roleId{ src.m_roleId }
             {
-
                 autoAcceptOutstandingApplication = m_autoAcceptOutstandingApplication ? m_autoAcceptOutstandingApplication.operator->() : nullptr;
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
@@ -1514,9 +1426,10 @@ namespace PlayFab
 
             ~InviteToGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AutoAcceptOutstandingApplication", m_autoAcceptOutstandingApplication, autoAcceptOutstandingApplication);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
@@ -1550,7 +1463,6 @@ namespace PlayFab
                 m_invitedEntity{ src.m_invitedEntity },
                 m_roleId{ src.m_roleId }
             {
-
                 group = m_group ? m_group.operator->() : nullptr;
                 invitedByEntity = m_invitedByEntity ? m_invitedByEntity.operator->() : nullptr;
                 invitedEntity = m_invitedEntity ? m_invitedEntity.operator->() : nullptr;
@@ -1559,9 +1471,10 @@ namespace PlayFab
 
             ~InviteToGroupResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Expires", expires, true);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "InvitedByEntity", m_invitedByEntity, invitedByEntity);
@@ -1575,7 +1488,6 @@ namespace PlayFab
             }
 
         private:
-
             StdExtra::optional<EntityKey> m_group;
             StdExtra::optional<EntityWithLineage> m_invitedByEntity;
             StdExtra::optional<EntityWithLineage> m_invitedEntity;
@@ -1595,7 +1507,6 @@ namespace PlayFab
                 m_group{ src.m_group },
                 m_roleId{ src.m_roleId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -1604,9 +1515,10 @@ namespace PlayFab
 
             ~IsMemberRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -1635,9 +1547,10 @@ namespace PlayFab
 
             ~IsMemberResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "IsMember", isMember);
             }
 
@@ -1647,7 +1560,6 @@ namespace PlayFab
             }
 
         private:
-
         };
 
         struct ListGroupApplicationsRequest : public PlayFabGroupsListGroupApplicationsRequest, public BaseRequest
@@ -1661,16 +1573,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
             }
 
             ~ListGroupApplicationsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
             }
@@ -1695,15 +1607,15 @@ namespace PlayFab
                 PlayFabGroupsListGroupApplicationsResponse{ src },
                 m_applications{ src.m_applications }
             {
-
                 applications = m_applications.Empty() ? nullptr : m_applications.Data();
             }
 
             ~ListGroupApplicationsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Applications", m_applications, applications, applicationsCount);
             }
 
@@ -1727,16 +1639,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
             }
 
             ~ListGroupBlocksRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
             }
@@ -1761,15 +1673,15 @@ namespace PlayFab
                 PlayFabGroupsListGroupBlocksResponse{ src },
                 m_blockedEntities{ src.m_blockedEntities }
             {
-
                 blockedEntities = m_blockedEntities.Empty() ? nullptr : m_blockedEntities.Data();
             }
 
             ~ListGroupBlocksResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "BlockedEntities", m_blockedEntities, blockedEntities, blockedEntitiesCount);
             }
 
@@ -1793,16 +1705,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
             }
 
             ~ListGroupInvitationsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
             }
@@ -1827,15 +1739,15 @@ namespace PlayFab
                 PlayFabGroupsListGroupInvitationsResponse{ src },
                 m_invitations{ src.m_invitations }
             {
-
                 invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
             }
 
             ~ListGroupInvitationsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Invitations", m_invitations, invitations, invitationsCount);
             }
 
@@ -1859,16 +1771,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
             }
 
             ~ListGroupMembersRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
             }
@@ -1893,15 +1805,15 @@ namespace PlayFab
                 PlayFabGroupsListGroupMembersResponse{ src },
                 m_members{ src.m_members }
             {
-
                 members = m_members.Empty() ? nullptr : m_members.Data();
             }
 
             ~ListGroupMembersResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Members", m_members, members, membersCount);
             }
 
@@ -1925,16 +1837,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_entity{ src.m_entity }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
             }
 
             ~ListMembershipOpportunitiesRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
             }
@@ -1960,16 +1872,16 @@ namespace PlayFab
                 m_applications{ src.m_applications },
                 m_invitations{ src.m_invitations }
             {
-
                 applications = m_applications.Empty() ? nullptr : m_applications.Data();
                 invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
             }
 
             ~ListMembershipOpportunitiesResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Applications", m_applications, applications, applicationsCount);
                 JsonUtils:: ObjectGetMember(input, "Invitations", m_invitations, invitations, invitationsCount);
             }
@@ -1995,16 +1907,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_entity{ src.m_entity }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
             }
 
             ~ListMembershipRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
             }
@@ -2029,15 +1941,15 @@ namespace PlayFab
                 PlayFabGroupsListMembershipResponse{ src },
                 m_groups{ src.m_groups }
             {
-
                 groups = m_groups.Empty() ? nullptr : m_groups.Data();
             }
 
             ~ListMembershipResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Groups", m_groups, groups, groupsCount);
             }
 
@@ -2062,7 +1974,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -2070,9 +1981,10 @@ namespace PlayFab
 
             ~RemoveGroupApplicationRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -2101,7 +2013,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -2109,9 +2020,10 @@ namespace PlayFab
 
             ~RemoveGroupInvitationRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -2141,7 +2053,6 @@ namespace PlayFab
                 m_members{ src.m_members },
                 m_roleId{ src.m_roleId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 group = (PlayFabGroupsEntityKey*)&m_group;
                 members = m_members.Empty() ? nullptr : m_members.Data();
@@ -2150,9 +2061,10 @@ namespace PlayFab
 
             ~RemoveMembersRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
                 JsonUtils:: ObjectGetMember(input, "Members", m_members, members, membersCount);
@@ -2183,7 +2095,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_group{ src.m_group }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabGroupsEntityKey*)&m_entity;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -2191,9 +2102,10 @@ namespace PlayFab
 
             ~UnblockEntityRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -2225,7 +2137,6 @@ namespace PlayFab
                 m_groupName{ src.m_groupName },
                 m_memberRoleId{ src.m_memberRoleId }
             {
-
                 adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
@@ -2236,9 +2147,10 @@ namespace PlayFab
 
             ~UpdateGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "AdminRoleId", m_adminRoleId, adminRoleId);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExpectedProfileVersion", m_expectedProfileVersion, expectedProfileVersion);
@@ -2272,16 +2184,16 @@ namespace PlayFab
                 m_operationReason{ src.m_operationReason },
                 m_setResult{ src.m_setResult }
             {
-
                 operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
                 setResult = m_setResult ? m_setResult.operator->() : nullptr;
             }
 
             ~UpdateGroupResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "OperationReason", m_operationReason, operationReason);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
                 JsonUtils:: ObjectGetMember(input, "SetResult", m_setResult, setResult);
@@ -2294,7 +2206,6 @@ namespace PlayFab
 
         private:
             String m_operationReason;
-
             StdExtra::optional<PlayFabGroupsOperationTypes> m_setResult;
         };
 
@@ -2312,7 +2223,6 @@ namespace PlayFab
                 m_roleId{ src.m_roleId },
                 m_roleName{ src.m_roleName }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
                 group = (PlayFabGroupsEntityKey*)&m_group;
@@ -2322,9 +2232,10 @@ namespace PlayFab
 
             ~UpdateGroupRoleRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExpectedProfileVersion", m_expectedProfileVersion, expectedProfileVersion);
                 JsonUtils:: ObjectGetMember(input, "Group", m_group, group);
@@ -2356,16 +2267,16 @@ namespace PlayFab
                 m_operationReason{ src.m_operationReason },
                 m_setResult{ src.m_setResult }
             {
-
                 operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
                 setResult = m_setResult ? m_setResult.operator->() : nullptr;
             }
 
             ~UpdateGroupRoleResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "OperationReason", m_operationReason, operationReason);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
                 JsonUtils:: ObjectGetMember(input, "SetResult", m_setResult, setResult);
@@ -2378,7 +2289,6 @@ namespace PlayFab
 
         private:
             String m_operationReason;
-
             StdExtra::optional<PlayFabGroupsOperationTypes> m_setResult;
         };
 

@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -12,7 +22,6 @@ typedef struct PlayFabInsightsInsightsEmptyRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabInsightsInsightsEmptyRequest;
 
 typedef struct PlayFabInsightsInsightsPerformanceLevel
@@ -25,7 +34,6 @@ typedef struct PlayFabInsightsInsightsPerformanceLevel
     int32_t level;
     int32_t maxMemoryPerQueryMB;
     int32_t virtualCpuCores;
-
 } PlayFabInsightsInsightsPerformanceLevel;
 
 typedef struct PlayFabInsightsInsightsGetLimitsResponse
@@ -36,7 +44,6 @@ typedef struct PlayFabInsightsInsightsGetLimitsResponse
     int32_t storageMinRetentionDays;
     PF_ARRAY PlayFabInsightsInsightsPerformanceLevel** subMeters;
     PF_COLLECTION_COUNT uint32_t subMetersCount;
-
 } PlayFabInsightsInsightsGetLimitsResponse;
 
 typedef struct PlayFabInsightsInsightsGetOperationStatusResponse
@@ -49,7 +56,6 @@ typedef struct PlayFabInsightsInsightsGetOperationStatusResponse
     const char* operationType;
     int32_t operationValue;
     const char* status;
-
 } PlayFabInsightsInsightsGetOperationStatusResponse;
 
 typedef struct PlayFabInsightsInsightsGetDetailsResponse
@@ -61,7 +67,6 @@ typedef struct PlayFabInsightsInsightsGetDetailsResponse
     PF_COLLECTION_COUNT uint32_t pendingOperationsCount;
     int32_t performanceLevel;
     int32_t retentionDays;
-
 } PlayFabInsightsInsightsGetDetailsResponse;
 
 typedef struct PlayFabInsightsInsightsGetOperationStatusRequest
@@ -69,7 +74,6 @@ typedef struct PlayFabInsightsInsightsGetOperationStatusRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* operationId;
-
 } PlayFabInsightsInsightsGetOperationStatusRequest;
 
 typedef struct PlayFabInsightsInsightsGetPendingOperationsRequest
@@ -77,14 +81,12 @@ typedef struct PlayFabInsightsInsightsGetPendingOperationsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* operationType;
-
 } PlayFabInsightsInsightsGetPendingOperationsRequest;
 
 typedef struct PlayFabInsightsInsightsGetPendingOperationsResponse
 {
     PF_ARRAY PlayFabInsightsInsightsGetOperationStatusResponse** pendingOperations;
     PF_COLLECTION_COUNT uint32_t pendingOperationsCount;
-
 } PlayFabInsightsInsightsGetPendingOperationsResponse;
 
 typedef struct PlayFabInsightsInsightsOperationResponse
@@ -92,7 +94,6 @@ typedef struct PlayFabInsightsInsightsOperationResponse
     const char* message;
     const char* operationId;
     const char* operationType;
-
 } PlayFabInsightsInsightsOperationResponse;
 
 typedef struct PlayFabInsightsInsightsSetPerformanceRequest
@@ -100,7 +101,6 @@ typedef struct PlayFabInsightsInsightsSetPerformanceRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     int32_t performanceLevel;
-
 } PlayFabInsightsInsightsSetPerformanceRequest;
 
 typedef struct PlayFabInsightsInsightsSetStorageRetentionRequest
@@ -108,10 +108,11 @@ typedef struct PlayFabInsightsInsightsSetStorageRetentionRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     int32_t retentionDays;
-
 } PlayFabInsightsInsightsSetStorageRetentionRequest;
 
 
 // Insights dictionary entry structs
 
 #pragma pop_macro("IN")
+
+}

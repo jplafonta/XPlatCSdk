@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -155,14 +165,12 @@ typedef struct PlayFabMultiplayerAssetReference
 {
     const char* fileName;
     const char* mountPath;
-
 } PlayFabMultiplayerAssetReference;
 
 typedef struct PlayFabMultiplayerAssetReferenceParams
 {
     const char* fileName;
     const char* mountPath;
-
 } PlayFabMultiplayerAssetReferenceParams;
 
 typedef struct PlayFabMultiplayerAssetSummary
@@ -170,14 +178,12 @@ typedef struct PlayFabMultiplayerAssetSummary
     const char* fileName;
     PF_MAP struct PlayFabStringDictionaryEntry* metadata;
     PF_COLLECTION_COUNT uint32_t metadataCount;
-
 } PlayFabMultiplayerAssetSummary;
 
 typedef struct PlayFabMultiplayerBuildSelectionCriterion
 {
     PF_MAP struct PlayFabUint32DictionaryEntry* buildWeightDistribution;
     PF_COLLECTION_COUNT uint32_t buildWeightDistributionCount;
-
 } PlayFabMultiplayerBuildSelectionCriterion;
 
 typedef struct PlayFabMultiplayerBuildAliasDetailsResponse
@@ -188,13 +194,11 @@ typedef struct PlayFabMultiplayerBuildAliasDetailsResponse
     PF_COLLECTION_COUNT uint32_t buildSelectionCriteriaCount;
     int32_t pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerBuildAliasDetailsResponse;
 
 typedef struct PlayFabMultiplayerBuildAliasParams
 {
     const char* aliasId;
-
 } PlayFabMultiplayerBuildAliasParams;
 
 typedef struct PlayFabMultiplayerCurrentServerStats
@@ -203,14 +207,12 @@ typedef struct PlayFabMultiplayerCurrentServerStats
     int32_t propping;
     int32_t standingBy;
     int32_t total;
-
 } PlayFabMultiplayerCurrentServerStats;
 
 typedef struct PlayFabMultiplayerDynamicStandbyThreshold
 {
     double multiplier;
     double triggerThresholdPercentage;
-
 } PlayFabMultiplayerDynamicStandbyThreshold;
 
 typedef struct PlayFabMultiplayerDynamicStandbySettings
@@ -219,7 +221,6 @@ typedef struct PlayFabMultiplayerDynamicStandbySettings
     PF_COLLECTION_COUNT uint32_t dynamicFloorMultiplierThresholdsCount;
     bool isEnabled;
     PF_OPTIONAL int32_t* rampDownSeconds;
-
 } PlayFabMultiplayerDynamicStandbySettings;
 
 typedef struct PlayFabMultiplayerSchedule
@@ -230,7 +231,6 @@ typedef struct PlayFabMultiplayerSchedule
     bool isRecurringWeekly;
     time_t startTime;
     int32_t targetStandby;
-
 } PlayFabMultiplayerSchedule;
 
 typedef struct PlayFabMultiplayerScheduledStandbySettings
@@ -238,7 +238,6 @@ typedef struct PlayFabMultiplayerScheduledStandbySettings
     bool isEnabled;
     PF_ARRAY PlayFabMultiplayerSchedule** scheduleList;
     PF_COLLECTION_COUNT uint32_t scheduleListCount;
-
 } PlayFabMultiplayerScheduledStandbySettings;
 
 typedef struct PlayFabMultiplayerBuildRegion
@@ -250,7 +249,6 @@ typedef struct PlayFabMultiplayerBuildRegion
     PF_OPTIONAL PlayFabMultiplayerScheduledStandbySettings* scheduledStandbySettings;
     int32_t standbyServers;
     const char* status;
-
 } PlayFabMultiplayerBuildRegion;
 
 typedef struct PlayFabMultiplayerBuildRegionParams
@@ -260,7 +258,6 @@ typedef struct PlayFabMultiplayerBuildRegionParams
     const char* region;
     PF_OPTIONAL PlayFabMultiplayerScheduledStandbySettings* scheduledStandbySettings;
     int32_t standbyServers;
-
 } PlayFabMultiplayerBuildRegionParams;
 
 typedef struct PlayFabMultiplayerBuildSummary
@@ -272,14 +269,12 @@ typedef struct PlayFabMultiplayerBuildSummary
     PF_COLLECTION_COUNT uint32_t metadataCount;
     PF_ARRAY PlayFabMultiplayerBuildRegion** regionConfigurations;
     PF_COLLECTION_COUNT uint32_t regionConfigurationsCount;
-
 } PlayFabMultiplayerBuildSummary;
 
 typedef struct PlayFabMultiplayerEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabMultiplayerEntityKey;
 
 typedef struct PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest
@@ -288,13 +283,7 @@ typedef struct PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL PlayFabMultiplayerEntityKey* entity;
     const char* queueName;
-
 } PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest;
-
-typedef struct PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerResult
-{
-
-} PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerResult;
 
 typedef struct PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest
 {
@@ -302,13 +291,7 @@ typedef struct PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PlayFabMultiplayerEntityKey* entity;
     const char* queueName;
-
 } PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest;
-
-typedef struct PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerResult
-{
-
-} PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerResult;
 
 typedef struct PlayFabMultiplayerCancelMatchmakingTicketRequest
 {
@@ -316,13 +299,7 @@ typedef struct PlayFabMultiplayerCancelMatchmakingTicketRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* queueName;
     const char* ticketId;
-
 } PlayFabMultiplayerCancelMatchmakingTicketRequest;
-
-typedef struct PlayFabMultiplayerCancelMatchmakingTicketResult
-{
-
-} PlayFabMultiplayerCancelMatchmakingTicketResult;
 
 typedef struct PlayFabMultiplayerCancelServerBackfillTicketRequest
 {
@@ -330,40 +307,30 @@ typedef struct PlayFabMultiplayerCancelServerBackfillTicketRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* queueName;
     const char* ticketId;
-
 } PlayFabMultiplayerCancelServerBackfillTicketRequest;
-
-typedef struct PlayFabMultiplayerCancelServerBackfillTicketResult
-{
-
-} PlayFabMultiplayerCancelServerBackfillTicketResult;
 
 typedef struct PlayFabMultiplayerCertificate
 {
     const char* base64EncodedValue;
     const char* name;
     const char* password;
-
 } PlayFabMultiplayerCertificate;
 
 typedef struct PlayFabMultiplayerCertificateSummary
 {
     const char* name;
     const char* thumbprint;
-
 } PlayFabMultiplayerCertificateSummary;
 
 typedef struct PlayFabMultiplayerConnectedPlayer
 {
     const char* playerId;
-
 } PlayFabMultiplayerConnectedPlayer;
 
 typedef struct PlayFabMultiplayerContainerImageReference
 {
     const char* imageName;
     const char* tag;
-
 } PlayFabMultiplayerContainerImageReference;
 
 typedef struct PlayFabMultiplayerCoreCapacity
@@ -372,7 +339,6 @@ typedef struct PlayFabMultiplayerCoreCapacity
     const char* region;
     int32_t total;
     PF_OPTIONAL PlayFabMultiplayerAzureVmFamily* vmFamily;
-
 } PlayFabMultiplayerCoreCapacity;
 
 typedef struct PlayFabMultiplayerCoreCapacityChange
@@ -380,7 +346,6 @@ typedef struct PlayFabMultiplayerCoreCapacityChange
     int32_t newCoreLimit;
     const char* region;
     PlayFabMultiplayerAzureVmFamily vmFamily;
-
 } PlayFabMultiplayerCoreCapacityChange;
 
 typedef struct PlayFabMultiplayerCreateBuildAliasRequest
@@ -390,20 +355,17 @@ typedef struct PlayFabMultiplayerCreateBuildAliasRequest
     PF_COLLECTION_COUNT uint32_t buildSelectionCriteriaCount;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerCreateBuildAliasRequest;
 
 typedef struct PlayFabMultiplayerGameCertificateReferenceParams
 {
     const char* gsdkAlias;
     const char* name;
-
 } PlayFabMultiplayerGameCertificateReferenceParams;
 
 typedef struct PlayFabMultiplayerLinuxInstrumentationConfiguration
 {
     bool isEnabled;
-
 } PlayFabMultiplayerLinuxInstrumentationConfiguration;
 
 typedef struct PlayFabMultiplayerPort
@@ -411,7 +373,6 @@ typedef struct PlayFabMultiplayerPort
     const char* name;
     int32_t num;
     PlayFabMultiplayerProtocolType protocol;
-
 } PlayFabMultiplayerPort;
 
 typedef struct PlayFabMultiplayerCreateBuildWithCustomContainerRequest
@@ -437,14 +398,12 @@ typedef struct PlayFabMultiplayerCreateBuildWithCustomContainerRequest
     PF_COLLECTION_COUNT uint32_t regionConfigurationsCount;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerCreateBuildWithCustomContainerRequest;
 
 typedef struct PlayFabMultiplayerGameCertificateReference
 {
     const char* gsdkAlias;
     const char* name;
-
 } PlayFabMultiplayerGameCertificateReference;
 
 typedef struct PlayFabMultiplayerCreateBuildWithCustomContainerResponse
@@ -472,14 +431,12 @@ typedef struct PlayFabMultiplayerCreateBuildWithCustomContainerResponse
     const char* serverType;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerCreateBuildWithCustomContainerResponse;
 
 typedef struct PlayFabMultiplayerInstrumentationConfiguration
 {
     PF_ARRAY const char** processesToMonitor;
     PF_COLLECTION_COUNT uint32_t processesToMonitorCount;
-
 } PlayFabMultiplayerInstrumentationConfiguration;
 
 typedef struct PlayFabMultiplayerCreateBuildWithManagedContainerRequest
@@ -505,7 +462,6 @@ typedef struct PlayFabMultiplayerCreateBuildWithManagedContainerRequest
     const char* startMultiplayerServerCommand;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerCreateBuildWithManagedContainerRequest;
 
 typedef struct PlayFabMultiplayerCreateBuildWithManagedContainerResponse
@@ -533,7 +489,6 @@ typedef struct PlayFabMultiplayerCreateBuildWithManagedContainerResponse
     const char* startMultiplayerServerCommand;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerCreateBuildWithManagedContainerResponse;
 
 typedef struct PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest
@@ -560,7 +515,6 @@ typedef struct PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest
     const char* startMultiplayerServerCommand;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest;
 
 typedef struct PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse
@@ -589,21 +543,18 @@ typedef struct PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse
     const char* startMultiplayerServerCommand;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse;
 
 typedef struct PlayFabMultiplayerMatchmakingPlayerAttributes
 {
     PlayFabJsonObject dataObject;
     const char* escapedDataObject;
-
 } PlayFabMultiplayerMatchmakingPlayerAttributes;
 
 typedef struct PlayFabMultiplayerMatchmakingPlayer
 {
     PF_OPTIONAL PlayFabMultiplayerMatchmakingPlayerAttributes* attributes;
     PlayFabMultiplayerEntityKey* entity;
-
 } PlayFabMultiplayerMatchmakingPlayer;
 
 typedef struct PlayFabMultiplayerCreateMatchmakingTicketRequest
@@ -615,13 +566,11 @@ typedef struct PlayFabMultiplayerCreateMatchmakingTicketRequest
     PF_ARRAY PlayFabMultiplayerEntityKey** membersToMatchWith;
     PF_COLLECTION_COUNT uint32_t membersToMatchWithCount;
     const char* queueName;
-
 } PlayFabMultiplayerCreateMatchmakingTicketRequest;
 
 typedef struct PlayFabMultiplayerCreateMatchmakingTicketResult
 {
     const char* ticketId;
-
 } PlayFabMultiplayerCreateMatchmakingTicketResult;
 
 typedef struct PlayFabMultiplayerCreateRemoteUserRequest
@@ -633,7 +582,6 @@ typedef struct PlayFabMultiplayerCreateRemoteUserRequest
     const char* region;
     const char* username;
     const char* vmId;
-
 } PlayFabMultiplayerCreateRemoteUserRequest;
 
 typedef struct PlayFabMultiplayerCreateRemoteUserResponse
@@ -641,7 +589,6 @@ typedef struct PlayFabMultiplayerCreateRemoteUserResponse
     PF_OPTIONAL time_t* expirationTime;
     const char* password;
     const char* username;
-
 } PlayFabMultiplayerCreateRemoteUserResponse;
 
 typedef struct PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment
@@ -649,7 +596,6 @@ typedef struct PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment
     PF_OPTIONAL PlayFabMultiplayerMatchmakingPlayerAttributes* attributes;
     PlayFabMultiplayerEntityKey* entity;
     const char* teamId;
-
 } PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment;
 
 typedef struct PlayFabMultiplayerServerDetails
@@ -658,7 +604,6 @@ typedef struct PlayFabMultiplayerServerDetails
     PF_ARRAY PlayFabMultiplayerPort** ports;
     PF_COLLECTION_COUNT uint32_t portsCount;
     const char* region;
-
 } PlayFabMultiplayerServerDetails;
 
 typedef struct PlayFabMultiplayerCreateServerBackfillTicketRequest
@@ -670,13 +615,11 @@ typedef struct PlayFabMultiplayerCreateServerBackfillTicketRequest
     PF_COLLECTION_COUNT uint32_t membersCount;
     const char* queueName;
     PF_OPTIONAL PlayFabMultiplayerServerDetails* serverDetails;
-
 } PlayFabMultiplayerCreateServerBackfillTicketRequest;
 
 typedef struct PlayFabMultiplayerCreateServerBackfillTicketResult
 {
     const char* ticketId;
-
 } PlayFabMultiplayerCreateServerBackfillTicketResult;
 
 typedef struct PlayFabMultiplayerCreateServerMatchmakingTicketRequest
@@ -687,7 +630,6 @@ typedef struct PlayFabMultiplayerCreateServerMatchmakingTicketRequest
     PF_ARRAY PlayFabMultiplayerMatchmakingPlayer** members;
     PF_COLLECTION_COUNT uint32_t membersCount;
     const char* queueName;
-
 } PlayFabMultiplayerCreateServerMatchmakingTicketRequest;
 
 typedef struct PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest
@@ -700,14 +642,12 @@ typedef struct PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* notes;
     PF_OPTIONAL time_t* startDate;
-
 } PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest;
 
 typedef struct PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse
 {
     const char* requestId;
     bool wasApproved;
-
 } PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse;
 
 typedef struct PlayFabMultiplayerDeleteAssetRequest
@@ -715,7 +655,6 @@ typedef struct PlayFabMultiplayerDeleteAssetRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* fileName;
-
 } PlayFabMultiplayerDeleteAssetRequest;
 
 typedef struct PlayFabMultiplayerDeleteBuildAliasRequest
@@ -723,7 +662,6 @@ typedef struct PlayFabMultiplayerDeleteBuildAliasRequest
     const char* aliasId;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerDeleteBuildAliasRequest;
 
 typedef struct PlayFabMultiplayerDeleteBuildRegionRequest
@@ -732,7 +670,6 @@ typedef struct PlayFabMultiplayerDeleteBuildRegionRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* region;
-
 } PlayFabMultiplayerDeleteBuildRegionRequest;
 
 typedef struct PlayFabMultiplayerDeleteBuildRequest
@@ -740,7 +677,6 @@ typedef struct PlayFabMultiplayerDeleteBuildRequest
     const char* buildId;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerDeleteBuildRequest;
 
 typedef struct PlayFabMultiplayerDeleteCertificateRequest
@@ -748,7 +684,6 @@ typedef struct PlayFabMultiplayerDeleteCertificateRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* name;
-
 } PlayFabMultiplayerDeleteCertificateRequest;
 
 typedef struct PlayFabMultiplayerDeleteContainerImageRequest
@@ -756,7 +691,6 @@ typedef struct PlayFabMultiplayerDeleteContainerImageRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* imageName;
-
 } PlayFabMultiplayerDeleteContainerImageRequest;
 
 typedef struct PlayFabMultiplayerDeleteRemoteUserRequest
@@ -767,25 +701,17 @@ typedef struct PlayFabMultiplayerDeleteRemoteUserRequest
     const char* region;
     const char* username;
     const char* vmId;
-
 } PlayFabMultiplayerDeleteRemoteUserRequest;
-
-typedef struct PlayFabMultiplayerEmptyResponse
-{
-
-} PlayFabMultiplayerEmptyResponse;
 
 typedef struct PlayFabMultiplayerEnableMultiplayerServersForTitleRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerEnableMultiplayerServersForTitleRequest;
 
 typedef struct PlayFabMultiplayerEnableMultiplayerServersForTitleResponse
 {
     PF_OPTIONAL PlayFabMultiplayerTitleMultiplayerServerEnabledStatus* status;
-
 } PlayFabMultiplayerEnableMultiplayerServersForTitleResponse;
 
 typedef struct PlayFabMultiplayerGetAssetUploadUrlRequest
@@ -793,14 +719,12 @@ typedef struct PlayFabMultiplayerGetAssetUploadUrlRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* fileName;
-
 } PlayFabMultiplayerGetAssetUploadUrlRequest;
 
 typedef struct PlayFabMultiplayerGetAssetUploadUrlResponse
 {
     const char* assetUploadUrl;
     const char* fileName;
-
 } PlayFabMultiplayerGetAssetUploadUrlResponse;
 
 typedef struct PlayFabMultiplayerGetBuildAliasRequest
@@ -808,7 +732,6 @@ typedef struct PlayFabMultiplayerGetBuildAliasRequest
     const char* aliasId;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerGetBuildAliasRequest;
 
 typedef struct PlayFabMultiplayerGetBuildRequest
@@ -816,7 +739,6 @@ typedef struct PlayFabMultiplayerGetBuildRequest
     const char* buildId;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerGetBuildRequest;
 
 typedef struct PlayFabMultiplayerGetBuildResponse
@@ -846,14 +768,12 @@ typedef struct PlayFabMultiplayerGetBuildResponse
     const char* startMultiplayerServerCommand;
     PF_OPTIONAL bool* useStreamingForAssetDownloads;
     PF_OPTIONAL PlayFabMultiplayerAzureVmSize* vmSize;
-
 } PlayFabMultiplayerGetBuildResponse;
 
 typedef struct PlayFabMultiplayerGetContainerRegistryCredentialsRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerGetContainerRegistryCredentialsRequest;
 
 typedef struct PlayFabMultiplayerGetContainerRegistryCredentialsResponse
@@ -861,7 +781,6 @@ typedef struct PlayFabMultiplayerGetContainerRegistryCredentialsResponse
     const char* dnsName;
     const char* password;
     const char* username;
-
 } PlayFabMultiplayerGetContainerRegistryCredentialsResponse;
 
 typedef struct PlayFabMultiplayerGetMatchmakingTicketRequest
@@ -871,7 +790,6 @@ typedef struct PlayFabMultiplayerGetMatchmakingTicketRequest
     bool escapeObject;
     const char* queueName;
     const char* ticketId;
-
 } PlayFabMultiplayerGetMatchmakingTicketRequest;
 
 typedef struct PlayFabMultiplayerGetMatchmakingTicketResult
@@ -888,7 +806,6 @@ typedef struct PlayFabMultiplayerGetMatchmakingTicketResult
     const char* queueName;
     const char* status;
     const char* ticketId;
-
 } PlayFabMultiplayerGetMatchmakingTicketResult;
 
 typedef struct PlayFabMultiplayerGetMatchRequest
@@ -899,7 +816,6 @@ typedef struct PlayFabMultiplayerGetMatchRequest
     const char* matchId;
     const char* queueName;
     bool returnMemberAttributes;
-
 } PlayFabMultiplayerGetMatchRequest;
 
 typedef struct PlayFabMultiplayerGetMatchResult
@@ -910,7 +826,6 @@ typedef struct PlayFabMultiplayerGetMatchResult
     PF_ARRAY const char** regionPreferences;
     PF_COLLECTION_COUNT uint32_t regionPreferencesCount;
     PF_OPTIONAL PlayFabMultiplayerServerDetails* serverDetails;
-
 } PlayFabMultiplayerGetMatchResult;
 
 typedef struct PlayFabMultiplayerGetMultiplayerServerDetailsRequest
@@ -920,7 +835,6 @@ typedef struct PlayFabMultiplayerGetMultiplayerServerDetailsRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* region;
     const char* sessionId;
-
 } PlayFabMultiplayerGetMultiplayerServerDetailsRequest;
 
 typedef struct PlayFabMultiplayerGetMultiplayerServerDetailsResponse
@@ -937,7 +851,6 @@ typedef struct PlayFabMultiplayerGetMultiplayerServerDetailsResponse
     const char* sessionId;
     const char* state;
     const char* vmId;
-
 } PlayFabMultiplayerGetMultiplayerServerDetailsResponse;
 
 typedef struct PlayFabMultiplayerGetMultiplayerServerLogsRequest
@@ -945,13 +858,11 @@ typedef struct PlayFabMultiplayerGetMultiplayerServerLogsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* serverId;
-
 } PlayFabMultiplayerGetMultiplayerServerLogsRequest;
 
 typedef struct PlayFabMultiplayerGetMultiplayerServerLogsResponse
 {
     const char* logDownloadUrl;
-
 } PlayFabMultiplayerGetMultiplayerServerLogsResponse;
 
 typedef struct PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest
@@ -959,7 +870,6 @@ typedef struct PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* sessionId;
-
 } PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest;
 
 typedef struct PlayFabMultiplayerGetQueueStatisticsRequest
@@ -967,7 +877,6 @@ typedef struct PlayFabMultiplayerGetQueueStatisticsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* queueName;
-
 } PlayFabMultiplayerGetQueueStatisticsRequest;
 
 typedef struct PlayFabMultiplayerStatistics
@@ -976,14 +885,12 @@ typedef struct PlayFabMultiplayerStatistics
     double percentile50;
     double percentile90;
     double percentile99;
-
 } PlayFabMultiplayerStatistics;
 
 typedef struct PlayFabMultiplayerGetQueueStatisticsResult
 {
     PF_OPTIONAL uint32_t* numberOfPlayersMatching;
     PF_OPTIONAL PlayFabMultiplayerStatistics* timeToMatchStatisticsInSeconds;
-
 } PlayFabMultiplayerGetQueueStatisticsResult;
 
 typedef struct PlayFabMultiplayerGetRemoteLoginEndpointRequest
@@ -993,14 +900,12 @@ typedef struct PlayFabMultiplayerGetRemoteLoginEndpointRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* region;
     const char* vmId;
-
 } PlayFabMultiplayerGetRemoteLoginEndpointRequest;
 
 typedef struct PlayFabMultiplayerGetRemoteLoginEndpointResponse
 {
     const char* iPV4Address;
     int32_t port;
-
 } PlayFabMultiplayerGetRemoteLoginEndpointResponse;
 
 typedef struct PlayFabMultiplayerGetServerBackfillTicketRequest
@@ -1010,7 +915,6 @@ typedef struct PlayFabMultiplayerGetServerBackfillTicketRequest
     bool escapeObject;
     const char* queueName;
     const char* ticketId;
-
 } PlayFabMultiplayerGetServerBackfillTicketRequest;
 
 typedef struct PlayFabMultiplayerGetServerBackfillTicketResult
@@ -1025,20 +929,17 @@ typedef struct PlayFabMultiplayerGetServerBackfillTicketResult
     PlayFabMultiplayerServerDetails* serverDetails;
     const char* status;
     const char* ticketId;
-
 } PlayFabMultiplayerGetServerBackfillTicketResult;
 
 typedef struct PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest;
 
 typedef struct PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse
 {
     PF_OPTIONAL PlayFabMultiplayerTitleMultiplayerServerEnabledStatus* status;
-
 } PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse;
 
 typedef struct PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest
@@ -1046,7 +947,6 @@ typedef struct PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* requestId;
-
 } PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest;
 
 typedef struct PlayFabMultiplayerQuotaChange
@@ -1059,33 +959,28 @@ typedef struct PlayFabMultiplayerQuotaChange
     const char* requestId;
     const char* reviewComments;
     bool wasApproved;
-
 } PlayFabMultiplayerQuotaChange;
 
 typedef struct PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeResponse
 {
     PF_OPTIONAL PlayFabMultiplayerQuotaChange* change;
-
 } PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeResponse;
 
 typedef struct PlayFabMultiplayerGetTitleMultiplayerServersQuotasRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerGetTitleMultiplayerServersQuotasRequest;
 
 typedef struct PlayFabMultiplayerTitleMultiplayerServersQuotas
 {
     PF_ARRAY PlayFabMultiplayerCoreCapacity** coreCapacities;
     PF_COLLECTION_COUNT uint32_t coreCapacitiesCount;
-
 } PlayFabMultiplayerTitleMultiplayerServersQuotas;
 
 typedef struct PlayFabMultiplayerGetTitleMultiplayerServersQuotasResponse
 {
     PF_OPTIONAL PlayFabMultiplayerTitleMultiplayerServersQuotas* quotas;
-
 } PlayFabMultiplayerGetTitleMultiplayerServersQuotasResponse;
 
 typedef struct PlayFabMultiplayerJoinMatchmakingTicketRequest
@@ -1095,13 +990,7 @@ typedef struct PlayFabMultiplayerJoinMatchmakingTicketRequest
     PlayFabMultiplayerMatchmakingPlayer* member;
     const char* queueName;
     const char* ticketId;
-
 } PlayFabMultiplayerJoinMatchmakingTicketRequest;
-
-typedef struct PlayFabMultiplayerJoinMatchmakingTicketResult
-{
-
-} PlayFabMultiplayerJoinMatchmakingTicketResult;
 
 typedef struct PlayFabMultiplayerListAssetSummariesRequest
 {
@@ -1109,7 +998,6 @@ typedef struct PlayFabMultiplayerListAssetSummariesRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL int32_t* pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListAssetSummariesRequest;
 
 typedef struct PlayFabMultiplayerListAssetSummariesResponse
@@ -1118,14 +1006,12 @@ typedef struct PlayFabMultiplayerListAssetSummariesResponse
     PF_COLLECTION_COUNT uint32_t assetSummariesCount;
     int32_t pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListAssetSummariesResponse;
 
 typedef struct PlayFabMultiplayerListBuildAliasesForTitleResponse
 {
     PF_ARRAY PlayFabMultiplayerBuildAliasDetailsResponse** buildAliases;
     PF_COLLECTION_COUNT uint32_t buildAliasesCount;
-
 } PlayFabMultiplayerListBuildAliasesForTitleResponse;
 
 typedef struct PlayFabMultiplayerListBuildSummariesRequest
@@ -1134,7 +1020,6 @@ typedef struct PlayFabMultiplayerListBuildSummariesRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL int32_t* pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListBuildSummariesRequest;
 
 typedef struct PlayFabMultiplayerListBuildSummariesResponse
@@ -1143,7 +1028,6 @@ typedef struct PlayFabMultiplayerListBuildSummariesResponse
     PF_COLLECTION_COUNT uint32_t buildSummariesCount;
     int32_t pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListBuildSummariesResponse;
 
 typedef struct PlayFabMultiplayerListCertificateSummariesRequest
@@ -1152,7 +1036,6 @@ typedef struct PlayFabMultiplayerListCertificateSummariesRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL int32_t* pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListCertificateSummariesRequest;
 
 typedef struct PlayFabMultiplayerListCertificateSummariesResponse
@@ -1161,7 +1044,6 @@ typedef struct PlayFabMultiplayerListCertificateSummariesResponse
     PF_COLLECTION_COUNT uint32_t certificateSummariesCount;
     int32_t pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListCertificateSummariesResponse;
 
 typedef struct PlayFabMultiplayerListContainerImagesRequest
@@ -1170,7 +1052,6 @@ typedef struct PlayFabMultiplayerListContainerImagesRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL int32_t* pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListContainerImagesRequest;
 
 typedef struct PlayFabMultiplayerListContainerImagesResponse
@@ -1179,7 +1060,6 @@ typedef struct PlayFabMultiplayerListContainerImagesResponse
     PF_COLLECTION_COUNT uint32_t imagesCount;
     int32_t pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListContainerImagesResponse;
 
 typedef struct PlayFabMultiplayerListContainerImageTagsRequest
@@ -1187,14 +1067,12 @@ typedef struct PlayFabMultiplayerListContainerImageTagsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* imageName;
-
 } PlayFabMultiplayerListContainerImageTagsRequest;
 
 typedef struct PlayFabMultiplayerListContainerImageTagsResponse
 {
     PF_ARRAY const char** tags;
     PF_COLLECTION_COUNT uint32_t tagsCount;
-
 } PlayFabMultiplayerListContainerImageTagsResponse;
 
 typedef struct PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest
@@ -1203,14 +1081,12 @@ typedef struct PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL PlayFabMultiplayerEntityKey* entity;
     const char* queueName;
-
 } PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest;
 
 typedef struct PlayFabMultiplayerListMatchmakingTicketsForPlayerResult
 {
     PF_ARRAY const char** ticketIds;
     PF_COLLECTION_COUNT uint32_t ticketIdsCount;
-
 } PlayFabMultiplayerListMatchmakingTicketsForPlayerResult;
 
 typedef struct PlayFabMultiplayerListMultiplayerServersRequest
@@ -1221,7 +1097,6 @@ typedef struct PlayFabMultiplayerListMultiplayerServersRequest
     PF_OPTIONAL int32_t* pageSize;
     const char* region;
     const char* skipToken;
-
 } PlayFabMultiplayerListMultiplayerServersRequest;
 
 typedef struct PlayFabMultiplayerMultiplayerServerSummary
@@ -1234,7 +1109,6 @@ typedef struct PlayFabMultiplayerMultiplayerServerSummary
     const char* sessionId;
     const char* state;
     const char* vmId;
-
 } PlayFabMultiplayerMultiplayerServerSummary;
 
 typedef struct PlayFabMultiplayerListMultiplayerServersResponse
@@ -1243,21 +1117,18 @@ typedef struct PlayFabMultiplayerListMultiplayerServersResponse
     PF_COLLECTION_COUNT uint32_t multiplayerServerSummariesCount;
     int32_t pageSize;
     const char* skipToken;
-
 } PlayFabMultiplayerListMultiplayerServersResponse;
 
 typedef struct PlayFabMultiplayerListPartyQosServersRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerListPartyQosServersRequest;
 
 typedef struct PlayFabMultiplayerQosServer
 {
     const char* region;
     const char* serverUrl;
-
 } PlayFabMultiplayerQosServer;
 
 typedef struct PlayFabMultiplayerListPartyQosServersResponse
@@ -1266,7 +1137,6 @@ typedef struct PlayFabMultiplayerListPartyQosServersResponse
     PF_ARRAY PlayFabMultiplayerQosServer** qosServers;
     PF_COLLECTION_COUNT uint32_t qosServersCount;
     const char* skipToken;
-
 } PlayFabMultiplayerListPartyQosServersResponse;
 
 typedef struct PlayFabMultiplayerListQosServersForTitleRequest
@@ -1274,7 +1144,6 @@ typedef struct PlayFabMultiplayerListQosServersForTitleRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL bool* includeAllRegions;
-
 } PlayFabMultiplayerListQosServersForTitleRequest;
 
 typedef struct PlayFabMultiplayerListQosServersForTitleResponse
@@ -1283,7 +1152,6 @@ typedef struct PlayFabMultiplayerListQosServersForTitleResponse
     PF_ARRAY PlayFabMultiplayerQosServer** qosServers;
     PF_COLLECTION_COUNT uint32_t qosServersCount;
     const char* skipToken;
-
 } PlayFabMultiplayerListQosServersForTitleResponse;
 
 typedef struct PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest
@@ -1292,28 +1160,24 @@ typedef struct PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PlayFabMultiplayerEntityKey* entity;
     const char* queueName;
-
 } PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest;
 
 typedef struct PlayFabMultiplayerListServerBackfillTicketsForPlayerResult
 {
     PF_ARRAY const char** ticketIds;
     PF_COLLECTION_COUNT uint32_t ticketIdsCount;
-
 } PlayFabMultiplayerListServerBackfillTicketsForPlayerResult;
 
 typedef struct PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesRequest;
 
 typedef struct PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesResponse
 {
     PF_ARRAY PlayFabMultiplayerQuotaChange** changes;
     PF_COLLECTION_COUNT uint32_t changesCount;
-
 } PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesResponse;
 
 typedef struct PlayFabMultiplayerListVirtualMachineSummariesRequest
@@ -1324,7 +1188,6 @@ typedef struct PlayFabMultiplayerListVirtualMachineSummariesRequest
     PF_OPTIONAL int32_t* pageSize;
     const char* region;
     const char* skipToken;
-
 } PlayFabMultiplayerListVirtualMachineSummariesRequest;
 
 typedef struct PlayFabMultiplayerVirtualMachineSummary
@@ -1332,7 +1195,6 @@ typedef struct PlayFabMultiplayerVirtualMachineSummary
     const char* healthStatus;
     const char* state;
     const char* vmId;
-
 } PlayFabMultiplayerVirtualMachineSummary;
 
 typedef struct PlayFabMultiplayerListVirtualMachineSummariesResponse
@@ -1341,14 +1203,12 @@ typedef struct PlayFabMultiplayerListVirtualMachineSummariesResponse
     const char* skipToken;
     PF_ARRAY PlayFabMultiplayerVirtualMachineSummary** virtualMachines;
     PF_COLLECTION_COUNT uint32_t virtualMachinesCount;
-
 } PlayFabMultiplayerListVirtualMachineSummariesResponse;
 
 typedef struct PlayFabMultiplayerMultiplayerEmptyRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerMultiplayerEmptyRequest;
 
 typedef struct PlayFabMultiplayerRequestMultiplayerServerRequest
@@ -1363,7 +1223,6 @@ typedef struct PlayFabMultiplayerRequestMultiplayerServerRequest
     PF_COLLECTION_COUNT uint32_t preferredRegionsCount;
     const char* sessionCookie;
     const char* sessionId;
-
 } PlayFabMultiplayerRequestMultiplayerServerRequest;
 
 typedef struct PlayFabMultiplayerRequestMultiplayerServerResponse
@@ -1380,14 +1239,12 @@ typedef struct PlayFabMultiplayerRequestMultiplayerServerResponse
     const char* sessionId;
     const char* state;
     const char* vmId;
-
 } PlayFabMultiplayerRequestMultiplayerServerResponse;
 
 typedef struct PlayFabMultiplayerRolloverContainerRegistryCredentialsRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerRolloverContainerRegistryCredentialsRequest;
 
 typedef struct PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse
@@ -1395,7 +1252,6 @@ typedef struct PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse
     const char* dnsName;
     const char* password;
     const char* username;
-
 } PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse;
 
 typedef struct PlayFabMultiplayerShutdownMultiplayerServerRequest
@@ -1405,7 +1261,6 @@ typedef struct PlayFabMultiplayerShutdownMultiplayerServerRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* region;
     const char* sessionId;
-
 } PlayFabMultiplayerShutdownMultiplayerServerRequest;
 
 typedef struct PlayFabMultiplayerUntagContainerImageRequest
@@ -1414,7 +1269,6 @@ typedef struct PlayFabMultiplayerUntagContainerImageRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* imageName;
     const char* tag;
-
 } PlayFabMultiplayerUntagContainerImageRequest;
 
 typedef struct PlayFabMultiplayerUpdateBuildAliasRequest
@@ -1425,7 +1279,6 @@ typedef struct PlayFabMultiplayerUpdateBuildAliasRequest
     PF_COLLECTION_COUNT uint32_t buildSelectionCriteriaCount;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerUpdateBuildAliasRequest;
 
 typedef struct PlayFabMultiplayerUpdateBuildNameRequest
@@ -1434,7 +1287,6 @@ typedef struct PlayFabMultiplayerUpdateBuildNameRequest
     const char* buildName;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerUpdateBuildNameRequest;
 
 typedef struct PlayFabMultiplayerUpdateBuildRegionRequest
@@ -1443,7 +1295,6 @@ typedef struct PlayFabMultiplayerUpdateBuildRegionRequest
     PlayFabMultiplayerBuildRegionParams* buildRegion;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerUpdateBuildRegionRequest;
 
 typedef struct PlayFabMultiplayerUpdateBuildRegionsRequest
@@ -1453,7 +1304,6 @@ typedef struct PlayFabMultiplayerUpdateBuildRegionsRequest
     PF_COLLECTION_COUNT uint32_t buildRegionsCount;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabMultiplayerUpdateBuildRegionsRequest;
 
 typedef struct PlayFabMultiplayerUploadCertificateRequest
@@ -1461,10 +1311,11 @@ typedef struct PlayFabMultiplayerUploadCertificateRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PlayFabMultiplayerCertificate* gameCertificate;
-
 } PlayFabMultiplayerUploadCertificateRequest;
 
 
 // Multiplayer dictionary entry structs
 
 #pragma pop_macro("IN")
+
+}

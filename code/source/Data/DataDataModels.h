@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabDataDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataEntityKey& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Id", input.id);
             JsonUtils::ObjectAddMember(output, "Type", input.type);
@@ -24,7 +23,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -36,7 +34,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
@@ -46,7 +43,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataDeleteFilesRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -58,7 +54,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataDeleteFilesResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
@@ -68,7 +63,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -80,7 +74,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataGetFileMetadata& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Checksum", input.checksum);
             JsonUtils::ObjectAddMember(output, "DownloadUrl", input.downloadUrl);
@@ -93,7 +86,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "Metadata", input.metadata, input.metadataCount);
@@ -104,7 +96,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataGetFilesRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -114,7 +105,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataGetFilesResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "Metadata", input.metadata, input.metadataCount);
@@ -125,7 +115,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataGetObjectsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -136,7 +125,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataObjectResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "DataObject", input.dataObject);
             JsonUtils::ObjectAddMember(output, "EscapedDataObject", input.escapedDataObject);
@@ -147,7 +135,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataGetObjectsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "Objects", input.objects, input.objectsCount);
@@ -158,7 +145,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadMetadata& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "FileName", input.fileName);
             JsonUtils::ObjectAddMember(output, "UploadUrl", input.uploadUrl);
@@ -168,7 +154,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -180,7 +165,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
@@ -191,7 +175,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataSetObject& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "DataObject", input.dataObject);
             JsonUtils::ObjectAddMember(output, "DeleteObject", input.deleteObject);
@@ -203,7 +186,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataSetObjectInfo& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ObjectName", input.objectName);
             JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
@@ -214,7 +196,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataSetObjectsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -226,7 +207,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabDataSetObjectsResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
             JsonUtils::ObjectAddMember(output, "SetResults", input.setResults, input.setResultsCount);
@@ -249,16 +229,16 @@ namespace PlayFab
                 m_id{ src.m_id },
                 m_type{ src.m_type }
             {
-
                 id = m_id.empty() ? nullptr : m_id.data();
                 type = m_type.empty() ? nullptr : m_type.data();
             }
 
             ~EntityKey() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Id", m_id, id);
                 JsonUtils:: ObjectGetMember(input, "Type", m_type, type);
             }
@@ -286,7 +266,6 @@ namespace PlayFab
                 m_fileNames{ src.m_fileNames },
                 m_profileVersion{ src.m_profileVersion }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
                 fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
@@ -295,9 +274,10 @@ namespace PlayFab
 
             ~AbortFileUploadsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
@@ -326,15 +306,15 @@ namespace PlayFab
                 PlayFabDataAbortFileUploadsResponse{ src },
                 m_entity{ src.m_entity }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
             }
 
             ~AbortFileUploadsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
             }
@@ -346,7 +326,6 @@ namespace PlayFab
 
         private:
             StdExtra::optional<EntityKey> m_entity;
-
         };
 
         struct DeleteFilesRequest : public PlayFabDataDeleteFilesRequest, public BaseRequest
@@ -362,7 +341,6 @@ namespace PlayFab
                 m_fileNames{ src.m_fileNames },
                 m_profileVersion{ src.m_profileVersion }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
                 fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
@@ -371,9 +349,10 @@ namespace PlayFab
 
             ~DeleteFilesRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
@@ -402,15 +381,15 @@ namespace PlayFab
                 PlayFabDataDeleteFilesResponse{ src },
                 m_entity{ src.m_entity }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
             }
 
             ~DeleteFilesResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
             }
@@ -422,7 +401,6 @@ namespace PlayFab
 
         private:
             StdExtra::optional<EntityKey> m_entity;
-
         };
 
         struct FinalizeFileUploadsRequest : public PlayFabDataFinalizeFileUploadsRequest, public BaseRequest
@@ -437,7 +415,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_fileNames{ src.m_fileNames }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
                 fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
@@ -445,9 +422,10 @@ namespace PlayFab
 
             ~FinalizeFileUploadsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
@@ -463,7 +441,6 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             PointerArray<const char, String> m_fileNames;
-
         };
 
         struct GetFileMetadata : public PlayFabDataGetFileMetadata, public BaseModel
@@ -478,7 +455,6 @@ namespace PlayFab
                 m_downloadUrl{ src.m_downloadUrl },
                 m_fileName{ src.m_fileName }
             {
-
                 checksum = m_checksum.empty() ? nullptr : m_checksum.data();
                 downloadUrl = m_downloadUrl.empty() ? nullptr : m_downloadUrl.data();
                 fileName = m_fileName.empty() ? nullptr : m_fileName.data();
@@ -486,9 +462,10 @@ namespace PlayFab
 
             ~GetFileMetadata() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Checksum", m_checksum, checksum);
                 JsonUtils:: ObjectGetMember(input, "DownloadUrl", m_downloadUrl, downloadUrl);
                 JsonUtils:: ObjectGetMember(input, "FileName", m_fileName, fileName);
@@ -505,8 +482,6 @@ namespace PlayFab
             String m_checksum;
             String m_downloadUrl;
             String m_fileName;
-
-
         };
 
         struct FinalizeFileUploadsResponse : public PlayFabDataFinalizeFileUploadsResponse, public BaseResult
@@ -520,16 +495,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_metadata{ src.m_metadata }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
             }
 
             ~FinalizeFileUploadsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Metadata", m_metadata, metadata, metadataCount);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
@@ -543,7 +518,6 @@ namespace PlayFab
         private:
             StdExtra::optional<EntityKey> m_entity;
             AssociativeArray<PlayFabDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
-
         };
 
         struct GetFilesRequest : public PlayFabDataGetFilesRequest, public BaseRequest
@@ -557,16 +531,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_entity{ src.m_entity }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
             }
 
             ~GetFilesRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
             }
@@ -592,16 +566,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_metadata{ src.m_metadata }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
             }
 
             ~GetFilesResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Metadata", m_metadata, metadata, metadataCount);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
@@ -615,7 +589,6 @@ namespace PlayFab
         private:
             StdExtra::optional<EntityKey> m_entity;
             AssociativeArray<PlayFabDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
-
         };
 
         struct GetObjectsRequest : public PlayFabDataGetObjectsRequest, public BaseRequest
@@ -630,7 +603,6 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_escapeObject{ src.m_escapeObject }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
                 escapeObject = m_escapeObject ? m_escapeObject.operator->() : nullptr;
@@ -638,9 +610,10 @@ namespace PlayFab
 
             ~GetObjectsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "EscapeObject", m_escapeObject, escapeObject);
@@ -669,7 +642,6 @@ namespace PlayFab
                 m_escapedDataObject{ src.m_escapedDataObject },
                 m_objectName{ src.m_objectName }
             {
-
                 dataObject.stringValue = m_dataObject.StringValue();
                 escapedDataObject = m_escapedDataObject.empty() ? nullptr : m_escapedDataObject.data();
                 objectName = m_objectName.empty() ? nullptr : m_objectName.data();
@@ -677,9 +649,10 @@ namespace PlayFab
 
             ~ObjectResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "DataObject", m_dataObject, dataObject);
                 JsonUtils:: ObjectGetMember(input, "EscapedDataObject", m_escapedDataObject, escapedDataObject);
                 JsonUtils:: ObjectGetMember(input, "ObjectName", m_objectName, objectName);
@@ -707,16 +680,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_objects{ src.m_objects }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 objects = m_objects.Empty() ? nullptr : m_objects.Data();
             }
 
             ~GetObjectsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "Objects", m_objects, objects, objectsCount);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
@@ -730,7 +703,6 @@ namespace PlayFab
         private:
             StdExtra::optional<EntityKey> m_entity;
             AssociativeArray<PlayFabDataObjectResultDictionaryEntry, ObjectResult> m_objects;
-
         };
 
         struct InitiateFileUploadMetadata : public PlayFabDataInitiateFileUploadMetadata, public BaseModel
@@ -744,16 +716,16 @@ namespace PlayFab
                 m_fileName{ src.m_fileName },
                 m_uploadUrl{ src.m_uploadUrl }
             {
-
                 fileName = m_fileName.empty() ? nullptr : m_fileName.data();
                 uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
             }
 
             ~InitiateFileUploadMetadata() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "FileName", m_fileName, fileName);
                 JsonUtils:: ObjectGetMember(input, "UploadUrl", m_uploadUrl, uploadUrl);
             }
@@ -781,7 +753,6 @@ namespace PlayFab
                 m_fileNames{ src.m_fileNames },
                 m_profileVersion{ src.m_profileVersion }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
                 fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
@@ -790,9 +761,10 @@ namespace PlayFab
 
             ~InitiateFileUploadsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
@@ -822,16 +794,16 @@ namespace PlayFab
                 m_entity{ src.m_entity },
                 m_uploadDetails{ src.m_uploadDetails }
             {
-
                 entity = m_entity ? m_entity.operator->() : nullptr;
                 uploadDetails = m_uploadDetails.Empty() ? nullptr : m_uploadDetails.Data();
             }
 
             ~InitiateFileUploadsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
                 JsonUtils:: ObjectGetMember(input, "UploadDetails", m_uploadDetails, uploadDetails, uploadDetailsCount);
@@ -844,7 +816,6 @@ namespace PlayFab
 
         private:
             StdExtra::optional<EntityKey> m_entity;
-
             PointerArray<PlayFabDataInitiateFileUploadMetadata, InitiateFileUploadMetadata> m_uploadDetails;
         };
 
@@ -861,7 +832,6 @@ namespace PlayFab
                 m_escapedDataObject{ src.m_escapedDataObject },
                 m_objectName{ src.m_objectName }
             {
-
                 dataObject.stringValue = m_dataObject.StringValue();
                 deleteObject = m_deleteObject ? m_deleteObject.operator->() : nullptr;
                 escapedDataObject = m_escapedDataObject.empty() ? nullptr : m_escapedDataObject.data();
@@ -870,9 +840,10 @@ namespace PlayFab
 
             ~SetObject() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "DataObject", m_dataObject, dataObject);
                 JsonUtils:: ObjectGetMember(input, "DeleteObject", m_deleteObject, deleteObject);
                 JsonUtils:: ObjectGetMember(input, "EscapedDataObject", m_escapedDataObject, escapedDataObject);
@@ -903,7 +874,6 @@ namespace PlayFab
                 m_operationReason{ src.m_operationReason },
                 m_setResult{ src.m_setResult }
             {
-
                 objectName = m_objectName.empty() ? nullptr : m_objectName.data();
                 operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
                 setResult = m_setResult ? m_setResult.operator->() : nullptr;
@@ -911,9 +881,10 @@ namespace PlayFab
 
             ~SetObjectInfo() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ObjectName", m_objectName, objectName);
                 JsonUtils:: ObjectGetMember(input, "OperationReason", m_operationReason, operationReason);
                 JsonUtils:: ObjectGetMember(input, "SetResult", m_setResult, setResult);
@@ -943,7 +914,6 @@ namespace PlayFab
                 m_expectedProfileVersion{ src.m_expectedProfileVersion },
                 m_objects{ src.m_objects }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = (PlayFabDataEntityKey*)&m_entity;
                 expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
@@ -952,9 +922,10 @@ namespace PlayFab
 
             ~SetObjectsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
                 JsonUtils:: ObjectGetMember(input, "ExpectedProfileVersion", m_expectedProfileVersion, expectedProfileVersion);
@@ -983,15 +954,15 @@ namespace PlayFab
                 PlayFabDataSetObjectsResponse{ src },
                 m_setResults{ src.m_setResults }
             {
-
                 setResults = m_setResults.Empty() ? nullptr : m_setResults.Data();
             }
 
             ~SetObjectsResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ProfileVersion", profileVersion);
                 JsonUtils:: ObjectGetMember(input, "SetResults", m_setResults, setResults, setResultsCount);
             }
@@ -1002,7 +973,6 @@ namespace PlayFab
             }
 
         private:
-
             PointerArray<PlayFabDataSetObjectInfo, SetObjectInfo> m_setResults;
         };
 

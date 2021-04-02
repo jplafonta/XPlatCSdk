@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -39,20 +49,17 @@ typedef struct PlayFabExperimentationCreateExclusionGroupRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* description;
     const char* name;
-
 } PlayFabExperimentationCreateExclusionGroupRequest;
 
 typedef struct PlayFabExperimentationCreateExclusionGroupResult
 {
     const char* exclusionGroupId;
-
 } PlayFabExperimentationCreateExclusionGroupResult;
 
 typedef struct PlayFabExperimentationVariable
 {
     const char* name;
     const char* value;
-
 } PlayFabExperimentationVariable;
 
 typedef struct PlayFabExperimentationVariant
@@ -65,7 +72,6 @@ typedef struct PlayFabExperimentationVariant
     uint32_t trafficPercentage;
     PF_ARRAY PlayFabExperimentationVariable** variables;
     PF_COLLECTION_COUNT uint32_t variablesCount;
-
 } PlayFabExperimentationVariant;
 
 typedef struct PlayFabExperimentationCreateExperimentRequest
@@ -84,13 +90,11 @@ typedef struct PlayFabExperimentationCreateExperimentRequest
     PF_COLLECTION_COUNT uint32_t titlePlayerAccountTestIdsCount;
     PF_ARRAY PlayFabExperimentationVariant** variants;
     PF_COLLECTION_COUNT uint32_t variantsCount;
-
 } PlayFabExperimentationCreateExperimentRequest;
 
 typedef struct PlayFabExperimentationCreateExperimentResult
 {
     const char* experimentId;
-
 } PlayFabExperimentationCreateExperimentResult;
 
 typedef struct PlayFabExperimentationDeleteExclusionGroupRequest
@@ -98,7 +102,6 @@ typedef struct PlayFabExperimentationDeleteExclusionGroupRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* exclusionGroupId;
-
 } PlayFabExperimentationDeleteExclusionGroupRequest;
 
 typedef struct PlayFabExperimentationDeleteExperimentRequest
@@ -106,26 +109,18 @@ typedef struct PlayFabExperimentationDeleteExperimentRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* experimentId;
-
 } PlayFabExperimentationDeleteExperimentRequest;
-
-typedef struct PlayFabExperimentationEmptyResponse
-{
-
-} PlayFabExperimentationEmptyResponse;
 
 typedef struct PlayFabExperimentationEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabExperimentationEntityKey;
 
 typedef struct PlayFabExperimentationExclusionGroupTrafficAllocation
 {
     const char* experimentId;
     uint32_t trafficAllocation;
-
 } PlayFabExperimentationExclusionGroupTrafficAllocation;
 
 typedef struct PlayFabExperimentationExperiment
@@ -144,7 +139,6 @@ typedef struct PlayFabExperimentationExperiment
     PF_COLLECTION_COUNT uint32_t titlePlayerAccountTestIdsCount;
     PF_ARRAY PlayFabExperimentationVariant** variants;
     PF_COLLECTION_COUNT uint32_t variantsCount;
-
 } PlayFabExperimentationExperiment;
 
 typedef struct PlayFabExperimentationExperimentExclusionGroup
@@ -152,21 +146,18 @@ typedef struct PlayFabExperimentationExperimentExclusionGroup
     const char* description;
     const char* exclusionGroupId;
     const char* name;
-
 } PlayFabExperimentationExperimentExclusionGroup;
 
 typedef struct PlayFabExperimentationGetExclusionGroupsRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabExperimentationGetExclusionGroupsRequest;
 
 typedef struct PlayFabExperimentationGetExclusionGroupsResult
 {
     PF_ARRAY PlayFabExperimentationExperimentExclusionGroup** exclusionGroups;
     PF_COLLECTION_COUNT uint32_t exclusionGroupsCount;
-
 } PlayFabExperimentationGetExclusionGroupsResult;
 
 typedef struct PlayFabExperimentationGetExclusionGroupTrafficRequest
@@ -174,28 +165,24 @@ typedef struct PlayFabExperimentationGetExclusionGroupTrafficRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* exclusionGroupId;
-
 } PlayFabExperimentationGetExclusionGroupTrafficRequest;
 
 typedef struct PlayFabExperimentationGetExclusionGroupTrafficResult
 {
     PF_ARRAY PlayFabExperimentationExclusionGroupTrafficAllocation** trafficAllocations;
     PF_COLLECTION_COUNT uint32_t trafficAllocationsCount;
-
 } PlayFabExperimentationGetExclusionGroupTrafficResult;
 
 typedef struct PlayFabExperimentationGetExperimentsRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabExperimentationGetExperimentsRequest;
 
 typedef struct PlayFabExperimentationGetExperimentsResult
 {
     PF_ARRAY PlayFabExperimentationExperiment** experiments;
     PF_COLLECTION_COUNT uint32_t experimentsCount;
-
 } PlayFabExperimentationGetExperimentsResult;
 
 typedef struct PlayFabExperimentationGetLatestScorecardRequest
@@ -203,7 +190,6 @@ typedef struct PlayFabExperimentationGetLatestScorecardRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* experimentId;
-
 } PlayFabExperimentationGetLatestScorecardRequest;
 
 typedef struct PlayFabExperimentationMetricData
@@ -221,7 +207,6 @@ typedef struct PlayFabExperimentationMetricData
     const char* statSigLevel;
     float stdDev;
     float value;
-
 } PlayFabExperimentationMetricData;
 
 typedef struct PlayFabExperimentationScorecardDataRow
@@ -231,7 +216,6 @@ typedef struct PlayFabExperimentationScorecardDataRow
     PF_COLLECTION_COUNT uint32_t metricDataRowsCount;
     uint32_t playerCount;
     const char* variantName;
-
 } PlayFabExperimentationScorecardDataRow;
 
 typedef struct PlayFabExperimentationScorecard
@@ -245,13 +229,11 @@ typedef struct PlayFabExperimentationScorecard
     bool sampleRatioMismatch;
     PF_ARRAY PlayFabExperimentationScorecardDataRow** scorecardDataRows;
     PF_COLLECTION_COUNT uint32_t scorecardDataRowsCount;
-
 } PlayFabExperimentationScorecard;
 
 typedef struct PlayFabExperimentationGetLatestScorecardResult
 {
     PF_OPTIONAL PlayFabExperimentationScorecard* scorecard;
-
 } PlayFabExperimentationGetLatestScorecardResult;
 
 typedef struct PlayFabExperimentationGetTreatmentAssignmentRequest
@@ -259,7 +241,6 @@ typedef struct PlayFabExperimentationGetTreatmentAssignmentRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL PlayFabExperimentationEntityKey* entity;
-
 } PlayFabExperimentationGetTreatmentAssignmentRequest;
 
 typedef struct PlayFabExperimentationTreatmentAssignment
@@ -268,13 +249,11 @@ typedef struct PlayFabExperimentationTreatmentAssignment
     PF_COLLECTION_COUNT uint32_t variablesCount;
     PF_ARRAY const char** variants;
     PF_COLLECTION_COUNT uint32_t variantsCount;
-
 } PlayFabExperimentationTreatmentAssignment;
 
 typedef struct PlayFabExperimentationGetTreatmentAssignmentResult
 {
     PF_OPTIONAL PlayFabExperimentationTreatmentAssignment* treatmentAssignment;
-
 } PlayFabExperimentationGetTreatmentAssignmentResult;
 
 typedef struct PlayFabExperimentationStartExperimentRequest
@@ -282,7 +261,6 @@ typedef struct PlayFabExperimentationStartExperimentRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* experimentId;
-
 } PlayFabExperimentationStartExperimentRequest;
 
 typedef struct PlayFabExperimentationStopExperimentRequest
@@ -290,7 +268,6 @@ typedef struct PlayFabExperimentationStopExperimentRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* experimentId;
-
 } PlayFabExperimentationStopExperimentRequest;
 
 typedef struct PlayFabExperimentationUpdateExclusionGroupRequest
@@ -300,7 +277,6 @@ typedef struct PlayFabExperimentationUpdateExclusionGroupRequest
     const char* description;
     const char* exclusionGroupId;
     const char* name;
-
 } PlayFabExperimentationUpdateExclusionGroupRequest;
 
 typedef struct PlayFabExperimentationUpdateExperimentRequest
@@ -320,7 +296,6 @@ typedef struct PlayFabExperimentationUpdateExperimentRequest
     PF_COLLECTION_COUNT uint32_t titlePlayerAccountTestIdsCount;
     PF_ARRAY PlayFabExperimentationVariant** variants;
     PF_COLLECTION_COUNT uint32_t variantsCount;
-
 } PlayFabExperimentationUpdateExperimentRequest;
 
 
@@ -333,3 +308,5 @@ typedef struct PlayFabExperimentationMetricDataDictionaryEntry
 
 
 #pragma pop_macro("IN")
+
+}

@@ -1,9 +1,9 @@
-#include <stdafx.h>
+#include "stdafx.h"
 
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
-#include <Experimentation/ExperimentationApi.h>
-#include <playfab/PlayFabSettings.h>
+#include "ExperimentationApi.h"
+#include "PlayFabSettings.h"
 
 #if defined(PLAYFAB_PLATFORM_WINDOWS)
 #pragma warning (disable: 4100) // formal parameters are part of a public interface
@@ -122,7 +122,7 @@ namespace PlayFab
     void PlayFabExperimentationInstanceAPI::DeleteExclusionGroup(
         DeleteExclusionGroupRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -132,7 +132,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -154,7 +154,7 @@ namespace PlayFab
     void PlayFabExperimentationInstanceAPI::DeleteExperiment(
         DeleteExperimentRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -164,7 +164,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -346,7 +346,7 @@ namespace PlayFab
     void PlayFabExperimentationInstanceAPI::StartExperiment(
         StartExperimentRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -356,7 +356,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -378,7 +378,7 @@ namespace PlayFab
     void PlayFabExperimentationInstanceAPI::StopExperiment(
         StopExperimentRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -388,7 +388,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -410,7 +410,7 @@ namespace PlayFab
     void PlayFabExperimentationInstanceAPI::UpdateExclusionGroup(
         UpdateExclusionGroupRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -420,7 +420,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -442,7 +442,7 @@ namespace PlayFab
     void PlayFabExperimentationInstanceAPI::UpdateExperiment(
         UpdateExperimentRequest& request,
         const TaskQueue& queue,
-        const ProcessApiCallback<EmptyResponse> callback,
+        const ProcessApiCallback<BaseResult> callback,
         const ErrorCallback errorCallback
     )
     {
@@ -452,7 +452,7 @@ namespace PlayFab
         // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
         auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
         {
-            EmptyResponse outResult;
+            BaseResult outResult;
             if (ParseResult(outResult, httpResult, errorCallback))
             {
                 if (callback)
@@ -476,7 +476,6 @@ namespace PlayFab
         if (httpResult.serviceResponse.HttpCode == 200)
         {
             result.FromJson(httpResult.serviceResponse.Data);
-            JsonUtils::FromJson(httpResult.requestBody, result.Request);
             return true;
         }
         else // Process the error case

@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -44,7 +54,6 @@ typedef struct PlayFabAuthenticationEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabAuthenticationEntityKey;
 
 typedef struct PlayFabAuthenticationEntityLineage
@@ -55,7 +64,6 @@ typedef struct PlayFabAuthenticationEntityLineage
     const char* namespaceId;
     const char* titleId;
     const char* titlePlayerAccountId;
-
 } PlayFabAuthenticationEntityLineage;
 
 typedef struct PlayFabAuthenticationGetEntityTokenRequest
@@ -63,7 +71,6 @@ typedef struct PlayFabAuthenticationGetEntityTokenRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL PlayFabAuthenticationEntityKey* entity;
-
 } PlayFabAuthenticationGetEntityTokenRequest;
 
 typedef struct PlayFabAuthenticationGetEntityTokenResponse
@@ -71,7 +78,6 @@ typedef struct PlayFabAuthenticationGetEntityTokenResponse
     PF_OPTIONAL PlayFabAuthenticationEntityKey* entity;
     const char* entityToken;
     PF_OPTIONAL time_t* tokenExpiration;
-
 } PlayFabAuthenticationGetEntityTokenResponse;
 
 typedef struct PlayFabAuthenticationValidateEntityTokenRequest
@@ -79,7 +85,6 @@ typedef struct PlayFabAuthenticationValidateEntityTokenRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* entityToken;
-
 } PlayFabAuthenticationValidateEntityTokenRequest;
 
 typedef struct PlayFabAuthenticationValidateEntityTokenResponse
@@ -88,10 +93,11 @@ typedef struct PlayFabAuthenticationValidateEntityTokenResponse
     PF_OPTIONAL PlayFabAuthenticationIdentifiedDeviceType* identifiedDeviceType;
     PF_OPTIONAL PlayFabAuthenticationLoginIdentityProvider* identityProvider;
     PF_OPTIONAL PlayFabAuthenticationEntityLineage* lineage;
-
 } PlayFabAuthenticationValidateEntityTokenResponse;
 
 
 // Authentication dictionary entry structs
 
 #pragma pop_macro("IN")
+
+}

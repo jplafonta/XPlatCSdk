@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -1748,21 +1758,18 @@ typedef struct PlayFabAdminAbortTaskInstanceRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* taskInstanceId;
-
 } PlayFabAdminAbortTaskInstanceRequest;
 
 typedef struct PlayFabAdminActionsOnPlayersInSegmentTaskParameter
 {
     const char* actionId;
     const char* segmentId;
-
 } PlayFabAdminActionsOnPlayersInSegmentTaskParameter;
 
 typedef struct PlayFabAdminNameIdentifier
 {
     const char* id;
     const char* name;
-
 } PlayFabAdminNameIdentifier;
 
 typedef struct PlayFabAdminActionsOnPlayersInSegmentTaskSummary
@@ -1779,7 +1786,6 @@ typedef struct PlayFabAdminActionsOnPlayersInSegmentTaskSummary
     const char* taskInstanceId;
     PF_OPTIONAL int32_t* totalPlayersInSegment;
     PF_OPTIONAL int32_t* totalPlayersProcessed;
-
 } PlayFabAdminActionsOnPlayersInSegmentTaskSummary;
 
 typedef struct PlayFabAdminAdCampaignAttribution
@@ -1787,7 +1793,6 @@ typedef struct PlayFabAdminAdCampaignAttribution
     time_t attributedAt;
     const char* campaignId;
     const char* platform;
-
 } PlayFabAdminAdCampaignAttribution;
 
 typedef struct PlayFabAdminAdCampaignAttributionModel
@@ -1795,7 +1800,6 @@ typedef struct PlayFabAdminAdCampaignAttributionModel
     time_t attributedAt;
     const char* campaignId;
     const char* platform;
-
 } PlayFabAdminAdCampaignAttributionModel;
 
 typedef struct PlayFabAdminAdCampaignSegmentFilter
@@ -1803,7 +1807,6 @@ typedef struct PlayFabAdminAdCampaignSegmentFilter
     const char* campaignId;
     const char* campaignSource;
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
-
 } PlayFabAdminAdCampaignSegmentFilter;
 
 typedef struct PlayFabAdminAddLocalizedNewsRequest
@@ -1814,13 +1817,7 @@ typedef struct PlayFabAdminAddLocalizedNewsRequest
     const char* language;
     const char* newsId;
     const char* title;
-
 } PlayFabAdminAddLocalizedNewsRequest;
-
-typedef struct PlayFabAdminAddLocalizedNewsResult
-{
-
-} PlayFabAdminAddLocalizedNewsResult;
 
 typedef struct PlayFabAdminAddNewsRequest
 {
@@ -1829,13 +1826,11 @@ typedef struct PlayFabAdminAddNewsRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL time_t* timestamp;
     const char* title;
-
 } PlayFabAdminAddNewsRequest;
 
 typedef struct PlayFabAdminAddNewsResult
 {
     const char* newsId;
-
 } PlayFabAdminAddNewsResult;
 
 typedef struct PlayFabAdminAddPlayerTagRequest
@@ -1844,13 +1839,7 @@ typedef struct PlayFabAdminAddPlayerTagRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
     const char* tagName;
-
 } PlayFabAdminAddPlayerTagRequest;
-
-typedef struct PlayFabAdminAddPlayerTagResult
-{
-
-} PlayFabAdminAddPlayerTagResult;
 
 typedef struct PlayFabAdminAddServerBuildRequest
 {
@@ -1864,7 +1853,6 @@ typedef struct PlayFabAdminAddServerBuildRequest
     const char* executablePath;
     int32_t maxGamesPerHost;
     int32_t minFreeGameSlots;
-
 } PlayFabAdminAddServerBuildRequest;
 
 typedef struct PlayFabAdminAddServerBuildResult
@@ -1880,7 +1868,6 @@ typedef struct PlayFabAdminAddServerBuildResult
     PF_OPTIONAL PlayFabAdminGameBuildStatus* status;
     time_t timestamp;
     const char* titleId;
-
 } PlayFabAdminAddServerBuildResult;
 
 typedef struct PlayFabAdminAddUserVirtualCurrencyRequest
@@ -1890,7 +1877,6 @@ typedef struct PlayFabAdminAddUserVirtualCurrencyRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
     const char* virtualCurrency;
-
 } PlayFabAdminAddUserVirtualCurrencyRequest;
 
 typedef struct PlayFabAdminVirtualCurrencyData
@@ -1900,25 +1886,17 @@ typedef struct PlayFabAdminVirtualCurrencyData
     PF_OPTIONAL int32_t* initialDeposit;
     PF_OPTIONAL int32_t* rechargeMax;
     PF_OPTIONAL int32_t* rechargeRate;
-
 } PlayFabAdminVirtualCurrencyData;
 
 typedef struct PlayFabAdminAddVirtualCurrencyTypesRequest
 {
     PF_ARRAY PlayFabAdminVirtualCurrencyData** virtualCurrencies;
     PF_COLLECTION_COUNT uint32_t virtualCurrenciesCount;
-
 } PlayFabAdminAddVirtualCurrencyTypesRequest;
-
-typedef struct PlayFabAdminAllPlayersSegmentFilter
-{
-
-} PlayFabAdminAllPlayersSegmentFilter;
 
 typedef struct PlayFabAdminApiCondition
 {
     PF_OPTIONAL PlayFabAdminConditionals* hasSignatureOrEncryption;
-
 } PlayFabAdminApiCondition;
 
 typedef struct PlayFabAdminBanInfo
@@ -1931,14 +1909,12 @@ typedef struct PlayFabAdminBanInfo
     const char* mACAddress;
     const char* playFabId;
     const char* reason;
-
 } PlayFabAdminBanInfo;
 
 typedef struct PlayFabAdminBanPlayerSegmentAction
 {
     PF_OPTIONAL uint32_t* banHours;
     const char* reasonForBan;
-
 } PlayFabAdminBanPlayerSegmentAction;
 
 typedef struct PlayFabAdminBanRequest
@@ -1948,7 +1924,6 @@ typedef struct PlayFabAdminBanRequest
     const char* mACAddress;
     const char* playFabId;
     const char* reason;
-
 } PlayFabAdminBanRequest;
 
 typedef struct PlayFabAdminBanUsersRequest
@@ -1957,20 +1932,13 @@ typedef struct PlayFabAdminBanUsersRequest
     PF_COLLECTION_COUNT uint32_t bansCount;
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabAdminBanUsersRequest;
 
 typedef struct PlayFabAdminBanUsersResult
 {
     PF_ARRAY PlayFabAdminBanInfo** banData;
     PF_COLLECTION_COUNT uint32_t banDataCount;
-
 } PlayFabAdminBanUsersResult;
-
-typedef struct PlayFabAdminBlankResult
-{
-
-} PlayFabAdminBlankResult;
 
 typedef struct PlayFabAdminCatalogItemBundleInfo
 {
@@ -1980,7 +1948,6 @@ typedef struct PlayFabAdminCatalogItemBundleInfo
     PF_COLLECTION_COUNT uint32_t bundledResultTablesCount;
     PF_MAP struct PlayFabUint32DictionaryEntry* bundledVirtualCurrencies;
     PF_COLLECTION_COUNT uint32_t bundledVirtualCurrenciesCount;
-
 } PlayFabAdminCatalogItemBundleInfo;
 
 typedef struct PlayFabAdminCatalogItemConsumableInfo
@@ -1988,7 +1955,6 @@ typedef struct PlayFabAdminCatalogItemConsumableInfo
     PF_OPTIONAL uint32_t* usageCount;
     PF_OPTIONAL uint32_t* usagePeriod;
     const char* usagePeriodGroup;
-
 } PlayFabAdminCatalogItemConsumableInfo;
 
 typedef struct PlayFabAdminCatalogItemContainerInfo
@@ -2000,7 +1966,6 @@ typedef struct PlayFabAdminCatalogItemContainerInfo
     PF_COLLECTION_COUNT uint32_t resultTableContentsCount;
     PF_MAP struct PlayFabUint32DictionaryEntry* virtualCurrencyContents;
     PF_COLLECTION_COUNT uint32_t virtualCurrencyContentsCount;
-
 } PlayFabAdminCatalogItemContainerInfo;
 
 typedef struct PlayFabAdminCatalogItem
@@ -2026,34 +1991,29 @@ typedef struct PlayFabAdminCatalogItem
     PF_COLLECTION_COUNT uint32_t tagsCount;
     PF_MAP struct PlayFabUint32DictionaryEntry* virtualCurrencyPrices;
     PF_COLLECTION_COUNT uint32_t virtualCurrencyPricesCount;
-
 } PlayFabAdminCatalogItem;
 
 typedef struct PlayFabAdminCheckLimitedEditionItemAvailabilityRequest
 {
     const char* catalogVersion;
     const char* itemId;
-
 } PlayFabAdminCheckLimitedEditionItemAvailabilityRequest;
 
 typedef struct PlayFabAdminCheckLimitedEditionItemAvailabilityResult
 {
     int32_t amount;
-
 } PlayFabAdminCheckLimitedEditionItemAvailabilityResult;
 
 typedef struct PlayFabAdminCloudScriptFile
 {
     const char* fileContents;
     const char* filename;
-
 } PlayFabAdminCloudScriptFile;
 
 typedef struct PlayFabAdminCloudScriptTaskParameter
 {
     PlayFabJsonObject argument;
     const char* functionName;
-
 } PlayFabAdminCloudScriptTaskParameter;
 
 typedef struct PlayFabAdminScriptExecutionError
@@ -2061,7 +2021,6 @@ typedef struct PlayFabAdminScriptExecutionError
     const char* error;
     const char* message;
     const char* stackTrace;
-
 } PlayFabAdminScriptExecutionError;
 
 typedef struct PlayFabAdminLogStatement
@@ -2069,7 +2028,6 @@ typedef struct PlayFabAdminLogStatement
     PlayFabJsonObject data;
     const char* level;
     const char* message;
-
 } PlayFabAdminLogStatement;
 
 typedef struct PlayFabAdminExecuteCloudScriptResult
@@ -2087,7 +2045,6 @@ typedef struct PlayFabAdminExecuteCloudScriptResult
     uint32_t memoryConsumedBytes;
     double processorTimeSeconds;
     int32_t revision;
-
 } PlayFabAdminExecuteCloudScriptResult;
 
 typedef struct PlayFabAdminCloudScriptTaskSummary
@@ -2101,7 +2058,6 @@ typedef struct PlayFabAdminCloudScriptTaskSummary
     PF_OPTIONAL PlayFabAdminTaskInstanceStatus* status;
     PF_OPTIONAL PlayFabAdminNameIdentifier* taskIdentifier;
     const char* taskInstanceId;
-
 } PlayFabAdminCloudScriptTaskSummary;
 
 typedef struct PlayFabAdminCloudScriptVersionStatus
@@ -2109,7 +2065,6 @@ typedef struct PlayFabAdminCloudScriptVersionStatus
     int32_t latestRevision;
     int32_t publishedRevision;
     int32_t version;
-
 } PlayFabAdminCloudScriptVersionStatus;
 
 typedef struct PlayFabAdminContactEmailInfo
@@ -2117,7 +2072,6 @@ typedef struct PlayFabAdminContactEmailInfo
     const char* emailAddress;
     const char* name;
     PF_OPTIONAL PlayFabAdminEmailVerificationStatus* verificationStatus;
-
 } PlayFabAdminContactEmailInfo;
 
 typedef struct PlayFabAdminContactEmailInfoModel
@@ -2125,7 +2079,6 @@ typedef struct PlayFabAdminContactEmailInfoModel
     const char* emailAddress;
     const char* name;
     PF_OPTIONAL PlayFabAdminEmailVerificationStatus* verificationStatus;
-
 } PlayFabAdminContactEmailInfoModel;
 
 typedef struct PlayFabAdminContentInfo
@@ -2133,7 +2086,6 @@ typedef struct PlayFabAdminContentInfo
     const char* key;
     time_t lastModified;
     uint32_t size;
-
 } PlayFabAdminContentInfo;
 
 typedef struct PlayFabAdminCreateActionsOnPlayerSegmentTaskRequest
@@ -2145,7 +2097,6 @@ typedef struct PlayFabAdminCreateActionsOnPlayerSegmentTaskRequest
     const char* name;
     PlayFabAdminActionsOnPlayersInSegmentTaskParameter* parameter;
     const char* schedule;
-
 } PlayFabAdminCreateActionsOnPlayerSegmentTaskRequest;
 
 typedef struct PlayFabAdminCreateCloudScriptTaskRequest
@@ -2157,13 +2108,11 @@ typedef struct PlayFabAdminCreateCloudScriptTaskRequest
     const char* name;
     PlayFabAdminCloudScriptTaskParameter* parameter;
     const char* schedule;
-
 } PlayFabAdminCreateCloudScriptTaskRequest;
 
 typedef struct PlayFabAdminInsightsScalingTaskParameter
 {
     int32_t level;
-
 } PlayFabAdminInsightsScalingTaskParameter;
 
 typedef struct PlayFabAdminCreateInsightsScheduledScalingTaskRequest
@@ -2175,7 +2124,6 @@ typedef struct PlayFabAdminCreateInsightsScheduledScalingTaskRequest
     const char* name;
     PlayFabAdminInsightsScalingTaskParameter* parameter;
     const char* schedule;
-
 } PlayFabAdminCreateInsightsScheduledScalingTaskRequest;
 
 typedef struct PlayFabAdminOpenIdIssuerInformation
@@ -2184,7 +2132,6 @@ typedef struct PlayFabAdminOpenIdIssuerInformation
     const char* issuer;
     PlayFabJsonObject jsonWebKeySet;
     const char* tokenUrl;
-
 } PlayFabAdminOpenIdIssuerInformation;
 
 typedef struct PlayFabAdminCreateOpenIdConnectionRequest
@@ -2195,19 +2142,16 @@ typedef struct PlayFabAdminCreateOpenIdConnectionRequest
     PF_OPTIONAL bool* ignoreNonce;
     const char* issuerDiscoveryUrl;
     PF_OPTIONAL PlayFabAdminOpenIdIssuerInformation* issuerInformation;
-
 } PlayFabAdminCreateOpenIdConnectionRequest;
 
 typedef struct PlayFabAdminCreatePlayerSharedSecretRequest
 {
     const char* friendlyName;
-
 } PlayFabAdminCreatePlayerSharedSecretRequest;
 
 typedef struct PlayFabAdminCreatePlayerSharedSecretResult
 {
     const char* secretKey;
-
 } PlayFabAdminCreatePlayerSharedSecretResult;
 
 typedef struct PlayFabAdminCreatePlayerStatisticDefinitionRequest
@@ -2217,7 +2161,6 @@ typedef struct PlayFabAdminCreatePlayerStatisticDefinitionRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* statisticName;
     PF_OPTIONAL PlayFabAdminStatisticResetIntervalOption* versionChangeInterval;
-
 } PlayFabAdminCreatePlayerStatisticDefinitionRequest;
 
 typedef struct PlayFabAdminPlayerStatisticDefinition
@@ -2226,31 +2169,22 @@ typedef struct PlayFabAdminPlayerStatisticDefinition
     uint32_t currentVersion;
     const char* statisticName;
     PF_OPTIONAL PlayFabAdminStatisticResetIntervalOption* versionChangeInterval;
-
 } PlayFabAdminPlayerStatisticDefinition;
 
 typedef struct PlayFabAdminCreatePlayerStatisticDefinitionResult
 {
     PF_OPTIONAL PlayFabAdminPlayerStatisticDefinition* statistic;
-
 } PlayFabAdminCreatePlayerStatisticDefinitionResult;
-
-typedef struct PlayFabAdminDeletePlayerSegmentAction
-{
-
-} PlayFabAdminDeletePlayerSegmentAction;
 
 typedef struct PlayFabAdminDeletePlayerStatisticSegmentAction
 {
     const char* statisticName;
-
 } PlayFabAdminDeletePlayerStatisticSegmentAction;
 
 typedef struct PlayFabAdminEmailNotificationSegmentAction
 {
     const char* emailTemplateId;
     const char* emailTemplateName;
-
 } PlayFabAdminEmailNotificationSegmentAction;
 
 typedef struct PlayFabAdminExecuteAzureFunctionSegmentAction
@@ -2258,7 +2192,6 @@ typedef struct PlayFabAdminExecuteAzureFunctionSegmentAction
     const char* azureFunction;
     PlayFabJsonObject functionParameter;
     bool generateFunctionExecutedEvents;
-
 } PlayFabAdminExecuteAzureFunctionSegmentAction;
 
 typedef struct PlayFabAdminExecuteCloudScriptSegmentAction
@@ -2267,7 +2200,6 @@ typedef struct PlayFabAdminExecuteCloudScriptSegmentAction
     bool cloudScriptPublishResultsToPlayStream;
     PlayFabJsonObject functionParameter;
     const char* functionParameterJson;
-
 } PlayFabAdminExecuteCloudScriptSegmentAction;
 
 typedef struct PlayFabAdminGrantItemSegmentAction
@@ -2275,33 +2207,28 @@ typedef struct PlayFabAdminGrantItemSegmentAction
     const char* catelogId;
     const char* itemId;
     uint32_t quantity;
-
 } PlayFabAdminGrantItemSegmentAction;
 
 typedef struct PlayFabAdminGrantVirtualCurrencySegmentAction
 {
     int32_t amount;
     const char* currencyCode;
-
 } PlayFabAdminGrantVirtualCurrencySegmentAction;
 
 typedef struct PlayFabAdminIncrementPlayerStatisticSegmentAction
 {
     int32_t incrementValue;
     const char* statisticName;
-
 } PlayFabAdminIncrementPlayerStatisticSegmentAction;
 
 typedef struct PlayFabAdminPushNotificationSegmentAction
 {
     const char* pushNotificationTemplateId;
-
 } PlayFabAdminPushNotificationSegmentAction;
 
 typedef struct PlayFabAdminSegmentTrigger
 {
     PF_OPTIONAL PlayFabAdminBanPlayerSegmentAction* banPlayerAction;
-    PF_OPTIONAL PlayFabAdminDeletePlayerSegmentAction* deletePlayerAction;
     PF_OPTIONAL PlayFabAdminDeletePlayerStatisticSegmentAction* deletePlayerStatisticAction;
     PF_OPTIONAL PlayFabAdminEmailNotificationSegmentAction* emailNotificationAction;
     PF_OPTIONAL PlayFabAdminExecuteAzureFunctionSegmentAction* executeAzureFunctionAction;
@@ -2310,60 +2237,51 @@ typedef struct PlayFabAdminSegmentTrigger
     PF_OPTIONAL PlayFabAdminGrantVirtualCurrencySegmentAction* grantVirtualCurrencyAction;
     PF_OPTIONAL PlayFabAdminIncrementPlayerStatisticSegmentAction* incrementPlayerStatisticAction;
     PF_OPTIONAL PlayFabAdminPushNotificationSegmentAction* pushNotificationAction;
-
 } PlayFabAdminSegmentTrigger;
 
 typedef struct PlayFabAdminFirstLoginDateSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     time_t logInDate;
-
 } PlayFabAdminFirstLoginDateSegmentFilter;
 
 typedef struct PlayFabAdminFirstLoginTimespanSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     double durationInMinutes;
-
 } PlayFabAdminFirstLoginTimespanSegmentFilter;
 
 typedef struct PlayFabAdminLastLoginDateSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     time_t logInDate;
-
 } PlayFabAdminLastLoginDateSegmentFilter;
 
 typedef struct PlayFabAdminLastLoginTimespanSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     double durationInMinutes;
-
 } PlayFabAdminLastLoginTimespanSegmentFilter;
 
 typedef struct PlayFabAdminLinkedUserAccountSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentLoginIdentityProvider* loginProvider;
-
 } PlayFabAdminLinkedUserAccountSegmentFilter;
 
 typedef struct PlayFabAdminLinkedUserAccountHasEmailSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     PF_OPTIONAL PlayFabAdminSegmentLoginIdentityProvider* loginProvider;
-
 } PlayFabAdminLinkedUserAccountHasEmailSegmentFilter;
 
 typedef struct PlayFabAdminLocationSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentCountryCode* countryCode;
-
 } PlayFabAdminLocationSegmentFilter;
 
 typedef struct PlayFabAdminPushNotificationSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentPushNotificationDevicePlatform* pushNotificationDevicePlatform;
-
 } PlayFabAdminPushNotificationSegmentFilter;
 
 typedef struct PlayFabAdminStatisticSegmentFilter
@@ -2373,27 +2291,23 @@ typedef struct PlayFabAdminStatisticSegmentFilter
     const char* name;
     PF_OPTIONAL bool* useCurrentVersion;
     PF_OPTIONAL int32_t* version;
-
 } PlayFabAdminStatisticSegmentFilter;
 
 typedef struct PlayFabAdminTagSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     const char* tagValue;
-
 } PlayFabAdminTagSegmentFilter;
 
 typedef struct PlayFabAdminTotalValueToDateInUSDSegmentFilter
 {
     const char* amount;
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
-
 } PlayFabAdminTotalValueToDateInUSDSegmentFilter;
 
 typedef struct PlayFabAdminUserOriginationSegmentFilter
 {
     PF_OPTIONAL PlayFabAdminSegmentLoginIdentityProvider* loginProvider;
-
 } PlayFabAdminUserOriginationSegmentFilter;
 
 typedef struct PlayFabAdminValueToDateSegmentFilter
@@ -2401,7 +2315,6 @@ typedef struct PlayFabAdminValueToDateSegmentFilter
     const char* amount;
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     PF_OPTIONAL PlayFabAdminSegmentCurrency* currency;
-
 } PlayFabAdminValueToDateSegmentFilter;
 
 typedef struct PlayFabAdminVirtualCurrencyBalanceSegmentFilter
@@ -2409,13 +2322,11 @@ typedef struct PlayFabAdminVirtualCurrencyBalanceSegmentFilter
     int32_t amount;
     PF_OPTIONAL PlayFabAdminSegmentFilterComparison* comparison;
     const char* currencyCode;
-
 } PlayFabAdminVirtualCurrencyBalanceSegmentFilter;
 
 typedef struct PlayFabAdminSegmentAndDefinition
 {
     PF_OPTIONAL PlayFabAdminAdCampaignSegmentFilter* adCampaignFilter;
-    PF_OPTIONAL PlayFabAdminAllPlayersSegmentFilter* allPlayersFilter;
     PF_OPTIONAL PlayFabAdminFirstLoginDateSegmentFilter* firstLoginDateFilter;
     PF_OPTIONAL PlayFabAdminFirstLoginTimespanSegmentFilter* firstLoginFilter;
     PF_OPTIONAL PlayFabAdminLastLoginDateSegmentFilter* lastLoginDateFilter;
@@ -2430,14 +2341,12 @@ typedef struct PlayFabAdminSegmentAndDefinition
     PF_OPTIONAL PlayFabAdminUserOriginationSegmentFilter* userOriginationFilter;
     PF_OPTIONAL PlayFabAdminValueToDateSegmentFilter* valueToDateFilter;
     PF_OPTIONAL PlayFabAdminVirtualCurrencyBalanceSegmentFilter* virtualCurrencyBalanceFilter;
-
 } PlayFabAdminSegmentAndDefinition;
 
 typedef struct PlayFabAdminSegmentOrDefinition
 {
     PF_ARRAY PlayFabAdminSegmentAndDefinition** segmentAndDefinitions;
     PF_COLLECTION_COUNT uint32_t segmentAndDefinitionsCount;
-
 } PlayFabAdminSegmentOrDefinition;
 
 typedef struct PlayFabAdminSegmentModel
@@ -2452,39 +2361,33 @@ typedef struct PlayFabAdminSegmentModel
     const char* segmentId;
     PF_ARRAY PlayFabAdminSegmentOrDefinition** segmentOrDefinitions;
     PF_COLLECTION_COUNT uint32_t segmentOrDefinitionsCount;
-
 } PlayFabAdminSegmentModel;
 
 typedef struct PlayFabAdminCreateSegmentRequest
 {
     PlayFabAdminSegmentModel* segmentModel;
-
 } PlayFabAdminCreateSegmentRequest;
 
 typedef struct PlayFabAdminCreateSegmentResponse
 {
     const char* errorMessage;
     const char* segmentId;
-
 } PlayFabAdminCreateSegmentResponse;
 
 typedef struct PlayFabAdminCreateTaskResult
 {
     const char* taskId;
-
 } PlayFabAdminCreateTaskResult;
 
 typedef struct PlayFabAdminDeleteContentRequest
 {
     const char* key;
-
 } PlayFabAdminDeleteContentRequest;
 
 typedef struct PlayFabAdminDeleteMasterPlayerAccountRequest
 {
     const char* metaData;
     const char* playFabId;
-
 } PlayFabAdminDeleteMasterPlayerAccountRequest;
 
 typedef struct PlayFabAdminDeleteMasterPlayerAccountResult
@@ -2492,47 +2395,31 @@ typedef struct PlayFabAdminDeleteMasterPlayerAccountResult
     const char* jobReceiptId;
     PF_ARRAY const char** titleIds;
     PF_COLLECTION_COUNT uint32_t titleIdsCount;
-
 } PlayFabAdminDeleteMasterPlayerAccountResult;
 
 typedef struct PlayFabAdminDeleteOpenIdConnectionRequest
 {
     const char* connectionId;
-
 } PlayFabAdminDeleteOpenIdConnectionRequest;
 
 typedef struct PlayFabAdminDeletePlayerRequest
 {
     const char* playFabId;
-
 } PlayFabAdminDeletePlayerRequest;
-
-typedef struct PlayFabAdminDeletePlayerResult
-{
-
-} PlayFabAdminDeletePlayerResult;
 
 typedef struct PlayFabAdminDeletePlayerSharedSecretRequest
 {
     const char* secretKey;
-
 } PlayFabAdminDeletePlayerSharedSecretRequest;
-
-typedef struct PlayFabAdminDeletePlayerSharedSecretResult
-{
-
-} PlayFabAdminDeletePlayerSharedSecretResult;
 
 typedef struct PlayFabAdminDeleteSegmentRequest
 {
     const char* segmentId;
-
 } PlayFabAdminDeleteSegmentRequest;
 
 typedef struct PlayFabAdminDeleteSegmentsResponse
 {
     const char* errorMessage;
-
 } PlayFabAdminDeleteSegmentsResponse;
 
 typedef struct PlayFabAdminDeleteStoreRequest
@@ -2541,63 +2428,32 @@ typedef struct PlayFabAdminDeleteStoreRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* storeId;
-
 } PlayFabAdminDeleteStoreRequest;
-
-typedef struct PlayFabAdminDeleteStoreResult
-{
-
-} PlayFabAdminDeleteStoreResult;
 
 typedef struct PlayFabAdminDeleteTaskRequest
 {
     PF_OPTIONAL PlayFabAdminNameIdentifier* identifier;
-
 } PlayFabAdminDeleteTaskRequest;
 
 typedef struct PlayFabAdminDeleteTitleDataOverrideRequest
 {
     const char* overrideLabel;
-
 } PlayFabAdminDeleteTitleDataOverrideRequest;
-
-typedef struct PlayFabAdminDeleteTitleDataOverrideResult
-{
-
-} PlayFabAdminDeleteTitleDataOverrideResult;
-
-typedef struct PlayFabAdminDeleteTitleRequest
-{
-
-} PlayFabAdminDeleteTitleRequest;
-
-typedef struct PlayFabAdminDeleteTitleResult
-{
-
-} PlayFabAdminDeleteTitleResult;
-
-typedef struct PlayFabAdminEmptyResponse
-{
-
-} PlayFabAdminEmptyResponse;
 
 typedef struct PlayFabAdminEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabAdminEntityKey;
 
 typedef struct PlayFabAdminExportMasterPlayerDataRequest
 {
     const char* playFabId;
-
 } PlayFabAdminExportMasterPlayerDataRequest;
 
 typedef struct PlayFabAdminExportMasterPlayerDataResult
 {
     const char* jobReceiptId;
-
 } PlayFabAdminExportMasterPlayerDataResult;
 
 typedef struct PlayFabAdminGameModeInfo
@@ -2606,54 +2462,42 @@ typedef struct PlayFabAdminGameModeInfo
     uint32_t maxPlayerCount;
     uint32_t minPlayerCount;
     PF_OPTIONAL bool* startOpen;
-
 } PlayFabAdminGameModeInfo;
 
 typedef struct PlayFabAdminGetActionsOnPlayersInSegmentTaskInstanceResult
 {
     PF_OPTIONAL PlayFabAdminActionsOnPlayersInSegmentTaskParameter* parameter;
     PF_OPTIONAL PlayFabAdminActionsOnPlayersInSegmentTaskSummary* summary;
-
 } PlayFabAdminGetActionsOnPlayersInSegmentTaskInstanceResult;
-
-typedef struct PlayFabAdminGetAllSegmentsRequest
-{
-
-} PlayFabAdminGetAllSegmentsRequest;
 
 typedef struct PlayFabAdminGetSegmentResult
 {
     const char* aBTestParent;
     const char* id;
     const char* name;
-
 } PlayFabAdminGetSegmentResult;
 
 typedef struct PlayFabAdminGetAllSegmentsResult
 {
     PF_ARRAY PlayFabAdminGetSegmentResult** segments;
     PF_COLLECTION_COUNT uint32_t segmentsCount;
-
 } PlayFabAdminGetAllSegmentsResult;
 
 typedef struct PlayFabAdminGetCatalogItemsRequest
 {
     const char* catalogVersion;
-
 } PlayFabAdminGetCatalogItemsRequest;
 
 typedef struct PlayFabAdminGetCatalogItemsResult
 {
     PF_ARRAY PlayFabAdminCatalogItem** catalog;
     PF_COLLECTION_COUNT uint32_t catalogCount;
-
 } PlayFabAdminGetCatalogItemsResult;
 
 typedef struct PlayFabAdminGetCloudScriptRevisionRequest
 {
     PF_OPTIONAL int32_t* revision;
     PF_OPTIONAL int32_t* version;
-
 } PlayFabAdminGetCloudScriptRevisionRequest;
 
 typedef struct PlayFabAdminGetCloudScriptRevisionResult
@@ -2664,32 +2508,23 @@ typedef struct PlayFabAdminGetCloudScriptRevisionResult
     bool isPublished;
     int32_t revision;
     int32_t version;
-
 } PlayFabAdminGetCloudScriptRevisionResult;
 
 typedef struct PlayFabAdminGetCloudScriptTaskInstanceResult
 {
     PF_OPTIONAL PlayFabAdminCloudScriptTaskParameter* parameter;
     PF_OPTIONAL PlayFabAdminCloudScriptTaskSummary* summary;
-
 } PlayFabAdminGetCloudScriptTaskInstanceResult;
-
-typedef struct PlayFabAdminGetCloudScriptVersionsRequest
-{
-
-} PlayFabAdminGetCloudScriptVersionsRequest;
 
 typedef struct PlayFabAdminGetCloudScriptVersionsResult
 {
     PF_ARRAY PlayFabAdminCloudScriptVersionStatus** versions;
     PF_COLLECTION_COUNT uint32_t versionsCount;
-
 } PlayFabAdminGetCloudScriptVersionsResult;
 
 typedef struct PlayFabAdminGetContentListRequest
 {
     const char* prefix;
-
 } PlayFabAdminGetContentListRequest;
 
 typedef struct PlayFabAdminGetContentListResult
@@ -2698,20 +2533,17 @@ typedef struct PlayFabAdminGetContentListResult
     PF_COLLECTION_COUNT uint32_t contentsCount;
     int32_t itemCount;
     uint32_t totalSize;
-
 } PlayFabAdminGetContentListResult;
 
 typedef struct PlayFabAdminGetContentUploadUrlRequest
 {
     const char* contentType;
     const char* key;
-
 } PlayFabAdminGetContentUploadUrlRequest;
 
 typedef struct PlayFabAdminGetContentUploadUrlResult
 {
     const char* uRL;
-
 } PlayFabAdminGetContentUploadUrlResult;
 
 typedef struct PlayFabAdminGetDataReportRequest
@@ -2720,19 +2552,16 @@ typedef struct PlayFabAdminGetDataReportRequest
     int32_t month;
     const char* reportName;
     int32_t year;
-
 } PlayFabAdminGetDataReportRequest;
 
 typedef struct PlayFabAdminGetDataReportResult
 {
     const char* downloadUrl;
-
 } PlayFabAdminGetDataReportResult;
 
 typedef struct PlayFabAdminGetMatchmakerGameInfoRequest
 {
     const char* lobbyId;
-
 } PlayFabAdminGetMatchmakerGameInfoRequest;
 
 typedef struct PlayFabAdminGetMatchmakerGameInfoResult
@@ -2750,46 +2579,39 @@ typedef struct PlayFabAdminGetMatchmakerGameInfoResult
     const char* serverPublicDNSName;
     time_t startTime;
     const char* titleId;
-
 } PlayFabAdminGetMatchmakerGameInfoResult;
 
 typedef struct PlayFabAdminGetMatchmakerGameModesRequest
 {
     const char* buildVersion;
-
 } PlayFabAdminGetMatchmakerGameModesRequest;
 
 typedef struct PlayFabAdminGetMatchmakerGameModesResult
 {
     PF_ARRAY PlayFabAdminGameModeInfo** gameModes;
     PF_COLLECTION_COUNT uint32_t gameModesCount;
-
 } PlayFabAdminGetMatchmakerGameModesResult;
 
 typedef struct PlayFabAdminGetPlayedTitleListRequest
 {
     const char* playFabId;
-
 } PlayFabAdminGetPlayedTitleListRequest;
 
 typedef struct PlayFabAdminGetPlayedTitleListResult
 {
     PF_ARRAY const char** titleIds;
     PF_COLLECTION_COUNT uint32_t titleIdsCount;
-
 } PlayFabAdminGetPlayedTitleListResult;
 
 typedef struct PlayFabAdminGetPlayerIdFromAuthTokenRequest
 {
     const char* token;
     PlayFabAdminAuthTokenType tokenType;
-
 } PlayFabAdminGetPlayerIdFromAuthTokenRequest;
 
 typedef struct PlayFabAdminGetPlayerIdFromAuthTokenResult
 {
     const char* playFabId;
-
 } PlayFabAdminGetPlayerIdFromAuthTokenResult;
 
 typedef struct PlayFabAdminPlayerProfileViewConstraints
@@ -2811,7 +2633,6 @@ typedef struct PlayFabAdminPlayerProfileViewConstraints
     bool showTags;
     bool showTotalValueToDateInUsd;
     bool showValuesToDate;
-
 } PlayFabAdminPlayerProfileViewConstraints;
 
 typedef struct PlayFabAdminGetPlayerProfileRequest
@@ -2820,7 +2641,6 @@ typedef struct PlayFabAdminGetPlayerProfileRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
     PF_OPTIONAL PlayFabAdminPlayerProfileViewConstraints* profileConstraints;
-
 } PlayFabAdminGetPlayerProfileRequest;
 
 typedef struct PlayFabAdminLinkedPlatformAccountModel
@@ -2829,7 +2649,6 @@ typedef struct PlayFabAdminLinkedPlatformAccountModel
     PF_OPTIONAL PlayFabAdminLoginIdentityProvider* platform;
     const char* platformUserId;
     const char* username;
-
 } PlayFabAdminLinkedPlatformAccountModel;
 
 typedef struct PlayFabAdminLocationModel
@@ -2839,7 +2658,6 @@ typedef struct PlayFabAdminLocationModel
     PF_OPTIONAL PlayFabAdminCountryCode* countryCode;
     PF_OPTIONAL double* latitude;
     PF_OPTIONAL double* longitude;
-
 } PlayFabAdminLocationModel;
 
 typedef struct PlayFabAdminSubscriptionModel
@@ -2851,7 +2669,6 @@ typedef struct PlayFabAdminSubscriptionModel
     const char* subscriptionId;
     const char* subscriptionItemId;
     const char* subscriptionProvider;
-
 } PlayFabAdminSubscriptionModel;
 
 typedef struct PlayFabAdminMembershipModel
@@ -2862,14 +2679,12 @@ typedef struct PlayFabAdminMembershipModel
     PF_OPTIONAL time_t* overrideExpiration;
     PF_ARRAY PlayFabAdminSubscriptionModel** subscriptions;
     PF_COLLECTION_COUNT uint32_t subscriptionsCount;
-
 } PlayFabAdminMembershipModel;
 
 typedef struct PlayFabAdminPushNotificationRegistrationModel
 {
     const char* notificationEndpointARN;
     PF_OPTIONAL PlayFabAdminPushNotificationPlatform* platform;
-
 } PlayFabAdminPushNotificationRegistrationModel;
 
 typedef struct PlayFabAdminStatisticModel
@@ -2877,13 +2692,11 @@ typedef struct PlayFabAdminStatisticModel
     const char* name;
     int32_t value;
     int32_t version;
-
 } PlayFabAdminStatisticModel;
 
 typedef struct PlayFabAdminTagModel
 {
     const char* tagValue;
-
 } PlayFabAdminTagModel;
 
 typedef struct PlayFabAdminValueToDateModel
@@ -2891,7 +2704,6 @@ typedef struct PlayFabAdminValueToDateModel
     const char* currency;
     uint32_t totalValue;
     const char* totalValueAsDecimal;
-
 } PlayFabAdminValueToDateModel;
 
 typedef struct PlayFabAdminPlayerProfileModel
@@ -2926,40 +2738,30 @@ typedef struct PlayFabAdminPlayerProfileModel
     PF_OPTIONAL uint32_t* totalValueToDateInUSD;
     PF_ARRAY PlayFabAdminValueToDateModel** valuesToDate;
     PF_COLLECTION_COUNT uint32_t valuesToDateCount;
-
 } PlayFabAdminPlayerProfileModel;
 
 typedef struct PlayFabAdminGetPlayerProfileResult
 {
     PF_OPTIONAL PlayFabAdminPlayerProfileModel* playerProfile;
-
 } PlayFabAdminGetPlayerProfileResult;
 
 typedef struct PlayFabAdminGetPlayerSegmentsResult
 {
     PF_ARRAY PlayFabAdminGetSegmentResult** segments;
     PF_COLLECTION_COUNT uint32_t segmentsCount;
-
 } PlayFabAdminGetPlayerSegmentsResult;
-
-typedef struct PlayFabAdminGetPlayerSharedSecretsRequest
-{
-
-} PlayFabAdminGetPlayerSharedSecretsRequest;
 
 typedef struct PlayFabAdminSharedSecret
 {
     bool disabled;
     const char* friendlyName;
     const char* secretKey;
-
 } PlayFabAdminSharedSecret;
 
 typedef struct PlayFabAdminGetPlayerSharedSecretsResult
 {
     PF_ARRAY PlayFabAdminSharedSecret** sharedSecrets;
     PF_COLLECTION_COUNT uint32_t sharedSecretsCount;
-
 } PlayFabAdminGetPlayerSharedSecretsResult;
 
 typedef struct PlayFabAdminGetPlayersInSegmentRequest
@@ -2970,7 +2772,6 @@ typedef struct PlayFabAdminGetPlayersInSegmentRequest
     PF_OPTIONAL uint32_t* maxBatchSize;
     PF_OPTIONAL uint32_t* secondsToLive;
     const char* segmentId;
-
 } PlayFabAdminGetPlayersInSegmentRequest;
 
 typedef struct PlayFabAdminPlayerLinkedAccount
@@ -2979,7 +2780,6 @@ typedef struct PlayFabAdminPlayerLinkedAccount
     PF_OPTIONAL PlayFabAdminLoginIdentityProvider* platform;
     const char* platformUserId;
     const char* username;
-
 } PlayFabAdminPlayerLinkedAccount;
 
 typedef struct PlayFabAdminPlayerLocation
@@ -2989,7 +2789,6 @@ typedef struct PlayFabAdminPlayerLocation
     PlayFabAdminCountryCode countryCode;
     PF_OPTIONAL double* latitude;
     PF_OPTIONAL double* longitude;
-
 } PlayFabAdminPlayerLocation;
 
 typedef struct PlayFabAdminPlayerStatistic
@@ -2998,14 +2797,12 @@ typedef struct PlayFabAdminPlayerStatistic
     const char* name;
     int32_t statisticValue;
     int32_t statisticVersion;
-
 } PlayFabAdminPlayerStatistic;
 
 typedef struct PlayFabAdminPushNotificationRegistration
 {
     const char* notificationEndpointARN;
     PF_OPTIONAL PlayFabAdminPushNotificationPlatform* platform;
-
 } PlayFabAdminPushNotificationRegistration;
 
 typedef struct PlayFabAdminPlayerProfile
@@ -3042,7 +2839,6 @@ typedef struct PlayFabAdminPlayerProfile
     PF_COLLECTION_COUNT uint32_t valuesToDateCount;
     PF_MAP struct PlayFabInt32DictionaryEntry* virtualCurrencyBalances;
     PF_COLLECTION_COUNT uint32_t virtualCurrencyBalancesCount;
-
 } PlayFabAdminPlayerProfile;
 
 typedef struct PlayFabAdminGetPlayersInSegmentResult
@@ -3051,7 +2847,6 @@ typedef struct PlayFabAdminGetPlayersInSegmentResult
     PF_ARRAY PlayFabAdminPlayerProfile** playerProfiles;
     PF_COLLECTION_COUNT uint32_t playerProfilesCount;
     int32_t profilesInSegment;
-
 } PlayFabAdminGetPlayersInSegmentResult;
 
 typedef struct PlayFabAdminGetPlayersSegmentsRequest
@@ -3059,19 +2854,12 @@ typedef struct PlayFabAdminGetPlayersSegmentsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
-
 } PlayFabAdminGetPlayersSegmentsRequest;
-
-typedef struct PlayFabAdminGetPlayerStatisticDefinitionsRequest
-{
-
-} PlayFabAdminGetPlayerStatisticDefinitionsRequest;
 
 typedef struct PlayFabAdminGetPlayerStatisticDefinitionsResult
 {
     PF_ARRAY PlayFabAdminPlayerStatisticDefinition** statistics;
     PF_COLLECTION_COUNT uint32_t statisticsCount;
-
 } PlayFabAdminGetPlayerStatisticDefinitionsResult;
 
 typedef struct PlayFabAdminGetPlayerStatisticVersionsRequest
@@ -3079,7 +2867,6 @@ typedef struct PlayFabAdminGetPlayerStatisticVersionsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* statisticName;
-
 } PlayFabAdminGetPlayerStatisticVersionsRequest;
 
 typedef struct PlayFabAdminPlayerStatisticVersion
@@ -3092,14 +2879,12 @@ typedef struct PlayFabAdminPlayerStatisticVersion
     const char* statisticName;
     PF_OPTIONAL PlayFabAdminStatisticVersionStatus* status;
     uint32_t version;
-
 } PlayFabAdminPlayerStatisticVersion;
 
 typedef struct PlayFabAdminGetPlayerStatisticVersionsResult
 {
     PF_ARRAY PlayFabAdminPlayerStatisticVersion** statisticVersions;
     PF_COLLECTION_COUNT uint32_t statisticVersionsCount;
-
 } PlayFabAdminGetPlayerStatisticVersionsResult;
 
 typedef struct PlayFabAdminGetPlayerTagsRequest
@@ -3108,7 +2893,6 @@ typedef struct PlayFabAdminGetPlayerTagsRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playfabNamespace;
     const char* playFabId;
-
 } PlayFabAdminGetPlayerTagsRequest;
 
 typedef struct PlayFabAdminGetPlayerTagsResult
@@ -3116,13 +2900,11 @@ typedef struct PlayFabAdminGetPlayerTagsResult
     const char* playFabId;
     PF_ARRAY const char** tags;
     PF_COLLECTION_COUNT uint32_t tagsCount;
-
 } PlayFabAdminGetPlayerTagsResult;
 
 typedef struct PlayFabAdminGetPolicyRequest
 {
     const char* policyName;
-
 } PlayFabAdminGetPolicyRequest;
 
 typedef struct PlayFabAdminPermissionStatement
@@ -3133,7 +2915,6 @@ typedef struct PlayFabAdminPermissionStatement
     PlayFabAdminEffectType effect;
     const char* principal;
     const char* resource;
-
 } PlayFabAdminPermissionStatement;
 
 typedef struct PlayFabAdminGetPolicyResponse
@@ -3142,27 +2923,23 @@ typedef struct PlayFabAdminGetPolicyResponse
     int32_t policyVersion;
     PF_ARRAY PlayFabAdminPermissionStatement** statements;
     PF_COLLECTION_COUNT uint32_t statementsCount;
-
 } PlayFabAdminGetPolicyResponse;
 
 typedef struct PlayFabAdminGetPublisherDataRequest
 {
     PF_ARRAY const char** keys;
     PF_COLLECTION_COUNT uint32_t keysCount;
-
 } PlayFabAdminGetPublisherDataRequest;
 
 typedef struct PlayFabAdminGetPublisherDataResult
 {
     PF_MAP struct PlayFabStringDictionaryEntry* data;
     PF_COLLECTION_COUNT uint32_t dataCount;
-
 } PlayFabAdminGetPublisherDataResult;
 
 typedef struct PlayFabAdminGetRandomResultTablesRequest
 {
     const char* catalogVersion;
-
 } PlayFabAdminGetRandomResultTablesRequest;
 
 typedef struct PlayFabAdminResultTableNode
@@ -3170,7 +2947,6 @@ typedef struct PlayFabAdminResultTableNode
     const char* resultItem;
     PlayFabAdminResultTableNodeType resultItemType;
     int32_t weight;
-
 } PlayFabAdminResultTableNode;
 
 typedef struct PlayFabAdminRandomResultTableListing
@@ -3179,21 +2955,18 @@ typedef struct PlayFabAdminRandomResultTableListing
     PF_ARRAY PlayFabAdminResultTableNode** nodes;
     PF_COLLECTION_COUNT uint32_t nodesCount;
     const char* tableId;
-
 } PlayFabAdminRandomResultTableListing;
 
 typedef struct PlayFabAdminGetRandomResultTablesResult
 {
     PF_MAP struct PlayFabAdminRandomResultTableListingDictionaryEntry* tables;
     PF_COLLECTION_COUNT uint32_t tablesCount;
-
 } PlayFabAdminGetRandomResultTablesResult;
 
 typedef struct PlayFabAdminGetSegmentsRequest
 {
     PF_ARRAY const char** segmentIds;
     PF_COLLECTION_COUNT uint32_t segmentIdsCount;
-
 } PlayFabAdminGetSegmentsRequest;
 
 typedef struct PlayFabAdminGetSegmentsResponse
@@ -3201,13 +2974,11 @@ typedef struct PlayFabAdminGetSegmentsResponse
     const char* errorMessage;
     PF_ARRAY PlayFabAdminSegmentModel** segments;
     PF_COLLECTION_COUNT uint32_t segmentsCount;
-
 } PlayFabAdminGetSegmentsResponse;
 
 typedef struct PlayFabAdminGetServerBuildInfoRequest
 {
     const char* buildId;
-
 } PlayFabAdminGetServerBuildInfoRequest;
 
 typedef struct PlayFabAdminGetServerBuildInfoResult
@@ -3222,26 +2993,22 @@ typedef struct PlayFabAdminGetServerBuildInfoResult
     PF_OPTIONAL PlayFabAdminGameBuildStatus* status;
     time_t timestamp;
     const char* titleId;
-
 } PlayFabAdminGetServerBuildInfoResult;
 
 typedef struct PlayFabAdminGetServerBuildUploadURLRequest
 {
     const char* buildId;
-
 } PlayFabAdminGetServerBuildUploadURLRequest;
 
 typedef struct PlayFabAdminGetServerBuildUploadURLResult
 {
     const char* uRL;
-
 } PlayFabAdminGetServerBuildUploadURLResult;
 
 typedef struct PlayFabAdminGetStoreItemsRequest
 {
     const char* catalogVersion;
     const char* storeId;
-
 } PlayFabAdminGetStoreItemsRequest;
 
 typedef struct PlayFabAdminStoreMarketingModel
@@ -3249,7 +3016,6 @@ typedef struct PlayFabAdminStoreMarketingModel
     const char* description;
     const char* displayName;
     PlayFabJsonObject metadata;
-
 } PlayFabAdminStoreMarketingModel;
 
 typedef struct PlayFabAdminStoreItem
@@ -3261,7 +3027,6 @@ typedef struct PlayFabAdminStoreItem
     PF_COLLECTION_COUNT uint32_t realCurrencyPricesCount;
     PF_MAP struct PlayFabUint32DictionaryEntry* virtualCurrencyPrices;
     PF_COLLECTION_COUNT uint32_t virtualCurrencyPricesCount;
-
 } PlayFabAdminStoreItem;
 
 typedef struct PlayFabAdminGetStoreItemsResult
@@ -3272,13 +3037,11 @@ typedef struct PlayFabAdminGetStoreItemsResult
     PF_ARRAY PlayFabAdminStoreItem** store;
     PF_COLLECTION_COUNT uint32_t storeCount;
     const char* storeId;
-
 } PlayFabAdminGetStoreItemsResult;
 
 typedef struct PlayFabAdminGetTaskInstanceRequest
 {
     const char* taskInstanceId;
-
 } PlayFabAdminGetTaskInstanceRequest;
 
 typedef struct PlayFabAdminGetTaskInstancesRequest
@@ -3287,7 +3050,6 @@ typedef struct PlayFabAdminGetTaskInstancesRequest
     PF_OPTIONAL time_t* startedAtRangeTo;
     PF_OPTIONAL PlayFabAdminTaskInstanceStatus* statusFilter;
     PF_OPTIONAL PlayFabAdminNameIdentifier* taskIdentifier;
-
 } PlayFabAdminGetTaskInstancesRequest;
 
 typedef struct PlayFabAdminTaskInstanceBasicSummary
@@ -3302,20 +3064,17 @@ typedef struct PlayFabAdminTaskInstanceBasicSummary
     PF_OPTIONAL PlayFabAdminNameIdentifier* taskIdentifier;
     const char* taskInstanceId;
     PF_OPTIONAL PlayFabAdminScheduledTaskType* type;
-
 } PlayFabAdminTaskInstanceBasicSummary;
 
 typedef struct PlayFabAdminGetTaskInstancesResult
 {
     PF_ARRAY PlayFabAdminTaskInstanceBasicSummary** summaries;
     PF_COLLECTION_COUNT uint32_t summariesCount;
-
 } PlayFabAdminGetTaskInstancesResult;
 
 typedef struct PlayFabAdminGetTasksRequest
 {
     PF_OPTIONAL PlayFabAdminNameIdentifier* identifier;
-
 } PlayFabAdminGetTasksRequest;
 
 typedef struct PlayFabAdminScheduledTask
@@ -3329,14 +3088,12 @@ typedef struct PlayFabAdminScheduledTask
     const char* schedule;
     const char* taskId;
     PF_OPTIONAL PlayFabAdminScheduledTaskType* type;
-
 } PlayFabAdminScheduledTask;
 
 typedef struct PlayFabAdminGetTasksResult
 {
     PF_ARRAY PlayFabAdminScheduledTask** tasks;
     PF_COLLECTION_COUNT uint32_t tasksCount;
-
 } PlayFabAdminGetTasksResult;
 
 typedef struct PlayFabAdminGetTitleDataRequest
@@ -3344,27 +3101,23 @@ typedef struct PlayFabAdminGetTitleDataRequest
     PF_ARRAY const char** keys;
     PF_COLLECTION_COUNT uint32_t keysCount;
     const char* overrideLabel;
-
 } PlayFabAdminGetTitleDataRequest;
 
 typedef struct PlayFabAdminGetTitleDataResult
 {
     PF_MAP struct PlayFabStringDictionaryEntry* data;
     PF_COLLECTION_COUNT uint32_t dataCount;
-
 } PlayFabAdminGetTitleDataResult;
 
 typedef struct PlayFabAdminGetUserBansRequest
 {
     const char* playFabId;
-
 } PlayFabAdminGetUserBansRequest;
 
 typedef struct PlayFabAdminGetUserBansResult
 {
     PF_ARRAY PlayFabAdminBanInfo** banData;
     PF_COLLECTION_COUNT uint32_t banDataCount;
-
 } PlayFabAdminGetUserBansResult;
 
 typedef struct PlayFabAdminGetUserDataRequest
@@ -3373,7 +3126,6 @@ typedef struct PlayFabAdminGetUserDataRequest
     PF_ARRAY const char** keys;
     PF_COLLECTION_COUNT uint32_t keysCount;
     const char* playFabId;
-
 } PlayFabAdminGetUserDataRequest;
 
 typedef struct PlayFabAdminUserDataRecord
@@ -3381,7 +3133,6 @@ typedef struct PlayFabAdminUserDataRecord
     time_t lastUpdated;
     PF_OPTIONAL PlayFabAdminUserDataPermission* permission;
     const char* value;
-
 } PlayFabAdminUserDataRecord;
 
 typedef struct PlayFabAdminGetUserDataResult
@@ -3390,7 +3141,6 @@ typedef struct PlayFabAdminGetUserDataResult
     PF_COLLECTION_COUNT uint32_t dataCount;
     uint32_t dataVersion;
     const char* playFabId;
-
 } PlayFabAdminGetUserDataResult;
 
 typedef struct PlayFabAdminGetUserInventoryRequest
@@ -3398,7 +3148,6 @@ typedef struct PlayFabAdminGetUserInventoryRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
-
 } PlayFabAdminGetUserInventoryRequest;
 
 typedef struct PlayFabAdminItemInstance
@@ -3420,7 +3169,6 @@ typedef struct PlayFabAdminItemInstance
     const char* unitCurrency;
     uint32_t unitPrice;
     PF_OPTIONAL int32_t* usesIncrementedBy;
-
 } PlayFabAdminItemInstance;
 
 typedef struct PlayFabAdminVirtualCurrencyRechargeTime
@@ -3428,7 +3176,6 @@ typedef struct PlayFabAdminVirtualCurrencyRechargeTime
     int32_t rechargeMax;
     time_t rechargeTime;
     int32_t secondsToRecharge;
-
 } PlayFabAdminVirtualCurrencyRechargeTime;
 
 typedef struct PlayFabAdminGetUserInventoryResult
@@ -3440,7 +3187,6 @@ typedef struct PlayFabAdminGetUserInventoryResult
     PF_COLLECTION_COUNT uint32_t virtualCurrencyCount;
     PF_MAP struct PlayFabAdminVirtualCurrencyRechargeTimeDictionaryEntry* virtualCurrencyRechargeTimes;
     PF_COLLECTION_COUNT uint32_t virtualCurrencyRechargeTimesCount;
-
 } PlayFabAdminGetUserInventoryResult;
 
 typedef struct PlayFabAdminGrantedItemInstance
@@ -3465,7 +3211,6 @@ typedef struct PlayFabAdminGrantedItemInstance
     const char* unitCurrency;
     uint32_t unitPrice;
     PF_OPTIONAL int32_t* usesIncrementedBy;
-
 } PlayFabAdminGrantedItemInstance;
 
 typedef struct PlayFabAdminItemGrant
@@ -3478,7 +3223,6 @@ typedef struct PlayFabAdminItemGrant
     PF_ARRAY const char** keysToRemove;
     PF_COLLECTION_COUNT uint32_t keysToRemoveCount;
     const char* playFabId;
-
 } PlayFabAdminItemGrant;
 
 typedef struct PlayFabAdminGrantItemsToUsersRequest
@@ -3488,14 +3232,12 @@ typedef struct PlayFabAdminGrantItemsToUsersRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_ARRAY PlayFabAdminItemGrant** itemGrants;
     PF_COLLECTION_COUNT uint32_t itemGrantsCount;
-
 } PlayFabAdminGrantItemsToUsersRequest;
 
 typedef struct PlayFabAdminGrantItemsToUsersResult
 {
     PF_ARRAY PlayFabAdminGrantedItemInstance** itemGrantResults;
     PF_COLLECTION_COUNT uint32_t itemGrantResultsCount;
-
 } PlayFabAdminGrantItemsToUsersResult;
 
 typedef struct PlayFabAdminIncrementLimitedEditionItemAvailabilityRequest
@@ -3505,44 +3247,25 @@ typedef struct PlayFabAdminIncrementLimitedEditionItemAvailabilityRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* itemId;
-
 } PlayFabAdminIncrementLimitedEditionItemAvailabilityRequest;
-
-typedef struct PlayFabAdminIncrementLimitedEditionItemAvailabilityResult
-{
-
-} PlayFabAdminIncrementLimitedEditionItemAvailabilityResult;
 
 typedef struct PlayFabAdminIncrementPlayerStatisticVersionRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* statisticName;
-
 } PlayFabAdminIncrementPlayerStatisticVersionRequest;
 
 typedef struct PlayFabAdminIncrementPlayerStatisticVersionResult
 {
     PF_OPTIONAL PlayFabAdminPlayerStatisticVersion* statisticVersion;
-
 } PlayFabAdminIncrementPlayerStatisticVersionResult;
-
-typedef struct PlayFabAdminListBuildsRequest
-{
-
-} PlayFabAdminListBuildsRequest;
 
 typedef struct PlayFabAdminListBuildsResult
 {
     PF_ARRAY PlayFabAdminGetServerBuildInfoResult** builds;
     PF_COLLECTION_COUNT uint32_t buildsCount;
-
 } PlayFabAdminListBuildsResult;
-
-typedef struct PlayFabAdminListOpenIdConnectionRequest
-{
-
-} PlayFabAdminListOpenIdConnectionRequest;
 
 typedef struct PlayFabAdminOpenIdConnection
 {
@@ -3551,26 +3274,18 @@ typedef struct PlayFabAdminOpenIdConnection
     const char* connectionId;
     bool discoverConfiguration;
     PF_OPTIONAL PlayFabAdminOpenIdIssuerInformation* issuerInformation;
-
 } PlayFabAdminOpenIdConnection;
 
 typedef struct PlayFabAdminListOpenIdConnectionResponse
 {
     PF_ARRAY PlayFabAdminOpenIdConnection** connections;
     PF_COLLECTION_COUNT uint32_t connectionsCount;
-
 } PlayFabAdminListOpenIdConnectionResponse;
-
-typedef struct PlayFabAdminListVirtualCurrencyTypesRequest
-{
-
-} PlayFabAdminListVirtualCurrencyTypesRequest;
 
 typedef struct PlayFabAdminListVirtualCurrencyTypesResult
 {
     PF_ARRAY PlayFabAdminVirtualCurrencyData** virtualCurrencies;
     PF_COLLECTION_COUNT uint32_t virtualCurrenciesCount;
-
 } PlayFabAdminListVirtualCurrencyTypesResult;
 
 typedef struct PlayFabAdminLookupUserAccountInfoRequest
@@ -3579,44 +3294,37 @@ typedef struct PlayFabAdminLookupUserAccountInfoRequest
     const char* playFabId;
     const char* titleDisplayName;
     const char* username;
-
 } PlayFabAdminLookupUserAccountInfoRequest;
 
 typedef struct PlayFabAdminUserAndroidDeviceInfo
 {
     const char* androidDeviceId;
-
 } PlayFabAdminUserAndroidDeviceInfo;
 
 typedef struct PlayFabAdminUserAppleIdInfo
 {
     const char* appleSubjectId;
-
 } PlayFabAdminUserAppleIdInfo;
 
 typedef struct PlayFabAdminUserCustomIdInfo
 {
     const char* customId;
-
 } PlayFabAdminUserCustomIdInfo;
 
 typedef struct PlayFabAdminUserFacebookInfo
 {
     const char* facebookId;
     const char* fullName;
-
 } PlayFabAdminUserFacebookInfo;
 
 typedef struct PlayFabAdminUserFacebookInstantGamesIdInfo
 {
     const char* facebookInstantGamesId;
-
 } PlayFabAdminUserFacebookInstantGamesIdInfo;
 
 typedef struct PlayFabAdminUserGameCenterInfo
 {
     const char* gameCenterId;
-
 } PlayFabAdminUserGameCenterInfo;
 
 typedef struct PlayFabAdminUserGoogleInfo
@@ -3626,32 +3334,27 @@ typedef struct PlayFabAdminUserGoogleInfo
     const char* googleId;
     const char* googleLocale;
     const char* googleName;
-
 } PlayFabAdminUserGoogleInfo;
 
 typedef struct PlayFabAdminUserIosDeviceInfo
 {
     const char* iosDeviceId;
-
 } PlayFabAdminUserIosDeviceInfo;
 
 typedef struct PlayFabAdminUserKongregateInfo
 {
     const char* kongregateId;
     const char* kongregateName;
-
 } PlayFabAdminUserKongregateInfo;
 
 typedef struct PlayFabAdminUserNintendoSwitchAccountIdInfo
 {
     const char* nintendoSwitchAccountSubjectId;
-
 } PlayFabAdminUserNintendoSwitchAccountIdInfo;
 
 typedef struct PlayFabAdminUserNintendoSwitchDeviceIdInfo
 {
     const char* nintendoSwitchDeviceId;
-
 } PlayFabAdminUserNintendoSwitchDeviceIdInfo;
 
 typedef struct PlayFabAdminUserOpenIdInfo
@@ -3659,20 +3362,17 @@ typedef struct PlayFabAdminUserOpenIdInfo
     const char* connectionId;
     const char* issuer;
     const char* subject;
-
 } PlayFabAdminUserOpenIdInfo;
 
 typedef struct PlayFabAdminUserPrivateAccountInfo
 {
     const char* email;
-
 } PlayFabAdminUserPrivateAccountInfo;
 
 typedef struct PlayFabAdminUserPsnInfo
 {
     const char* psnAccountId;
     const char* psnOnlineId;
-
 } PlayFabAdminUserPsnInfo;
 
 typedef struct PlayFabAdminUserSteamInfo
@@ -3682,7 +3382,6 @@ typedef struct PlayFabAdminUserSteamInfo
     PF_OPTIONAL PlayFabAdminCurrency* steamCurrency;
     const char* steamId;
     const char* steamName;
-
 } PlayFabAdminUserSteamInfo;
 
 typedef struct PlayFabAdminUserTitleInfo
@@ -3695,27 +3394,23 @@ typedef struct PlayFabAdminUserTitleInfo
     PF_OPTIONAL time_t* lastLogin;
     PF_OPTIONAL PlayFabAdminUserOrigination* origination;
     PF_OPTIONAL PlayFabAdminEntityKey* titlePlayerAccount;
-
 } PlayFabAdminUserTitleInfo;
 
 typedef struct PlayFabAdminUserTwitchInfo
 {
     const char* twitchId;
     const char* twitchUserName;
-
 } PlayFabAdminUserTwitchInfo;
 
 typedef struct PlayFabAdminUserWindowsHelloInfo
 {
     const char* windowsHelloDeviceName;
     const char* windowsHelloPublicKeyHash;
-
 } PlayFabAdminUserWindowsHelloInfo;
 
 typedef struct PlayFabAdminUserXboxInfo
 {
     const char* xboxUserId;
-
 } PlayFabAdminUserXboxInfo;
 
 typedef struct PlayFabAdminUserAccountInfo
@@ -3743,13 +3438,11 @@ typedef struct PlayFabAdminUserAccountInfo
     const char* username;
     PF_OPTIONAL PlayFabAdminUserWindowsHelloInfo* windowsHelloInfo;
     PF_OPTIONAL PlayFabAdminUserXboxInfo* xboxInfo;
-
 } PlayFabAdminUserAccountInfo;
 
 typedef struct PlayFabAdminLookupUserAccountInfoResult
 {
     PF_OPTIONAL PlayFabAdminUserAccountInfo* userInfo;
-
 } PlayFabAdminLookupUserAccountInfoResult;
 
 typedef struct PlayFabAdminModifyMatchmakerGameModesRequest
@@ -3757,13 +3450,7 @@ typedef struct PlayFabAdminModifyMatchmakerGameModesRequest
     const char* buildVersion;
     PF_ARRAY PlayFabAdminGameModeInfo** gameModes;
     PF_COLLECTION_COUNT uint32_t gameModesCount;
-
 } PlayFabAdminModifyMatchmakerGameModesRequest;
-
-typedef struct PlayFabAdminModifyMatchmakerGameModesResult
-{
-
-} PlayFabAdminModifyMatchmakerGameModesResult;
 
 typedef struct PlayFabAdminModifyServerBuildRequest
 {
@@ -3778,7 +3465,6 @@ typedef struct PlayFabAdminModifyServerBuildRequest
     int32_t maxGamesPerHost;
     int32_t minFreeGameSlots;
     PF_OPTIONAL time_t* timestamp;
-
 } PlayFabAdminModifyServerBuildRequest;
 
 typedef struct PlayFabAdminModifyServerBuildResult
@@ -3794,7 +3480,6 @@ typedef struct PlayFabAdminModifyServerBuildResult
     PF_OPTIONAL PlayFabAdminGameBuildStatus* status;
     time_t timestamp;
     const char* titleId;
-
 } PlayFabAdminModifyServerBuildResult;
 
 typedef struct PlayFabAdminModifyUserVirtualCurrencyResult
@@ -3803,7 +3488,6 @@ typedef struct PlayFabAdminModifyUserVirtualCurrencyResult
     int32_t balanceChange;
     const char* playFabId;
     const char* virtualCurrency;
-
 } PlayFabAdminModifyUserVirtualCurrencyResult;
 
 typedef struct PlayFabAdminRandomResultTable
@@ -3811,7 +3495,6 @@ typedef struct PlayFabAdminRandomResultTable
     PF_ARRAY PlayFabAdminResultTableNode** nodes;
     PF_COLLECTION_COUNT uint32_t nodesCount;
     const char* tableId;
-
 } PlayFabAdminRandomResultTable;
 
 typedef struct PlayFabAdminRefundPurchaseRequest
@@ -3819,13 +3502,11 @@ typedef struct PlayFabAdminRefundPurchaseRequest
     const char* orderId;
     const char* playFabId;
     const char* reason;
-
 } PlayFabAdminRefundPurchaseRequest;
 
 typedef struct PlayFabAdminRefundPurchaseResponse
 {
     const char* purchaseStatus;
-
 } PlayFabAdminRefundPurchaseResponse;
 
 typedef struct PlayFabAdminRemovePlayerTagRequest
@@ -3834,30 +3515,17 @@ typedef struct PlayFabAdminRemovePlayerTagRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
     const char* tagName;
-
 } PlayFabAdminRemovePlayerTagRequest;
-
-typedef struct PlayFabAdminRemovePlayerTagResult
-{
-
-} PlayFabAdminRemovePlayerTagResult;
 
 typedef struct PlayFabAdminRemoveServerBuildRequest
 {
     const char* buildId;
-
 } PlayFabAdminRemoveServerBuildRequest;
-
-typedef struct PlayFabAdminRemoveServerBuildResult
-{
-
-} PlayFabAdminRemoveServerBuildResult;
 
 typedef struct PlayFabAdminRemoveVirtualCurrencyTypesRequest
 {
     PF_ARRAY PlayFabAdminVirtualCurrencyData** virtualCurrencies;
     PF_COLLECTION_COUNT uint32_t virtualCurrenciesCount;
-
 } PlayFabAdminRemoveVirtualCurrencyTypesRequest;
 
 typedef struct PlayFabAdminResetCharacterStatisticsRequest
@@ -3866,13 +3534,7 @@ typedef struct PlayFabAdminResetCharacterStatisticsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
-
 } PlayFabAdminResetCharacterStatisticsRequest;
-
-typedef struct PlayFabAdminResetCharacterStatisticsResult
-{
-
-} PlayFabAdminResetCharacterStatisticsResult;
 
 typedef struct PlayFabAdminResetPasswordRequest
 {
@@ -3880,26 +3542,14 @@ typedef struct PlayFabAdminResetPasswordRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* password;
     const char* token;
-
 } PlayFabAdminResetPasswordRequest;
-
-typedef struct PlayFabAdminResetPasswordResult
-{
-
-} PlayFabAdminResetPasswordResult;
 
 typedef struct PlayFabAdminResetUserStatisticsRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
-
 } PlayFabAdminResetUserStatisticsRequest;
-
-typedef struct PlayFabAdminResetUserStatisticsResult
-{
-
-} PlayFabAdminResetUserStatisticsResult;
 
 typedef struct PlayFabAdminResolvePurchaseDisputeRequest
 {
@@ -3907,40 +3557,34 @@ typedef struct PlayFabAdminResolvePurchaseDisputeRequest
     PlayFabAdminResolutionOutcome outcome;
     const char* playFabId;
     const char* reason;
-
 } PlayFabAdminResolvePurchaseDisputeRequest;
 
 typedef struct PlayFabAdminResolvePurchaseDisputeResponse
 {
     const char* purchaseStatus;
-
 } PlayFabAdminResolvePurchaseDisputeResponse;
 
 typedef struct PlayFabAdminRevokeAllBansForUserRequest
 {
     const char* playFabId;
-
 } PlayFabAdminRevokeAllBansForUserRequest;
 
 typedef struct PlayFabAdminRevokeAllBansForUserResult
 {
     PF_ARRAY PlayFabAdminBanInfo** banData;
     PF_COLLECTION_COUNT uint32_t banDataCount;
-
 } PlayFabAdminRevokeAllBansForUserResult;
 
 typedef struct PlayFabAdminRevokeBansRequest
 {
     PF_ARRAY const char** banIds;
     PF_COLLECTION_COUNT uint32_t banIdsCount;
-
 } PlayFabAdminRevokeBansRequest;
 
 typedef struct PlayFabAdminRevokeBansResult
 {
     PF_ARRAY PlayFabAdminBanInfo** banData;
     PF_COLLECTION_COUNT uint32_t banDataCount;
-
 } PlayFabAdminRevokeBansResult;
 
 typedef struct PlayFabAdminRevokeInventoryItem
@@ -3948,7 +3592,6 @@ typedef struct PlayFabAdminRevokeInventoryItem
     const char* characterId;
     const char* itemInstanceId;
     const char* playFabId;
-
 } PlayFabAdminRevokeInventoryItem;
 
 typedef struct PlayFabAdminRevokeInventoryItemRequest
@@ -3956,47 +3599,36 @@ typedef struct PlayFabAdminRevokeInventoryItemRequest
     const char* characterId;
     const char* itemInstanceId;
     const char* playFabId;
-
 } PlayFabAdminRevokeInventoryItemRequest;
 
 typedef struct PlayFabAdminRevokeInventoryItemsRequest
 {
     PF_ARRAY PlayFabAdminRevokeInventoryItem** items;
     PF_COLLECTION_COUNT uint32_t itemsCount;
-
 } PlayFabAdminRevokeInventoryItemsRequest;
 
 typedef struct PlayFabAdminRevokeItemError
 {
     PF_OPTIONAL PlayFabAdminGenericErrorCodes* error;
     PF_OPTIONAL PlayFabAdminRevokeInventoryItem* item;
-
 } PlayFabAdminRevokeItemError;
 
 typedef struct PlayFabAdminRevokeInventoryItemsResult
 {
     PF_ARRAY PlayFabAdminRevokeItemError** errors;
     PF_COLLECTION_COUNT uint32_t errorsCount;
-
 } PlayFabAdminRevokeInventoryItemsResult;
-
-typedef struct PlayFabAdminRevokeInventoryResult
-{
-
-} PlayFabAdminRevokeInventoryResult;
 
 typedef struct PlayFabAdminRunTaskRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL PlayFabAdminNameIdentifier* identifier;
-
 } PlayFabAdminRunTaskRequest;
 
 typedef struct PlayFabAdminRunTaskResult
 {
     const char* taskInstanceId;
-
 } PlayFabAdminRunTaskResult;
 
 typedef struct PlayFabAdminSendAccountRecoveryEmailRequest
@@ -4005,25 +3637,13 @@ typedef struct PlayFabAdminSendAccountRecoveryEmailRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* email;
     const char* emailTemplateId;
-
 } PlayFabAdminSendAccountRecoveryEmailRequest;
-
-typedef struct PlayFabAdminSendAccountRecoveryEmailResult
-{
-
-} PlayFabAdminSendAccountRecoveryEmailResult;
 
 typedef struct PlayFabAdminSetPlayerSecretRequest
 {
     const char* playerSecret;
     const char* playFabId;
-
 } PlayFabAdminSetPlayerSecretRequest;
-
-typedef struct PlayFabAdminSetPlayerSecretResult
-{
-
-} PlayFabAdminSetPlayerSecretResult;
 
 typedef struct PlayFabAdminSetPublishedRevisionRequest
 {
@@ -4031,31 +3651,18 @@ typedef struct PlayFabAdminSetPublishedRevisionRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     int32_t revision;
     int32_t version;
-
 } PlayFabAdminSetPublishedRevisionRequest;
-
-typedef struct PlayFabAdminSetPublishedRevisionResult
-{
-
-} PlayFabAdminSetPublishedRevisionResult;
 
 typedef struct PlayFabAdminSetPublisherDataRequest
 {
     const char* key;
     const char* value;
-
 } PlayFabAdminSetPublisherDataRequest;
-
-typedef struct PlayFabAdminSetPublisherDataResult
-{
-
-} PlayFabAdminSetPublisherDataResult;
 
 typedef struct PlayFabAdminTitleDataKeyValue
 {
     const char* key;
     const char* value;
-
 } PlayFabAdminTitleDataKeyValue;
 
 typedef struct PlayFabAdminSetTitleDataAndOverridesRequest
@@ -4063,25 +3670,13 @@ typedef struct PlayFabAdminSetTitleDataAndOverridesRequest
     PF_ARRAY PlayFabAdminTitleDataKeyValue** keyValues;
     PF_COLLECTION_COUNT uint32_t keyValuesCount;
     const char* overrideLabel;
-
 } PlayFabAdminSetTitleDataAndOverridesRequest;
-
-typedef struct PlayFabAdminSetTitleDataAndOverridesResult
-{
-
-} PlayFabAdminSetTitleDataAndOverridesResult;
 
 typedef struct PlayFabAdminSetTitleDataRequest
 {
     const char* key;
     const char* value;
-
 } PlayFabAdminSetTitleDataRequest;
-
-typedef struct PlayFabAdminSetTitleDataResult
-{
-
-} PlayFabAdminSetTitleDataResult;
 
 typedef struct PlayFabAdminSetupPushNotificationRequest
 {
@@ -4090,13 +3685,11 @@ typedef struct PlayFabAdminSetupPushNotificationRequest
     const char* name;
     bool overwriteOldARN;
     PlayFabAdminPushSetupPlatform platform;
-
 } PlayFabAdminSetupPushNotificationRequest;
 
 typedef struct PlayFabAdminSetupPushNotificationResult
 {
     const char* aRN;
-
 } PlayFabAdminSetupPushNotificationResult;
 
 typedef struct PlayFabAdminSubtractUserVirtualCurrencyRequest
@@ -4106,7 +3699,6 @@ typedef struct PlayFabAdminSubtractUserVirtualCurrencyRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* playFabId;
     const char* virtualCurrency;
-
 } PlayFabAdminSubtractUserVirtualCurrencyRequest;
 
 typedef struct PlayFabAdminUpdateBanRequest
@@ -4118,21 +3710,18 @@ typedef struct PlayFabAdminUpdateBanRequest
     const char* mACAddress;
     PF_OPTIONAL bool* permanent;
     const char* reason;
-
 } PlayFabAdminUpdateBanRequest;
 
 typedef struct PlayFabAdminUpdateBansRequest
 {
     PF_ARRAY PlayFabAdminUpdateBanRequest** bans;
     PF_COLLECTION_COUNT uint32_t bansCount;
-
 } PlayFabAdminUpdateBansRequest;
 
 typedef struct PlayFabAdminUpdateBansResult
 {
     PF_ARRAY PlayFabAdminBanInfo** banData;
     PF_COLLECTION_COUNT uint32_t banDataCount;
-
 } PlayFabAdminUpdateBansResult;
 
 typedef struct PlayFabAdminUpdateCatalogItemsRequest
@@ -4143,13 +3732,7 @@ typedef struct PlayFabAdminUpdateCatalogItemsRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_OPTIONAL bool* setAsDefaultCatalog;
-
 } PlayFabAdminUpdateCatalogItemsRequest;
-
-typedef struct PlayFabAdminUpdateCatalogItemsResult
-{
-
-} PlayFabAdminUpdateCatalogItemsResult;
 
 typedef struct PlayFabAdminUpdateCloudScriptRequest
 {
@@ -4159,14 +3742,12 @@ typedef struct PlayFabAdminUpdateCloudScriptRequest
     PF_ARRAY PlayFabAdminCloudScriptFile** files;
     PF_COLLECTION_COUNT uint32_t filesCount;
     bool publish;
-
 } PlayFabAdminUpdateCloudScriptRequest;
 
 typedef struct PlayFabAdminUpdateCloudScriptResult
 {
     int32_t revision;
     int32_t version;
-
 } PlayFabAdminUpdateCloudScriptResult;
 
 typedef struct PlayFabAdminUpdateOpenIdConnectionRequest
@@ -4176,7 +3757,6 @@ typedef struct PlayFabAdminUpdateOpenIdConnectionRequest
     const char* connectionId;
     const char* issuerDiscoveryUrl;
     PF_OPTIONAL PlayFabAdminOpenIdIssuerInformation* issuerInformation;
-
 } PlayFabAdminUpdateOpenIdConnectionRequest;
 
 typedef struct PlayFabAdminUpdatePlayerSharedSecretRequest
@@ -4184,26 +3764,18 @@ typedef struct PlayFabAdminUpdatePlayerSharedSecretRequest
     bool disabled;
     const char* friendlyName;
     const char* secretKey;
-
 } PlayFabAdminUpdatePlayerSharedSecretRequest;
-
-typedef struct PlayFabAdminUpdatePlayerSharedSecretResult
-{
-
-} PlayFabAdminUpdatePlayerSharedSecretResult;
 
 typedef struct PlayFabAdminUpdatePlayerStatisticDefinitionRequest
 {
     PF_OPTIONAL PlayFabAdminStatisticAggregationMethod* aggregationMethod;
     const char* statisticName;
     PF_OPTIONAL PlayFabAdminStatisticResetIntervalOption* versionChangeInterval;
-
 } PlayFabAdminUpdatePlayerStatisticDefinitionRequest;
 
 typedef struct PlayFabAdminUpdatePlayerStatisticDefinitionResult
 {
     PF_OPTIONAL PlayFabAdminPlayerStatisticDefinition* statistic;
-
 } PlayFabAdminUpdatePlayerStatisticDefinitionResult;
 
 typedef struct PlayFabAdminUpdatePolicyRequest
@@ -4213,7 +3785,6 @@ typedef struct PlayFabAdminUpdatePolicyRequest
     int32_t policyVersion;
     PF_ARRAY PlayFabAdminPermissionStatement** statements;
     PF_COLLECTION_COUNT uint32_t statementsCount;
-
 } PlayFabAdminUpdatePolicyRequest;
 
 typedef struct PlayFabAdminUpdatePolicyResponse
@@ -4221,7 +3792,6 @@ typedef struct PlayFabAdminUpdatePolicyResponse
     const char* policyName;
     PF_ARRAY PlayFabAdminPermissionStatement** statements;
     PF_COLLECTION_COUNT uint32_t statementsCount;
-
 } PlayFabAdminUpdatePolicyResponse;
 
 typedef struct PlayFabAdminUpdateRandomResultTablesRequest
@@ -4231,25 +3801,17 @@ typedef struct PlayFabAdminUpdateRandomResultTablesRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PF_ARRAY PlayFabAdminRandomResultTable** tables;
     PF_COLLECTION_COUNT uint32_t tablesCount;
-
 } PlayFabAdminUpdateRandomResultTablesRequest;
-
-typedef struct PlayFabAdminUpdateRandomResultTablesResult
-{
-
-} PlayFabAdminUpdateRandomResultTablesResult;
 
 typedef struct PlayFabAdminUpdateSegmentRequest
 {
     PlayFabAdminSegmentModel* segmentModel;
-
 } PlayFabAdminUpdateSegmentRequest;
 
 typedef struct PlayFabAdminUpdateSegmentResponse
 {
     const char* errorMessage;
     const char* segmentId;
-
 } PlayFabAdminUpdateSegmentResponse;
 
 typedef struct PlayFabAdminUpdateStoreItemsRequest
@@ -4261,13 +3823,7 @@ typedef struct PlayFabAdminUpdateStoreItemsRequest
     PF_ARRAY PlayFabAdminStoreItem** store;
     PF_COLLECTION_COUNT uint32_t storeCount;
     const char* storeId;
-
 } PlayFabAdminUpdateStoreItemsRequest;
-
-typedef struct PlayFabAdminUpdateStoreItemsResult
-{
-
-} PlayFabAdminUpdateStoreItemsResult;
 
 typedef struct PlayFabAdminUpdateTaskRequest
 {
@@ -4280,7 +3836,6 @@ typedef struct PlayFabAdminUpdateTaskRequest
     PlayFabJsonObject parameter;
     const char* schedule;
     PlayFabAdminScheduledTaskType type;
-
 } PlayFabAdminUpdateTaskRequest;
 
 typedef struct PlayFabAdminUpdateUserDataRequest
@@ -4293,13 +3848,11 @@ typedef struct PlayFabAdminUpdateUserDataRequest
     PF_COLLECTION_COUNT uint32_t keysToRemoveCount;
     PF_OPTIONAL PlayFabAdminUserDataPermission* permission;
     const char* playFabId;
-
 } PlayFabAdminUpdateUserDataRequest;
 
 typedef struct PlayFabAdminUpdateUserDataResult
 {
     uint32_t dataVersion;
-
 } PlayFabAdminUpdateUserDataResult;
 
 typedef struct PlayFabAdminUpdateUserInternalDataRequest
@@ -4311,7 +3864,6 @@ typedef struct PlayFabAdminUpdateUserInternalDataRequest
     PF_ARRAY const char** keysToRemove;
     PF_COLLECTION_COUNT uint32_t keysToRemoveCount;
     const char* playFabId;
-
 } PlayFabAdminUpdateUserInternalDataRequest;
 
 typedef struct PlayFabAdminUpdateUserTitleDisplayNameRequest
@@ -4320,13 +3872,11 @@ typedef struct PlayFabAdminUpdateUserTitleDisplayNameRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* displayName;
     const char* playFabId;
-
 } PlayFabAdminUpdateUserTitleDisplayNameRequest;
 
 typedef struct PlayFabAdminUpdateUserTitleDisplayNameResult
 {
     const char* displayName;
-
 } PlayFabAdminUpdateUserTitleDisplayNameResult;
 
 
@@ -4357,3 +3907,5 @@ typedef struct PlayFabAdminPlayerLocationDictionaryEntry
 
 
 #pragma pop_macro("IN")
+
+}

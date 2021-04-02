@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabLocalizationDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabLocalizationGetLanguageListRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             return output;
@@ -23,7 +22,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabLocalizationGetLanguageListResponse& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "LanguageList", input.languageList, input.languageListCount);
             return output;
@@ -44,15 +42,15 @@ namespace PlayFab
                 PlayFabLocalizationGetLanguageListRequest{ src },
                 m_customTags{ src.m_customTags }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
             }
 
             ~GetLanguageListRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
             }
 
@@ -75,15 +73,15 @@ namespace PlayFab
                 PlayFabLocalizationGetLanguageListResponse{ src },
                 m_languageList{ src.m_languageList }
             {
-
                 languageList = m_languageList.Empty() ? nullptr : m_languageList.Data();
             }
 
             ~GetLanguageListResponse() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "LanguageList", m_languageList, languageList, languageListCount);
             }
 

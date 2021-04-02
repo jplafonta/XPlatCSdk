@@ -1,6 +1,16 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
 #include <playfab/PlayFabBaseModel_c.h>
+
+extern "C"
+{
 
 #pragma push_macro("IN")
 #undef IN
@@ -340,7 +350,6 @@ typedef struct PlayFabCloudScriptAdCampaignAttributionModel
     time_t attributedAt;
     const char* campaignId;
     const char* platform;
-
 } PlayFabCloudScriptAdCampaignAttributionModel;
 
 typedef struct PlayFabCloudScriptContactEmailInfoModel
@@ -348,19 +357,12 @@ typedef struct PlayFabCloudScriptContactEmailInfoModel
     const char* emailAddress;
     const char* name;
     PF_OPTIONAL PlayFabCloudScriptEmailVerificationStatus* verificationStatus;
-
 } PlayFabCloudScriptContactEmailInfoModel;
-
-typedef struct PlayFabCloudScriptEmptyResult
-{
-
-} PlayFabCloudScriptEmptyResult;
 
 typedef struct PlayFabCloudScriptEntityKey
 {
     const char* id;
     const char* type;
-
 } PlayFabCloudScriptEntityKey;
 
 typedef struct PlayFabCloudScriptScriptExecutionError
@@ -368,7 +370,6 @@ typedef struct PlayFabCloudScriptScriptExecutionError
     const char* error;
     const char* message;
     const char* stackTrace;
-
 } PlayFabCloudScriptScriptExecutionError;
 
 typedef struct PlayFabCloudScriptLogStatement
@@ -376,7 +377,6 @@ typedef struct PlayFabCloudScriptLogStatement
     PlayFabJsonObject data;
     const char* level;
     const char* message;
-
 } PlayFabCloudScriptLogStatement;
 
 typedef struct PlayFabCloudScriptExecuteCloudScriptResult
@@ -394,7 +394,6 @@ typedef struct PlayFabCloudScriptExecuteCloudScriptResult
     uint32_t memoryConsumedBytes;
     double processorTimeSeconds;
     int32_t revision;
-
 } PlayFabCloudScriptExecuteCloudScriptResult;
 
 typedef struct PlayFabCloudScriptExecuteEntityCloudScriptRequest
@@ -407,7 +406,6 @@ typedef struct PlayFabCloudScriptExecuteEntityCloudScriptRequest
     PF_OPTIONAL bool* generatePlayStreamEvent;
     PF_OPTIONAL PlayFabCloudScriptCloudScriptRevisionOption* revisionSelection;
     PF_OPTIONAL int32_t* specificRevision;
-
 } PlayFabCloudScriptExecuteEntityCloudScriptRequest;
 
 typedef struct PlayFabCloudScriptExecuteFunctionRequest
@@ -418,7 +416,6 @@ typedef struct PlayFabCloudScriptExecuteFunctionRequest
     const char* functionName;
     PlayFabJsonObject functionParameter;
     PF_OPTIONAL bool* generatePlayStreamEvent;
-
 } PlayFabCloudScriptExecuteFunctionRequest;
 
 typedef struct PlayFabCloudScriptFunctionExecutionError
@@ -426,7 +423,6 @@ typedef struct PlayFabCloudScriptFunctionExecutionError
     const char* error;
     const char* message;
     const char* stackTrace;
-
 } PlayFabCloudScriptFunctionExecutionError;
 
 typedef struct PlayFabCloudScriptExecuteFunctionResult
@@ -436,7 +432,6 @@ typedef struct PlayFabCloudScriptExecuteFunctionResult
     const char* functionName;
     PlayFabJsonObject functionResult;
     PF_OPTIONAL bool* functionResultTooLarge;
-
 } PlayFabCloudScriptExecuteFunctionResult;
 
 typedef struct PlayFabCloudScriptFunctionModel
@@ -444,14 +439,12 @@ typedef struct PlayFabCloudScriptFunctionModel
     const char* functionAddress;
     const char* functionName;
     const char* triggerType;
-
 } PlayFabCloudScriptFunctionModel;
 
 typedef struct PlayFabCloudScriptHttpFunctionModel
 {
     const char* functionName;
     const char* functionUrl;
-
 } PlayFabCloudScriptHttpFunctionModel;
 
 typedef struct PlayFabCloudScriptLinkedPlatformAccountModel
@@ -460,28 +453,24 @@ typedef struct PlayFabCloudScriptLinkedPlatformAccountModel
     PF_OPTIONAL PlayFabCloudScriptLoginIdentityProvider* platform;
     const char* platformUserId;
     const char* username;
-
 } PlayFabCloudScriptLinkedPlatformAccountModel;
 
 typedef struct PlayFabCloudScriptListFunctionsRequest
 {
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
-
 } PlayFabCloudScriptListFunctionsRequest;
 
 typedef struct PlayFabCloudScriptListFunctionsResult
 {
     PF_ARRAY PlayFabCloudScriptFunctionModel** functions;
     PF_COLLECTION_COUNT uint32_t functionsCount;
-
 } PlayFabCloudScriptListFunctionsResult;
 
 typedef struct PlayFabCloudScriptListHttpFunctionsResult
 {
     PF_ARRAY PlayFabCloudScriptHttpFunctionModel** functions;
     PF_COLLECTION_COUNT uint32_t functionsCount;
-
 } PlayFabCloudScriptListHttpFunctionsResult;
 
 typedef struct PlayFabCloudScriptQueuedFunctionModel
@@ -489,14 +478,12 @@ typedef struct PlayFabCloudScriptQueuedFunctionModel
     const char* connectionString;
     const char* functionName;
     const char* queueName;
-
 } PlayFabCloudScriptQueuedFunctionModel;
 
 typedef struct PlayFabCloudScriptListQueuedFunctionsResult
 {
     PF_ARRAY PlayFabCloudScriptQueuedFunctionModel** functions;
     PF_COLLECTION_COUNT uint32_t functionsCount;
-
 } PlayFabCloudScriptListQueuedFunctionsResult;
 
 typedef struct PlayFabCloudScriptLocationModel
@@ -506,7 +493,6 @@ typedef struct PlayFabCloudScriptLocationModel
     PF_OPTIONAL PlayFabCloudScriptCountryCode* countryCode;
     PF_OPTIONAL double* latitude;
     PF_OPTIONAL double* longitude;
-
 } PlayFabCloudScriptLocationModel;
 
 typedef struct PlayFabCloudScriptSubscriptionModel
@@ -518,7 +504,6 @@ typedef struct PlayFabCloudScriptSubscriptionModel
     const char* subscriptionId;
     const char* subscriptionItemId;
     const char* subscriptionProvider;
-
 } PlayFabCloudScriptSubscriptionModel;
 
 typedef struct PlayFabCloudScriptMembershipModel
@@ -529,21 +514,18 @@ typedef struct PlayFabCloudScriptMembershipModel
     PF_OPTIONAL time_t* overrideExpiration;
     PF_ARRAY PlayFabCloudScriptSubscriptionModel** subscriptions;
     PF_COLLECTION_COUNT uint32_t subscriptionsCount;
-
 } PlayFabCloudScriptMembershipModel;
 
 typedef struct PlayFabCloudScriptNameIdentifier
 {
     const char* id;
     const char* name;
-
 } PlayFabCloudScriptNameIdentifier;
 
 typedef struct PlayFabCloudScriptPushNotificationRegistrationModel
 {
     const char* notificationEndpointARN;
     PF_OPTIONAL PlayFabCloudScriptPushNotificationPlatform* platform;
-
 } PlayFabCloudScriptPushNotificationRegistrationModel;
 
 typedef struct PlayFabCloudScriptStatisticModel
@@ -551,13 +533,11 @@ typedef struct PlayFabCloudScriptStatisticModel
     const char* name;
     int32_t value;
     int32_t version;
-
 } PlayFabCloudScriptStatisticModel;
 
 typedef struct PlayFabCloudScriptTagModel
 {
     const char* tagValue;
-
 } PlayFabCloudScriptTagModel;
 
 typedef struct PlayFabCloudScriptValueToDateModel
@@ -565,7 +545,6 @@ typedef struct PlayFabCloudScriptValueToDateModel
     const char* currency;
     uint32_t totalValue;
     const char* totalValueAsDecimal;
-
 } PlayFabCloudScriptValueToDateModel;
 
 typedef struct PlayFabCloudScriptPlayerProfileModel
@@ -600,7 +579,6 @@ typedef struct PlayFabCloudScriptPlayerProfileModel
     PF_OPTIONAL uint32_t* totalValueToDateInUSD;
     PF_ARRAY PlayFabCloudScriptValueToDateModel** valuesToDate;
     PF_COLLECTION_COUNT uint32_t valuesToDateCount;
-
 } PlayFabCloudScriptPlayerProfileModel;
 
 typedef struct PlayFabCloudScriptPlayStreamEventEnvelopeModel
@@ -611,7 +589,6 @@ typedef struct PlayFabCloudScriptPlayStreamEventEnvelopeModel
     const char* eventName;
     const char* eventNamespace;
     const char* eventSettings;
-
 } PlayFabCloudScriptPlayStreamEventEnvelopeModel;
 
 typedef struct PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest
@@ -620,7 +597,6 @@ typedef struct PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionReque
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PlayFabCloudScriptEntityKey* entity;
     PlayFabCloudScriptExecuteFunctionResult* functionResult;
-
 } PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest;
 
 typedef struct PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest
@@ -629,7 +605,6 @@ typedef struct PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     PlayFabCloudScriptEntityKey* entity;
     PlayFabCloudScriptExecuteFunctionResult* functionResult;
-
 } PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest;
 
 typedef struct PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest
@@ -640,7 +615,6 @@ typedef struct PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionReque
     PlayFabCloudScriptExecuteFunctionResult* functionResult;
     PlayFabCloudScriptPlayerProfileModel* playerProfile;
     PF_OPTIONAL PlayFabCloudScriptPlayStreamEventEnvelopeModel* playStreamEventEnvelope;
-
 } PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest;
 
 typedef struct PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest
@@ -650,7 +624,6 @@ typedef struct PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest
     PlayFabCloudScriptEntityKey* entity;
     PlayFabCloudScriptExecuteFunctionResult* functionResult;
     PlayFabCloudScriptNameIdentifier* scheduledTaskId;
-
 } PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest;
 
 typedef struct PlayFabCloudScriptRegisterHttpFunctionRequest
@@ -659,7 +632,6 @@ typedef struct PlayFabCloudScriptRegisterHttpFunctionRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* functionName;
     const char* functionUrl;
-
 } PlayFabCloudScriptRegisterHttpFunctionRequest;
 
 typedef struct PlayFabCloudScriptRegisterQueuedFunctionRequest
@@ -669,7 +641,6 @@ typedef struct PlayFabCloudScriptRegisterQueuedFunctionRequest
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* functionName;
     const char* queueName;
-
 } PlayFabCloudScriptRegisterQueuedFunctionRequest;
 
 typedef struct PlayFabCloudScriptUnregisterFunctionRequest
@@ -677,10 +648,11 @@ typedef struct PlayFabCloudScriptUnregisterFunctionRequest
     PF_MAP struct PlayFabStringDictionaryEntry* customTags;
     PF_COLLECTION_COUNT uint32_t customTagsCount;
     const char* functionName;
-
 } PlayFabCloudScriptUnregisterFunctionRequest;
 
 
 // CloudScript dictionary entry structs
 
 #pragma pop_macro("IN")
+
+}

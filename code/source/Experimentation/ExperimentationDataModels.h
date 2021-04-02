@@ -3,8 +3,8 @@
 #if !defined(DISABLE_PLAYFABENTITY_API)
 
 #include <playfab/PlayFabExperimentationDataModels_c.h>
-#include <BaseModel.h>
-#include <JsonUtils.h>
+#include "BaseModel.h"
+#include "JsonUtils.h"
 
 namespace PlayFab
 {
@@ -14,7 +14,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Description", input.description);
@@ -25,7 +24,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
             return output;
@@ -34,7 +32,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationVariable& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Name", input.name);
             JsonUtils::ObjectAddMember(output, "Value", input.value);
@@ -44,7 +41,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationVariant& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Description", input.description);
             JsonUtils::ObjectAddMember(output, "Id", input.id);
@@ -59,7 +55,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Description", input.description);
@@ -78,7 +73,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
             return output;
@@ -87,7 +81,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExclusionGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
@@ -97,7 +90,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExperimentRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
@@ -105,17 +97,8 @@ namespace PlayFab
         }
 
         template<>
-        inline JsonValue ToJson<>(const PlayFabExperimentationEmptyResponse& input)
-        {
-            UNREFERENCED_PARAMETER(input);
-            JsonValue output{ rapidjson::kObjectType };
-            return output;
-        }
-
-        template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationEntityKey& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Id", input.id);
             JsonUtils::ObjectAddMember(output, "Type", input.type);
@@ -125,7 +108,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationExclusionGroupTrafficAllocation& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
             JsonUtils::ObjectAddMember(output, "TrafficAllocation", input.trafficAllocation);
@@ -135,7 +117,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationExperiment& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Description", input.description);
             JsonUtils::ObjectAddMember(output, "EndDate", input.endDate, true);
@@ -155,7 +136,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationExperimentExclusionGroup& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Description", input.description);
             JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
@@ -166,7 +146,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             return output;
@@ -175,7 +154,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupsResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ExclusionGroups", input.exclusionGroups, input.exclusionGroupsCount);
             return output;
@@ -184,7 +162,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupTrafficRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
@@ -194,7 +171,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupTrafficResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "TrafficAllocations", input.trafficAllocations, input.trafficAllocationsCount);
             return output;
@@ -203,7 +179,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             return output;
@@ -212,7 +187,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Experiments", input.experiments, input.experimentsCount);
             return output;
@@ -221,7 +195,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
@@ -231,7 +204,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationMetricData& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "ConfidenceIntervalEnd", input.confidenceIntervalEnd);
             JsonUtils::ObjectAddMember(output, "ConfidenceIntervalStart", input.confidenceIntervalStart);
@@ -252,7 +224,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationScorecardDataRow& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "IsControl", input.isControl);
             JsonUtils::ObjectAddMember(output, "MetricDataRows", input.metricDataRows, input.metricDataRowsCount);
@@ -264,7 +235,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationScorecard& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "DateGenerated", input.dateGenerated);
             JsonUtils::ObjectAddMember(output, "Duration", input.duration);
@@ -280,7 +250,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Scorecard", input.scorecard);
             return output;
@@ -289,7 +258,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -299,7 +267,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationTreatmentAssignment& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "Variables", input.variables, input.variablesCount);
             JsonUtils::ObjectAddMember(output, "Variants", input.variants, input.variantsCount);
@@ -309,7 +276,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentResult& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "TreatmentAssignment", input.treatmentAssignment);
             return output;
@@ -318,7 +284,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationStartExperimentRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
@@ -328,7 +293,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationStopExperimentRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
@@ -338,7 +302,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExclusionGroupRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Description", input.description);
@@ -350,7 +313,6 @@ namespace PlayFab
         template<>
         inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExperimentRequest& input)
         {
-            UNREFERENCED_PARAMETER(input);
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
             JsonUtils::ObjectAddMember(output, "Description", input.description);
@@ -384,7 +346,6 @@ namespace PlayFab
                 m_description{ src.m_description },
                 m_name{ src.m_name }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 description = m_description.empty() ? nullptr : m_description.data();
                 name = m_name.empty() ? nullptr : m_name.data();
@@ -392,9 +353,10 @@ namespace PlayFab
 
             ~CreateExclusionGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "Name", m_name, name);
@@ -421,15 +383,15 @@ namespace PlayFab
                 PlayFabExperimentationCreateExclusionGroupResult{ src },
                 m_exclusionGroupId{ src.m_exclusionGroupId }
             {
-
                 exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
             }
 
             ~CreateExclusionGroupResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
             }
 
@@ -453,16 +415,16 @@ namespace PlayFab
                 m_name{ src.m_name },
                 m_value{ src.m_value }
             {
-
                 name = m_name.empty() ? nullptr : m_name.data();
                 value = m_value.empty() ? nullptr : m_value.data();
             }
 
             ~Variable() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Name", m_name, name);
                 JsonUtils:: ObjectGetMember(input, "Value", m_value, value);
             }
@@ -491,7 +453,6 @@ namespace PlayFab
                 m_titleDataOverrideLabel{ src.m_titleDataOverrideLabel },
                 m_variables{ src.m_variables }
             {
-
                 description = m_description.empty() ? nullptr : m_description.data();
                 id = m_id.empty() ? nullptr : m_id.data();
                 name = m_name.empty() ? nullptr : m_name.data();
@@ -501,9 +462,10 @@ namespace PlayFab
 
             ~Variant() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "Id", m_id, id);
                 JsonUtils:: ObjectGetMember(input, "IsControl", isControl);
@@ -521,10 +483,8 @@ namespace PlayFab
         private:
             String m_description;
             String m_id;
-
             String m_name;
             String m_titleDataOverrideLabel;
-
             PointerArray<PlayFabExperimentationVariable, Variable> m_variables;
         };
 
@@ -547,7 +507,6 @@ namespace PlayFab
                 m_titlePlayerAccountTestIds{ src.m_titlePlayerAccountTestIds },
                 m_variants{ src.m_variants }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 description = m_description.empty() ? nullptr : m_description.data();
                 endDate = m_endDate ? m_endDate.operator->() : nullptr;
@@ -562,9 +521,10 @@ namespace PlayFab
 
             ~CreateExperimentRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "EndDate", m_endDate, endDate, true);
@@ -592,7 +552,6 @@ namespace PlayFab
             StdExtra::optional<PlayFabExperimentationExperimentType> m_experimentType;
             String m_name;
             String m_segmentId;
-
             PointerArray<const char, String> m_titlePlayerAccountTestIds;
             PointerArray<PlayFabExperimentationVariant, Variant> m_variants;
         };
@@ -607,15 +566,15 @@ namespace PlayFab
                 PlayFabExperimentationCreateExperimentResult{ src },
                 m_experimentId{ src.m_experimentId }
             {
-
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
             }
 
             ~CreateExperimentResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ExperimentId", m_experimentId, experimentId);
             }
 
@@ -639,16 +598,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_exclusionGroupId{ src.m_exclusionGroupId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
             }
 
             ~DeleteExclusionGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
             }
@@ -674,16 +633,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_experimentId{ src.m_experimentId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
             }
 
             ~DeleteExperimentRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExperimentId", m_experimentId, experimentId);
             }
@@ -698,29 +657,6 @@ namespace PlayFab
             String m_experimentId;
         };
 
-        struct EmptyResponse : public PlayFabExperimentationEmptyResponse, public BaseResult
-        {
-            EmptyResponse() : PlayFabExperimentationEmptyResponse{}
-            {
-            }
-
-            EmptyResponse(const EmptyResponse&) = default;
-
-            ~EmptyResponse() = default;
-
-            void FromJson(const JsonValue&) override
-            {
-                
-            }
-
-            JsonValue ToJson() const override
-            { 
-                return JsonUtils::ToJson<PlayFabExperimentationEmptyResponse>(*this);
-            }
-
-        private:
-        };
-
         struct EntityKey : public PlayFabExperimentationEntityKey, public BaseModel
         {
             EntityKey() : PlayFabExperimentationEntityKey{}
@@ -732,16 +668,16 @@ namespace PlayFab
                 m_id{ src.m_id },
                 m_type{ src.m_type }
             {
-
                 id = m_id.empty() ? nullptr : m_id.data();
                 type = m_type.empty() ? nullptr : m_type.data();
             }
 
             ~EntityKey() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Id", m_id, id);
                 JsonUtils:: ObjectGetMember(input, "Type", m_type, type);
             }
@@ -766,15 +702,15 @@ namespace PlayFab
                 PlayFabExperimentationExclusionGroupTrafficAllocation{ src },
                 m_experimentId{ src.m_experimentId }
             {
-
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
             }
 
             ~ExclusionGroupTrafficAllocation() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ExperimentId", m_experimentId, experimentId);
                 JsonUtils:: ObjectGetMember(input, "TrafficAllocation", trafficAllocation);
             }
@@ -786,7 +722,6 @@ namespace PlayFab
 
         private:
             String m_experimentId;
-
         };
 
         struct Experiment : public PlayFabExperimentationExperiment, public BaseModel
@@ -809,7 +744,6 @@ namespace PlayFab
                 m_titlePlayerAccountTestIds{ src.m_titlePlayerAccountTestIds },
                 m_variants{ src.m_variants }
             {
-
                 description = m_description.empty() ? nullptr : m_description.data();
                 endDate = m_endDate ? m_endDate.operator->() : nullptr;
                 exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
@@ -825,9 +759,10 @@ namespace PlayFab
 
             ~Experiment() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "EndDate", m_endDate, endDate, true);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
@@ -856,7 +791,6 @@ namespace PlayFab
             String m_id;
             String m_name;
             String m_segmentId;
-
             StdExtra::optional<PlayFabExperimentationExperimentState> m_state;
             PointerArray<const char, String> m_titlePlayerAccountTestIds;
             PointerArray<PlayFabExperimentationVariant, Variant> m_variants;
@@ -874,7 +808,6 @@ namespace PlayFab
                 m_exclusionGroupId{ src.m_exclusionGroupId },
                 m_name{ src.m_name }
             {
-
                 description = m_description.empty() ? nullptr : m_description.data();
                 exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
                 name = m_name.empty() ? nullptr : m_name.data();
@@ -882,9 +815,10 @@ namespace PlayFab
 
             ~ExperimentExclusionGroup() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
                 JsonUtils:: ObjectGetMember(input, "Name", m_name, name);
@@ -911,15 +845,15 @@ namespace PlayFab
                 PlayFabExperimentationGetExclusionGroupsRequest{ src },
                 m_customTags{ src.m_customTags }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
             }
 
             ~GetExclusionGroupsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
             }
 
@@ -942,15 +876,15 @@ namespace PlayFab
                 PlayFabExperimentationGetExclusionGroupsResult{ src },
                 m_exclusionGroups{ src.m_exclusionGroups }
             {
-
                 exclusionGroups = m_exclusionGroups.Empty() ? nullptr : m_exclusionGroups.Data();
             }
 
             ~GetExclusionGroupsResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroups", m_exclusionGroups, exclusionGroups, exclusionGroupsCount);
             }
 
@@ -974,16 +908,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_exclusionGroupId{ src.m_exclusionGroupId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
             }
 
             ~GetExclusionGroupTrafficRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
             }
@@ -1008,15 +942,15 @@ namespace PlayFab
                 PlayFabExperimentationGetExclusionGroupTrafficResult{ src },
                 m_trafficAllocations{ src.m_trafficAllocations }
             {
-
                 trafficAllocations = m_trafficAllocations.Empty() ? nullptr : m_trafficAllocations.Data();
             }
 
             ~GetExclusionGroupTrafficResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "TrafficAllocations", m_trafficAllocations, trafficAllocations, trafficAllocationsCount);
             }
 
@@ -1039,15 +973,15 @@ namespace PlayFab
                 PlayFabExperimentationGetExperimentsRequest{ src },
                 m_customTags{ src.m_customTags }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
             }
 
             ~GetExperimentsRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
             }
 
@@ -1070,15 +1004,15 @@ namespace PlayFab
                 PlayFabExperimentationGetExperimentsResult{ src },
                 m_experiments{ src.m_experiments }
             {
-
                 experiments = m_experiments.Empty() ? nullptr : m_experiments.Data();
             }
 
             ~GetExperimentsResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Experiments", m_experiments, experiments, experimentsCount);
             }
 
@@ -1102,16 +1036,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_experimentId{ src.m_experimentId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
             }
 
             ~GetLatestScorecardRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExperimentId", m_experimentId, experimentId);
             }
@@ -1139,7 +1073,6 @@ namespace PlayFab
                 m_name{ src.m_name },
                 m_statSigLevel{ src.m_statSigLevel }
             {
-
                 internalName = m_internalName.empty() ? nullptr : m_internalName.data();
                 movement = m_movement.empty() ? nullptr : m_movement.data();
                 name = m_name.empty() ? nullptr : m_name.data();
@@ -1148,9 +1081,10 @@ namespace PlayFab
 
             ~MetricData() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "ConfidenceIntervalEnd", confidenceIntervalEnd);
                 JsonUtils:: ObjectGetMember(input, "ConfidenceIntervalStart", confidenceIntervalStart);
                 JsonUtils:: ObjectGetMember(input, "DeltaAbsoluteChange", deltaAbsoluteChange);
@@ -1172,19 +1106,10 @@ namespace PlayFab
             }
 
         private:
-
-
-
-
             String m_internalName;
             String m_movement;
             String m_name;
-
-
-
             String m_statSigLevel;
-
-
         };
 
         struct ScorecardDataRow : public PlayFabExperimentationScorecardDataRow, public BaseModel
@@ -1198,16 +1123,16 @@ namespace PlayFab
                 m_metricDataRows{ src.m_metricDataRows },
                 m_variantName{ src.m_variantName }
             {
-
                 metricDataRows = m_metricDataRows.Empty() ? nullptr : m_metricDataRows.Data();
                 variantName = m_variantName.empty() ? nullptr : m_variantName.data();
             }
 
             ~ScorecardDataRow() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "IsControl", isControl);
                 JsonUtils:: ObjectGetMember(input, "MetricDataRows", m_metricDataRows, metricDataRows, metricDataRowsCount);
                 JsonUtils:: ObjectGetMember(input, "PlayerCount", playerCount);
@@ -1220,9 +1145,7 @@ namespace PlayFab
             }
 
         private:
-
             AssociativeArray<PlayFabExperimentationMetricDataDictionaryEntry, MetricData> m_metricDataRows;
-
             String m_variantName;
         };
 
@@ -1241,7 +1164,6 @@ namespace PlayFab
                 m_latestJobStatus{ src.m_latestJobStatus },
                 m_scorecardDataRows{ src.m_scorecardDataRows }
             {
-
                 dateGenerated = m_dateGenerated.empty() ? nullptr : m_dateGenerated.data();
                 duration = m_duration.empty() ? nullptr : m_duration.data();
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
@@ -1252,9 +1174,10 @@ namespace PlayFab
 
             ~Scorecard() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "DateGenerated", m_dateGenerated, dateGenerated);
                 JsonUtils:: ObjectGetMember(input, "Duration", m_duration, duration);
                 JsonUtils:: ObjectGetMember(input, "EventsProcessed", eventsProcessed);
@@ -1273,11 +1196,9 @@ namespace PlayFab
         private:
             String m_dateGenerated;
             String m_duration;
-
             String m_experimentId;
             String m_experimentName;
             StdExtra::optional<PlayFabExperimentationAnalysisTaskState> m_latestJobStatus;
-
             PointerArray<PlayFabExperimentationScorecardDataRow, ScorecardDataRow> m_scorecardDataRows;
         };
 
@@ -1291,15 +1212,15 @@ namespace PlayFab
                 PlayFabExperimentationGetLatestScorecardResult{ src },
                 m_scorecard{ src.m_scorecard }
             {
-
                 scorecard = m_scorecard ? m_scorecard.operator->() : nullptr;
             }
 
             ~GetLatestScorecardResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Scorecard", m_scorecard, scorecard);
             }
 
@@ -1323,16 +1244,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_entity{ src.m_entity }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 entity = m_entity ? m_entity.operator->() : nullptr;
             }
 
             ~GetTreatmentAssignmentRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Entity", m_entity, entity);
             }
@@ -1358,16 +1279,16 @@ namespace PlayFab
                 m_variables{ src.m_variables },
                 m_variants{ src.m_variants }
             {
-
                 variables = m_variables.Empty() ? nullptr : m_variables.Data();
                 variants = m_variants.Empty() ? nullptr : m_variants.Data();
             }
 
             ~TreatmentAssignment() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "Variables", m_variables, variables, variablesCount);
                 JsonUtils:: ObjectGetMember(input, "Variants", m_variants, variants, variantsCount);
             }
@@ -1392,15 +1313,15 @@ namespace PlayFab
                 PlayFabExperimentationGetTreatmentAssignmentResult{ src },
                 m_treatmentAssignment{ src.m_treatmentAssignment }
             {
-
                 treatmentAssignment = m_treatmentAssignment ? m_treatmentAssignment.operator->() : nullptr;
             }
 
             ~GetTreatmentAssignmentResult() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "TreatmentAssignment", m_treatmentAssignment, treatmentAssignment);
             }
 
@@ -1424,16 +1345,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_experimentId{ src.m_experimentId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
             }
 
             ~StartExperimentRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExperimentId", m_experimentId, experimentId);
             }
@@ -1459,16 +1380,16 @@ namespace PlayFab
                 m_customTags{ src.m_customTags },
                 m_experimentId{ src.m_experimentId }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
             }
 
             ~StopExperimentRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "ExperimentId", m_experimentId, experimentId);
             }
@@ -1496,7 +1417,6 @@ namespace PlayFab
                 m_exclusionGroupId{ src.m_exclusionGroupId },
                 m_name{ src.m_name }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 description = m_description.empty() ? nullptr : m_description.data();
                 exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
@@ -1505,9 +1425,10 @@ namespace PlayFab
 
             ~UpdateExclusionGroupRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
@@ -1546,7 +1467,6 @@ namespace PlayFab
                 m_titlePlayerAccountTestIds{ src.m_titlePlayerAccountTestIds },
                 m_variants{ src.m_variants }
             {
-
                 customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
                 description = m_description.empty() ? nullptr : m_description.data();
                 endDate = m_endDate ? m_endDate.operator->() : nullptr;
@@ -1562,9 +1482,10 @@ namespace PlayFab
 
             ~UpdateExperimentRequest() = default;
 
+            // TODO Add move constructor & assignment operators
+
             void FromJson(const JsonValue& input) override
             {
-                UNREFERENCED_PARAMETER(input);
                 JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
                 JsonUtils:: ObjectGetMember(input, "Description", m_description, description);
                 JsonUtils:: ObjectGetMember(input, "EndDate", m_endDate, endDate, true);
@@ -1594,7 +1515,6 @@ namespace PlayFab
             String m_id;
             String m_name;
             String m_segmentId;
-
             PointerArray<const char, String> m_titlePlayerAccountTestIds;
             PointerArray<PlayFabExperimentationVariant, Variant> m_variants;
         };

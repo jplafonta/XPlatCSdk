@@ -2,9 +2,9 @@
 
 #if !defined(DISABLE_PLAYFABCLIENT_API)
 
-#include <Client/ClientDataModels.h>
-#include <playfab/HttpClient.h>
-#include <playfab/TaskQueue.h>
+#include "ClientDataModels.h"
+#include "HttpClient.h"
+#include "TaskQueue.h"
 
 namespace PlayFab
 {
@@ -45,13 +45,13 @@ namespace PlayFab
         // ------------ Generated API calls
         void AcceptTrade(ClientModels::AcceptTradeRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AcceptTradeResponse> callback, const ErrorCallback errorCallback = nullptr);
         void AddFriend(ClientModels::AddFriendRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AddFriendResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AddGenericID(ClientModels::AddGenericIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AddGenericIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AddOrUpdateContactEmail(ClientModels::AddOrUpdateContactEmailRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AddOrUpdateContactEmailResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AddSharedGroupMembers(ClientModels::AddSharedGroupMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AddSharedGroupMembersResult> callback, const ErrorCallback errorCallback = nullptr);
+        void AddGenericID(ClientModels::AddGenericIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void AddOrUpdateContactEmail(ClientModels::AddOrUpdateContactEmailRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void AddSharedGroupMembers(ClientModels::AddSharedGroupMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void AddUsernamePassword(ClientModels::AddUsernamePasswordRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AddUsernamePasswordResult> callback, const ErrorCallback errorCallback = nullptr);
         void AddUserVirtualCurrency(ClientModels::AddUserVirtualCurrencyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::ModifyUserVirtualCurrencyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AndroidDevicePushNotificationRegistration(ClientModels::AndroidDevicePushNotificationRegistrationRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AndroidDevicePushNotificationRegistrationResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AttributeInstall(ClientModels::AttributeInstallRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::AttributeInstallResult> callback, const ErrorCallback errorCallback = nullptr);
+        void AndroidDevicePushNotificationRegistration(ClientModels::AndroidDevicePushNotificationRegistrationRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void AttributeInstall(ClientModels::AttributeInstallRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void CancelTrade(ClientModels::CancelTradeRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::CancelTradeResponse> callback, const ErrorCallback errorCallback = nullptr);
         void ConfirmPurchase(ClientModels::ConfirmPurchaseRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::ConfirmPurchaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void ConsumeItem(ClientModels::ConsumeItemRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::ConsumeItemResult> callback, const ErrorCallback errorCallback = nullptr);
@@ -84,7 +84,7 @@ namespace PlayFab
         void GetPhotonAuthenticationToken(ClientModels::GetPhotonAuthenticationTokenRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPhotonAuthenticationTokenResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetPlayerCombinedInfo(ClientModels::GetPlayerCombinedInfoRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerCombinedInfoResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetPlayerProfile(ClientModels::GetPlayerProfileRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerProfileResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetPlayerSegments(ClientModels::GetPlayerSegmentsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerSegmentsResult> callback, const ErrorCallback errorCallback = nullptr);
+        void GetPlayerSegments(PlayFab::BaseRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerSegmentsResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetPlayerStatistics(ClientModels::GetPlayerStatisticsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerStatisticsResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetPlayerStatisticVersions(ClientModels::GetPlayerStatisticVersionsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerStatisticVersionsResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetPlayerTags(ClientModels::GetPlayerTagsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPlayerTagsResult> callback, const ErrorCallback errorCallback = nullptr);
@@ -104,7 +104,7 @@ namespace PlayFab
         void GetPurchase(ClientModels::GetPurchaseRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetPurchaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetSharedGroupData(ClientModels::GetSharedGroupDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetSharedGroupDataResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetStoreItems(ClientModels::GetStoreItemsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetStoreItemsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetTime(ClientModels::GetTimeRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetTimeResult> callback, const ErrorCallback errorCallback = nullptr);
+        void GetTime(PlayFab::BaseRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetTimeResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetTitleData(ClientModels::GetTitleDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetTitleDataResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetTitleNews(ClientModels::GetTitleNewsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetTitleNewsResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetTitlePublicKey(ClientModels::GetTitlePublicKeyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetTitlePublicKeyResult> callback, const ErrorCallback errorCallback = nullptr);
@@ -116,23 +116,23 @@ namespace PlayFab
         void GetUserReadOnlyData(ClientModels::GetUserDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetUserDataResult> callback, const ErrorCallback errorCallback = nullptr);
         void GetWindowsHelloChallenge(ClientModels::GetWindowsHelloChallengeRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GetWindowsHelloChallengeResponse> callback, const ErrorCallback errorCallback = nullptr);
         void GrantCharacterToUser(ClientModels::GrantCharacterToUserRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::GrantCharacterToUserResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkAndroidDeviceID(ClientModels::LinkAndroidDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkAndroidDeviceIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkApple(ClientModels::LinkAppleRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkCustomID(ClientModels::LinkCustomIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkCustomIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkFacebookAccount(ClientModels::LinkFacebookAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkFacebookAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkFacebookInstantGamesId(ClientModels::LinkFacebookInstantGamesIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkFacebookInstantGamesIdResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkGameCenterAccount(ClientModels::LinkGameCenterAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkGameCenterAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkGoogleAccount(ClientModels::LinkGoogleAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkGoogleAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkIOSDeviceID(ClientModels::LinkIOSDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkIOSDeviceIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkKongregate(ClientModels::LinkKongregateAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkKongregateAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkNintendoServiceAccount(ClientModels::LinkNintendoServiceAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkNintendoSwitchDeviceId(ClientModels::LinkNintendoSwitchDeviceIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkNintendoSwitchDeviceIdResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkOpenIdConnect(ClientModels::LinkOpenIdConnectRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkPSNAccount(ClientModels::LinkPSNAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkPSNAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkSteamAccount(ClientModels::LinkSteamAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkSteamAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkTwitch(ClientModels::LinkTwitchAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkTwitchAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkWindowsHello(ClientModels::LinkWindowsHelloAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkWindowsHelloAccountResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void LinkXboxAccount(ClientModels::LinkXboxAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LinkXboxAccountResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkAndroidDeviceID(ClientModels::LinkAndroidDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkApple(ClientModels::LinkAppleRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkCustomID(ClientModels::LinkCustomIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkFacebookAccount(ClientModels::LinkFacebookAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkFacebookInstantGamesId(ClientModels::LinkFacebookInstantGamesIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkGameCenterAccount(ClientModels::LinkGameCenterAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkGoogleAccount(ClientModels::LinkGoogleAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkIOSDeviceID(ClientModels::LinkIOSDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkKongregate(ClientModels::LinkKongregateAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkNintendoServiceAccount(ClientModels::LinkNintendoServiceAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkNintendoSwitchDeviceId(ClientModels::LinkNintendoSwitchDeviceIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkOpenIdConnect(ClientModels::LinkOpenIdConnectRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkPSNAccount(ClientModels::LinkPSNAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkSteamAccount(ClientModels::LinkSteamAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkTwitch(ClientModels::LinkTwitchAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkWindowsHello(ClientModels::LinkWindowsHelloAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void LinkXboxAccount(ClientModels::LinkXboxAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void LoginWithAndroidDeviceID(ClientModels::LoginWithAndroidDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LoginResult> callback, const ErrorCallback errorCallback = nullptr);
         void LoginWithApple(ClientModels::LoginWithAppleRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LoginResult> callback, const ErrorCallback errorCallback = nullptr);
         void LoginWithCustomID(ClientModels::LoginWithCustomIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LoginResult> callback, const ErrorCallback errorCallback = nullptr);
@@ -157,49 +157,49 @@ namespace PlayFab
         void PayForPurchase(ClientModels::PayForPurchaseRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::PayForPurchaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void PurchaseItem(ClientModels::PurchaseItemRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::PurchaseItemResult> callback, const ErrorCallback errorCallback = nullptr);
         void RedeemCoupon(ClientModels::RedeemCouponRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RedeemCouponResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RefreshPSNAuthToken(ClientModels::RefreshPSNAuthTokenRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void RegisterForIOSPushNotification(ClientModels::RegisterForIOSPushNotificationRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RegisterForIOSPushNotificationResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RefreshPSNAuthToken(ClientModels::RefreshPSNAuthTokenRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RegisterForIOSPushNotification(ClientModels::RegisterForIOSPushNotificationRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void RegisterPlayFabUser(ClientModels::RegisterPlayFabUserRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RegisterPlayFabUserResult> callback, const ErrorCallback errorCallback = nullptr);
         void RegisterWithWindowsHello(ClientModels::RegisterWithWindowsHelloRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::LoginResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveContactEmail(ClientModels::RemoveContactEmailRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RemoveContactEmailResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveFriend(ClientModels::RemoveFriendRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RemoveFriendResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveGenericID(ClientModels::RemoveGenericIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RemoveGenericIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveSharedGroupMembers(ClientModels::RemoveSharedGroupMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RemoveSharedGroupMembersResult> callback, const ErrorCallback errorCallback = nullptr);
-        void ReportAdActivity(ClientModels::ReportAdActivityRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::ReportAdActivityResult> callback, const ErrorCallback errorCallback = nullptr);
-        void ReportDeviceInfo(ClientModels::DeviceInfoRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void RemoveContactEmail(ClientModels::RemoveContactEmailRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RemoveFriend(ClientModels::RemoveFriendRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RemoveGenericID(ClientModels::RemoveGenericIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void RemoveSharedGroupMembers(ClientModels::RemoveSharedGroupMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void ReportAdActivity(ClientModels::ReportAdActivityRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void ReportDeviceInfo(ClientModels::DeviceInfoRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void ReportPlayer(ClientModels::ReportPlayerClientRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::ReportPlayerClientResult> callback, const ErrorCallback errorCallback = nullptr);
         void RestoreIOSPurchases(ClientModels::RestoreIOSPurchasesRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RestoreIOSPurchasesResult> callback, const ErrorCallback errorCallback = nullptr);
         void RewardAdActivity(ClientModels::RewardAdActivityRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::RewardAdActivityResult> callback, const ErrorCallback errorCallback = nullptr);
-        void SendAccountRecoveryEmail(ClientModels::SendAccountRecoveryEmailRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::SendAccountRecoveryEmailResult> callback, const ErrorCallback errorCallback = nullptr);
-        void SetFriendTags(ClientModels::SetFriendTagsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::SetFriendTagsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void SetPlayerSecret(ClientModels::SetPlayerSecretRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::SetPlayerSecretResult> callback, const ErrorCallback errorCallback = nullptr);
+        void SendAccountRecoveryEmail(ClientModels::SendAccountRecoveryEmailRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void SetFriendTags(ClientModels::SetFriendTagsRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void SetPlayerSecret(ClientModels::SetPlayerSecretRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void StartGame(ClientModels::StartGameRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::StartGameResult> callback, const ErrorCallback errorCallback = nullptr);
         void StartPurchase(ClientModels::StartPurchaseRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::StartPurchaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void SubtractUserVirtualCurrency(ClientModels::SubtractUserVirtualCurrencyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::ModifyUserVirtualCurrencyResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkAndroidDeviceID(ClientModels::UnlinkAndroidDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkAndroidDeviceIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkApple(ClientModels::UnlinkAppleRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkCustomID(ClientModels::UnlinkCustomIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkCustomIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkFacebookAccount(ClientModels::UnlinkFacebookAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkFacebookAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkFacebookInstantGamesId(ClientModels::UnlinkFacebookInstantGamesIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkFacebookInstantGamesIdResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkGameCenterAccount(ClientModels::UnlinkGameCenterAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkGameCenterAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkGoogleAccount(ClientModels::UnlinkGoogleAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkGoogleAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkIOSDeviceID(ClientModels::UnlinkIOSDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkIOSDeviceIDResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkKongregate(ClientModels::UnlinkKongregateAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkKongregateAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkNintendoServiceAccount(ClientModels::UnlinkNintendoServiceAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkNintendoSwitchDeviceId(ClientModels::UnlinkNintendoSwitchDeviceIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkNintendoSwitchDeviceIdResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkOpenIdConnect(ClientModels::UnlinkOpenIdConnectRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkPSNAccount(ClientModels::UnlinkPSNAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkPSNAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkSteamAccount(ClientModels::UnlinkSteamAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkSteamAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkTwitch(ClientModels::UnlinkTwitchAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkTwitchAccountResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkWindowsHello(ClientModels::UnlinkWindowsHelloAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkWindowsHelloAccountResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UnlinkXboxAccount(ClientModels::UnlinkXboxAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlinkXboxAccountResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkAndroidDeviceID(ClientModels::UnlinkAndroidDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkApple(ClientModels::UnlinkAppleRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkCustomID(ClientModels::UnlinkCustomIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkFacebookAccount(ClientModels::UnlinkFacebookAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkFacebookInstantGamesId(ClientModels::UnlinkFacebookInstantGamesIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkGameCenterAccount(ClientModels::UnlinkGameCenterAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkGoogleAccount(ClientModels::UnlinkGoogleAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkIOSDeviceID(ClientModels::UnlinkIOSDeviceIDRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkKongregate(ClientModels::UnlinkKongregateAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkNintendoServiceAccount(ClientModels::UnlinkNintendoServiceAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkNintendoSwitchDeviceId(ClientModels::UnlinkNintendoSwitchDeviceIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkOpenIdConnect(ClientModels::UnlinkOpenIdConnectRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkPSNAccount(ClientModels::UnlinkPSNAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkSteamAccount(ClientModels::UnlinkSteamAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkTwitch(ClientModels::UnlinkTwitchAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkWindowsHello(ClientModels::UnlinkWindowsHelloAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UnlinkXboxAccount(ClientModels::UnlinkXboxAccountRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void UnlockContainerInstance(ClientModels::UnlockContainerInstanceRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlockContainerItemResult> callback, const ErrorCallback errorCallback = nullptr);
         void UnlockContainerItem(ClientModels::UnlockContainerItemRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UnlockContainerItemResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateAvatarUrl(ClientModels::UpdateAvatarUrlRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::EmptyResponse> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdateAvatarUrl(ClientModels::UpdateAvatarUrlRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void UpdateCharacterData(ClientModels::UpdateCharacterDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdateCharacterDataResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateCharacterStatistics(ClientModels::UpdateCharacterStatisticsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdateCharacterStatisticsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdatePlayerStatistics(ClientModels::UpdatePlayerStatisticsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdatePlayerStatisticsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateSharedGroupData(ClientModels::UpdateSharedGroupDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdateSharedGroupDataResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdateCharacterStatistics(ClientModels::UpdateCharacterStatisticsRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdatePlayerStatistics(ClientModels::UpdatePlayerStatisticsRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
+        void UpdateSharedGroupData(ClientModels::UpdateSharedGroupDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
         void UpdateUserData(ClientModels::UpdateUserDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdateUserDataResult> callback, const ErrorCallback errorCallback = nullptr);
         void UpdateUserPublisherData(ClientModels::UpdateUserDataRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdateUserDataResult> callback, const ErrorCallback errorCallback = nullptr);
         void UpdateUserTitleDisplayName(ClientModels::UpdateUserTitleDisplayNameRequest& request, const TaskQueue& queue, const ProcessApiCallback<ClientModels::UpdateUserTitleDisplayNameResult> callback, const ErrorCallback errorCallback = nullptr);
