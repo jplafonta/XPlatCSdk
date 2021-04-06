@@ -6,16 +6,17 @@
 
 namespace PlayFab
 {
-    // Any global state will go here
-    class GlobalState
-    {
-    public:
-        GlobalState() = default;
-        virtual ~GlobalState() = default;
 
-        ClientAuthAPI const ClientAuth;
-        ServerAuthAPI const ServerAuth;
-    };
+class GlobalState
+{
+public:
+    GlobalState() = default;
+    virtual ~GlobalState() = default;
+
+    ClientAuthAPI const ClientAuth;
+    ServerAuthAPI const ServerAuth;
+};
+
 }
 
 struct PlayFabGlobalState
