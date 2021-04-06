@@ -21,6 +21,9 @@
     <Filter Include="Source Files\Profiles" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabAuth.h">
+      <Filter>Header Files\playfab</Filter>
+    </ClInclude>
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabBaseModel_c.h">
       <Filter>Header Files\playfab</Filter>
     </ClInclude>
@@ -31,6 +34,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="$(SdkSourceDir)\source\AsyncProvider.h" >
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SdkSourceDir)\source\AuthAsyncProvider.h" >
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClCompile Include="$(SdkSourceDir)\source\AuthContext.cpp" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="$(SdkSourceDir)\source\AuthContext.h" >
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClCompile Include="$(SdkSourceDir)\source\BaseModel.cpp" >
@@ -79,6 +91,9 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.cpp" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuth.cpp" >
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.h" >
@@ -195,6 +210,18 @@
     <ClCompile Include="$(SdkSourceDir)\source\Admin\AdminApi.cpp">
       <Filter>Source Files\Admin</Filter>
     </ClCompile>
+    <ClInclude Include="$(SdkSourceDir)\source\Client\ClientAuthApi.h">
+      <Filter>Source Files\Client</Filter>
+    </ClInclude>
+    <ClCompile Include="$(SdkSourceDir)\source\Client\ClientAuthApi.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientAuthApi.h">
+      <Filter>Header Files\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(SdkSourceDir)\source\Client\PlayFabClientAuthApi.cpp">
+      <Filter>Source Files\Client</Filter>
+    </ClCompile>
     <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientDataModels_c.h">
       <Filter>Header Files\playfab</Filter>
     </ClInclude>
@@ -218,6 +245,18 @@
     </ClInclude>
     <ClCompile Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerApi.cpp">
       <Filter>Source Files\Matchmaker</Filter>
+    </ClCompile>
+    <ClInclude Include="$(SdkSourceDir)\source\Server\ServerAuthApi.h">
+      <Filter>Source Files\Server</Filter>
+    </ClInclude>
+    <ClCompile Include="$(SdkSourceDir)\source\Server\ServerAuthApi.cpp">
+      <Filter>Source Files\Server</Filter>
+    </ClCompile>
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerAuthApi.h">
+      <Filter>Header Files\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(SdkSourceDir)\source\Server\PlayFabServerAuthApi.cpp">
+      <Filter>Source Files\Server</Filter>
     </ClCompile>
     <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerDataModels_c.h">
       <Filter>Header Files\playfab</Filter>

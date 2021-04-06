@@ -1,16 +1,22 @@
 #pragma once
 
 #include <playfab/PlayFabGlobal.h>
+#include <Client/ClientAuthApi.h>
+#include <Server/ServerAuthApi.h>
 
 namespace PlayFab
 {
-    // Any global state will go here
-    class GlobalState
-    {
-    public:
-        GlobalState() = default;
-        virtual ~GlobalState() = default;
-    };
+
+class GlobalState
+{
+public:
+    GlobalState() = default;
+    virtual ~GlobalState() = default;
+
+    ClientAuthAPI const ClientAuth;
+    ServerAuthAPI const ServerAuth;
+};
+
 }
 
 struct PlayFabGlobalState

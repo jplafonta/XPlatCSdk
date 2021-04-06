@@ -100,10 +100,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabAuth.h" />
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabBaseModel_c.h" />
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabGlobal.h" />
     <ClCompile Include="$(SdkSourceDir)\source\AsyncProvider.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\AsyncProvider.h" />
+    <ClInclude Include="$(SdkSourceDir)\source\AuthAsyncProvider.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\AuthContext.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\source\AuthContext.h" />
     <ClCompile Include="$(SdkSourceDir)\source\BaseModel.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\BaseModel.h" />
     <ClInclude Include="$(SdkSourceDir)\source\EnumTraits.h" />
@@ -120,6 +124,7 @@
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabApiSettings.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabApiSettings.h" />
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.cpp" />
+    <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuth.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.h" />
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabError.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabError.h" />
@@ -158,6 +163,10 @@
     <ClInclude Include="$(SdkSourceDir)\source\Admin\AdminDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Admin\AdminApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Admin\AdminApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\source\Client\ClientAuthApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Client\ClientAuthApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientAuthApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Client\PlayFabClientAuthApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientDataModels_c.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Client\ClientDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Client\ClientApi.h" />
@@ -166,6 +175,10 @@
     <ClInclude Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\source\Server\ServerAuthApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Server\ServerAuthApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerAuthApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Server\PlayFabServerAuthApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerDataModels_c.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Server\ServerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Server\ServerApi.h" />
