@@ -38,12 +38,12 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void AuthUser(MatchmakerModels::AuthUserRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::AuthUserResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void PlayerJoined(MatchmakerModels::PlayerJoinedRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void PlayerLeft(MatchmakerModels::PlayerLeftRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void StartGame(MatchmakerModels::StartGameRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::StartGameResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UserInfo(MatchmakerModels::UserInfoRequest& request, const TaskQueue& queue, const ProcessApiCallback<MatchmakerModels::UserInfoResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<MatchmakerModels::AuthUserResponse> AuthUser(const PlayFabMatchmakerAuthUserRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> PlayerJoined(const PlayFabMatchmakerPlayerJoinedRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> PlayerLeft(const PlayFabMatchmakerPlayerLeftRequest& request, const TaskQueue& queue);
+        AsyncOp<MatchmakerModels::StartGameResponse> StartGame(const PlayFabMatchmakerStartGameRequest& request, const TaskQueue& queue);
+        AsyncOp<MatchmakerModels::UserInfoResponse> UserInfo(const PlayFabMatchmakerUserInfoRequest& request, const TaskQueue& queue);
+
     };
 }
 

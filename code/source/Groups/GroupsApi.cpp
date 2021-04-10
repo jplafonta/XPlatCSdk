@@ -18,10 +18,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /* if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        } */
     }
 
     PlayFabGroupsInstanceAPI::PlayFabGroupsInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
@@ -29,10 +30,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /*if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        }*/
     }
 
     SharedPtr<PlayFabApiSettings> PlayFabGroupsInstanceAPI::GetSettings() const
@@ -55,826 +57,881 @@ namespace PlayFab
 
     // PlayFabGroups instance APIs
 
-    void PlayFabGroupsInstanceAPI::AcceptGroupApplication(
-        AcceptGroupApplicationRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::AcceptGroupApplication(
+        const PlayFabGroupsAcceptGroupApplicationRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/AcceptGroupApplication",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::AcceptGroupInvitation(
-        AcceptGroupInvitationRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::AcceptGroupInvitation(
+        const PlayFabGroupsAcceptGroupInvitationRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/AcceptGroupInvitation",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::AddMembers(
-        AddMembersRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::AddMembers(
+        const PlayFabGroupsAddMembersRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/AddMembers",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ApplyToGroup(
-        ApplyToGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ApplyToGroupResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ApplyToGroupResponse> PlayFabGroupsInstanceAPI::ApplyToGroup(
+        const PlayFabGroupsApplyToGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ApplyToGroupResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ApplyToGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ApplyToGroupResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ApplyToGroupResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::BlockEntity(
-        BlockEntityRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::BlockEntity(
+        const PlayFabGroupsBlockEntityRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/BlockEntity",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ChangeMemberRole(
-        ChangeMemberRoleRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::ChangeMemberRole(
+        const PlayFabGroupsChangeMemberRoleRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ChangeMemberRole",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::CreateGroup(
-        CreateGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<CreateGroupResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<CreateGroupResponse> PlayFabGroupsInstanceAPI::CreateGroup(
+        const PlayFabGroupsCreateGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            CreateGroupResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/CreateGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<CreateGroupResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                CreateGroupResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::CreateRole(
-        CreateGroupRoleRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<CreateGroupRoleResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<CreateGroupRoleResponse> PlayFabGroupsInstanceAPI::CreateRole(
+        const PlayFabGroupsCreateGroupRoleRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            CreateGroupRoleResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/CreateRole",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<CreateGroupRoleResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                CreateGroupRoleResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::DeleteGroup(
-        DeleteGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::DeleteGroup(
+        const PlayFabGroupsDeleteGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/DeleteGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::DeleteRole(
-        DeleteRoleRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::DeleteRole(
+        const PlayFabGroupsDeleteRoleRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/DeleteRole",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::GetGroup(
-        GetGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetGroupResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetGroupResponse> PlayFabGroupsInstanceAPI::GetGroup(
+        const PlayFabGroupsGetGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetGroupResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/GetGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetGroupResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetGroupResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::InviteToGroup(
-        InviteToGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<InviteToGroupResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<InviteToGroupResponse> PlayFabGroupsInstanceAPI::InviteToGroup(
+        const PlayFabGroupsInviteToGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            InviteToGroupResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/InviteToGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<InviteToGroupResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                InviteToGroupResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::IsMember(
-        IsMemberRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<IsMemberResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<IsMemberResponse> PlayFabGroupsInstanceAPI::IsMember(
+        const PlayFabGroupsIsMemberRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            IsMemberResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/IsMember",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<IsMemberResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                IsMemberResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ListGroupApplications(
-        ListGroupApplicationsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ListGroupApplicationsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ListGroupApplicationsResponse> PlayFabGroupsInstanceAPI::ListGroupApplications(
+        const PlayFabGroupsListGroupApplicationsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ListGroupApplicationsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ListGroupApplications",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListGroupApplicationsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ListGroupApplicationsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ListGroupBlocks(
-        ListGroupBlocksRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ListGroupBlocksResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ListGroupBlocksResponse> PlayFabGroupsInstanceAPI::ListGroupBlocks(
+        const PlayFabGroupsListGroupBlocksRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ListGroupBlocksResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ListGroupBlocks",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListGroupBlocksResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ListGroupBlocksResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ListGroupInvitations(
-        ListGroupInvitationsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ListGroupInvitationsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ListGroupInvitationsResponse> PlayFabGroupsInstanceAPI::ListGroupInvitations(
+        const PlayFabGroupsListGroupInvitationsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ListGroupInvitationsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ListGroupInvitations",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListGroupInvitationsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ListGroupInvitationsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ListGroupMembers(
-        ListGroupMembersRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ListGroupMembersResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ListGroupMembersResponse> PlayFabGroupsInstanceAPI::ListGroupMembers(
+        const PlayFabGroupsListGroupMembersRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ListGroupMembersResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ListGroupMembers",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListGroupMembersResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ListGroupMembersResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ListMembership(
-        ListMembershipRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ListMembershipResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ListMembershipResponse> PlayFabGroupsInstanceAPI::ListMembership(
+        const PlayFabGroupsListMembershipRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ListMembershipResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ListMembership",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListMembershipResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ListMembershipResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::ListMembershipOpportunities(
-        ListMembershipOpportunitiesRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ListMembershipOpportunitiesResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ListMembershipOpportunitiesResponse> PlayFabGroupsInstanceAPI::ListMembershipOpportunities(
+        const PlayFabGroupsListMembershipOpportunitiesRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ListMembershipOpportunitiesResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/ListMembershipOpportunities",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListMembershipOpportunitiesResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ListMembershipOpportunitiesResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::RemoveGroupApplication(
-        RemoveGroupApplicationRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::RemoveGroupApplication(
+        const PlayFabGroupsRemoveGroupApplicationRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/RemoveGroupApplication",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::RemoveGroupInvitation(
-        RemoveGroupInvitationRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::RemoveGroupInvitation(
+        const PlayFabGroupsRemoveGroupInvitationRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/RemoveGroupInvitation",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::RemoveMembers(
-        RemoveMembersRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::RemoveMembers(
+        const PlayFabGroupsRemoveMembersRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/RemoveMembers",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::UnblockEntity(
-        UnblockEntityRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabGroupsInstanceAPI::UnblockEntity(
+        const PlayFabGroupsUnblockEntityRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/UnblockEntity",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::UpdateGroup(
-        UpdateGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<UpdateGroupResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<UpdateGroupResponse> PlayFabGroupsInstanceAPI::UpdateGroup(
+        const PlayFabGroupsUpdateGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            UpdateGroupResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/UpdateGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<UpdateGroupResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                UpdateGroupResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabGroupsInstanceAPI::UpdateRole(
-        UpdateGroupRoleRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<UpdateGroupRoleResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<UpdateGroupRoleResponse> PlayFabGroupsInstanceAPI::UpdateRole(
+        const PlayFabGroupsUpdateGroupRoleRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            UpdateGroupRoleResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Group/UpdateRole",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<UpdateGroupRoleResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                UpdateGroupRoleResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    bool PlayFabGroupsInstanceAPI::ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler)
-    {
-        if (httpResult.serviceResponse.HttpCode == 200)
-        {
-            result.FromJson(httpResult.serviceResponse.Data);
-            return true;
-        }
-        else // Process the error case
-        {
-            if (PlayFabSettings::globalErrorHandler != nullptr)
-            {
-                PlayFabSettings::globalErrorHandler(httpResult.serviceResponse);
-            }
-            if (errorHandler)
-            {
-                errorHandler(httpResult.serviceResponse);
-            }
-            return false;
-        }
-    }
 }
 
 #endif

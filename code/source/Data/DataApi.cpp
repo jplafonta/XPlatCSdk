@@ -18,10 +18,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /* if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        } */
     }
 
     PlayFabDataInstanceAPI::PlayFabDataInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
@@ -29,10 +30,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /*if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        }*/
     }
 
     SharedPtr<PlayFabApiSettings> PlayFabDataInstanceAPI::GetSettings() const
@@ -55,250 +57,251 @@ namespace PlayFab
 
     // PlayFabData instance APIs
 
-    void PlayFabDataInstanceAPI::AbortFileUploads(
-        AbortFileUploadsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<AbortFileUploadsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<AbortFileUploadsResponse> PlayFabDataInstanceAPI::AbortFileUploads(
+        const PlayFabDataAbortFileUploadsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            AbortFileUploadsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/File/AbortFileUploads",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<AbortFileUploadsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                AbortFileUploadsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabDataInstanceAPI::DeleteFiles(
-        DeleteFilesRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<DeleteFilesResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<DeleteFilesResponse> PlayFabDataInstanceAPI::DeleteFiles(
+        const PlayFabDataDeleteFilesRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            DeleteFilesResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/File/DeleteFiles",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<DeleteFilesResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                DeleteFilesResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabDataInstanceAPI::FinalizeFileUploads(
-        FinalizeFileUploadsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<FinalizeFileUploadsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<FinalizeFileUploadsResponse> PlayFabDataInstanceAPI::FinalizeFileUploads(
+        const PlayFabDataFinalizeFileUploadsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            FinalizeFileUploadsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/File/FinalizeFileUploads",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<FinalizeFileUploadsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                FinalizeFileUploadsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabDataInstanceAPI::GetFiles(
-        GetFilesRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetFilesResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetFilesResponse> PlayFabDataInstanceAPI::GetFiles(
+        const PlayFabDataGetFilesRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetFilesResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/File/GetFiles",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetFilesResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetFilesResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabDataInstanceAPI::GetObjects(
-        GetObjectsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetObjectsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetObjectsResponse> PlayFabDataInstanceAPI::GetObjects(
+        const PlayFabDataGetObjectsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetObjectsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Object/GetObjects",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetObjectsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetObjectsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabDataInstanceAPI::InitiateFileUploads(
-        InitiateFileUploadsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<InitiateFileUploadsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<InitiateFileUploadsResponse> PlayFabDataInstanceAPI::InitiateFileUploads(
+        const PlayFabDataInitiateFileUploadsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            InitiateFileUploadsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/File/InitiateFileUploads",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<InitiateFileUploadsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                InitiateFileUploadsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabDataInstanceAPI::SetObjects(
-        SetObjectsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<SetObjectsResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<SetObjectsResponse> PlayFabDataInstanceAPI::SetObjects(
+        const PlayFabDataSetObjectsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            SetObjectsResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Object/SetObjects",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<SetObjectsResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                SetObjectsResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    bool PlayFabDataInstanceAPI::ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler)
-    {
-        if (httpResult.serviceResponse.HttpCode == 200)
-        {
-            result.FromJson(httpResult.serviceResponse.Data);
-            return true;
-        }
-        else // Process the error case
-        {
-            if (PlayFabSettings::globalErrorHandler != nullptr)
-            {
-                PlayFabSettings::globalErrorHandler(httpResult.serviceResponse);
-            }
-            if (errorHandler)
-            {
-                errorHandler(httpResult.serviceResponse);
-            }
-            return false;
-        }
-    }
 }
 
 #endif

@@ -964,7 +964,7 @@ enum class PlayFabAdminGenericErrorCodes : uint32_t
     EvaluationModePlayerCountExceeded,
     GetPlayersInSegmentRateLimitExceeded,
     CloudScriptFunctionNameSizeExceeded,
-    InsightsManagementTitleInEvaluationMode,
+    PaidInsightsFeaturesNotEnabled,
     CloudScriptAzureFunctionsQueueRequestError,
     EvaluationModeTitleCountExceeded,
     InsightsManagementTitleNotInFlight,
@@ -1103,6 +1103,7 @@ enum class PlayFabAdminGenericErrorCodes : uint32_t
     CreateSegmentRateLimitExceeded,
     UpdateSegmentRateLimitExceeded,
     GetSegmentsRateLimitExceeded,
+    AsyncExportNotInFlight,
     SnapshotNotFound,
     InventoryApiNotImplemented
 };

@@ -18,10 +18,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /* if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        } */
     }
 
     PlayFabExperimentationInstanceAPI::PlayFabExperimentationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
@@ -29,10 +30,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /*if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        }*/
     }
 
     SharedPtr<PlayFabApiSettings> PlayFabExperimentationInstanceAPI::GetSettings() const
@@ -55,442 +57,461 @@ namespace PlayFab
 
     // PlayFabExperimentation instance APIs
 
-    void PlayFabExperimentationInstanceAPI::CreateExclusionGroup(
-        CreateExclusionGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<CreateExclusionGroupResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<CreateExclusionGroupResult> PlayFabExperimentationInstanceAPI::CreateExclusionGroup(
+        const PlayFabExperimentationCreateExclusionGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            CreateExclusionGroupResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/CreateExclusionGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<CreateExclusionGroupResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                CreateExclusionGroupResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::CreateExperiment(
-        CreateExperimentRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<CreateExperimentResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<CreateExperimentResult> PlayFabExperimentationInstanceAPI::CreateExperiment(
+        const PlayFabExperimentationCreateExperimentRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            CreateExperimentResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/CreateExperiment",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<CreateExperimentResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                CreateExperimentResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::DeleteExclusionGroup(
-        DeleteExclusionGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabExperimentationInstanceAPI::DeleteExclusionGroup(
+        const PlayFabExperimentationDeleteExclusionGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/DeleteExclusionGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::DeleteExperiment(
-        DeleteExperimentRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabExperimentationInstanceAPI::DeleteExperiment(
+        const PlayFabExperimentationDeleteExperimentRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/DeleteExperiment",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::GetExclusionGroups(
-        GetExclusionGroupsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetExclusionGroupsResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetExclusionGroupsResult> PlayFabExperimentationInstanceAPI::GetExclusionGroups(
+        const PlayFabExperimentationGetExclusionGroupsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetExclusionGroupsResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/GetExclusionGroups",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetExclusionGroupsResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetExclusionGroupsResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::GetExclusionGroupTraffic(
-        GetExclusionGroupTrafficRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetExclusionGroupTrafficResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetExclusionGroupTrafficResult> PlayFabExperimentationInstanceAPI::GetExclusionGroupTraffic(
+        const PlayFabExperimentationGetExclusionGroupTrafficRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetExclusionGroupTrafficResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/GetExclusionGroupTraffic",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetExclusionGroupTrafficResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetExclusionGroupTrafficResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::GetExperiments(
-        GetExperimentsRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetExperimentsResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetExperimentsResult> PlayFabExperimentationInstanceAPI::GetExperiments(
+        const PlayFabExperimentationGetExperimentsRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetExperimentsResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/GetExperiments",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetExperimentsResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetExperimentsResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::GetLatestScorecard(
-        GetLatestScorecardRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetLatestScorecardResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetLatestScorecardResult> PlayFabExperimentationInstanceAPI::GetLatestScorecard(
+        const PlayFabExperimentationGetLatestScorecardRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetLatestScorecardResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/GetLatestScorecard",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetLatestScorecardResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetLatestScorecardResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::GetTreatmentAssignment(
-        GetTreatmentAssignmentRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetTreatmentAssignmentResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetTreatmentAssignmentResult> PlayFabExperimentationInstanceAPI::GetTreatmentAssignment(
+        const PlayFabExperimentationGetTreatmentAssignmentRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetTreatmentAssignmentResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/GetTreatmentAssignment",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetTreatmentAssignmentResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetTreatmentAssignmentResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::StartExperiment(
-        StartExperimentRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabExperimentationInstanceAPI::StartExperiment(
+        const PlayFabExperimentationStartExperimentRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/StartExperiment",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::StopExperiment(
-        StopExperimentRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabExperimentationInstanceAPI::StopExperiment(
+        const PlayFabExperimentationStopExperimentRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/StopExperiment",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::UpdateExclusionGroup(
-        UpdateExclusionGroupRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabExperimentationInstanceAPI::UpdateExclusionGroup(
+        const PlayFabExperimentationUpdateExclusionGroupRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/UpdateExclusionGroup",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabExperimentationInstanceAPI::UpdateExperiment(
-        UpdateExperimentRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<BaseResult> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<BaseResult> PlayFabExperimentationInstanceAPI::UpdateExperiment(
+        const PlayFabExperimentationUpdateExperimentRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            BaseResult outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Experimentation/UpdateExperiment",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                BaseResult resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    bool PlayFabExperimentationInstanceAPI::ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler)
-    {
-        if (httpResult.serviceResponse.HttpCode == 200)
-        {
-            result.FromJson(httpResult.serviceResponse.Data);
-            return true;
-        }
-        else // Process the error case
-        {
-            if (PlayFabSettings::globalErrorHandler != nullptr)
-            {
-                PlayFabSettings::globalErrorHandler(httpResult.serviceResponse);
-            }
-            if (errorHandler)
-            {
-                errorHandler(httpResult.serviceResponse);
-            }
-            return false;
-        }
-    }
 }
 
 #endif

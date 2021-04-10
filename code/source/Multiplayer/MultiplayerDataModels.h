@@ -53,8 +53,6 @@ namespace PlayFab
             JsonUtils::ObjectAddMember(output, "AliasId", input.aliasId);
             JsonUtils::ObjectAddMember(output, "AliasName", input.aliasName);
             JsonUtils::ObjectAddMember(output, "BuildSelectionCriteria", input.buildSelectionCriteria, input.buildSelectionCriteriaCount);
-            JsonUtils::ObjectAddMember(output, "PageSize", input.pageSize);
-            JsonUtils::ObjectAddMember(output, "SkipToken", input.skipToken);
             return output;
         }
 
@@ -534,6 +532,7 @@ namespace PlayFab
         inline JsonValue ToJson<>(const PlayFabMultiplayerServerDetails& input)
         {
             JsonValue output{ rapidjson::kObjectType };
+            JsonUtils::ObjectAddMember(output, "Fqdn", input.fqdn);
             JsonUtils::ObjectAddMember(output, "IPV4Address", input.iPV4Address);
             JsonUtils::ObjectAddMember(output, "Ports", input.ports, input.portsCount);
             JsonUtils::ObjectAddMember(output, "Region", input.region);
@@ -823,6 +822,7 @@ namespace PlayFab
         inline JsonValue ToJson<>(const PlayFabMultiplayerGetMultiplayerServerDetailsResponse& input)
         {
             JsonValue output{ rapidjson::kObjectType };
+            JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
             JsonUtils::ObjectAddMember(output, "ConnectedPlayers", input.connectedPlayers, input.connectedPlayersCount);
             JsonUtils::ObjectAddMember(output, "FQDN", input.fQDN);
             JsonUtils::ObjectAddMember(output, "IPV4Address", input.iPV4Address);
@@ -1041,10 +1041,22 @@ namespace PlayFab
         }
 
         template<>
-        inline JsonValue ToJson<>(const PlayFabMultiplayerListBuildAliasesForTitleResponse& input)
+        inline JsonValue ToJson<>(const PlayFabMultiplayerListBuildAliasesRequest& input)
+        {
+            JsonValue output{ rapidjson::kObjectType };
+            JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+            JsonUtils::ObjectAddMember(output, "PageSize", input.pageSize);
+            JsonUtils::ObjectAddMember(output, "SkipToken", input.skipToken);
+            return output;
+        }
+
+        template<>
+        inline JsonValue ToJson<>(const PlayFabMultiplayerListBuildAliasesResponse& input)
         {
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "BuildAliases", input.buildAliases, input.buildAliasesCount);
+            JsonUtils::ObjectAddMember(output, "PageSize", input.pageSize);
+            JsonUtils::ObjectAddMember(output, "SkipToken", input.skipToken);
             return output;
         }
 
@@ -1292,14 +1304,6 @@ namespace PlayFab
         }
 
         template<>
-        inline JsonValue ToJson<>(const PlayFabMultiplayerMultiplayerEmptyRequest& input)
-        {
-            JsonValue output{ rapidjson::kObjectType };
-            JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-            return output;
-        }
-
-        template<>
         inline JsonValue ToJson<>(const PlayFabMultiplayerRequestMultiplayerServerRequest& input)
         {
             JsonValue output{ rapidjson::kObjectType };
@@ -1317,6 +1321,7 @@ namespace PlayFab
         inline JsonValue ToJson<>(const PlayFabMultiplayerRequestMultiplayerServerResponse& input)
         {
             JsonValue output{ rapidjson::kObjectType };
+            JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
             JsonUtils::ObjectAddMember(output, "ConnectedPlayers", input.connectedPlayers, input.connectedPlayersCount);
             JsonUtils::ObjectAddMember(output, "FQDN", input.fQDN);
             JsonUtils::ObjectAddMember(output, "IPV4Address", input.iPV4Address);
@@ -1570,13 +1575,11 @@ namespace PlayFab
                 PlayFabMultiplayerBuildAliasDetailsResponse{ src },
                 m_aliasId{ src.m_aliasId },
                 m_aliasName{ src.m_aliasName },
-                m_buildSelectionCriteria{ src.m_buildSelectionCriteria },
-                m_skipToken{ src.m_skipToken }
+                m_buildSelectionCriteria{ src.m_buildSelectionCriteria }
             {
                 aliasId = m_aliasId.empty() ? nullptr : m_aliasId.data();
                 aliasName = m_aliasName.empty() ? nullptr : m_aliasName.data();
                 buildSelectionCriteria = m_buildSelectionCriteria.Empty() ? nullptr : m_buildSelectionCriteria.Data();
-                skipToken = m_skipToken.empty() ? nullptr : m_skipToken.data();
             }
 
             ~BuildAliasDetailsResponse() = default;
@@ -1588,8 +1591,6 @@ namespace PlayFab
                 JsonUtils:: ObjectGetMember(input, "AliasId", m_aliasId, aliasId);
                 JsonUtils:: ObjectGetMember(input, "AliasName", m_aliasName, aliasName);
                 JsonUtils:: ObjectGetMember(input, "BuildSelectionCriteria", m_buildSelectionCriteria, buildSelectionCriteria, buildSelectionCriteriaCount);
-                JsonUtils:: ObjectGetMember(input, "PageSize", pageSize);
-                JsonUtils:: ObjectGetMember(input, "SkipToken", m_skipToken, skipToken);
             }
 
             JsonValue ToJson() const override
@@ -1601,7 +1602,6 @@ namespace PlayFab
             String m_aliasId;
             String m_aliasName;
             PointerArray<PlayFabMultiplayerBuildSelectionCriterion, BuildSelectionCriterion> m_buildSelectionCriteria;
-            String m_skipToken;
         };
 
         struct BuildAliasParams : public PlayFabMultiplayerBuildAliasParams, public BaseModel
@@ -3359,10 +3359,12 @@ namespace PlayFab
 
             ServerDetails(const ServerDetails& src) :
                 PlayFabMultiplayerServerDetails{ src },
+                m_fqdn{ src.m_fqdn },
                 m_iPV4Address{ src.m_iPV4Address },
                 m_ports{ src.m_ports },
                 m_region{ src.m_region }
             {
+                fqdn = m_fqdn.empty() ? nullptr : m_fqdn.data();
                 iPV4Address = m_iPV4Address.empty() ? nullptr : m_iPV4Address.data();
                 ports = m_ports.Empty() ? nullptr : m_ports.Data();
                 region = m_region.empty() ? nullptr : m_region.data();
@@ -3374,6 +3376,7 @@ namespace PlayFab
 
             void FromJson(const JsonValue& input) override
             {
+                JsonUtils:: ObjectGetMember(input, "Fqdn", m_fqdn, fqdn);
                 JsonUtils:: ObjectGetMember(input, "IPV4Address", m_iPV4Address, iPV4Address);
                 JsonUtils:: ObjectGetMember(input, "Ports", m_ports, ports, portsCount);
                 JsonUtils:: ObjectGetMember(input, "Region", m_region, region);
@@ -3385,6 +3388,7 @@ namespace PlayFab
             }
 
         private:
+            String m_fqdn;
             String m_iPV4Address;
             PointerArray<PlayFabMultiplayerPort, Port> m_ports;
             String m_region;
@@ -4461,6 +4465,7 @@ namespace PlayFab
 
             GetMultiplayerServerDetailsResponse(const GetMultiplayerServerDetailsResponse& src) :
                 PlayFabMultiplayerGetMultiplayerServerDetailsResponse{ src },
+                m_buildId{ src.m_buildId },
                 m_connectedPlayers{ src.m_connectedPlayers },
                 m_fQDN{ src.m_fQDN },
                 m_iPV4Address{ src.m_iPV4Address },
@@ -4472,6 +4477,7 @@ namespace PlayFab
                 m_state{ src.m_state },
                 m_vmId{ src.m_vmId }
             {
+                buildId = m_buildId.empty() ? nullptr : m_buildId.data();
                 connectedPlayers = m_connectedPlayers.Empty() ? nullptr : m_connectedPlayers.Data();
                 fQDN = m_fQDN.empty() ? nullptr : m_fQDN.data();
                 iPV4Address = m_iPV4Address.empty() ? nullptr : m_iPV4Address.data();
@@ -4490,6 +4496,7 @@ namespace PlayFab
 
             void FromJson(const JsonValue& input) override
             {
+                JsonUtils:: ObjectGetMember(input, "BuildId", m_buildId, buildId);
                 JsonUtils:: ObjectGetMember(input, "ConnectedPlayers", m_connectedPlayers, connectedPlayers, connectedPlayersCount);
                 JsonUtils:: ObjectGetMember(input, "FQDN", m_fQDN, fQDN);
                 JsonUtils:: ObjectGetMember(input, "IPV4Address", m_iPV4Address, iPV4Address);
@@ -4508,6 +4515,7 @@ namespace PlayFab
             }
 
         private:
+            String m_buildId;
             PointerArray<PlayFabMultiplayerConnectedPlayer, ConnectedPlayer> m_connectedPlayers;
             String m_fQDN;
             String m_iPV4Address;
@@ -5279,35 +5287,79 @@ namespace PlayFab
             String m_skipToken;
         };
 
-        struct ListBuildAliasesForTitleResponse : public PlayFabMultiplayerListBuildAliasesForTitleResponse, public BaseResult
+        struct ListBuildAliasesRequest : public PlayFabMultiplayerListBuildAliasesRequest, public BaseRequest
         {
-            ListBuildAliasesForTitleResponse() : PlayFabMultiplayerListBuildAliasesForTitleResponse{}
+            ListBuildAliasesRequest() : PlayFabMultiplayerListBuildAliasesRequest{}
             {
             }
 
-            ListBuildAliasesForTitleResponse(const ListBuildAliasesForTitleResponse& src) :
-                PlayFabMultiplayerListBuildAliasesForTitleResponse{ src },
-                m_buildAliases{ src.m_buildAliases }
+            ListBuildAliasesRequest(const ListBuildAliasesRequest& src) :
+                PlayFabMultiplayerListBuildAliasesRequest{ src },
+                m_customTags{ src.m_customTags },
+                m_pageSize{ src.m_pageSize },
+                m_skipToken{ src.m_skipToken }
+            {
+                customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+                pageSize = m_pageSize ? m_pageSize.operator->() : nullptr;
+                skipToken = m_skipToken.empty() ? nullptr : m_skipToken.data();
+            }
+
+            ~ListBuildAliasesRequest() = default;
+
+            // TODO Add move constructor & assignment operators
+
+            void FromJson(const JsonValue& input) override
+            {
+                JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+                JsonUtils:: ObjectGetMember(input, "PageSize", m_pageSize, pageSize);
+                JsonUtils:: ObjectGetMember(input, "SkipToken", m_skipToken, skipToken);
+            }
+
+            JsonValue ToJson() const override
+            { 
+                return JsonUtils::ToJson<PlayFabMultiplayerListBuildAliasesRequest>(*this);
+            }
+
+        private:
+            AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
+            StdExtra::optional<int32_t> m_pageSize;
+            String m_skipToken;
+        };
+
+        struct ListBuildAliasesResponse : public PlayFabMultiplayerListBuildAliasesResponse, public BaseResult
+        {
+            ListBuildAliasesResponse() : PlayFabMultiplayerListBuildAliasesResponse{}
+            {
+            }
+
+            ListBuildAliasesResponse(const ListBuildAliasesResponse& src) :
+                PlayFabMultiplayerListBuildAliasesResponse{ src },
+                m_buildAliases{ src.m_buildAliases },
+                m_skipToken{ src.m_skipToken }
             {
                 buildAliases = m_buildAliases.Empty() ? nullptr : m_buildAliases.Data();
+                skipToken = m_skipToken.empty() ? nullptr : m_skipToken.data();
             }
 
-            ~ListBuildAliasesForTitleResponse() = default;
+            ~ListBuildAliasesResponse() = default;
 
             // TODO Add move constructor & assignment operators
 
             void FromJson(const JsonValue& input) override
             {
                 JsonUtils:: ObjectGetMember(input, "BuildAliases", m_buildAliases, buildAliases, buildAliasesCount);
+                JsonUtils:: ObjectGetMember(input, "PageSize", pageSize);
+                JsonUtils:: ObjectGetMember(input, "SkipToken", m_skipToken, skipToken);
             }
 
             JsonValue ToJson() const override
             { 
-                return JsonUtils::ToJson<PlayFabMultiplayerListBuildAliasesForTitleResponse>(*this);
+                return JsonUtils::ToJson<PlayFabMultiplayerListBuildAliasesResponse>(*this);
             }
 
         private:
             PointerArray<PlayFabMultiplayerBuildAliasDetailsResponse, BuildAliasDetailsResponse> m_buildAliases;
+            String m_skipToken;
         };
 
         struct ListBuildSummariesRequest : public PlayFabMultiplayerListBuildSummariesRequest, public BaseRequest
@@ -6236,37 +6288,6 @@ namespace PlayFab
             PointerArray<PlayFabMultiplayerVirtualMachineSummary, VirtualMachineSummary> m_virtualMachines;
         };
 
-        struct MultiplayerEmptyRequest : public PlayFabMultiplayerMultiplayerEmptyRequest, public BaseRequest
-        {
-            MultiplayerEmptyRequest() : PlayFabMultiplayerMultiplayerEmptyRequest{}
-            {
-            }
-
-            MultiplayerEmptyRequest(const MultiplayerEmptyRequest& src) :
-                PlayFabMultiplayerMultiplayerEmptyRequest{ src },
-                m_customTags{ src.m_customTags }
-            {
-                customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-            }
-
-            ~MultiplayerEmptyRequest() = default;
-
-            // TODO Add move constructor & assignment operators
-
-            void FromJson(const JsonValue& input) override
-            {
-                JsonUtils:: ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-            }
-
-            JsonValue ToJson() const override
-            { 
-                return JsonUtils::ToJson<PlayFabMultiplayerMultiplayerEmptyRequest>(*this);
-            }
-
-        private:
-            AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
-        };
-
         struct RequestMultiplayerServerRequest : public PlayFabMultiplayerRequestMultiplayerServerRequest, public BaseRequest
         {
             RequestMultiplayerServerRequest() : PlayFabMultiplayerRequestMultiplayerServerRequest{}
@@ -6330,6 +6351,7 @@ namespace PlayFab
 
             RequestMultiplayerServerResponse(const RequestMultiplayerServerResponse& src) :
                 PlayFabMultiplayerRequestMultiplayerServerResponse{ src },
+                m_buildId{ src.m_buildId },
                 m_connectedPlayers{ src.m_connectedPlayers },
                 m_fQDN{ src.m_fQDN },
                 m_iPV4Address{ src.m_iPV4Address },
@@ -6341,6 +6363,7 @@ namespace PlayFab
                 m_state{ src.m_state },
                 m_vmId{ src.m_vmId }
             {
+                buildId = m_buildId.empty() ? nullptr : m_buildId.data();
                 connectedPlayers = m_connectedPlayers.Empty() ? nullptr : m_connectedPlayers.Data();
                 fQDN = m_fQDN.empty() ? nullptr : m_fQDN.data();
                 iPV4Address = m_iPV4Address.empty() ? nullptr : m_iPV4Address.data();
@@ -6359,6 +6382,7 @@ namespace PlayFab
 
             void FromJson(const JsonValue& input) override
             {
+                JsonUtils:: ObjectGetMember(input, "BuildId", m_buildId, buildId);
                 JsonUtils:: ObjectGetMember(input, "ConnectedPlayers", m_connectedPlayers, connectedPlayers, connectedPlayersCount);
                 JsonUtils:: ObjectGetMember(input, "FQDN", m_fQDN, fQDN);
                 JsonUtils:: ObjectGetMember(input, "IPV4Address", m_iPV4Address, iPV4Address);
@@ -6377,6 +6401,7 @@ namespace PlayFab
             }
 
         private:
+            String m_buildId;
             PointerArray<PlayFabMultiplayerConnectedPlayer, ConnectedPlayer> m_connectedPlayers;
             String m_fQDN;
             String m_iPV4Address;

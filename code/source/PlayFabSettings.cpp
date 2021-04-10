@@ -11,7 +11,6 @@ namespace PlayFab
     const String PlayFabSettings::buildIdentifier = "xplatcsdk_manual";
     const String PlayFabSettings::versionString = "XPlatCppSdk-0.0.todaysDate";
     String PlayFabSettings::productionEnvironmentURL = ".playfabapi.com";
-    ErrorCallback PlayFabSettings::globalErrorHandler = nullptr;
 
     const SharedPtr<PlayFabApiSettings> PlayFabSettings::staticSettings = MakeShared<PlayFabApiSettings>();
     const SharedPtr<PlayFabAuthenticationContext> PlayFabSettings::staticPlayer = MakeShared<PlayFabAuthenticationContext>();

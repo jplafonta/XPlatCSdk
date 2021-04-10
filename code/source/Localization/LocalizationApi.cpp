@@ -18,10 +18,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /* if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        } */
     }
 
     PlayFabLocalizationInstanceAPI::PlayFabLocalizationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
@@ -29,10 +30,11 @@ namespace PlayFab
         m_context(authenticationContext),
         m_httpClient(m_settings)
     {
-        if (m_context == nullptr)
+        // TODO
+        /*if (m_context == nullptr)
         {
             throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }
+        }*/
     }
 
     SharedPtr<PlayFabApiSettings> PlayFabLocalizationInstanceAPI::GetSettings() const
@@ -55,58 +57,41 @@ namespace PlayFab
 
     // PlayFabLocalization instance APIs
 
-    void PlayFabLocalizationInstanceAPI::GetLanguageList(
-        GetLanguageListRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetLanguageListResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetLanguageListResponse> PlayFabLocalizationInstanceAPI::GetLanguageList(
+        const PlayFabLocalizationGetLanguageListRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetLanguageListResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Locale/GetLanguageList",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetLanguageListResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetLanguageListResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    bool PlayFabLocalizationInstanceAPI::ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler)
-    {
-        if (httpResult.serviceResponse.HttpCode == 200)
-        {
-            result.FromJson(httpResult.serviceResponse.Data);
-            return true;
-        }
-        else // Process the error case
-        {
-            if (PlayFabSettings::globalErrorHandler != nullptr)
-            {
-                PlayFabSettings::globalErrorHandler(httpResult.serviceResponse);
-            }
-            if (errorHandler)
-            {
-                errorHandler(httpResult.serviceResponse);
-            }
-            return false;
-        }
-    }
 }
 
 #endif

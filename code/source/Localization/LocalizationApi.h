@@ -38,8 +38,8 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void GetLanguageList(LocalizationModels::GetLanguageListRequest& request, const TaskQueue& queue, const ProcessApiCallback<LocalizationModels::GetLanguageListResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<LocalizationModels::GetLanguageListResponse> GetLanguageList(const PlayFabLocalizationGetLanguageListRequest& request, const TaskQueue& queue);
+
     };
 }
 

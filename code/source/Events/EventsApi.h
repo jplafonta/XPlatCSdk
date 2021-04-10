@@ -38,9 +38,9 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void WriteEvents(EventsModels::WriteEventsRequest& request, const TaskQueue& queue, const ProcessApiCallback<EventsModels::WriteEventsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void WriteTelemetryEvents(EventsModels::WriteEventsRequest& request, const TaskQueue& queue, const ProcessApiCallback<EventsModels::WriteEventsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<EventsModels::WriteEventsResponse> WriteEvents(const PlayFabEventsWriteEventsRequest& request, const TaskQueue& queue);
+        AsyncOp<EventsModels::WriteEventsResponse> WriteTelemetryEvents(const PlayFabEventsWriteEventsRequest& request, const TaskQueue& queue);
+
     };
 }
 

@@ -192,8 +192,6 @@ typedef struct PlayFabMultiplayerBuildAliasDetailsResponse
     const char* aliasName;
     PF_ARRAY PlayFabMultiplayerBuildSelectionCriterion** buildSelectionCriteria;
     PF_COLLECTION_COUNT uint32_t buildSelectionCriteriaCount;
-    int32_t pageSize;
-    const char* skipToken;
 } PlayFabMultiplayerBuildAliasDetailsResponse;
 
 typedef struct PlayFabMultiplayerBuildAliasParams
@@ -600,6 +598,7 @@ typedef struct PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment
 
 typedef struct PlayFabMultiplayerServerDetails
 {
+    const char* fqdn;
     const char* iPV4Address;
     PF_ARRAY PlayFabMultiplayerPort** ports;
     PF_COLLECTION_COUNT uint32_t portsCount;
@@ -839,6 +838,7 @@ typedef struct PlayFabMultiplayerGetMultiplayerServerDetailsRequest
 
 typedef struct PlayFabMultiplayerGetMultiplayerServerDetailsResponse
 {
+    const char* buildId;
     PF_ARRAY PlayFabMultiplayerConnectedPlayer** connectedPlayers;
     PF_COLLECTION_COUNT uint32_t connectedPlayersCount;
     const char* fQDN;
@@ -1008,11 +1008,21 @@ typedef struct PlayFabMultiplayerListAssetSummariesResponse
     const char* skipToken;
 } PlayFabMultiplayerListAssetSummariesResponse;
 
-typedef struct PlayFabMultiplayerListBuildAliasesForTitleResponse
+typedef struct PlayFabMultiplayerListBuildAliasesRequest
+{
+    PF_MAP struct PlayFabStringDictionaryEntry* customTags;
+    PF_COLLECTION_COUNT uint32_t customTagsCount;
+    PF_OPTIONAL int32_t* pageSize;
+    const char* skipToken;
+} PlayFabMultiplayerListBuildAliasesRequest;
+
+typedef struct PlayFabMultiplayerListBuildAliasesResponse
 {
     PF_ARRAY PlayFabMultiplayerBuildAliasDetailsResponse** buildAliases;
     PF_COLLECTION_COUNT uint32_t buildAliasesCount;
-} PlayFabMultiplayerListBuildAliasesForTitleResponse;
+    int32_t pageSize;
+    const char* skipToken;
+} PlayFabMultiplayerListBuildAliasesResponse;
 
 typedef struct PlayFabMultiplayerListBuildSummariesRequest
 {
@@ -1205,12 +1215,6 @@ typedef struct PlayFabMultiplayerListVirtualMachineSummariesResponse
     PF_COLLECTION_COUNT uint32_t virtualMachinesCount;
 } PlayFabMultiplayerListVirtualMachineSummariesResponse;
 
-typedef struct PlayFabMultiplayerMultiplayerEmptyRequest
-{
-    PF_MAP struct PlayFabStringDictionaryEntry* customTags;
-    PF_COLLECTION_COUNT uint32_t customTagsCount;
-} PlayFabMultiplayerMultiplayerEmptyRequest;
-
 typedef struct PlayFabMultiplayerRequestMultiplayerServerRequest
 {
     PF_OPTIONAL PlayFabMultiplayerBuildAliasParams* buildAliasParams;
@@ -1227,6 +1231,7 @@ typedef struct PlayFabMultiplayerRequestMultiplayerServerRequest
 
 typedef struct PlayFabMultiplayerRequestMultiplayerServerResponse
 {
+    const char* buildId;
     PF_ARRAY PlayFabMultiplayerConnectedPlayer** connectedPlayers;
     PF_COLLECTION_COUNT uint32_t connectedPlayersCount;
     const char* fQDN;

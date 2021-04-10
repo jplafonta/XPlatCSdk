@@ -38,32 +38,32 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void AcceptGroupApplication(GroupsModels::AcceptGroupApplicationRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AcceptGroupInvitation(GroupsModels::AcceptGroupInvitationRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void AddMembers(GroupsModels::AddMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void ApplyToGroup(GroupsModels::ApplyToGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ApplyToGroupResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void BlockEntity(GroupsModels::BlockEntityRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void ChangeMemberRole(GroupsModels::ChangeMemberRoleRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void CreateGroup(GroupsModels::CreateGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::CreateGroupResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void CreateRole(GroupsModels::CreateGroupRoleRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::CreateGroupRoleResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteGroup(GroupsModels::DeleteGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteRole(GroupsModels::DeleteRoleRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetGroup(GroupsModels::GetGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::GetGroupResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void InviteToGroup(GroupsModels::InviteToGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::InviteToGroupResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void IsMember(GroupsModels::IsMemberRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::IsMemberResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ListGroupApplications(GroupsModels::ListGroupApplicationsRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ListGroupApplicationsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ListGroupBlocks(GroupsModels::ListGroupBlocksRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ListGroupBlocksResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ListGroupInvitations(GroupsModels::ListGroupInvitationsRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ListGroupInvitationsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ListGroupMembers(GroupsModels::ListGroupMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ListGroupMembersResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ListMembership(GroupsModels::ListMembershipRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ListMembershipResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ListMembershipOpportunities(GroupsModels::ListMembershipOpportunitiesRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::ListMembershipOpportunitiesResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveGroupApplication(GroupsModels::RemoveGroupApplicationRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveGroupInvitation(GroupsModels::RemoveGroupInvitationRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void RemoveMembers(GroupsModels::RemoveMembersRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UnblockEntity(GroupsModels::UnblockEntityRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateGroup(GroupsModels::UpdateGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::UpdateGroupResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateRole(GroupsModels::UpdateGroupRoleRequest& request, const TaskQueue& queue, const ProcessApiCallback<GroupsModels::UpdateGroupRoleResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<BaseResult> AcceptGroupApplication(const PlayFabGroupsAcceptGroupApplicationRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> AcceptGroupInvitation(const PlayFabGroupsAcceptGroupInvitationRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> AddMembers(const PlayFabGroupsAddMembersRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ApplyToGroupResponse> ApplyToGroup(const PlayFabGroupsApplyToGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> BlockEntity(const PlayFabGroupsBlockEntityRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> ChangeMemberRole(const PlayFabGroupsChangeMemberRoleRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::CreateGroupResponse> CreateGroup(const PlayFabGroupsCreateGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::CreateGroupRoleResponse> CreateRole(const PlayFabGroupsCreateGroupRoleRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> DeleteGroup(const PlayFabGroupsDeleteGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> DeleteRole(const PlayFabGroupsDeleteRoleRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::GetGroupResponse> GetGroup(const PlayFabGroupsGetGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::InviteToGroupResponse> InviteToGroup(const PlayFabGroupsInviteToGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::IsMemberResponse> IsMember(const PlayFabGroupsIsMemberRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ListGroupApplicationsResponse> ListGroupApplications(const PlayFabGroupsListGroupApplicationsRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ListGroupBlocksResponse> ListGroupBlocks(const PlayFabGroupsListGroupBlocksRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ListGroupInvitationsResponse> ListGroupInvitations(const PlayFabGroupsListGroupInvitationsRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ListGroupMembersResponse> ListGroupMembers(const PlayFabGroupsListGroupMembersRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ListMembershipResponse> ListMembership(const PlayFabGroupsListMembershipRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::ListMembershipOpportunitiesResponse> ListMembershipOpportunities(const PlayFabGroupsListMembershipOpportunitiesRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> RemoveGroupApplication(const PlayFabGroupsRemoveGroupApplicationRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> RemoveGroupInvitation(const PlayFabGroupsRemoveGroupInvitationRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> RemoveMembers(const PlayFabGroupsRemoveMembersRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> UnblockEntity(const PlayFabGroupsUnblockEntityRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::UpdateGroupResponse> UpdateGroup(const PlayFabGroupsUpdateGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<GroupsModels::UpdateGroupRoleResponse> UpdateRole(const PlayFabGroupsUpdateGroupRoleRequest& request, const TaskQueue& queue);
+
     };
 }
 

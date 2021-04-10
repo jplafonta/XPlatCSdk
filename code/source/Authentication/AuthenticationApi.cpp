@@ -61,11 +61,9 @@ namespace PlayFab
 
     // PlayFabAuthentication instance APIs
 
-    void PlayFabAuthenticationInstanceAPI::GetEntityToken(
-        GetEntityTokenRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<GetEntityTokenResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<GetEntityTokenResponse> PlayFabAuthenticationInstanceAPI::GetEntityToken(
+        const PlayFabAuthenticationGetEntityTokenRequest& request,
+        const TaskQueue& queue
     )
     {
         String authKey, authValue;
@@ -86,81 +84,69 @@ namespace PlayFab
         UnorderedMap<String, String> headers;
         headers.emplace(authKey, authValue);
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            GetEntityTokenResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                context->HandlePlayFabLogin("", "", outResult.entity->id, outResult.entity->type, outResult.entityToken);
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Authentication/GetEntityToken",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetEntityTokenResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                GetEntityTokenResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /*                context->HandlePlayFabLogin("", "", outResult.entity->id, outResult.entity->type, outResult.entityToken);
+*/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    void PlayFabAuthenticationInstanceAPI::ValidateEntityToken(
-        ValidateEntityTokenRequest& request,
-        const TaskQueue& queue,
-        const ProcessApiCallback<ValidateEntityTokenResponse> callback,
-        const ErrorCallback errorCallback
+    AsyncOp<ValidateEntityTokenResponse> PlayFabAuthenticationInstanceAPI::ValidateEntityToken(
+        const PlayFabAuthenticationValidateEntityTokenRequest& request,
+        const TaskQueue& queue
     )
     {
         UnorderedMap<String, String> headers;
         headers.emplace("X-EntityToken", m_context->entityToken.data());
 
-        // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-        auto callComplete = [ this, callback, errorCallback, context{ m_context } ](const HttpResult& httpResult)
-        {
-            ValidateEntityTokenResponse outResult;
-            if (ParseResult(outResult, httpResult, errorCallback))
-            {
-                if (callback)
-                {
-                    callback(outResult);
-                }
-            }
-        };
-
-        m_httpClient.MakePostRequest(
+        return m_httpClient.MakePostRequest(
             "/Authentication/ValidateEntityToken",
             headers,
-            request.ToJson(),
-            queue,
-            callComplete
-        );
+            JsonUtils::ToJson(request),
+            queue
+        ).Then([ this ](Result<ServiceResponse> result) -> Result<ValidateEntityTokenResponse>
+        {
+            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
+
+            RETURN_IF_FAILED(result.hr);
+
+            auto& serviceResponse = result.Payload();
+            if (serviceResponse.HttpCode == 200)
+            {
+                ValidateEntityTokenResponse resultModel;
+                resultModel.FromJson(serviceResponse.Data);
+                /**/
+
+                return resultModel;
+            }
+            else
+            {
+                return ServiceErrorToHR(serviceResponse.ErrorCode);
+            }
+        });
     }
 
-    bool PlayFabAuthenticationInstanceAPI::ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler)
-    {
-        if (httpResult.serviceResponse.HttpCode == 200)
-        {
-            result.FromJson(httpResult.serviceResponse.Data);
-            return true;
-        }
-        else // Process the error case
-        {
-            if (PlayFabSettings::globalErrorHandler != nullptr)
-            {
-                PlayFabSettings::globalErrorHandler(httpResult.serviceResponse);
-            }
-            if (errorHandler)
-            {
-                errorHandler(httpResult.serviceResponse);
-            }
-            return false;
-        }
-    }
 }
 
 #endif

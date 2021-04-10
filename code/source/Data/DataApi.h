@@ -38,14 +38,14 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void AbortFileUploads(DataModels::AbortFileUploadsRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::AbortFileUploadsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteFiles(DataModels::DeleteFilesRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::DeleteFilesResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void FinalizeFileUploads(DataModels::FinalizeFileUploadsRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::FinalizeFileUploadsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetFiles(DataModels::GetFilesRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::GetFilesResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetObjects(DataModels::GetObjectsRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::GetObjectsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void InitiateFileUploads(DataModels::InitiateFileUploadsRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::InitiateFileUploadsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void SetObjects(DataModels::SetObjectsRequest& request, const TaskQueue& queue, const ProcessApiCallback<DataModels::SetObjectsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<DataModels::AbortFileUploadsResponse> AbortFileUploads(const PlayFabDataAbortFileUploadsRequest& request, const TaskQueue& queue);
+        AsyncOp<DataModels::DeleteFilesResponse> DeleteFiles(const PlayFabDataDeleteFilesRequest& request, const TaskQueue& queue);
+        AsyncOp<DataModels::FinalizeFileUploadsResponse> FinalizeFileUploads(const PlayFabDataFinalizeFileUploadsRequest& request, const TaskQueue& queue);
+        AsyncOp<DataModels::GetFilesResponse> GetFiles(const PlayFabDataGetFilesRequest& request, const TaskQueue& queue);
+        AsyncOp<DataModels::GetObjectsResponse> GetObjects(const PlayFabDataGetObjectsRequest& request, const TaskQueue& queue);
+        AsyncOp<DataModels::InitiateFileUploadsResponse> InitiateFileUploads(const PlayFabDataInitiateFileUploadsRequest& request, const TaskQueue& queue);
+        AsyncOp<DataModels::SetObjectsResponse> SetObjects(const PlayFabDataSetObjectsRequest& request, const TaskQueue& queue);
+
     };
 }
 

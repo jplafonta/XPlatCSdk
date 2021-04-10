@@ -38,14 +38,14 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void GetGlobalPolicy(ProfilesModels::GetGlobalPolicyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetGlobalPolicyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetProfile(ProfilesModels::GetEntityProfileRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetEntityProfileResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetProfiles(ProfilesModels::GetEntityProfilesRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetEntityProfilesResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetTitlePlayersFromMasterPlayerAccountIds(ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void SetGlobalPolicy(ProfilesModels::SetGlobalPolicyRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void SetProfileLanguage(ProfilesModels::SetProfileLanguageRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::SetProfileLanguageResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void SetProfilePolicy(ProfilesModels::SetEntityProfilePolicyRequest& request, const TaskQueue& queue, const ProcessApiCallback<ProfilesModels::SetEntityProfilePolicyResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<ProfilesModels::GetGlobalPolicyResponse> GetGlobalPolicy(const PlayFabProfilesGetGlobalPolicyRequest& request, const TaskQueue& queue);
+        AsyncOp<ProfilesModels::GetEntityProfileResponse> GetProfile(const PlayFabProfilesGetEntityProfileRequest& request, const TaskQueue& queue);
+        AsyncOp<ProfilesModels::GetEntityProfilesResponse> GetProfiles(const PlayFabProfilesGetEntityProfilesRequest& request, const TaskQueue& queue);
+        AsyncOp<ProfilesModels::GetTitlePlayersFromMasterPlayerAccountIdsResponse> GetTitlePlayersFromMasterPlayerAccountIds(const PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> SetGlobalPolicy(const PlayFabProfilesSetGlobalPolicyRequest& request, const TaskQueue& queue);
+        AsyncOp<ProfilesModels::SetProfileLanguageResponse> SetProfileLanguage(const PlayFabProfilesSetProfileLanguageRequest& request, const TaskQueue& queue);
+        AsyncOp<ProfilesModels::SetEntityProfilePolicyResponse> SetProfilePolicy(const PlayFabProfilesSetEntityProfilePolicyRequest& request, const TaskQueue& queue);
+
     };
 }
 

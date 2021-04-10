@@ -16,10 +16,10 @@ public:
     ~ServerAuthAPI() = default;
 
     // Generated APIs 
-    void LoginWithServerCustomId(const PlayFabServerLoginWithServerCustomIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<SharedPtr<AuthContext>> callback, const ErrorCallback errorCallback = nullptr) const;
-    void LoginWithSteamId(const PlayFabServerLoginWithSteamIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<SharedPtr<AuthContext>> callback, const ErrorCallback errorCallback = nullptr) const;
-    void LoginWithXbox(const PlayFabServerLoginWithXboxRequest& request, const TaskQueue& queue, const ProcessApiCallback<SharedPtr<AuthContext>> callback, const ErrorCallback errorCallback = nullptr) const;
-    void LoginWithXboxId(const PlayFabServerLoginWithXboxIdRequest& request, const TaskQueue& queue, const ProcessApiCallback<SharedPtr<AuthContext>> callback, const ErrorCallback errorCallback = nullptr) const;
+    AsyncOp<SharedPtr<AuthContext>> LoginWithServerCustomId(const PlayFabServerLoginWithServerCustomIdRequest& request, const TaskQueue& queue) const;
+    AsyncOp<SharedPtr<AuthContext>> LoginWithSteamId(const PlayFabServerLoginWithSteamIdRequest& request, const TaskQueue& queue) const;
+    AsyncOp<SharedPtr<AuthContext>> LoginWithXbox(const PlayFabServerLoginWithXboxRequest& request, const TaskQueue& queue) const;
+    AsyncOp<SharedPtr<AuthContext>> LoginWithXboxId(const PlayFabServerLoginWithXboxIdRequest& request, const TaskQueue& queue) const;
 
 private:
     SharedPtr<PlayFabApiSettings> m_settings;

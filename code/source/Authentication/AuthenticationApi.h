@@ -40,9 +40,9 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void GetEntityToken(AuthenticationModels::GetEntityTokenRequest& request, const TaskQueue& queue, const ProcessApiCallback<AuthenticationModels::GetEntityTokenResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void ValidateEntityToken(AuthenticationModels::ValidateEntityTokenRequest& request, const TaskQueue& queue, const ProcessApiCallback<AuthenticationModels::ValidateEntityTokenResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<AuthenticationModels::GetEntityTokenResponse> GetEntityToken(const PlayFabAuthenticationGetEntityTokenRequest& request, const TaskQueue& queue);
+        AsyncOp<AuthenticationModels::ValidateEntityTokenResponse> ValidateEntityToken(const PlayFabAuthenticationValidateEntityTokenRequest& request, const TaskQueue& queue);
+
     };
 }
 

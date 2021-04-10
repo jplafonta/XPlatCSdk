@@ -13,719 +13,656 @@ ClientAuthAPI::ClientAuthAPI() :
 {
 }
 
-void ClientAuthAPI::LoginWithAndroidDeviceID(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithAndroidDeviceID(
     const PlayFabClientLoginWithAndroidDeviceIDRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithAndroidDeviceID",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithApple(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithApple(
     const PlayFabClientLoginWithAppleRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithApple",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithCustomID(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithCustomID(
     const PlayFabClientLoginWithCustomIDRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithCustomID",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithEmailAddress(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithEmailAddress(
     const PlayFabClientLoginWithEmailAddressRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithEmailAddress",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithFacebook(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithFacebook(
     const PlayFabClientLoginWithFacebookRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithFacebook",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithFacebookInstantGamesId(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithFacebookInstantGamesId(
     const PlayFabClientLoginWithFacebookInstantGamesIdRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithFacebookInstantGamesId",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithGameCenter(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithGameCenter(
     const PlayFabClientLoginWithGameCenterRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithGameCenter",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithGoogleAccount(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithGoogleAccount(
     const PlayFabClientLoginWithGoogleAccountRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithGoogleAccount",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithIOSDeviceID(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithIOSDeviceID(
     const PlayFabClientLoginWithIOSDeviceIDRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithIOSDeviceID",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithKongregate(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithKongregate(
     const PlayFabClientLoginWithKongregateRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithKongregate",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithNintendoServiceAccount(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithNintendoServiceAccount(
     const PlayFabClientLoginWithNintendoServiceAccountRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithNintendoServiceAccount",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithNintendoSwitchDeviceId(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithNintendoSwitchDeviceId(
     const PlayFabClientLoginWithNintendoSwitchDeviceIdRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithNintendoSwitchDeviceId",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithOpenIdConnect(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithOpenIdConnect(
     const PlayFabClientLoginWithOpenIdConnectRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithOpenIdConnect",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithPlayFab(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithPlayFab(
     const PlayFabClientLoginWithPlayFabRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithPlayFab",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithPSN(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithPSN(
     const PlayFabClientLoginWithPSNRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithPSN",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithSteam(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithSteam(
     const PlayFabClientLoginWithSteamRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithSteam",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithTwitch(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithTwitch(
     const PlayFabClientLoginWithTwitchRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithTwitch",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithWindowsHello(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithWindowsHello(
     const PlayFabClientLoginWithWindowsHelloRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithWindowsHello",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::LoginWithXbox(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::LoginWithXbox(
     const PlayFabClientLoginWithXboxRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/LoginWithXbox",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::RegisterPlayFabUser(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::RegisterPlayFabUser(
     const PlayFabClientRegisterPlayFabUserRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            RegisterPlayFabUserResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/RegisterPlayFabUser",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            RegisterPlayFabUserResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
-void ClientAuthAPI::RegisterWithWindowsHello(
+AsyncOp<SharedPtr<AuthContext>> ClientAuthAPI::RegisterWithWindowsHello(
     const PlayFabClientRegisterWithWindowsHelloRequest& request,
-    const TaskQueue& queue,
-    const ProcessApiCallback<SharedPtr<AuthContext>> callback,
-    const ErrorCallback errorCallback
+    const TaskQueue& queue
 ) const
 {
     // TODO find a cleaner way to configure the titleId
     m_settings->titleId = request.titleId;
     UnorderedMap<String, String> headers;
 
-    // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-    auto callComplete = [ this, callback, errorCallback ](const HttpResult& httpResult)
-    {
-        if (SUCCEEDED(httpResult.networkErrorCode) && httpResult.serviceResponse.HttpCode == 200)
-        {
-            LoginResult resultModel;
-            resultModel.FromJson(httpResult.serviceResponse.Data);
-            callback(MakeShared<AuthContext>(resultModel));
-        }
-        else if (errorCallback)
-        {
-            errorCallback(httpResult.serviceResponse);
-        }
-    };
-
-    m_httpClient.MakePostRequest(
+    return m_httpClient.MakePostRequest(
         "/Client/RegisterWithWindowsHello",
         headers,
         JsonUtils::ToJson(request),
-        queue,
-        callComplete
-    );
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto& serviceResponse = result.Payload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            LoginResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return MakeShared<AuthContext>(std::move(resultModel));
+        }
+        else
+        {
+            return ServiceErrorToHR(serviceResponse.ErrorCode);
+        }
+    });
 }
 
 }

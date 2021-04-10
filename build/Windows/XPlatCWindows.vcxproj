@@ -103,6 +103,7 @@
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabAuth.h" />
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabBaseModel_c.h" />
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabGlobal.h" />
+    <ClInclude Include="$(SdkSourceDir)\source\AsyncOp.h" />
     <ClCompile Include="$(SdkSourceDir)\source\AsyncProvider.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\AsyncProvider.h" />
     <ClInclude Include="$(SdkSourceDir)\source\AuthAsyncProvider.h" />
@@ -111,6 +112,8 @@
     <ClCompile Include="$(SdkSourceDir)\source\BaseModel.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\BaseModel.h" />
     <ClInclude Include="$(SdkSourceDir)\source\EnumTraits.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Error.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\source\Error.h" />
     <ClCompile Include="$(SdkSourceDir)\source\GlobalState.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\GlobalState.h" />
     <ClCompile Include="$(SdkSourceDir)\source\HttpClient.cpp" />
@@ -126,8 +129,6 @@
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.cpp" />
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuth.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabError.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabError.h" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabEvent.h" />
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabEvent.cpp" />
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabEventApi.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabSettings.h" />
     <ClCompile Include="$(SdkSourceDir)\source\PlayFabSpinLock.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabSpinLock.h" />
+    <ClInclude Include="$(SdkSourceDir)\source\Result.h" />
     <ClInclude Include="$(SdkSourceDir)\source\ResultMacros.h" />
     <ClInclude Include="$(SdkSourceDir)\source\StdOptional.h" />
     <ClCompile Include="$(SdkSourceDir)\source\TaskQueue.cpp" />

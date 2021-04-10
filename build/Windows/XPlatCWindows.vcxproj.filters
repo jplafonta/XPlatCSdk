@@ -30,6 +30,9 @@
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabGlobal.h">
       <Filter>Header Files\playfab</Filter>
     </ClInclude>
+    <ClInclude Include="$(SdkSourceDir)\source\AsyncOp.h" >
+      <Filter>Source Files</Filter>
+    </ClInclude>
     <ClCompile Include="$(SdkSourceDir)\source\AsyncProvider.cpp" >
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -52,6 +55,12 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="$(SdkSourceDir)\source\EnumTraits.h" >
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClCompile Include="$(SdkSourceDir)\source\Error.cpp" >
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClInclude Include="$(SdkSourceDir)\source\Error.h" >
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClCompile Include="$(SdkSourceDir)\source\GlobalState.cpp" >
@@ -97,12 +106,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.h" >
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabError.cpp" >
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabError.h" >
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabEvent.h" >
@@ -151,6 +154,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabSpinLock.h" >
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="$(SdkSourceDir)\source\Result.h" >
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="$(SdkSourceDir)\source\ResultMacros.h" >

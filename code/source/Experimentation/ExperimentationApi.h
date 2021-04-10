@@ -38,20 +38,20 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void CreateExclusionGroup(ExperimentationModels::CreateExclusionGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::CreateExclusionGroupResult> callback, const ErrorCallback errorCallback = nullptr);
-        void CreateExperiment(ExperimentationModels::CreateExperimentRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::CreateExperimentResult> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteExclusionGroup(ExperimentationModels::DeleteExclusionGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void DeleteExperiment(ExperimentationModels::DeleteExperimentRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetExclusionGroups(ExperimentationModels::GetExclusionGroupsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::GetExclusionGroupsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetExclusionGroupTraffic(ExperimentationModels::GetExclusionGroupTrafficRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::GetExclusionGroupTrafficResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetExperiments(ExperimentationModels::GetExperimentsRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::GetExperimentsResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetLatestScorecard(ExperimentationModels::GetLatestScorecardRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::GetLatestScorecardResult> callback, const ErrorCallback errorCallback = nullptr);
-        void GetTreatmentAssignment(ExperimentationModels::GetTreatmentAssignmentRequest& request, const TaskQueue& queue, const ProcessApiCallback<ExperimentationModels::GetTreatmentAssignmentResult> callback, const ErrorCallback errorCallback = nullptr);
-        void StartExperiment(ExperimentationModels::StartExperimentRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void StopExperiment(ExperimentationModels::StopExperimentRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateExclusionGroup(ExperimentationModels::UpdateExclusionGroupRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        void UpdateExperiment(ExperimentationModels::UpdateExperimentRequest& request, const TaskQueue& queue, const ProcessApiCallback<PlayFab::BaseResult> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<ExperimentationModels::CreateExclusionGroupResult> CreateExclusionGroup(const PlayFabExperimentationCreateExclusionGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<ExperimentationModels::CreateExperimentResult> CreateExperiment(const PlayFabExperimentationCreateExperimentRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> DeleteExclusionGroup(const PlayFabExperimentationDeleteExclusionGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> DeleteExperiment(const PlayFabExperimentationDeleteExperimentRequest& request, const TaskQueue& queue);
+        AsyncOp<ExperimentationModels::GetExclusionGroupsResult> GetExclusionGroups(const PlayFabExperimentationGetExclusionGroupsRequest& request, const TaskQueue& queue);
+        AsyncOp<ExperimentationModels::GetExclusionGroupTrafficResult> GetExclusionGroupTraffic(const PlayFabExperimentationGetExclusionGroupTrafficRequest& request, const TaskQueue& queue);
+        AsyncOp<ExperimentationModels::GetExperimentsResult> GetExperiments(const PlayFabExperimentationGetExperimentsRequest& request, const TaskQueue& queue);
+        AsyncOp<ExperimentationModels::GetLatestScorecardResult> GetLatestScorecard(const PlayFabExperimentationGetLatestScorecardRequest& request, const TaskQueue& queue);
+        AsyncOp<ExperimentationModels::GetTreatmentAssignmentResult> GetTreatmentAssignment(const PlayFabExperimentationGetTreatmentAssignmentRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> StartExperiment(const PlayFabExperimentationStartExperimentRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> StopExperiment(const PlayFabExperimentationStopExperimentRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> UpdateExclusionGroup(const PlayFabExperimentationUpdateExclusionGroupRequest& request, const TaskQueue& queue);
+        AsyncOp<BaseResult> UpdateExperiment(const PlayFabExperimentationUpdateExperimentRequest& request, const TaskQueue& queue);
+
     };
 }
 

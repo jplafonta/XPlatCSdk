@@ -38,13 +38,13 @@ namespace PlayFab
         void ForgetAllCredentials();
 
         // ------------ Generated API calls
-        void GetDetails(InsightsModels::InsightsEmptyRequest& request, const TaskQueue& queue, const ProcessApiCallback<InsightsModels::InsightsGetDetailsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetLimits(InsightsModels::InsightsEmptyRequest& request, const TaskQueue& queue, const ProcessApiCallback<InsightsModels::InsightsGetLimitsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetOperationStatus(InsightsModels::InsightsGetOperationStatusRequest& request, const TaskQueue& queue, const ProcessApiCallback<InsightsModels::InsightsGetOperationStatusResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void GetPendingOperations(InsightsModels::InsightsGetPendingOperationsRequest& request, const TaskQueue& queue, const ProcessApiCallback<InsightsModels::InsightsGetPendingOperationsResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void SetPerformance(InsightsModels::InsightsSetPerformanceRequest& request, const TaskQueue& queue, const ProcessApiCallback<InsightsModels::InsightsOperationResponse> callback, const ErrorCallback errorCallback = nullptr);
-        void SetStorageRetention(InsightsModels::InsightsSetStorageRetentionRequest& request, const TaskQueue& queue, const ProcessApiCallback<InsightsModels::InsightsOperationResponse> callback, const ErrorCallback errorCallback = nullptr);
-        static bool ParseResult(BaseResult& result, const HttpResult& httpResult, const ErrorCallback& errorHandler);
+        AsyncOp<InsightsModels::InsightsGetDetailsResponse> GetDetails(const PlayFabInsightsInsightsEmptyRequest& request, const TaskQueue& queue);
+        AsyncOp<InsightsModels::InsightsGetLimitsResponse> GetLimits(const PlayFabInsightsInsightsEmptyRequest& request, const TaskQueue& queue);
+        AsyncOp<InsightsModels::InsightsGetOperationStatusResponse> GetOperationStatus(const PlayFabInsightsInsightsGetOperationStatusRequest& request, const TaskQueue& queue);
+        AsyncOp<InsightsModels::InsightsGetPendingOperationsResponse> GetPendingOperations(const PlayFabInsightsInsightsGetPendingOperationsRequest& request, const TaskQueue& queue);
+        AsyncOp<InsightsModels::InsightsOperationResponse> SetPerformance(const PlayFabInsightsInsightsSetPerformanceRequest& request, const TaskQueue& queue);
+        AsyncOp<InsightsModels::InsightsOperationResponse> SetStorageRetention(const PlayFabInsightsInsightsSetStorageRetentionRequest& request, const TaskQueue& queue);
+
     };
 }
 
