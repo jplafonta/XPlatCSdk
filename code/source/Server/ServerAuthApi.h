@@ -5,25 +5,26 @@
 
 namespace PlayFab
 {
-class AuthContext;
+
+class Entity;
 
 class ServerAuthAPI
 {
 public:
-    ServerAuthAPI();
+    ServerAuthAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<String const> secretKey);
     ServerAuthAPI(const ServerAuthAPI&) = delete;
     ServerAuthAPI& operator=(const ServerAuthAPI& source) = delete;
     ~ServerAuthAPI() = default;
 
-    // Generated APIs 
-    AsyncOp<SharedPtr<AuthContext>> LoginWithServerCustomId(const PlayFabServerLoginWithServerCustomIdRequest& request, const TaskQueue& queue) const;
-    AsyncOp<SharedPtr<AuthContext>> LoginWithSteamId(const PlayFabServerLoginWithSteamIdRequest& request, const TaskQueue& queue) const;
-    AsyncOp<SharedPtr<AuthContext>> LoginWithXbox(const PlayFabServerLoginWithXboxRequest& request, const TaskQueue& queue) const;
-    AsyncOp<SharedPtr<AuthContext>> LoginWithXboxId(const PlayFabServerLoginWithXboxIdRequest& request, const TaskQueue& queue) const;
+    // ------------ Generated API calls
+    AsyncOp<SharedPtr<Entity>> LoginWithServerCustomId(const PlayFabServerLoginWithServerCustomIdRequest& request, const TaskQueue& queue) const;
+    AsyncOp<SharedPtr<Entity>> LoginWithSteamId(const PlayFabServerLoginWithSteamIdRequest& request, const TaskQueue& queue) const;
+    AsyncOp<SharedPtr<Entity>> LoginWithXbox(const PlayFabServerLoginWithXboxRequest& request, const TaskQueue& queue) const;
+    AsyncOp<SharedPtr<Entity>> LoginWithXboxId(const PlayFabServerLoginWithXboxIdRequest& request, const TaskQueue& queue) const;
 
 private:
-    SharedPtr<PlayFabApiSettings> m_settings;
-    HttpClient const m_httpClient;
+    SharedPtr<HttpClient const> m_httpClient;
+    SharedPtr<String const> m_secretKey;
 };
 
 }

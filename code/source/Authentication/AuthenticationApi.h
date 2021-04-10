@@ -1,49 +1,27 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include "AuthenticationDataModels.h"
 #include "HttpClient.h"
 #include "TaskQueue.h"
 
 namespace PlayFab
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
-    class PlayFabApiSettings;
-    class PlayFabAuthenticationContext;
+struct AuthTokens;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Authentication APIs
-    /// </summary>
-    class PlayFabAuthenticationInstanceAPI
-    {
-    private:
-        SharedPtr<PlayFabApiSettings> m_settings;
-        SharedPtr<PlayFabAuthenticationContext> m_context;
-        HttpClient const m_httpClient;
+class AuthenticationAPI
+{
+public:
+    AuthenticationAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    AuthenticationAPI(const AuthenticationAPI& source) = delete;
+    AuthenticationAPI& operator=(const AuthenticationAPI& source) = delete;
+    ~AuthenticationAPI() = default;
 
-    public:
-        PlayFabAuthenticationInstanceAPI();
-        PlayFabAuthenticationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings);
-        PlayFabAuthenticationInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
-        PlayFabAuthenticationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
+    // ------------ Generated API calls
+    AsyncOp<AuthenticationModels::ValidateEntityTokenResponse> ValidateEntityToken(const PlayFabAuthenticationValidateEntityTokenRequest& request, const TaskQueue& queue) const; 
 
-        ~PlayFabAuthenticationInstanceAPI() = default;
-        PlayFabAuthenticationInstanceAPI(const PlayFabAuthenticationInstanceAPI& source) = delete; // disable copy
-        PlayFabAuthenticationInstanceAPI(PlayFabAuthenticationInstanceAPI&&) = delete; // disable move
-        PlayFabAuthenticationInstanceAPI& operator=(const PlayFabAuthenticationInstanceAPI& source) = delete; // disable assignment
-        PlayFabAuthenticationInstanceAPI& operator=(PlayFabAuthenticationInstanceAPI&& other) = delete; // disable move assignment
+private:
+    SharedPtr<HttpClient const> m_httpClient;
+    SharedPtr<AuthTokens const> m_tokens;
+};
 
-        SharedPtr<PlayFabApiSettings> GetSettings() const;
-        SharedPtr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void ForgetAllCredentials();
-
-        // ------------ Generated API calls
-        AsyncOp<AuthenticationModels::GetEntityTokenResponse> GetEntityToken(const PlayFabAuthenticationGetEntityTokenRequest& request, const TaskQueue& queue);
-        AsyncOp<AuthenticationModels::ValidateEntityTokenResponse> ValidateEntityToken(const PlayFabAuthenticationValidateEntityTokenRequest& request, const TaskQueue& queue);
-
-    };
 }
-
-#endif

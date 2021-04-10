@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabMultiplayerDataModels_c.h>
+#include <playfab/PlayFabMultiplayerDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -1429,7 +1427,7 @@ namespace PlayFab
     namespace MultiplayerModels
     {
         // Multiplayer Classes
-        struct AssetReference : public PlayFabMultiplayerAssetReference, public BaseModel
+        struct AssetReference : public PlayFabMultiplayerAssetReference, public SerializableModel
         {
             AssetReference() : PlayFabMultiplayerAssetReference{}
             {
@@ -1458,13 +1456,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerAssetReference>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerAssetReference) };
+                serializedSize += (m_fileName.size() + 1);
+                serializedSize += (m_mountPath.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerAssetReference{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerAssetReference);
+        
+                memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+                stringBuffer +=  m_fileName.size() + 1; 
+                memcpy(stringBuffer, m_mountPath.data(), m_mountPath.size() + 1);
+                stringBuffer +=  m_mountPath.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_fileName;
             String m_mountPath;
         };
 
-        struct AssetReferenceParams : public PlayFabMultiplayerAssetReferenceParams, public BaseModel
+        struct AssetReferenceParams : public PlayFabMultiplayerAssetReferenceParams, public SerializableModel
         {
             AssetReferenceParams() : PlayFabMultiplayerAssetReferenceParams{}
             {
@@ -1493,7 +1511,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerAssetReferenceParams>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerAssetReferenceParams) };
+                serializedSize += (m_fileName.size() + 1);
+                serializedSize += (m_mountPath.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerAssetReferenceParams{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerAssetReferenceParams);
+        
+                memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+                stringBuffer +=  m_fileName.size() + 1; 
+                memcpy(stringBuffer, m_mountPath.data(), m_mountPath.size() + 1);
+                stringBuffer +=  m_mountPath.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_fileName;
             String m_mountPath;
@@ -1528,7 +1566,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerAssetSummary>(*this);
             }
-
+    
         private:
             String m_fileName;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_metadata;
@@ -1560,12 +1598,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerBuildSelectionCriterion>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabUint32DictionaryEntry, void> m_buildWeightDistribution;
         };
 
-        struct BuildAliasDetailsResponse : public PlayFabMultiplayerBuildAliasDetailsResponse, public BaseResult
+        struct BuildAliasDetailsResponse : public PlayFabMultiplayerBuildAliasDetailsResponse, public BaseModel
         {
             BuildAliasDetailsResponse() : PlayFabMultiplayerBuildAliasDetailsResponse{}
             {
@@ -1597,14 +1635,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerBuildAliasDetailsResponse>(*this);
             }
-
+    
         private:
             String m_aliasId;
             String m_aliasName;
             PointerArray<PlayFabMultiplayerBuildSelectionCriterion, BuildSelectionCriterion> m_buildSelectionCriteria;
         };
 
-        struct BuildAliasParams : public PlayFabMultiplayerBuildAliasParams, public BaseModel
+        struct BuildAliasParams : public PlayFabMultiplayerBuildAliasParams, public SerializableModel
         {
             BuildAliasParams() : PlayFabMultiplayerBuildAliasParams{}
             {
@@ -1630,12 +1668,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerBuildAliasParams>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerBuildAliasParams) };
+                serializedSize += (m_aliasId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerBuildAliasParams{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerBuildAliasParams);
+        
+                memcpy(stringBuffer, m_aliasId.data(), m_aliasId.size() + 1);
+                stringBuffer +=  m_aliasId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_aliasId;
         };
 
-        struct CurrentServerStats : public PlayFabMultiplayerCurrentServerStats, public BaseModel
+        struct CurrentServerStats : public PlayFabMultiplayerCurrentServerStats, public SerializableModel
         {
             CurrentServerStats() : PlayFabMultiplayerCurrentServerStats{}
             {
@@ -1659,11 +1714,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCurrentServerStats>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCurrentServerStats) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCurrentServerStats{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCurrentServerStats);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct DynamicStandbyThreshold : public PlayFabMultiplayerDynamicStandbyThreshold, public BaseModel
+        struct DynamicStandbyThreshold : public PlayFabMultiplayerDynamicStandbyThreshold, public SerializableModel
         {
             DynamicStandbyThreshold() : PlayFabMultiplayerDynamicStandbyThreshold{}
             {
@@ -1685,7 +1754,21 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDynamicStandbyThreshold>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerDynamicStandbyThreshold) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerDynamicStandbyThreshold{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerDynamicStandbyThreshold);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
@@ -1719,13 +1802,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDynamicStandbySettings>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerDynamicStandbyThreshold, DynamicStandbyThreshold> m_dynamicFloorMultiplierThresholds;
             StdExtra::optional<int32_t> m_rampDownSeconds;
         };
 
-        struct Schedule : public PlayFabMultiplayerSchedule, public BaseModel
+        struct Schedule : public PlayFabMultiplayerSchedule, public SerializableModel
         {
             Schedule() : PlayFabMultiplayerSchedule{}
             {
@@ -1756,7 +1839,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerSchedule>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerSchedule) };
+                serializedSize += (m_description.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerSchedule{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerSchedule);
+        
+                memcpy(stringBuffer, m_description.data(), m_description.size() + 1);
+                stringBuffer +=  m_description.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_description;
         };
@@ -1788,7 +1888,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerScheduledStandbySettings>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerSchedule, Schedule> m_scheduleList;
         };
@@ -1833,7 +1933,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerBuildRegion>(*this);
             }
-
+    
         private:
             StdExtra::optional<CurrentServerStats> m_currentServerStats;
             StdExtra::optional<DynamicStandbySettings> m_dynamicStandbySettings;
@@ -1876,7 +1976,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerBuildRegionParams>(*this);
             }
-
+    
         private:
             StdExtra::optional<DynamicStandbySettings> m_dynamicStandbySettings;
             String m_region;
@@ -1921,7 +2021,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerBuildSummary>(*this);
             }
-
+    
         private:
             String m_buildId;
             String m_buildName;
@@ -1930,7 +2030,7 @@ namespace PlayFab
             PointerArray<PlayFabMultiplayerBuildRegion, BuildRegion> m_regionConfigurations;
         };
 
-        struct EntityKey : public PlayFabMultiplayerEntityKey, public BaseModel
+        struct EntityKey : public PlayFabMultiplayerEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabMultiplayerEntityKey{}
             {
@@ -1959,13 +2059,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct CancelAllMatchmakingTicketsForPlayerRequest : public PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest, public BaseRequest
+        struct CancelAllMatchmakingTicketsForPlayerRequest : public PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest, public BaseModel
         {
             CancelAllMatchmakingTicketsForPlayerRequest() : PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest{}
             {
@@ -1997,14 +2117,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCancelAllMatchmakingTicketsForPlayerRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
             String m_queueName;
         };
 
-        struct CancelAllServerBackfillTicketsForPlayerRequest : public PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest, public BaseRequest
+        struct CancelAllServerBackfillTicketsForPlayerRequest : public PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest, public BaseModel
         {
             CancelAllServerBackfillTicketsForPlayerRequest() : PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest{}
             {
@@ -2036,14 +2156,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCancelAllServerBackfillTicketsForPlayerRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             String m_queueName;
         };
 
-        struct CancelMatchmakingTicketRequest : public PlayFabMultiplayerCancelMatchmakingTicketRequest, public BaseRequest
+        struct CancelMatchmakingTicketRequest : public PlayFabMultiplayerCancelMatchmakingTicketRequest, public BaseModel
         {
             CancelMatchmakingTicketRequest() : PlayFabMultiplayerCancelMatchmakingTicketRequest{}
             {
@@ -2075,14 +2195,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCancelMatchmakingTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_queueName;
             String m_ticketId;
         };
 
-        struct CancelServerBackfillTicketRequest : public PlayFabMultiplayerCancelServerBackfillTicketRequest, public BaseRequest
+        struct CancelServerBackfillTicketRequest : public PlayFabMultiplayerCancelServerBackfillTicketRequest, public BaseModel
         {
             CancelServerBackfillTicketRequest() : PlayFabMultiplayerCancelServerBackfillTicketRequest{}
             {
@@ -2114,14 +2234,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCancelServerBackfillTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_queueName;
             String m_ticketId;
         };
 
-        struct Certificate : public PlayFabMultiplayerCertificate, public BaseModel
+        struct Certificate : public PlayFabMultiplayerCertificate, public SerializableModel
         {
             Certificate() : PlayFabMultiplayerCertificate{}
             {
@@ -2153,14 +2273,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCertificate>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCertificate) };
+                serializedSize += (m_base64EncodedValue.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                serializedSize += (m_password.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCertificate{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCertificate);
+        
+                memcpy(stringBuffer, m_base64EncodedValue.data(), m_base64EncodedValue.size() + 1);
+                stringBuffer +=  m_base64EncodedValue.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                memcpy(stringBuffer, m_password.data(), m_password.size() + 1);
+                stringBuffer +=  m_password.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_base64EncodedValue;
             String m_name;
             String m_password;
         };
 
-        struct CertificateSummary : public PlayFabMultiplayerCertificateSummary, public BaseModel
+        struct CertificateSummary : public PlayFabMultiplayerCertificateSummary, public SerializableModel
         {
             CertificateSummary() : PlayFabMultiplayerCertificateSummary{}
             {
@@ -2189,13 +2332,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCertificateSummary>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCertificateSummary) };
+                serializedSize += (m_name.size() + 1);
+                serializedSize += (m_thumbprint.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCertificateSummary{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCertificateSummary);
+        
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                memcpy(stringBuffer, m_thumbprint.data(), m_thumbprint.size() + 1);
+                stringBuffer +=  m_thumbprint.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_name;
             String m_thumbprint;
         };
 
-        struct ConnectedPlayer : public PlayFabMultiplayerConnectedPlayer, public BaseModel
+        struct ConnectedPlayer : public PlayFabMultiplayerConnectedPlayer, public SerializableModel
         {
             ConnectedPlayer() : PlayFabMultiplayerConnectedPlayer{}
             {
@@ -2221,12 +2384,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerConnectedPlayer>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerConnectedPlayer) };
+                serializedSize += (m_playerId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerConnectedPlayer{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerConnectedPlayer);
+        
+                memcpy(stringBuffer, m_playerId.data(), m_playerId.size() + 1);
+                stringBuffer +=  m_playerId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playerId;
         };
 
-        struct ContainerImageReference : public PlayFabMultiplayerContainerImageReference, public BaseModel
+        struct ContainerImageReference : public PlayFabMultiplayerContainerImageReference, public SerializableModel
         {
             ContainerImageReference() : PlayFabMultiplayerContainerImageReference{}
             {
@@ -2255,7 +2435,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerContainerImageReference>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerContainerImageReference) };
+                serializedSize += (m_imageName.size() + 1);
+                serializedSize += (m_tag.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerContainerImageReference{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerContainerImageReference);
+        
+                memcpy(stringBuffer, m_imageName.data(), m_imageName.size() + 1);
+                stringBuffer +=  m_imageName.size() + 1; 
+                memcpy(stringBuffer, m_tag.data(), m_tag.size() + 1);
+                stringBuffer +=  m_tag.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_imageName;
             String m_tag;
@@ -2292,13 +2492,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCoreCapacity>(*this);
             }
-
+    
         private:
             String m_region;
             StdExtra::optional<PlayFabMultiplayerAzureVmFamily> m_vmFamily;
         };
 
-        struct CoreCapacityChange : public PlayFabMultiplayerCoreCapacityChange, public BaseModel
+        struct CoreCapacityChange : public PlayFabMultiplayerCoreCapacityChange, public SerializableModel
         {
             CoreCapacityChange() : PlayFabMultiplayerCoreCapacityChange{}
             {
@@ -2326,12 +2526,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCoreCapacityChange>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCoreCapacityChange) };
+                serializedSize += (m_region.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCoreCapacityChange{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCoreCapacityChange);
+        
+                memcpy(stringBuffer, m_region.data(), m_region.size() + 1);
+                stringBuffer +=  m_region.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_region;
         };
 
-        struct CreateBuildAliasRequest : public PlayFabMultiplayerCreateBuildAliasRequest, public BaseRequest
+        struct CreateBuildAliasRequest : public PlayFabMultiplayerCreateBuildAliasRequest, public BaseModel
         {
             CreateBuildAliasRequest() : PlayFabMultiplayerCreateBuildAliasRequest{}
             {
@@ -2363,14 +2580,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildAliasRequest>(*this);
             }
-
+    
         private:
             String m_aliasName;
             PointerArray<PlayFabMultiplayerBuildSelectionCriterion, BuildSelectionCriterion> m_buildSelectionCriteria;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GameCertificateReferenceParams : public PlayFabMultiplayerGameCertificateReferenceParams, public BaseModel
+        struct GameCertificateReferenceParams : public PlayFabMultiplayerGameCertificateReferenceParams, public SerializableModel
         {
             GameCertificateReferenceParams() : PlayFabMultiplayerGameCertificateReferenceParams{}
             {
@@ -2399,13 +2616,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGameCertificateReferenceParams>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerGameCertificateReferenceParams) };
+                serializedSize += (m_gsdkAlias.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerGameCertificateReferenceParams{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerGameCertificateReferenceParams);
+        
+                memcpy(stringBuffer, m_gsdkAlias.data(), m_gsdkAlias.size() + 1);
+                stringBuffer +=  m_gsdkAlias.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_gsdkAlias;
             String m_name;
         };
 
-        struct LinuxInstrumentationConfiguration : public PlayFabMultiplayerLinuxInstrumentationConfiguration, public BaseModel
+        struct LinuxInstrumentationConfiguration : public PlayFabMultiplayerLinuxInstrumentationConfiguration, public SerializableModel
         {
             LinuxInstrumentationConfiguration() : PlayFabMultiplayerLinuxInstrumentationConfiguration{}
             {
@@ -2426,11 +2663,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerLinuxInstrumentationConfiguration>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerLinuxInstrumentationConfiguration) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerLinuxInstrumentationConfiguration{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerLinuxInstrumentationConfiguration);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct Port : public PlayFabMultiplayerPort, public BaseModel
+        struct Port : public PlayFabMultiplayerPort, public SerializableModel
         {
             Port() : PlayFabMultiplayerPort{}
             {
@@ -2458,12 +2709,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerPort>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerPort) };
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerPort{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerPort);
+        
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_name;
         };
 
-        struct CreateBuildWithCustomContainerRequest : public PlayFabMultiplayerCreateBuildWithCustomContainerRequest, public BaseRequest
+        struct CreateBuildWithCustomContainerRequest : public PlayFabMultiplayerCreateBuildWithCustomContainerRequest, public BaseModel
         {
             CreateBuildWithCustomContainerRequest() : PlayFabMultiplayerCreateBuildWithCustomContainerRequest{}
             {
@@ -2529,7 +2797,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildWithCustomContainerRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildName;
@@ -2547,7 +2815,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabMultiplayerAzureVmSize> m_vmSize;
         };
 
-        struct GameCertificateReference : public PlayFabMultiplayerGameCertificateReference, public BaseModel
+        struct GameCertificateReference : public PlayFabMultiplayerGameCertificateReference, public SerializableModel
         {
             GameCertificateReference() : PlayFabMultiplayerGameCertificateReference{}
             {
@@ -2576,13 +2844,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGameCertificateReference>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerGameCertificateReference) };
+                serializedSize += (m_gsdkAlias.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerGameCertificateReference{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerGameCertificateReference);
+        
+                memcpy(stringBuffer, m_gsdkAlias.data(), m_gsdkAlias.size() + 1);
+                stringBuffer +=  m_gsdkAlias.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_gsdkAlias;
             String m_name;
         };
 
-        struct CreateBuildWithCustomContainerResponse : public PlayFabMultiplayerCreateBuildWithCustomContainerResponse, public BaseResult
+        struct CreateBuildWithCustomContainerResponse : public PlayFabMultiplayerCreateBuildWithCustomContainerResponse, public BaseModel
         {
             CreateBuildWithCustomContainerResponse() : PlayFabMultiplayerCreateBuildWithCustomContainerResponse{}
             {
@@ -2657,7 +2945,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildWithCustomContainerResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildId;
@@ -2704,12 +2992,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerInstrumentationConfiguration>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_processesToMonitor;
         };
 
-        struct CreateBuildWithManagedContainerRequest : public PlayFabMultiplayerCreateBuildWithManagedContainerRequest, public BaseRequest
+        struct CreateBuildWithManagedContainerRequest : public PlayFabMultiplayerCreateBuildWithManagedContainerRequest, public BaseModel
         {
             CreateBuildWithManagedContainerRequest() : PlayFabMultiplayerCreateBuildWithManagedContainerRequest{}
             {
@@ -2775,7 +3063,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildWithManagedContainerRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildName;
@@ -2793,7 +3081,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabMultiplayerAzureVmSize> m_vmSize;
         };
 
-        struct CreateBuildWithManagedContainerResponse : public PlayFabMultiplayerCreateBuildWithManagedContainerResponse, public BaseResult
+        struct CreateBuildWithManagedContainerResponse : public PlayFabMultiplayerCreateBuildWithManagedContainerResponse, public BaseModel
         {
             CreateBuildWithManagedContainerResponse() : PlayFabMultiplayerCreateBuildWithManagedContainerResponse{}
             {
@@ -2868,7 +3156,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildWithManagedContainerResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildId;
@@ -2889,7 +3177,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabMultiplayerAzureVmSize> m_vmSize;
         };
 
-        struct CreateBuildWithProcessBasedServerRequest : public PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest, public BaseRequest
+        struct CreateBuildWithProcessBasedServerRequest : public PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest, public BaseModel
         {
             CreateBuildWithProcessBasedServerRequest() : PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest{}
             {
@@ -2958,7 +3246,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildWithProcessBasedServerRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildName;
@@ -2977,7 +3265,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabMultiplayerAzureVmSize> m_vmSize;
         };
 
-        struct CreateBuildWithProcessBasedServerResponse : public PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse, public BaseResult
+        struct CreateBuildWithProcessBasedServerResponse : public PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse, public BaseModel
         {
             CreateBuildWithProcessBasedServerResponse() : PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse{}
             {
@@ -3055,7 +3343,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateBuildWithProcessBasedServerResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildId;
@@ -3106,7 +3394,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerMatchmakingPlayerAttributes>(*this);
             }
-
+    
         private:
             JsonObject m_dataObject;
             String m_escapedDataObject;
@@ -3141,13 +3429,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerMatchmakingPlayer>(*this);
             }
-
+    
         private:
             StdExtra::optional<MatchmakingPlayerAttributes> m_attributes;
             EntityKey m_entity;
         };
 
-        struct CreateMatchmakingTicketRequest : public PlayFabMultiplayerCreateMatchmakingTicketRequest, public BaseRequest
+        struct CreateMatchmakingTicketRequest : public PlayFabMultiplayerCreateMatchmakingTicketRequest, public BaseModel
         {
             CreateMatchmakingTicketRequest() : PlayFabMultiplayerCreateMatchmakingTicketRequest{}
             {
@@ -3183,7 +3471,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateMatchmakingTicketRequest>(*this);
             }
-
+    
         private:
             MatchmakingPlayer m_creator;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -3191,7 +3479,7 @@ namespace PlayFab
             String m_queueName;
         };
 
-        struct CreateMatchmakingTicketResult : public PlayFabMultiplayerCreateMatchmakingTicketResult, public BaseResult
+        struct CreateMatchmakingTicketResult : public PlayFabMultiplayerCreateMatchmakingTicketResult, public SerializableModel
         {
             CreateMatchmakingTicketResult() : PlayFabMultiplayerCreateMatchmakingTicketResult{}
             {
@@ -3217,12 +3505,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateMatchmakingTicketResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCreateMatchmakingTicketResult) };
+                serializedSize += (m_ticketId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCreateMatchmakingTicketResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCreateMatchmakingTicketResult);
+        
+                memcpy(stringBuffer, m_ticketId.data(), m_ticketId.size() + 1);
+                stringBuffer +=  m_ticketId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_ticketId;
         };
 
-        struct CreateRemoteUserRequest : public PlayFabMultiplayerCreateRemoteUserRequest, public BaseRequest
+        struct CreateRemoteUserRequest : public PlayFabMultiplayerCreateRemoteUserRequest, public BaseModel
         {
             CreateRemoteUserRequest() : PlayFabMultiplayerCreateRemoteUserRequest{}
             {
@@ -3263,7 +3568,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateRemoteUserRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -3273,7 +3578,7 @@ namespace PlayFab
             String m_vmId;
         };
 
-        struct CreateRemoteUserResponse : public PlayFabMultiplayerCreateRemoteUserResponse, public BaseResult
+        struct CreateRemoteUserResponse : public PlayFabMultiplayerCreateRemoteUserResponse, public BaseModel
         {
             CreateRemoteUserResponse() : PlayFabMultiplayerCreateRemoteUserResponse{}
             {
@@ -3305,7 +3610,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateRemoteUserResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<time_t> m_expirationTime;
             String m_password;
@@ -3344,7 +3649,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment>(*this);
             }
-
+    
         private:
             StdExtra::optional<MatchmakingPlayerAttributes> m_attributes;
             EntityKey m_entity;
@@ -3386,7 +3691,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerServerDetails>(*this);
             }
-
+    
         private:
             String m_fqdn;
             String m_iPV4Address;
@@ -3394,7 +3699,7 @@ namespace PlayFab
             String m_region;
         };
 
-        struct CreateServerBackfillTicketRequest : public PlayFabMultiplayerCreateServerBackfillTicketRequest, public BaseRequest
+        struct CreateServerBackfillTicketRequest : public PlayFabMultiplayerCreateServerBackfillTicketRequest, public BaseModel
         {
             CreateServerBackfillTicketRequest() : PlayFabMultiplayerCreateServerBackfillTicketRequest{}
             {
@@ -3430,7 +3735,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateServerBackfillTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment, MatchmakingPlayerWithTeamAssignment> m_members;
@@ -3438,7 +3743,7 @@ namespace PlayFab
             StdExtra::optional<ServerDetails> m_serverDetails;
         };
 
-        struct CreateServerBackfillTicketResult : public PlayFabMultiplayerCreateServerBackfillTicketResult, public BaseResult
+        struct CreateServerBackfillTicketResult : public PlayFabMultiplayerCreateServerBackfillTicketResult, public SerializableModel
         {
             CreateServerBackfillTicketResult() : PlayFabMultiplayerCreateServerBackfillTicketResult{}
             {
@@ -3464,12 +3769,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateServerBackfillTicketResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCreateServerBackfillTicketResult) };
+                serializedSize += (m_ticketId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCreateServerBackfillTicketResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCreateServerBackfillTicketResult);
+        
+                memcpy(stringBuffer, m_ticketId.data(), m_ticketId.size() + 1);
+                stringBuffer +=  m_ticketId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_ticketId;
         };
 
-        struct CreateServerMatchmakingTicketRequest : public PlayFabMultiplayerCreateServerMatchmakingTicketRequest, public BaseRequest
+        struct CreateServerMatchmakingTicketRequest : public PlayFabMultiplayerCreateServerMatchmakingTicketRequest, public BaseModel
         {
             CreateServerMatchmakingTicketRequest() : PlayFabMultiplayerCreateServerMatchmakingTicketRequest{}
             {
@@ -3502,14 +3824,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateServerMatchmakingTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<PlayFabMultiplayerMatchmakingPlayer, MatchmakingPlayer> m_members;
             String m_queueName;
         };
 
-        struct CreateTitleMultiplayerServersQuotaChangeRequest : public PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest, public BaseRequest
+        struct CreateTitleMultiplayerServersQuotaChangeRequest : public PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest, public BaseModel
         {
             CreateTitleMultiplayerServersQuotaChangeRequest() : PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest{}
             {
@@ -3550,7 +3872,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeRequest>(*this);
             }
-
+    
         private:
             String m_changeDescription;
             PointerArray<PlayFabMultiplayerCoreCapacityChange, CoreCapacityChange> m_changes;
@@ -3560,7 +3882,7 @@ namespace PlayFab
             StdExtra::optional<time_t> m_startDate;
         };
 
-        struct CreateTitleMultiplayerServersQuotaChangeResponse : public PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse, public BaseResult
+        struct CreateTitleMultiplayerServersQuotaChangeResponse : public PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse, public SerializableModel
         {
             CreateTitleMultiplayerServersQuotaChangeResponse() : PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse{}
             {
@@ -3587,12 +3909,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse) };
+                serializedSize += (m_requestId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerCreateTitleMultiplayerServersQuotaChangeResponse);
+        
+                memcpy(stringBuffer, m_requestId.data(), m_requestId.size() + 1);
+                stringBuffer +=  m_requestId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_requestId;
         };
 
-        struct DeleteAssetRequest : public PlayFabMultiplayerDeleteAssetRequest, public BaseRequest
+        struct DeleteAssetRequest : public PlayFabMultiplayerDeleteAssetRequest, public BaseModel
         {
             DeleteAssetRequest() : PlayFabMultiplayerDeleteAssetRequest{}
             {
@@ -3621,13 +3960,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteAssetRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_fileName;
         };
 
-        struct DeleteBuildAliasRequest : public PlayFabMultiplayerDeleteBuildAliasRequest, public BaseRequest
+        struct DeleteBuildAliasRequest : public PlayFabMultiplayerDeleteBuildAliasRequest, public BaseModel
         {
             DeleteBuildAliasRequest() : PlayFabMultiplayerDeleteBuildAliasRequest{}
             {
@@ -3656,13 +3995,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteBuildAliasRequest>(*this);
             }
-
+    
         private:
             String m_aliasId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct DeleteBuildRegionRequest : public PlayFabMultiplayerDeleteBuildRegionRequest, public BaseRequest
+        struct DeleteBuildRegionRequest : public PlayFabMultiplayerDeleteBuildRegionRequest, public BaseModel
         {
             DeleteBuildRegionRequest() : PlayFabMultiplayerDeleteBuildRegionRequest{}
             {
@@ -3694,14 +4033,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteBuildRegionRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_region;
         };
 
-        struct DeleteBuildRequest : public PlayFabMultiplayerDeleteBuildRequest, public BaseRequest
+        struct DeleteBuildRequest : public PlayFabMultiplayerDeleteBuildRequest, public BaseModel
         {
             DeleteBuildRequest() : PlayFabMultiplayerDeleteBuildRequest{}
             {
@@ -3730,13 +4069,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteBuildRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct DeleteCertificateRequest : public PlayFabMultiplayerDeleteCertificateRequest, public BaseRequest
+        struct DeleteCertificateRequest : public PlayFabMultiplayerDeleteCertificateRequest, public BaseModel
         {
             DeleteCertificateRequest() : PlayFabMultiplayerDeleteCertificateRequest{}
             {
@@ -3765,13 +4104,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteCertificateRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_name;
         };
 
-        struct DeleteContainerImageRequest : public PlayFabMultiplayerDeleteContainerImageRequest, public BaseRequest
+        struct DeleteContainerImageRequest : public PlayFabMultiplayerDeleteContainerImageRequest, public BaseModel
         {
             DeleteContainerImageRequest() : PlayFabMultiplayerDeleteContainerImageRequest{}
             {
@@ -3800,13 +4139,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteContainerImageRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_imageName;
         };
 
-        struct DeleteRemoteUserRequest : public PlayFabMultiplayerDeleteRemoteUserRequest, public BaseRequest
+        struct DeleteRemoteUserRequest : public PlayFabMultiplayerDeleteRemoteUserRequest, public BaseModel
         {
             DeleteRemoteUserRequest() : PlayFabMultiplayerDeleteRemoteUserRequest{}
             {
@@ -3844,7 +4183,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerDeleteRemoteUserRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -3853,7 +4192,7 @@ namespace PlayFab
             String m_vmId;
         };
 
-        struct EnableMultiplayerServersForTitleRequest : public PlayFabMultiplayerEnableMultiplayerServersForTitleRequest, public BaseRequest
+        struct EnableMultiplayerServersForTitleRequest : public PlayFabMultiplayerEnableMultiplayerServersForTitleRequest, public BaseModel
         {
             EnableMultiplayerServersForTitleRequest() : PlayFabMultiplayerEnableMultiplayerServersForTitleRequest{}
             {
@@ -3879,12 +4218,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerEnableMultiplayerServersForTitleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct EnableMultiplayerServersForTitleResponse : public PlayFabMultiplayerEnableMultiplayerServersForTitleResponse, public BaseResult
+        struct EnableMultiplayerServersForTitleResponse : public PlayFabMultiplayerEnableMultiplayerServersForTitleResponse, public BaseModel
         {
             EnableMultiplayerServersForTitleResponse() : PlayFabMultiplayerEnableMultiplayerServersForTitleResponse{}
             {
@@ -3910,12 +4249,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerEnableMultiplayerServersForTitleResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabMultiplayerTitleMultiplayerServerEnabledStatus> m_status;
         };
 
-        struct GetAssetUploadUrlRequest : public PlayFabMultiplayerGetAssetUploadUrlRequest, public BaseRequest
+        struct GetAssetUploadUrlRequest : public PlayFabMultiplayerGetAssetUploadUrlRequest, public BaseModel
         {
             GetAssetUploadUrlRequest() : PlayFabMultiplayerGetAssetUploadUrlRequest{}
             {
@@ -3944,13 +4283,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetAssetUploadUrlRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_fileName;
         };
 
-        struct GetAssetUploadUrlResponse : public PlayFabMultiplayerGetAssetUploadUrlResponse, public BaseResult
+        struct GetAssetUploadUrlResponse : public PlayFabMultiplayerGetAssetUploadUrlResponse, public SerializableModel
         {
             GetAssetUploadUrlResponse() : PlayFabMultiplayerGetAssetUploadUrlResponse{}
             {
@@ -3979,13 +4318,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetAssetUploadUrlResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerGetAssetUploadUrlResponse) };
+                serializedSize += (m_assetUploadUrl.size() + 1);
+                serializedSize += (m_fileName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerGetAssetUploadUrlResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerGetAssetUploadUrlResponse);
+        
+                memcpy(stringBuffer, m_assetUploadUrl.data(), m_assetUploadUrl.size() + 1);
+                stringBuffer +=  m_assetUploadUrl.size() + 1; 
+                memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+                stringBuffer +=  m_fileName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_assetUploadUrl;
             String m_fileName;
         };
 
-        struct GetBuildAliasRequest : public PlayFabMultiplayerGetBuildAliasRequest, public BaseRequest
+        struct GetBuildAliasRequest : public PlayFabMultiplayerGetBuildAliasRequest, public BaseModel
         {
             GetBuildAliasRequest() : PlayFabMultiplayerGetBuildAliasRequest{}
             {
@@ -4014,13 +4373,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetBuildAliasRequest>(*this);
             }
-
+    
         private:
             String m_aliasId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetBuildRequest : public PlayFabMultiplayerGetBuildRequest, public BaseRequest
+        struct GetBuildRequest : public PlayFabMultiplayerGetBuildRequest, public BaseModel
         {
             GetBuildRequest() : PlayFabMultiplayerGetBuildRequest{}
             {
@@ -4049,13 +4408,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetBuildRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetBuildResponse : public PlayFabMultiplayerGetBuildResponse, public BaseResult
+        struct GetBuildResponse : public PlayFabMultiplayerGetBuildResponse, public BaseModel
         {
             GetBuildResponse() : PlayFabMultiplayerGetBuildResponse{}
             {
@@ -4136,7 +4495,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetBuildResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_areAssetsReadonly;
             String m_buildId;
@@ -4159,7 +4518,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabMultiplayerAzureVmSize> m_vmSize;
         };
 
-        struct GetContainerRegistryCredentialsRequest : public PlayFabMultiplayerGetContainerRegistryCredentialsRequest, public BaseRequest
+        struct GetContainerRegistryCredentialsRequest : public PlayFabMultiplayerGetContainerRegistryCredentialsRequest, public BaseModel
         {
             GetContainerRegistryCredentialsRequest() : PlayFabMultiplayerGetContainerRegistryCredentialsRequest{}
             {
@@ -4185,12 +4544,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetContainerRegistryCredentialsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetContainerRegistryCredentialsResponse : public PlayFabMultiplayerGetContainerRegistryCredentialsResponse, public BaseResult
+        struct GetContainerRegistryCredentialsResponse : public PlayFabMultiplayerGetContainerRegistryCredentialsResponse, public SerializableModel
         {
             GetContainerRegistryCredentialsResponse() : PlayFabMultiplayerGetContainerRegistryCredentialsResponse{}
             {
@@ -4222,14 +4581,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetContainerRegistryCredentialsResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerGetContainerRegistryCredentialsResponse) };
+                serializedSize += (m_dnsName.size() + 1);
+                serializedSize += (m_password.size() + 1);
+                serializedSize += (m_username.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerGetContainerRegistryCredentialsResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerGetContainerRegistryCredentialsResponse);
+        
+                memcpy(stringBuffer, m_dnsName.data(), m_dnsName.size() + 1);
+                stringBuffer +=  m_dnsName.size() + 1; 
+                memcpy(stringBuffer, m_password.data(), m_password.size() + 1);
+                stringBuffer +=  m_password.size() + 1; 
+                memcpy(stringBuffer, m_username.data(), m_username.size() + 1);
+                stringBuffer +=  m_username.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_dnsName;
             String m_password;
             String m_username;
         };
 
-        struct GetMatchmakingTicketRequest : public PlayFabMultiplayerGetMatchmakingTicketRequest, public BaseRequest
+        struct GetMatchmakingTicketRequest : public PlayFabMultiplayerGetMatchmakingTicketRequest, public BaseModel
         {
             GetMatchmakingTicketRequest() : PlayFabMultiplayerGetMatchmakingTicketRequest{}
             {
@@ -4262,14 +4644,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMatchmakingTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_queueName;
             String m_ticketId;
         };
 
-        struct GetMatchmakingTicketResult : public PlayFabMultiplayerGetMatchmakingTicketResult, public BaseResult
+        struct GetMatchmakingTicketResult : public PlayFabMultiplayerGetMatchmakingTicketResult, public BaseModel
         {
             GetMatchmakingTicketResult() : PlayFabMultiplayerGetMatchmakingTicketResult{}
             {
@@ -4318,7 +4700,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMatchmakingTicketResult>(*this);
             }
-
+    
         private:
             String m_cancellationReasonString;
             EntityKey m_creator;
@@ -4330,7 +4712,7 @@ namespace PlayFab
             String m_ticketId;
         };
 
-        struct GetMatchRequest : public PlayFabMultiplayerGetMatchRequest, public BaseRequest
+        struct GetMatchRequest : public PlayFabMultiplayerGetMatchRequest, public BaseModel
         {
             GetMatchRequest() : PlayFabMultiplayerGetMatchRequest{}
             {
@@ -4364,14 +4746,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMatchRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_matchId;
             String m_queueName;
         };
 
-        struct GetMatchResult : public PlayFabMultiplayerGetMatchResult, public BaseResult
+        struct GetMatchResult : public PlayFabMultiplayerGetMatchResult, public BaseModel
         {
             GetMatchResult() : PlayFabMultiplayerGetMatchResult{}
             {
@@ -4406,7 +4788,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMatchResult>(*this);
             }
-
+    
         private:
             String m_matchId;
             PointerArray<PlayFabMultiplayerMatchmakingPlayerWithTeamAssignment, MatchmakingPlayerWithTeamAssignment> m_members;
@@ -4414,7 +4796,7 @@ namespace PlayFab
             StdExtra::optional<ServerDetails> m_serverDetails;
         };
 
-        struct GetMultiplayerServerDetailsRequest : public PlayFabMultiplayerGetMultiplayerServerDetailsRequest, public BaseRequest
+        struct GetMultiplayerServerDetailsRequest : public PlayFabMultiplayerGetMultiplayerServerDetailsRequest, public BaseModel
         {
             GetMultiplayerServerDetailsRequest() : PlayFabMultiplayerGetMultiplayerServerDetailsRequest{}
             {
@@ -4449,7 +4831,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMultiplayerServerDetailsRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -4457,7 +4839,7 @@ namespace PlayFab
             String m_sessionId;
         };
 
-        struct GetMultiplayerServerDetailsResponse : public PlayFabMultiplayerGetMultiplayerServerDetailsResponse, public BaseResult
+        struct GetMultiplayerServerDetailsResponse : public PlayFabMultiplayerGetMultiplayerServerDetailsResponse, public BaseModel
         {
             GetMultiplayerServerDetailsResponse() : PlayFabMultiplayerGetMultiplayerServerDetailsResponse{}
             {
@@ -4513,7 +4895,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMultiplayerServerDetailsResponse>(*this);
             }
-
+    
         private:
             String m_buildId;
             PointerArray<PlayFabMultiplayerConnectedPlayer, ConnectedPlayer> m_connectedPlayers;
@@ -4528,7 +4910,7 @@ namespace PlayFab
             String m_vmId;
         };
 
-        struct GetMultiplayerServerLogsRequest : public PlayFabMultiplayerGetMultiplayerServerLogsRequest, public BaseRequest
+        struct GetMultiplayerServerLogsRequest : public PlayFabMultiplayerGetMultiplayerServerLogsRequest, public BaseModel
         {
             GetMultiplayerServerLogsRequest() : PlayFabMultiplayerGetMultiplayerServerLogsRequest{}
             {
@@ -4557,13 +4939,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMultiplayerServerLogsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_serverId;
         };
 
-        struct GetMultiplayerServerLogsResponse : public PlayFabMultiplayerGetMultiplayerServerLogsResponse, public BaseResult
+        struct GetMultiplayerServerLogsResponse : public PlayFabMultiplayerGetMultiplayerServerLogsResponse, public SerializableModel
         {
             GetMultiplayerServerLogsResponse() : PlayFabMultiplayerGetMultiplayerServerLogsResponse{}
             {
@@ -4589,12 +4971,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMultiplayerServerLogsResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerGetMultiplayerServerLogsResponse) };
+                serializedSize += (m_logDownloadUrl.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerGetMultiplayerServerLogsResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerGetMultiplayerServerLogsResponse);
+        
+                memcpy(stringBuffer, m_logDownloadUrl.data(), m_logDownloadUrl.size() + 1);
+                stringBuffer +=  m_logDownloadUrl.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_logDownloadUrl;
         };
 
-        struct GetMultiplayerSessionLogsBySessionIdRequest : public PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest, public BaseRequest
+        struct GetMultiplayerSessionLogsBySessionIdRequest : public PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest, public BaseModel
         {
             GetMultiplayerSessionLogsBySessionIdRequest() : PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest{}
             {
@@ -4623,13 +5022,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetMultiplayerSessionLogsBySessionIdRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_sessionId;
         };
 
-        struct GetQueueStatisticsRequest : public PlayFabMultiplayerGetQueueStatisticsRequest, public BaseRequest
+        struct GetQueueStatisticsRequest : public PlayFabMultiplayerGetQueueStatisticsRequest, public BaseModel
         {
             GetQueueStatisticsRequest() : PlayFabMultiplayerGetQueueStatisticsRequest{}
             {
@@ -4658,13 +5057,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetQueueStatisticsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_queueName;
         };
 
-        struct Statistics : public PlayFabMultiplayerStatistics, public BaseModel
+        struct Statistics : public PlayFabMultiplayerStatistics, public SerializableModel
         {
             Statistics() : PlayFabMultiplayerStatistics{}
             {
@@ -4688,11 +5087,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerStatistics>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerStatistics) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerStatistics{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerStatistics);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct GetQueueStatisticsResult : public PlayFabMultiplayerGetQueueStatisticsResult, public BaseResult
+        struct GetQueueStatisticsResult : public PlayFabMultiplayerGetQueueStatisticsResult, public BaseModel
         {
             GetQueueStatisticsResult() : PlayFabMultiplayerGetQueueStatisticsResult{}
             {
@@ -4721,13 +5134,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetQueueStatisticsResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<uint32_t> m_numberOfPlayersMatching;
             StdExtra::optional<Statistics> m_timeToMatchStatisticsInSeconds;
         };
 
-        struct GetRemoteLoginEndpointRequest : public PlayFabMultiplayerGetRemoteLoginEndpointRequest, public BaseRequest
+        struct GetRemoteLoginEndpointRequest : public PlayFabMultiplayerGetRemoteLoginEndpointRequest, public BaseModel
         {
             GetRemoteLoginEndpointRequest() : PlayFabMultiplayerGetRemoteLoginEndpointRequest{}
             {
@@ -4762,7 +5175,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetRemoteLoginEndpointRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -4770,7 +5183,7 @@ namespace PlayFab
             String m_vmId;
         };
 
-        struct GetRemoteLoginEndpointResponse : public PlayFabMultiplayerGetRemoteLoginEndpointResponse, public BaseResult
+        struct GetRemoteLoginEndpointResponse : public PlayFabMultiplayerGetRemoteLoginEndpointResponse, public SerializableModel
         {
             GetRemoteLoginEndpointResponse() : PlayFabMultiplayerGetRemoteLoginEndpointResponse{}
             {
@@ -4797,12 +5210,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetRemoteLoginEndpointResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerGetRemoteLoginEndpointResponse) };
+                serializedSize += (m_iPV4Address.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerGetRemoteLoginEndpointResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerGetRemoteLoginEndpointResponse);
+        
+                memcpy(stringBuffer, m_iPV4Address.data(), m_iPV4Address.size() + 1);
+                stringBuffer +=  m_iPV4Address.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_iPV4Address;
         };
 
-        struct GetServerBackfillTicketRequest : public PlayFabMultiplayerGetServerBackfillTicketRequest, public BaseRequest
+        struct GetServerBackfillTicketRequest : public PlayFabMultiplayerGetServerBackfillTicketRequest, public BaseModel
         {
             GetServerBackfillTicketRequest() : PlayFabMultiplayerGetServerBackfillTicketRequest{}
             {
@@ -4835,14 +5265,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetServerBackfillTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_queueName;
             String m_ticketId;
         };
 
-        struct GetServerBackfillTicketResult : public PlayFabMultiplayerGetServerBackfillTicketResult, public BaseResult
+        struct GetServerBackfillTicketResult : public PlayFabMultiplayerGetServerBackfillTicketResult, public BaseModel
         {
             GetServerBackfillTicketResult() : PlayFabMultiplayerGetServerBackfillTicketResult{}
             {
@@ -4888,7 +5318,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetServerBackfillTicketResult>(*this);
             }
-
+    
         private:
             String m_cancellationReasonString;
             String m_matchId;
@@ -4899,7 +5329,7 @@ namespace PlayFab
             String m_ticketId;
         };
 
-        struct GetTitleEnabledForMultiplayerServersStatusRequest : public PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest, public BaseRequest
+        struct GetTitleEnabledForMultiplayerServersStatusRequest : public PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest, public BaseModel
         {
             GetTitleEnabledForMultiplayerServersStatusRequest() : PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest{}
             {
@@ -4925,12 +5355,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetTitleEnabledForMultiplayerServersStatusResponse : public PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse, public BaseResult
+        struct GetTitleEnabledForMultiplayerServersStatusResponse : public PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse, public BaseModel
         {
             GetTitleEnabledForMultiplayerServersStatusResponse() : PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse{}
             {
@@ -4956,12 +5386,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetTitleEnabledForMultiplayerServersStatusResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabMultiplayerTitleMultiplayerServerEnabledStatus> m_status;
         };
 
-        struct GetTitleMultiplayerServersQuotaChangeRequest : public PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest, public BaseRequest
+        struct GetTitleMultiplayerServersQuotaChangeRequest : public PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest, public BaseModel
         {
             GetTitleMultiplayerServersQuotaChangeRequest() : PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest{}
             {
@@ -4990,7 +5420,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_requestId;
@@ -5036,7 +5466,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerQuotaChange>(*this);
             }
-
+    
         private:
             String m_changeDescription;
             PointerArray<PlayFabMultiplayerCoreCapacityChange, CoreCapacityChange> m_changes;
@@ -5045,7 +5475,7 @@ namespace PlayFab
             String m_reviewComments;
         };
 
-        struct GetTitleMultiplayerServersQuotaChangeResponse : public PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeResponse, public BaseResult
+        struct GetTitleMultiplayerServersQuotaChangeResponse : public PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeResponse, public BaseModel
         {
             GetTitleMultiplayerServersQuotaChangeResponse() : PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeResponse{}
             {
@@ -5071,12 +5501,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetTitleMultiplayerServersQuotaChangeResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<QuotaChange> m_change;
         };
 
-        struct GetTitleMultiplayerServersQuotasRequest : public PlayFabMultiplayerGetTitleMultiplayerServersQuotasRequest, public BaseRequest
+        struct GetTitleMultiplayerServersQuotasRequest : public PlayFabMultiplayerGetTitleMultiplayerServersQuotasRequest, public BaseModel
         {
             GetTitleMultiplayerServersQuotasRequest() : PlayFabMultiplayerGetTitleMultiplayerServersQuotasRequest{}
             {
@@ -5102,7 +5532,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetTitleMultiplayerServersQuotasRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
@@ -5133,12 +5563,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerTitleMultiplayerServersQuotas>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerCoreCapacity, CoreCapacity> m_coreCapacities;
         };
 
-        struct GetTitleMultiplayerServersQuotasResponse : public PlayFabMultiplayerGetTitleMultiplayerServersQuotasResponse, public BaseResult
+        struct GetTitleMultiplayerServersQuotasResponse : public PlayFabMultiplayerGetTitleMultiplayerServersQuotasResponse, public BaseModel
         {
             GetTitleMultiplayerServersQuotasResponse() : PlayFabMultiplayerGetTitleMultiplayerServersQuotasResponse{}
             {
@@ -5164,12 +5594,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerGetTitleMultiplayerServersQuotasResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<TitleMultiplayerServersQuotas> m_quotas;
         };
 
-        struct JoinMatchmakingTicketRequest : public PlayFabMultiplayerJoinMatchmakingTicketRequest, public BaseRequest
+        struct JoinMatchmakingTicketRequest : public PlayFabMultiplayerJoinMatchmakingTicketRequest, public BaseModel
         {
             JoinMatchmakingTicketRequest() : PlayFabMultiplayerJoinMatchmakingTicketRequest{}
             {
@@ -5204,7 +5634,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerJoinMatchmakingTicketRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             MatchmakingPlayer m_member;
@@ -5212,7 +5642,7 @@ namespace PlayFab
             String m_ticketId;
         };
 
-        struct ListAssetSummariesRequest : public PlayFabMultiplayerListAssetSummariesRequest, public BaseRequest
+        struct ListAssetSummariesRequest : public PlayFabMultiplayerListAssetSummariesRequest, public BaseModel
         {
             ListAssetSummariesRequest() : PlayFabMultiplayerListAssetSummariesRequest{}
             {
@@ -5244,14 +5674,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListAssetSummariesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_pageSize;
             String m_skipToken;
         };
 
-        struct ListAssetSummariesResponse : public PlayFabMultiplayerListAssetSummariesResponse, public BaseResult
+        struct ListAssetSummariesResponse : public PlayFabMultiplayerListAssetSummariesResponse, public BaseModel
         {
             ListAssetSummariesResponse() : PlayFabMultiplayerListAssetSummariesResponse{}
             {
@@ -5281,13 +5711,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListAssetSummariesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerAssetSummary, AssetSummary> m_assetSummaries;
             String m_skipToken;
         };
 
-        struct ListBuildAliasesRequest : public PlayFabMultiplayerListBuildAliasesRequest, public BaseRequest
+        struct ListBuildAliasesRequest : public PlayFabMultiplayerListBuildAliasesRequest, public BaseModel
         {
             ListBuildAliasesRequest() : PlayFabMultiplayerListBuildAliasesRequest{}
             {
@@ -5319,14 +5749,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListBuildAliasesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_pageSize;
             String m_skipToken;
         };
 
-        struct ListBuildAliasesResponse : public PlayFabMultiplayerListBuildAliasesResponse, public BaseResult
+        struct ListBuildAliasesResponse : public PlayFabMultiplayerListBuildAliasesResponse, public BaseModel
         {
             ListBuildAliasesResponse() : PlayFabMultiplayerListBuildAliasesResponse{}
             {
@@ -5356,13 +5786,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListBuildAliasesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerBuildAliasDetailsResponse, BuildAliasDetailsResponse> m_buildAliases;
             String m_skipToken;
         };
 
-        struct ListBuildSummariesRequest : public PlayFabMultiplayerListBuildSummariesRequest, public BaseRequest
+        struct ListBuildSummariesRequest : public PlayFabMultiplayerListBuildSummariesRequest, public BaseModel
         {
             ListBuildSummariesRequest() : PlayFabMultiplayerListBuildSummariesRequest{}
             {
@@ -5394,14 +5824,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListBuildSummariesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_pageSize;
             String m_skipToken;
         };
 
-        struct ListBuildSummariesResponse : public PlayFabMultiplayerListBuildSummariesResponse, public BaseResult
+        struct ListBuildSummariesResponse : public PlayFabMultiplayerListBuildSummariesResponse, public BaseModel
         {
             ListBuildSummariesResponse() : PlayFabMultiplayerListBuildSummariesResponse{}
             {
@@ -5431,13 +5861,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListBuildSummariesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerBuildSummary, BuildSummary> m_buildSummaries;
             String m_skipToken;
         };
 
-        struct ListCertificateSummariesRequest : public PlayFabMultiplayerListCertificateSummariesRequest, public BaseRequest
+        struct ListCertificateSummariesRequest : public PlayFabMultiplayerListCertificateSummariesRequest, public BaseModel
         {
             ListCertificateSummariesRequest() : PlayFabMultiplayerListCertificateSummariesRequest{}
             {
@@ -5469,14 +5899,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListCertificateSummariesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_pageSize;
             String m_skipToken;
         };
 
-        struct ListCertificateSummariesResponse : public PlayFabMultiplayerListCertificateSummariesResponse, public BaseResult
+        struct ListCertificateSummariesResponse : public PlayFabMultiplayerListCertificateSummariesResponse, public BaseModel
         {
             ListCertificateSummariesResponse() : PlayFabMultiplayerListCertificateSummariesResponse{}
             {
@@ -5506,13 +5936,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListCertificateSummariesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerCertificateSummary, CertificateSummary> m_certificateSummaries;
             String m_skipToken;
         };
 
-        struct ListContainerImagesRequest : public PlayFabMultiplayerListContainerImagesRequest, public BaseRequest
+        struct ListContainerImagesRequest : public PlayFabMultiplayerListContainerImagesRequest, public BaseModel
         {
             ListContainerImagesRequest() : PlayFabMultiplayerListContainerImagesRequest{}
             {
@@ -5544,14 +5974,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListContainerImagesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_pageSize;
             String m_skipToken;
         };
 
-        struct ListContainerImagesResponse : public PlayFabMultiplayerListContainerImagesResponse, public BaseResult
+        struct ListContainerImagesResponse : public PlayFabMultiplayerListContainerImagesResponse, public BaseModel
         {
             ListContainerImagesResponse() : PlayFabMultiplayerListContainerImagesResponse{}
             {
@@ -5581,13 +6011,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListContainerImagesResponse>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_images;
             String m_skipToken;
         };
 
-        struct ListContainerImageTagsRequest : public PlayFabMultiplayerListContainerImageTagsRequest, public BaseRequest
+        struct ListContainerImageTagsRequest : public PlayFabMultiplayerListContainerImageTagsRequest, public BaseModel
         {
             ListContainerImageTagsRequest() : PlayFabMultiplayerListContainerImageTagsRequest{}
             {
@@ -5616,13 +6046,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListContainerImageTagsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_imageName;
         };
 
-        struct ListContainerImageTagsResponse : public PlayFabMultiplayerListContainerImageTagsResponse, public BaseResult
+        struct ListContainerImageTagsResponse : public PlayFabMultiplayerListContainerImageTagsResponse, public BaseModel
         {
             ListContainerImageTagsResponse() : PlayFabMultiplayerListContainerImageTagsResponse{}
             {
@@ -5648,12 +6078,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListContainerImageTagsResponse>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_tags;
         };
 
-        struct ListMatchmakingTicketsForPlayerRequest : public PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest, public BaseRequest
+        struct ListMatchmakingTicketsForPlayerRequest : public PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest, public BaseModel
         {
             ListMatchmakingTicketsForPlayerRequest() : PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest{}
             {
@@ -5685,14 +6115,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListMatchmakingTicketsForPlayerRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
             String m_queueName;
         };
 
-        struct ListMatchmakingTicketsForPlayerResult : public PlayFabMultiplayerListMatchmakingTicketsForPlayerResult, public BaseResult
+        struct ListMatchmakingTicketsForPlayerResult : public PlayFabMultiplayerListMatchmakingTicketsForPlayerResult, public BaseModel
         {
             ListMatchmakingTicketsForPlayerResult() : PlayFabMultiplayerListMatchmakingTicketsForPlayerResult{}
             {
@@ -5718,12 +6148,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListMatchmakingTicketsForPlayerResult>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_ticketIds;
         };
 
-        struct ListMultiplayerServersRequest : public PlayFabMultiplayerListMultiplayerServersRequest, public BaseRequest
+        struct ListMultiplayerServersRequest : public PlayFabMultiplayerListMultiplayerServersRequest, public BaseModel
         {
             ListMultiplayerServersRequest() : PlayFabMultiplayerListMultiplayerServersRequest{}
             {
@@ -5761,7 +6191,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListMultiplayerServersRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -5814,7 +6244,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerMultiplayerServerSummary>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerConnectedPlayer, ConnectedPlayer> m_connectedPlayers;
             StdExtra::optional<time_t> m_lastStateTransitionTime;
@@ -5825,7 +6255,7 @@ namespace PlayFab
             String m_vmId;
         };
 
-        struct ListMultiplayerServersResponse : public PlayFabMultiplayerListMultiplayerServersResponse, public BaseResult
+        struct ListMultiplayerServersResponse : public PlayFabMultiplayerListMultiplayerServersResponse, public BaseModel
         {
             ListMultiplayerServersResponse() : PlayFabMultiplayerListMultiplayerServersResponse{}
             {
@@ -5855,13 +6285,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListMultiplayerServersResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerMultiplayerServerSummary, MultiplayerServerSummary> m_multiplayerServerSummaries;
             String m_skipToken;
         };
 
-        struct ListPartyQosServersRequest : public PlayFabMultiplayerListPartyQosServersRequest, public BaseRequest
+        struct ListPartyQosServersRequest : public PlayFabMultiplayerListPartyQosServersRequest, public BaseModel
         {
             ListPartyQosServersRequest() : PlayFabMultiplayerListPartyQosServersRequest{}
             {
@@ -5887,12 +6317,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListPartyQosServersRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct QosServer : public PlayFabMultiplayerQosServer, public BaseModel
+        struct QosServer : public PlayFabMultiplayerQosServer, public SerializableModel
         {
             QosServer() : PlayFabMultiplayerQosServer{}
             {
@@ -5921,13 +6351,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerQosServer>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerQosServer) };
+                serializedSize += (m_region.size() + 1);
+                serializedSize += (m_serverUrl.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerQosServer{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerQosServer);
+        
+                memcpy(stringBuffer, m_region.data(), m_region.size() + 1);
+                stringBuffer +=  m_region.size() + 1; 
+                memcpy(stringBuffer, m_serverUrl.data(), m_serverUrl.size() + 1);
+                stringBuffer +=  m_serverUrl.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_region;
             String m_serverUrl;
         };
 
-        struct ListPartyQosServersResponse : public PlayFabMultiplayerListPartyQosServersResponse, public BaseResult
+        struct ListPartyQosServersResponse : public PlayFabMultiplayerListPartyQosServersResponse, public BaseModel
         {
             ListPartyQosServersResponse() : PlayFabMultiplayerListPartyQosServersResponse{}
             {
@@ -5957,13 +6407,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListPartyQosServersResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerQosServer, QosServer> m_qosServers;
             String m_skipToken;
         };
 
-        struct ListQosServersForTitleRequest : public PlayFabMultiplayerListQosServersForTitleRequest, public BaseRequest
+        struct ListQosServersForTitleRequest : public PlayFabMultiplayerListQosServersForTitleRequest, public BaseModel
         {
             ListQosServersForTitleRequest() : PlayFabMultiplayerListQosServersForTitleRequest{}
             {
@@ -5992,13 +6442,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListQosServersForTitleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_includeAllRegions;
         };
 
-        struct ListQosServersForTitleResponse : public PlayFabMultiplayerListQosServersForTitleResponse, public BaseResult
+        struct ListQosServersForTitleResponse : public PlayFabMultiplayerListQosServersForTitleResponse, public BaseModel
         {
             ListQosServersForTitleResponse() : PlayFabMultiplayerListQosServersForTitleResponse{}
             {
@@ -6028,13 +6478,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListQosServersForTitleResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerQosServer, QosServer> m_qosServers;
             String m_skipToken;
         };
 
-        struct ListServerBackfillTicketsForPlayerRequest : public PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest, public BaseRequest
+        struct ListServerBackfillTicketsForPlayerRequest : public PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest, public BaseModel
         {
             ListServerBackfillTicketsForPlayerRequest() : PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest{}
             {
@@ -6066,14 +6516,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListServerBackfillTicketsForPlayerRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             String m_queueName;
         };
 
-        struct ListServerBackfillTicketsForPlayerResult : public PlayFabMultiplayerListServerBackfillTicketsForPlayerResult, public BaseResult
+        struct ListServerBackfillTicketsForPlayerResult : public PlayFabMultiplayerListServerBackfillTicketsForPlayerResult, public BaseModel
         {
             ListServerBackfillTicketsForPlayerResult() : PlayFabMultiplayerListServerBackfillTicketsForPlayerResult{}
             {
@@ -6099,12 +6549,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListServerBackfillTicketsForPlayerResult>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_ticketIds;
         };
 
-        struct ListTitleMultiplayerServersQuotaChangesRequest : public PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesRequest, public BaseRequest
+        struct ListTitleMultiplayerServersQuotaChangesRequest : public PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesRequest, public BaseModel
         {
             ListTitleMultiplayerServersQuotaChangesRequest() : PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesRequest{}
             {
@@ -6130,12 +6580,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct ListTitleMultiplayerServersQuotaChangesResponse : public PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesResponse, public BaseResult
+        struct ListTitleMultiplayerServersQuotaChangesResponse : public PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesResponse, public BaseModel
         {
             ListTitleMultiplayerServersQuotaChangesResponse() : PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesResponse{}
             {
@@ -6161,12 +6611,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListTitleMultiplayerServersQuotaChangesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMultiplayerQuotaChange, QuotaChange> m_changes;
         };
 
-        struct ListVirtualMachineSummariesRequest : public PlayFabMultiplayerListVirtualMachineSummariesRequest, public BaseRequest
+        struct ListVirtualMachineSummariesRequest : public PlayFabMultiplayerListVirtualMachineSummariesRequest, public BaseModel
         {
             ListVirtualMachineSummariesRequest() : PlayFabMultiplayerListVirtualMachineSummariesRequest{}
             {
@@ -6204,7 +6654,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListVirtualMachineSummariesRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -6213,7 +6663,7 @@ namespace PlayFab
             String m_skipToken;
         };
 
-        struct VirtualMachineSummary : public PlayFabMultiplayerVirtualMachineSummary, public BaseModel
+        struct VirtualMachineSummary : public PlayFabMultiplayerVirtualMachineSummary, public SerializableModel
         {
             VirtualMachineSummary() : PlayFabMultiplayerVirtualMachineSummary{}
             {
@@ -6245,14 +6695,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerVirtualMachineSummary>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerVirtualMachineSummary) };
+                serializedSize += (m_healthStatus.size() + 1);
+                serializedSize += (m_state.size() + 1);
+                serializedSize += (m_vmId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerVirtualMachineSummary{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerVirtualMachineSummary);
+        
+                memcpy(stringBuffer, m_healthStatus.data(), m_healthStatus.size() + 1);
+                stringBuffer +=  m_healthStatus.size() + 1; 
+                memcpy(stringBuffer, m_state.data(), m_state.size() + 1);
+                stringBuffer +=  m_state.size() + 1; 
+                memcpy(stringBuffer, m_vmId.data(), m_vmId.size() + 1);
+                stringBuffer +=  m_vmId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_healthStatus;
             String m_state;
             String m_vmId;
         };
 
-        struct ListVirtualMachineSummariesResponse : public PlayFabMultiplayerListVirtualMachineSummariesResponse, public BaseResult
+        struct ListVirtualMachineSummariesResponse : public PlayFabMultiplayerListVirtualMachineSummariesResponse, public BaseModel
         {
             ListVirtualMachineSummariesResponse() : PlayFabMultiplayerListVirtualMachineSummariesResponse{}
             {
@@ -6282,13 +6755,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerListVirtualMachineSummariesResponse>(*this);
             }
-
+    
         private:
             String m_skipToken;
             PointerArray<PlayFabMultiplayerVirtualMachineSummary, VirtualMachineSummary> m_virtualMachines;
         };
 
-        struct RequestMultiplayerServerRequest : public PlayFabMultiplayerRequestMultiplayerServerRequest, public BaseRequest
+        struct RequestMultiplayerServerRequest : public PlayFabMultiplayerRequestMultiplayerServerRequest, public BaseModel
         {
             RequestMultiplayerServerRequest() : PlayFabMultiplayerRequestMultiplayerServerRequest{}
             {
@@ -6332,7 +6805,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerRequestMultiplayerServerRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<BuildAliasParams> m_buildAliasParams;
             String m_buildId;
@@ -6343,7 +6816,7 @@ namespace PlayFab
             String m_sessionId;
         };
 
-        struct RequestMultiplayerServerResponse : public PlayFabMultiplayerRequestMultiplayerServerResponse, public BaseResult
+        struct RequestMultiplayerServerResponse : public PlayFabMultiplayerRequestMultiplayerServerResponse, public BaseModel
         {
             RequestMultiplayerServerResponse() : PlayFabMultiplayerRequestMultiplayerServerResponse{}
             {
@@ -6399,7 +6872,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerRequestMultiplayerServerResponse>(*this);
             }
-
+    
         private:
             String m_buildId;
             PointerArray<PlayFabMultiplayerConnectedPlayer, ConnectedPlayer> m_connectedPlayers;
@@ -6414,7 +6887,7 @@ namespace PlayFab
             String m_vmId;
         };
 
-        struct RolloverContainerRegistryCredentialsRequest : public PlayFabMultiplayerRolloverContainerRegistryCredentialsRequest, public BaseRequest
+        struct RolloverContainerRegistryCredentialsRequest : public PlayFabMultiplayerRolloverContainerRegistryCredentialsRequest, public BaseModel
         {
             RolloverContainerRegistryCredentialsRequest() : PlayFabMultiplayerRolloverContainerRegistryCredentialsRequest{}
             {
@@ -6440,12 +6913,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerRolloverContainerRegistryCredentialsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct RolloverContainerRegistryCredentialsResponse : public PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse, public BaseResult
+        struct RolloverContainerRegistryCredentialsResponse : public PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse, public SerializableModel
         {
             RolloverContainerRegistryCredentialsResponse() : PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse{}
             {
@@ -6477,14 +6950,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse) };
+                serializedSize += (m_dnsName.size() + 1);
+                serializedSize += (m_password.size() + 1);
+                serializedSize += (m_username.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMultiplayerRolloverContainerRegistryCredentialsResponse);
+        
+                memcpy(stringBuffer, m_dnsName.data(), m_dnsName.size() + 1);
+                stringBuffer +=  m_dnsName.size() + 1; 
+                memcpy(stringBuffer, m_password.data(), m_password.size() + 1);
+                stringBuffer +=  m_password.size() + 1; 
+                memcpy(stringBuffer, m_username.data(), m_username.size() + 1);
+                stringBuffer +=  m_username.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_dnsName;
             String m_password;
             String m_username;
         };
 
-        struct ShutdownMultiplayerServerRequest : public PlayFabMultiplayerShutdownMultiplayerServerRequest, public BaseRequest
+        struct ShutdownMultiplayerServerRequest : public PlayFabMultiplayerShutdownMultiplayerServerRequest, public BaseModel
         {
             ShutdownMultiplayerServerRequest() : PlayFabMultiplayerShutdownMultiplayerServerRequest{}
             {
@@ -6519,7 +7015,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerShutdownMultiplayerServerRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -6527,7 +7023,7 @@ namespace PlayFab
             String m_sessionId;
         };
 
-        struct UntagContainerImageRequest : public PlayFabMultiplayerUntagContainerImageRequest, public BaseRequest
+        struct UntagContainerImageRequest : public PlayFabMultiplayerUntagContainerImageRequest, public BaseModel
         {
             UntagContainerImageRequest() : PlayFabMultiplayerUntagContainerImageRequest{}
             {
@@ -6559,14 +7055,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerUntagContainerImageRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_imageName;
             String m_tag;
         };
 
-        struct UpdateBuildAliasRequest : public PlayFabMultiplayerUpdateBuildAliasRequest, public BaseRequest
+        struct UpdateBuildAliasRequest : public PlayFabMultiplayerUpdateBuildAliasRequest, public BaseModel
         {
             UpdateBuildAliasRequest() : PlayFabMultiplayerUpdateBuildAliasRequest{}
             {
@@ -6601,7 +7097,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerUpdateBuildAliasRequest>(*this);
             }
-
+    
         private:
             String m_aliasId;
             String m_aliasName;
@@ -6609,7 +7105,7 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UpdateBuildNameRequest : public PlayFabMultiplayerUpdateBuildNameRequest, public BaseRequest
+        struct UpdateBuildNameRequest : public PlayFabMultiplayerUpdateBuildNameRequest, public BaseModel
         {
             UpdateBuildNameRequest() : PlayFabMultiplayerUpdateBuildNameRequest{}
             {
@@ -6641,14 +7137,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerUpdateBuildNameRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             String m_buildName;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UpdateBuildRegionRequest : public PlayFabMultiplayerUpdateBuildRegionRequest, public BaseRequest
+        struct UpdateBuildRegionRequest : public PlayFabMultiplayerUpdateBuildRegionRequest, public BaseModel
         {
             UpdateBuildRegionRequest() : PlayFabMultiplayerUpdateBuildRegionRequest{}
             {
@@ -6680,14 +7176,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerUpdateBuildRegionRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             BuildRegionParams m_buildRegion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UpdateBuildRegionsRequest : public PlayFabMultiplayerUpdateBuildRegionsRequest, public BaseRequest
+        struct UpdateBuildRegionsRequest : public PlayFabMultiplayerUpdateBuildRegionsRequest, public BaseModel
         {
             UpdateBuildRegionsRequest() : PlayFabMultiplayerUpdateBuildRegionsRequest{}
             {
@@ -6719,14 +7215,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerUpdateBuildRegionsRequest>(*this);
             }
-
+    
         private:
             String m_buildId;
             PointerArray<PlayFabMultiplayerBuildRegionParams, BuildRegionParams> m_buildRegions;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UploadCertificateRequest : public PlayFabMultiplayerUploadCertificateRequest, public BaseRequest
+        struct UploadCertificateRequest : public PlayFabMultiplayerUploadCertificateRequest, public BaseModel
         {
             UploadCertificateRequest() : PlayFabMultiplayerUploadCertificateRequest{}
             {
@@ -6755,7 +7251,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMultiplayerUploadCertificateRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             Certificate m_gameCertificate;
@@ -6809,6 +7305,5 @@ namespace PlayFab
         static constexpr PlayFabMultiplayerTitleMultiplayerServerEnabledStatus maxValue = PlayFabMultiplayerTitleMultiplayerServerEnabledStatus::Disabled;
     };
 
-}
 
-#endif
+}

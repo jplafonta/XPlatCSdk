@@ -62,7 +62,7 @@
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_LIB;ENABLE_PLAYFABADMIN_API;ENABLE_PLAYFABSERVER_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -84,7 +84,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_LIB;ENABLE_PLAYFABADMIN_API;ENABLE_PLAYFABSERVER_API;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
@@ -100,9 +100,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabAuth.h" />
-    <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabBaseModel_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabBaseModel.h" />
+    <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabEntity.h" />
     <ClInclude Include="$(SdkSourceDir)\\include\playfab\PlayFabGlobal.h" />
+    <ClInclude Include="$(SdkSourceDir)\source\ApiAsyncProviders.h" />
     <ClInclude Include="$(SdkSourceDir)\source\AsyncOp.h" />
     <ClCompile Include="$(SdkSourceDir)\source\AsyncProvider.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\AsyncProvider.h" />
@@ -111,6 +112,8 @@
     <ClInclude Include="$(SdkSourceDir)\source\AuthContext.h" />
     <ClCompile Include="$(SdkSourceDir)\source\BaseModel.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\BaseModel.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Entity.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\source\Entity.h" />
     <ClInclude Include="$(SdkSourceDir)\source\EnumTraits.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Error.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\Error.h" />
@@ -120,111 +123,115 @@
     <ClInclude Include="$(SdkSourceDir)\source\HttpClient.h" />
     <ClCompile Include="$(SdkSourceDir)\source\InternalMemory.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\InternalMemory.h" />
-    <ClInclude Include="$(SdkSourceDir)\source\JsonHeaders.h" />
     <ClCompile Include="$(SdkSourceDir)\source\JsonUtils.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\JsonUtils.h" />
     <ClInclude Include="$(SdkSourceDir)\source\PlatformUtils.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabApiSettings.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabApiSettings.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.cpp" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabAuth.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabAuthenticationContext.h" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabEvent.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabEvent.cpp" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabEventApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabEventApi.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabEventBuffer.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabEventBuffer.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabEventPipeline.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabEventPipeline.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabEventRouter.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabEventRouter.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabGlobal.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\PlayFabPlatformMacros.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabSettings.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabSettings.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\PlayFabSpinLock.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\PlayFabSpinLock.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Result.h" />
     <ClInclude Include="$(SdkSourceDir)\source\ResultMacros.h" />
+    <ClInclude Include="$(SdkSourceDir)\source\SdkVersion.h" />
     <ClInclude Include="$(SdkSourceDir)\source\StdOptional.h" />
     <ClCompile Include="$(SdkSourceDir)\source\TaskQueue.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\TaskQueue.h" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\PingResult.h" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\QoS.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\QoS\QosApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\QoSApi.h" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\QoSResult.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\QoS\QoSSocket.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\QoSSocket.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\QoS\RegionResult.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\RegionResult.h" />
-    <ClCompile Include="$(SdkSourceDir)\source\QoS\XPlatSocket.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\source\QoS\XPlatSocket.h" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAdminDataModels_c.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Api\PlayFabBaseModel.cpp" />
+    <ClCompile Include="$(SdkSourceDir)\source\Api\PlayFabEntity.cpp" />
+    <ClCompile Include="$(SdkSourceDir)\source\Api\PlayFabGlobal.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAdminDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Admin\AdminDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Admin\AdminApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Admin\AdminApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAdminApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Admin\PlayFabAdminApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\Client\ClientAuthApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Client\ClientAuthApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientAuthApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Client\PlayFabClientAuthApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Client\ClientDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Client\ClientApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Client\ClientApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabMatchmakerDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabClientApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Client\PlayFabClientApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabMatchmakerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Matchmaker\MatchmakerApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabMatchmakerApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Matchmaker\PlayFabMatchmakerApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\Server\ServerAuthApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Server\ServerAuthApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerAuthApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Server\PlayFabServerAuthApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Server\ServerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Server\ServerApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Server\ServerApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAuthenticationDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabServerApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Server\PlayFabServerApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\source\Authentication\AuthenticationAuthApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Authentication\AuthenticationAuthApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAuthenticationAuthApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Authentication\PlayFabAuthenticationAuthApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAuthenticationDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Authentication\AuthenticationDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Authentication\AuthenticationApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Authentication\AuthenticationApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabCloudScriptDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAuthenticationApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Authentication\PlayFabAuthenticationApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabCloudScriptDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\CloudScript\CloudScriptDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\CloudScript\CloudScriptApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\CloudScript\CloudScriptApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabDataDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabCloudScriptApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\CloudScript\PlayFabCloudScriptApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabDataDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Data\DataDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Data\DataApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Data\DataApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabEventsDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabDataApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Data\PlayFabDataApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabEventsDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Events\EventsDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Events\EventsApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Events\EventsApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabExperimentationDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabEventsApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Events\PlayFabEventsApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabExperimentationDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Experimentation\ExperimentationDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Experimentation\ExperimentationApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Experimentation\ExperimentationApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabInsightsDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabExperimentationApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Experimentation\PlayFabExperimentationApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabInsightsDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Insights\InsightsDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Insights\InsightsApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Insights\InsightsApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabGroupsDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabInsightsApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Insights\PlayFabInsightsApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabGroupsDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Groups\GroupsDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Groups\GroupsApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Groups\GroupsApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabLocalizationDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabGroupsApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Groups\PlayFabGroupsApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabLocalizationDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Localization\LocalizationDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Localization\LocalizationApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Localization\LocalizationApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabMultiplayerDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabLocalizationApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Localization\PlayFabLocalizationApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabMultiplayerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Multiplayer\MultiplayerDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Multiplayer\MultiplayerApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Multiplayer\MultiplayerApi.cpp" />
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabProfilesDataModels_c.h" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabMultiplayerApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Multiplayer\PlayFabMultiplayerApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabProfilesDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Profiles\ProfilesDataModels.h" />
     <ClInclude Include="$(SdkSourceDir)\source\Profiles\ProfilesApi.h" />
     <ClCompile Include="$(SdkSourceDir)\source\Profiles\ProfilesApi.cpp" />
+    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabProfilesApi.h" />
+    <ClCompile Include="$(SdkSourceDir)\source\Profiles\PlayFabProfilesApi.cpp" />
     <ClInclude Include="$(SdkSourceDir)\source\stdafx.h" />
     <ClCompile Include="$(SdkSourceDir)\source\stdafx.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>

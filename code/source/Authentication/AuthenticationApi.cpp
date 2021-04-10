@@ -1,156 +1,47 @@
 #include "stdafx.h"
-
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include "AuthenticationApi.h"
-#include "PlayFabSettings.h"
-
-#if defined(PLAYFAB_PLATFORM_WINDOWS)
-#pragma warning (disable: 4100) // formal parameters are part of a public interface
-#endif // defined(PLAYFAB_PLATFORM_WINDOWS)
+#include "Entity.h"
 
 namespace PlayFab
 {
-    using namespace AuthenticationModels;
 
-    PlayFabAuthenticationInstanceAPI::PlayFabAuthenticationInstanceAPI() :
-        m_settings(MakeShared<PlayFabApiSettings>()),
-        m_context(MakeShared<PlayFabAuthenticationContext>()),
-        m_httpClient(m_settings)
-    {
-    }
+using namespace AuthenticationModels;
 
-    PlayFabAuthenticationInstanceAPI::PlayFabAuthenticationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings) :
-        m_settings(apiSettings),
-        m_context(MakeShared<PlayFabAuthenticationContext>()),
-        m_httpClient(m_settings)
-    {
-    }
-
-    PlayFabAuthenticationInstanceAPI::PlayFabAuthenticationInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
-        m_settings(MakeShared<PlayFabApiSettings>()),
-        m_context(authenticationContext),
-        m_httpClient(m_settings)
-    {
-    }
-
-    PlayFabAuthenticationInstanceAPI::PlayFabAuthenticationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
-        m_settings(apiSettings),
-        m_context(authenticationContext),
-        m_httpClient(m_settings)
-    {
-    }
-
-    SharedPtr<PlayFabApiSettings> PlayFabAuthenticationInstanceAPI::GetSettings() const
-    {
-        return this->m_settings;
-    }
-
-    SharedPtr<PlayFabAuthenticationContext> PlayFabAuthenticationInstanceAPI::GetAuthenticationContext() const
-    {
-        return this->m_context;
-    }
-
-    void PlayFabAuthenticationInstanceAPI::ForgetAllCredentials()
-    {
-        if (this->m_context != nullptr)
-        {
-            this->m_context->ForgetAllCredentials();
-        }
-    }
-
-    // PlayFabAuthentication instance APIs
-
-    AsyncOp<GetEntityTokenResponse> PlayFabAuthenticationInstanceAPI::GetEntityToken(
-        const PlayFabAuthenticationGetEntityTokenRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        String authKey, authValue;
-        if (m_context->entityToken.length() > 0)
-        {
-            authKey = "X-EntityToken"; authValue = m_context->entityToken.data();
-        }
-        else if (m_context->clientSessionTicket.length() > 0)
-        {
-            authKey = "X-Authorization"; authValue = m_context->clientSessionTicket.data();
-        }
-#if defined(ENABLE_PLAYFABSERVER_API) || defined(ENABLE_PLAYFABADMIN_API)
-        else if (m_settings->developerSecretKey.length() > 0)
-        {
-            authKey = "X-SecretKey"; authValue = m_settings->developerSecretKey.data();
-        }
-#endif
-        UnorderedMap<String, String> headers;
-        headers.emplace(authKey, authValue);
-
-        return m_httpClient.MakePostRequest(
-            "/Authentication/GetEntityToken",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<GetEntityTokenResponse>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                GetEntityTokenResponse resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /*                context->HandlePlayFabLogin("", "", outResult.entity->id, outResult.entity->type, outResult.entityToken);
-*/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<ValidateEntityTokenResponse> PlayFabAuthenticationInstanceAPI::ValidateEntityToken(
-        const PlayFabAuthenticationValidateEntityTokenRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/Authentication/ValidateEntityToken",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<ValidateEntityTokenResponse>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                ValidateEntityTokenResponse resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
+AuthenticationAPI::AuthenticationAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
+    m_httpClient{ std::move(httpClient) },
+    m_tokens{ std::move(tokens) }
+{
 }
 
-#endif
+AsyncOp<AuthenticationModels::ValidateEntityTokenResponse> AuthenticationAPI::ValidateEntityToken(
+    const PlayFabAuthenticationValidateEntityTokenRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
 
-#if defined(PLAYFAB_PLATFORM_WINDOWS)
-#pragma warning (default: 4100) // formal parameters are part of a public interface
-#endif // defined(PLAYFAB_PLATFORM_WINDOWS)
+    return m_httpClient->MakePostRequest(
+        "/Authentication/ValidateEntityToken",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<ValidateEntityTokenResponse>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            ValidateEntityTokenResponse resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return resultModel;
+        }
+        else
+        {
+            return Result<ValidateEntityTokenResponse>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+}

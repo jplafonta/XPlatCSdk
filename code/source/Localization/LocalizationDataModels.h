@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabLocalizationDataModels_c.h>
+#include <playfab/PlayFabLocalizationDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -32,7 +30,7 @@ namespace PlayFab
     namespace LocalizationModels
     {
         // Localization Classes
-        struct GetLanguageListRequest : public PlayFabLocalizationGetLanguageListRequest, public BaseRequest
+        struct GetLanguageListRequest : public PlayFabLocalizationGetLanguageListRequest, public BaseModel
         {
             GetLanguageListRequest() : PlayFabLocalizationGetLanguageListRequest{}
             {
@@ -58,12 +56,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabLocalizationGetLanguageListRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetLanguageListResponse : public PlayFabLocalizationGetLanguageListResponse, public BaseResult
+        struct GetLanguageListResponse : public PlayFabLocalizationGetLanguageListResponse, public BaseModel
         {
             GetLanguageListResponse() : PlayFabLocalizationGetLanguageListResponse{}
             {
@@ -89,7 +87,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabLocalizationGetLanguageListResponse>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_languageList;
         };
@@ -97,6 +95,5 @@ namespace PlayFab
     }
 
     // EnumRange definitions used for Enum (de)serialization 
-}
 
-#endif
+}

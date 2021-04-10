@@ -1,486 +1,374 @@
 #include "stdafx.h"
-
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include "CloudScriptApi.h"
-#include "PlayFabSettings.h"
-
-#if defined(PLAYFAB_PLATFORM_WINDOWS)
-#pragma warning (disable: 4100) // formal parameters are part of a public interface
-#endif // defined(PLAYFAB_PLATFORM_WINDOWS)
+#include "Entity.h"
 
 namespace PlayFab
 {
-    using namespace CloudScriptModels;
 
-    PlayFabCloudScriptInstanceAPI::PlayFabCloudScriptInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
-        m_settings(MakeShared<PlayFabApiSettings>()),
-        m_context(authenticationContext),
-        m_httpClient(m_settings)
-    {
-        // TODO
-        /* if (m_context == nullptr)
-        {
-            throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        } */
-    }
+using namespace CloudScriptModels;
 
-    PlayFabCloudScriptInstanceAPI::PlayFabCloudScriptInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext) :
-        m_settings(apiSettings),
-        m_context(authenticationContext),
-        m_httpClient(m_settings)
-    {
-        // TODO
-        /*if (m_context == nullptr)
-        {
-            throw PlayFabException(PlayFabExceptionCode::AuthContextRequired, "Context cannot be null, create a PlayFabAuthenticationContext for each player in advance, or get <PlayFabClientInstanceAPI>.authenticationContext");
-        }*/
-    }
-
-    SharedPtr<PlayFabApiSettings> PlayFabCloudScriptInstanceAPI::GetSettings() const
-    {
-        return this->m_settings;
-    }
-
-    SharedPtr<PlayFabAuthenticationContext> PlayFabCloudScriptInstanceAPI::GetAuthenticationContext() const
-    {
-        return this->m_context;
-    }
-
-    void PlayFabCloudScriptInstanceAPI::ForgetAllCredentials()
-    {
-        if (this->m_context != nullptr)
-        {
-            this->m_context->ForgetAllCredentials();
-        }
-    }
-
-    // PlayFabCloudScript instance APIs
-
-    AsyncOp<ExecuteCloudScriptResult> PlayFabCloudScriptInstanceAPI::ExecuteEntityCloudScript(
-        const PlayFabCloudScriptExecuteEntityCloudScriptRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/ExecuteEntityCloudScript",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<ExecuteCloudScriptResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                ExecuteCloudScriptResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<ExecuteFunctionResult> PlayFabCloudScriptInstanceAPI::ExecuteFunction(
-        const PlayFabCloudScriptExecuteFunctionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/ExecuteFunction",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<ExecuteFunctionResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                ExecuteFunctionResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<ListFunctionsResult> PlayFabCloudScriptInstanceAPI::ListFunctions(
-        const PlayFabCloudScriptListFunctionsRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/ListFunctions",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListFunctionsResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                ListFunctionsResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<ListHttpFunctionsResult> PlayFabCloudScriptInstanceAPI::ListHttpFunctions(
-        const PlayFabCloudScriptListFunctionsRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/ListHttpFunctions",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListHttpFunctionsResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                ListHttpFunctionsResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<ListQueuedFunctionsResult> PlayFabCloudScriptInstanceAPI::ListQueuedFunctions(
-        const PlayFabCloudScriptListFunctionsRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/ListQueuedFunctions",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<ListQueuedFunctionsResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                ListQueuedFunctionsResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::PostFunctionResultForEntityTriggeredAction(
-        const PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/PostFunctionResultForEntityTriggeredAction",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::PostFunctionResultForFunctionExecution(
-        const PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/PostFunctionResultForFunctionExecution",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::PostFunctionResultForPlayerTriggeredAction(
-        const PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/PostFunctionResultForPlayerTriggeredAction",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::PostFunctionResultForScheduledTask(
-        const PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/PostFunctionResultForScheduledTask",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::RegisterHttpFunction(
-        const PlayFabCloudScriptRegisterHttpFunctionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/RegisterHttpFunction",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::RegisterQueuedFunction(
-        const PlayFabCloudScriptRegisterQueuedFunctionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/RegisterQueuedFunction",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
-    AsyncOp<BaseResult> PlayFabCloudScriptInstanceAPI::UnregisterFunction(
-        const PlayFabCloudScriptUnregisterFunctionRequest& request,
-        const TaskQueue& queue
-    )
-    {
-        UnorderedMap<String, String> headers;
-        headers.emplace("X-EntityToken", m_context->entityToken.data());
-
-        return m_httpClient.MakePostRequest(
-            "/CloudScript/UnregisterFunction",
-            headers,
-            JsonUtils::ToJson(request),
-            queue
-        ).Then([ this ](Result<ServiceResponse> result) -> Result<BaseResult>
-        {
-            // TODO bug: There is a lifetime issue with capturing this here since the client owns the object
-
-            RETURN_IF_FAILED(result.hr);
-
-            auto& serviceResponse = result.Payload();
-            if (serviceResponse.HttpCode == 200)
-            {
-                BaseResult resultModel;
-                resultModel.FromJson(serviceResponse.Data);
-                /**/
-
-                return resultModel;
-            }
-            else
-            {
-                return ServiceErrorToHR(serviceResponse.ErrorCode);
-            }
-        });
-    }
-
+CloudScriptAPI::CloudScriptAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
+    m_httpClient{ std::move(httpClient) },
+    m_tokens{ std::move(tokens) }
+{
 }
 
-#endif
+AsyncOp<CloudScriptModels::ExecuteCloudScriptResult> CloudScriptAPI::ExecuteEntityCloudScript(
+    const PlayFabCloudScriptExecuteEntityCloudScriptRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
 
-#if defined(PLAYFAB_PLATFORM_WINDOWS)
-#pragma warning (default: 4100) // formal parameters are part of a public interface
-#endif // defined(PLAYFAB_PLATFORM_WINDOWS)
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/ExecuteEntityCloudScript",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<ExecuteCloudScriptResult>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            ExecuteCloudScriptResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return resultModel;
+        }
+        else
+        {
+            return Result<ExecuteCloudScriptResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<CloudScriptModels::ExecuteFunctionResult> CloudScriptAPI::ExecuteFunction(
+    const PlayFabCloudScriptExecuteFunctionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/ExecuteFunction",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<ExecuteFunctionResult>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            ExecuteFunctionResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return resultModel;
+        }
+        else
+        {
+            return Result<ExecuteFunctionResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<CloudScriptModels::ListFunctionsResult> CloudScriptAPI::ListFunctions(
+    const PlayFabCloudScriptListFunctionsRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/ListFunctions",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<ListFunctionsResult>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            ListFunctionsResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return resultModel;
+        }
+        else
+        {
+            return Result<ListFunctionsResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<CloudScriptModels::ListHttpFunctionsResult> CloudScriptAPI::ListHttpFunctions(
+    const PlayFabCloudScriptListFunctionsRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/ListHttpFunctions",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<ListHttpFunctionsResult>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            ListHttpFunctionsResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return resultModel;
+        }
+        else
+        {
+            return Result<ListHttpFunctionsResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<CloudScriptModels::ListQueuedFunctionsResult> CloudScriptAPI::ListQueuedFunctions(
+    const PlayFabCloudScriptListFunctionsRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/ListQueuedFunctions",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<ListQueuedFunctionsResult>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            ListQueuedFunctionsResult resultModel;
+            resultModel.FromJson(serviceResponse.Data);
+            return resultModel;
+        }
+        else
+        {
+            return Result<ListQueuedFunctionsResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::PostFunctionResultForEntityTriggeredAction(
+    const PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/PostFunctionResultForEntityTriggeredAction",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::PostFunctionResultForFunctionExecution(
+    const PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/PostFunctionResultForFunctionExecution",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction(
+    const PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/PostFunctionResultForPlayerTriggeredAction",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::PostFunctionResultForScheduledTask(
+    const PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/PostFunctionResultForScheduledTask",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::RegisterHttpFunction(
+    const PlayFabCloudScriptRegisterHttpFunctionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/RegisterHttpFunction",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::RegisterQueuedFunction(
+    const PlayFabCloudScriptRegisterQueuedFunctionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/RegisterQueuedFunction",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+AsyncOp<void> CloudScriptAPI::UnregisterFunction(
+    const PlayFabCloudScriptUnregisterFunctionRequest& request,
+    const TaskQueue& queue
+) const
+{
+    UnorderedMap<String, String> headers;
+    headers.emplace("X-EntityToken", m_tokens->EntityToken);
+
+    return m_httpClient->MakePostRequest(
+        "/CloudScript/UnregisterFunction",
+        headers,
+        JsonUtils::ToJson(request),
+        queue
+    ).Then([](Result<ServiceResponse> result) -> Result<void>
+    {
+        RETURN_IF_FAILED(result.hr);
+
+        auto serviceResponse = result.ExtractPayload();
+        if (serviceResponse.HttpCode == 200)
+        {
+            return S_OK;
+        }
+        else
+        {
+            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+        }
+    });
+}
+
+}

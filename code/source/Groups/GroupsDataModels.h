@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabGroupsDataModels_c.h>
+#include <playfab/PlayFabGroupsDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -489,7 +487,7 @@ namespace PlayFab
     namespace GroupsModels
     {
         // Groups Classes
-        struct EntityKey : public PlayFabGroupsEntityKey, public BaseModel
+        struct EntityKey : public PlayFabGroupsEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabGroupsEntityKey{}
             {
@@ -518,13 +516,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabGroupsEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabGroupsEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct AcceptGroupApplicationRequest : public PlayFabGroupsAcceptGroupApplicationRequest, public BaseRequest
+        struct AcceptGroupApplicationRequest : public PlayFabGroupsAcceptGroupApplicationRequest, public BaseModel
         {
             AcceptGroupApplicationRequest() : PlayFabGroupsAcceptGroupApplicationRequest{}
             {
@@ -556,14 +574,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsAcceptGroupApplicationRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             EntityKey m_group;
         };
 
-        struct AcceptGroupInvitationRequest : public PlayFabGroupsAcceptGroupInvitationRequest, public BaseRequest
+        struct AcceptGroupInvitationRequest : public PlayFabGroupsAcceptGroupInvitationRequest, public BaseModel
         {
             AcceptGroupInvitationRequest() : PlayFabGroupsAcceptGroupInvitationRequest{}
             {
@@ -595,14 +613,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsAcceptGroupInvitationRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
             EntityKey m_group;
         };
 
-        struct AddMembersRequest : public PlayFabGroupsAddMembersRequest, public BaseRequest
+        struct AddMembersRequest : public PlayFabGroupsAddMembersRequest, public BaseModel
         {
             AddMembersRequest() : PlayFabGroupsAddMembersRequest{}
             {
@@ -637,7 +655,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsAddMembersRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
@@ -645,7 +663,7 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct ApplyToGroupRequest : public PlayFabGroupsApplyToGroupRequest, public BaseRequest
+        struct ApplyToGroupRequest : public PlayFabGroupsApplyToGroupRequest, public BaseModel
         {
             ApplyToGroupRequest() : PlayFabGroupsApplyToGroupRequest{}
             {
@@ -680,7 +698,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsApplyToGroupRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_autoAcceptOutstandingInvite;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -717,13 +735,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsEntityWithLineage>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_key;
             AssociativeArray<PlayFabGroupsEntityKeyDictionaryEntry, EntityKey> m_lineage;
         };
 
-        struct ApplyToGroupResponse : public PlayFabGroupsApplyToGroupResponse, public BaseResult
+        struct ApplyToGroupResponse : public PlayFabGroupsApplyToGroupResponse, public BaseModel
         {
             ApplyToGroupResponse() : PlayFabGroupsApplyToGroupResponse{}
             {
@@ -753,13 +771,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsApplyToGroupResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityWithLineage> m_entity;
             StdExtra::optional<EntityKey> m_group;
         };
 
-        struct BlockEntityRequest : public PlayFabGroupsBlockEntityRequest, public BaseRequest
+        struct BlockEntityRequest : public PlayFabGroupsBlockEntityRequest, public BaseModel
         {
             BlockEntityRequest() : PlayFabGroupsBlockEntityRequest{}
             {
@@ -791,14 +809,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsBlockEntityRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             EntityKey m_group;
         };
 
-        struct ChangeMemberRoleRequest : public PlayFabGroupsChangeMemberRoleRequest, public BaseRequest
+        struct ChangeMemberRoleRequest : public PlayFabGroupsChangeMemberRoleRequest, public BaseModel
         {
             ChangeMemberRoleRequest() : PlayFabGroupsChangeMemberRoleRequest{}
             {
@@ -836,7 +854,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsChangeMemberRoleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_destinationRoleId;
@@ -845,7 +863,7 @@ namespace PlayFab
             String m_originRoleId;
         };
 
-        struct CreateGroupRequest : public PlayFabGroupsCreateGroupRequest, public BaseRequest
+        struct CreateGroupRequest : public PlayFabGroupsCreateGroupRequest, public BaseModel
         {
             CreateGroupRequest() : PlayFabGroupsCreateGroupRequest{}
             {
@@ -877,14 +895,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsCreateGroupRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
             String m_groupName;
         };
 
-        struct CreateGroupResponse : public PlayFabGroupsCreateGroupResponse, public BaseResult
+        struct CreateGroupResponse : public PlayFabGroupsCreateGroupResponse, public BaseModel
         {
             CreateGroupResponse() : PlayFabGroupsCreateGroupResponse{}
             {
@@ -924,7 +942,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsCreateGroupResponse>(*this);
             }
-
+    
         private:
             String m_adminRoleId;
             EntityKey m_group;
@@ -933,7 +951,7 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_roles;
         };
 
-        struct CreateGroupRoleRequest : public PlayFabGroupsCreateGroupRoleRequest, public BaseRequest
+        struct CreateGroupRoleRequest : public PlayFabGroupsCreateGroupRoleRequest, public BaseModel
         {
             CreateGroupRoleRequest() : PlayFabGroupsCreateGroupRoleRequest{}
             {
@@ -968,7 +986,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsCreateGroupRoleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
@@ -976,7 +994,7 @@ namespace PlayFab
             String m_roleName;
         };
 
-        struct CreateGroupRoleResponse : public PlayFabGroupsCreateGroupRoleResponse, public BaseResult
+        struct CreateGroupRoleResponse : public PlayFabGroupsCreateGroupRoleResponse, public SerializableModel
         {
             CreateGroupRoleResponse() : PlayFabGroupsCreateGroupRoleResponse{}
             {
@@ -1006,13 +1024,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsCreateGroupRoleResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabGroupsCreateGroupRoleResponse) };
+                serializedSize += (m_roleId.size() + 1);
+                serializedSize += (m_roleName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabGroupsCreateGroupRoleResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsCreateGroupRoleResponse);
+        
+                memcpy(stringBuffer, m_roleId.data(), m_roleId.size() + 1);
+                stringBuffer +=  m_roleId.size() + 1; 
+                memcpy(stringBuffer, m_roleName.data(), m_roleName.size() + 1);
+                stringBuffer +=  m_roleName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_roleId;
             String m_roleName;
         };
 
-        struct DeleteGroupRequest : public PlayFabGroupsDeleteGroupRequest, public BaseRequest
+        struct DeleteGroupRequest : public PlayFabGroupsDeleteGroupRequest, public BaseModel
         {
             DeleteGroupRequest() : PlayFabGroupsDeleteGroupRequest{}
             {
@@ -1041,13 +1079,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsDeleteGroupRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
         };
 
-        struct DeleteRoleRequest : public PlayFabGroupsDeleteRoleRequest, public BaseRequest
+        struct DeleteRoleRequest : public PlayFabGroupsDeleteRoleRequest, public BaseModel
         {
             DeleteRoleRequest() : PlayFabGroupsDeleteRoleRequest{}
             {
@@ -1079,7 +1117,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsDeleteRoleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
@@ -1118,14 +1156,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsEntityMemberRole>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsEntityWithLineage, EntityWithLineage> m_members;
             String m_roleId;
             String m_roleName;
         };
 
-        struct GetGroupRequest : public PlayFabGroupsGetGroupRequest, public BaseRequest
+        struct GetGroupRequest : public PlayFabGroupsGetGroupRequest, public BaseModel
         {
             GetGroupRequest() : PlayFabGroupsGetGroupRequest{}
             {
@@ -1157,14 +1195,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGetGroupRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_group;
             String m_groupName;
         };
 
-        struct GetGroupResponse : public PlayFabGroupsGetGroupResponse, public BaseResult
+        struct GetGroupResponse : public PlayFabGroupsGetGroupResponse, public BaseModel
         {
             GetGroupResponse() : PlayFabGroupsGetGroupResponse{}
             {
@@ -1204,7 +1242,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGetGroupResponse>(*this);
             }
-
+    
         private:
             String m_adminRoleId;
             EntityKey m_group;
@@ -1243,7 +1281,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGroupApplication>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityWithLineage> m_entity;
             StdExtra::optional<EntityKey> m_group;
@@ -1278,7 +1316,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGroupBlock>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityWithLineage> m_entity;
             EntityKey m_group;
@@ -1320,7 +1358,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGroupInvitation>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_group;
             StdExtra::optional<EntityWithLineage> m_invitedByEntity;
@@ -1328,7 +1366,7 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct GroupRole : public PlayFabGroupsGroupRole, public BaseModel
+        struct GroupRole : public PlayFabGroupsGroupRole, public SerializableModel
         {
             GroupRole() : PlayFabGroupsGroupRole{}
             {
@@ -1357,7 +1395,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGroupRole>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabGroupsGroupRole) };
+                serializedSize += (m_roleId.size() + 1);
+                serializedSize += (m_roleName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabGroupsGroupRole{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsGroupRole);
+        
+                memcpy(stringBuffer, m_roleId.data(), m_roleId.size() + 1);
+                stringBuffer +=  m_roleId.size() + 1; 
+                memcpy(stringBuffer, m_roleName.data(), m_roleName.size() + 1);
+                stringBuffer +=  m_roleName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_roleId;
             String m_roleName;
@@ -1396,14 +1454,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsGroupWithRoles>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_group;
             String m_groupName;
             PointerArray<PlayFabGroupsGroupRole, GroupRole> m_roles;
         };
 
-        struct InviteToGroupRequest : public PlayFabGroupsInviteToGroupRequest, public BaseRequest
+        struct InviteToGroupRequest : public PlayFabGroupsInviteToGroupRequest, public BaseModel
         {
             InviteToGroupRequest() : PlayFabGroupsInviteToGroupRequest{}
             {
@@ -1441,7 +1499,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsInviteToGroupRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_autoAcceptOutstandingApplication;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -1450,7 +1508,7 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct InviteToGroupResponse : public PlayFabGroupsInviteToGroupResponse, public BaseResult
+        struct InviteToGroupResponse : public PlayFabGroupsInviteToGroupResponse, public BaseModel
         {
             InviteToGroupResponse() : PlayFabGroupsInviteToGroupResponse{}
             {
@@ -1486,7 +1544,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsInviteToGroupResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_group;
             StdExtra::optional<EntityWithLineage> m_invitedByEntity;
@@ -1494,7 +1552,7 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct IsMemberRequest : public PlayFabGroupsIsMemberRequest, public BaseRequest
+        struct IsMemberRequest : public PlayFabGroupsIsMemberRequest, public BaseModel
         {
             IsMemberRequest() : PlayFabGroupsIsMemberRequest{}
             {
@@ -1529,7 +1587,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsIsMemberRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
@@ -1537,7 +1595,7 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct IsMemberResponse : public PlayFabGroupsIsMemberResponse, public BaseResult
+        struct IsMemberResponse : public PlayFabGroupsIsMemberResponse, public SerializableModel
         {
             IsMemberResponse() : PlayFabGroupsIsMemberResponse{}
             {
@@ -1558,11 +1616,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsIsMemberResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabGroupsIsMemberResponse) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabGroupsIsMemberResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsIsMemberResponse);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct ListGroupApplicationsRequest : public PlayFabGroupsListGroupApplicationsRequest, public BaseRequest
+        struct ListGroupApplicationsRequest : public PlayFabGroupsListGroupApplicationsRequest, public BaseModel
         {
             ListGroupApplicationsRequest() : PlayFabGroupsListGroupApplicationsRequest{}
             {
@@ -1591,13 +1663,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupApplicationsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
         };
 
-        struct ListGroupApplicationsResponse : public PlayFabGroupsListGroupApplicationsResponse, public BaseResult
+        struct ListGroupApplicationsResponse : public PlayFabGroupsListGroupApplicationsResponse, public BaseModel
         {
             ListGroupApplicationsResponse() : PlayFabGroupsListGroupApplicationsResponse{}
             {
@@ -1623,12 +1695,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupApplicationsResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsGroupApplication, GroupApplication> m_applications;
         };
 
-        struct ListGroupBlocksRequest : public PlayFabGroupsListGroupBlocksRequest, public BaseRequest
+        struct ListGroupBlocksRequest : public PlayFabGroupsListGroupBlocksRequest, public BaseModel
         {
             ListGroupBlocksRequest() : PlayFabGroupsListGroupBlocksRequest{}
             {
@@ -1657,13 +1729,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupBlocksRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
         };
 
-        struct ListGroupBlocksResponse : public PlayFabGroupsListGroupBlocksResponse, public BaseResult
+        struct ListGroupBlocksResponse : public PlayFabGroupsListGroupBlocksResponse, public BaseModel
         {
             ListGroupBlocksResponse() : PlayFabGroupsListGroupBlocksResponse{}
             {
@@ -1689,12 +1761,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupBlocksResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsGroupBlock, GroupBlock> m_blockedEntities;
         };
 
-        struct ListGroupInvitationsRequest : public PlayFabGroupsListGroupInvitationsRequest, public BaseRequest
+        struct ListGroupInvitationsRequest : public PlayFabGroupsListGroupInvitationsRequest, public BaseModel
         {
             ListGroupInvitationsRequest() : PlayFabGroupsListGroupInvitationsRequest{}
             {
@@ -1723,13 +1795,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupInvitationsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
         };
 
-        struct ListGroupInvitationsResponse : public PlayFabGroupsListGroupInvitationsResponse, public BaseResult
+        struct ListGroupInvitationsResponse : public PlayFabGroupsListGroupInvitationsResponse, public BaseModel
         {
             ListGroupInvitationsResponse() : PlayFabGroupsListGroupInvitationsResponse{}
             {
@@ -1755,12 +1827,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupInvitationsResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsGroupInvitation, GroupInvitation> m_invitations;
         };
 
-        struct ListGroupMembersRequest : public PlayFabGroupsListGroupMembersRequest, public BaseRequest
+        struct ListGroupMembersRequest : public PlayFabGroupsListGroupMembersRequest, public BaseModel
         {
             ListGroupMembersRequest() : PlayFabGroupsListGroupMembersRequest{}
             {
@@ -1789,13 +1861,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupMembersRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
         };
 
-        struct ListGroupMembersResponse : public PlayFabGroupsListGroupMembersResponse, public BaseResult
+        struct ListGroupMembersResponse : public PlayFabGroupsListGroupMembersResponse, public BaseModel
         {
             ListGroupMembersResponse() : PlayFabGroupsListGroupMembersResponse{}
             {
@@ -1821,12 +1893,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListGroupMembersResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsEntityMemberRole, EntityMemberRole> m_members;
         };
 
-        struct ListMembershipOpportunitiesRequest : public PlayFabGroupsListMembershipOpportunitiesRequest, public BaseRequest
+        struct ListMembershipOpportunitiesRequest : public PlayFabGroupsListMembershipOpportunitiesRequest, public BaseModel
         {
             ListMembershipOpportunitiesRequest() : PlayFabGroupsListMembershipOpportunitiesRequest{}
             {
@@ -1855,13 +1927,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListMembershipOpportunitiesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
         };
 
-        struct ListMembershipOpportunitiesResponse : public PlayFabGroupsListMembershipOpportunitiesResponse, public BaseResult
+        struct ListMembershipOpportunitiesResponse : public PlayFabGroupsListMembershipOpportunitiesResponse, public BaseModel
         {
             ListMembershipOpportunitiesResponse() : PlayFabGroupsListMembershipOpportunitiesResponse{}
             {
@@ -1890,13 +1962,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListMembershipOpportunitiesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsGroupApplication, GroupApplication> m_applications;
             PointerArray<PlayFabGroupsGroupInvitation, GroupInvitation> m_invitations;
         };
 
-        struct ListMembershipRequest : public PlayFabGroupsListMembershipRequest, public BaseRequest
+        struct ListMembershipRequest : public PlayFabGroupsListMembershipRequest, public BaseModel
         {
             ListMembershipRequest() : PlayFabGroupsListMembershipRequest{}
             {
@@ -1925,13 +1997,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListMembershipRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
         };
 
-        struct ListMembershipResponse : public PlayFabGroupsListMembershipResponse, public BaseResult
+        struct ListMembershipResponse : public PlayFabGroupsListMembershipResponse, public BaseModel
         {
             ListMembershipResponse() : PlayFabGroupsListMembershipResponse{}
             {
@@ -1957,12 +2029,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsListMembershipResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabGroupsGroupWithRoles, GroupWithRoles> m_groups;
         };
 
-        struct RemoveGroupApplicationRequest : public PlayFabGroupsRemoveGroupApplicationRequest, public BaseRequest
+        struct RemoveGroupApplicationRequest : public PlayFabGroupsRemoveGroupApplicationRequest, public BaseModel
         {
             RemoveGroupApplicationRequest() : PlayFabGroupsRemoveGroupApplicationRequest{}
             {
@@ -1994,14 +2066,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsRemoveGroupApplicationRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             EntityKey m_group;
         };
 
-        struct RemoveGroupInvitationRequest : public PlayFabGroupsRemoveGroupInvitationRequest, public BaseRequest
+        struct RemoveGroupInvitationRequest : public PlayFabGroupsRemoveGroupInvitationRequest, public BaseModel
         {
             RemoveGroupInvitationRequest() : PlayFabGroupsRemoveGroupInvitationRequest{}
             {
@@ -2033,14 +2105,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsRemoveGroupInvitationRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             EntityKey m_group;
         };
 
-        struct RemoveMembersRequest : public PlayFabGroupsRemoveMembersRequest, public BaseRequest
+        struct RemoveMembersRequest : public PlayFabGroupsRemoveMembersRequest, public BaseModel
         {
             RemoveMembersRequest() : PlayFabGroupsRemoveMembersRequest{}
             {
@@ -2075,7 +2147,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsRemoveMembersRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_group;
@@ -2083,7 +2155,7 @@ namespace PlayFab
             String m_roleId;
         };
 
-        struct UnblockEntityRequest : public PlayFabGroupsUnblockEntityRequest, public BaseRequest
+        struct UnblockEntityRequest : public PlayFabGroupsUnblockEntityRequest, public BaseModel
         {
             UnblockEntityRequest() : PlayFabGroupsUnblockEntityRequest{}
             {
@@ -2115,14 +2187,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsUnblockEntityRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             EntityKey m_group;
         };
 
-        struct UpdateGroupRequest : public PlayFabGroupsUpdateGroupRequest, public BaseRequest
+        struct UpdateGroupRequest : public PlayFabGroupsUpdateGroupRequest, public BaseModel
         {
             UpdateGroupRequest() : PlayFabGroupsUpdateGroupRequest{}
             {
@@ -2163,7 +2235,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsUpdateGroupRequest>(*this);
             }
-
+    
         private:
             String m_adminRoleId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -2173,7 +2245,7 @@ namespace PlayFab
             String m_memberRoleId;
         };
 
-        struct UpdateGroupResponse : public PlayFabGroupsUpdateGroupResponse, public BaseResult
+        struct UpdateGroupResponse : public PlayFabGroupsUpdateGroupResponse, public BaseModel
         {
             UpdateGroupResponse() : PlayFabGroupsUpdateGroupResponse{}
             {
@@ -2203,13 +2275,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsUpdateGroupResponse>(*this);
             }
-
+    
         private:
             String m_operationReason;
             StdExtra::optional<PlayFabGroupsOperationTypes> m_setResult;
         };
 
-        struct UpdateGroupRoleRequest : public PlayFabGroupsUpdateGroupRoleRequest, public BaseRequest
+        struct UpdateGroupRoleRequest : public PlayFabGroupsUpdateGroupRoleRequest, public BaseModel
         {
             UpdateGroupRoleRequest() : PlayFabGroupsUpdateGroupRoleRequest{}
             {
@@ -2247,7 +2319,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsUpdateGroupRoleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_expectedProfileVersion;
@@ -2256,7 +2328,7 @@ namespace PlayFab
             String m_roleName;
         };
 
-        struct UpdateGroupRoleResponse : public PlayFabGroupsUpdateGroupRoleResponse, public BaseResult
+        struct UpdateGroupRoleResponse : public PlayFabGroupsUpdateGroupRoleResponse, public BaseModel
         {
             UpdateGroupRoleResponse() : PlayFabGroupsUpdateGroupRoleResponse{}
             {
@@ -2286,7 +2358,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabGroupsUpdateGroupRoleResponse>(*this);
             }
-
+    
         private:
             String m_operationReason;
             StdExtra::optional<PlayFabGroupsOperationTypes> m_setResult;
@@ -2300,6 +2372,5 @@ namespace PlayFab
         static constexpr PlayFabGroupsOperationTypes maxValue = PlayFabGroupsOperationTypes::None;
     };
 
-}
 
-#endif
+}

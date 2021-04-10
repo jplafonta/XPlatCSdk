@@ -1,50 +1,31 @@
 #pragma once
 
-#if defined(ENABLE_PLAYFABSERVER_API)
-
 #include "MatchmakerDataModels.h"
 #include "HttpClient.h"
 #include "TaskQueue.h"
 
 namespace PlayFab
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
-    class PlayFabApiSettings;
-    class PlayFabAuthenticationContext;
+struct AuthTokens;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Matchmaker APIs
-    /// </summary>
-    class PlayFabMatchmakerInstanceAPI
-    {
-    private:
-        SharedPtr<PlayFabApiSettings> m_settings;
-        SharedPtr<PlayFabAuthenticationContext> m_context;
-        HttpClient const m_httpClient;
+class MatchmakerAPI
+{
+public:
+    MatchmakerAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<String const> secretKey);
+    MatchmakerAPI(const MatchmakerAPI& source) = delete;
+    MatchmakerAPI& operator=(const MatchmakerAPI& source) = delete;
+    ~MatchmakerAPI() = default;
 
-    public:
-        PlayFabMatchmakerInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
-        PlayFabMatchmakerInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
+    // ------------ Generated API calls
+    AsyncOp<MatchmakerModels::AuthUserResponse> AuthUser(const PlayFabMatchmakerAuthUserRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> PlayerJoined(const PlayFabMatchmakerPlayerJoinedRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> PlayerLeft(const PlayFabMatchmakerPlayerLeftRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<MatchmakerModels::StartGameResponse> StartGame(const PlayFabMatchmakerStartGameRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<MatchmakerModels::UserInfoResponse> UserInfo(const PlayFabMatchmakerUserInfoRequest& request, const TaskQueue& queue) const; 
 
-        ~PlayFabMatchmakerInstanceAPI() = default;
-        PlayFabMatchmakerInstanceAPI(const PlayFabMatchmakerInstanceAPI& source) = delete; // disable copy
-        PlayFabMatchmakerInstanceAPI(PlayFabMatchmakerInstanceAPI&&) = delete; // disable move
-        PlayFabMatchmakerInstanceAPI& operator=(const PlayFabMatchmakerInstanceAPI& source) = delete; // disable assignment
-        PlayFabMatchmakerInstanceAPI& operator=(PlayFabMatchmakerInstanceAPI&& other) = delete; // disable move assignment
+private:
+    SharedPtr<HttpClient const> m_httpClient;
+    SharedPtr<String const> m_secretKey;
+};
 
-        SharedPtr<PlayFabApiSettings> GetSettings() const;
-        SharedPtr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void ForgetAllCredentials();
-
-        // ------------ Generated API calls
-        AsyncOp<MatchmakerModels::AuthUserResponse> AuthUser(const PlayFabMatchmakerAuthUserRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> PlayerJoined(const PlayFabMatchmakerPlayerJoinedRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> PlayerLeft(const PlayFabMatchmakerPlayerLeftRequest& request, const TaskQueue& queue);
-        AsyncOp<MatchmakerModels::StartGameResponse> StartGame(const PlayFabMatchmakerStartGameRequest& request, const TaskQueue& queue);
-        AsyncOp<MatchmakerModels::UserInfoResponse> UserInfo(const PlayFabMatchmakerUserInfoRequest& request, const TaskQueue& queue);
-
-    };
 }
-
-#endif

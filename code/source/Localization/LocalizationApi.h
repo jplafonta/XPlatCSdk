@@ -1,46 +1,27 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include "LocalizationDataModels.h"
 #include "HttpClient.h"
 #include "TaskQueue.h"
 
 namespace PlayFab
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
-    class PlayFabApiSettings;
-    class PlayFabAuthenticationContext;
+struct AuthTokens;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Localization APIs
-    /// </summary>
-    class PlayFabLocalizationInstanceAPI
-    {
-    private:
-        SharedPtr<PlayFabApiSettings> m_settings;
-        SharedPtr<PlayFabAuthenticationContext> m_context;
-        HttpClient const m_httpClient;
+class LocalizationAPI
+{
+public:
+    LocalizationAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    LocalizationAPI(const LocalizationAPI& source) = delete;
+    LocalizationAPI& operator=(const LocalizationAPI& source) = delete;
+    ~LocalizationAPI() = default;
 
-    public:
-        PlayFabLocalizationInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
-        PlayFabLocalizationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
+    // ------------ Generated API calls
+    AsyncOp<LocalizationModels::GetLanguageListResponse> GetLanguageList(const PlayFabLocalizationGetLanguageListRequest& request, const TaskQueue& queue) const; 
 
-        ~PlayFabLocalizationInstanceAPI() = default;
-        PlayFabLocalizationInstanceAPI(const PlayFabLocalizationInstanceAPI& source) = delete; // disable copy
-        PlayFabLocalizationInstanceAPI(PlayFabLocalizationInstanceAPI&&) = delete; // disable move
-        PlayFabLocalizationInstanceAPI& operator=(const PlayFabLocalizationInstanceAPI& source) = delete; // disable assignment
-        PlayFabLocalizationInstanceAPI& operator=(PlayFabLocalizationInstanceAPI&& other) = delete; // disable move assignment
+private:
+    SharedPtr<HttpClient const> m_httpClient;
+    SharedPtr<AuthTokens const> m_tokens;
+};
 
-        SharedPtr<PlayFabApiSettings> GetSettings() const;
-        SharedPtr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void ForgetAllCredentials();
-
-        // ------------ Generated API calls
-        AsyncOp<LocalizationModels::GetLanguageListResponse> GetLanguageList(const PlayFabLocalizationGetLanguageListRequest& request, const TaskQueue& queue);
-
-    };
 }
-
-#endif

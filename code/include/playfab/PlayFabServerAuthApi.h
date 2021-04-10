@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <playfab/PlayFabAuth.h>
-#include <playfab/PlayFabServerDataModels_c.h>
+#include <playfab/PlayFabEntity.h>
+#include <playfab/PlayFabServerDataModels.h>
 
 extern "C"
 {
@@ -21,12 +21,13 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabServerGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabServerLoginWithServerCustomId(
+HRESULT PlayFabServerLoginWithServerCustomIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithServerCustomIdRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -37,12 +38,13 @@ HRESULT PlayFabServerLoginWithServerCustomId(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabServerGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabServerLoginWithSteamId(
+HRESULT PlayFabServerLoginWithSteamIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithSteamIdRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -53,12 +55,13 @@ HRESULT PlayFabServerLoginWithSteamId(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabServerGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabServerLoginWithXbox(
+HRESULT PlayFabServerLoginWithXboxAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithXboxRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -69,12 +72,13 @@ HRESULT PlayFabServerLoginWithXbox(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabServerGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabServerLoginWithXboxId(
+HRESULT PlayFabServerLoginWithXboxIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithXboxIdRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 }

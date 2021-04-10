@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabExperimentationDataModels_c.h>
+#include <playfab/PlayFabExperimentationDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -334,7 +332,7 @@ namespace PlayFab
     namespace ExperimentationModels
     {
         // Experimentation Classes
-        struct CreateExclusionGroupRequest : public PlayFabExperimentationCreateExclusionGroupRequest, public BaseRequest
+        struct CreateExclusionGroupRequest : public PlayFabExperimentationCreateExclusionGroupRequest, public BaseModel
         {
             CreateExclusionGroupRequest() : PlayFabExperimentationCreateExclusionGroupRequest{}
             {
@@ -366,14 +364,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationCreateExclusionGroupRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_description;
             String m_name;
         };
 
-        struct CreateExclusionGroupResult : public PlayFabExperimentationCreateExclusionGroupResult, public BaseResult
+        struct CreateExclusionGroupResult : public PlayFabExperimentationCreateExclusionGroupResult, public SerializableModel
         {
             CreateExclusionGroupResult() : PlayFabExperimentationCreateExclusionGroupResult{}
             {
@@ -399,12 +397,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationCreateExclusionGroupResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationCreateExclusionGroupResult) };
+                serializedSize += (m_exclusionGroupId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationCreateExclusionGroupResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationCreateExclusionGroupResult);
+        
+                memcpy(stringBuffer, m_exclusionGroupId.data(), m_exclusionGroupId.size() + 1);
+                stringBuffer +=  m_exclusionGroupId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_exclusionGroupId;
         };
 
-        struct Variable : public PlayFabExperimentationVariable, public BaseModel
+        struct Variable : public PlayFabExperimentationVariable, public SerializableModel
         {
             Variable() : PlayFabExperimentationVariable{}
             {
@@ -433,7 +448,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationVariable>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationVariable) };
+                serializedSize += (m_name.size() + 1);
+                serializedSize += (m_value.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationVariable{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationVariable);
+        
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                memcpy(stringBuffer, m_value.data(), m_value.size() + 1);
+                stringBuffer +=  m_value.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_name;
             String m_value;
@@ -479,7 +514,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationVariant>(*this);
             }
-
+    
         private:
             String m_description;
             String m_id;
@@ -488,7 +523,7 @@ namespace PlayFab
             PointerArray<PlayFabExperimentationVariable, Variable> m_variables;
         };
 
-        struct CreateExperimentRequest : public PlayFabExperimentationCreateExperimentRequest, public BaseRequest
+        struct CreateExperimentRequest : public PlayFabExperimentationCreateExperimentRequest, public BaseModel
         {
             CreateExperimentRequest() : PlayFabExperimentationCreateExperimentRequest{}
             {
@@ -542,7 +577,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationCreateExperimentRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_description;
@@ -556,7 +591,7 @@ namespace PlayFab
             PointerArray<PlayFabExperimentationVariant, Variant> m_variants;
         };
 
-        struct CreateExperimentResult : public PlayFabExperimentationCreateExperimentResult, public BaseResult
+        struct CreateExperimentResult : public PlayFabExperimentationCreateExperimentResult, public SerializableModel
         {
             CreateExperimentResult() : PlayFabExperimentationCreateExperimentResult{}
             {
@@ -582,12 +617,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationCreateExperimentResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationCreateExperimentResult) };
+                serializedSize += (m_experimentId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationCreateExperimentResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationCreateExperimentResult);
+        
+                memcpy(stringBuffer, m_experimentId.data(), m_experimentId.size() + 1);
+                stringBuffer +=  m_experimentId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_experimentId;
         };
 
-        struct DeleteExclusionGroupRequest : public PlayFabExperimentationDeleteExclusionGroupRequest, public BaseRequest
+        struct DeleteExclusionGroupRequest : public PlayFabExperimentationDeleteExclusionGroupRequest, public BaseModel
         {
             DeleteExclusionGroupRequest() : PlayFabExperimentationDeleteExclusionGroupRequest{}
             {
@@ -616,13 +668,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationDeleteExclusionGroupRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_exclusionGroupId;
         };
 
-        struct DeleteExperimentRequest : public PlayFabExperimentationDeleteExperimentRequest, public BaseRequest
+        struct DeleteExperimentRequest : public PlayFabExperimentationDeleteExperimentRequest, public BaseModel
         {
             DeleteExperimentRequest() : PlayFabExperimentationDeleteExperimentRequest{}
             {
@@ -651,13 +703,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationDeleteExperimentRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_experimentId;
         };
 
-        struct EntityKey : public PlayFabExperimentationEntityKey, public BaseModel
+        struct EntityKey : public PlayFabExperimentationEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabExperimentationEntityKey{}
             {
@@ -686,13 +738,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct ExclusionGroupTrafficAllocation : public PlayFabExperimentationExclusionGroupTrafficAllocation, public BaseModel
+        struct ExclusionGroupTrafficAllocation : public PlayFabExperimentationExclusionGroupTrafficAllocation, public SerializableModel
         {
             ExclusionGroupTrafficAllocation() : PlayFabExperimentationExclusionGroupTrafficAllocation{}
             {
@@ -719,7 +791,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationExclusionGroupTrafficAllocation>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationExclusionGroupTrafficAllocation) };
+                serializedSize += (m_experimentId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationExclusionGroupTrafficAllocation{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationExclusionGroupTrafficAllocation);
+        
+                memcpy(stringBuffer, m_experimentId.data(), m_experimentId.size() + 1);
+                stringBuffer +=  m_experimentId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_experimentId;
         };
@@ -781,7 +870,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationExperiment>(*this);
             }
-
+    
         private:
             String m_description;
             StdExtra::optional<time_t> m_endDate;
@@ -796,7 +885,7 @@ namespace PlayFab
             PointerArray<PlayFabExperimentationVariant, Variant> m_variants;
         };
 
-        struct ExperimentExclusionGroup : public PlayFabExperimentationExperimentExclusionGroup, public BaseModel
+        struct ExperimentExclusionGroup : public PlayFabExperimentationExperimentExclusionGroup, public SerializableModel
         {
             ExperimentExclusionGroup() : PlayFabExperimentationExperimentExclusionGroup{}
             {
@@ -828,14 +917,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationExperimentExclusionGroup>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationExperimentExclusionGroup) };
+                serializedSize += (m_description.size() + 1);
+                serializedSize += (m_exclusionGroupId.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationExperimentExclusionGroup{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationExperimentExclusionGroup);
+        
+                memcpy(stringBuffer, m_description.data(), m_description.size() + 1);
+                stringBuffer +=  m_description.size() + 1; 
+                memcpy(stringBuffer, m_exclusionGroupId.data(), m_exclusionGroupId.size() + 1);
+                stringBuffer +=  m_exclusionGroupId.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_description;
             String m_exclusionGroupId;
             String m_name;
         };
 
-        struct GetExclusionGroupsRequest : public PlayFabExperimentationGetExclusionGroupsRequest, public BaseRequest
+        struct GetExclusionGroupsRequest : public PlayFabExperimentationGetExclusionGroupsRequest, public BaseModel
         {
             GetExclusionGroupsRequest() : PlayFabExperimentationGetExclusionGroupsRequest{}
             {
@@ -861,12 +973,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetExclusionGroupsResult : public PlayFabExperimentationGetExclusionGroupsResult, public BaseResult
+        struct GetExclusionGroupsResult : public PlayFabExperimentationGetExclusionGroupsResult, public BaseModel
         {
             GetExclusionGroupsResult() : PlayFabExperimentationGetExclusionGroupsResult{}
             {
@@ -892,12 +1004,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabExperimentationExperimentExclusionGroup, ExperimentExclusionGroup> m_exclusionGroups;
         };
 
-        struct GetExclusionGroupTrafficRequest : public PlayFabExperimentationGetExclusionGroupTrafficRequest, public BaseRequest
+        struct GetExclusionGroupTrafficRequest : public PlayFabExperimentationGetExclusionGroupTrafficRequest, public BaseModel
         {
             GetExclusionGroupTrafficRequest() : PlayFabExperimentationGetExclusionGroupTrafficRequest{}
             {
@@ -926,13 +1038,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupTrafficRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_exclusionGroupId;
         };
 
-        struct GetExclusionGroupTrafficResult : public PlayFabExperimentationGetExclusionGroupTrafficResult, public BaseResult
+        struct GetExclusionGroupTrafficResult : public PlayFabExperimentationGetExclusionGroupTrafficResult, public BaseModel
         {
             GetExclusionGroupTrafficResult() : PlayFabExperimentationGetExclusionGroupTrafficResult{}
             {
@@ -958,12 +1070,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupTrafficResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabExperimentationExclusionGroupTrafficAllocation, ExclusionGroupTrafficAllocation> m_trafficAllocations;
         };
 
-        struct GetExperimentsRequest : public PlayFabExperimentationGetExperimentsRequest, public BaseRequest
+        struct GetExperimentsRequest : public PlayFabExperimentationGetExperimentsRequest, public BaseModel
         {
             GetExperimentsRequest() : PlayFabExperimentationGetExperimentsRequest{}
             {
@@ -989,12 +1101,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetExperimentsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetExperimentsResult : public PlayFabExperimentationGetExperimentsResult, public BaseResult
+        struct GetExperimentsResult : public PlayFabExperimentationGetExperimentsResult, public BaseModel
         {
             GetExperimentsResult() : PlayFabExperimentationGetExperimentsResult{}
             {
@@ -1020,12 +1132,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetExperimentsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabExperimentationExperiment, Experiment> m_experiments;
         };
 
-        struct GetLatestScorecardRequest : public PlayFabExperimentationGetLatestScorecardRequest, public BaseRequest
+        struct GetLatestScorecardRequest : public PlayFabExperimentationGetLatestScorecardRequest, public BaseModel
         {
             GetLatestScorecardRequest() : PlayFabExperimentationGetLatestScorecardRequest{}
             {
@@ -1054,13 +1166,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetLatestScorecardRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_experimentId;
         };
 
-        struct MetricData : public PlayFabExperimentationMetricData, public BaseModel
+        struct MetricData : public PlayFabExperimentationMetricData, public SerializableModel
         {
             MetricData() : PlayFabExperimentationMetricData{}
             {
@@ -1104,7 +1216,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationMetricData>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabExperimentationMetricData) };
+                serializedSize += (m_internalName.size() + 1);
+                serializedSize += (m_movement.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                serializedSize += (m_statSigLevel.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabExperimentationMetricData{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationMetricData);
+        
+                memcpy(stringBuffer, m_internalName.data(), m_internalName.size() + 1);
+                stringBuffer +=  m_internalName.size() + 1; 
+                memcpy(stringBuffer, m_movement.data(), m_movement.size() + 1);
+                stringBuffer +=  m_movement.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                memcpy(stringBuffer, m_statSigLevel.data(), m_statSigLevel.size() + 1);
+                stringBuffer +=  m_statSigLevel.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_internalName;
             String m_movement;
@@ -1143,7 +1281,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationScorecardDataRow>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabExperimentationMetricDataDictionaryEntry, MetricData> m_metricDataRows;
             String m_variantName;
@@ -1192,7 +1330,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationScorecard>(*this);
             }
-
+    
         private:
             String m_dateGenerated;
             String m_duration;
@@ -1202,7 +1340,7 @@ namespace PlayFab
             PointerArray<PlayFabExperimentationScorecardDataRow, ScorecardDataRow> m_scorecardDataRows;
         };
 
-        struct GetLatestScorecardResult : public PlayFabExperimentationGetLatestScorecardResult, public BaseResult
+        struct GetLatestScorecardResult : public PlayFabExperimentationGetLatestScorecardResult, public BaseModel
         {
             GetLatestScorecardResult() : PlayFabExperimentationGetLatestScorecardResult{}
             {
@@ -1228,12 +1366,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetLatestScorecardResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<Scorecard> m_scorecard;
         };
 
-        struct GetTreatmentAssignmentRequest : public PlayFabExperimentationGetTreatmentAssignmentRequest, public BaseRequest
+        struct GetTreatmentAssignmentRequest : public PlayFabExperimentationGetTreatmentAssignmentRequest, public BaseModel
         {
             GetTreatmentAssignmentRequest() : PlayFabExperimentationGetTreatmentAssignmentRequest{}
             {
@@ -1262,7 +1400,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetTreatmentAssignmentRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
@@ -1297,13 +1435,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationTreatmentAssignment>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabExperimentationVariable, Variable> m_variables;
             PointerArray<const char, String> m_variants;
         };
 
-        struct GetTreatmentAssignmentResult : public PlayFabExperimentationGetTreatmentAssignmentResult, public BaseResult
+        struct GetTreatmentAssignmentResult : public PlayFabExperimentationGetTreatmentAssignmentResult, public BaseModel
         {
             GetTreatmentAssignmentResult() : PlayFabExperimentationGetTreatmentAssignmentResult{}
             {
@@ -1329,12 +1467,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationGetTreatmentAssignmentResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<TreatmentAssignment> m_treatmentAssignment;
         };
 
-        struct StartExperimentRequest : public PlayFabExperimentationStartExperimentRequest, public BaseRequest
+        struct StartExperimentRequest : public PlayFabExperimentationStartExperimentRequest, public BaseModel
         {
             StartExperimentRequest() : PlayFabExperimentationStartExperimentRequest{}
             {
@@ -1363,13 +1501,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationStartExperimentRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_experimentId;
         };
 
-        struct StopExperimentRequest : public PlayFabExperimentationStopExperimentRequest, public BaseRequest
+        struct StopExperimentRequest : public PlayFabExperimentationStopExperimentRequest, public BaseModel
         {
             StopExperimentRequest() : PlayFabExperimentationStopExperimentRequest{}
             {
@@ -1398,13 +1536,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationStopExperimentRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_experimentId;
         };
 
-        struct UpdateExclusionGroupRequest : public PlayFabExperimentationUpdateExclusionGroupRequest, public BaseRequest
+        struct UpdateExclusionGroupRequest : public PlayFabExperimentationUpdateExclusionGroupRequest, public BaseModel
         {
             UpdateExclusionGroupRequest() : PlayFabExperimentationUpdateExclusionGroupRequest{}
             {
@@ -1439,7 +1577,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationUpdateExclusionGroupRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_description;
@@ -1447,7 +1585,7 @@ namespace PlayFab
             String m_name;
         };
 
-        struct UpdateExperimentRequest : public PlayFabExperimentationUpdateExperimentRequest, public BaseRequest
+        struct UpdateExperimentRequest : public PlayFabExperimentationUpdateExperimentRequest, public BaseModel
         {
             UpdateExperimentRequest() : PlayFabExperimentationUpdateExperimentRequest{}
             {
@@ -1504,7 +1642,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabExperimentationUpdateExperimentRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_description;
@@ -1537,6 +1675,5 @@ namespace PlayFab
         static constexpr PlayFabExperimentationExperimentType maxValue = PlayFabExperimentationExperimentType::Snapshot;
     };
 
-}
 
-#endif
+}

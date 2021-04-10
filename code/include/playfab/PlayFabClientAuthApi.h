@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <playfab/PlayFabAuth.h>
-#include <playfab/PlayFabClientDataModels_c.h>
+#include <playfab/PlayFabEntity.h>
+#include <playfab/PlayFabClientDataModels.h>
 
 extern "C"
 {
@@ -21,12 +21,13 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithAndroidDeviceID(
+HRESULT PlayFabClientLoginWithAndroidDeviceIDAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithAndroidDeviceIDRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -37,12 +38,13 @@ HRESULT PlayFabClientLoginWithAndroidDeviceID(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithApple(
+HRESULT PlayFabClientLoginWithAppleAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithAppleRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -53,12 +55,13 @@ HRESULT PlayFabClientLoginWithApple(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithCustomID(
+HRESULT PlayFabClientLoginWithCustomIDAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithCustomIDRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -69,12 +72,13 @@ HRESULT PlayFabClientLoginWithCustomID(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithEmailAddress(
+HRESULT PlayFabClientLoginWithEmailAddressAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithEmailAddressRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -85,12 +89,13 @@ HRESULT PlayFabClientLoginWithEmailAddress(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithFacebook(
+HRESULT PlayFabClientLoginWithFacebookAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithFacebookRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -101,12 +106,13 @@ HRESULT PlayFabClientLoginWithFacebook(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithFacebookInstantGamesId(
+HRESULT PlayFabClientLoginWithFacebookInstantGamesIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithFacebookInstantGamesIdRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -117,12 +123,13 @@ HRESULT PlayFabClientLoginWithFacebookInstantGamesId(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithGameCenter(
+HRESULT PlayFabClientLoginWithGameCenterAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithGameCenterRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -133,12 +140,13 @@ HRESULT PlayFabClientLoginWithGameCenter(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithGoogleAccount(
+HRESULT PlayFabClientLoginWithGoogleAccountAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithGoogleAccountRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -149,12 +157,13 @@ HRESULT PlayFabClientLoginWithGoogleAccount(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithIOSDeviceID(
+HRESULT PlayFabClientLoginWithIOSDeviceIDAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithIOSDeviceIDRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -165,12 +174,13 @@ HRESULT PlayFabClientLoginWithIOSDeviceID(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithKongregate(
+HRESULT PlayFabClientLoginWithKongregateAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithKongregateRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -181,12 +191,13 @@ HRESULT PlayFabClientLoginWithKongregate(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithNintendoServiceAccount(
+HRESULT PlayFabClientLoginWithNintendoServiceAccountAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithNintendoServiceAccountRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -197,12 +208,13 @@ HRESULT PlayFabClientLoginWithNintendoServiceAccount(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithNintendoSwitchDeviceId(
+HRESULT PlayFabClientLoginWithNintendoSwitchDeviceIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithNintendoSwitchDeviceIdRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -213,12 +225,13 @@ HRESULT PlayFabClientLoginWithNintendoSwitchDeviceId(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithOpenIdConnect(
+HRESULT PlayFabClientLoginWithOpenIdConnectAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithOpenIdConnectRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -229,12 +242,13 @@ HRESULT PlayFabClientLoginWithOpenIdConnect(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithPlayFab(
+HRESULT PlayFabClientLoginWithPlayFabAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithPlayFabRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -245,12 +259,13 @@ HRESULT PlayFabClientLoginWithPlayFab(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithPSN(
+HRESULT PlayFabClientLoginWithPSNAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithPSNRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -261,12 +276,13 @@ HRESULT PlayFabClientLoginWithPSN(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithSteam(
+HRESULT PlayFabClientLoginWithSteamAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithSteamRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -277,12 +293,13 @@ HRESULT PlayFabClientLoginWithSteam(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithTwitch(
+HRESULT PlayFabClientLoginWithTwitchAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithTwitchRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -293,12 +310,13 @@ HRESULT PlayFabClientLoginWithTwitch(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithWindowsHello(
+HRESULT PlayFabClientLoginWithWindowsHelloAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithWindowsHelloRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -309,12 +327,13 @@ HRESULT PlayFabClientLoginWithWindowsHello(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientLoginWithXbox(
+HRESULT PlayFabClientLoginWithXboxAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithXboxRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -325,12 +344,13 @@ HRESULT PlayFabClientLoginWithXbox(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientRegisterPlayFabUser(
+HRESULT PlayFabClientRegisterPlayFabUserAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientRegisterPlayFabUserRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 /// <summary>
@@ -341,12 +361,13 @@ HRESULT PlayFabClientRegisterPlayFabUser(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PlayFabClientGetAuthResult"/> to get the result.
+/// If successful, call <see cref="PlayFabGetAuthResult"/> to get the result. The resulting PlayFabEntityHandle
+/// will be used to authenticate future PlayFab calls.
 /// </remarks>
-HRESULT PlayFabClientRegisterWithWindowsHello(
+HRESULT PlayFabClientRegisterWithWindowsHelloAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientRegisterWithWindowsHelloRequest* request,
-    _In_ XAsyncBlock* async
+    _Inout_ XAsyncBlock* async
 ) noexcept;
 
 }

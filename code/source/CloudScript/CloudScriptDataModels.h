@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabCloudScriptDataModels_c.h>
+#include <playfab/PlayFabCloudScriptDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -401,7 +399,7 @@ namespace PlayFab
     namespace CloudScriptModels
     {
         // CloudScript Classes
-        struct AdCampaignAttributionModel : public PlayFabCloudScriptAdCampaignAttributionModel, public BaseModel
+        struct AdCampaignAttributionModel : public PlayFabCloudScriptAdCampaignAttributionModel, public SerializableModel
         {
             AdCampaignAttributionModel() : PlayFabCloudScriptAdCampaignAttributionModel{}
             {
@@ -431,7 +429,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptAdCampaignAttributionModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptAdCampaignAttributionModel) };
+                serializedSize += (m_campaignId.size() + 1);
+                serializedSize += (m_platform.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptAdCampaignAttributionModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptAdCampaignAttributionModel);
+        
+                memcpy(stringBuffer, m_campaignId.data(), m_campaignId.size() + 1);
+                stringBuffer +=  m_campaignId.size() + 1; 
+                memcpy(stringBuffer, m_platform.data(), m_platform.size() + 1);
+                stringBuffer +=  m_platform.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_campaignId;
             String m_platform;
@@ -469,14 +487,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptContactEmailInfoModel>(*this);
             }
-
+    
         private:
             String m_emailAddress;
             String m_name;
             StdExtra::optional<PlayFabCloudScriptEmailVerificationStatus> m_verificationStatus;
         };
 
-        struct EntityKey : public PlayFabCloudScriptEntityKey, public BaseModel
+        struct EntityKey : public PlayFabCloudScriptEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabCloudScriptEntityKey{}
             {
@@ -505,13 +523,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct ScriptExecutionError : public PlayFabCloudScriptScriptExecutionError, public BaseModel
+        struct ScriptExecutionError : public PlayFabCloudScriptScriptExecutionError, public SerializableModel
         {
             ScriptExecutionError() : PlayFabCloudScriptScriptExecutionError{}
             {
@@ -543,7 +581,30 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptScriptExecutionError>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptScriptExecutionError) };
+                serializedSize += (m_error.size() + 1);
+                serializedSize += (m_message.size() + 1);
+                serializedSize += (m_stackTrace.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptScriptExecutionError{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptScriptExecutionError);
+        
+                memcpy(stringBuffer, m_error.data(), m_error.size() + 1);
+                stringBuffer +=  m_error.size() + 1; 
+                memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
+                stringBuffer +=  m_message.size() + 1; 
+                memcpy(stringBuffer, m_stackTrace.data(), m_stackTrace.size() + 1);
+                stringBuffer +=  m_stackTrace.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_error;
             String m_message;
@@ -582,14 +643,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptLogStatement>(*this);
             }
-
+    
         private:
             JsonObject m_data;
             String m_level;
             String m_message;
         };
 
-        struct ExecuteCloudScriptResult : public PlayFabCloudScriptExecuteCloudScriptResult, public BaseResult
+        struct ExecuteCloudScriptResult : public PlayFabCloudScriptExecuteCloudScriptResult, public BaseModel
         {
             ExecuteCloudScriptResult() : PlayFabCloudScriptExecuteCloudScriptResult{}
             {
@@ -636,7 +697,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptExecuteCloudScriptResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<ScriptExecutionError> m_error;
             String m_functionName;
@@ -646,7 +707,7 @@ namespace PlayFab
             StdExtra::optional<bool> m_logsTooLarge;
         };
 
-        struct ExecuteEntityCloudScriptRequest : public PlayFabCloudScriptExecuteEntityCloudScriptRequest, public BaseRequest
+        struct ExecuteEntityCloudScriptRequest : public PlayFabCloudScriptExecuteEntityCloudScriptRequest, public BaseModel
         {
             ExecuteEntityCloudScriptRequest() : PlayFabCloudScriptExecuteEntityCloudScriptRequest{}
             {
@@ -690,7 +751,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptExecuteEntityCloudScriptRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
@@ -701,7 +762,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_specificRevision;
         };
 
-        struct ExecuteFunctionRequest : public PlayFabCloudScriptExecuteFunctionRequest, public BaseRequest
+        struct ExecuteFunctionRequest : public PlayFabCloudScriptExecuteFunctionRequest, public BaseModel
         {
             ExecuteFunctionRequest() : PlayFabCloudScriptExecuteFunctionRequest{}
             {
@@ -739,7 +800,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptExecuteFunctionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
@@ -748,7 +809,7 @@ namespace PlayFab
             StdExtra::optional<bool> m_generatePlayStreamEvent;
         };
 
-        struct FunctionExecutionError : public PlayFabCloudScriptFunctionExecutionError, public BaseModel
+        struct FunctionExecutionError : public PlayFabCloudScriptFunctionExecutionError, public SerializableModel
         {
             FunctionExecutionError() : PlayFabCloudScriptFunctionExecutionError{}
             {
@@ -780,14 +841,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptFunctionExecutionError>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptFunctionExecutionError) };
+                serializedSize += (m_error.size() + 1);
+                serializedSize += (m_message.size() + 1);
+                serializedSize += (m_stackTrace.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptFunctionExecutionError{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptFunctionExecutionError);
+        
+                memcpy(stringBuffer, m_error.data(), m_error.size() + 1);
+                stringBuffer +=  m_error.size() + 1; 
+                memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
+                stringBuffer +=  m_message.size() + 1; 
+                memcpy(stringBuffer, m_stackTrace.data(), m_stackTrace.size() + 1);
+                stringBuffer +=  m_stackTrace.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_error;
             String m_message;
             String m_stackTrace;
         };
 
-        struct ExecuteFunctionResult : public PlayFabCloudScriptExecuteFunctionResult, public BaseResult
+        struct ExecuteFunctionResult : public PlayFabCloudScriptExecuteFunctionResult, public BaseModel
         {
             ExecuteFunctionResult() : PlayFabCloudScriptExecuteFunctionResult{}
             {
@@ -823,7 +907,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptExecuteFunctionResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<FunctionExecutionError> m_error;
             String m_functionName;
@@ -831,7 +915,7 @@ namespace PlayFab
             StdExtra::optional<bool> m_functionResultTooLarge;
         };
 
-        struct FunctionModel : public PlayFabCloudScriptFunctionModel, public BaseModel
+        struct FunctionModel : public PlayFabCloudScriptFunctionModel, public SerializableModel
         {
             FunctionModel() : PlayFabCloudScriptFunctionModel{}
             {
@@ -863,14 +947,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptFunctionModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptFunctionModel) };
+                serializedSize += (m_functionAddress.size() + 1);
+                serializedSize += (m_functionName.size() + 1);
+                serializedSize += (m_triggerType.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptFunctionModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptFunctionModel);
+        
+                memcpy(stringBuffer, m_functionAddress.data(), m_functionAddress.size() + 1);
+                stringBuffer +=  m_functionAddress.size() + 1; 
+                memcpy(stringBuffer, m_functionName.data(), m_functionName.size() + 1);
+                stringBuffer +=  m_functionName.size() + 1; 
+                memcpy(stringBuffer, m_triggerType.data(), m_triggerType.size() + 1);
+                stringBuffer +=  m_triggerType.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_functionAddress;
             String m_functionName;
             String m_triggerType;
         };
 
-        struct HttpFunctionModel : public PlayFabCloudScriptHttpFunctionModel, public BaseModel
+        struct HttpFunctionModel : public PlayFabCloudScriptHttpFunctionModel, public SerializableModel
         {
             HttpFunctionModel() : PlayFabCloudScriptHttpFunctionModel{}
             {
@@ -899,7 +1006,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptHttpFunctionModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptHttpFunctionModel) };
+                serializedSize += (m_functionName.size() + 1);
+                serializedSize += (m_functionUrl.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptHttpFunctionModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptHttpFunctionModel);
+        
+                memcpy(stringBuffer, m_functionName.data(), m_functionName.size() + 1);
+                stringBuffer +=  m_functionName.size() + 1; 
+                memcpy(stringBuffer, m_functionUrl.data(), m_functionUrl.size() + 1);
+                stringBuffer +=  m_functionUrl.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_functionName;
             String m_functionUrl;
@@ -940,7 +1067,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptLinkedPlatformAccountModel>(*this);
             }
-
+    
         private:
             String m_email;
             StdExtra::optional<PlayFabCloudScriptLoginIdentityProvider> m_platform;
@@ -948,7 +1075,7 @@ namespace PlayFab
             String m_username;
         };
 
-        struct ListFunctionsRequest : public PlayFabCloudScriptListFunctionsRequest, public BaseRequest
+        struct ListFunctionsRequest : public PlayFabCloudScriptListFunctionsRequest, public BaseModel
         {
             ListFunctionsRequest() : PlayFabCloudScriptListFunctionsRequest{}
             {
@@ -974,12 +1101,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptListFunctionsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct ListFunctionsResult : public PlayFabCloudScriptListFunctionsResult, public BaseResult
+        struct ListFunctionsResult : public PlayFabCloudScriptListFunctionsResult, public BaseModel
         {
             ListFunctionsResult() : PlayFabCloudScriptListFunctionsResult{}
             {
@@ -1005,12 +1132,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptListFunctionsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabCloudScriptFunctionModel, FunctionModel> m_functions;
         };
 
-        struct ListHttpFunctionsResult : public PlayFabCloudScriptListHttpFunctionsResult, public BaseResult
+        struct ListHttpFunctionsResult : public PlayFabCloudScriptListHttpFunctionsResult, public BaseModel
         {
             ListHttpFunctionsResult() : PlayFabCloudScriptListHttpFunctionsResult{}
             {
@@ -1036,12 +1163,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptListHttpFunctionsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabCloudScriptHttpFunctionModel, HttpFunctionModel> m_functions;
         };
 
-        struct QueuedFunctionModel : public PlayFabCloudScriptQueuedFunctionModel, public BaseModel
+        struct QueuedFunctionModel : public PlayFabCloudScriptQueuedFunctionModel, public SerializableModel
         {
             QueuedFunctionModel() : PlayFabCloudScriptQueuedFunctionModel{}
             {
@@ -1073,14 +1200,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptQueuedFunctionModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptQueuedFunctionModel) };
+                serializedSize += (m_connectionString.size() + 1);
+                serializedSize += (m_functionName.size() + 1);
+                serializedSize += (m_queueName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptQueuedFunctionModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptQueuedFunctionModel);
+        
+                memcpy(stringBuffer, m_connectionString.data(), m_connectionString.size() + 1);
+                stringBuffer +=  m_connectionString.size() + 1; 
+                memcpy(stringBuffer, m_functionName.data(), m_functionName.size() + 1);
+                stringBuffer +=  m_functionName.size() + 1; 
+                memcpy(stringBuffer, m_queueName.data(), m_queueName.size() + 1);
+                stringBuffer +=  m_queueName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_connectionString;
             String m_functionName;
             String m_queueName;
         };
 
-        struct ListQueuedFunctionsResult : public PlayFabCloudScriptListQueuedFunctionsResult, public BaseResult
+        struct ListQueuedFunctionsResult : public PlayFabCloudScriptListQueuedFunctionsResult, public BaseModel
         {
             ListQueuedFunctionsResult() : PlayFabCloudScriptListQueuedFunctionsResult{}
             {
@@ -1106,7 +1256,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptListQueuedFunctionsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabCloudScriptQueuedFunctionModel, QueuedFunctionModel> m_functions;
         };
@@ -1149,7 +1299,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptLocationModel>(*this);
             }
-
+    
         private:
             String m_city;
             StdExtra::optional<PlayFabCloudScriptContinentCode> m_continentCode;
@@ -1196,7 +1346,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptSubscriptionModel>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabCloudScriptSubscriptionProviderStatus> m_status;
             String m_subscriptionId;
@@ -1238,14 +1388,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptMembershipModel>(*this);
             }
-
+    
         private:
             String m_membershipId;
             StdExtra::optional<time_t> m_overrideExpiration;
             PointerArray<PlayFabCloudScriptSubscriptionModel, SubscriptionModel> m_subscriptions;
         };
 
-        struct NameIdentifier : public PlayFabCloudScriptNameIdentifier, public BaseModel
+        struct NameIdentifier : public PlayFabCloudScriptNameIdentifier, public SerializableModel
         {
             NameIdentifier() : PlayFabCloudScriptNameIdentifier{}
             {
@@ -1274,7 +1424,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptNameIdentifier>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptNameIdentifier) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptNameIdentifier{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptNameIdentifier);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_name;
@@ -1309,13 +1479,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPushNotificationRegistrationModel>(*this);
             }
-
+    
         private:
             String m_notificationEndpointARN;
             StdExtra::optional<PlayFabCloudScriptPushNotificationPlatform> m_platform;
         };
 
-        struct StatisticModel : public PlayFabCloudScriptStatisticModel, public BaseModel
+        struct StatisticModel : public PlayFabCloudScriptStatisticModel, public SerializableModel
         {
             StatisticModel() : PlayFabCloudScriptStatisticModel{}
             {
@@ -1343,12 +1513,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptStatisticModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptStatisticModel) };
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptStatisticModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptStatisticModel);
+        
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_name;
         };
 
-        struct TagModel : public PlayFabCloudScriptTagModel, public BaseModel
+        struct TagModel : public PlayFabCloudScriptTagModel, public SerializableModel
         {
             TagModel() : PlayFabCloudScriptTagModel{}
             {
@@ -1374,12 +1561,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptTagModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptTagModel) };
+                serializedSize += (m_tagValue.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptTagModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptTagModel);
+        
+                memcpy(stringBuffer, m_tagValue.data(), m_tagValue.size() + 1);
+                stringBuffer +=  m_tagValue.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_tagValue;
         };
 
-        struct ValueToDateModel : public PlayFabCloudScriptValueToDateModel, public BaseModel
+        struct ValueToDateModel : public PlayFabCloudScriptValueToDateModel, public SerializableModel
         {
             ValueToDateModel() : PlayFabCloudScriptValueToDateModel{}
             {
@@ -1409,7 +1613,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptValueToDateModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptValueToDateModel) };
+                serializedSize += (m_currency.size() + 1);
+                serializedSize += (m_totalValueAsDecimal.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptValueToDateModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptValueToDateModel);
+        
+                memcpy(stringBuffer, m_currency.data(), m_currency.size() + 1);
+                stringBuffer +=  m_currency.size() + 1; 
+                memcpy(stringBuffer, m_totalValueAsDecimal.data(), m_totalValueAsDecimal.size() + 1);
+                stringBuffer +=  m_totalValueAsDecimal.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_currency;
             String m_totalValueAsDecimal;
@@ -1498,7 +1722,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPlayerProfileModel>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabCloudScriptAdCampaignAttributionModel, AdCampaignAttributionModel> m_adCampaignAttributions;
             String m_avatarUrl;
@@ -1522,7 +1746,7 @@ namespace PlayFab
             PointerArray<PlayFabCloudScriptValueToDateModel, ValueToDateModel> m_valuesToDate;
         };
 
-        struct PlayStreamEventEnvelopeModel : public PlayFabCloudScriptPlayStreamEventEnvelopeModel, public BaseModel
+        struct PlayStreamEventEnvelopeModel : public PlayFabCloudScriptPlayStreamEventEnvelopeModel, public SerializableModel
         {
             PlayStreamEventEnvelopeModel() : PlayFabCloudScriptPlayStreamEventEnvelopeModel{}
             {
@@ -1563,7 +1787,39 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPlayStreamEventEnvelopeModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabCloudScriptPlayStreamEventEnvelopeModel) };
+                serializedSize += (m_entityId.size() + 1);
+                serializedSize += (m_entityType.size() + 1);
+                serializedSize += (m_eventData.size() + 1);
+                serializedSize += (m_eventName.size() + 1);
+                serializedSize += (m_eventNamespace.size() + 1);
+                serializedSize += (m_eventSettings.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabCloudScriptPlayStreamEventEnvelopeModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCloudScriptPlayStreamEventEnvelopeModel);
+        
+                memcpy(stringBuffer, m_entityId.data(), m_entityId.size() + 1);
+                stringBuffer +=  m_entityId.size() + 1; 
+                memcpy(stringBuffer, m_entityType.data(), m_entityType.size() + 1);
+                stringBuffer +=  m_entityType.size() + 1; 
+                memcpy(stringBuffer, m_eventData.data(), m_eventData.size() + 1);
+                stringBuffer +=  m_eventData.size() + 1; 
+                memcpy(stringBuffer, m_eventName.data(), m_eventName.size() + 1);
+                stringBuffer +=  m_eventName.size() + 1; 
+                memcpy(stringBuffer, m_eventNamespace.data(), m_eventNamespace.size() + 1);
+                stringBuffer +=  m_eventNamespace.size() + 1; 
+                memcpy(stringBuffer, m_eventSettings.data(), m_eventSettings.size() + 1);
+                stringBuffer +=  m_eventSettings.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_entityId;
             String m_entityType;
@@ -1573,7 +1829,7 @@ namespace PlayFab
             String m_eventSettings;
         };
 
-        struct PostFunctionResultForEntityTriggeredActionRequest : public PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest, public BaseRequest
+        struct PostFunctionResultForEntityTriggeredActionRequest : public PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest, public BaseModel
         {
             PostFunctionResultForEntityTriggeredActionRequest() : PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest{}
             {
@@ -1605,14 +1861,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             ExecuteFunctionResult m_functionResult;
         };
 
-        struct PostFunctionResultForFunctionExecutionRequest : public PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest, public BaseRequest
+        struct PostFunctionResultForFunctionExecutionRequest : public PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest, public BaseModel
         {
             PostFunctionResultForFunctionExecutionRequest() : PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest{}
             {
@@ -1644,14 +1900,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             ExecuteFunctionResult m_functionResult;
         };
 
-        struct PostFunctionResultForPlayerTriggeredActionRequest : public PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest, public BaseRequest
+        struct PostFunctionResultForPlayerTriggeredActionRequest : public PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest, public BaseModel
         {
             PostFunctionResultForPlayerTriggeredActionRequest() : PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest{}
             {
@@ -1689,7 +1945,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
@@ -1698,7 +1954,7 @@ namespace PlayFab
             StdExtra::optional<PlayStreamEventEnvelopeModel> m_playStreamEventEnvelope;
         };
 
-        struct PostFunctionResultForScheduledTaskRequest : public PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest, public BaseRequest
+        struct PostFunctionResultForScheduledTaskRequest : public PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest, public BaseModel
         {
             PostFunctionResultForScheduledTaskRequest() : PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest{}
             {
@@ -1733,7 +1989,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
@@ -1741,7 +1997,7 @@ namespace PlayFab
             NameIdentifier m_scheduledTaskId;
         };
 
-        struct RegisterHttpFunctionRequest : public PlayFabCloudScriptRegisterHttpFunctionRequest, public BaseRequest
+        struct RegisterHttpFunctionRequest : public PlayFabCloudScriptRegisterHttpFunctionRequest, public BaseModel
         {
             RegisterHttpFunctionRequest() : PlayFabCloudScriptRegisterHttpFunctionRequest{}
             {
@@ -1773,14 +2029,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptRegisterHttpFunctionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_functionName;
             String m_functionUrl;
         };
 
-        struct RegisterQueuedFunctionRequest : public PlayFabCloudScriptRegisterQueuedFunctionRequest, public BaseRequest
+        struct RegisterQueuedFunctionRequest : public PlayFabCloudScriptRegisterQueuedFunctionRequest, public BaseModel
         {
             RegisterQueuedFunctionRequest() : PlayFabCloudScriptRegisterQueuedFunctionRequest{}
             {
@@ -1815,7 +2071,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptRegisterQueuedFunctionRequest>(*this);
             }
-
+    
         private:
             String m_connectionString;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -1823,7 +2079,7 @@ namespace PlayFab
             String m_queueName;
         };
 
-        struct UnregisterFunctionRequest : public PlayFabCloudScriptUnregisterFunctionRequest, public BaseRequest
+        struct UnregisterFunctionRequest : public PlayFabCloudScriptUnregisterFunctionRequest, public BaseModel
         {
             UnregisterFunctionRequest() : PlayFabCloudScriptUnregisterFunctionRequest{}
             {
@@ -1852,7 +2108,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabCloudScriptUnregisterFunctionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_functionName;
@@ -1901,6 +2157,5 @@ namespace PlayFab
         static constexpr PlayFabCloudScriptTriggerType maxValue = PlayFabCloudScriptTriggerType::Queue;
     };
 
-}
 
-#endif
+}

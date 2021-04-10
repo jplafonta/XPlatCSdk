@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include <playfab/PlayFabServerAuthApi.h>
 #include "ServerAuthApi.h"
-#include "AuthAsyncProvider.h"
+#include "ApiAsyncProviders.h"
 #include "GlobalState.h"
 
 using namespace PlayFab;
 using namespace PlayFab::ServerModels;
 
-HRESULT PlayFabServerLoginWithServerCustomId(
+HRESULT PlayFabServerLoginWithServerCustomIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithServerCustomIdRequest* request,
     _In_ XAsyncBlock* async
@@ -16,16 +16,11 @@ HRESULT PlayFabServerLoginWithServerCustomId(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ServerAuthAPI, PlayFabServerLoginWithServerCustomIdRequest>>(
-        async,
-        stateHandle->state->ServerAuth,
-        &ServerAuthAPI::LoginWithServerCustomId,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ServerAuthAPI::LoginWithServerCustomId, &stateHandle->state->serverAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabServerLoginWithSteamId(
+HRESULT PlayFabServerLoginWithSteamIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithSteamIdRequest* request,
     _In_ XAsyncBlock* async
@@ -34,16 +29,11 @@ HRESULT PlayFabServerLoginWithSteamId(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ServerAuthAPI, PlayFabServerLoginWithSteamIdRequest>>(
-        async,
-        stateHandle->state->ServerAuth,
-        &ServerAuthAPI::LoginWithSteamId,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ServerAuthAPI::LoginWithSteamId, &stateHandle->state->serverAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabServerLoginWithXbox(
+HRESULT PlayFabServerLoginWithXboxAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithXboxRequest* request,
     _In_ XAsyncBlock* async
@@ -52,16 +42,11 @@ HRESULT PlayFabServerLoginWithXbox(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ServerAuthAPI, PlayFabServerLoginWithXboxRequest>>(
-        async,
-        stateHandle->state->ServerAuth,
-        &ServerAuthAPI::LoginWithXbox,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ServerAuthAPI::LoginWithXbox, &stateHandle->state->serverAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabServerLoginWithXboxId(
+HRESULT PlayFabServerLoginWithXboxIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabServerLoginWithXboxIdRequest* request,
     _In_ XAsyncBlock* async
@@ -70,12 +55,7 @@ HRESULT PlayFabServerLoginWithXboxId(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ServerAuthAPI, PlayFabServerLoginWithXboxIdRequest>>(
-        async,
-        stateHandle->state->ServerAuth,
-        &ServerAuthAPI::LoginWithXboxId,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ServerAuthAPI::LoginWithXboxId, &stateHandle->state->serverAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

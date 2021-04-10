@@ -1,58 +1,39 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include "ExperimentationDataModels.h"
 #include "HttpClient.h"
 #include "TaskQueue.h"
 
 namespace PlayFab
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
-    class PlayFabApiSettings;
-    class PlayFabAuthenticationContext;
+struct AuthTokens;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Experimentation APIs
-    /// </summary>
-    class PlayFabExperimentationInstanceAPI
-    {
-    private:
-        SharedPtr<PlayFabApiSettings> m_settings;
-        SharedPtr<PlayFabAuthenticationContext> m_context;
-        HttpClient const m_httpClient;
+class ExperimentationAPI
+{
+public:
+    ExperimentationAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    ExperimentationAPI(const ExperimentationAPI& source) = delete;
+    ExperimentationAPI& operator=(const ExperimentationAPI& source) = delete;
+    ~ExperimentationAPI() = default;
 
-    public:
-        PlayFabExperimentationInstanceAPI(const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
-        PlayFabExperimentationInstanceAPI(const SharedPtr<PlayFabApiSettings>& apiSettings, const SharedPtr<PlayFabAuthenticationContext>& authenticationContext);
+    // ------------ Generated API calls
+    AsyncOp<ExperimentationModels::CreateExclusionGroupResult> CreateExclusionGroup(const PlayFabExperimentationCreateExclusionGroupRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<ExperimentationModels::CreateExperimentResult> CreateExperiment(const PlayFabExperimentationCreateExperimentRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> DeleteExclusionGroup(const PlayFabExperimentationDeleteExclusionGroupRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> DeleteExperiment(const PlayFabExperimentationDeleteExperimentRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<ExperimentationModels::GetExclusionGroupsResult> GetExclusionGroups(const PlayFabExperimentationGetExclusionGroupsRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<ExperimentationModels::GetExclusionGroupTrafficResult> GetExclusionGroupTraffic(const PlayFabExperimentationGetExclusionGroupTrafficRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<ExperimentationModels::GetExperimentsResult> GetExperiments(const PlayFabExperimentationGetExperimentsRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<ExperimentationModels::GetLatestScorecardResult> GetLatestScorecard(const PlayFabExperimentationGetLatestScorecardRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<ExperimentationModels::GetTreatmentAssignmentResult> GetTreatmentAssignment(const PlayFabExperimentationGetTreatmentAssignmentRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> StartExperiment(const PlayFabExperimentationStartExperimentRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> StopExperiment(const PlayFabExperimentationStopExperimentRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> UpdateExclusionGroup(const PlayFabExperimentationUpdateExclusionGroupRequest& request, const TaskQueue& queue) const; 
+    AsyncOp<void> UpdateExperiment(const PlayFabExperimentationUpdateExperimentRequest& request, const TaskQueue& queue) const; 
 
-        ~PlayFabExperimentationInstanceAPI() = default;
-        PlayFabExperimentationInstanceAPI(const PlayFabExperimentationInstanceAPI& source) = delete; // disable copy
-        PlayFabExperimentationInstanceAPI(PlayFabExperimentationInstanceAPI&&) = delete; // disable move
-        PlayFabExperimentationInstanceAPI& operator=(const PlayFabExperimentationInstanceAPI& source) = delete; // disable assignment
-        PlayFabExperimentationInstanceAPI& operator=(PlayFabExperimentationInstanceAPI&& other) = delete; // disable move assignment
+private:
+    SharedPtr<HttpClient const> m_httpClient;
+    SharedPtr<AuthTokens const> m_tokens;
+};
 
-        SharedPtr<PlayFabApiSettings> GetSettings() const;
-        SharedPtr<PlayFabAuthenticationContext> GetAuthenticationContext() const;
-        void ForgetAllCredentials();
-
-        // ------------ Generated API calls
-        AsyncOp<ExperimentationModels::CreateExclusionGroupResult> CreateExclusionGroup(const PlayFabExperimentationCreateExclusionGroupRequest& request, const TaskQueue& queue);
-        AsyncOp<ExperimentationModels::CreateExperimentResult> CreateExperiment(const PlayFabExperimentationCreateExperimentRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> DeleteExclusionGroup(const PlayFabExperimentationDeleteExclusionGroupRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> DeleteExperiment(const PlayFabExperimentationDeleteExperimentRequest& request, const TaskQueue& queue);
-        AsyncOp<ExperimentationModels::GetExclusionGroupsResult> GetExclusionGroups(const PlayFabExperimentationGetExclusionGroupsRequest& request, const TaskQueue& queue);
-        AsyncOp<ExperimentationModels::GetExclusionGroupTrafficResult> GetExclusionGroupTraffic(const PlayFabExperimentationGetExclusionGroupTrafficRequest& request, const TaskQueue& queue);
-        AsyncOp<ExperimentationModels::GetExperimentsResult> GetExperiments(const PlayFabExperimentationGetExperimentsRequest& request, const TaskQueue& queue);
-        AsyncOp<ExperimentationModels::GetLatestScorecardResult> GetLatestScorecard(const PlayFabExperimentationGetLatestScorecardRequest& request, const TaskQueue& queue);
-        AsyncOp<ExperimentationModels::GetTreatmentAssignmentResult> GetTreatmentAssignment(const PlayFabExperimentationGetTreatmentAssignmentRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> StartExperiment(const PlayFabExperimentationStartExperimentRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> StopExperiment(const PlayFabExperimentationStopExperimentRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> UpdateExclusionGroup(const PlayFabExperimentationUpdateExclusionGroupRequest& request, const TaskQueue& queue);
-        AsyncOp<BaseResult> UpdateExperiment(const PlayFabExperimentationUpdateExperimentRequest& request, const TaskQueue& queue);
-
-    };
 }
-
-#endif

@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabInsightsDataModels_c.h>
+#include <playfab/PlayFabInsightsDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -133,7 +131,7 @@ namespace PlayFab
     namespace InsightsModels
     {
         // Insights Classes
-        struct InsightsEmptyRequest : public PlayFabInsightsInsightsEmptyRequest, public BaseRequest
+        struct InsightsEmptyRequest : public PlayFabInsightsInsightsEmptyRequest, public BaseModel
         {
             InsightsEmptyRequest() : PlayFabInsightsInsightsEmptyRequest{}
             {
@@ -159,12 +157,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsEmptyRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct InsightsPerformanceLevel : public PlayFabInsightsInsightsPerformanceLevel, public BaseModel
+        struct InsightsPerformanceLevel : public PlayFabInsightsInsightsPerformanceLevel, public SerializableModel
         {
             InsightsPerformanceLevel() : PlayFabInsightsInsightsPerformanceLevel{}
             {
@@ -192,11 +190,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsPerformanceLevel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabInsightsInsightsPerformanceLevel) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabInsightsInsightsPerformanceLevel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabInsightsInsightsPerformanceLevel);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct InsightsGetLimitsResponse : public PlayFabInsightsInsightsGetLimitsResponse, public BaseResult
+        struct InsightsGetLimitsResponse : public PlayFabInsightsInsightsGetLimitsResponse, public BaseModel
         {
             InsightsGetLimitsResponse() : PlayFabInsightsInsightsGetLimitsResponse{}
             {
@@ -226,12 +238,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsGetLimitsResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabInsightsInsightsPerformanceLevel, InsightsPerformanceLevel> m_subMeters;
         };
 
-        struct InsightsGetOperationStatusResponse : public PlayFabInsightsInsightsGetOperationStatusResponse, public BaseResult
+        struct InsightsGetOperationStatusResponse : public PlayFabInsightsInsightsGetOperationStatusResponse, public SerializableModel
         {
             InsightsGetOperationStatusResponse() : PlayFabInsightsInsightsGetOperationStatusResponse{}
             {
@@ -270,7 +282,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsGetOperationStatusResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabInsightsInsightsGetOperationStatusResponse) };
+                serializedSize += (m_message.size() + 1);
+                serializedSize += (m_operationId.size() + 1);
+                serializedSize += (m_operationType.size() + 1);
+                serializedSize += (m_status.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabInsightsInsightsGetOperationStatusResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabInsightsInsightsGetOperationStatusResponse);
+        
+                memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
+                stringBuffer +=  m_message.size() + 1; 
+                memcpy(stringBuffer, m_operationId.data(), m_operationId.size() + 1);
+                stringBuffer +=  m_operationId.size() + 1; 
+                memcpy(stringBuffer, m_operationType.data(), m_operationType.size() + 1);
+                stringBuffer +=  m_operationType.size() + 1; 
+                memcpy(stringBuffer, m_status.data(), m_status.size() + 1);
+                stringBuffer +=  m_status.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_message;
             String m_operationId;
@@ -278,7 +316,7 @@ namespace PlayFab
             String m_status;
         };
 
-        struct InsightsGetDetailsResponse : public PlayFabInsightsInsightsGetDetailsResponse, public BaseResult
+        struct InsightsGetDetailsResponse : public PlayFabInsightsInsightsGetDetailsResponse, public BaseModel
         {
             InsightsGetDetailsResponse() : PlayFabInsightsInsightsGetDetailsResponse{}
             {
@@ -313,14 +351,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsGetDetailsResponse>(*this);
             }
-
+    
         private:
             String m_errorMessage;
             StdExtra::optional<InsightsGetLimitsResponse> m_limits;
             PointerArray<PlayFabInsightsInsightsGetOperationStatusResponse, InsightsGetOperationStatusResponse> m_pendingOperations;
         };
 
-        struct InsightsGetOperationStatusRequest : public PlayFabInsightsInsightsGetOperationStatusRequest, public BaseRequest
+        struct InsightsGetOperationStatusRequest : public PlayFabInsightsInsightsGetOperationStatusRequest, public BaseModel
         {
             InsightsGetOperationStatusRequest() : PlayFabInsightsInsightsGetOperationStatusRequest{}
             {
@@ -349,13 +387,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsGetOperationStatusRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_operationId;
         };
 
-        struct InsightsGetPendingOperationsRequest : public PlayFabInsightsInsightsGetPendingOperationsRequest, public BaseRequest
+        struct InsightsGetPendingOperationsRequest : public PlayFabInsightsInsightsGetPendingOperationsRequest, public BaseModel
         {
             InsightsGetPendingOperationsRequest() : PlayFabInsightsInsightsGetPendingOperationsRequest{}
             {
@@ -384,13 +422,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsGetPendingOperationsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_operationType;
         };
 
-        struct InsightsGetPendingOperationsResponse : public PlayFabInsightsInsightsGetPendingOperationsResponse, public BaseResult
+        struct InsightsGetPendingOperationsResponse : public PlayFabInsightsInsightsGetPendingOperationsResponse, public BaseModel
         {
             InsightsGetPendingOperationsResponse() : PlayFabInsightsInsightsGetPendingOperationsResponse{}
             {
@@ -416,12 +454,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsGetPendingOperationsResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabInsightsInsightsGetOperationStatusResponse, InsightsGetOperationStatusResponse> m_pendingOperations;
         };
 
-        struct InsightsOperationResponse : public PlayFabInsightsInsightsOperationResponse, public BaseResult
+        struct InsightsOperationResponse : public PlayFabInsightsInsightsOperationResponse, public SerializableModel
         {
             InsightsOperationResponse() : PlayFabInsightsInsightsOperationResponse{}
             {
@@ -453,14 +491,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsOperationResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabInsightsInsightsOperationResponse) };
+                serializedSize += (m_message.size() + 1);
+                serializedSize += (m_operationId.size() + 1);
+                serializedSize += (m_operationType.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabInsightsInsightsOperationResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabInsightsInsightsOperationResponse);
+        
+                memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
+                stringBuffer +=  m_message.size() + 1; 
+                memcpy(stringBuffer, m_operationId.data(), m_operationId.size() + 1);
+                stringBuffer +=  m_operationId.size() + 1; 
+                memcpy(stringBuffer, m_operationType.data(), m_operationType.size() + 1);
+                stringBuffer +=  m_operationType.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_message;
             String m_operationId;
             String m_operationType;
         };
 
-        struct InsightsSetPerformanceRequest : public PlayFabInsightsInsightsSetPerformanceRequest, public BaseRequest
+        struct InsightsSetPerformanceRequest : public PlayFabInsightsInsightsSetPerformanceRequest, public BaseModel
         {
             InsightsSetPerformanceRequest() : PlayFabInsightsInsightsSetPerformanceRequest{}
             {
@@ -487,12 +548,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsSetPerformanceRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct InsightsSetStorageRetentionRequest : public PlayFabInsightsInsightsSetStorageRetentionRequest, public BaseRequest
+        struct InsightsSetStorageRetentionRequest : public PlayFabInsightsInsightsSetStorageRetentionRequest, public BaseModel
         {
             InsightsSetStorageRetentionRequest() : PlayFabInsightsInsightsSetStorageRetentionRequest{}
             {
@@ -519,7 +580,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabInsightsInsightsSetStorageRetentionRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
@@ -527,6 +588,5 @@ namespace PlayFab
     }
 
     // EnumRange definitions used for Enum (de)serialization 
-}
 
-#endif
+}

@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabProfilesDataModels_c.h>
+#include <playfab/PlayFabProfilesDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -265,14 +263,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityDataObject>(*this);
             }
-
+    
         private:
             JsonObject m_dataObject;
             String m_escapedDataObject;
             String m_objectName;
         };
 
-        struct EntityKey : public PlayFabProfilesEntityKey, public BaseModel
+        struct EntityKey : public PlayFabProfilesEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabProfilesEntityKey{}
             {
@@ -301,13 +299,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabProfilesEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabProfilesEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabProfilesEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct EntityLineage : public PlayFabProfilesEntityLineage, public BaseModel
+        struct EntityLineage : public PlayFabProfilesEntityLineage, public SerializableModel
         {
             EntityLineage() : PlayFabProfilesEntityLineage{}
             {
@@ -348,7 +366,39 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityLineage>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabProfilesEntityLineage) };
+                serializedSize += (m_characterId.size() + 1);
+                serializedSize += (m_groupId.size() + 1);
+                serializedSize += (m_masterPlayerAccountId.size() + 1);
+                serializedSize += (m_namespaceId.size() + 1);
+                serializedSize += (m_titleId.size() + 1);
+                serializedSize += (m_titlePlayerAccountId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabProfilesEntityLineage{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabProfilesEntityLineage);
+        
+                memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+                stringBuffer +=  m_characterId.size() + 1; 
+                memcpy(stringBuffer, m_groupId.data(), m_groupId.size() + 1);
+                stringBuffer +=  m_groupId.size() + 1; 
+                memcpy(stringBuffer, m_masterPlayerAccountId.data(), m_masterPlayerAccountId.size() + 1);
+                stringBuffer +=  m_masterPlayerAccountId.size() + 1; 
+                memcpy(stringBuffer, m_namespaceId.data(), m_namespaceId.size() + 1);
+                stringBuffer +=  m_namespaceId.size() + 1; 
+                memcpy(stringBuffer, m_titleId.data(), m_titleId.size() + 1);
+                stringBuffer +=  m_titleId.size() + 1; 
+                memcpy(stringBuffer, m_titlePlayerAccountId.data(), m_titlePlayerAccountId.size() + 1);
+                stringBuffer +=  m_titlePlayerAccountId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_characterId;
             String m_groupId;
@@ -397,7 +447,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityPermissionStatement>(*this);
             }
-
+    
         private:
             String m_action;
             String m_comment;
@@ -406,7 +456,7 @@ namespace PlayFab
             String m_resource;
         };
 
-        struct EntityProfileFileMetadata : public PlayFabProfilesEntityProfileFileMetadata, public BaseModel
+        struct EntityProfileFileMetadata : public PlayFabProfilesEntityProfileFileMetadata, public SerializableModel
         {
             EntityProfileFileMetadata() : PlayFabProfilesEntityProfileFileMetadata{}
             {
@@ -437,13 +487,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityProfileFileMetadata>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabProfilesEntityProfileFileMetadata) };
+                serializedSize += (m_checksum.size() + 1);
+                serializedSize += (m_fileName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabProfilesEntityProfileFileMetadata{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabProfilesEntityProfileFileMetadata);
+        
+                memcpy(stringBuffer, m_checksum.data(), m_checksum.size() + 1);
+                stringBuffer +=  m_checksum.size() + 1; 
+                memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+                stringBuffer +=  m_fileName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_checksum;
             String m_fileName;
         };
 
-        struct EntityStatisticChildValue : public PlayFabProfilesEntityStatisticChildValue, public BaseModel
+        struct EntityStatisticChildValue : public PlayFabProfilesEntityStatisticChildValue, public SerializableModel
         {
             EntityStatisticChildValue() : PlayFabProfilesEntityStatisticChildValue{}
             {
@@ -473,7 +543,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityStatisticChildValue>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabProfilesEntityStatisticChildValue) };
+                serializedSize += (m_childName.size() + 1);
+                serializedSize += (m_metadata.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabProfilesEntityStatisticChildValue{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabProfilesEntityStatisticChildValue);
+        
+                memcpy(stringBuffer, m_childName.data(), m_childName.size() + 1);
+                stringBuffer +=  m_childName.size() + 1; 
+                memcpy(stringBuffer, m_metadata.data(), m_metadata.size() + 1);
+                stringBuffer +=  m_metadata.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_childName;
             String m_metadata;
@@ -515,7 +605,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityStatisticValue>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabProfilesEntityStatisticChildValueDictionaryEntry, EntityStatisticChildValue> m_childStatistics;
             String m_metadata;
@@ -584,7 +674,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesEntityProfileBody>(*this);
             }
-
+    
         private:
             String m_avatarUrl;
             String m_displayName;
@@ -600,7 +690,7 @@ namespace PlayFab
             AssociativeArray<PlayFabProfilesEntityStatisticValueDictionaryEntry, EntityStatisticValue> m_statistics;
         };
 
-        struct GetEntityProfileRequest : public PlayFabProfilesGetEntityProfileRequest, public BaseRequest
+        struct GetEntityProfileRequest : public PlayFabProfilesGetEntityProfileRequest, public BaseModel
         {
             GetEntityProfileRequest() : PlayFabProfilesGetEntityProfileRequest{}
             {
@@ -632,14 +722,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetEntityProfileRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_dataAsObject;
             StdExtra::optional<EntityKey> m_entity;
         };
 
-        struct GetEntityProfileResponse : public PlayFabProfilesGetEntityProfileResponse, public BaseResult
+        struct GetEntityProfileResponse : public PlayFabProfilesGetEntityProfileResponse, public BaseModel
         {
             GetEntityProfileResponse() : PlayFabProfilesGetEntityProfileResponse{}
             {
@@ -665,12 +755,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetEntityProfileResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityProfileBody> m_profile;
         };
 
-        struct GetEntityProfilesRequest : public PlayFabProfilesGetEntityProfilesRequest, public BaseRequest
+        struct GetEntityProfilesRequest : public PlayFabProfilesGetEntityProfilesRequest, public BaseModel
         {
             GetEntityProfilesRequest() : PlayFabProfilesGetEntityProfilesRequest{}
             {
@@ -702,14 +792,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetEntityProfilesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_dataAsObject;
             PointerArray<PlayFabProfilesEntityKey, EntityKey> m_entities;
         };
 
-        struct GetEntityProfilesResponse : public PlayFabProfilesGetEntityProfilesResponse, public BaseResult
+        struct GetEntityProfilesResponse : public PlayFabProfilesGetEntityProfilesResponse, public BaseModel
         {
             GetEntityProfilesResponse() : PlayFabProfilesGetEntityProfilesResponse{}
             {
@@ -735,12 +825,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetEntityProfilesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabProfilesEntityProfileBody, EntityProfileBody> m_profiles;
         };
 
-        struct GetGlobalPolicyRequest : public PlayFabProfilesGetGlobalPolicyRequest, public BaseRequest
+        struct GetGlobalPolicyRequest : public PlayFabProfilesGetGlobalPolicyRequest, public BaseModel
         {
             GetGlobalPolicyRequest() : PlayFabProfilesGetGlobalPolicyRequest{}
             {
@@ -766,12 +856,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetGlobalPolicyRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetGlobalPolicyResponse : public PlayFabProfilesGetGlobalPolicyResponse, public BaseResult
+        struct GetGlobalPolicyResponse : public PlayFabProfilesGetGlobalPolicyResponse, public BaseModel
         {
             GetGlobalPolicyResponse() : PlayFabProfilesGetGlobalPolicyResponse{}
             {
@@ -797,12 +887,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetGlobalPolicyResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabProfilesEntityPermissionStatement, EntityPermissionStatement> m_permissions;
         };
 
-        struct GetTitlePlayersFromMasterPlayerAccountIdsRequest : public PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest, public BaseRequest
+        struct GetTitlePlayersFromMasterPlayerAccountIdsRequest : public PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest, public BaseModel
         {
             GetTitlePlayersFromMasterPlayerAccountIdsRequest() : PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest{}
             {
@@ -834,14 +924,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<const char, String> m_masterPlayerAccountIds;
             String m_titleId;
         };
 
-        struct GetTitlePlayersFromMasterPlayerAccountIdsResponse : public PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse, public BaseResult
+        struct GetTitlePlayersFromMasterPlayerAccountIdsResponse : public PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse, public BaseModel
         {
             GetTitlePlayersFromMasterPlayerAccountIdsResponse() : PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse{}
             {
@@ -870,13 +960,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesGetTitlePlayersFromMasterPlayerAccountIdsResponse>(*this);
             }
-
+    
         private:
             String m_titleId;
             AssociativeArray<PlayFabProfilesEntityKeyDictionaryEntry, EntityKey> m_titlePlayerAccounts;
         };
 
-        struct SetEntityProfilePolicyRequest : public PlayFabProfilesSetEntityProfilePolicyRequest, public BaseRequest
+        struct SetEntityProfilePolicyRequest : public PlayFabProfilesSetEntityProfilePolicyRequest, public BaseModel
         {
             SetEntityProfilePolicyRequest() : PlayFabProfilesSetEntityProfilePolicyRequest{}
             {
@@ -908,14 +998,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesSetEntityProfilePolicyRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             PointerArray<PlayFabProfilesEntityPermissionStatement, EntityPermissionStatement> m_statements;
         };
 
-        struct SetEntityProfilePolicyResponse : public PlayFabProfilesSetEntityProfilePolicyResponse, public BaseResult
+        struct SetEntityProfilePolicyResponse : public PlayFabProfilesSetEntityProfilePolicyResponse, public BaseModel
         {
             SetEntityProfilePolicyResponse() : PlayFabProfilesSetEntityProfilePolicyResponse{}
             {
@@ -941,12 +1031,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesSetEntityProfilePolicyResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabProfilesEntityPermissionStatement, EntityPermissionStatement> m_permissions;
         };
 
-        struct SetGlobalPolicyRequest : public PlayFabProfilesSetGlobalPolicyRequest, public BaseRequest
+        struct SetGlobalPolicyRequest : public PlayFabProfilesSetGlobalPolicyRequest, public BaseModel
         {
             SetGlobalPolicyRequest() : PlayFabProfilesSetGlobalPolicyRequest{}
             {
@@ -975,13 +1065,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesSetGlobalPolicyRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<PlayFabProfilesEntityPermissionStatement, EntityPermissionStatement> m_permissions;
         };
 
-        struct SetProfileLanguageRequest : public PlayFabProfilesSetProfileLanguageRequest, public BaseRequest
+        struct SetProfileLanguageRequest : public PlayFabProfilesSetProfileLanguageRequest, public BaseModel
         {
             SetProfileLanguageRequest() : PlayFabProfilesSetProfileLanguageRequest{}
             {
@@ -1016,7 +1106,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesSetProfileLanguageRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
@@ -1024,7 +1114,7 @@ namespace PlayFab
             String m_language;
         };
 
-        struct SetProfileLanguageResponse : public PlayFabProfilesSetProfileLanguageResponse, public BaseResult
+        struct SetProfileLanguageResponse : public PlayFabProfilesSetProfileLanguageResponse, public BaseModel
         {
             SetProfileLanguageResponse() : PlayFabProfilesSetProfileLanguageResponse{}
             {
@@ -1053,7 +1143,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabProfilesSetProfileLanguageResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabProfilesOperationTypes> m_operationResult;
             StdExtra::optional<int32_t> m_versionNumber;
@@ -1072,6 +1162,5 @@ namespace PlayFab
         static constexpr PlayFabProfilesOperationTypes maxValue = PlayFabProfilesOperationTypes::None;
     };
 
-}
 
-#endif
+}

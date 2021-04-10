@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabEventsDataModels_c.h>
+#include <playfab/PlayFabEventsDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -57,7 +55,7 @@ namespace PlayFab
     namespace EventsModels
     {
         // Events Classes
-        struct EntityKey : public PlayFabEventsEntityKey, public BaseModel
+        struct EntityKey : public PlayFabEventsEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabEventsEntityKey{}
             {
@@ -86,7 +84,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabEventsEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabEventsEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabEventsEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabEventsEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
@@ -139,7 +157,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabEventsEventContents>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
@@ -151,7 +169,7 @@ namespace PlayFab
             String m_payloadJSON;
         };
 
-        struct WriteEventsRequest : public PlayFabEventsWriteEventsRequest, public BaseRequest
+        struct WriteEventsRequest : public PlayFabEventsWriteEventsRequest, public BaseModel
         {
             WriteEventsRequest() : PlayFabEventsWriteEventsRequest{}
             {
@@ -180,13 +198,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabEventsWriteEventsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<PlayFabEventsEventContents, EventContents> m_events;
         };
 
-        struct WriteEventsResponse : public PlayFabEventsWriteEventsResponse, public BaseResult
+        struct WriteEventsResponse : public PlayFabEventsWriteEventsResponse, public BaseModel
         {
             WriteEventsResponse() : PlayFabEventsWriteEventsResponse{}
             {
@@ -212,7 +230,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabEventsWriteEventsResponse>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_assignedEventIds;
         };
@@ -220,6 +238,5 @@ namespace PlayFab
     }
 
     // EnumRange definitions used for Enum (de)serialization 
-}
 
-#endif
+}

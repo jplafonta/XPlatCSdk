@@ -1,8 +1,6 @@
 #pragma once
 
-#if defined(ENABLE_PLAYFABSERVER_API)
-
-#include <playfab/PlayFabMatchmakerDataModels_c.h>
+#include <playfab/PlayFabMatchmakerDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -135,7 +133,7 @@ namespace PlayFab
     namespace MatchmakerModels
     {
         // Matchmaker Classes
-        struct AuthUserRequest : public PlayFabMatchmakerAuthUserRequest, public BaseRequest
+        struct AuthUserRequest : public PlayFabMatchmakerAuthUserRequest, public SerializableModel
         {
             AuthUserRequest() : PlayFabMatchmakerAuthUserRequest{}
             {
@@ -161,12 +159,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerAuthUserRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMatchmakerAuthUserRequest) };
+                serializedSize += (m_authorizationTicket.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMatchmakerAuthUserRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMatchmakerAuthUserRequest);
+        
+                memcpy(stringBuffer, m_authorizationTicket.data(), m_authorizationTicket.size() + 1);
+                stringBuffer +=  m_authorizationTicket.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_authorizationTicket;
         };
 
-        struct AuthUserResponse : public PlayFabMatchmakerAuthUserResponse, public BaseResult
+        struct AuthUserResponse : public PlayFabMatchmakerAuthUserResponse, public SerializableModel
         {
             AuthUserResponse() : PlayFabMatchmakerAuthUserResponse{}
             {
@@ -193,7 +208,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerAuthUserResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMatchmakerAuthUserResponse) };
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMatchmakerAuthUserResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMatchmakerAuthUserResponse);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
         };
@@ -264,7 +296,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerItemInstance>(*this);
             }
-
+    
         private:
             String m_annotation;
             PointerArray<const char, String> m_bundleContents;
@@ -282,7 +314,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_usesIncrementedBy;
         };
 
-        struct PlayerJoinedRequest : public PlayFabMatchmakerPlayerJoinedRequest, public BaseRequest
+        struct PlayerJoinedRequest : public PlayFabMatchmakerPlayerJoinedRequest, public BaseModel
         {
             PlayerJoinedRequest() : PlayFabMatchmakerPlayerJoinedRequest{}
             {
@@ -314,14 +346,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerPlayerJoinedRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_lobbyId;
             String m_playFabId;
         };
 
-        struct PlayerLeftRequest : public PlayFabMatchmakerPlayerLeftRequest, public BaseRequest
+        struct PlayerLeftRequest : public PlayFabMatchmakerPlayerLeftRequest, public BaseModel
         {
             PlayerLeftRequest() : PlayFabMatchmakerPlayerLeftRequest{}
             {
@@ -353,14 +385,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerPlayerLeftRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_lobbyId;
             String m_playFabId;
         };
 
-        struct StartGameRequest : public PlayFabMatchmakerStartGameRequest, public BaseRequest
+        struct StartGameRequest : public PlayFabMatchmakerStartGameRequest, public BaseModel
         {
             StartGameRequest() : PlayFabMatchmakerStartGameRequest{}
             {
@@ -399,7 +431,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerStartGameRequest>(*this);
             }
-
+    
         private:
             String m_build;
             String m_customCommandLineData;
@@ -408,7 +440,7 @@ namespace PlayFab
             String m_gameMode;
         };
 
-        struct StartGameResponse : public PlayFabMatchmakerStartGameResponse, public BaseResult
+        struct StartGameResponse : public PlayFabMatchmakerStartGameResponse, public SerializableModel
         {
             StartGameResponse() : PlayFabMatchmakerStartGameResponse{}
             {
@@ -444,7 +476,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerStartGameResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMatchmakerStartGameResponse) };
+                serializedSize += (m_gameID.size() + 1);
+                serializedSize += (m_serverIPV4Address.size() + 1);
+                serializedSize += (m_serverIPV6Address.size() + 1);
+                serializedSize += (m_serverPublicDNSName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMatchmakerStartGameResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMatchmakerStartGameResponse);
+        
+                memcpy(stringBuffer, m_gameID.data(), m_gameID.size() + 1);
+                stringBuffer +=  m_gameID.size() + 1; 
+                memcpy(stringBuffer, m_serverIPV4Address.data(), m_serverIPV4Address.size() + 1);
+                stringBuffer +=  m_serverIPV4Address.size() + 1; 
+                memcpy(stringBuffer, m_serverIPV6Address.data(), m_serverIPV6Address.size() + 1);
+                stringBuffer +=  m_serverIPV6Address.size() + 1; 
+                memcpy(stringBuffer, m_serverPublicDNSName.data(), m_serverPublicDNSName.size() + 1);
+                stringBuffer +=  m_serverPublicDNSName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_gameID;
             String m_serverIPV4Address;
@@ -452,7 +510,7 @@ namespace PlayFab
             String m_serverPublicDNSName;
         };
 
-        struct UserInfoRequest : public PlayFabMatchmakerUserInfoRequest, public BaseRequest
+        struct UserInfoRequest : public PlayFabMatchmakerUserInfoRequest, public BaseModel
         {
             UserInfoRequest() : PlayFabMatchmakerUserInfoRequest{}
             {
@@ -482,13 +540,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerUserInfoRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_playFabId;
         };
 
-        struct VirtualCurrencyRechargeTime : public PlayFabMatchmakerVirtualCurrencyRechargeTime, public BaseModel
+        struct VirtualCurrencyRechargeTime : public PlayFabMatchmakerVirtualCurrencyRechargeTime, public SerializableModel
         {
             VirtualCurrencyRechargeTime() : PlayFabMatchmakerVirtualCurrencyRechargeTime{}
             {
@@ -511,11 +569,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerVirtualCurrencyRechargeTime>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabMatchmakerVirtualCurrencyRechargeTime) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabMatchmakerVirtualCurrencyRechargeTime{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabMatchmakerVirtualCurrencyRechargeTime);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct UserInfoResponse : public PlayFabMatchmakerUserInfoResponse, public BaseResult
+        struct UserInfoResponse : public PlayFabMatchmakerUserInfoResponse, public BaseModel
         {
             UserInfoResponse() : PlayFabMatchmakerUserInfoResponse{}
             {
@@ -560,7 +632,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabMatchmakerUserInfoResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabMatchmakerItemInstance, ItemInstance> m_inventory;
             String m_playFabId;
@@ -579,6 +651,5 @@ namespace PlayFab
         static constexpr PlayFabMatchmakerRegion maxValue = PlayFabMatchmakerRegion::Australia;
     };
 
-}
 
-#endif
+}

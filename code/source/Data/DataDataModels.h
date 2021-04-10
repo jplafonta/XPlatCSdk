@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabDataDataModels_c.h>
+#include <playfab/PlayFabDataDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -218,7 +216,7 @@ namespace PlayFab
     namespace DataModels
     {
         // Data Classes
-        struct EntityKey : public PlayFabDataEntityKey, public BaseModel
+        struct EntityKey : public PlayFabDataEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabDataEntityKey{}
             {
@@ -247,13 +245,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabDataEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabDataEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabDataEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct AbortFileUploadsRequest : public PlayFabDataAbortFileUploadsRequest, public BaseRequest
+        struct AbortFileUploadsRequest : public PlayFabDataAbortFileUploadsRequest, public BaseModel
         {
             AbortFileUploadsRequest() : PlayFabDataAbortFileUploadsRequest{}
             {
@@ -288,7 +306,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataAbortFileUploadsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
@@ -296,7 +314,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_profileVersion;
         };
 
-        struct AbortFileUploadsResponse : public PlayFabDataAbortFileUploadsResponse, public BaseResult
+        struct AbortFileUploadsResponse : public PlayFabDataAbortFileUploadsResponse, public BaseModel
         {
             AbortFileUploadsResponse() : PlayFabDataAbortFileUploadsResponse{}
             {
@@ -323,12 +341,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataAbortFileUploadsResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
         };
 
-        struct DeleteFilesRequest : public PlayFabDataDeleteFilesRequest, public BaseRequest
+        struct DeleteFilesRequest : public PlayFabDataDeleteFilesRequest, public BaseModel
         {
             DeleteFilesRequest() : PlayFabDataDeleteFilesRequest{}
             {
@@ -363,7 +381,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataDeleteFilesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
@@ -371,7 +389,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_profileVersion;
         };
 
-        struct DeleteFilesResponse : public PlayFabDataDeleteFilesResponse, public BaseResult
+        struct DeleteFilesResponse : public PlayFabDataDeleteFilesResponse, public BaseModel
         {
             DeleteFilesResponse() : PlayFabDataDeleteFilesResponse{}
             {
@@ -398,12 +416,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataDeleteFilesResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
         };
 
-        struct FinalizeFileUploadsRequest : public PlayFabDataFinalizeFileUploadsRequest, public BaseRequest
+        struct FinalizeFileUploadsRequest : public PlayFabDataFinalizeFileUploadsRequest, public BaseModel
         {
             FinalizeFileUploadsRequest() : PlayFabDataFinalizeFileUploadsRequest{}
             {
@@ -436,14 +454,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataFinalizeFileUploadsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             PointerArray<const char, String> m_fileNames;
         };
 
-        struct GetFileMetadata : public PlayFabDataGetFileMetadata, public BaseModel
+        struct GetFileMetadata : public PlayFabDataGetFileMetadata, public SerializableModel
         {
             GetFileMetadata() : PlayFabDataGetFileMetadata{}
             {
@@ -477,14 +495,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataGetFileMetadata>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabDataGetFileMetadata) };
+                serializedSize += (m_checksum.size() + 1);
+                serializedSize += (m_downloadUrl.size() + 1);
+                serializedSize += (m_fileName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabDataGetFileMetadata{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabDataGetFileMetadata);
+        
+                memcpy(stringBuffer, m_checksum.data(), m_checksum.size() + 1);
+                stringBuffer +=  m_checksum.size() + 1; 
+                memcpy(stringBuffer, m_downloadUrl.data(), m_downloadUrl.size() + 1);
+                stringBuffer +=  m_downloadUrl.size() + 1; 
+                memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+                stringBuffer +=  m_fileName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_checksum;
             String m_downloadUrl;
             String m_fileName;
         };
 
-        struct FinalizeFileUploadsResponse : public PlayFabDataFinalizeFileUploadsResponse, public BaseResult
+        struct FinalizeFileUploadsResponse : public PlayFabDataFinalizeFileUploadsResponse, public BaseModel
         {
             FinalizeFileUploadsResponse() : PlayFabDataFinalizeFileUploadsResponse{}
             {
@@ -514,13 +555,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataFinalizeFileUploadsResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             AssociativeArray<PlayFabDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
         };
 
-        struct GetFilesRequest : public PlayFabDataGetFilesRequest, public BaseRequest
+        struct GetFilesRequest : public PlayFabDataGetFilesRequest, public BaseModel
         {
             GetFilesRequest() : PlayFabDataGetFilesRequest{}
             {
@@ -549,13 +590,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataGetFilesRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
         };
 
-        struct GetFilesResponse : public PlayFabDataGetFilesResponse, public BaseResult
+        struct GetFilesResponse : public PlayFabDataGetFilesResponse, public BaseModel
         {
             GetFilesResponse() : PlayFabDataGetFilesResponse{}
             {
@@ -585,13 +626,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataGetFilesResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             AssociativeArray<PlayFabDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
         };
 
-        struct GetObjectsRequest : public PlayFabDataGetObjectsRequest, public BaseRequest
+        struct GetObjectsRequest : public PlayFabDataGetObjectsRequest, public BaseModel
         {
             GetObjectsRequest() : PlayFabDataGetObjectsRequest{}
             {
@@ -623,14 +664,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataGetObjectsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
             StdExtra::optional<bool> m_escapeObject;
         };
 
-        struct ObjectResult : public PlayFabDataObjectResult, public BaseResult
+        struct ObjectResult : public PlayFabDataObjectResult, public BaseModel
         {
             ObjectResult() : PlayFabDataObjectResult{}
             {
@@ -662,14 +703,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataObjectResult>(*this);
             }
-
+    
         private:
             JsonObject m_dataObject;
             String m_escapedDataObject;
             String m_objectName;
         };
 
-        struct GetObjectsResponse : public PlayFabDataGetObjectsResponse, public BaseResult
+        struct GetObjectsResponse : public PlayFabDataGetObjectsResponse, public BaseModel
         {
             GetObjectsResponse() : PlayFabDataGetObjectsResponse{}
             {
@@ -699,13 +740,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataGetObjectsResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             AssociativeArray<PlayFabDataObjectResultDictionaryEntry, ObjectResult> m_objects;
         };
 
-        struct InitiateFileUploadMetadata : public PlayFabDataInitiateFileUploadMetadata, public BaseModel
+        struct InitiateFileUploadMetadata : public PlayFabDataInitiateFileUploadMetadata, public SerializableModel
         {
             InitiateFileUploadMetadata() : PlayFabDataInitiateFileUploadMetadata{}
             {
@@ -734,13 +775,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataInitiateFileUploadMetadata>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabDataInitiateFileUploadMetadata) };
+                serializedSize += (m_fileName.size() + 1);
+                serializedSize += (m_uploadUrl.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabDataInitiateFileUploadMetadata{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabDataInitiateFileUploadMetadata);
+        
+                memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+                stringBuffer +=  m_fileName.size() + 1; 
+                memcpy(stringBuffer, m_uploadUrl.data(), m_uploadUrl.size() + 1);
+                stringBuffer +=  m_uploadUrl.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_fileName;
             String m_uploadUrl;
         };
 
-        struct InitiateFileUploadsRequest : public PlayFabDataInitiateFileUploadsRequest, public BaseRequest
+        struct InitiateFileUploadsRequest : public PlayFabDataInitiateFileUploadsRequest, public BaseModel
         {
             InitiateFileUploadsRequest() : PlayFabDataInitiateFileUploadsRequest{}
             {
@@ -775,7 +836,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataInitiateFileUploadsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
@@ -783,7 +844,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_profileVersion;
         };
 
-        struct InitiateFileUploadsResponse : public PlayFabDataInitiateFileUploadsResponse, public BaseResult
+        struct InitiateFileUploadsResponse : public PlayFabDataInitiateFileUploadsResponse, public BaseModel
         {
             InitiateFileUploadsResponse() : PlayFabDataInitiateFileUploadsResponse{}
             {
@@ -813,7 +874,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataInitiateFileUploadsResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             PointerArray<PlayFabDataInitiateFileUploadMetadata, InitiateFileUploadMetadata> m_uploadDetails;
@@ -854,7 +915,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataSetObject>(*this);
             }
-
+    
         private:
             JsonObject m_dataObject;
             StdExtra::optional<bool> m_deleteObject;
@@ -894,14 +955,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataSetObjectInfo>(*this);
             }
-
+    
         private:
             String m_objectName;
             String m_operationReason;
             StdExtra::optional<PlayFabDataOperationTypes> m_setResult;
         };
 
-        struct SetObjectsRequest : public PlayFabDataSetObjectsRequest, public BaseRequest
+        struct SetObjectsRequest : public PlayFabDataSetObjectsRequest, public BaseModel
         {
             SetObjectsRequest() : PlayFabDataSetObjectsRequest{}
             {
@@ -936,7 +997,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataSetObjectsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             EntityKey m_entity;
@@ -944,7 +1005,7 @@ namespace PlayFab
             PointerArray<PlayFabDataSetObject, SetObject> m_objects;
         };
 
-        struct SetObjectsResponse : public PlayFabDataSetObjectsResponse, public BaseResult
+        struct SetObjectsResponse : public PlayFabDataSetObjectsResponse, public BaseModel
         {
             SetObjectsResponse() : PlayFabDataSetObjectsResponse{}
             {
@@ -971,7 +1032,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabDataSetObjectsResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabDataSetObjectInfo, SetObjectInfo> m_setResults;
         };
@@ -984,6 +1045,5 @@ namespace PlayFab
         static constexpr PlayFabDataOperationTypes maxValue = PlayFabDataOperationTypes::None;
     };
 
-}
 
-#endif
+}

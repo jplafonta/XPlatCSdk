@@ -5,17 +5,39 @@
 
 using namespace PlayFab;
 
-PlayFabGlobalState::PlayFabGlobalState() :
-    state{ MakeShared<GlobalState>() }
+GlobalState::GlobalState(String&& titleId, _In_opt_z_ const char* secretKey) :
+    m_httpClient{ MakeShared<PlayFab::HttpClient>(std::move(titleId)) },
+    m_secretKey{ secretKey ? MakeShared<String>(secretKey) : nullptr },
+    clientAuthAPI{ m_httpClient },
+    serverAuthAPI{ m_httpClient, m_secretKey },
+    authenticationAuthAPI{ m_httpClient, m_secretKey },
+    adminAPI{ m_httpClient, m_secretKey },
+    matchmakerAPI{ m_httpClient, m_secretKey },
+    serverAPI{ m_httpClient, m_secretKey }
 {
 }
 
-HRESULT PlayFabGlobalState::Create(PlayFabStateHandle* stateHandle)
+SharedPtr<HttpClient const> GlobalState::HttpClient() const
 {
+    return m_httpClient;
+}
+
+PlayFabGlobalState::PlayFabGlobalState(_In_z_ const char* titleId, _In_opt_z_ const char* secretKey) :
+    state{ MakeShared<GlobalState>(titleId, secretKey) }
+{
+}
+
+HRESULT PlayFabGlobalState::Create(
+    _In_z_ const char* titleId,
+    _In_opt_z_ const char* secretKey,
+    _Outptr_ PlayFabStateHandle* stateHandle
+)
+{
+    RETURN_HR_INVALIDARG_IF_NULL(titleId);
     RETURN_IF_FAILED(HCInitialize(nullptr));
 
     Allocator<PlayFabGlobalState> a{};
-    *stateHandle = UniquePtr<PlayFabGlobalState>(new (a.allocate(1)) PlayFabGlobalState()).release();
+    *stateHandle = UniquePtr<PlayFabGlobalState>(new (a.allocate(1)) PlayFabGlobalState(titleId, secretKey)).release();
     return S_OK;
 }
 

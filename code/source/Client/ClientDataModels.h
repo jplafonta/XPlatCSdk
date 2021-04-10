@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABCLIENT_API)
-
-#include <playfab/PlayFabClientDataModels_c.h>
+#include <playfab/PlayFabClientDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -821,7 +819,7 @@ namespace PlayFab
             JsonUtils::ObjectAddMember(output, "FriendPlayFabId", input.friendPlayFabId);
             JsonUtils::ObjectAddMember(output, "GameCenterInfo", input.gameCenterInfo);
             JsonUtils::ObjectAddMember(output, "Profile", input.profile);
-            JsonUtils::ObjectAddMember(output, "PSNInfo", input.pSNInfo);
+            JsonUtils::ObjectAddMember(output, "PSNInfo", input.PSNInfo);
             JsonUtils::ObjectAddMember(output, "SteamInfo", input.steamInfo);
             JsonUtils::ObjectAddMember(output, "Tags", input.tags, input.tagsCount);
             JsonUtils::ObjectAddMember(output, "TitleDisplayName", input.titleDisplayName);
@@ -1766,7 +1764,7 @@ namespace PlayFab
         {
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "IssuerId", input.issuerId);
-            JsonUtils::ObjectAddMember(output, "PSNAccountIDs", input.pSNAccountIDs, input.pSNAccountIDsCount);
+            JsonUtils::ObjectAddMember(output, "PSNAccountIDs", input.PSNAccountIDs, input.PSNAccountIDsCount);
             return output;
         }
 
@@ -1775,7 +1773,7 @@ namespace PlayFab
         {
             JsonValue output{ rapidjson::kObjectType };
             JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-            JsonUtils::ObjectAddMember(output, "PSNAccountId", input.pSNAccountId);
+            JsonUtils::ObjectAddMember(output, "PSNAccountId", input.PSNAccountId);
             return output;
         }
 
@@ -3482,7 +3480,7 @@ namespace PlayFab
     namespace ClientModels
     {
         // Client Classes
-        struct AcceptTradeRequest : public PlayFabClientAcceptTradeRequest, public BaseRequest
+        struct AcceptTradeRequest : public PlayFabClientAcceptTradeRequest, public BaseModel
         {
             AcceptTradeRequest() : PlayFabClientAcceptTradeRequest{}
             {
@@ -3514,7 +3512,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAcceptTradeRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_acceptedInventoryInstanceIds;
             String m_offeringPlayerId;
@@ -3583,7 +3581,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientTradeInfo>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_acceptedInventoryInstanceIds;
             String m_acceptedPlayerId;
@@ -3600,7 +3598,7 @@ namespace PlayFab
             String m_tradeId;
         };
 
-        struct AcceptTradeResponse : public PlayFabClientAcceptTradeResponse, public BaseResult
+        struct AcceptTradeResponse : public PlayFabClientAcceptTradeResponse, public BaseModel
         {
             AcceptTradeResponse() : PlayFabClientAcceptTradeResponse{}
             {
@@ -3626,12 +3624,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAcceptTradeResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<TradeInfo> m_trade;
         };
 
-        struct AdCampaignAttributionModel : public PlayFabClientAdCampaignAttributionModel, public BaseModel
+        struct AdCampaignAttributionModel : public PlayFabClientAdCampaignAttributionModel, public SerializableModel
         {
             AdCampaignAttributionModel() : PlayFabClientAdCampaignAttributionModel{}
             {
@@ -3661,13 +3659,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAdCampaignAttributionModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientAdCampaignAttributionModel) };
+                serializedSize += (m_campaignId.size() + 1);
+                serializedSize += (m_platform.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientAdCampaignAttributionModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientAdCampaignAttributionModel);
+        
+                memcpy(stringBuffer, m_campaignId.data(), m_campaignId.size() + 1);
+                stringBuffer +=  m_campaignId.size() + 1; 
+                memcpy(stringBuffer, m_platform.data(), m_platform.size() + 1);
+                stringBuffer +=  m_platform.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_campaignId;
             String m_platform;
         };
 
-        struct AddFriendRequest : public PlayFabClientAddFriendRequest, public BaseRequest
+        struct AddFriendRequest : public PlayFabClientAddFriendRequest, public SerializableModel
         {
             AddFriendRequest() : PlayFabClientAddFriendRequest{}
             {
@@ -3702,7 +3720,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddFriendRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientAddFriendRequest) };
+                serializedSize += (m_friendEmail.size() + 1);
+                serializedSize += (m_friendPlayFabId.size() + 1);
+                serializedSize += (m_friendTitleDisplayName.size() + 1);
+                serializedSize += (m_friendUsername.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientAddFriendRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientAddFriendRequest);
+        
+                memcpy(stringBuffer, m_friendEmail.data(), m_friendEmail.size() + 1);
+                stringBuffer +=  m_friendEmail.size() + 1; 
+                memcpy(stringBuffer, m_friendPlayFabId.data(), m_friendPlayFabId.size() + 1);
+                stringBuffer +=  m_friendPlayFabId.size() + 1; 
+                memcpy(stringBuffer, m_friendTitleDisplayName.data(), m_friendTitleDisplayName.size() + 1);
+                stringBuffer +=  m_friendTitleDisplayName.size() + 1; 
+                memcpy(stringBuffer, m_friendUsername.data(), m_friendUsername.size() + 1);
+                stringBuffer +=  m_friendUsername.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_friendEmail;
             String m_friendPlayFabId;
@@ -3710,7 +3754,7 @@ namespace PlayFab
             String m_friendUsername;
         };
 
-        struct AddFriendResult : public PlayFabClientAddFriendResult, public BaseResult
+        struct AddFriendResult : public PlayFabClientAddFriendResult, public SerializableModel
         {
             AddFriendResult() : PlayFabClientAddFriendResult{}
             {
@@ -3731,11 +3775,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddFriendResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientAddFriendResult) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientAddFriendResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientAddFriendResult);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct GenericServiceId : public PlayFabClientGenericServiceId, public BaseModel
+        struct GenericServiceId : public PlayFabClientGenericServiceId, public SerializableModel
         {
             GenericServiceId() : PlayFabClientGenericServiceId{}
             {
@@ -3764,13 +3822,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGenericServiceId>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGenericServiceId) };
+                serializedSize += (m_serviceName.size() + 1);
+                serializedSize += (m_userId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGenericServiceId{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGenericServiceId);
+        
+                memcpy(stringBuffer, m_serviceName.data(), m_serviceName.size() + 1);
+                stringBuffer +=  m_serviceName.size() + 1; 
+                memcpy(stringBuffer, m_userId.data(), m_userId.size() + 1);
+                stringBuffer +=  m_userId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_serviceName;
             String m_userId;
         };
 
-        struct AddGenericIDRequest : public PlayFabClientAddGenericIDRequest, public BaseRequest
+        struct AddGenericIDRequest : public PlayFabClientAddGenericIDRequest, public BaseModel
         {
             AddGenericIDRequest() : PlayFabClientAddGenericIDRequest{}
             {
@@ -3796,12 +3874,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddGenericIDRequest>(*this);
             }
-
+    
         private:
             GenericServiceId m_genericId;
         };
 
-        struct AddOrUpdateContactEmailRequest : public PlayFabClientAddOrUpdateContactEmailRequest, public BaseRequest
+        struct AddOrUpdateContactEmailRequest : public PlayFabClientAddOrUpdateContactEmailRequest, public BaseModel
         {
             AddOrUpdateContactEmailRequest() : PlayFabClientAddOrUpdateContactEmailRequest{}
             {
@@ -3830,13 +3908,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddOrUpdateContactEmailRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_emailAddress;
         };
 
-        struct AddSharedGroupMembersRequest : public PlayFabClientAddSharedGroupMembersRequest, public BaseRequest
+        struct AddSharedGroupMembersRequest : public PlayFabClientAddSharedGroupMembersRequest, public BaseModel
         {
             AddSharedGroupMembersRequest() : PlayFabClientAddSharedGroupMembersRequest{}
             {
@@ -3865,13 +3943,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddSharedGroupMembersRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_playFabIds;
             String m_sharedGroupId;
         };
 
-        struct AddUsernamePasswordRequest : public PlayFabClientAddUsernamePasswordRequest, public BaseRequest
+        struct AddUsernamePasswordRequest : public PlayFabClientAddUsernamePasswordRequest, public BaseModel
         {
             AddUsernamePasswordRequest() : PlayFabClientAddUsernamePasswordRequest{}
             {
@@ -3906,7 +3984,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddUsernamePasswordRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_email;
@@ -3914,7 +3992,7 @@ namespace PlayFab
             String m_username;
         };
 
-        struct AddUsernamePasswordResult : public PlayFabClientAddUsernamePasswordResult, public BaseResult
+        struct AddUsernamePasswordResult : public PlayFabClientAddUsernamePasswordResult, public SerializableModel
         {
             AddUsernamePasswordResult() : PlayFabClientAddUsernamePasswordResult{}
             {
@@ -3940,12 +4018,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddUsernamePasswordResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientAddUsernamePasswordResult) };
+                serializedSize += (m_username.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientAddUsernamePasswordResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientAddUsernamePasswordResult);
+        
+                memcpy(stringBuffer, m_username.data(), m_username.size() + 1);
+                stringBuffer +=  m_username.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_username;
         };
 
-        struct AddUserVirtualCurrencyRequest : public PlayFabClientAddUserVirtualCurrencyRequest, public BaseRequest
+        struct AddUserVirtualCurrencyRequest : public PlayFabClientAddUserVirtualCurrencyRequest, public BaseModel
         {
             AddUserVirtualCurrencyRequest() : PlayFabClientAddUserVirtualCurrencyRequest{}
             {
@@ -3975,7 +4070,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAddUserVirtualCurrencyRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_virtualCurrency;
@@ -4028,7 +4123,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAdPlacementDetails>(*this);
             }
-
+    
         private:
             String m_placementId;
             String m_placementName;
@@ -4040,7 +4135,7 @@ namespace PlayFab
             String m_rewardName;
         };
 
-        struct AdRewardItemGranted : public PlayFabClientAdRewardItemGranted, public BaseModel
+        struct AdRewardItemGranted : public PlayFabClientAdRewardItemGranted, public SerializableModel
         {
             AdRewardItemGranted() : PlayFabClientAdRewardItemGranted{}
             {
@@ -4075,7 +4170,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAdRewardItemGranted>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientAdRewardItemGranted) };
+                serializedSize += (m_catalogId.size() + 1);
+                serializedSize += (m_displayName.size() + 1);
+                serializedSize += (m_instanceId.size() + 1);
+                serializedSize += (m_itemId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientAdRewardItemGranted{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientAdRewardItemGranted);
+        
+                memcpy(stringBuffer, m_catalogId.data(), m_catalogId.size() + 1);
+                stringBuffer +=  m_catalogId.size() + 1; 
+                memcpy(stringBuffer, m_displayName.data(), m_displayName.size() + 1);
+                stringBuffer +=  m_displayName.size() + 1; 
+                memcpy(stringBuffer, m_instanceId.data(), m_instanceId.size() + 1);
+                stringBuffer +=  m_instanceId.size() + 1; 
+                memcpy(stringBuffer, m_itemId.data(), m_itemId.size() + 1);
+                stringBuffer +=  m_itemId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_catalogId;
             String m_displayName;
@@ -4115,14 +4236,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAdRewardResults>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientAdRewardItemGranted, AdRewardItemGranted> m_grantedItems;
             AssociativeArray<PlayFabInt32DictionaryEntry, void> m_grantedVirtualCurrencies;
             AssociativeArray<PlayFabInt32DictionaryEntry, void> m_incrementedStatistics;
         };
 
-        struct AndroidDevicePushNotificationRegistrationRequest : public PlayFabClientAndroidDevicePushNotificationRegistrationRequest, public BaseRequest
+        struct AndroidDevicePushNotificationRegistrationRequest : public PlayFabClientAndroidDevicePushNotificationRegistrationRequest, public BaseModel
         {
             AndroidDevicePushNotificationRegistrationRequest() : PlayFabClientAndroidDevicePushNotificationRegistrationRequest{}
             {
@@ -4154,14 +4275,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAndroidDevicePushNotificationRegistrationRequest>(*this);
             }
-
+    
         private:
             String m_confirmationMessage;
             String m_deviceToken;
             StdExtra::optional<bool> m_sendPushNotificationConfirmation;
         };
 
-        struct AttributeInstallRequest : public PlayFabClientAttributeInstallRequest, public BaseRequest
+        struct AttributeInstallRequest : public PlayFabClientAttributeInstallRequest, public SerializableModel
         {
             AttributeInstallRequest() : PlayFabClientAttributeInstallRequest{}
             {
@@ -4190,13 +4311,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientAttributeInstallRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientAttributeInstallRequest) };
+                serializedSize += (m_adid.size() + 1);
+                serializedSize += (m_idfa.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientAttributeInstallRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientAttributeInstallRequest);
+        
+                memcpy(stringBuffer, m_adid.data(), m_adid.size() + 1);
+                stringBuffer +=  m_adid.size() + 1; 
+                memcpy(stringBuffer, m_idfa.data(), m_idfa.size() + 1);
+                stringBuffer +=  m_idfa.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_adid;
             String m_idfa;
         };
 
-        struct CancelTradeRequest : public PlayFabClientCancelTradeRequest, public BaseRequest
+        struct CancelTradeRequest : public PlayFabClientCancelTradeRequest, public SerializableModel
         {
             CancelTradeRequest() : PlayFabClientCancelTradeRequest{}
             {
@@ -4222,12 +4363,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCancelTradeRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientCancelTradeRequest) };
+                serializedSize += (m_tradeId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientCancelTradeRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientCancelTradeRequest);
+        
+                memcpy(stringBuffer, m_tradeId.data(), m_tradeId.size() + 1);
+                stringBuffer +=  m_tradeId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_tradeId;
         };
 
-        struct CancelTradeResponse : public PlayFabClientCancelTradeResponse, public BaseResult
+        struct CancelTradeResponse : public PlayFabClientCancelTradeResponse, public BaseModel
         {
             CancelTradeResponse() : PlayFabClientCancelTradeResponse{}
             {
@@ -4253,7 +4411,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCancelTradeResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<TradeInfo> m_trade;
         };
@@ -4305,7 +4463,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCartItem>(*this);
             }
-
+    
         private:
             String m_description;
             String m_displayName;
@@ -4349,7 +4507,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCatalogItemBundleInfo>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_bundledItems;
             PointerArray<const char, String> m_bundledResultTables;
@@ -4388,7 +4546,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCatalogItemConsumableInfo>(*this);
             }
-
+    
         private:
             StdExtra::optional<uint32_t> m_usageCount;
             StdExtra::optional<uint32_t> m_usagePeriod;
@@ -4430,7 +4588,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCatalogItemContainerInfo>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_itemContents;
             String m_keyItemId;
@@ -4505,7 +4663,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCatalogItem>(*this);
             }
-
+    
         private:
             StdExtra::optional<CatalogItemBundleInfo> m_bundle;
             String m_catalogVersion;
@@ -4588,7 +4746,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientItemInstance>(*this);
             }
-
+    
         private:
             String m_annotation;
             PointerArray<const char, String> m_bundleContents;
@@ -4635,13 +4793,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCharacterInventory>(*this);
             }
-
+    
         private:
             String m_characterId;
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_inventory;
         };
 
-        struct CharacterLeaderboardEntry : public PlayFabClientCharacterLeaderboardEntry, public BaseModel
+        struct CharacterLeaderboardEntry : public PlayFabClientCharacterLeaderboardEntry, public SerializableModel
         {
             CharacterLeaderboardEntry() : PlayFabClientCharacterLeaderboardEntry{}
             {
@@ -4681,7 +4839,36 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCharacterLeaderboardEntry>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientCharacterLeaderboardEntry) };
+                serializedSize += (m_characterId.size() + 1);
+                serializedSize += (m_characterName.size() + 1);
+                serializedSize += (m_characterType.size() + 1);
+                serializedSize += (m_displayName.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientCharacterLeaderboardEntry{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientCharacterLeaderboardEntry);
+        
+                memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+                stringBuffer +=  m_characterId.size() + 1; 
+                memcpy(stringBuffer, m_characterName.data(), m_characterName.size() + 1);
+                stringBuffer +=  m_characterName.size() + 1; 
+                memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
+                stringBuffer +=  m_characterType.size() + 1; 
+                memcpy(stringBuffer, m_displayName.data(), m_displayName.size() + 1);
+                stringBuffer +=  m_displayName.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_characterId;
             String m_characterName;
@@ -4690,7 +4877,7 @@ namespace PlayFab
             String m_playFabId;
         };
 
-        struct CharacterResult : public PlayFabClientCharacterResult, public BaseResult
+        struct CharacterResult : public PlayFabClientCharacterResult, public SerializableModel
         {
             CharacterResult() : PlayFabClientCharacterResult{}
             {
@@ -4722,7 +4909,30 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCharacterResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientCharacterResult) };
+                serializedSize += (m_characterId.size() + 1);
+                serializedSize += (m_characterName.size() + 1);
+                serializedSize += (m_characterType.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientCharacterResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientCharacterResult);
+        
+                memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+                stringBuffer +=  m_characterId.size() + 1; 
+                memcpy(stringBuffer, m_characterName.data(), m_characterName.size() + 1);
+                stringBuffer +=  m_characterName.size() + 1; 
+                memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
+                stringBuffer +=  m_characterType.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_characterId;
             String m_characterName;
@@ -4755,7 +4965,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientContainer_Dictionary_String_String>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_data;
         };
@@ -4789,13 +4999,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCollectionFilter>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientContainer_Dictionary_String_String, Container_Dictionary_String_String> m_excludes;
             PointerArray<PlayFabClientContainer_Dictionary_String_String, Container_Dictionary_String_String> m_includes;
         };
 
-        struct ConfirmPurchaseRequest : public PlayFabClientConfirmPurchaseRequest, public BaseRequest
+        struct ConfirmPurchaseRequest : public PlayFabClientConfirmPurchaseRequest, public BaseModel
         {
             ConfirmPurchaseRequest() : PlayFabClientConfirmPurchaseRequest{}
             {
@@ -4824,13 +5034,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConfirmPurchaseRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_orderId;
         };
 
-        struct ConfirmPurchaseResult : public PlayFabClientConfirmPurchaseResult, public BaseResult
+        struct ConfirmPurchaseResult : public PlayFabClientConfirmPurchaseResult, public BaseModel
         {
             ConfirmPurchaseResult() : PlayFabClientConfirmPurchaseResult{}
             {
@@ -4860,13 +5070,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConfirmPurchaseResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_items;
             String m_orderId;
         };
 
-        struct ConsumeItemRequest : public PlayFabClientConsumeItemRequest, public BaseRequest
+        struct ConsumeItemRequest : public PlayFabClientConsumeItemRequest, public BaseModel
         {
             ConsumeItemRequest() : PlayFabClientConsumeItemRequest{}
             {
@@ -4899,14 +5109,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumeItemRequest>(*this);
             }
-
+    
         private:
             String m_characterId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_itemInstanceId;
         };
 
-        struct ConsumeItemResult : public PlayFabClientConsumeItemResult, public BaseResult
+        struct ConsumeItemResult : public PlayFabClientConsumeItemResult, public SerializableModel
         {
             ConsumeItemResult() : PlayFabClientConsumeItemResult{}
             {
@@ -4933,12 +5143,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumeItemResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientConsumeItemResult) };
+                serializedSize += (m_itemInstanceId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientConsumeItemResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientConsumeItemResult);
+        
+                memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
+                stringBuffer +=  m_itemInstanceId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_itemInstanceId;
         };
 
-        struct MicrosoftStorePayload : public PlayFabClientMicrosoftStorePayload, public BaseModel
+        struct MicrosoftStorePayload : public PlayFabClientMicrosoftStorePayload, public SerializableModel
         {
             MicrosoftStorePayload() : PlayFabClientMicrosoftStorePayload{}
             {
@@ -4970,14 +5197,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientMicrosoftStorePayload>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientMicrosoftStorePayload) };
+                serializedSize += (m_collectionsMsIdKey.size() + 1);
+                serializedSize += (m_userId.size() + 1);
+                serializedSize += (m_xboxToken.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientMicrosoftStorePayload{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientMicrosoftStorePayload);
+        
+                memcpy(stringBuffer, m_collectionsMsIdKey.data(), m_collectionsMsIdKey.size() + 1);
+                stringBuffer +=  m_collectionsMsIdKey.size() + 1; 
+                memcpy(stringBuffer, m_userId.data(), m_userId.size() + 1);
+                stringBuffer +=  m_userId.size() + 1; 
+                memcpy(stringBuffer, m_xboxToken.data(), m_xboxToken.size() + 1);
+                stringBuffer +=  m_xboxToken.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_collectionsMsIdKey;
             String m_userId;
             String m_xboxToken;
         };
 
-        struct ConsumeMicrosoftStoreEntitlementsRequest : public PlayFabClientConsumeMicrosoftStoreEntitlementsRequest, public BaseRequest
+        struct ConsumeMicrosoftStoreEntitlementsRequest : public PlayFabClientConsumeMicrosoftStoreEntitlementsRequest, public BaseModel
         {
             ConsumeMicrosoftStoreEntitlementsRequest() : PlayFabClientConsumeMicrosoftStoreEntitlementsRequest{}
             {
@@ -5009,14 +5259,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumeMicrosoftStoreEntitlementsRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             MicrosoftStorePayload m_marketplaceSpecificData;
         };
 
-        struct ConsumeMicrosoftStoreEntitlementsResponse : public PlayFabClientConsumeMicrosoftStoreEntitlementsResponse, public BaseResult
+        struct ConsumeMicrosoftStoreEntitlementsResponse : public PlayFabClientConsumeMicrosoftStoreEntitlementsResponse, public BaseModel
         {
             ConsumeMicrosoftStoreEntitlementsResponse() : PlayFabClientConsumeMicrosoftStoreEntitlementsResponse{}
             {
@@ -5042,7 +5292,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumeMicrosoftStoreEntitlementsResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_items;
         };
@@ -5076,13 +5326,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPlayStation5Payload>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_ids;
             String m_serviceLabel;
         };
 
-        struct ConsumePS5EntitlementsRequest : public PlayFabClientConsumePS5EntitlementsRequest, public BaseRequest
+        struct ConsumePS5EntitlementsRequest : public PlayFabClientConsumePS5EntitlementsRequest, public BaseModel
         {
             ConsumePS5EntitlementsRequest() : PlayFabClientConsumePS5EntitlementsRequest{}
             {
@@ -5114,14 +5364,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumePS5EntitlementsRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PlayStation5Payload m_marketplaceSpecificData;
         };
 
-        struct ConsumePS5EntitlementsResult : public PlayFabClientConsumePS5EntitlementsResult, public BaseResult
+        struct ConsumePS5EntitlementsResult : public PlayFabClientConsumePS5EntitlementsResult, public BaseModel
         {
             ConsumePS5EntitlementsResult() : PlayFabClientConsumePS5EntitlementsResult{}
             {
@@ -5147,12 +5397,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumePS5EntitlementsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_items;
         };
 
-        struct ConsumePSNEntitlementsRequest : public PlayFabClientConsumePSNEntitlementsRequest, public BaseRequest
+        struct ConsumePSNEntitlementsRequest : public PlayFabClientConsumePSNEntitlementsRequest, public BaseModel
         {
             ConsumePSNEntitlementsRequest() : PlayFabClientConsumePSNEntitlementsRequest{}
             {
@@ -5182,13 +5432,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumePSNEntitlementsRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct ConsumePSNEntitlementsResult : public PlayFabClientConsumePSNEntitlementsResult, public BaseResult
+        struct ConsumePSNEntitlementsResult : public PlayFabClientConsumePSNEntitlementsResult, public BaseModel
         {
             ConsumePSNEntitlementsResult() : PlayFabClientConsumePSNEntitlementsResult{}
             {
@@ -5214,12 +5464,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumePSNEntitlementsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_itemsGranted;
         };
 
-        struct ConsumeXboxEntitlementsRequest : public PlayFabClientConsumeXboxEntitlementsRequest, public BaseRequest
+        struct ConsumeXboxEntitlementsRequest : public PlayFabClientConsumeXboxEntitlementsRequest, public BaseModel
         {
             ConsumeXboxEntitlementsRequest() : PlayFabClientConsumeXboxEntitlementsRequest{}
             {
@@ -5251,14 +5501,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumeXboxEntitlementsRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_xboxToken;
         };
 
-        struct ConsumeXboxEntitlementsResult : public PlayFabClientConsumeXboxEntitlementsResult, public BaseResult
+        struct ConsumeXboxEntitlementsResult : public PlayFabClientConsumeXboxEntitlementsResult, public BaseModel
         {
             ConsumeXboxEntitlementsResult() : PlayFabClientConsumeXboxEntitlementsResult{}
             {
@@ -5284,7 +5534,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientConsumeXboxEntitlementsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_items;
         };
@@ -5321,14 +5571,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientContactEmailInfoModel>(*this);
             }
-
+    
         private:
             String m_emailAddress;
             String m_name;
             StdExtra::optional<PlayFabClientEmailVerificationStatus> m_verificationStatus;
         };
 
-        struct CreateSharedGroupRequest : public PlayFabClientCreateSharedGroupRequest, public BaseRequest
+        struct CreateSharedGroupRequest : public PlayFabClientCreateSharedGroupRequest, public SerializableModel
         {
             CreateSharedGroupRequest() : PlayFabClientCreateSharedGroupRequest{}
             {
@@ -5354,12 +5604,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCreateSharedGroupRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientCreateSharedGroupRequest) };
+                serializedSize += (m_sharedGroupId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientCreateSharedGroupRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientCreateSharedGroupRequest);
+        
+                memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
+                stringBuffer +=  m_sharedGroupId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_sharedGroupId;
         };
 
-        struct CreateSharedGroupResult : public PlayFabClientCreateSharedGroupResult, public BaseResult
+        struct CreateSharedGroupResult : public PlayFabClientCreateSharedGroupResult, public SerializableModel
         {
             CreateSharedGroupResult() : PlayFabClientCreateSharedGroupResult{}
             {
@@ -5385,12 +5652,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCreateSharedGroupResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientCreateSharedGroupResult) };
+                serializedSize += (m_sharedGroupId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientCreateSharedGroupResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientCreateSharedGroupResult);
+        
+                memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
+                stringBuffer +=  m_sharedGroupId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_sharedGroupId;
         };
 
-        struct CurrentGamesRequest : public PlayFabClientCurrentGamesRequest, public BaseRequest
+        struct CurrentGamesRequest : public PlayFabClientCurrentGamesRequest, public BaseModel
         {
             CurrentGamesRequest() : PlayFabClientCurrentGamesRequest{}
             {
@@ -5428,7 +5712,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCurrentGamesRequest>(*this);
             }
-
+    
         private:
             String m_buildVersion;
             String m_gameMode;
@@ -5506,7 +5790,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGameInfo>(*this);
             }
-
+    
         private:
             String m_buildVersion;
             String m_gameMode;
@@ -5525,7 +5809,7 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_tags;
         };
 
-        struct CurrentGamesResult : public PlayFabClientCurrentGamesResult, public BaseResult
+        struct CurrentGamesResult : public PlayFabClientCurrentGamesResult, public BaseModel
         {
             CurrentGamesResult() : PlayFabClientCurrentGamesResult{}
             {
@@ -5553,12 +5837,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientCurrentGamesResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientGameInfo, GameInfo> m_games;
         };
 
-        struct DeviceInfoRequest : public PlayFabClientDeviceInfoRequest, public BaseRequest
+        struct DeviceInfoRequest : public PlayFabClientDeviceInfoRequest, public BaseModel
         {
             DeviceInfoRequest() : PlayFabClientDeviceInfoRequest{}
             {
@@ -5584,12 +5868,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientDeviceInfoRequest>(*this);
             }
-
+    
         private:
             JsonObject m_info;
         };
 
-        struct EntityKey : public PlayFabClientEntityKey, public BaseModel
+        struct EntityKey : public PlayFabClientEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabClientEntityKey{}
             {
@@ -5618,13 +5902,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct EntityTokenResponse : public PlayFabClientEntityTokenResponse, public BaseResult
+        struct EntityTokenResponse : public PlayFabClientEntityTokenResponse, public BaseModel
         {
             EntityTokenResponse() : PlayFabClientEntityTokenResponse{}
             {
@@ -5656,14 +5960,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientEntityTokenResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             String m_entityToken;
             StdExtra::optional<time_t> m_tokenExpiration;
         };
 
-        struct ExecuteCloudScriptRequest : public PlayFabClientExecuteCloudScriptRequest, public BaseRequest
+        struct ExecuteCloudScriptRequest : public PlayFabClientExecuteCloudScriptRequest, public BaseModel
         {
             ExecuteCloudScriptRequest() : PlayFabClientExecuteCloudScriptRequest{}
             {
@@ -5704,7 +6008,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientExecuteCloudScriptRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_functionName;
@@ -5714,7 +6018,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_specificRevision;
         };
 
-        struct ScriptExecutionError : public PlayFabClientScriptExecutionError, public BaseModel
+        struct ScriptExecutionError : public PlayFabClientScriptExecutionError, public SerializableModel
         {
             ScriptExecutionError() : PlayFabClientScriptExecutionError{}
             {
@@ -5746,7 +6050,30 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientScriptExecutionError>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientScriptExecutionError) };
+                serializedSize += (m_error.size() + 1);
+                serializedSize += (m_message.size() + 1);
+                serializedSize += (m_stackTrace.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientScriptExecutionError{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientScriptExecutionError);
+        
+                memcpy(stringBuffer, m_error.data(), m_error.size() + 1);
+                stringBuffer +=  m_error.size() + 1; 
+                memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
+                stringBuffer +=  m_message.size() + 1; 
+                memcpy(stringBuffer, m_stackTrace.data(), m_stackTrace.size() + 1);
+                stringBuffer +=  m_stackTrace.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_error;
             String m_message;
@@ -5785,14 +6112,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLogStatement>(*this);
             }
-
+    
         private:
             JsonObject m_data;
             String m_level;
             String m_message;
         };
 
-        struct ExecuteCloudScriptResult : public PlayFabClientExecuteCloudScriptResult, public BaseResult
+        struct ExecuteCloudScriptResult : public PlayFabClientExecuteCloudScriptResult, public BaseModel
         {
             ExecuteCloudScriptResult() : PlayFabClientExecuteCloudScriptResult{}
             {
@@ -5839,7 +6166,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientExecuteCloudScriptResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<ScriptExecutionError> m_error;
             String m_functionName;
@@ -5849,7 +6176,7 @@ namespace PlayFab
             StdExtra::optional<bool> m_logsTooLarge;
         };
 
-        struct FacebookInstantGamesPlayFabIdPair : public PlayFabClientFacebookInstantGamesPlayFabIdPair, public BaseModel
+        struct FacebookInstantGamesPlayFabIdPair : public PlayFabClientFacebookInstantGamesPlayFabIdPair, public SerializableModel
         {
             FacebookInstantGamesPlayFabIdPair() : PlayFabClientFacebookInstantGamesPlayFabIdPair{}
             {
@@ -5878,13 +6205,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientFacebookInstantGamesPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientFacebookInstantGamesPlayFabIdPair) };
+                serializedSize += (m_facebookInstantGamesId.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientFacebookInstantGamesPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientFacebookInstantGamesPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_facebookInstantGamesId.data(), m_facebookInstantGamesId.size() + 1);
+                stringBuffer +=  m_facebookInstantGamesId.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_facebookInstantGamesId;
             String m_playFabId;
         };
 
-        struct FacebookPlayFabIdPair : public PlayFabClientFacebookPlayFabIdPair, public BaseModel
+        struct FacebookPlayFabIdPair : public PlayFabClientFacebookPlayFabIdPair, public SerializableModel
         {
             FacebookPlayFabIdPair() : PlayFabClientFacebookPlayFabIdPair{}
             {
@@ -5913,13 +6260,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientFacebookPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientFacebookPlayFabIdPair) };
+                serializedSize += (m_facebookId.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientFacebookPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientFacebookPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_facebookId.data(), m_facebookId.size() + 1);
+                stringBuffer +=  m_facebookId.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_facebookId;
             String m_playFabId;
         };
 
-        struct UserFacebookInfo : public PlayFabClientUserFacebookInfo, public BaseModel
+        struct UserFacebookInfo : public PlayFabClientUserFacebookInfo, public SerializableModel
         {
             UserFacebookInfo() : PlayFabClientUserFacebookInfo{}
             {
@@ -5948,13 +6315,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserFacebookInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserFacebookInfo) };
+                serializedSize += (m_facebookId.size() + 1);
+                serializedSize += (m_fullName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserFacebookInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserFacebookInfo);
+        
+                memcpy(stringBuffer, m_facebookId.data(), m_facebookId.size() + 1);
+                stringBuffer +=  m_facebookId.size() + 1; 
+                memcpy(stringBuffer, m_fullName.data(), m_fullName.size() + 1);
+                stringBuffer +=  m_fullName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_facebookId;
             String m_fullName;
         };
 
-        struct UserGameCenterInfo : public PlayFabClientUserGameCenterInfo, public BaseModel
+        struct UserGameCenterInfo : public PlayFabClientUserGameCenterInfo, public SerializableModel
         {
             UserGameCenterInfo() : PlayFabClientUserGameCenterInfo{}
             {
@@ -5980,7 +6367,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserGameCenterInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserGameCenterInfo) };
+                serializedSize += (m_gameCenterId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserGameCenterInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserGameCenterInfo);
+        
+                memcpy(stringBuffer, m_gameCenterId.data(), m_gameCenterId.size() + 1);
+                stringBuffer +=  m_gameCenterId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_gameCenterId;
         };
@@ -6020,7 +6424,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkedPlatformAccountModel>(*this);
             }
-
+    
         private:
             String m_email;
             StdExtra::optional<PlayFabClientLoginIdentityProvider> m_platform;
@@ -6066,7 +6470,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLocationModel>(*this);
             }
-
+    
         private:
             String m_city;
             StdExtra::optional<PlayFabClientContinentCode> m_continentCode;
@@ -6113,7 +6517,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSubscriptionModel>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabClientSubscriptionProviderStatus> m_status;
             String m_subscriptionId;
@@ -6155,7 +6559,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientMembershipModel>(*this);
             }
-
+    
         private:
             String m_membershipId;
             StdExtra::optional<time_t> m_overrideExpiration;
@@ -6191,13 +6595,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPushNotificationRegistrationModel>(*this);
             }
-
+    
         private:
             String m_notificationEndpointARN;
             StdExtra::optional<PlayFabClientPushNotificationPlatform> m_platform;
         };
 
-        struct StatisticModel : public PlayFabClientStatisticModel, public BaseModel
+        struct StatisticModel : public PlayFabClientStatisticModel, public SerializableModel
         {
             StatisticModel() : PlayFabClientStatisticModel{}
             {
@@ -6225,12 +6629,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStatisticModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientStatisticModel) };
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientStatisticModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientStatisticModel);
+        
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_name;
         };
 
-        struct TagModel : public PlayFabClientTagModel, public BaseModel
+        struct TagModel : public PlayFabClientTagModel, public SerializableModel
         {
             TagModel() : PlayFabClientTagModel{}
             {
@@ -6256,12 +6677,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientTagModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientTagModel) };
+                serializedSize += (m_tagValue.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientTagModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientTagModel);
+        
+                memcpy(stringBuffer, m_tagValue.data(), m_tagValue.size() + 1);
+                stringBuffer +=  m_tagValue.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_tagValue;
         };
 
-        struct ValueToDateModel : public PlayFabClientValueToDateModel, public BaseModel
+        struct ValueToDateModel : public PlayFabClientValueToDateModel, public SerializableModel
         {
             ValueToDateModel() : PlayFabClientValueToDateModel{}
             {
@@ -6291,7 +6729,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValueToDateModel>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientValueToDateModel) };
+                serializedSize += (m_currency.size() + 1);
+                serializedSize += (m_totalValueAsDecimal.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientValueToDateModel{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientValueToDateModel);
+        
+                memcpy(stringBuffer, m_currency.data(), m_currency.size() + 1);
+                stringBuffer +=  m_currency.size() + 1; 
+                memcpy(stringBuffer, m_totalValueAsDecimal.data(), m_totalValueAsDecimal.size() + 1);
+                stringBuffer +=  m_totalValueAsDecimal.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_currency;
             String m_totalValueAsDecimal;
@@ -6380,7 +6838,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPlayerProfileModel>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientAdCampaignAttributionModel, AdCampaignAttributionModel> m_adCampaignAttributions;
             String m_avatarUrl;
@@ -6404,7 +6862,7 @@ namespace PlayFab
             PointerArray<PlayFabClientValueToDateModel, ValueToDateModel> m_valuesToDate;
         };
 
-        struct UserPsnInfo : public PlayFabClientUserPsnInfo, public BaseModel
+        struct UserPsnInfo : public PlayFabClientUserPsnInfo, public SerializableModel
         {
             UserPsnInfo() : PlayFabClientUserPsnInfo{}
             {
@@ -6433,7 +6891,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserPsnInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserPsnInfo) };
+                serializedSize += (m_psnAccountId.size() + 1);
+                serializedSize += (m_psnOnlineId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserPsnInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserPsnInfo);
+        
+                memcpy(stringBuffer, m_psnAccountId.data(), m_psnAccountId.size() + 1);
+                stringBuffer +=  m_psnAccountId.size() + 1; 
+                memcpy(stringBuffer, m_psnOnlineId.data(), m_psnOnlineId.size() + 1);
+                stringBuffer +=  m_psnOnlineId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_psnAccountId;
             String m_psnOnlineId;
@@ -6477,7 +6955,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserSteamInfo>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabClientTitleActivationStatus> m_steamActivationStatus;
             String m_steamCountry;
@@ -6486,7 +6964,7 @@ namespace PlayFab
             String m_steamName;
         };
 
-        struct UserXboxInfo : public PlayFabClientUserXboxInfo, public BaseModel
+        struct UserXboxInfo : public PlayFabClientUserXboxInfo, public SerializableModel
         {
             UserXboxInfo() : PlayFabClientUserXboxInfo{}
             {
@@ -6512,7 +6990,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserXboxInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserXboxInfo) };
+                serializedSize += (m_xboxUserId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserXboxInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserXboxInfo);
+        
+                memcpy(stringBuffer, m_xboxUserId.data(), m_xboxUserId.size() + 1);
+                stringBuffer +=  m_xboxUserId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_xboxUserId;
         };
@@ -6529,7 +7024,7 @@ namespace PlayFab
                 m_friendPlayFabId{ src.m_friendPlayFabId },
                 m_gameCenterInfo{ src.m_gameCenterInfo },
                 m_profile{ src.m_profile },
-                m_pSNInfo{ src.m_pSNInfo },
+                m_PSNInfo{ src.m_PSNInfo },
                 m_steamInfo{ src.m_steamInfo },
                 m_tags{ src.m_tags },
                 m_titleDisplayName{ src.m_titleDisplayName },
@@ -6540,7 +7035,7 @@ namespace PlayFab
                 friendPlayFabId = m_friendPlayFabId.empty() ? nullptr : m_friendPlayFabId.data();
                 gameCenterInfo = m_gameCenterInfo ? m_gameCenterInfo.operator->() : nullptr;
                 profile = m_profile ? m_profile.operator->() : nullptr;
-                pSNInfo = m_pSNInfo ? m_pSNInfo.operator->() : nullptr;
+                PSNInfo = m_PSNInfo ? m_PSNInfo.operator->() : nullptr;
                 steamInfo = m_steamInfo ? m_steamInfo.operator->() : nullptr;
                 tags = m_tags.Empty() ? nullptr : m_tags.Data();
                 titleDisplayName = m_titleDisplayName.empty() ? nullptr : m_titleDisplayName.data();
@@ -6558,7 +7053,7 @@ namespace PlayFab
                 JsonUtils:: ObjectGetMember(input, "FriendPlayFabId", m_friendPlayFabId, friendPlayFabId);
                 JsonUtils:: ObjectGetMember(input, "GameCenterInfo", m_gameCenterInfo, gameCenterInfo);
                 JsonUtils:: ObjectGetMember(input, "Profile", m_profile, profile);
-                JsonUtils:: ObjectGetMember(input, "PSNInfo", m_pSNInfo, pSNInfo);
+                JsonUtils:: ObjectGetMember(input, "PSNInfo", m_PSNInfo, PSNInfo);
                 JsonUtils:: ObjectGetMember(input, "SteamInfo", m_steamInfo, steamInfo);
                 JsonUtils:: ObjectGetMember(input, "Tags", m_tags, tags, tagsCount);
                 JsonUtils:: ObjectGetMember(input, "TitleDisplayName", m_titleDisplayName, titleDisplayName);
@@ -6570,13 +7065,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientFriendInfo>(*this);
             }
-
+    
         private:
             StdExtra::optional<UserFacebookInfo> m_facebookInfo;
             String m_friendPlayFabId;
             StdExtra::optional<UserGameCenterInfo> m_gameCenterInfo;
             StdExtra::optional<PlayerProfileModel> m_profile;
-            StdExtra::optional<UserPsnInfo> m_pSNInfo;
+            StdExtra::optional<UserPsnInfo> m_PSNInfo;
             StdExtra::optional<UserSteamInfo> m_steamInfo;
             PointerArray<const char, String> m_tags;
             String m_titleDisplayName;
@@ -6584,7 +7079,7 @@ namespace PlayFab
             StdExtra::optional<UserXboxInfo> m_xboxInfo;
         };
 
-        struct GameCenterPlayFabIdPair : public PlayFabClientGameCenterPlayFabIdPair, public BaseModel
+        struct GameCenterPlayFabIdPair : public PlayFabClientGameCenterPlayFabIdPair, public SerializableModel
         {
             GameCenterPlayFabIdPair() : PlayFabClientGameCenterPlayFabIdPair{}
             {
@@ -6613,13 +7108,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGameCenterPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGameCenterPlayFabIdPair) };
+                serializedSize += (m_gameCenterId.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGameCenterPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGameCenterPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_gameCenterId.data(), m_gameCenterId.size() + 1);
+                stringBuffer +=  m_gameCenterId.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_gameCenterId;
             String m_playFabId;
         };
 
-        struct GameServerRegionsRequest : public PlayFabClientGameServerRegionsRequest, public BaseRequest
+        struct GameServerRegionsRequest : public PlayFabClientGameServerRegionsRequest, public SerializableModel
         {
             GameServerRegionsRequest() : PlayFabClientGameServerRegionsRequest{}
             {
@@ -6648,7 +7163,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGameServerRegionsRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGameServerRegionsRequest) };
+                serializedSize += (m_buildVersion.size() + 1);
+                serializedSize += (m_titleId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGameServerRegionsRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGameServerRegionsRequest);
+        
+                memcpy(stringBuffer, m_buildVersion.data(), m_buildVersion.size() + 1);
+                stringBuffer +=  m_buildVersion.size() + 1; 
+                memcpy(stringBuffer, m_titleId.data(), m_titleId.size() + 1);
+                stringBuffer +=  m_titleId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_buildVersion;
             String m_titleId;
@@ -6687,14 +7222,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRegionInfo>(*this);
             }
-
+    
         private:
             String m_name;
             String m_pingUrl;
             StdExtra::optional<PlayFabClientRegion> m_region;
         };
 
-        struct GameServerRegionsResult : public PlayFabClientGameServerRegionsResult, public BaseResult
+        struct GameServerRegionsResult : public PlayFabClientGameServerRegionsResult, public BaseModel
         {
             GameServerRegionsResult() : PlayFabClientGameServerRegionsResult{}
             {
@@ -6720,7 +7255,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGameServerRegionsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientRegionInfo, RegionInfo> m_regions;
         };
@@ -6754,13 +7289,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGenericPlayFabIdPair>(*this);
             }
-
+    
         private:
             StdExtra::optional<GenericServiceId> m_genericId;
             String m_playFabId;
         };
 
-        struct GetAccountInfoRequest : public PlayFabClientGetAccountInfoRequest, public BaseRequest
+        struct GetAccountInfoRequest : public PlayFabClientGetAccountInfoRequest, public SerializableModel
         {
             GetAccountInfoRequest() : PlayFabClientGetAccountInfoRequest{}
             {
@@ -6795,7 +7330,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetAccountInfoRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetAccountInfoRequest) };
+                serializedSize += (m_email.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                serializedSize += (m_titleDisplayName.size() + 1);
+                serializedSize += (m_username.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetAccountInfoRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetAccountInfoRequest);
+        
+                memcpy(stringBuffer, m_email.data(), m_email.size() + 1);
+                stringBuffer +=  m_email.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                memcpy(stringBuffer, m_titleDisplayName.data(), m_titleDisplayName.size() + 1);
+                stringBuffer +=  m_titleDisplayName.size() + 1; 
+                memcpy(stringBuffer, m_username.data(), m_username.size() + 1);
+                stringBuffer +=  m_username.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_email;
             String m_playFabId;
@@ -6803,7 +7364,7 @@ namespace PlayFab
             String m_username;
         };
 
-        struct UserAndroidDeviceInfo : public PlayFabClientUserAndroidDeviceInfo, public BaseModel
+        struct UserAndroidDeviceInfo : public PlayFabClientUserAndroidDeviceInfo, public SerializableModel
         {
             UserAndroidDeviceInfo() : PlayFabClientUserAndroidDeviceInfo{}
             {
@@ -6829,12 +7390,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserAndroidDeviceInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserAndroidDeviceInfo) };
+                serializedSize += (m_androidDeviceId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserAndroidDeviceInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserAndroidDeviceInfo);
+        
+                memcpy(stringBuffer, m_androidDeviceId.data(), m_androidDeviceId.size() + 1);
+                stringBuffer +=  m_androidDeviceId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_androidDeviceId;
         };
 
-        struct UserAppleIdInfo : public PlayFabClientUserAppleIdInfo, public BaseModel
+        struct UserAppleIdInfo : public PlayFabClientUserAppleIdInfo, public SerializableModel
         {
             UserAppleIdInfo() : PlayFabClientUserAppleIdInfo{}
             {
@@ -6860,12 +7438,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserAppleIdInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserAppleIdInfo) };
+                serializedSize += (m_appleSubjectId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserAppleIdInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserAppleIdInfo);
+        
+                memcpy(stringBuffer, m_appleSubjectId.data(), m_appleSubjectId.size() + 1);
+                stringBuffer +=  m_appleSubjectId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_appleSubjectId;
         };
 
-        struct UserCustomIdInfo : public PlayFabClientUserCustomIdInfo, public BaseModel
+        struct UserCustomIdInfo : public PlayFabClientUserCustomIdInfo, public SerializableModel
         {
             UserCustomIdInfo() : PlayFabClientUserCustomIdInfo{}
             {
@@ -6891,12 +7486,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserCustomIdInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserCustomIdInfo) };
+                serializedSize += (m_customId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserCustomIdInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserCustomIdInfo);
+        
+                memcpy(stringBuffer, m_customId.data(), m_customId.size() + 1);
+                stringBuffer +=  m_customId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_customId;
         };
 
-        struct UserFacebookInstantGamesIdInfo : public PlayFabClientUserFacebookInstantGamesIdInfo, public BaseModel
+        struct UserFacebookInstantGamesIdInfo : public PlayFabClientUserFacebookInstantGamesIdInfo, public SerializableModel
         {
             UserFacebookInstantGamesIdInfo() : PlayFabClientUserFacebookInstantGamesIdInfo{}
             {
@@ -6922,12 +7534,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserFacebookInstantGamesIdInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserFacebookInstantGamesIdInfo) };
+                serializedSize += (m_facebookInstantGamesId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserFacebookInstantGamesIdInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserFacebookInstantGamesIdInfo);
+        
+                memcpy(stringBuffer, m_facebookInstantGamesId.data(), m_facebookInstantGamesId.size() + 1);
+                stringBuffer +=  m_facebookInstantGamesId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_facebookInstantGamesId;
         };
 
-        struct UserGoogleInfo : public PlayFabClientUserGoogleInfo, public BaseModel
+        struct UserGoogleInfo : public PlayFabClientUserGoogleInfo, public SerializableModel
         {
             UserGoogleInfo() : PlayFabClientUserGoogleInfo{}
             {
@@ -6965,7 +7594,36 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserGoogleInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserGoogleInfo) };
+                serializedSize += (m_googleEmail.size() + 1);
+                serializedSize += (m_googleGender.size() + 1);
+                serializedSize += (m_googleId.size() + 1);
+                serializedSize += (m_googleLocale.size() + 1);
+                serializedSize += (m_googleName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserGoogleInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserGoogleInfo);
+        
+                memcpy(stringBuffer, m_googleEmail.data(), m_googleEmail.size() + 1);
+                stringBuffer +=  m_googleEmail.size() + 1; 
+                memcpy(stringBuffer, m_googleGender.data(), m_googleGender.size() + 1);
+                stringBuffer +=  m_googleGender.size() + 1; 
+                memcpy(stringBuffer, m_googleId.data(), m_googleId.size() + 1);
+                stringBuffer +=  m_googleId.size() + 1; 
+                memcpy(stringBuffer, m_googleLocale.data(), m_googleLocale.size() + 1);
+                stringBuffer +=  m_googleLocale.size() + 1; 
+                memcpy(stringBuffer, m_googleName.data(), m_googleName.size() + 1);
+                stringBuffer +=  m_googleName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_googleEmail;
             String m_googleGender;
@@ -6974,7 +7632,7 @@ namespace PlayFab
             String m_googleName;
         };
 
-        struct UserIosDeviceInfo : public PlayFabClientUserIosDeviceInfo, public BaseModel
+        struct UserIosDeviceInfo : public PlayFabClientUserIosDeviceInfo, public SerializableModel
         {
             UserIosDeviceInfo() : PlayFabClientUserIosDeviceInfo{}
             {
@@ -7000,12 +7658,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserIosDeviceInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserIosDeviceInfo) };
+                serializedSize += (m_iosDeviceId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserIosDeviceInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserIosDeviceInfo);
+        
+                memcpy(stringBuffer, m_iosDeviceId.data(), m_iosDeviceId.size() + 1);
+                stringBuffer +=  m_iosDeviceId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_iosDeviceId;
         };
 
-        struct UserKongregateInfo : public PlayFabClientUserKongregateInfo, public BaseModel
+        struct UserKongregateInfo : public PlayFabClientUserKongregateInfo, public SerializableModel
         {
             UserKongregateInfo() : PlayFabClientUserKongregateInfo{}
             {
@@ -7034,13 +7709,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserKongregateInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserKongregateInfo) };
+                serializedSize += (m_kongregateId.size() + 1);
+                serializedSize += (m_kongregateName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserKongregateInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserKongregateInfo);
+        
+                memcpy(stringBuffer, m_kongregateId.data(), m_kongregateId.size() + 1);
+                stringBuffer +=  m_kongregateId.size() + 1; 
+                memcpy(stringBuffer, m_kongregateName.data(), m_kongregateName.size() + 1);
+                stringBuffer +=  m_kongregateName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_kongregateId;
             String m_kongregateName;
         };
 
-        struct UserNintendoSwitchAccountIdInfo : public PlayFabClientUserNintendoSwitchAccountIdInfo, public BaseModel
+        struct UserNintendoSwitchAccountIdInfo : public PlayFabClientUserNintendoSwitchAccountIdInfo, public SerializableModel
         {
             UserNintendoSwitchAccountIdInfo() : PlayFabClientUserNintendoSwitchAccountIdInfo{}
             {
@@ -7066,12 +7761,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserNintendoSwitchAccountIdInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserNintendoSwitchAccountIdInfo) };
+                serializedSize += (m_nintendoSwitchAccountSubjectId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserNintendoSwitchAccountIdInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserNintendoSwitchAccountIdInfo);
+        
+                memcpy(stringBuffer, m_nintendoSwitchAccountSubjectId.data(), m_nintendoSwitchAccountSubjectId.size() + 1);
+                stringBuffer +=  m_nintendoSwitchAccountSubjectId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_nintendoSwitchAccountSubjectId;
         };
 
-        struct UserNintendoSwitchDeviceIdInfo : public PlayFabClientUserNintendoSwitchDeviceIdInfo, public BaseModel
+        struct UserNintendoSwitchDeviceIdInfo : public PlayFabClientUserNintendoSwitchDeviceIdInfo, public SerializableModel
         {
             UserNintendoSwitchDeviceIdInfo() : PlayFabClientUserNintendoSwitchDeviceIdInfo{}
             {
@@ -7097,12 +7809,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserNintendoSwitchDeviceIdInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserNintendoSwitchDeviceIdInfo) };
+                serializedSize += (m_nintendoSwitchDeviceId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserNintendoSwitchDeviceIdInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserNintendoSwitchDeviceIdInfo);
+        
+                memcpy(stringBuffer, m_nintendoSwitchDeviceId.data(), m_nintendoSwitchDeviceId.size() + 1);
+                stringBuffer +=  m_nintendoSwitchDeviceId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_nintendoSwitchDeviceId;
         };
 
-        struct UserOpenIdInfo : public PlayFabClientUserOpenIdInfo, public BaseModel
+        struct UserOpenIdInfo : public PlayFabClientUserOpenIdInfo, public SerializableModel
         {
             UserOpenIdInfo() : PlayFabClientUserOpenIdInfo{}
             {
@@ -7134,14 +7863,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserOpenIdInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserOpenIdInfo) };
+                serializedSize += (m_connectionId.size() + 1);
+                serializedSize += (m_issuer.size() + 1);
+                serializedSize += (m_subject.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserOpenIdInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserOpenIdInfo);
+        
+                memcpy(stringBuffer, m_connectionId.data(), m_connectionId.size() + 1);
+                stringBuffer +=  m_connectionId.size() + 1; 
+                memcpy(stringBuffer, m_issuer.data(), m_issuer.size() + 1);
+                stringBuffer +=  m_issuer.size() + 1; 
+                memcpy(stringBuffer, m_subject.data(), m_subject.size() + 1);
+                stringBuffer +=  m_subject.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_connectionId;
             String m_issuer;
             String m_subject;
         };
 
-        struct UserPrivateAccountInfo : public PlayFabClientUserPrivateAccountInfo, public BaseModel
+        struct UserPrivateAccountInfo : public PlayFabClientUserPrivateAccountInfo, public SerializableModel
         {
             UserPrivateAccountInfo() : PlayFabClientUserPrivateAccountInfo{}
             {
@@ -7167,7 +7919,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserPrivateAccountInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserPrivateAccountInfo) };
+                serializedSize += (m_email.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserPrivateAccountInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserPrivateAccountInfo);
+        
+                memcpy(stringBuffer, m_email.data(), m_email.size() + 1);
+                stringBuffer +=  m_email.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_email;
         };
@@ -7217,7 +7986,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserTitleInfo>(*this);
             }
-
+    
         private:
             String m_avatarUrl;
             String m_displayName;
@@ -7228,7 +7997,7 @@ namespace PlayFab
             StdExtra::optional<EntityKey> m_titlePlayerAccount;
         };
 
-        struct UserTwitchInfo : public PlayFabClientUserTwitchInfo, public BaseModel
+        struct UserTwitchInfo : public PlayFabClientUserTwitchInfo, public SerializableModel
         {
             UserTwitchInfo() : PlayFabClientUserTwitchInfo{}
             {
@@ -7257,13 +8026,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserTwitchInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserTwitchInfo) };
+                serializedSize += (m_twitchId.size() + 1);
+                serializedSize += (m_twitchUserName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserTwitchInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserTwitchInfo);
+        
+                memcpy(stringBuffer, m_twitchId.data(), m_twitchId.size() + 1);
+                stringBuffer +=  m_twitchId.size() + 1; 
+                memcpy(stringBuffer, m_twitchUserName.data(), m_twitchUserName.size() + 1);
+                stringBuffer +=  m_twitchUserName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_twitchId;
             String m_twitchUserName;
         };
 
-        struct UserWindowsHelloInfo : public PlayFabClientUserWindowsHelloInfo, public BaseModel
+        struct UserWindowsHelloInfo : public PlayFabClientUserWindowsHelloInfo, public SerializableModel
         {
             UserWindowsHelloInfo() : PlayFabClientUserWindowsHelloInfo{}
             {
@@ -7292,7 +8081,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserWindowsHelloInfo>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserWindowsHelloInfo) };
+                serializedSize += (m_windowsHelloDeviceName.size() + 1);
+                serializedSize += (m_windowsHelloPublicKeyHash.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserWindowsHelloInfo{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserWindowsHelloInfo);
+        
+                memcpy(stringBuffer, m_windowsHelloDeviceName.data(), m_windowsHelloDeviceName.size() + 1);
+                stringBuffer +=  m_windowsHelloDeviceName.size() + 1; 
+                memcpy(stringBuffer, m_windowsHelloPublicKeyHash.data(), m_windowsHelloPublicKeyHash.size() + 1);
+                stringBuffer +=  m_windowsHelloPublicKeyHash.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_windowsHelloDeviceName;
             String m_windowsHelloPublicKeyHash;
@@ -7385,7 +8194,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserAccountInfo>(*this);
             }
-
+    
         private:
             StdExtra::optional<UserAndroidDeviceInfo> m_androidDeviceInfo;
             StdExtra::optional<UserAppleIdInfo> m_appleAccountInfo;
@@ -7410,7 +8219,7 @@ namespace PlayFab
             StdExtra::optional<UserXboxInfo> m_xboxInfo;
         };
 
-        struct GetAccountInfoResult : public PlayFabClientGetAccountInfoResult, public BaseResult
+        struct GetAccountInfoResult : public PlayFabClientGetAccountInfoResult, public BaseModel
         {
             GetAccountInfoResult() : PlayFabClientGetAccountInfoResult{}
             {
@@ -7436,12 +8245,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetAccountInfoResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<UserAccountInfo> m_accountInfo;
         };
 
-        struct NameIdentifier : public PlayFabClientNameIdentifier, public BaseModel
+        struct NameIdentifier : public PlayFabClientNameIdentifier, public SerializableModel
         {
             NameIdentifier() : PlayFabClientNameIdentifier{}
             {
@@ -7470,13 +8279,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientNameIdentifier>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientNameIdentifier) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientNameIdentifier{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientNameIdentifier);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_name;
         };
 
-        struct GetAdPlacementsRequest : public PlayFabClientGetAdPlacementsRequest, public BaseRequest
+        struct GetAdPlacementsRequest : public PlayFabClientGetAdPlacementsRequest, public BaseModel
         {
             GetAdPlacementsRequest() : PlayFabClientGetAdPlacementsRequest{}
             {
@@ -7505,13 +8334,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetAdPlacementsRequest>(*this);
             }
-
+    
         private:
             String m_appId;
             StdExtra::optional<NameIdentifier> m_identifier;
         };
 
-        struct GetAdPlacementsResult : public PlayFabClientGetAdPlacementsResult, public BaseResult
+        struct GetAdPlacementsResult : public PlayFabClientGetAdPlacementsResult, public BaseModel
         {
             GetAdPlacementsResult() : PlayFabClientGetAdPlacementsResult{}
             {
@@ -7537,12 +8366,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetAdPlacementsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientAdPlacementDetails, AdPlacementDetails> m_adPlacements;
         };
 
-        struct GetCatalogItemsRequest : public PlayFabClientGetCatalogItemsRequest, public BaseRequest
+        struct GetCatalogItemsRequest : public PlayFabClientGetCatalogItemsRequest, public SerializableModel
         {
             GetCatalogItemsRequest() : PlayFabClientGetCatalogItemsRequest{}
             {
@@ -7568,12 +8397,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCatalogItemsRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetCatalogItemsRequest) };
+                serializedSize += (m_catalogVersion.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetCatalogItemsRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetCatalogItemsRequest);
+        
+                memcpy(stringBuffer, m_catalogVersion.data(), m_catalogVersion.size() + 1);
+                stringBuffer +=  m_catalogVersion.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_catalogVersion;
         };
 
-        struct GetCatalogItemsResult : public PlayFabClientGetCatalogItemsResult, public BaseResult
+        struct GetCatalogItemsResult : public PlayFabClientGetCatalogItemsResult, public BaseModel
         {
             GetCatalogItemsResult() : PlayFabClientGetCatalogItemsResult{}
             {
@@ -7599,12 +8445,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCatalogItemsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientCatalogItem, CatalogItem> m_catalog;
         };
 
-        struct GetCharacterDataRequest : public PlayFabClientGetCharacterDataRequest, public BaseRequest
+        struct GetCharacterDataRequest : public PlayFabClientGetCharacterDataRequest, public BaseModel
         {
             GetCharacterDataRequest() : PlayFabClientGetCharacterDataRequest{}
             {
@@ -7639,7 +8485,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterDataRequest>(*this);
             }
-
+    
         private:
             String m_characterId;
             StdExtra::optional<uint32_t> m_ifChangedFromDataVersion;
@@ -7677,13 +8523,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserDataRecord>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabClientUserDataPermission> m_permission;
             String m_value;
         };
 
-        struct GetCharacterDataResult : public PlayFabClientGetCharacterDataResult, public BaseResult
+        struct GetCharacterDataResult : public PlayFabClientGetCharacterDataResult, public BaseModel
         {
             GetCharacterDataResult() : PlayFabClientGetCharacterDataResult{}
             {
@@ -7713,13 +8559,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterDataResult>(*this);
             }
-
+    
         private:
             String m_characterId;
             AssociativeArray<PlayFabClientUserDataRecordDictionaryEntry, UserDataRecord> m_data;
         };
 
-        struct GetCharacterInventoryRequest : public PlayFabClientGetCharacterInventoryRequest, public BaseRequest
+        struct GetCharacterInventoryRequest : public PlayFabClientGetCharacterInventoryRequest, public BaseModel
         {
             GetCharacterInventoryRequest() : PlayFabClientGetCharacterInventoryRequest{}
             {
@@ -7751,14 +8597,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterInventoryRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_characterId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct VirtualCurrencyRechargeTime : public PlayFabClientVirtualCurrencyRechargeTime, public BaseModel
+        struct VirtualCurrencyRechargeTime : public PlayFabClientVirtualCurrencyRechargeTime, public SerializableModel
         {
             VirtualCurrencyRechargeTime() : PlayFabClientVirtualCurrencyRechargeTime{}
             {
@@ -7781,11 +8627,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientVirtualCurrencyRechargeTime>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientVirtualCurrencyRechargeTime) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientVirtualCurrencyRechargeTime{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientVirtualCurrencyRechargeTime);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct GetCharacterInventoryResult : public PlayFabClientGetCharacterInventoryResult, public BaseResult
+        struct GetCharacterInventoryResult : public PlayFabClientGetCharacterInventoryResult, public BaseModel
         {
             GetCharacterInventoryResult() : PlayFabClientGetCharacterInventoryResult{}
             {
@@ -7820,7 +8680,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterInventoryResult>(*this);
             }
-
+    
         private:
             String m_characterId;
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_inventory;
@@ -7828,7 +8688,7 @@ namespace PlayFab
             AssociativeArray<PlayFabClientVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
         };
 
-        struct GetCharacterLeaderboardRequest : public PlayFabClientGetCharacterLeaderboardRequest, public BaseRequest
+        struct GetCharacterLeaderboardRequest : public PlayFabClientGetCharacterLeaderboardRequest, public BaseModel
         {
             GetCharacterLeaderboardRequest() : PlayFabClientGetCharacterLeaderboardRequest{}
             {
@@ -7861,14 +8721,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterLeaderboardRequest>(*this);
             }
-
+    
         private:
             String m_characterType;
             StdExtra::optional<int32_t> m_maxResultsCount;
             String m_statisticName;
         };
 
-        struct GetCharacterLeaderboardResult : public PlayFabClientGetCharacterLeaderboardResult, public BaseResult
+        struct GetCharacterLeaderboardResult : public PlayFabClientGetCharacterLeaderboardResult, public BaseModel
         {
             GetCharacterLeaderboardResult() : PlayFabClientGetCharacterLeaderboardResult{}
             {
@@ -7894,12 +8754,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterLeaderboardResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
         };
 
-        struct GetCharacterStatisticsRequest : public PlayFabClientGetCharacterStatisticsRequest, public BaseRequest
+        struct GetCharacterStatisticsRequest : public PlayFabClientGetCharacterStatisticsRequest, public SerializableModel
         {
             GetCharacterStatisticsRequest() : PlayFabClientGetCharacterStatisticsRequest{}
             {
@@ -7925,12 +8785,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterStatisticsRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetCharacterStatisticsRequest) };
+                serializedSize += (m_characterId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetCharacterStatisticsRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetCharacterStatisticsRequest);
+        
+                memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+                stringBuffer +=  m_characterId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_characterId;
         };
 
-        struct GetCharacterStatisticsResult : public PlayFabClientGetCharacterStatisticsResult, public BaseResult
+        struct GetCharacterStatisticsResult : public PlayFabClientGetCharacterStatisticsResult, public BaseModel
         {
             GetCharacterStatisticsResult() : PlayFabClientGetCharacterStatisticsResult{}
             {
@@ -7956,12 +8833,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetCharacterStatisticsResult>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabInt32DictionaryEntry, void> m_characterStatistics;
         };
 
-        struct GetContentDownloadUrlRequest : public PlayFabClientGetContentDownloadUrlRequest, public BaseRequest
+        struct GetContentDownloadUrlRequest : public PlayFabClientGetContentDownloadUrlRequest, public BaseModel
         {
             GetContentDownloadUrlRequest() : PlayFabClientGetContentDownloadUrlRequest{}
             {
@@ -7993,14 +8870,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetContentDownloadUrlRequest>(*this);
             }
-
+    
         private:
             String m_httpMethod;
             String m_key;
             StdExtra::optional<bool> m_thruCDN;
         };
 
-        struct GetContentDownloadUrlResult : public PlayFabClientGetContentDownloadUrlResult, public BaseResult
+        struct GetContentDownloadUrlResult : public PlayFabClientGetContentDownloadUrlResult, public SerializableModel
         {
             GetContentDownloadUrlResult() : PlayFabClientGetContentDownloadUrlResult{}
             {
@@ -8026,12 +8903,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetContentDownloadUrlResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetContentDownloadUrlResult) };
+                serializedSize += (m_uRL.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetContentDownloadUrlResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetContentDownloadUrlResult);
+        
+                memcpy(stringBuffer, m_uRL.data(), m_uRL.size() + 1);
+                stringBuffer +=  m_uRL.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_uRL;
         };
 
-        struct PlayerProfileViewConstraints : public PlayFabClientPlayerProfileViewConstraints, public BaseModel
+        struct PlayerProfileViewConstraints : public PlayFabClientPlayerProfileViewConstraints, public SerializableModel
         {
             PlayerProfileViewConstraints() : PlayFabClientPlayerProfileViewConstraints{}
             {
@@ -8068,11 +8962,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPlayerProfileViewConstraints>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientPlayerProfileViewConstraints) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientPlayerProfileViewConstraints{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientPlayerProfileViewConstraints);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct GetFriendLeaderboardAroundPlayerRequest : public PlayFabClientGetFriendLeaderboardAroundPlayerRequest, public BaseRequest
+        struct GetFriendLeaderboardAroundPlayerRequest : public PlayFabClientGetFriendLeaderboardAroundPlayerRequest, public BaseModel
         {
             GetFriendLeaderboardAroundPlayerRequest() : PlayFabClientGetFriendLeaderboardAroundPlayerRequest{}
             {
@@ -8122,7 +9030,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetFriendLeaderboardAroundPlayerRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_includeFacebookFriends;
@@ -8169,14 +9077,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPlayerLeaderboardEntry>(*this);
             }
-
+    
         private:
             String m_displayName;
             String m_playFabId;
             StdExtra::optional<PlayerProfileModel> m_profile;
         };
 
-        struct GetFriendLeaderboardAroundPlayerResult : public PlayFabClientGetFriendLeaderboardAroundPlayerResult, public BaseResult
+        struct GetFriendLeaderboardAroundPlayerResult : public PlayFabClientGetFriendLeaderboardAroundPlayerResult, public BaseModel
         {
             GetFriendLeaderboardAroundPlayerResult() : PlayFabClientGetFriendLeaderboardAroundPlayerResult{}
             {
@@ -8206,13 +9114,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetFriendLeaderboardAroundPlayerResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
             StdExtra::optional<time_t> m_nextReset;
         };
 
-        struct GetFriendLeaderboardRequest : public PlayFabClientGetFriendLeaderboardRequest, public BaseRequest
+        struct GetFriendLeaderboardRequest : public PlayFabClientGetFriendLeaderboardRequest, public BaseModel
         {
             GetFriendLeaderboardRequest() : PlayFabClientGetFriendLeaderboardRequest{}
             {
@@ -8260,7 +9168,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetFriendLeaderboardRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_includeFacebookFriends;
@@ -8272,7 +9180,7 @@ namespace PlayFab
             String m_xboxToken;
         };
 
-        struct GetFriendsListRequest : public PlayFabClientGetFriendsListRequest, public BaseRequest
+        struct GetFriendsListRequest : public PlayFabClientGetFriendsListRequest, public BaseModel
         {
             GetFriendsListRequest() : PlayFabClientGetFriendsListRequest{}
             {
@@ -8310,7 +9218,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetFriendsListRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_includeFacebookFriends;
@@ -8319,7 +9227,7 @@ namespace PlayFab
             String m_xboxToken;
         };
 
-        struct GetFriendsListResult : public PlayFabClientGetFriendsListResult, public BaseResult
+        struct GetFriendsListResult : public PlayFabClientGetFriendsListResult, public BaseModel
         {
             GetFriendsListResult() : PlayFabClientGetFriendsListResult{}
             {
@@ -8345,12 +9253,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetFriendsListResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientFriendInfo, FriendInfo> m_friends;
         };
 
-        struct GetLeaderboardAroundCharacterRequest : public PlayFabClientGetLeaderboardAroundCharacterRequest, public BaseRequest
+        struct GetLeaderboardAroundCharacterRequest : public PlayFabClientGetLeaderboardAroundCharacterRequest, public BaseModel
         {
             GetLeaderboardAroundCharacterRequest() : PlayFabClientGetLeaderboardAroundCharacterRequest{}
             {
@@ -8385,7 +9293,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardAroundCharacterRequest>(*this);
             }
-
+    
         private:
             String m_characterId;
             String m_characterType;
@@ -8393,7 +9301,7 @@ namespace PlayFab
             String m_statisticName;
         };
 
-        struct GetLeaderboardAroundCharacterResult : public PlayFabClientGetLeaderboardAroundCharacterResult, public BaseResult
+        struct GetLeaderboardAroundCharacterResult : public PlayFabClientGetLeaderboardAroundCharacterResult, public BaseModel
         {
             GetLeaderboardAroundCharacterResult() : PlayFabClientGetLeaderboardAroundCharacterResult{}
             {
@@ -8419,12 +9327,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardAroundCharacterResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
         };
 
-        struct GetLeaderboardAroundPlayerRequest : public PlayFabClientGetLeaderboardAroundPlayerRequest, public BaseRequest
+        struct GetLeaderboardAroundPlayerRequest : public PlayFabClientGetLeaderboardAroundPlayerRequest, public BaseModel
         {
             GetLeaderboardAroundPlayerRequest() : PlayFabClientGetLeaderboardAroundPlayerRequest{}
             {
@@ -8465,7 +9373,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardAroundPlayerRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_maxResultsCount;
@@ -8475,7 +9383,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_version;
         };
 
-        struct GetLeaderboardAroundPlayerResult : public PlayFabClientGetLeaderboardAroundPlayerResult, public BaseResult
+        struct GetLeaderboardAroundPlayerResult : public PlayFabClientGetLeaderboardAroundPlayerResult, public BaseModel
         {
             GetLeaderboardAroundPlayerResult() : PlayFabClientGetLeaderboardAroundPlayerResult{}
             {
@@ -8505,13 +9413,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardAroundPlayerResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
             StdExtra::optional<time_t> m_nextReset;
         };
 
-        struct GetLeaderboardForUsersCharactersRequest : public PlayFabClientGetLeaderboardForUsersCharactersRequest, public BaseRequest
+        struct GetLeaderboardForUsersCharactersRequest : public PlayFabClientGetLeaderboardForUsersCharactersRequest, public SerializableModel
         {
             GetLeaderboardForUsersCharactersRequest() : PlayFabClientGetLeaderboardForUsersCharactersRequest{}
             {
@@ -8538,12 +9446,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardForUsersCharactersRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetLeaderboardForUsersCharactersRequest) };
+                serializedSize += (m_statisticName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetLeaderboardForUsersCharactersRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetLeaderboardForUsersCharactersRequest);
+        
+                memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
+                stringBuffer +=  m_statisticName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_statisticName;
         };
 
-        struct GetLeaderboardForUsersCharactersResult : public PlayFabClientGetLeaderboardForUsersCharactersResult, public BaseResult
+        struct GetLeaderboardForUsersCharactersResult : public PlayFabClientGetLeaderboardForUsersCharactersResult, public BaseModel
         {
             GetLeaderboardForUsersCharactersResult() : PlayFabClientGetLeaderboardForUsersCharactersResult{}
             {
@@ -8569,12 +9494,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardForUsersCharactersResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
         };
 
-        struct GetLeaderboardRequest : public PlayFabClientGetLeaderboardRequest, public BaseRequest
+        struct GetLeaderboardRequest : public PlayFabClientGetLeaderboardRequest, public BaseModel
         {
             GetLeaderboardRequest() : PlayFabClientGetLeaderboardRequest{}
             {
@@ -8613,7 +9538,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<int32_t> m_maxResultsCount;
@@ -8622,7 +9547,7 @@ namespace PlayFab
             StdExtra::optional<int32_t> m_version;
         };
 
-        struct GetLeaderboardResult : public PlayFabClientGetLeaderboardResult, public BaseResult
+        struct GetLeaderboardResult : public PlayFabClientGetLeaderboardResult, public BaseModel
         {
             GetLeaderboardResult() : PlayFabClientGetLeaderboardResult{}
             {
@@ -8652,13 +9577,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetLeaderboardResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
             StdExtra::optional<time_t> m_nextReset;
         };
 
-        struct GetPaymentTokenRequest : public PlayFabClientGetPaymentTokenRequest, public BaseRequest
+        struct GetPaymentTokenRequest : public PlayFabClientGetPaymentTokenRequest, public SerializableModel
         {
             GetPaymentTokenRequest() : PlayFabClientGetPaymentTokenRequest{}
             {
@@ -8684,12 +9609,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPaymentTokenRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetPaymentTokenRequest) };
+                serializedSize += (m_tokenProvider.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetPaymentTokenRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetPaymentTokenRequest);
+        
+                memcpy(stringBuffer, m_tokenProvider.data(), m_tokenProvider.size() + 1);
+                stringBuffer +=  m_tokenProvider.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_tokenProvider;
         };
 
-        struct GetPaymentTokenResult : public PlayFabClientGetPaymentTokenResult, public BaseResult
+        struct GetPaymentTokenResult : public PlayFabClientGetPaymentTokenResult, public SerializableModel
         {
             GetPaymentTokenResult() : PlayFabClientGetPaymentTokenResult{}
             {
@@ -8718,13 +9660,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPaymentTokenResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetPaymentTokenResult) };
+                serializedSize += (m_orderId.size() + 1);
+                serializedSize += (m_providerToken.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetPaymentTokenResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetPaymentTokenResult);
+        
+                memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
+                stringBuffer +=  m_orderId.size() + 1; 
+                memcpy(stringBuffer, m_providerToken.data(), m_providerToken.size() + 1);
+                stringBuffer +=  m_providerToken.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_orderId;
             String m_providerToken;
         };
 
-        struct GetPhotonAuthenticationTokenRequest : public PlayFabClientGetPhotonAuthenticationTokenRequest, public BaseRequest
+        struct GetPhotonAuthenticationTokenRequest : public PlayFabClientGetPhotonAuthenticationTokenRequest, public SerializableModel
         {
             GetPhotonAuthenticationTokenRequest() : PlayFabClientGetPhotonAuthenticationTokenRequest{}
             {
@@ -8750,12 +9712,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPhotonAuthenticationTokenRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetPhotonAuthenticationTokenRequest) };
+                serializedSize += (m_photonApplicationId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetPhotonAuthenticationTokenRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetPhotonAuthenticationTokenRequest);
+        
+                memcpy(stringBuffer, m_photonApplicationId.data(), m_photonApplicationId.size() + 1);
+                stringBuffer +=  m_photonApplicationId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_photonApplicationId;
         };
 
-        struct GetPhotonAuthenticationTokenResult : public PlayFabClientGetPhotonAuthenticationTokenResult, public BaseResult
+        struct GetPhotonAuthenticationTokenResult : public PlayFabClientGetPhotonAuthenticationTokenResult, public SerializableModel
         {
             GetPhotonAuthenticationTokenResult() : PlayFabClientGetPhotonAuthenticationTokenResult{}
             {
@@ -8781,7 +9760,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPhotonAuthenticationTokenResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetPhotonAuthenticationTokenResult) };
+                serializedSize += (m_photonCustomAuthenticationToken.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetPhotonAuthenticationTokenResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetPhotonAuthenticationTokenResult);
+        
+                memcpy(stringBuffer, m_photonCustomAuthenticationToken.data(), m_photonCustomAuthenticationToken.size() + 1);
+                stringBuffer +=  m_photonCustomAuthenticationToken.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_photonCustomAuthenticationToken;
         };
@@ -8834,7 +9830,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerCombinedInfoRequestParams>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_playerStatisticNames;
             StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
@@ -8843,7 +9839,7 @@ namespace PlayFab
             PointerArray<const char, String> m_userReadOnlyDataKeys;
         };
 
-        struct GetPlayerCombinedInfoRequest : public PlayFabClientGetPlayerCombinedInfoRequest, public BaseRequest
+        struct GetPlayerCombinedInfoRequest : public PlayFabClientGetPlayerCombinedInfoRequest, public BaseModel
         {
             GetPlayerCombinedInfoRequest() : PlayFabClientGetPlayerCombinedInfoRequest{}
             {
@@ -8875,14 +9871,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerCombinedInfoRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             GetPlayerCombinedInfoRequestParams m_infoRequestParameters;
             String m_playFabId;
         };
 
-        struct StatisticValue : public PlayFabClientStatisticValue, public BaseModel
+        struct StatisticValue : public PlayFabClientStatisticValue, public SerializableModel
         {
             StatisticValue() : PlayFabClientStatisticValue{}
             {
@@ -8910,7 +9906,24 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStatisticValue>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientStatisticValue) };
+                serializedSize += (m_statisticName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientStatisticValue{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientStatisticValue);
+        
+                memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
+                stringBuffer +=  m_statisticName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_statisticName;
         };
@@ -8973,7 +9986,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerCombinedInfoResultPayload>(*this);
             }
-
+    
         private:
             StdExtra::optional<UserAccountInfo> m_accountInfo;
             PointerArray<PlayFabClientCharacterInventory, CharacterInventory> m_characterInventories;
@@ -8988,7 +10001,7 @@ namespace PlayFab
             AssociativeArray<PlayFabClientVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_userVirtualCurrencyRechargeTimes;
         };
 
-        struct GetPlayerCombinedInfoResult : public PlayFabClientGetPlayerCombinedInfoResult, public BaseResult
+        struct GetPlayerCombinedInfoResult : public PlayFabClientGetPlayerCombinedInfoResult, public BaseModel
         {
             GetPlayerCombinedInfoResult() : PlayFabClientGetPlayerCombinedInfoResult{}
             {
@@ -9017,13 +10030,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerCombinedInfoResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<GetPlayerCombinedInfoResultPayload> m_infoResultPayload;
             String m_playFabId;
         };
 
-        struct GetPlayerProfileRequest : public PlayFabClientGetPlayerProfileRequest, public BaseRequest
+        struct GetPlayerProfileRequest : public PlayFabClientGetPlayerProfileRequest, public BaseModel
         {
             GetPlayerProfileRequest() : PlayFabClientGetPlayerProfileRequest{}
             {
@@ -9055,14 +10068,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerProfileRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_playFabId;
             StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
         };
 
-        struct GetPlayerProfileResult : public PlayFabClientGetPlayerProfileResult, public BaseResult
+        struct GetPlayerProfileResult : public PlayFabClientGetPlayerProfileResult, public BaseModel
         {
             GetPlayerProfileResult() : PlayFabClientGetPlayerProfileResult{}
             {
@@ -9088,12 +10101,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerProfileResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayerProfileModel> m_playerProfile;
         };
 
-        struct GetSegmentResult : public PlayFabClientGetSegmentResult, public BaseResult
+        struct GetSegmentResult : public PlayFabClientGetSegmentResult, public SerializableModel
         {
             GetSegmentResult() : PlayFabClientGetSegmentResult{}
             {
@@ -9125,14 +10138,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetSegmentResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetSegmentResult) };
+                serializedSize += (m_aBTestParent.size() + 1);
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_name.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetSegmentResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetSegmentResult);
+        
+                memcpy(stringBuffer, m_aBTestParent.data(), m_aBTestParent.size() + 1);
+                stringBuffer +=  m_aBTestParent.size() + 1; 
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_aBTestParent;
             String m_id;
             String m_name;
         };
 
-        struct GetPlayerSegmentsResult : public PlayFabClientGetPlayerSegmentsResult, public BaseResult
+        struct GetPlayerSegmentsResult : public PlayFabClientGetPlayerSegmentsResult, public BaseModel
         {
             GetPlayerSegmentsResult() : PlayFabClientGetPlayerSegmentsResult{}
             {
@@ -9158,12 +10194,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerSegmentsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientGetSegmentResult, GetSegmentResult> m_segments;
         };
 
-        struct StatisticNameVersion : public PlayFabClientStatisticNameVersion, public BaseModel
+        struct StatisticNameVersion : public PlayFabClientStatisticNameVersion, public SerializableModel
         {
             StatisticNameVersion() : PlayFabClientStatisticNameVersion{}
             {
@@ -9190,12 +10226,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStatisticNameVersion>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientStatisticNameVersion) };
+                serializedSize += (m_statisticName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientStatisticNameVersion{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientStatisticNameVersion);
+        
+                memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
+                stringBuffer +=  m_statisticName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_statisticName;
         };
 
-        struct GetPlayerStatisticsRequest : public PlayFabClientGetPlayerStatisticsRequest, public BaseRequest
+        struct GetPlayerStatisticsRequest : public PlayFabClientGetPlayerStatisticsRequest, public BaseModel
         {
             GetPlayerStatisticsRequest() : PlayFabClientGetPlayerStatisticsRequest{}
             {
@@ -9227,14 +10280,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerStatisticsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<const char, String> m_statisticNames;
             PointerArray<PlayFabClientStatisticNameVersion, StatisticNameVersion> m_statisticNameVersions;
         };
 
-        struct GetPlayerStatisticsResult : public PlayFabClientGetPlayerStatisticsResult, public BaseResult
+        struct GetPlayerStatisticsResult : public PlayFabClientGetPlayerStatisticsResult, public BaseModel
         {
             GetPlayerStatisticsResult() : PlayFabClientGetPlayerStatisticsResult{}
             {
@@ -9260,12 +10313,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerStatisticsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientStatisticValue, StatisticValue> m_statistics;
         };
 
-        struct GetPlayerStatisticVersionsRequest : public PlayFabClientGetPlayerStatisticVersionsRequest, public BaseRequest
+        struct GetPlayerStatisticVersionsRequest : public PlayFabClientGetPlayerStatisticVersionsRequest, public BaseModel
         {
             GetPlayerStatisticVersionsRequest() : PlayFabClientGetPlayerStatisticVersionsRequest{}
             {
@@ -9294,7 +10347,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerStatisticVersionsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_statisticName;
@@ -9337,7 +10390,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPlayerStatisticVersion>(*this);
             }
-
+    
         private:
             StdExtra::optional<time_t> m_deactivationTime;
             StdExtra::optional<time_t> m_scheduledActivationTime;
@@ -9345,7 +10398,7 @@ namespace PlayFab
             String m_statisticName;
         };
 
-        struct GetPlayerStatisticVersionsResult : public PlayFabClientGetPlayerStatisticVersionsResult, public BaseResult
+        struct GetPlayerStatisticVersionsResult : public PlayFabClientGetPlayerStatisticVersionsResult, public BaseModel
         {
             GetPlayerStatisticVersionsResult() : PlayFabClientGetPlayerStatisticVersionsResult{}
             {
@@ -9371,12 +10424,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerStatisticVersionsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPlayerStatisticVersion, PlayerStatisticVersion> m_statisticVersions;
         };
 
-        struct GetPlayerTagsRequest : public PlayFabClientGetPlayerTagsRequest, public BaseRequest
+        struct GetPlayerTagsRequest : public PlayFabClientGetPlayerTagsRequest, public BaseModel
         {
             GetPlayerTagsRequest() : PlayFabClientGetPlayerTagsRequest{}
             {
@@ -9408,14 +10461,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerTagsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_playfabNamespace;
             String m_playFabId;
         };
 
-        struct GetPlayerTagsResult : public PlayFabClientGetPlayerTagsResult, public BaseResult
+        struct GetPlayerTagsResult : public PlayFabClientGetPlayerTagsResult, public BaseModel
         {
             GetPlayerTagsResult() : PlayFabClientGetPlayerTagsResult{}
             {
@@ -9444,13 +10497,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerTagsResult>(*this);
             }
-
+    
         private:
             String m_playFabId;
             PointerArray<const char, String> m_tags;
         };
 
-        struct GetPlayerTradesRequest : public PlayFabClientGetPlayerTradesRequest, public BaseRequest
+        struct GetPlayerTradesRequest : public PlayFabClientGetPlayerTradesRequest, public BaseModel
         {
             GetPlayerTradesRequest() : PlayFabClientGetPlayerTradesRequest{}
             {
@@ -9476,12 +10529,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerTradesRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<PlayFabClientTradeStatus> m_statusFilter;
         };
 
-        struct GetPlayerTradesResponse : public PlayFabClientGetPlayerTradesResponse, public BaseResult
+        struct GetPlayerTradesResponse : public PlayFabClientGetPlayerTradesResponse, public BaseModel
         {
             GetPlayerTradesResponse() : PlayFabClientGetPlayerTradesResponse{}
             {
@@ -9510,13 +10563,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayerTradesResponse>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientTradeInfo, TradeInfo> m_acceptedTrades;
             PointerArray<PlayFabClientTradeInfo, TradeInfo> m_openedTrades;
         };
 
-        struct GetPlayFabIDsFromFacebookIDsRequest : public PlayFabClientGetPlayFabIDsFromFacebookIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromFacebookIDsRequest : public PlayFabClientGetPlayFabIDsFromFacebookIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromFacebookIDsRequest() : PlayFabClientGetPlayFabIDsFromFacebookIDsRequest{}
             {
@@ -9542,12 +10595,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromFacebookIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_facebookIDs;
         };
 
-        struct GetPlayFabIDsFromFacebookIDsResult : public PlayFabClientGetPlayFabIDsFromFacebookIDsResult, public BaseResult
+        struct GetPlayFabIDsFromFacebookIDsResult : public PlayFabClientGetPlayFabIDsFromFacebookIDsResult, public BaseModel
         {
             GetPlayFabIDsFromFacebookIDsResult() : PlayFabClientGetPlayFabIDsFromFacebookIDsResult{}
             {
@@ -9573,12 +10626,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromFacebookIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientFacebookPlayFabIdPair, FacebookPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromFacebookInstantGamesIdsRequest : public PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest, public BaseRequest
+        struct GetPlayFabIDsFromFacebookInstantGamesIdsRequest : public PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest, public BaseModel
         {
             GetPlayFabIDsFromFacebookInstantGamesIdsRequest() : PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest{}
             {
@@ -9604,12 +10657,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_facebookInstantGamesIds;
         };
 
-        struct GetPlayFabIDsFromFacebookInstantGamesIdsResult : public PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsResult, public BaseResult
+        struct GetPlayFabIDsFromFacebookInstantGamesIdsResult : public PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsResult, public BaseModel
         {
             GetPlayFabIDsFromFacebookInstantGamesIdsResult() : PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsResult{}
             {
@@ -9635,12 +10688,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromFacebookInstantGamesIdsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientFacebookInstantGamesPlayFabIdPair, FacebookInstantGamesPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromGameCenterIDsRequest : public PlayFabClientGetPlayFabIDsFromGameCenterIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromGameCenterIDsRequest : public PlayFabClientGetPlayFabIDsFromGameCenterIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromGameCenterIDsRequest() : PlayFabClientGetPlayFabIDsFromGameCenterIDsRequest{}
             {
@@ -9666,12 +10719,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromGameCenterIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_gameCenterIDs;
         };
 
-        struct GetPlayFabIDsFromGameCenterIDsResult : public PlayFabClientGetPlayFabIDsFromGameCenterIDsResult, public BaseResult
+        struct GetPlayFabIDsFromGameCenterIDsResult : public PlayFabClientGetPlayFabIDsFromGameCenterIDsResult, public BaseModel
         {
             GetPlayFabIDsFromGameCenterIDsResult() : PlayFabClientGetPlayFabIDsFromGameCenterIDsResult{}
             {
@@ -9697,12 +10750,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromGameCenterIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientGameCenterPlayFabIdPair, GameCenterPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromGenericIDsRequest : public PlayFabClientGetPlayFabIDsFromGenericIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromGenericIDsRequest : public PlayFabClientGetPlayFabIDsFromGenericIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromGenericIDsRequest() : PlayFabClientGetPlayFabIDsFromGenericIDsRequest{}
             {
@@ -9728,12 +10781,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromGenericIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientGenericServiceId, GenericServiceId> m_genericIDs;
         };
 
-        struct GetPlayFabIDsFromGenericIDsResult : public PlayFabClientGetPlayFabIDsFromGenericIDsResult, public BaseResult
+        struct GetPlayFabIDsFromGenericIDsResult : public PlayFabClientGetPlayFabIDsFromGenericIDsResult, public BaseModel
         {
             GetPlayFabIDsFromGenericIDsResult() : PlayFabClientGetPlayFabIDsFromGenericIDsResult{}
             {
@@ -9759,12 +10812,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromGenericIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientGenericPlayFabIdPair, GenericPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromGoogleIDsRequest : public PlayFabClientGetPlayFabIDsFromGoogleIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromGoogleIDsRequest : public PlayFabClientGetPlayFabIDsFromGoogleIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromGoogleIDsRequest() : PlayFabClientGetPlayFabIDsFromGoogleIDsRequest{}
             {
@@ -9790,12 +10843,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromGoogleIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_googleIDs;
         };
 
-        struct GooglePlayFabIdPair : public PlayFabClientGooglePlayFabIdPair, public BaseModel
+        struct GooglePlayFabIdPair : public PlayFabClientGooglePlayFabIdPair, public SerializableModel
         {
             GooglePlayFabIdPair() : PlayFabClientGooglePlayFabIdPair{}
             {
@@ -9824,13 +10877,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGooglePlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGooglePlayFabIdPair) };
+                serializedSize += (m_googleId.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGooglePlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGooglePlayFabIdPair);
+        
+                memcpy(stringBuffer, m_googleId.data(), m_googleId.size() + 1);
+                stringBuffer +=  m_googleId.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_googleId;
             String m_playFabId;
         };
 
-        struct GetPlayFabIDsFromGoogleIDsResult : public PlayFabClientGetPlayFabIDsFromGoogleIDsResult, public BaseResult
+        struct GetPlayFabIDsFromGoogleIDsResult : public PlayFabClientGetPlayFabIDsFromGoogleIDsResult, public BaseModel
         {
             GetPlayFabIDsFromGoogleIDsResult() : PlayFabClientGetPlayFabIDsFromGoogleIDsResult{}
             {
@@ -9856,12 +10929,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromGoogleIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientGooglePlayFabIdPair, GooglePlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromKongregateIDsRequest : public PlayFabClientGetPlayFabIDsFromKongregateIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromKongregateIDsRequest : public PlayFabClientGetPlayFabIDsFromKongregateIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromKongregateIDsRequest() : PlayFabClientGetPlayFabIDsFromKongregateIDsRequest{}
             {
@@ -9887,12 +10960,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromKongregateIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_kongregateIDs;
         };
 
-        struct KongregatePlayFabIdPair : public PlayFabClientKongregatePlayFabIdPair, public BaseModel
+        struct KongregatePlayFabIdPair : public PlayFabClientKongregatePlayFabIdPair, public SerializableModel
         {
             KongregatePlayFabIdPair() : PlayFabClientKongregatePlayFabIdPair{}
             {
@@ -9921,13 +10994,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientKongregatePlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientKongregatePlayFabIdPair) };
+                serializedSize += (m_kongregateId.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientKongregatePlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientKongregatePlayFabIdPair);
+        
+                memcpy(stringBuffer, m_kongregateId.data(), m_kongregateId.size() + 1);
+                stringBuffer +=  m_kongregateId.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_kongregateId;
             String m_playFabId;
         };
 
-        struct GetPlayFabIDsFromKongregateIDsResult : public PlayFabClientGetPlayFabIDsFromKongregateIDsResult, public BaseResult
+        struct GetPlayFabIDsFromKongregateIDsResult : public PlayFabClientGetPlayFabIDsFromKongregateIDsResult, public BaseModel
         {
             GetPlayFabIDsFromKongregateIDsResult() : PlayFabClientGetPlayFabIDsFromKongregateIDsResult{}
             {
@@ -9953,12 +11046,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromKongregateIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientKongregatePlayFabIdPair, KongregatePlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest, public BaseRequest
+        struct GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest, public BaseModel
         {
             GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest() : PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest{}
             {
@@ -9984,12 +11077,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_nintendoSwitchDeviceIds;
         };
 
-        struct NintendoSwitchPlayFabIdPair : public PlayFabClientNintendoSwitchPlayFabIdPair, public BaseModel
+        struct NintendoSwitchPlayFabIdPair : public PlayFabClientNintendoSwitchPlayFabIdPair, public SerializableModel
         {
             NintendoSwitchPlayFabIdPair() : PlayFabClientNintendoSwitchPlayFabIdPair{}
             {
@@ -10018,13 +11111,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientNintendoSwitchPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientNintendoSwitchPlayFabIdPair) };
+                serializedSize += (m_nintendoSwitchDeviceId.size() + 1);
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientNintendoSwitchPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientNintendoSwitchPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_nintendoSwitchDeviceId.data(), m_nintendoSwitchDeviceId.size() + 1);
+                stringBuffer +=  m_nintendoSwitchDeviceId.size() + 1; 
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_nintendoSwitchDeviceId;
             String m_playFabId;
         };
 
-        struct GetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult, public BaseResult
+        struct GetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult, public BaseModel
         {
             GetPlayFabIDsFromNintendoSwitchDeviceIdsResult() : PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult{}
             {
@@ -10050,12 +11163,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientNintendoSwitchPlayFabIdPair, NintendoSwitchPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromPSNAccountIDsRequest : public PlayFabClientGetPlayFabIDsFromPSNAccountIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromPSNAccountIDsRequest : public PlayFabClientGetPlayFabIDsFromPSNAccountIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromPSNAccountIDsRequest() : PlayFabClientGetPlayFabIDsFromPSNAccountIDsRequest{}
             {
@@ -10064,10 +11177,10 @@ namespace PlayFab
             GetPlayFabIDsFromPSNAccountIDsRequest(const GetPlayFabIDsFromPSNAccountIDsRequest& src) :
                 PlayFabClientGetPlayFabIDsFromPSNAccountIDsRequest{ src },
                 m_issuerId{ src.m_issuerId },
-                m_pSNAccountIDs{ src.m_pSNAccountIDs }
+                m_PSNAccountIDs{ src.m_PSNAccountIDs }
             {
                 issuerId = m_issuerId ? m_issuerId.operator->() : nullptr;
-                pSNAccountIDs = m_pSNAccountIDs.Empty() ? nullptr : m_pSNAccountIDs.Data();
+                PSNAccountIDs = m_PSNAccountIDs.Empty() ? nullptr : m_PSNAccountIDs.Data();
             }
 
             ~GetPlayFabIDsFromPSNAccountIDsRequest() = default;
@@ -10077,20 +11190,20 @@ namespace PlayFab
             void FromJson(const JsonValue& input) override
             {
                 JsonUtils:: ObjectGetMember(input, "IssuerId", m_issuerId, issuerId);
-                JsonUtils:: ObjectGetMember(input, "PSNAccountIDs", m_pSNAccountIDs, pSNAccountIDs, pSNAccountIDsCount);
+                JsonUtils:: ObjectGetMember(input, "PSNAccountIDs", m_PSNAccountIDs, PSNAccountIDs, PSNAccountIDsCount);
             }
 
             JsonValue ToJson() const override
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromPSNAccountIDsRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<int32_t> m_issuerId;
-            PointerArray<const char, String> m_pSNAccountIDs;
+            PointerArray<const char, String> m_PSNAccountIDs;
         };
 
-        struct PSNAccountPlayFabIdPair : public PlayFabClientPSNAccountPlayFabIdPair, public BaseModel
+        struct PSNAccountPlayFabIdPair : public PlayFabClientPSNAccountPlayFabIdPair, public SerializableModel
         {
             PSNAccountPlayFabIdPair() : PlayFabClientPSNAccountPlayFabIdPair{}
             {
@@ -10099,10 +11212,10 @@ namespace PlayFab
             PSNAccountPlayFabIdPair(const PSNAccountPlayFabIdPair& src) :
                 PlayFabClientPSNAccountPlayFabIdPair{ src },
                 m_playFabId{ src.m_playFabId },
-                m_pSNAccountId{ src.m_pSNAccountId }
+                m_PSNAccountId{ src.m_PSNAccountId }
             {
                 playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-                pSNAccountId = m_pSNAccountId.empty() ? nullptr : m_pSNAccountId.data();
+                PSNAccountId = m_PSNAccountId.empty() ? nullptr : m_PSNAccountId.data();
             }
 
             ~PSNAccountPlayFabIdPair() = default;
@@ -10112,20 +11225,40 @@ namespace PlayFab
             void FromJson(const JsonValue& input) override
             {
                 JsonUtils:: ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-                JsonUtils:: ObjectGetMember(input, "PSNAccountId", m_pSNAccountId, pSNAccountId);
+                JsonUtils:: ObjectGetMember(input, "PSNAccountId", m_PSNAccountId, PSNAccountId);
             }
 
             JsonValue ToJson() const override
             { 
                 return JsonUtils::ToJson<PlayFabClientPSNAccountPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientPSNAccountPlayFabIdPair) };
+                serializedSize += (m_playFabId.size() + 1);
+                serializedSize += (m_PSNAccountId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientPSNAccountPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientPSNAccountPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                memcpy(stringBuffer, m_PSNAccountId.data(), m_PSNAccountId.size() + 1);
+                stringBuffer +=  m_PSNAccountId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
-            String m_pSNAccountId;
+            String m_PSNAccountId;
         };
 
-        struct GetPlayFabIDsFromPSNAccountIDsResult : public PlayFabClientGetPlayFabIDsFromPSNAccountIDsResult, public BaseResult
+        struct GetPlayFabIDsFromPSNAccountIDsResult : public PlayFabClientGetPlayFabIDsFromPSNAccountIDsResult, public BaseModel
         {
             GetPlayFabIDsFromPSNAccountIDsResult() : PlayFabClientGetPlayFabIDsFromPSNAccountIDsResult{}
             {
@@ -10151,12 +11284,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromPSNAccountIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPSNAccountPlayFabIdPair, PSNAccountPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromSteamIDsRequest : public PlayFabClientGetPlayFabIDsFromSteamIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromSteamIDsRequest : public PlayFabClientGetPlayFabIDsFromSteamIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromSteamIDsRequest() : PlayFabClientGetPlayFabIDsFromSteamIDsRequest{}
             {
@@ -10182,12 +11315,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromSteamIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_steamStringIDs;
         };
 
-        struct SteamPlayFabIdPair : public PlayFabClientSteamPlayFabIdPair, public BaseModel
+        struct SteamPlayFabIdPair : public PlayFabClientSteamPlayFabIdPair, public SerializableModel
         {
             SteamPlayFabIdPair() : PlayFabClientSteamPlayFabIdPair{}
             {
@@ -10216,13 +11349,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSteamPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientSteamPlayFabIdPair) };
+                serializedSize += (m_playFabId.size() + 1);
+                serializedSize += (m_steamStringId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientSteamPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientSteamPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                memcpy(stringBuffer, m_steamStringId.data(), m_steamStringId.size() + 1);
+                stringBuffer +=  m_steamStringId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
             String m_steamStringId;
         };
 
-        struct GetPlayFabIDsFromSteamIDsResult : public PlayFabClientGetPlayFabIDsFromSteamIDsResult, public BaseResult
+        struct GetPlayFabIDsFromSteamIDsResult : public PlayFabClientGetPlayFabIDsFromSteamIDsResult, public BaseModel
         {
             GetPlayFabIDsFromSteamIDsResult() : PlayFabClientGetPlayFabIDsFromSteamIDsResult{}
             {
@@ -10248,12 +11401,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromSteamIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientSteamPlayFabIdPair, SteamPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromTwitchIDsRequest : public PlayFabClientGetPlayFabIDsFromTwitchIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromTwitchIDsRequest : public PlayFabClientGetPlayFabIDsFromTwitchIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromTwitchIDsRequest() : PlayFabClientGetPlayFabIDsFromTwitchIDsRequest{}
             {
@@ -10279,12 +11432,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromTwitchIDsRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_twitchIds;
         };
 
-        struct TwitchPlayFabIdPair : public PlayFabClientTwitchPlayFabIdPair, public BaseModel
+        struct TwitchPlayFabIdPair : public PlayFabClientTwitchPlayFabIdPair, public SerializableModel
         {
             TwitchPlayFabIdPair() : PlayFabClientTwitchPlayFabIdPair{}
             {
@@ -10313,13 +11466,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientTwitchPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientTwitchPlayFabIdPair) };
+                serializedSize += (m_playFabId.size() + 1);
+                serializedSize += (m_twitchId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientTwitchPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientTwitchPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                memcpy(stringBuffer, m_twitchId.data(), m_twitchId.size() + 1);
+                stringBuffer +=  m_twitchId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
             String m_twitchId;
         };
 
-        struct GetPlayFabIDsFromTwitchIDsResult : public PlayFabClientGetPlayFabIDsFromTwitchIDsResult, public BaseResult
+        struct GetPlayFabIDsFromTwitchIDsResult : public PlayFabClientGetPlayFabIDsFromTwitchIDsResult, public BaseModel
         {
             GetPlayFabIDsFromTwitchIDsResult() : PlayFabClientGetPlayFabIDsFromTwitchIDsResult{}
             {
@@ -10345,12 +11518,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromTwitchIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientTwitchPlayFabIdPair, TwitchPlayFabIdPair> m_data;
         };
 
-        struct GetPlayFabIDsFromXboxLiveIDsRequest : public PlayFabClientGetPlayFabIDsFromXboxLiveIDsRequest, public BaseRequest
+        struct GetPlayFabIDsFromXboxLiveIDsRequest : public PlayFabClientGetPlayFabIDsFromXboxLiveIDsRequest, public BaseModel
         {
             GetPlayFabIDsFromXboxLiveIDsRequest() : PlayFabClientGetPlayFabIDsFromXboxLiveIDsRequest{}
             {
@@ -10379,13 +11552,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromXboxLiveIDsRequest>(*this);
             }
-
+    
         private:
             String m_sandbox;
             PointerArray<const char, String> m_xboxLiveAccountIDs;
         };
 
-        struct XboxLiveAccountPlayFabIdPair : public PlayFabClientXboxLiveAccountPlayFabIdPair, public BaseModel
+        struct XboxLiveAccountPlayFabIdPair : public PlayFabClientXboxLiveAccountPlayFabIdPair, public SerializableModel
         {
             XboxLiveAccountPlayFabIdPair() : PlayFabClientXboxLiveAccountPlayFabIdPair{}
             {
@@ -10414,13 +11587,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientXboxLiveAccountPlayFabIdPair>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientXboxLiveAccountPlayFabIdPair) };
+                serializedSize += (m_playFabId.size() + 1);
+                serializedSize += (m_xboxLiveAccountId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientXboxLiveAccountPlayFabIdPair{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientXboxLiveAccountPlayFabIdPair);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                memcpy(stringBuffer, m_xboxLiveAccountId.data(), m_xboxLiveAccountId.size() + 1);
+                stringBuffer +=  m_xboxLiveAccountId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
             String m_xboxLiveAccountId;
         };
 
-        struct GetPlayFabIDsFromXboxLiveIDsResult : public PlayFabClientGetPlayFabIDsFromXboxLiveIDsResult, public BaseResult
+        struct GetPlayFabIDsFromXboxLiveIDsResult : public PlayFabClientGetPlayFabIDsFromXboxLiveIDsResult, public BaseModel
         {
             GetPlayFabIDsFromXboxLiveIDsResult() : PlayFabClientGetPlayFabIDsFromXboxLiveIDsResult{}
             {
@@ -10446,12 +11639,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPlayFabIDsFromXboxLiveIDsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientXboxLiveAccountPlayFabIdPair, XboxLiveAccountPlayFabIdPair> m_data;
         };
 
-        struct GetPublisherDataRequest : public PlayFabClientGetPublisherDataRequest, public BaseRequest
+        struct GetPublisherDataRequest : public PlayFabClientGetPublisherDataRequest, public BaseModel
         {
             GetPublisherDataRequest() : PlayFabClientGetPublisherDataRequest{}
             {
@@ -10477,12 +11670,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPublisherDataRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_keys;
         };
 
-        struct GetPublisherDataResult : public PlayFabClientGetPublisherDataResult, public BaseResult
+        struct GetPublisherDataResult : public PlayFabClientGetPublisherDataResult, public BaseModel
         {
             GetPublisherDataResult() : PlayFabClientGetPublisherDataResult{}
             {
@@ -10508,12 +11701,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPublisherDataResult>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_data;
         };
 
-        struct GetPurchaseRequest : public PlayFabClientGetPurchaseRequest, public BaseRequest
+        struct GetPurchaseRequest : public PlayFabClientGetPurchaseRequest, public SerializableModel
         {
             GetPurchaseRequest() : PlayFabClientGetPurchaseRequest{}
             {
@@ -10539,12 +11732,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPurchaseRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetPurchaseRequest) };
+                serializedSize += (m_orderId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetPurchaseRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetPurchaseRequest);
+        
+                memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
+                stringBuffer +=  m_orderId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_orderId;
         };
 
-        struct GetPurchaseResult : public PlayFabClientGetPurchaseResult, public BaseResult
+        struct GetPurchaseResult : public PlayFabClientGetPurchaseResult, public SerializableModel
         {
             GetPurchaseResult() : PlayFabClientGetPurchaseResult{}
             {
@@ -10580,7 +11790,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetPurchaseResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetPurchaseResult) };
+                serializedSize += (m_orderId.size() + 1);
+                serializedSize += (m_paymentProvider.size() + 1);
+                serializedSize += (m_transactionId.size() + 1);
+                serializedSize += (m_transactionStatus.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetPurchaseResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetPurchaseResult);
+        
+                memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
+                stringBuffer +=  m_orderId.size() + 1; 
+                memcpy(stringBuffer, m_paymentProvider.data(), m_paymentProvider.size() + 1);
+                stringBuffer +=  m_paymentProvider.size() + 1; 
+                memcpy(stringBuffer, m_transactionId.data(), m_transactionId.size() + 1);
+                stringBuffer +=  m_transactionId.size() + 1; 
+                memcpy(stringBuffer, m_transactionStatus.data(), m_transactionStatus.size() + 1);
+                stringBuffer +=  m_transactionStatus.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_orderId;
             String m_paymentProvider;
@@ -10588,7 +11824,7 @@ namespace PlayFab
             String m_transactionStatus;
         };
 
-        struct GetSharedGroupDataRequest : public PlayFabClientGetSharedGroupDataRequest, public BaseRequest
+        struct GetSharedGroupDataRequest : public PlayFabClientGetSharedGroupDataRequest, public BaseModel
         {
             GetSharedGroupDataRequest() : PlayFabClientGetSharedGroupDataRequest{}
             {
@@ -10620,7 +11856,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetSharedGroupDataRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_getMembers;
             PointerArray<const char, String> m_keys;
@@ -10660,14 +11896,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSharedGroupDataRecord>(*this);
             }
-
+    
         private:
             String m_lastUpdatedBy;
             StdExtra::optional<PlayFabClientUserDataPermission> m_permission;
             String m_value;
         };
 
-        struct GetSharedGroupDataResult : public PlayFabClientGetSharedGroupDataResult, public BaseResult
+        struct GetSharedGroupDataResult : public PlayFabClientGetSharedGroupDataResult, public BaseModel
         {
             GetSharedGroupDataResult() : PlayFabClientGetSharedGroupDataResult{}
             {
@@ -10696,13 +11932,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetSharedGroupDataResult>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabClientSharedGroupDataRecordDictionaryEntry, SharedGroupDataRecord> m_data;
             PointerArray<const char, String> m_members;
         };
 
-        struct GetStoreItemsRequest : public PlayFabClientGetStoreItemsRequest, public BaseRequest
+        struct GetStoreItemsRequest : public PlayFabClientGetStoreItemsRequest, public SerializableModel
         {
             GetStoreItemsRequest() : PlayFabClientGetStoreItemsRequest{}
             {
@@ -10731,7 +11967,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetStoreItemsRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetStoreItemsRequest) };
+                serializedSize += (m_catalogVersion.size() + 1);
+                serializedSize += (m_storeId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetStoreItemsRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetStoreItemsRequest);
+        
+                memcpy(stringBuffer, m_catalogVersion.data(), m_catalogVersion.size() + 1);
+                stringBuffer +=  m_catalogVersion.size() + 1; 
+                memcpy(stringBuffer, m_storeId.data(), m_storeId.size() + 1);
+                stringBuffer +=  m_storeId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_catalogVersion;
             String m_storeId;
@@ -10769,7 +12025,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStoreMarketingModel>(*this);
             }
-
+    
         private:
             String m_description;
             String m_displayName;
@@ -10814,7 +12070,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStoreItem>(*this);
             }
-
+    
         private:
             JsonObject m_customData;
             StdExtra::optional<uint32_t> m_displayPosition;
@@ -10823,7 +12079,7 @@ namespace PlayFab
             AssociativeArray<PlayFabUint32DictionaryEntry, void> m_virtualCurrencyPrices;
         };
 
-        struct GetStoreItemsResult : public PlayFabClientGetStoreItemsResult, public BaseResult
+        struct GetStoreItemsResult : public PlayFabClientGetStoreItemsResult, public BaseModel
         {
             GetStoreItemsResult() : PlayFabClientGetStoreItemsResult{}
             {
@@ -10861,7 +12117,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetStoreItemsResult>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             StdExtra::optional<StoreMarketingModel> m_marketingData;
@@ -10870,7 +12126,7 @@ namespace PlayFab
             String m_storeId;
         };
 
-        struct GetTimeResult : public PlayFabClientGetTimeResult, public BaseResult
+        struct GetTimeResult : public PlayFabClientGetTimeResult, public SerializableModel
         {
             GetTimeResult() : PlayFabClientGetTimeResult{}
             {
@@ -10891,11 +12147,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTimeResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetTimeResult) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetTimeResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetTimeResult);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct GetTitleDataRequest : public PlayFabClientGetTitleDataRequest, public BaseRequest
+        struct GetTitleDataRequest : public PlayFabClientGetTitleDataRequest, public BaseModel
         {
             GetTitleDataRequest() : PlayFabClientGetTitleDataRequest{}
             {
@@ -10924,13 +12194,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTitleDataRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_keys;
             String m_overrideLabel;
         };
 
-        struct GetTitleDataResult : public PlayFabClientGetTitleDataResult, public BaseResult
+        struct GetTitleDataResult : public PlayFabClientGetTitleDataResult, public BaseModel
         {
             GetTitleDataResult() : PlayFabClientGetTitleDataResult{}
             {
@@ -10956,12 +12226,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTitleDataResult>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_data;
         };
 
-        struct GetTitleNewsRequest : public PlayFabClientGetTitleNewsRequest, public BaseRequest
+        struct GetTitleNewsRequest : public PlayFabClientGetTitleNewsRequest, public BaseModel
         {
             GetTitleNewsRequest() : PlayFabClientGetTitleNewsRequest{}
             {
@@ -10987,12 +12257,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTitleNewsRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<int32_t> m_count;
         };
 
-        struct TitleNewsItem : public PlayFabClientTitleNewsItem, public BaseModel
+        struct TitleNewsItem : public PlayFabClientTitleNewsItem, public SerializableModel
         {
             TitleNewsItem() : PlayFabClientTitleNewsItem{}
             {
@@ -11025,14 +12295,37 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientTitleNewsItem>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientTitleNewsItem) };
+                serializedSize += (m_body.size() + 1);
+                serializedSize += (m_newsId.size() + 1);
+                serializedSize += (m_title.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientTitleNewsItem{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientTitleNewsItem);
+        
+                memcpy(stringBuffer, m_body.data(), m_body.size() + 1);
+                stringBuffer +=  m_body.size() + 1; 
+                memcpy(stringBuffer, m_newsId.data(), m_newsId.size() + 1);
+                stringBuffer +=  m_newsId.size() + 1; 
+                memcpy(stringBuffer, m_title.data(), m_title.size() + 1);
+                stringBuffer +=  m_title.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_body;
             String m_newsId;
             String m_title;
         };
 
-        struct GetTitleNewsResult : public PlayFabClientGetTitleNewsResult, public BaseResult
+        struct GetTitleNewsResult : public PlayFabClientGetTitleNewsResult, public BaseModel
         {
             GetTitleNewsResult() : PlayFabClientGetTitleNewsResult{}
             {
@@ -11058,12 +12351,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTitleNewsResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientTitleNewsItem, TitleNewsItem> m_news;
         };
 
-        struct GetTitlePublicKeyRequest : public PlayFabClientGetTitlePublicKeyRequest, public BaseRequest
+        struct GetTitlePublicKeyRequest : public PlayFabClientGetTitlePublicKeyRequest, public SerializableModel
         {
             GetTitlePublicKeyRequest() : PlayFabClientGetTitlePublicKeyRequest{}
             {
@@ -11092,13 +12385,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTitlePublicKeyRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetTitlePublicKeyRequest) };
+                serializedSize += (m_titleId.size() + 1);
+                serializedSize += (m_titleSharedSecret.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetTitlePublicKeyRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetTitlePublicKeyRequest);
+        
+                memcpy(stringBuffer, m_titleId.data(), m_titleId.size() + 1);
+                stringBuffer +=  m_titleId.size() + 1; 
+                memcpy(stringBuffer, m_titleSharedSecret.data(), m_titleSharedSecret.size() + 1);
+                stringBuffer +=  m_titleSharedSecret.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_titleId;
             String m_titleSharedSecret;
         };
 
-        struct GetTitlePublicKeyResult : public PlayFabClientGetTitlePublicKeyResult, public BaseResult
+        struct GetTitlePublicKeyResult : public PlayFabClientGetTitlePublicKeyResult, public SerializableModel
         {
             GetTitlePublicKeyResult() : PlayFabClientGetTitlePublicKeyResult{}
             {
@@ -11124,12 +12437,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTitlePublicKeyResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetTitlePublicKeyResult) };
+                serializedSize += (m_rSAPublicKey.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetTitlePublicKeyResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetTitlePublicKeyResult);
+        
+                memcpy(stringBuffer, m_rSAPublicKey.data(), m_rSAPublicKey.size() + 1);
+                stringBuffer +=  m_rSAPublicKey.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_rSAPublicKey;
         };
 
-        struct GetTradeStatusRequest : public PlayFabClientGetTradeStatusRequest, public BaseRequest
+        struct GetTradeStatusRequest : public PlayFabClientGetTradeStatusRequest, public SerializableModel
         {
             GetTradeStatusRequest() : PlayFabClientGetTradeStatusRequest{}
             {
@@ -11158,13 +12488,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTradeStatusRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetTradeStatusRequest) };
+                serializedSize += (m_offeringPlayerId.size() + 1);
+                serializedSize += (m_tradeId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetTradeStatusRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetTradeStatusRequest);
+        
+                memcpy(stringBuffer, m_offeringPlayerId.data(), m_offeringPlayerId.size() + 1);
+                stringBuffer +=  m_offeringPlayerId.size() + 1; 
+                memcpy(stringBuffer, m_tradeId.data(), m_tradeId.size() + 1);
+                stringBuffer +=  m_tradeId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_offeringPlayerId;
             String m_tradeId;
         };
 
-        struct GetTradeStatusResponse : public PlayFabClientGetTradeStatusResponse, public BaseResult
+        struct GetTradeStatusResponse : public PlayFabClientGetTradeStatusResponse, public BaseModel
         {
             GetTradeStatusResponse() : PlayFabClientGetTradeStatusResponse{}
             {
@@ -11190,12 +12540,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetTradeStatusResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<TradeInfo> m_trade;
         };
 
-        struct GetUserDataRequest : public PlayFabClientGetUserDataRequest, public BaseRequest
+        struct GetUserDataRequest : public PlayFabClientGetUserDataRequest, public BaseModel
         {
             GetUserDataRequest() : PlayFabClientGetUserDataRequest{}
             {
@@ -11227,14 +12577,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetUserDataRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<uint32_t> m_ifChangedFromDataVersion;
             PointerArray<const char, String> m_keys;
             String m_playFabId;
         };
 
-        struct GetUserDataResult : public PlayFabClientGetUserDataResult, public BaseResult
+        struct GetUserDataResult : public PlayFabClientGetUserDataResult, public BaseModel
         {
             GetUserDataResult() : PlayFabClientGetUserDataResult{}
             {
@@ -11261,12 +12611,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetUserDataResult>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabClientUserDataRecordDictionaryEntry, UserDataRecord> m_data;
         };
 
-        struct GetUserInventoryRequest : public PlayFabClientGetUserInventoryRequest, public BaseRequest
+        struct GetUserInventoryRequest : public PlayFabClientGetUserInventoryRequest, public BaseModel
         {
             GetUserInventoryRequest() : PlayFabClientGetUserInventoryRequest{}
             {
@@ -11292,12 +12642,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetUserInventoryRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct GetUserInventoryResult : public PlayFabClientGetUserInventoryResult, public BaseResult
+        struct GetUserInventoryResult : public PlayFabClientGetUserInventoryResult, public BaseModel
         {
             GetUserInventoryResult() : PlayFabClientGetUserInventoryResult{}
             {
@@ -11329,14 +12679,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetUserInventoryResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_inventory;
             AssociativeArray<PlayFabInt32DictionaryEntry, void> m_virtualCurrency;
             AssociativeArray<PlayFabClientVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
         };
 
-        struct GetWindowsHelloChallengeRequest : public PlayFabClientGetWindowsHelloChallengeRequest, public BaseRequest
+        struct GetWindowsHelloChallengeRequest : public PlayFabClientGetWindowsHelloChallengeRequest, public SerializableModel
         {
             GetWindowsHelloChallengeRequest() : PlayFabClientGetWindowsHelloChallengeRequest{}
             {
@@ -11365,13 +12715,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetWindowsHelloChallengeRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetWindowsHelloChallengeRequest) };
+                serializedSize += (m_publicKeyHint.size() + 1);
+                serializedSize += (m_titleId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetWindowsHelloChallengeRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetWindowsHelloChallengeRequest);
+        
+                memcpy(stringBuffer, m_publicKeyHint.data(), m_publicKeyHint.size() + 1);
+                stringBuffer +=  m_publicKeyHint.size() + 1; 
+                memcpy(stringBuffer, m_titleId.data(), m_titleId.size() + 1);
+                stringBuffer +=  m_titleId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_publicKeyHint;
             String m_titleId;
         };
 
-        struct GetWindowsHelloChallengeResponse : public PlayFabClientGetWindowsHelloChallengeResponse, public BaseResult
+        struct GetWindowsHelloChallengeResponse : public PlayFabClientGetWindowsHelloChallengeResponse, public SerializableModel
         {
             GetWindowsHelloChallengeResponse() : PlayFabClientGetWindowsHelloChallengeResponse{}
             {
@@ -11397,12 +12767,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGetWindowsHelloChallengeResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGetWindowsHelloChallengeResponse) };
+                serializedSize += (m_challenge.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGetWindowsHelloChallengeResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGetWindowsHelloChallengeResponse);
+        
+                memcpy(stringBuffer, m_challenge.data(), m_challenge.size() + 1);
+                stringBuffer +=  m_challenge.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_challenge;
         };
 
-        struct GrantCharacterToUserRequest : public PlayFabClientGrantCharacterToUserRequest, public BaseRequest
+        struct GrantCharacterToUserRequest : public PlayFabClientGrantCharacterToUserRequest, public BaseModel
         {
             GrantCharacterToUserRequest() : PlayFabClientGrantCharacterToUserRequest{}
             {
@@ -11437,7 +12824,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGrantCharacterToUserRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_characterName;
@@ -11445,7 +12832,7 @@ namespace PlayFab
             String m_itemId;
         };
 
-        struct GrantCharacterToUserResult : public PlayFabClientGrantCharacterToUserResult, public BaseResult
+        struct GrantCharacterToUserResult : public PlayFabClientGrantCharacterToUserResult, public SerializableModel
         {
             GrantCharacterToUserResult() : PlayFabClientGrantCharacterToUserResult{}
             {
@@ -11475,13 +12862,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientGrantCharacterToUserResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientGrantCharacterToUserResult) };
+                serializedSize += (m_characterId.size() + 1);
+                serializedSize += (m_characterType.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientGrantCharacterToUserResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientGrantCharacterToUserResult);
+        
+                memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+                stringBuffer +=  m_characterId.size() + 1; 
+                memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
+                stringBuffer +=  m_characterType.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_characterId;
             String m_characterType;
         };
 
-        struct ItemPurchaseRequest : public PlayFabClientItemPurchaseRequest, public BaseRequest
+        struct ItemPurchaseRequest : public PlayFabClientItemPurchaseRequest, public BaseModel
         {
             ItemPurchaseRequest() : PlayFabClientItemPurchaseRequest{}
             {
@@ -11514,14 +12921,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientItemPurchaseRequest>(*this);
             }
-
+    
         private:
             String m_annotation;
             String m_itemId;
             PointerArray<const char, String> m_upgradeFromItems;
         };
 
-        struct LinkAndroidDeviceIDRequest : public PlayFabClientLinkAndroidDeviceIDRequest, public BaseRequest
+        struct LinkAndroidDeviceIDRequest : public PlayFabClientLinkAndroidDeviceIDRequest, public BaseModel
         {
             LinkAndroidDeviceIDRequest() : PlayFabClientLinkAndroidDeviceIDRequest{}
             {
@@ -11559,7 +12966,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkAndroidDeviceIDRequest>(*this);
             }
-
+    
         private:
             String m_androidDevice;
             String m_androidDeviceId;
@@ -11568,7 +12975,7 @@ namespace PlayFab
             String m_oS;
         };
 
-        struct LinkAppleRequest : public PlayFabClientLinkAppleRequest, public BaseRequest
+        struct LinkAppleRequest : public PlayFabClientLinkAppleRequest, public BaseModel
         {
             LinkAppleRequest() : PlayFabClientLinkAppleRequest{}
             {
@@ -11600,14 +13007,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkAppleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
             String m_identityToken;
         };
 
-        struct LinkCustomIDRequest : public PlayFabClientLinkCustomIDRequest, public BaseRequest
+        struct LinkCustomIDRequest : public PlayFabClientLinkCustomIDRequest, public BaseModel
         {
             LinkCustomIDRequest() : PlayFabClientLinkCustomIDRequest{}
             {
@@ -11639,14 +13046,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkCustomIDRequest>(*this);
             }
-
+    
         private:
             String m_customId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
         };
 
-        struct LinkFacebookAccountRequest : public PlayFabClientLinkFacebookAccountRequest, public BaseRequest
+        struct LinkFacebookAccountRequest : public PlayFabClientLinkFacebookAccountRequest, public BaseModel
         {
             LinkFacebookAccountRequest() : PlayFabClientLinkFacebookAccountRequest{}
             {
@@ -11678,14 +13085,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkFacebookAccountRequest>(*this);
             }
-
+    
         private:
             String m_accessToken;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
         };
 
-        struct LinkFacebookInstantGamesIdRequest : public PlayFabClientLinkFacebookInstantGamesIdRequest, public BaseRequest
+        struct LinkFacebookInstantGamesIdRequest : public PlayFabClientLinkFacebookInstantGamesIdRequest, public BaseModel
         {
             LinkFacebookInstantGamesIdRequest() : PlayFabClientLinkFacebookInstantGamesIdRequest{}
             {
@@ -11717,14 +13124,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkFacebookInstantGamesIdRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_facebookInstantGamesSignature;
             StdExtra::optional<bool> m_forceLink;
         };
 
-        struct LinkGameCenterAccountRequest : public PlayFabClientLinkGameCenterAccountRequest, public BaseRequest
+        struct LinkGameCenterAccountRequest : public PlayFabClientLinkGameCenterAccountRequest, public BaseModel
         {
             LinkGameCenterAccountRequest() : PlayFabClientLinkGameCenterAccountRequest{}
             {
@@ -11768,7 +13175,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkGameCenterAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
@@ -11779,7 +13186,7 @@ namespace PlayFab
             String m_timestamp;
         };
 
-        struct LinkGoogleAccountRequest : public PlayFabClientLinkGoogleAccountRequest, public BaseRequest
+        struct LinkGoogleAccountRequest : public PlayFabClientLinkGoogleAccountRequest, public BaseModel
         {
             LinkGoogleAccountRequest() : PlayFabClientLinkGoogleAccountRequest{}
             {
@@ -11811,14 +13218,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkGoogleAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
             String m_serverAuthCode;
         };
 
-        struct LinkIOSDeviceIDRequest : public PlayFabClientLinkIOSDeviceIDRequest, public BaseRequest
+        struct LinkIOSDeviceIDRequest : public PlayFabClientLinkIOSDeviceIDRequest, public BaseModel
         {
             LinkIOSDeviceIDRequest() : PlayFabClientLinkIOSDeviceIDRequest{}
             {
@@ -11856,7 +13263,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkIOSDeviceIDRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_deviceId;
@@ -11865,7 +13272,7 @@ namespace PlayFab
             String m_oS;
         };
 
-        struct LinkKongregateAccountRequest : public PlayFabClientLinkKongregateAccountRequest, public BaseRequest
+        struct LinkKongregateAccountRequest : public PlayFabClientLinkKongregateAccountRequest, public BaseModel
         {
             LinkKongregateAccountRequest() : PlayFabClientLinkKongregateAccountRequest{}
             {
@@ -11900,7 +13307,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkKongregateAccountRequest>(*this);
             }
-
+    
         private:
             String m_authTicket;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -11908,7 +13315,7 @@ namespace PlayFab
             String m_kongregateId;
         };
 
-        struct LinkNintendoServiceAccountRequest : public PlayFabClientLinkNintendoServiceAccountRequest, public BaseRequest
+        struct LinkNintendoServiceAccountRequest : public PlayFabClientLinkNintendoServiceAccountRequest, public BaseModel
         {
             LinkNintendoServiceAccountRequest() : PlayFabClientLinkNintendoServiceAccountRequest{}
             {
@@ -11940,14 +13347,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkNintendoServiceAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
             String m_identityToken;
         };
 
-        struct LinkNintendoSwitchDeviceIdRequest : public PlayFabClientLinkNintendoSwitchDeviceIdRequest, public BaseRequest
+        struct LinkNintendoSwitchDeviceIdRequest : public PlayFabClientLinkNintendoSwitchDeviceIdRequest, public BaseModel
         {
             LinkNintendoSwitchDeviceIdRequest() : PlayFabClientLinkNintendoSwitchDeviceIdRequest{}
             {
@@ -11979,14 +13386,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkNintendoSwitchDeviceIdRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
             String m_nintendoSwitchDeviceId;
         };
 
-        struct LinkOpenIdConnectRequest : public PlayFabClientLinkOpenIdConnectRequest, public BaseRequest
+        struct LinkOpenIdConnectRequest : public PlayFabClientLinkOpenIdConnectRequest, public BaseModel
         {
             LinkOpenIdConnectRequest() : PlayFabClientLinkOpenIdConnectRequest{}
             {
@@ -12021,7 +13428,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkOpenIdConnectRequest>(*this);
             }
-
+    
         private:
             String m_connectionId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12029,7 +13436,7 @@ namespace PlayFab
             String m_idToken;
         };
 
-        struct LinkPSNAccountRequest : public PlayFabClientLinkPSNAccountRequest, public BaseRequest
+        struct LinkPSNAccountRequest : public PlayFabClientLinkPSNAccountRequest, public BaseModel
         {
             LinkPSNAccountRequest() : PlayFabClientLinkPSNAccountRequest{}
             {
@@ -12067,7 +13474,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkPSNAccountRequest>(*this);
             }
-
+    
         private:
             String m_authCode;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12076,7 +13483,7 @@ namespace PlayFab
             String m_redirectUri;
         };
 
-        struct LinkSteamAccountRequest : public PlayFabClientLinkSteamAccountRequest, public BaseRequest
+        struct LinkSteamAccountRequest : public PlayFabClientLinkSteamAccountRequest, public BaseModel
         {
             LinkSteamAccountRequest() : PlayFabClientLinkSteamAccountRequest{}
             {
@@ -12108,14 +13515,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkSteamAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
             String m_steamTicket;
         };
 
-        struct LinkTwitchAccountRequest : public PlayFabClientLinkTwitchAccountRequest, public BaseRequest
+        struct LinkTwitchAccountRequest : public PlayFabClientLinkTwitchAccountRequest, public BaseModel
         {
             LinkTwitchAccountRequest() : PlayFabClientLinkTwitchAccountRequest{}
             {
@@ -12147,14 +13554,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkTwitchAccountRequest>(*this);
             }
-
+    
         private:
             String m_accessToken;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
         };
 
-        struct LinkWindowsHelloAccountRequest : public PlayFabClientLinkWindowsHelloAccountRequest, public BaseRequest
+        struct LinkWindowsHelloAccountRequest : public PlayFabClientLinkWindowsHelloAccountRequest, public BaseModel
         {
             LinkWindowsHelloAccountRequest() : PlayFabClientLinkWindowsHelloAccountRequest{}
             {
@@ -12192,7 +13599,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkWindowsHelloAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_deviceName;
@@ -12201,7 +13608,7 @@ namespace PlayFab
             String m_userName;
         };
 
-        struct LinkXboxAccountRequest : public PlayFabClientLinkXboxAccountRequest, public BaseRequest
+        struct LinkXboxAccountRequest : public PlayFabClientLinkXboxAccountRequest, public BaseModel
         {
             LinkXboxAccountRequest() : PlayFabClientLinkXboxAccountRequest{}
             {
@@ -12233,14 +13640,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLinkXboxAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<bool> m_forceLink;
             String m_xboxToken;
         };
 
-        struct ListUsersCharactersRequest : public PlayFabClientListUsersCharactersRequest, public BaseRequest
+        struct ListUsersCharactersRequest : public PlayFabClientListUsersCharactersRequest, public SerializableModel
         {
             ListUsersCharactersRequest() : PlayFabClientListUsersCharactersRequest{}
             {
@@ -12266,12 +13673,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientListUsersCharactersRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientListUsersCharactersRequest) };
+                serializedSize += (m_playFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientListUsersCharactersRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientListUsersCharactersRequest);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
         };
 
-        struct ListUsersCharactersResult : public PlayFabClientListUsersCharactersResult, public BaseResult
+        struct ListUsersCharactersResult : public PlayFabClientListUsersCharactersResult, public BaseModel
         {
             ListUsersCharactersResult() : PlayFabClientListUsersCharactersResult{}
             {
@@ -12297,12 +13721,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientListUsersCharactersResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientCharacterResult, CharacterResult> m_characters;
         };
 
-        struct UserSettings : public PlayFabClientUserSettings, public BaseModel
+        struct UserSettings : public PlayFabClientUserSettings, public SerializableModel
         {
             UserSettings() : PlayFabClientUserSettings{}
             {
@@ -12325,11 +13749,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUserSettings>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUserSettings) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUserSettings{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUserSettings);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct Variable : public PlayFabClientVariable, public BaseModel
+        struct Variable : public PlayFabClientVariable, public SerializableModel
         {
             Variable() : PlayFabClientVariable{}
             {
@@ -12358,7 +13796,27 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientVariable>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientVariable) };
+                serializedSize += (m_name.size() + 1);
+                serializedSize += (m_value.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientVariable{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientVariable);
+        
+                memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+                stringBuffer +=  m_name.size() + 1; 
+                memcpy(stringBuffer, m_value.data(), m_value.size() + 1);
+                stringBuffer +=  m_value.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_name;
             String m_value;
@@ -12393,13 +13851,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientTreatmentAssignment>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientVariable, Variable> m_variables;
             PointerArray<const char, String> m_variants;
         };
 
-        struct LoginResult : public PlayFabClientLoginResult, public PlayFabLoginResultCommon
+        struct LoginResult : public PlayFabClientLoginResult, public BaseModel
         {
             LoginResult() : PlayFabClientLoginResult{}
             {
@@ -12444,7 +13902,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityTokenResponse> m_entityToken;
             StdExtra::optional<GetPlayerCombinedInfoResultPayload> m_infoResultPayload;
@@ -12455,7 +13913,7 @@ namespace PlayFab
             StdExtra::optional<TreatmentAssignment> m_treatmentAssignment;
         };
 
-        struct LoginWithAndroidDeviceIDRequest : public PlayFabClientLoginWithAndroidDeviceIDRequest, public BaseRequest
+        struct LoginWithAndroidDeviceIDRequest : public PlayFabClientLoginWithAndroidDeviceIDRequest, public BaseModel
         {
             LoginWithAndroidDeviceIDRequest() : PlayFabClientLoginWithAndroidDeviceIDRequest{}
             {
@@ -12505,7 +13963,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithAndroidDeviceIDRequest>(*this);
             }
-
+    
         private:
             String m_androidDevice;
             String m_androidDeviceId;
@@ -12518,7 +13976,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithAppleRequest : public PlayFabClientLoginWithAppleRequest, public BaseRequest
+        struct LoginWithAppleRequest : public PlayFabClientLoginWithAppleRequest, public BaseModel
         {
             LoginWithAppleRequest() : PlayFabClientLoginWithAppleRequest{}
             {
@@ -12562,7 +14020,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithAppleRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12573,7 +14031,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithCustomIDRequest : public PlayFabClientLoginWithCustomIDRequest, public BaseRequest
+        struct LoginWithCustomIDRequest : public PlayFabClientLoginWithCustomIDRequest, public BaseModel
         {
             LoginWithCustomIDRequest() : PlayFabClientLoginWithCustomIDRequest{}
             {
@@ -12617,7 +14075,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithCustomIDRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             String m_customId;
@@ -12628,7 +14086,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithEmailAddressRequest : public PlayFabClientLoginWithEmailAddressRequest, public BaseRequest
+        struct LoginWithEmailAddressRequest : public PlayFabClientLoginWithEmailAddressRequest, public BaseModel
         {
             LoginWithEmailAddressRequest() : PlayFabClientLoginWithEmailAddressRequest{}
             {
@@ -12666,7 +14124,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithEmailAddressRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_email;
@@ -12675,7 +14133,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithFacebookInstantGamesIdRequest : public PlayFabClientLoginWithFacebookInstantGamesIdRequest, public BaseRequest
+        struct LoginWithFacebookInstantGamesIdRequest : public PlayFabClientLoginWithFacebookInstantGamesIdRequest, public BaseModel
         {
             LoginWithFacebookInstantGamesIdRequest() : PlayFabClientLoginWithFacebookInstantGamesIdRequest{}
             {
@@ -12719,7 +14177,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithFacebookInstantGamesIdRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12730,7 +14188,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithFacebookRequest : public PlayFabClientLoginWithFacebookRequest, public BaseRequest
+        struct LoginWithFacebookRequest : public PlayFabClientLoginWithFacebookRequest, public BaseModel
         {
             LoginWithFacebookRequest() : PlayFabClientLoginWithFacebookRequest{}
             {
@@ -12774,7 +14232,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithFacebookRequest>(*this);
             }
-
+    
         private:
             String m_accessToken;
             StdExtra::optional<bool> m_createAccount;
@@ -12785,7 +14243,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithGameCenterRequest : public PlayFabClientLoginWithGameCenterRequest, public BaseRequest
+        struct LoginWithGameCenterRequest : public PlayFabClientLoginWithGameCenterRequest, public BaseModel
         {
             LoginWithGameCenterRequest() : PlayFabClientLoginWithGameCenterRequest{}
             {
@@ -12841,7 +14299,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithGameCenterRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12856,7 +14314,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithGoogleAccountRequest : public PlayFabClientLoginWithGoogleAccountRequest, public BaseRequest
+        struct LoginWithGoogleAccountRequest : public PlayFabClientLoginWithGoogleAccountRequest, public BaseModel
         {
             LoginWithGoogleAccountRequest() : PlayFabClientLoginWithGoogleAccountRequest{}
             {
@@ -12900,7 +14358,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithGoogleAccountRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12911,7 +14369,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithIOSDeviceIDRequest : public PlayFabClientLoginWithIOSDeviceIDRequest, public BaseRequest
+        struct LoginWithIOSDeviceIDRequest : public PlayFabClientLoginWithIOSDeviceIDRequest, public BaseModel
         {
             LoginWithIOSDeviceIDRequest() : PlayFabClientLoginWithIOSDeviceIDRequest{}
             {
@@ -12961,7 +14419,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithIOSDeviceIDRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -12974,7 +14432,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithKongregateRequest : public PlayFabClientLoginWithKongregateRequest, public BaseRequest
+        struct LoginWithKongregateRequest : public PlayFabClientLoginWithKongregateRequest, public BaseModel
         {
             LoginWithKongregateRequest() : PlayFabClientLoginWithKongregateRequest{}
             {
@@ -13021,7 +14479,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithKongregateRequest>(*this);
             }
-
+    
         private:
             String m_authTicket;
             StdExtra::optional<bool> m_createAccount;
@@ -13033,7 +14491,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithNintendoServiceAccountRequest : public PlayFabClientLoginWithNintendoServiceAccountRequest, public BaseRequest
+        struct LoginWithNintendoServiceAccountRequest : public PlayFabClientLoginWithNintendoServiceAccountRequest, public BaseModel
         {
             LoginWithNintendoServiceAccountRequest() : PlayFabClientLoginWithNintendoServiceAccountRequest{}
             {
@@ -13077,7 +14535,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithNintendoServiceAccountRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -13088,7 +14546,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithNintendoSwitchDeviceIdRequest : public PlayFabClientLoginWithNintendoSwitchDeviceIdRequest, public BaseRequest
+        struct LoginWithNintendoSwitchDeviceIdRequest : public PlayFabClientLoginWithNintendoSwitchDeviceIdRequest, public BaseModel
         {
             LoginWithNintendoSwitchDeviceIdRequest() : PlayFabClientLoginWithNintendoSwitchDeviceIdRequest{}
             {
@@ -13132,7 +14590,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithNintendoSwitchDeviceIdRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -13143,7 +14601,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithOpenIdConnectRequest : public PlayFabClientLoginWithOpenIdConnectRequest, public BaseRequest
+        struct LoginWithOpenIdConnectRequest : public PlayFabClientLoginWithOpenIdConnectRequest, public BaseModel
         {
             LoginWithOpenIdConnectRequest() : PlayFabClientLoginWithOpenIdConnectRequest{}
             {
@@ -13190,7 +14648,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithOpenIdConnectRequest>(*this);
             }
-
+    
         private:
             String m_connectionId;
             StdExtra::optional<bool> m_createAccount;
@@ -13202,7 +14660,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithPlayFabRequest : public PlayFabClientLoginWithPlayFabRequest, public BaseRequest
+        struct LoginWithPlayFabRequest : public PlayFabClientLoginWithPlayFabRequest, public BaseModel
         {
             LoginWithPlayFabRequest() : PlayFabClientLoginWithPlayFabRequest{}
             {
@@ -13240,7 +14698,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithPlayFabRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<GetPlayerCombinedInfoRequestParams> m_infoRequestParameters;
@@ -13249,7 +14707,7 @@ namespace PlayFab
             String m_username;
         };
 
-        struct LoginWithPSNRequest : public PlayFabClientLoginWithPSNRequest, public BaseRequest
+        struct LoginWithPSNRequest : public PlayFabClientLoginWithPSNRequest, public BaseModel
         {
             LoginWithPSNRequest() : PlayFabClientLoginWithPSNRequest{}
             {
@@ -13299,7 +14757,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithPSNRequest>(*this);
             }
-
+    
         private:
             String m_authCode;
             StdExtra::optional<bool> m_createAccount;
@@ -13312,7 +14770,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithSteamRequest : public PlayFabClientLoginWithSteamRequest, public BaseRequest
+        struct LoginWithSteamRequest : public PlayFabClientLoginWithSteamRequest, public BaseModel
         {
             LoginWithSteamRequest() : PlayFabClientLoginWithSteamRequest{}
             {
@@ -13356,7 +14814,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithSteamRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -13367,7 +14825,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithTwitchRequest : public PlayFabClientLoginWithTwitchRequest, public BaseRequest
+        struct LoginWithTwitchRequest : public PlayFabClientLoginWithTwitchRequest, public BaseModel
         {
             LoginWithTwitchRequest() : PlayFabClientLoginWithTwitchRequest{}
             {
@@ -13411,7 +14869,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithTwitchRequest>(*this);
             }
-
+    
         private:
             String m_accessToken;
             StdExtra::optional<bool> m_createAccount;
@@ -13422,7 +14880,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithWindowsHelloRequest : public PlayFabClientLoginWithWindowsHelloRequest, public BaseRequest
+        struct LoginWithWindowsHelloRequest : public PlayFabClientLoginWithWindowsHelloRequest, public BaseModel
         {
             LoginWithWindowsHelloRequest() : PlayFabClientLoginWithWindowsHelloRequest{}
             {
@@ -13460,7 +14918,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithWindowsHelloRequest>(*this);
             }
-
+    
         private:
             String m_challengeSignature;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -13469,7 +14927,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct LoginWithXboxRequest : public PlayFabClientLoginWithXboxRequest, public BaseRequest
+        struct LoginWithXboxRequest : public PlayFabClientLoginWithXboxRequest, public BaseModel
         {
             LoginWithXboxRequest() : PlayFabClientLoginWithXboxRequest{}
             {
@@ -13513,7 +14971,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientLoginWithXboxRequest>(*this);
             }
-
+    
         private:
             StdExtra::optional<bool> m_createAccount;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -13524,7 +14982,7 @@ namespace PlayFab
             String m_xboxToken;
         };
 
-        struct MatchmakeRequest : public PlayFabClientMatchmakeRequest, public BaseRequest
+        struct MatchmakeRequest : public PlayFabClientMatchmakeRequest, public BaseModel
         {
             MatchmakeRequest() : PlayFabClientMatchmakeRequest{}
             {
@@ -13574,7 +15032,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientMatchmakeRequest>(*this);
             }
-
+    
         private:
             String m_buildVersion;
             String m_characterId;
@@ -13587,7 +15045,7 @@ namespace PlayFab
             StdExtra::optional<CollectionFilter> m_tagFilter;
         };
 
-        struct MatchmakeResult : public PlayFabClientMatchmakeResult, public BaseResult
+        struct MatchmakeResult : public PlayFabClientMatchmakeResult, public BaseModel
         {
             MatchmakeResult() : PlayFabClientMatchmakeResult{}
             {
@@ -13637,7 +15095,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientMatchmakeResult>(*this);
             }
-
+    
         private:
             String m_expires;
             String m_lobbyID;
@@ -13650,7 +15108,7 @@ namespace PlayFab
             String m_ticket;
         };
 
-        struct ModifyUserVirtualCurrencyResult : public PlayFabClientModifyUserVirtualCurrencyResult, public BaseResult
+        struct ModifyUserVirtualCurrencyResult : public PlayFabClientModifyUserVirtualCurrencyResult, public SerializableModel
         {
             ModifyUserVirtualCurrencyResult() : PlayFabClientModifyUserVirtualCurrencyResult{}
             {
@@ -13681,13 +15139,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientModifyUserVirtualCurrencyResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientModifyUserVirtualCurrencyResult) };
+                serializedSize += (m_playFabId.size() + 1);
+                serializedSize += (m_virtualCurrency.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientModifyUserVirtualCurrencyResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientModifyUserVirtualCurrencyResult);
+        
+                memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+                stringBuffer +=  m_playFabId.size() + 1; 
+                memcpy(stringBuffer, m_virtualCurrency.data(), m_virtualCurrency.size() + 1);
+                stringBuffer +=  m_virtualCurrency.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_playFabId;
             String m_virtualCurrency;
         };
 
-        struct OpenTradeRequest : public PlayFabClientOpenTradeRequest, public BaseRequest
+        struct OpenTradeRequest : public PlayFabClientOpenTradeRequest, public BaseModel
         {
             OpenTradeRequest() : PlayFabClientOpenTradeRequest{}
             {
@@ -13719,14 +15197,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientOpenTradeRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_allowedPlayerIds;
             PointerArray<const char, String> m_offeredInventoryInstanceIds;
             PointerArray<const char, String> m_requestedCatalogItemIds;
         };
 
-        struct OpenTradeResponse : public PlayFabClientOpenTradeResponse, public BaseResult
+        struct OpenTradeResponse : public PlayFabClientOpenTradeResponse, public BaseModel
         {
             OpenTradeResponse() : PlayFabClientOpenTradeResponse{}
             {
@@ -13752,12 +15230,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientOpenTradeResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<TradeInfo> m_trade;
         };
 
-        struct PayForPurchaseRequest : public PlayFabClientPayForPurchaseRequest, public BaseRequest
+        struct PayForPurchaseRequest : public PlayFabClientPayForPurchaseRequest, public BaseModel
         {
             PayForPurchaseRequest() : PlayFabClientPayForPurchaseRequest{}
             {
@@ -13795,7 +15273,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPayForPurchaseRequest>(*this);
             }
-
+    
         private:
             String m_currency;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -13804,7 +15282,7 @@ namespace PlayFab
             String m_providerTransactionId;
         };
 
-        struct PayForPurchaseResult : public PlayFabClientPayForPurchaseResult, public BaseResult
+        struct PayForPurchaseResult : public PlayFabClientPayForPurchaseResult, public BaseModel
         {
             PayForPurchaseResult() : PlayFabClientPayForPurchaseResult{}
             {
@@ -13853,7 +15331,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPayForPurchaseResult>(*this);
             }
-
+    
         private:
             String m_orderId;
             String m_providerData;
@@ -13865,7 +15343,7 @@ namespace PlayFab
             AssociativeArray<PlayFabInt32DictionaryEntry, void> m_virtualCurrency;
         };
 
-        struct PaymentOption : public PlayFabClientPaymentOption, public BaseModel
+        struct PaymentOption : public PlayFabClientPaymentOption, public SerializableModel
         {
             PaymentOption() : PlayFabClientPaymentOption{}
             {
@@ -13896,13 +15374,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPaymentOption>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientPaymentOption) };
+                serializedSize += (m_currency.size() + 1);
+                serializedSize += (m_providerName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientPaymentOption{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientPaymentOption);
+        
+                memcpy(stringBuffer, m_currency.data(), m_currency.size() + 1);
+                stringBuffer +=  m_currency.size() + 1; 
+                memcpy(stringBuffer, m_providerName.data(), m_providerName.size() + 1);
+                stringBuffer +=  m_providerName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_currency;
             String m_providerName;
         };
 
-        struct PurchaseItemRequest : public PlayFabClientPurchaseItemRequest, public BaseRequest
+        struct PurchaseItemRequest : public PlayFabClientPurchaseItemRequest, public BaseModel
         {
             PurchaseItemRequest() : PlayFabClientPurchaseItemRequest{}
             {
@@ -13944,7 +15442,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPurchaseItemRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_characterId;
@@ -13954,7 +15452,7 @@ namespace PlayFab
             String m_virtualCurrency;
         };
 
-        struct PurchaseItemResult : public PlayFabClientPurchaseItemResult, public BaseResult
+        struct PurchaseItemResult : public PlayFabClientPurchaseItemResult, public BaseModel
         {
             PurchaseItemResult() : PlayFabClientPurchaseItemResult{}
             {
@@ -13980,7 +15478,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPurchaseItemResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_items;
         };
@@ -14020,7 +15518,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientPurchaseReceiptFulfillment>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_fulfilledItems;
             String m_recordedPriceSource;
@@ -14028,7 +15526,7 @@ namespace PlayFab
             StdExtra::optional<uint32_t> m_recordedTransactionTotal;
         };
 
-        struct RedeemCouponRequest : public PlayFabClientRedeemCouponRequest, public BaseRequest
+        struct RedeemCouponRequest : public PlayFabClientRedeemCouponRequest, public BaseModel
         {
             RedeemCouponRequest() : PlayFabClientRedeemCouponRequest{}
             {
@@ -14063,7 +15561,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRedeemCouponRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_characterId;
@@ -14071,7 +15569,7 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct RedeemCouponResult : public PlayFabClientRedeemCouponResult, public BaseResult
+        struct RedeemCouponResult : public PlayFabClientRedeemCouponResult, public BaseModel
         {
             RedeemCouponResult() : PlayFabClientRedeemCouponResult{}
             {
@@ -14097,12 +15595,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRedeemCouponResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_grantedItems;
         };
 
-        struct RefreshPSNAuthTokenRequest : public PlayFabClientRefreshPSNAuthTokenRequest, public BaseRequest
+        struct RefreshPSNAuthTokenRequest : public PlayFabClientRefreshPSNAuthTokenRequest, public BaseModel
         {
             RefreshPSNAuthTokenRequest() : PlayFabClientRefreshPSNAuthTokenRequest{}
             {
@@ -14134,14 +15632,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRefreshPSNAuthTokenRequest>(*this);
             }
-
+    
         private:
             String m_authCode;
             StdExtra::optional<int32_t> m_issuerId;
             String m_redirectUri;
         };
 
-        struct RegisterForIOSPushNotificationRequest : public PlayFabClientRegisterForIOSPushNotificationRequest, public BaseRequest
+        struct RegisterForIOSPushNotificationRequest : public PlayFabClientRegisterForIOSPushNotificationRequest, public BaseModel
         {
             RegisterForIOSPushNotificationRequest() : PlayFabClientRegisterForIOSPushNotificationRequest{}
             {
@@ -14173,14 +15671,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRegisterForIOSPushNotificationRequest>(*this);
             }
-
+    
         private:
             String m_confirmationMessage;
             String m_deviceToken;
             StdExtra::optional<bool> m_sendPushNotificationConfirmation;
         };
 
-        struct RegisterPlayFabUserRequest : public PlayFabClientRegisterPlayFabUserRequest, public BaseRequest
+        struct RegisterPlayFabUserRequest : public PlayFabClientRegisterPlayFabUserRequest, public BaseModel
         {
             RegisterPlayFabUserRequest() : PlayFabClientRegisterPlayFabUserRequest{}
             {
@@ -14233,7 +15731,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRegisterPlayFabUserRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_displayName;
@@ -14247,7 +15745,7 @@ namespace PlayFab
             String m_username;
         };
 
-        struct RegisterPlayFabUserResult : public PlayFabClientRegisterPlayFabUserResult, public BaseResult
+        struct RegisterPlayFabUserResult : public PlayFabClientRegisterPlayFabUserResult, public BaseModel
         {
             RegisterPlayFabUserResult() : PlayFabClientRegisterPlayFabUserResult{}
             {
@@ -14285,7 +15783,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRegisterPlayFabUserResult>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityTokenResponse> m_entityToken;
             String m_playFabId;
@@ -14294,7 +15792,7 @@ namespace PlayFab
             String m_username;
         };
 
-        struct RegisterWithWindowsHelloRequest : public PlayFabClientRegisterWithWindowsHelloRequest, public BaseRequest
+        struct RegisterWithWindowsHelloRequest : public PlayFabClientRegisterWithWindowsHelloRequest, public BaseModel
         {
             RegisterWithWindowsHelloRequest() : PlayFabClientRegisterWithWindowsHelloRequest{}
             {
@@ -14341,7 +15839,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRegisterWithWindowsHelloRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_deviceName;
@@ -14353,7 +15851,7 @@ namespace PlayFab
             String m_userName;
         };
 
-        struct RemoveContactEmailRequest : public PlayFabClientRemoveContactEmailRequest, public BaseRequest
+        struct RemoveContactEmailRequest : public PlayFabClientRemoveContactEmailRequest, public BaseModel
         {
             RemoveContactEmailRequest() : PlayFabClientRemoveContactEmailRequest{}
             {
@@ -14379,12 +15877,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRemoveContactEmailRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct RemoveFriendRequest : public PlayFabClientRemoveFriendRequest, public BaseRequest
+        struct RemoveFriendRequest : public PlayFabClientRemoveFriendRequest, public SerializableModel
         {
             RemoveFriendRequest() : PlayFabClientRemoveFriendRequest{}
             {
@@ -14410,12 +15908,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRemoveFriendRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientRemoveFriendRequest) };
+                serializedSize += (m_friendPlayFabId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientRemoveFriendRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientRemoveFriendRequest);
+        
+                memcpy(stringBuffer, m_friendPlayFabId.data(), m_friendPlayFabId.size() + 1);
+                stringBuffer +=  m_friendPlayFabId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_friendPlayFabId;
         };
 
-        struct RemoveGenericIDRequest : public PlayFabClientRemoveGenericIDRequest, public BaseRequest
+        struct RemoveGenericIDRequest : public PlayFabClientRemoveGenericIDRequest, public BaseModel
         {
             RemoveGenericIDRequest() : PlayFabClientRemoveGenericIDRequest{}
             {
@@ -14441,12 +15956,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRemoveGenericIDRequest>(*this);
             }
-
+    
         private:
             GenericServiceId m_genericId;
         };
 
-        struct RemoveSharedGroupMembersRequest : public PlayFabClientRemoveSharedGroupMembersRequest, public BaseRequest
+        struct RemoveSharedGroupMembersRequest : public PlayFabClientRemoveSharedGroupMembersRequest, public BaseModel
         {
             RemoveSharedGroupMembersRequest() : PlayFabClientRemoveSharedGroupMembersRequest{}
             {
@@ -14475,13 +15990,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRemoveSharedGroupMembersRequest>(*this);
             }
-
+    
         private:
             PointerArray<const char, String> m_playFabIds;
             String m_sharedGroupId;
         };
 
-        struct ReportAdActivityRequest : public PlayFabClientReportAdActivityRequest, public BaseRequest
+        struct ReportAdActivityRequest : public PlayFabClientReportAdActivityRequest, public BaseModel
         {
             ReportAdActivityRequest() : PlayFabClientReportAdActivityRequest{}
             {
@@ -14514,14 +16029,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientReportAdActivityRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_placementId;
             String m_rewardId;
         };
 
-        struct ReportPlayerClientRequest : public PlayFabClientReportPlayerClientRequest, public BaseRequest
+        struct ReportPlayerClientRequest : public PlayFabClientReportPlayerClientRequest, public BaseModel
         {
             ReportPlayerClientRequest() : PlayFabClientReportPlayerClientRequest{}
             {
@@ -14553,14 +16068,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientReportPlayerClientRequest>(*this);
             }
-
+    
         private:
             String m_comment;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_reporteeId;
         };
 
-        struct ReportPlayerClientResult : public PlayFabClientReportPlayerClientResult, public BaseResult
+        struct ReportPlayerClientResult : public PlayFabClientReportPlayerClientResult, public SerializableModel
         {
             ReportPlayerClientResult() : PlayFabClientReportPlayerClientResult{}
             {
@@ -14581,11 +16096,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientReportPlayerClientResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientReportPlayerClientResult) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientReportPlayerClientResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientReportPlayerClientResult);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct RestoreIOSPurchasesRequest : public PlayFabClientRestoreIOSPurchasesRequest, public BaseRequest
+        struct RestoreIOSPurchasesRequest : public PlayFabClientRestoreIOSPurchasesRequest, public BaseModel
         {
             RestoreIOSPurchasesRequest() : PlayFabClientRestoreIOSPurchasesRequest{}
             {
@@ -14617,14 +16146,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRestoreIOSPurchasesRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_receiptData;
         };
 
-        struct RestoreIOSPurchasesResult : public PlayFabClientRestoreIOSPurchasesResult, public BaseResult
+        struct RestoreIOSPurchasesResult : public PlayFabClientRestoreIOSPurchasesResult, public BaseModel
         {
             RestoreIOSPurchasesResult() : PlayFabClientRestoreIOSPurchasesResult{}
             {
@@ -14650,12 +16179,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRestoreIOSPurchasesResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
         };
 
-        struct RewardAdActivityRequest : public PlayFabClientRewardAdActivityRequest, public BaseRequest
+        struct RewardAdActivityRequest : public PlayFabClientRewardAdActivityRequest, public BaseModel
         {
             RewardAdActivityRequest() : PlayFabClientRewardAdActivityRequest{}
             {
@@ -14687,14 +16216,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRewardAdActivityRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_placementId;
             String m_rewardId;
         };
 
-        struct RewardAdActivityResult : public PlayFabClientRewardAdActivityResult, public BaseResult
+        struct RewardAdActivityResult : public PlayFabClientRewardAdActivityResult, public BaseModel
         {
             RewardAdActivityResult() : PlayFabClientRewardAdActivityResult{}
             {
@@ -14738,7 +16267,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientRewardAdActivityResult>(*this);
             }
-
+    
         private:
             String m_adActivityEventId;
             PointerArray<const char, String> m_debugResults;
@@ -14749,7 +16278,7 @@ namespace PlayFab
             StdExtra::optional<AdRewardResults> m_rewardResults;
         };
 
-        struct SendAccountRecoveryEmailRequest : public PlayFabClientSendAccountRecoveryEmailRequest, public BaseRequest
+        struct SendAccountRecoveryEmailRequest : public PlayFabClientSendAccountRecoveryEmailRequest, public BaseModel
         {
             SendAccountRecoveryEmailRequest() : PlayFabClientSendAccountRecoveryEmailRequest{}
             {
@@ -14784,7 +16313,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSendAccountRecoveryEmailRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_email;
@@ -14792,7 +16321,7 @@ namespace PlayFab
             String m_titleId;
         };
 
-        struct SetFriendTagsRequest : public PlayFabClientSetFriendTagsRequest, public BaseRequest
+        struct SetFriendTagsRequest : public PlayFabClientSetFriendTagsRequest, public BaseModel
         {
             SetFriendTagsRequest() : PlayFabClientSetFriendTagsRequest{}
             {
@@ -14821,13 +16350,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSetFriendTagsRequest>(*this);
             }
-
+    
         private:
             String m_friendPlayFabId;
             PointerArray<const char, String> m_tags;
         };
 
-        struct SetPlayerSecretRequest : public PlayFabClientSetPlayerSecretRequest, public BaseRequest
+        struct SetPlayerSecretRequest : public PlayFabClientSetPlayerSecretRequest, public SerializableModel
         {
             SetPlayerSecretRequest() : PlayFabClientSetPlayerSecretRequest{}
             {
@@ -14856,13 +16385,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSetPlayerSecretRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientSetPlayerSecretRequest) };
+                serializedSize += (m_encryptedRequest.size() + 1);
+                serializedSize += (m_playerSecret.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientSetPlayerSecretRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientSetPlayerSecretRequest);
+        
+                memcpy(stringBuffer, m_encryptedRequest.data(), m_encryptedRequest.size() + 1);
+                stringBuffer +=  m_encryptedRequest.size() + 1; 
+                memcpy(stringBuffer, m_playerSecret.data(), m_playerSecret.size() + 1);
+                stringBuffer +=  m_playerSecret.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_encryptedRequest;
             String m_playerSecret;
         };
 
-        struct StartGameRequest : public PlayFabClientStartGameRequest, public BaseRequest
+        struct StartGameRequest : public PlayFabClientStartGameRequest, public BaseModel
         {
             StartGameRequest() : PlayFabClientStartGameRequest{}
             {
@@ -14904,7 +16453,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStartGameRequest>(*this);
             }
-
+    
         private:
             String m_buildVersion;
             String m_characterId;
@@ -14914,7 +16463,7 @@ namespace PlayFab
             String m_statisticName;
         };
 
-        struct StartGameResult : public PlayFabClientStartGameResult, public BaseResult
+        struct StartGameResult : public PlayFabClientStartGameResult, public BaseModel
         {
             StartGameResult() : PlayFabClientStartGameResult{}
             {
@@ -14961,7 +16510,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStartGameResult>(*this);
             }
-
+    
         private:
             String m_expires;
             String m_lobbyID;
@@ -14973,7 +16522,7 @@ namespace PlayFab
             String m_ticket;
         };
 
-        struct StartPurchaseRequest : public PlayFabClientStartPurchaseRequest, public BaseRequest
+        struct StartPurchaseRequest : public PlayFabClientStartPurchaseRequest, public BaseModel
         {
             StartPurchaseRequest() : PlayFabClientStartPurchaseRequest{}
             {
@@ -15008,7 +16557,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStartPurchaseRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -15016,7 +16565,7 @@ namespace PlayFab
             String m_storeId;
         };
 
-        struct StartPurchaseResult : public PlayFabClientStartPurchaseResult, public BaseResult
+        struct StartPurchaseResult : public PlayFabClientStartPurchaseResult, public BaseModel
         {
             StartPurchaseResult() : PlayFabClientStartPurchaseResult{}
             {
@@ -15051,7 +16600,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStartPurchaseResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientCartItem, CartItem> m_contents;
             String m_orderId;
@@ -15089,13 +16638,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientStatisticUpdate>(*this);
             }
-
+    
         private:
             String m_statisticName;
             StdExtra::optional<uint32_t> m_version;
         };
 
-        struct SubtractUserVirtualCurrencyRequest : public PlayFabClientSubtractUserVirtualCurrencyRequest, public BaseRequest
+        struct SubtractUserVirtualCurrencyRequest : public PlayFabClientSubtractUserVirtualCurrencyRequest, public BaseModel
         {
             SubtractUserVirtualCurrencyRequest() : PlayFabClientSubtractUserVirtualCurrencyRequest{}
             {
@@ -15125,13 +16674,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientSubtractUserVirtualCurrencyRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_virtualCurrency;
         };
 
-        struct UnlinkAndroidDeviceIDRequest : public PlayFabClientUnlinkAndroidDeviceIDRequest, public BaseRequest
+        struct UnlinkAndroidDeviceIDRequest : public PlayFabClientUnlinkAndroidDeviceIDRequest, public BaseModel
         {
             UnlinkAndroidDeviceIDRequest() : PlayFabClientUnlinkAndroidDeviceIDRequest{}
             {
@@ -15160,13 +16709,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkAndroidDeviceIDRequest>(*this);
             }
-
+    
         private:
             String m_androidDeviceId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkAppleRequest : public PlayFabClientUnlinkAppleRequest, public BaseRequest
+        struct UnlinkAppleRequest : public PlayFabClientUnlinkAppleRequest, public BaseModel
         {
             UnlinkAppleRequest() : PlayFabClientUnlinkAppleRequest{}
             {
@@ -15192,12 +16741,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkAppleRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkCustomIDRequest : public PlayFabClientUnlinkCustomIDRequest, public BaseRequest
+        struct UnlinkCustomIDRequest : public PlayFabClientUnlinkCustomIDRequest, public BaseModel
         {
             UnlinkCustomIDRequest() : PlayFabClientUnlinkCustomIDRequest{}
             {
@@ -15226,13 +16775,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkCustomIDRequest>(*this);
             }
-
+    
         private:
             String m_customId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkFacebookAccountRequest : public PlayFabClientUnlinkFacebookAccountRequest, public BaseRequest
+        struct UnlinkFacebookAccountRequest : public PlayFabClientUnlinkFacebookAccountRequest, public BaseModel
         {
             UnlinkFacebookAccountRequest() : PlayFabClientUnlinkFacebookAccountRequest{}
             {
@@ -15258,12 +16807,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkFacebookAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkFacebookInstantGamesIdRequest : public PlayFabClientUnlinkFacebookInstantGamesIdRequest, public BaseRequest
+        struct UnlinkFacebookInstantGamesIdRequest : public PlayFabClientUnlinkFacebookInstantGamesIdRequest, public BaseModel
         {
             UnlinkFacebookInstantGamesIdRequest() : PlayFabClientUnlinkFacebookInstantGamesIdRequest{}
             {
@@ -15292,13 +16841,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkFacebookInstantGamesIdRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_facebookInstantGamesId;
         };
 
-        struct UnlinkGameCenterAccountRequest : public PlayFabClientUnlinkGameCenterAccountRequest, public BaseRequest
+        struct UnlinkGameCenterAccountRequest : public PlayFabClientUnlinkGameCenterAccountRequest, public BaseModel
         {
             UnlinkGameCenterAccountRequest() : PlayFabClientUnlinkGameCenterAccountRequest{}
             {
@@ -15324,12 +16873,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkGameCenterAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkGoogleAccountRequest : public PlayFabClientUnlinkGoogleAccountRequest, public BaseRequest
+        struct UnlinkGoogleAccountRequest : public PlayFabClientUnlinkGoogleAccountRequest, public BaseModel
         {
             UnlinkGoogleAccountRequest() : PlayFabClientUnlinkGoogleAccountRequest{}
             {
@@ -15355,12 +16904,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkGoogleAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkIOSDeviceIDRequest : public PlayFabClientUnlinkIOSDeviceIDRequest, public BaseRequest
+        struct UnlinkIOSDeviceIDRequest : public PlayFabClientUnlinkIOSDeviceIDRequest, public BaseModel
         {
             UnlinkIOSDeviceIDRequest() : PlayFabClientUnlinkIOSDeviceIDRequest{}
             {
@@ -15389,13 +16938,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkIOSDeviceIDRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_deviceId;
         };
 
-        struct UnlinkKongregateAccountRequest : public PlayFabClientUnlinkKongregateAccountRequest, public BaseRequest
+        struct UnlinkKongregateAccountRequest : public PlayFabClientUnlinkKongregateAccountRequest, public BaseModel
         {
             UnlinkKongregateAccountRequest() : PlayFabClientUnlinkKongregateAccountRequest{}
             {
@@ -15421,12 +16970,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkKongregateAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkNintendoServiceAccountRequest : public PlayFabClientUnlinkNintendoServiceAccountRequest, public BaseRequest
+        struct UnlinkNintendoServiceAccountRequest : public PlayFabClientUnlinkNintendoServiceAccountRequest, public BaseModel
         {
             UnlinkNintendoServiceAccountRequest() : PlayFabClientUnlinkNintendoServiceAccountRequest{}
             {
@@ -15452,12 +17001,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkNintendoServiceAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkNintendoSwitchDeviceIdRequest : public PlayFabClientUnlinkNintendoSwitchDeviceIdRequest, public BaseRequest
+        struct UnlinkNintendoSwitchDeviceIdRequest : public PlayFabClientUnlinkNintendoSwitchDeviceIdRequest, public BaseModel
         {
             UnlinkNintendoSwitchDeviceIdRequest() : PlayFabClientUnlinkNintendoSwitchDeviceIdRequest{}
             {
@@ -15486,13 +17035,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkNintendoSwitchDeviceIdRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_nintendoSwitchDeviceId;
         };
 
-        struct UnlinkOpenIdConnectRequest : public PlayFabClientUnlinkOpenIdConnectRequest, public BaseRequest
+        struct UnlinkOpenIdConnectRequest : public PlayFabClientUnlinkOpenIdConnectRequest, public BaseModel
         {
             UnlinkOpenIdConnectRequest() : PlayFabClientUnlinkOpenIdConnectRequest{}
             {
@@ -15521,13 +17070,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkOpenIdConnectRequest>(*this);
             }
-
+    
         private:
             String m_connectionId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkPSNAccountRequest : public PlayFabClientUnlinkPSNAccountRequest, public BaseRequest
+        struct UnlinkPSNAccountRequest : public PlayFabClientUnlinkPSNAccountRequest, public BaseModel
         {
             UnlinkPSNAccountRequest() : PlayFabClientUnlinkPSNAccountRequest{}
             {
@@ -15553,12 +17102,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkPSNAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkSteamAccountRequest : public PlayFabClientUnlinkSteamAccountRequest, public BaseRequest
+        struct UnlinkSteamAccountRequest : public PlayFabClientUnlinkSteamAccountRequest, public BaseModel
         {
             UnlinkSteamAccountRequest() : PlayFabClientUnlinkSteamAccountRequest{}
             {
@@ -15584,12 +17133,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkSteamAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkTwitchAccountRequest : public PlayFabClientUnlinkTwitchAccountRequest, public BaseRequest
+        struct UnlinkTwitchAccountRequest : public PlayFabClientUnlinkTwitchAccountRequest, public BaseModel
         {
             UnlinkTwitchAccountRequest() : PlayFabClientUnlinkTwitchAccountRequest{}
             {
@@ -15618,13 +17167,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkTwitchAccountRequest>(*this);
             }
-
+    
         private:
             String m_accessToken;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlinkWindowsHelloAccountRequest : public PlayFabClientUnlinkWindowsHelloAccountRequest, public BaseRequest
+        struct UnlinkWindowsHelloAccountRequest : public PlayFabClientUnlinkWindowsHelloAccountRequest, public BaseModel
         {
             UnlinkWindowsHelloAccountRequest() : PlayFabClientUnlinkWindowsHelloAccountRequest{}
             {
@@ -15653,13 +17202,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkWindowsHelloAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_publicKeyHint;
         };
 
-        struct UnlinkXboxAccountRequest : public PlayFabClientUnlinkXboxAccountRequest, public BaseRequest
+        struct UnlinkXboxAccountRequest : public PlayFabClientUnlinkXboxAccountRequest, public BaseModel
         {
             UnlinkXboxAccountRequest() : PlayFabClientUnlinkXboxAccountRequest{}
             {
@@ -15685,12 +17234,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlinkXboxAccountRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlockContainerInstanceRequest : public PlayFabClientUnlockContainerInstanceRequest, public BaseRequest
+        struct UnlockContainerInstanceRequest : public PlayFabClientUnlockContainerInstanceRequest, public BaseModel
         {
             UnlockContainerInstanceRequest() : PlayFabClientUnlockContainerInstanceRequest{}
             {
@@ -15728,7 +17277,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlockContainerInstanceRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_characterId;
@@ -15737,7 +17286,7 @@ namespace PlayFab
             String m_keyItemInstanceId;
         };
 
-        struct UnlockContainerItemRequest : public PlayFabClientUnlockContainerItemRequest, public BaseRequest
+        struct UnlockContainerItemRequest : public PlayFabClientUnlockContainerItemRequest, public BaseModel
         {
             UnlockContainerItemRequest() : PlayFabClientUnlockContainerItemRequest{}
             {
@@ -15772,7 +17321,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlockContainerItemRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_characterId;
@@ -15780,7 +17329,7 @@ namespace PlayFab
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UnlockContainerItemResult : public PlayFabClientUnlockContainerItemResult, public BaseResult
+        struct UnlockContainerItemResult : public PlayFabClientUnlockContainerItemResult, public BaseModel
         {
             UnlockContainerItemResult() : PlayFabClientUnlockContainerItemResult{}
             {
@@ -15815,7 +17364,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUnlockContainerItemResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientItemInstance, ItemInstance> m_grantedItems;
             String m_unlockedItemInstanceId;
@@ -15823,7 +17372,7 @@ namespace PlayFab
             AssociativeArray<PlayFabUint32DictionaryEntry, void> m_virtualCurrency;
         };
 
-        struct UpdateAvatarUrlRequest : public PlayFabClientUpdateAvatarUrlRequest, public BaseRequest
+        struct UpdateAvatarUrlRequest : public PlayFabClientUpdateAvatarUrlRequest, public SerializableModel
         {
             UpdateAvatarUrlRequest() : PlayFabClientUpdateAvatarUrlRequest{}
             {
@@ -15849,12 +17398,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateAvatarUrlRequest>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUpdateAvatarUrlRequest) };
+                serializedSize += (m_imageUrl.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUpdateAvatarUrlRequest{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUpdateAvatarUrlRequest);
+        
+                memcpy(stringBuffer, m_imageUrl.data(), m_imageUrl.size() + 1);
+                stringBuffer +=  m_imageUrl.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_imageUrl;
         };
 
-        struct UpdateCharacterDataRequest : public PlayFabClientUpdateCharacterDataRequest, public BaseRequest
+        struct UpdateCharacterDataRequest : public PlayFabClientUpdateCharacterDataRequest, public BaseModel
         {
             UpdateCharacterDataRequest() : PlayFabClientUpdateCharacterDataRequest{}
             {
@@ -15892,7 +17458,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateCharacterDataRequest>(*this);
             }
-
+    
         private:
             String m_characterId;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -15901,7 +17467,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabClientUserDataPermission> m_permission;
         };
 
-        struct UpdateCharacterDataResult : public PlayFabClientUpdateCharacterDataResult, public BaseResult
+        struct UpdateCharacterDataResult : public PlayFabClientUpdateCharacterDataResult, public SerializableModel
         {
             UpdateCharacterDataResult() : PlayFabClientUpdateCharacterDataResult{}
             {
@@ -15922,11 +17488,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateCharacterDataResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUpdateCharacterDataResult) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUpdateCharacterDataResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUpdateCharacterDataResult);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct UpdateCharacterStatisticsRequest : public PlayFabClientUpdateCharacterStatisticsRequest, public BaseRequest
+        struct UpdateCharacterStatisticsRequest : public PlayFabClientUpdateCharacterStatisticsRequest, public BaseModel
         {
             UpdateCharacterStatisticsRequest() : PlayFabClientUpdateCharacterStatisticsRequest{}
             {
@@ -15958,14 +17538,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateCharacterStatisticsRequest>(*this);
             }
-
+    
         private:
             String m_characterId;
             AssociativeArray<PlayFabInt32DictionaryEntry, void> m_characterStatistics;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
         };
 
-        struct UpdatePlayerStatisticsRequest : public PlayFabClientUpdatePlayerStatisticsRequest, public BaseRequest
+        struct UpdatePlayerStatisticsRequest : public PlayFabClientUpdatePlayerStatisticsRequest, public BaseModel
         {
             UpdatePlayerStatisticsRequest() : PlayFabClientUpdatePlayerStatisticsRequest{}
             {
@@ -15994,13 +17574,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdatePlayerStatisticsRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             PointerArray<PlayFabClientStatisticUpdate, StatisticUpdate> m_statistics;
         };
 
-        struct UpdateSharedGroupDataRequest : public PlayFabClientUpdateSharedGroupDataRequest, public BaseRequest
+        struct UpdateSharedGroupDataRequest : public PlayFabClientUpdateSharedGroupDataRequest, public BaseModel
         {
             UpdateSharedGroupDataRequest() : PlayFabClientUpdateSharedGroupDataRequest{}
             {
@@ -16038,7 +17618,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateSharedGroupDataRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_data;
@@ -16047,7 +17627,7 @@ namespace PlayFab
             String m_sharedGroupId;
         };
 
-        struct UpdateUserDataRequest : public PlayFabClientUpdateUserDataRequest, public BaseRequest
+        struct UpdateUserDataRequest : public PlayFabClientUpdateUserDataRequest, public BaseModel
         {
             UpdateUserDataRequest() : PlayFabClientUpdateUserDataRequest{}
             {
@@ -16082,7 +17662,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateUserDataRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_data;
@@ -16090,7 +17670,7 @@ namespace PlayFab
             StdExtra::optional<PlayFabClientUserDataPermission> m_permission;
         };
 
-        struct UpdateUserDataResult : public PlayFabClientUpdateUserDataResult, public BaseResult
+        struct UpdateUserDataResult : public PlayFabClientUpdateUserDataResult, public SerializableModel
         {
             UpdateUserDataResult() : PlayFabClientUpdateUserDataResult{}
             {
@@ -16111,11 +17691,25 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateUserDataResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUpdateUserDataResult) };
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUpdateUserDataResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUpdateUserDataResult);
+        
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
         };
 
-        struct UpdateUserTitleDisplayNameRequest : public PlayFabClientUpdateUserTitleDisplayNameRequest, public BaseRequest
+        struct UpdateUserTitleDisplayNameRequest : public PlayFabClientUpdateUserTitleDisplayNameRequest, public BaseModel
         {
             UpdateUserTitleDisplayNameRequest() : PlayFabClientUpdateUserTitleDisplayNameRequest{}
             {
@@ -16144,13 +17738,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateUserTitleDisplayNameRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_displayName;
         };
 
-        struct UpdateUserTitleDisplayNameResult : public PlayFabClientUpdateUserTitleDisplayNameResult, public BaseResult
+        struct UpdateUserTitleDisplayNameResult : public PlayFabClientUpdateUserTitleDisplayNameResult, public SerializableModel
         {
             UpdateUserTitleDisplayNameResult() : PlayFabClientUpdateUserTitleDisplayNameResult{}
             {
@@ -16176,12 +17770,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientUpdateUserTitleDisplayNameResult>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientUpdateUserTitleDisplayNameResult) };
+                serializedSize += (m_displayName.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientUpdateUserTitleDisplayNameResult{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientUpdateUserTitleDisplayNameResult);
+        
+                memcpy(stringBuffer, m_displayName.data(), m_displayName.size() + 1);
+                stringBuffer +=  m_displayName.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_displayName;
         };
 
-        struct ValidateAmazonReceiptRequest : public PlayFabClientValidateAmazonReceiptRequest, public BaseRequest
+        struct ValidateAmazonReceiptRequest : public PlayFabClientValidateAmazonReceiptRequest, public BaseModel
         {
             ValidateAmazonReceiptRequest() : PlayFabClientValidateAmazonReceiptRequest{}
             {
@@ -16220,7 +17831,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateAmazonReceiptRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_currencyCode;
@@ -16229,7 +17840,7 @@ namespace PlayFab
             String m_userId;
         };
 
-        struct ValidateAmazonReceiptResult : public PlayFabClientValidateAmazonReceiptResult, public BaseResult
+        struct ValidateAmazonReceiptResult : public PlayFabClientValidateAmazonReceiptResult, public BaseModel
         {
             ValidateAmazonReceiptResult() : PlayFabClientValidateAmazonReceiptResult{}
             {
@@ -16255,12 +17866,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateAmazonReceiptResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
         };
 
-        struct ValidateGooglePlayPurchaseRequest : public PlayFabClientValidateGooglePlayPurchaseRequest, public BaseRequest
+        struct ValidateGooglePlayPurchaseRequest : public PlayFabClientValidateGooglePlayPurchaseRequest, public BaseModel
         {
             ValidateGooglePlayPurchaseRequest() : PlayFabClientValidateGooglePlayPurchaseRequest{}
             {
@@ -16301,7 +17912,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateGooglePlayPurchaseRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_currencyCode;
@@ -16311,7 +17922,7 @@ namespace PlayFab
             String m_signature;
         };
 
-        struct ValidateGooglePlayPurchaseResult : public PlayFabClientValidateGooglePlayPurchaseResult, public BaseResult
+        struct ValidateGooglePlayPurchaseResult : public PlayFabClientValidateGooglePlayPurchaseResult, public BaseModel
         {
             ValidateGooglePlayPurchaseResult() : PlayFabClientValidateGooglePlayPurchaseResult{}
             {
@@ -16337,12 +17948,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateGooglePlayPurchaseResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
         };
 
-        struct ValidateIOSReceiptRequest : public PlayFabClientValidateIOSReceiptRequest, public BaseRequest
+        struct ValidateIOSReceiptRequest : public PlayFabClientValidateIOSReceiptRequest, public BaseModel
         {
             ValidateIOSReceiptRequest() : PlayFabClientValidateIOSReceiptRequest{}
             {
@@ -16378,7 +17989,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateIOSReceiptRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_currencyCode;
@@ -16386,7 +17997,7 @@ namespace PlayFab
             String m_receiptData;
         };
 
-        struct ValidateIOSReceiptResult : public PlayFabClientValidateIOSReceiptResult, public BaseResult
+        struct ValidateIOSReceiptResult : public PlayFabClientValidateIOSReceiptResult, public BaseModel
         {
             ValidateIOSReceiptResult() : PlayFabClientValidateIOSReceiptResult{}
             {
@@ -16412,12 +18023,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateIOSReceiptResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
         };
 
-        struct ValidateWindowsReceiptRequest : public PlayFabClientValidateWindowsReceiptRequest, public BaseRequest
+        struct ValidateWindowsReceiptRequest : public PlayFabClientValidateWindowsReceiptRequest, public BaseModel
         {
             ValidateWindowsReceiptRequest() : PlayFabClientValidateWindowsReceiptRequest{}
             {
@@ -16453,7 +18064,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateWindowsReceiptRequest>(*this);
             }
-
+    
         private:
             String m_catalogVersion;
             String m_currencyCode;
@@ -16461,7 +18072,7 @@ namespace PlayFab
             String m_receipt;
         };
 
-        struct ValidateWindowsReceiptResult : public PlayFabClientValidateWindowsReceiptResult, public BaseResult
+        struct ValidateWindowsReceiptResult : public PlayFabClientValidateWindowsReceiptResult, public BaseModel
         {
             ValidateWindowsReceiptResult() : PlayFabClientValidateWindowsReceiptResult{}
             {
@@ -16487,12 +18098,12 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientValidateWindowsReceiptResult>(*this);
             }
-
+    
         private:
             PointerArray<PlayFabClientPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
         };
 
-        struct WriteClientCharacterEventRequest : public PlayFabClientWriteClientCharacterEventRequest, public BaseRequest
+        struct WriteClientCharacterEventRequest : public PlayFabClientWriteClientCharacterEventRequest, public BaseModel
         {
             WriteClientCharacterEventRequest() : PlayFabClientWriteClientCharacterEventRequest{}
             {
@@ -16530,7 +18141,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientWriteClientCharacterEventRequest>(*this);
             }
-
+    
         private:
             JsonObject m_body;
             String m_characterId;
@@ -16539,7 +18150,7 @@ namespace PlayFab
             StdExtra::optional<time_t> m_timestamp;
         };
 
-        struct WriteClientPlayerEventRequest : public PlayFabClientWriteClientPlayerEventRequest, public BaseRequest
+        struct WriteClientPlayerEventRequest : public PlayFabClientWriteClientPlayerEventRequest, public BaseModel
         {
             WriteClientPlayerEventRequest() : PlayFabClientWriteClientPlayerEventRequest{}
             {
@@ -16574,7 +18185,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientWriteClientPlayerEventRequest>(*this);
             }
-
+    
         private:
             JsonObject m_body;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -16582,7 +18193,7 @@ namespace PlayFab
             StdExtra::optional<time_t> m_timestamp;
         };
 
-        struct WriteEventResponse : public PlayFabClientWriteEventResponse, public BaseResult
+        struct WriteEventResponse : public PlayFabClientWriteEventResponse, public SerializableModel
         {
             WriteEventResponse() : PlayFabClientWriteEventResponse{}
             {
@@ -16608,12 +18219,29 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientWriteEventResponse>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabClientWriteEventResponse) };
+                serializedSize += (m_eventId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabClientWriteEventResponse{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabClientWriteEventResponse);
+        
+                memcpy(stringBuffer, m_eventId.data(), m_eventId.size() + 1);
+                stringBuffer +=  m_eventId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_eventId;
         };
 
-        struct WriteTitleEventRequest : public PlayFabClientWriteTitleEventRequest, public BaseRequest
+        struct WriteTitleEventRequest : public PlayFabClientWriteTitleEventRequest, public BaseModel
         {
             WriteTitleEventRequest() : PlayFabClientWriteTitleEventRequest{}
             {
@@ -16648,7 +18276,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabClientWriteTitleEventRequest>(*this);
             }
-
+    
         private:
             JsonObject m_body;
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
@@ -16749,6 +18377,5 @@ namespace PlayFab
         static constexpr PlayFabClientUserOrigination maxValue = PlayFabClientUserOrigination::NintendoSwitchAccount;
     };
 
-}
 
-#endif
+}

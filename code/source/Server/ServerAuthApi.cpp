@@ -1,141 +1,141 @@
 #include "stdafx.h"
 #include "ServerAuthApi.h"
-#include "AuthContext.h"
+#include "Entity.h"
 
 namespace PlayFab
 {
 
 using namespace ServerModels;
 
-ServerAuthAPI::ServerAuthAPI() :
-    m_settings{ MakeShared<PlayFabApiSettings>() },
-    m_httpClient{ m_settings }
+ServerAuthAPI::ServerAuthAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<String const> secretKey) :
+    m_httpClient{ std::move(httpClient) },
+    m_secretKey{ std::move(secretKey) }
 {
 }
 
-AsyncOp<SharedPtr<AuthContext>> ServerAuthAPI::LoginWithServerCustomId(
+AsyncOp<SharedPtr<Entity>> ServerAuthAPI::LoginWithServerCustomId(
     const PlayFabServerLoginWithServerCustomIdRequest& request,
     const TaskQueue& queue
 ) const
 {
-    // TODO find a cleaner way to configure the titleId
     UnorderedMap<String, String> headers;
-    headers.emplace("X-SecretKey", m_settings->developerSecretKey.data());
+    headers.emplace("X-SecretKey", *m_secretKey);
 
-    return m_httpClient.MakePostRequest(
+    return m_httpClient->MakePostRequest(
         "/Server/LoginWithServerCustomId",
         headers,
         JsonUtils::ToJson(request),
         queue
-    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    ).Then([ httpClient{ m_httpClient } ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
     {
         RETURN_IF_FAILED(result.hr);
 
-        auto& serviceResponse = result.Payload();
+        auto serviceResponse = result.ExtractPayload();
         if (serviceResponse.HttpCode == 200)
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<AuthContext>(std::move(resultModel));
+            return MakeShared<Entity>(httpClient, std::move(resultModel));
         }
         else
         {
-            return ServiceErrorToHR(serviceResponse.ErrorCode);
+            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
-AsyncOp<SharedPtr<AuthContext>> ServerAuthAPI::LoginWithSteamId(
+
+AsyncOp<SharedPtr<Entity>> ServerAuthAPI::LoginWithSteamId(
     const PlayFabServerLoginWithSteamIdRequest& request,
     const TaskQueue& queue
 ) const
 {
-    // TODO find a cleaner way to configure the titleId
     UnorderedMap<String, String> headers;
-    headers.emplace("X-SecretKey", m_settings->developerSecretKey.data());
+    headers.emplace("X-SecretKey", *m_secretKey);
 
-    return m_httpClient.MakePostRequest(
+    return m_httpClient->MakePostRequest(
         "/Server/LoginWithSteamId",
         headers,
         JsonUtils::ToJson(request),
         queue
-    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    ).Then([ httpClient{ m_httpClient } ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
     {
         RETURN_IF_FAILED(result.hr);
 
-        auto& serviceResponse = result.Payload();
+        auto serviceResponse = result.ExtractPayload();
         if (serviceResponse.HttpCode == 200)
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<AuthContext>(std::move(resultModel));
+            return MakeShared<Entity>(httpClient, std::move(resultModel));
         }
         else
         {
-            return ServiceErrorToHR(serviceResponse.ErrorCode);
+            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
-AsyncOp<SharedPtr<AuthContext>> ServerAuthAPI::LoginWithXbox(
+
+AsyncOp<SharedPtr<Entity>> ServerAuthAPI::LoginWithXbox(
     const PlayFabServerLoginWithXboxRequest& request,
     const TaskQueue& queue
 ) const
 {
-    // TODO find a cleaner way to configure the titleId
     UnorderedMap<String, String> headers;
-    headers.emplace("X-SecretKey", m_settings->developerSecretKey.data());
+    headers.emplace("X-SecretKey", *m_secretKey);
 
-    return m_httpClient.MakePostRequest(
+    return m_httpClient->MakePostRequest(
         "/Server/LoginWithXbox",
         headers,
         JsonUtils::ToJson(request),
         queue
-    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    ).Then([ httpClient{ m_httpClient } ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
     {
         RETURN_IF_FAILED(result.hr);
 
-        auto& serviceResponse = result.Payload();
+        auto serviceResponse = result.ExtractPayload();
         if (serviceResponse.HttpCode == 200)
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<AuthContext>(std::move(resultModel));
+            return MakeShared<Entity>(httpClient, std::move(resultModel));
         }
         else
         {
-            return ServiceErrorToHR(serviceResponse.ErrorCode);
+            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
-AsyncOp<SharedPtr<AuthContext>> ServerAuthAPI::LoginWithXboxId(
+
+AsyncOp<SharedPtr<Entity>> ServerAuthAPI::LoginWithXboxId(
     const PlayFabServerLoginWithXboxIdRequest& request,
     const TaskQueue& queue
 ) const
 {
-    // TODO find a cleaner way to configure the titleId
     UnorderedMap<String, String> headers;
-    headers.emplace("X-SecretKey", m_settings->developerSecretKey.data());
+    headers.emplace("X-SecretKey", *m_secretKey);
 
-    return m_httpClient.MakePostRequest(
+    return m_httpClient->MakePostRequest(
         "/Server/LoginWithXboxId",
         headers,
         JsonUtils::ToJson(request),
         queue
-    ).Then([](Result<ServiceResponse> result) -> Result<SharedPtr<AuthContext>>
+    ).Then([ httpClient{ m_httpClient } ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
     {
         RETURN_IF_FAILED(result.hr);
 
-        auto& serviceResponse = result.Payload();
+        auto serviceResponse = result.ExtractPayload();
         if (serviceResponse.HttpCode == 200)
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<AuthContext>(std::move(resultModel));
+            return MakeShared<Entity>(httpClient, std::move(resultModel));
         }
         else
         {
-            return ServiceErrorToHR(serviceResponse.ErrorCode);
+            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
+
 
 }

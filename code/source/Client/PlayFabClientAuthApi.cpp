@@ -1,13 +1,13 @@
 #include "stdafx.h"
 #include <playfab/PlayFabClientAuthApi.h>
 #include "ClientAuthApi.h"
-#include "AuthAsyncProvider.h"
+#include "ApiAsyncProviders.h"
 #include "GlobalState.h"
 
 using namespace PlayFab;
 using namespace PlayFab::ClientModels;
 
-HRESULT PlayFabClientLoginWithAndroidDeviceID(
+HRESULT PlayFabClientLoginWithAndroidDeviceIDAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithAndroidDeviceIDRequest* request,
     _In_ XAsyncBlock* async
@@ -16,16 +16,11 @@ HRESULT PlayFabClientLoginWithAndroidDeviceID(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithAndroidDeviceIDRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithAndroidDeviceID,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithAndroidDeviceID, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithApple(
+HRESULT PlayFabClientLoginWithAppleAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithAppleRequest* request,
     _In_ XAsyncBlock* async
@@ -34,16 +29,11 @@ HRESULT PlayFabClientLoginWithApple(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithAppleRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithApple,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithApple, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithCustomID(
+HRESULT PlayFabClientLoginWithCustomIDAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithCustomIDRequest* request,
     _In_ XAsyncBlock* async
@@ -52,16 +42,11 @@ HRESULT PlayFabClientLoginWithCustomID(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithCustomIDRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithCustomID,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithCustomID, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithEmailAddress(
+HRESULT PlayFabClientLoginWithEmailAddressAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithEmailAddressRequest* request,
     _In_ XAsyncBlock* async
@@ -70,16 +55,11 @@ HRESULT PlayFabClientLoginWithEmailAddress(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithEmailAddressRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithEmailAddress,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithEmailAddress, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithFacebook(
+HRESULT PlayFabClientLoginWithFacebookAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithFacebookRequest* request,
     _In_ XAsyncBlock* async
@@ -88,16 +68,11 @@ HRESULT PlayFabClientLoginWithFacebook(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithFacebookRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithFacebook,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithFacebook, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithFacebookInstantGamesId(
+HRESULT PlayFabClientLoginWithFacebookInstantGamesIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithFacebookInstantGamesIdRequest* request,
     _In_ XAsyncBlock* async
@@ -106,16 +81,11 @@ HRESULT PlayFabClientLoginWithFacebookInstantGamesId(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithFacebookInstantGamesIdRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithFacebookInstantGamesId,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithFacebookInstantGamesId, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithGameCenter(
+HRESULT PlayFabClientLoginWithGameCenterAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithGameCenterRequest* request,
     _In_ XAsyncBlock* async
@@ -124,16 +94,11 @@ HRESULT PlayFabClientLoginWithGameCenter(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithGameCenterRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithGameCenter,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithGameCenter, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithGoogleAccount(
+HRESULT PlayFabClientLoginWithGoogleAccountAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithGoogleAccountRequest* request,
     _In_ XAsyncBlock* async
@@ -142,16 +107,11 @@ HRESULT PlayFabClientLoginWithGoogleAccount(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithGoogleAccountRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithGoogleAccount,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithGoogleAccount, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithIOSDeviceID(
+HRESULT PlayFabClientLoginWithIOSDeviceIDAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithIOSDeviceIDRequest* request,
     _In_ XAsyncBlock* async
@@ -160,16 +120,11 @@ HRESULT PlayFabClientLoginWithIOSDeviceID(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithIOSDeviceIDRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithIOSDeviceID,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithIOSDeviceID, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithKongregate(
+HRESULT PlayFabClientLoginWithKongregateAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithKongregateRequest* request,
     _In_ XAsyncBlock* async
@@ -178,16 +133,11 @@ HRESULT PlayFabClientLoginWithKongregate(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithKongregateRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithKongregate,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithKongregate, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithNintendoServiceAccount(
+HRESULT PlayFabClientLoginWithNintendoServiceAccountAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithNintendoServiceAccountRequest* request,
     _In_ XAsyncBlock* async
@@ -196,16 +146,11 @@ HRESULT PlayFabClientLoginWithNintendoServiceAccount(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithNintendoServiceAccountRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithNintendoServiceAccount,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithNintendoServiceAccount, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithNintendoSwitchDeviceId(
+HRESULT PlayFabClientLoginWithNintendoSwitchDeviceIdAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithNintendoSwitchDeviceIdRequest* request,
     _In_ XAsyncBlock* async
@@ -214,16 +159,11 @@ HRESULT PlayFabClientLoginWithNintendoSwitchDeviceId(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithNintendoSwitchDeviceIdRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithNintendoSwitchDeviceId,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithNintendoSwitchDeviceId, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithOpenIdConnect(
+HRESULT PlayFabClientLoginWithOpenIdConnectAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithOpenIdConnectRequest* request,
     _In_ XAsyncBlock* async
@@ -232,16 +172,11 @@ HRESULT PlayFabClientLoginWithOpenIdConnect(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithOpenIdConnectRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithOpenIdConnect,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithOpenIdConnect, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithPlayFab(
+HRESULT PlayFabClientLoginWithPlayFabAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithPlayFabRequest* request,
     _In_ XAsyncBlock* async
@@ -250,16 +185,11 @@ HRESULT PlayFabClientLoginWithPlayFab(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithPlayFabRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithPlayFab,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithPlayFab, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithPSN(
+HRESULT PlayFabClientLoginWithPSNAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithPSNRequest* request,
     _In_ XAsyncBlock* async
@@ -268,16 +198,11 @@ HRESULT PlayFabClientLoginWithPSN(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithPSNRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithPSN,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithPSN, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithSteam(
+HRESULT PlayFabClientLoginWithSteamAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithSteamRequest* request,
     _In_ XAsyncBlock* async
@@ -286,16 +211,11 @@ HRESULT PlayFabClientLoginWithSteam(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithSteamRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithSteam,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithSteam, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithTwitch(
+HRESULT PlayFabClientLoginWithTwitchAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithTwitchRequest* request,
     _In_ XAsyncBlock* async
@@ -304,16 +224,11 @@ HRESULT PlayFabClientLoginWithTwitch(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithTwitchRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithTwitch,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithTwitch, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithWindowsHello(
+HRESULT PlayFabClientLoginWithWindowsHelloAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithWindowsHelloRequest* request,
     _In_ XAsyncBlock* async
@@ -322,16 +237,11 @@ HRESULT PlayFabClientLoginWithWindowsHello(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithWindowsHelloRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithWindowsHello,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithWindowsHello, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientLoginWithXbox(
+HRESULT PlayFabClientLoginWithXboxAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientLoginWithXboxRequest* request,
     _In_ XAsyncBlock* async
@@ -340,16 +250,11 @@ HRESULT PlayFabClientLoginWithXbox(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientLoginWithXboxRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::LoginWithXbox,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::LoginWithXbox, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientRegisterPlayFabUser(
+HRESULT PlayFabClientRegisterPlayFabUserAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientRegisterPlayFabUserRequest* request,
     _In_ XAsyncBlock* async
@@ -358,16 +263,11 @@ HRESULT PlayFabClientRegisterPlayFabUser(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientRegisterPlayFabUserRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::RegisterPlayFabUser,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::RegisterPlayFabUser, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
-HRESULT PlayFabClientRegisterWithWindowsHello(
+HRESULT PlayFabClientRegisterWithWindowsHelloAsync(
     _In_ PlayFabStateHandle stateHandle,
     _In_ const PlayFabClientRegisterWithWindowsHelloRequest* request,
     _In_ XAsyncBlock* async
@@ -376,12 +276,7 @@ HRESULT PlayFabClientRegisterWithWindowsHello(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeUnique<AuthCallProvider<ClientAuthAPI, PlayFabClientRegisterWithWindowsHelloRequest>>(
-        async,
-        stateHandle->state->ClientAuth,
-        &ClientAuthAPI::RegisterWithWindowsHello,
-        *request
-    );
+    auto provider = MakeAuthProvider(async, std::bind(&ClientAuthAPI::RegisterWithWindowsHello, &stateHandle->state->clientAuthAPI, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

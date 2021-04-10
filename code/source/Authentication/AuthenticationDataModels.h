@@ -1,8 +1,6 @@
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
-#include <playfab/PlayFabAuthenticationDataModels_c.h>
+#include <playfab/PlayFabAuthenticationDataModels.h>
 #include "BaseModel.h"
 #include "JsonUtils.h"
 
@@ -77,7 +75,7 @@ namespace PlayFab
     namespace AuthenticationModels
     {
         // Authentication Classes
-        struct EntityKey : public PlayFabAuthenticationEntityKey, public BaseModel
+        struct EntityKey : public PlayFabAuthenticationEntityKey, public SerializableModel
         {
             EntityKey() : PlayFabAuthenticationEntityKey{}
             {
@@ -106,13 +104,33 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabAuthenticationEntityKey>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabAuthenticationEntityKey) };
+                serializedSize += (m_id.size() + 1);
+                serializedSize += (m_type.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabAuthenticationEntityKey{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabAuthenticationEntityKey);
+        
+                memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+                stringBuffer +=  m_id.size() + 1; 
+                memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+                stringBuffer +=  m_type.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_id;
             String m_type;
         };
 
-        struct EntityLineage : public PlayFabAuthenticationEntityLineage, public BaseModel
+        struct EntityLineage : public PlayFabAuthenticationEntityLineage, public SerializableModel
         {
             EntityLineage() : PlayFabAuthenticationEntityLineage{}
             {
@@ -153,7 +171,39 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabAuthenticationEntityLineage>(*this);
             }
+    
+            size_t SerializedSize() const override
+            {
+                size_t serializedSize{ sizeof(PlayFabAuthenticationEntityLineage) };
+                serializedSize += (m_characterId.size() + 1);
+                serializedSize += (m_groupId.size() + 1);
+                serializedSize += (m_masterPlayerAccountId.size() + 1);
+                serializedSize += (m_namespaceId.size() + 1);
+                serializedSize += (m_titleId.size() + 1);
+                serializedSize += (m_titlePlayerAccountId.size() + 1);
+                return serializedSize;
+            }
 
+            void Serialize(void* buffer, size_t bufferSize) const override
+            {
+                new (buffer) PlayFabAuthenticationEntityLineage{ *this };
+                char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabAuthenticationEntityLineage);
+        
+                memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+                stringBuffer +=  m_characterId.size() + 1; 
+                memcpy(stringBuffer, m_groupId.data(), m_groupId.size() + 1);
+                stringBuffer +=  m_groupId.size() + 1; 
+                memcpy(stringBuffer, m_masterPlayerAccountId.data(), m_masterPlayerAccountId.size() + 1);
+                stringBuffer +=  m_masterPlayerAccountId.size() + 1; 
+                memcpy(stringBuffer, m_namespaceId.data(), m_namespaceId.size() + 1);
+                stringBuffer +=  m_namespaceId.size() + 1; 
+                memcpy(stringBuffer, m_titleId.data(), m_titleId.size() + 1);
+                stringBuffer +=  m_titleId.size() + 1; 
+                memcpy(stringBuffer, m_titlePlayerAccountId.data(), m_titlePlayerAccountId.size() + 1);
+                stringBuffer +=  m_titlePlayerAccountId.size() + 1; 
+                assert(stringBuffer - bufferSize == buffer);
+            }
+    
         private:
             String m_characterId;
             String m_groupId;
@@ -163,7 +213,7 @@ namespace PlayFab
             String m_titlePlayerAccountId;
         };
 
-        struct GetEntityTokenRequest : public PlayFabAuthenticationGetEntityTokenRequest, public BaseRequest
+        struct GetEntityTokenRequest : public PlayFabAuthenticationGetEntityTokenRequest, public BaseModel
         {
             GetEntityTokenRequest() : PlayFabAuthenticationGetEntityTokenRequest{}
             {
@@ -192,13 +242,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabAuthenticationGetEntityTokenRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             StdExtra::optional<EntityKey> m_entity;
         };
 
-        struct GetEntityTokenResponse : public PlayFabAuthenticationGetEntityTokenResponse, public BaseResult
+        struct GetEntityTokenResponse : public PlayFabAuthenticationGetEntityTokenResponse, public BaseModel
         {
             GetEntityTokenResponse() : PlayFabAuthenticationGetEntityTokenResponse{}
             {
@@ -230,14 +280,14 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabAuthenticationGetEntityTokenResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             String m_entityToken;
             StdExtra::optional<time_t> m_tokenExpiration;
         };
 
-        struct ValidateEntityTokenRequest : public PlayFabAuthenticationValidateEntityTokenRequest, public BaseRequest
+        struct ValidateEntityTokenRequest : public PlayFabAuthenticationValidateEntityTokenRequest, public BaseModel
         {
             ValidateEntityTokenRequest() : PlayFabAuthenticationValidateEntityTokenRequest{}
             {
@@ -266,13 +316,13 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabAuthenticationValidateEntityTokenRequest>(*this);
             }
-
+    
         private:
             AssociativeArray<PlayFabStringDictionaryEntry, String> m_customTags;
             String m_entityToken;
         };
 
-        struct ValidateEntityTokenResponse : public PlayFabAuthenticationValidateEntityTokenResponse, public BaseResult
+        struct ValidateEntityTokenResponse : public PlayFabAuthenticationValidateEntityTokenResponse, public BaseModel
         {
             ValidateEntityTokenResponse() : PlayFabAuthenticationValidateEntityTokenResponse{}
             {
@@ -307,7 +357,7 @@ namespace PlayFab
             { 
                 return JsonUtils::ToJson<PlayFabAuthenticationValidateEntityTokenResponse>(*this);
             }
-
+    
         private:
             StdExtra::optional<EntityKey> m_entity;
             StdExtra::optional<PlayFabAuthenticationIdentifiedDeviceType> m_identifiedDeviceType;
@@ -328,6 +378,5 @@ namespace PlayFab
         static constexpr PlayFabAuthenticationLoginIdentityProvider maxValue = PlayFabAuthenticationLoginIdentityProvider::NintendoSwitchAccount;
     };
 
-}
 
-#endif
+}
