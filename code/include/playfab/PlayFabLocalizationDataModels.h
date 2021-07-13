@@ -1,75 +1,55 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
+#include <playfab/PlayFabSharedDataModels.h>
 
-#include <playfab/PlayFabBaseModel.h>
-#include <playfab/PlayFabJsonHeaders.h>
-
-namespace PlayFab
+extern "C"
 {
-    namespace LocalizationModels
-    {
-        // Localization Enums
-        // Localization Classes
-        struct GetLanguageListRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
 
-            GetLanguageListRequest() :
-                PlayFabRequestCommon(),
-                CustomTags()
-            {}
+#pragma push_macro("IN")
+#undef IN
 
-            GetLanguageListRequest(const GetLanguageListRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags)
-            {}
+/// <summary>
+/// PlayFabLocalizationGetLanguageListRequest data model. Request object for PlayFabLocalizationGetLanguageListAsync.
+/// </summary>
+typedef struct PlayFabLocalizationGetLanguageListRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
 
-            ~GetLanguageListRequest() = default;
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
 
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-            }
+} PlayFabLocalizationGetLanguageListRequest;
 
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                return output;
-            }
-        };
+/// <summary>
+/// PlayFabLocalizationGetLanguageListResponse data model. Result payload for PlayFabLocalizationGetLanguageListAsync.
+/// </summary>
+typedef struct PlayFabLocalizationGetLanguageListResponse
+{
+    /// <summary>
+    /// (Optional) The list of allowed languages, in BCP47 two-letter format.
+    /// </summary>
+    const char* const* languageList;
 
-        struct GetLanguageListResponse : public PlayFabResultCommon
-        {
-            std::list<std::string> LanguageList;
+    /// <summary>
+    /// Count of languageList
+    /// </summary>
+    uint32_t languageListCount;
 
-            GetLanguageListResponse() :
-                PlayFabResultCommon(),
-                LanguageList()
-            {}
+} PlayFabLocalizationGetLanguageListResponse;
 
-            GetLanguageListResponse(const GetLanguageListResponse& src) :
-                PlayFabResultCommon(),
-                LanguageList(src.LanguageList)
-            {}
+#pragma pop_macro("IN")
 
-            ~GetLanguageListResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["LanguageList"], LanguageList);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_LanguageList; ToJsonUtilS(LanguageList, each_LanguageList); output["LanguageList"] = each_LanguageList;
-                return output;
-            }
-        };
-
-    }
 }
-
-#endif

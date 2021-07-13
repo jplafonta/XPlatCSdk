@@ -1,107 +1,259 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
+    <Filter Include="Source" />
+    <Filter Include="Source\AutoGen Tests" />
+    <Filter Include="Source\Tests" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestAppPch.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\PlayFabApiTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\PlatformLoginTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\PlayFabEventTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\PlayFabTestMultiUserInstance.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\PlayFabTestMultiUserStatic.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\PlayFabTestAlloc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestCase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestContext.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestDataTypes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestReport.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestRunner.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestUtils.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(TestSourceDir)\TestApp\TestApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabAuthenticationContext.h">
-      <Filter>Header Files\playfab</Filter>
-    </ClInclude>
-    <ClInclude Include="$(SdkSourceDir)\include\playfab\PlayFabApiSettings.h">
-      <Filter>Header Files\playfab</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="$(TestSourceDir)\TestApp\TestApp.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\Tests\ApiTests.cpp" >
+      <Filter>Source\Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\TestAppPch.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\Tests\ApiTests.h" >
+      <Filter>Source\Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\Tests\EntityTests.cpp" >
+      <Filter>Source\Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\PlayFabApiTest.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\Tests\EntityTests.h" >
+      <Filter>Source\Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\Tests\EventManagerTests.cpp" >
+      <Filter>Source\Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\PlatformLoginTest_default.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\Tests\EventManagerTests.h" >
+      <Filter>Source\Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\TestApp.cpp" >
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\PlayFabEventTest.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestApp.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestCase.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\TestContext.cpp" >
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\PlayFabTestMultiUserInstance.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestContext.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestDataTypes.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\TestReport.cpp" >
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\PlayFabTestMultiUserStatic.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestReport.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\TestRunner.cpp" >
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\PlayFabTestAlloc.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestRunner.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\TestUtils.cpp" >
+      <Filter>Source</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\TestContext.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestUtils.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\XAsyncHelper.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAdminTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAdminTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\TestReport.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAdminTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\TestRunner.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAdminTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(TestSourceDir)\TestApp\TestUtils.cpp">
-      <Filter>Source Files</Filter>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenClientTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenClientTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="MainWin32.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenClientTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="TestAppWin32.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenClientTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMatchmakerTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMatchmakerTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMatchmakerTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMatchmakerTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenServerTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenServerTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenServerTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenServerTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAuthenticationTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAuthenticationTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAuthenticationTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenAuthenticationTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenCloudScriptTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenCloudScriptTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenCloudScriptTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenCloudScriptTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenEventsTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenEventsTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenEventsTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenEventsTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenExperimentationTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenExperimentationTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenExperimentationTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenExperimentationTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenInsightsTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenInsightsTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenInsightsTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenInsightsTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenLocalizationTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenLocalizationTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenLocalizationTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenLocalizationTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMultiplayerTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMultiplayerTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMultiplayerTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenMultiplayerTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenProfilesTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenProfilesTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenProfilesTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenProfilesTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\TestAppPch.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\TestAppPch.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\Win32\MainWin32.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\Win32\TestAppWin32.cpp">
+      <Filter>Source</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

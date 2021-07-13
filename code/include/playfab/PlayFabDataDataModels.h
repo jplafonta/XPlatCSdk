@@ -1,867 +1,600 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
+#include <playfab/PlayFabSharedDataModels.h>
 
-#include <playfab/PlayFabBaseModel.h>
-#include <playfab/PlayFabJsonHeaders.h>
-
-namespace PlayFab
+extern "C"
 {
-    namespace DataModels
-    {
-        // Data Enums
-        enum class OperationTypes
-        {
-            OperationTypesCreated,
-            OperationTypesUpdated,
-            OperationTypesDeleted,
-            OperationTypesNone
-        };
-
-        inline void ToJsonEnum(const OperationTypes input, Json::Value& output)
-        {
-            if (input == OperationTypes::OperationTypesCreated)
-            {
-                output = Json::Value("Created");
-                return;
-            }
-            if (input == OperationTypes::OperationTypesUpdated)
-            {
-                output = Json::Value("Updated");
-                return;
-            }
-            if (input == OperationTypes::OperationTypesDeleted)
-            {
-                output = Json::Value("Deleted");
-                return;
-            }
-            if (input == OperationTypes::OperationTypesNone)
-            {
-                output = Json::Value("None");
-                return;
-            }
-        }
-        inline void FromJsonEnum(const Json::Value& input, OperationTypes& output)
-        {
-            if (!input.isString())
-            {
-                return;
-            }
-            const std::string& inputStr = input.asString();
-            if (inputStr == "Created")
-            {
-                output = OperationTypes::OperationTypesCreated;
-                return;
-            }
-            if (inputStr == "Updated")
-            {
-                output = OperationTypes::OperationTypesUpdated;
-                return;
-            }
-            if (inputStr == "Deleted")
-            {
-                output = OperationTypes::OperationTypesDeleted;
-                return;
-            }
-            if (inputStr == "None")
-            {
-                output = OperationTypes::OperationTypesNone;
-                return;
-            }
-        }
-
-        // Data Classes
-        struct EntityKey : public PlayFabBaseModel
-        {
-            std::string Id;
-            std::string Type;
-
-            EntityKey() :
-                PlayFabBaseModel(),
-                Id(),
-                Type()
-            {}
-
-            EntityKey(const EntityKey& src) :
-                PlayFabBaseModel(),
-                Id(src.Id),
-                Type(src.Type)
-            {}
-
-            ~EntityKey() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["Id"], Id);
-                FromJsonUtilS(input["Type"], Type);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
-                Json::Value each_Type; ToJsonUtilS(Type, each_Type); output["Type"] = each_Type;
-                return output;
-            }
-        };
-
-        struct AbortFileUploadsRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-            std::list<std::string> FileNames;
-            Boxed<Int32> ProfileVersion;
-
-            AbortFileUploadsRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity(),
-                FileNames(),
-                ProfileVersion()
-            {}
-
-            AbortFileUploadsRequest(const AbortFileUploadsRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                FileNames(src.FileNames),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~AbortFileUploadsRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilS(input["FileNames"], FileNames);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct AbortFileUploadsResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            Int32 ProfileVersion;
-
-            AbortFileUploadsResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                ProfileVersion()
-            {}
-
-            AbortFileUploadsResponse(const AbortFileUploadsResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~AbortFileUploadsResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct DeleteFilesRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-            std::list<std::string> FileNames;
-            Boxed<Int32> ProfileVersion;
-
-            DeleteFilesRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity(),
-                FileNames(),
-                ProfileVersion()
-            {}
-
-            DeleteFilesRequest(const DeleteFilesRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                FileNames(src.FileNames),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~DeleteFilesRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilS(input["FileNames"], FileNames);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct DeleteFilesResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            Int32 ProfileVersion;
-
-            DeleteFilesResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                ProfileVersion()
-            {}
-
-            DeleteFilesResponse(const DeleteFilesResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~DeleteFilesResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct FinalizeFileUploadsRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-            std::list<std::string> FileNames;
-            Int32 ProfileVersion;
-
-            FinalizeFileUploadsRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity(),
-                FileNames(),
-                ProfileVersion()
-            {}
-
-            FinalizeFileUploadsRequest(const FinalizeFileUploadsRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                FileNames(src.FileNames),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~FinalizeFileUploadsRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilS(input["FileNames"], FileNames);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct GetFileMetadata : public PlayFabBaseModel
-        {
-            std::string Checksum;
-            std::string DownloadUrl;
-            std::string FileName;
-            time_t LastModified;
-            Int32 Size;
-
-            GetFileMetadata() :
-                PlayFabBaseModel(),
-                Checksum(),
-                DownloadUrl(),
-                FileName(),
-                LastModified(),
-                Size()
-            {}
-
-            GetFileMetadata(const GetFileMetadata& src) :
-                PlayFabBaseModel(),
-                Checksum(src.Checksum),
-                DownloadUrl(src.DownloadUrl),
-                FileName(src.FileName),
-                LastModified(src.LastModified),
-                Size(src.Size)
-            {}
-
-            ~GetFileMetadata() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["Checksum"], Checksum);
-                FromJsonUtilS(input["DownloadUrl"], DownloadUrl);
-                FromJsonUtilS(input["FileName"], FileName);
-                FromJsonUtilT(input["LastModified"], LastModified);
-                FromJsonUtilP(input["Size"], Size);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Checksum; ToJsonUtilS(Checksum, each_Checksum); output["Checksum"] = each_Checksum;
-                Json::Value each_DownloadUrl; ToJsonUtilS(DownloadUrl, each_DownloadUrl); output["DownloadUrl"] = each_DownloadUrl;
-                Json::Value each_FileName; ToJsonUtilS(FileName, each_FileName); output["FileName"] = each_FileName;
-                Json::Value each_LastModified; ToJsonUtilT(LastModified, each_LastModified); output["LastModified"] = each_LastModified;
-                Json::Value each_Size; ToJsonUtilP(Size, each_Size); output["Size"] = each_Size;
-                return output;
-            }
-        };
-
-        struct FinalizeFileUploadsResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            std::map<std::string, GetFileMetadata> Metadata;
-            Int32 ProfileVersion;
-
-            FinalizeFileUploadsResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                Metadata(),
-                ProfileVersion()
-            {}
-
-            FinalizeFileUploadsResponse(const FinalizeFileUploadsResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                Metadata(src.Metadata),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~FinalizeFileUploadsResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilO(input["Metadata"], Metadata);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_Metadata; ToJsonUtilO(Metadata, each_Metadata); output["Metadata"] = each_Metadata;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct GetFilesRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-
-            GetFilesRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity()
-            {}
-
-            GetFilesRequest(const GetFilesRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity)
-            {}
-
-            ~GetFilesRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                return output;
-            }
-        };
-
-        struct GetFilesResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            std::map<std::string, GetFileMetadata> Metadata;
-            Int32 ProfileVersion;
-
-            GetFilesResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                Metadata(),
-                ProfileVersion()
-            {}
-
-            GetFilesResponse(const GetFilesResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                Metadata(src.Metadata),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~GetFilesResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilO(input["Metadata"], Metadata);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_Metadata; ToJsonUtilO(Metadata, each_Metadata); output["Metadata"] = each_Metadata;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct GetObjectsRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-            Boxed<bool> EscapeObject;
-
-            GetObjectsRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity(),
-                EscapeObject()
-            {}
-
-            GetObjectsRequest(const GetObjectsRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                EscapeObject(src.EscapeObject)
-            {}
-
-            ~GetObjectsRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["EscapeObject"], EscapeObject);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_EscapeObject; ToJsonUtilP(EscapeObject, each_EscapeObject); output["EscapeObject"] = each_EscapeObject;
-                return output;
-            }
-        };
-
-        struct ObjectResult : public PlayFabResultCommon
-        {
-            Json::Value DataObject;
-            std::string EscapedDataObject;
-            std::string ObjectName;
-
-            ObjectResult() :
-                PlayFabResultCommon(),
-                DataObject(),
-                EscapedDataObject(),
-                ObjectName()
-            {}
-
-            ObjectResult(const ObjectResult& src) :
-                PlayFabResultCommon(),
-                DataObject(src.DataObject),
-                EscapedDataObject(src.EscapedDataObject),
-                ObjectName(src.ObjectName)
-            {}
-
-            ~ObjectResult() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                DataObject = input["DataObject"];
-                FromJsonUtilS(input["EscapedDataObject"], EscapedDataObject);
-                FromJsonUtilS(input["ObjectName"], ObjectName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                output["DataObject"] = DataObject;
-                Json::Value each_EscapedDataObject; ToJsonUtilS(EscapedDataObject, each_EscapedDataObject); output["EscapedDataObject"] = each_EscapedDataObject;
-                Json::Value each_ObjectName; ToJsonUtilS(ObjectName, each_ObjectName); output["ObjectName"] = each_ObjectName;
-                return output;
-            }
-        };
-
-        struct GetObjectsResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            std::map<std::string, ObjectResult> Objects;
-            Int32 ProfileVersion;
-
-            GetObjectsResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                Objects(),
-                ProfileVersion()
-            {}
-
-            GetObjectsResponse(const GetObjectsResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                Objects(src.Objects),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~GetObjectsResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilO(input["Objects"], Objects);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_Objects; ToJsonUtilO(Objects, each_Objects); output["Objects"] = each_Objects;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct InitiateFileUploadMetadata : public PlayFabBaseModel
-        {
-            std::string FileName;
-            std::string UploadUrl;
-
-            InitiateFileUploadMetadata() :
-                PlayFabBaseModel(),
-                FileName(),
-                UploadUrl()
-            {}
-
-            InitiateFileUploadMetadata(const InitiateFileUploadMetadata& src) :
-                PlayFabBaseModel(),
-                FileName(src.FileName),
-                UploadUrl(src.UploadUrl)
-            {}
-
-            ~InitiateFileUploadMetadata() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["FileName"], FileName);
-                FromJsonUtilS(input["UploadUrl"], UploadUrl);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_FileName; ToJsonUtilS(FileName, each_FileName); output["FileName"] = each_FileName;
-                Json::Value each_UploadUrl; ToJsonUtilS(UploadUrl, each_UploadUrl); output["UploadUrl"] = each_UploadUrl;
-                return output;
-            }
-        };
-
-        struct InitiateFileUploadsRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-            std::list<std::string> FileNames;
-            Boxed<Int32> ProfileVersion;
-
-            InitiateFileUploadsRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity(),
-                FileNames(),
-                ProfileVersion()
-            {}
-
-            InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                FileNames(src.FileNames),
-                ProfileVersion(src.ProfileVersion)
-            {}
-
-            ~InitiateFileUploadsRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilS(input["FileNames"], FileNames);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_FileNames; ToJsonUtilS(FileNames, each_FileNames); output["FileNames"] = each_FileNames;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                return output;
-            }
-        };
-
-        struct InitiateFileUploadsResponse : public PlayFabResultCommon
-        {
-            Boxed<EntityKey> Entity;
-            Int32 ProfileVersion;
-            std::list<InitiateFileUploadMetadata> UploadDetails;
-
-            InitiateFileUploadsResponse() :
-                PlayFabResultCommon(),
-                Entity(),
-                ProfileVersion(),
-                UploadDetails()
-            {}
-
-            InitiateFileUploadsResponse(const InitiateFileUploadsResponse& src) :
-                PlayFabResultCommon(),
-                Entity(src.Entity),
-                ProfileVersion(src.ProfileVersion),
-                UploadDetails(src.UploadDetails)
-            {}
-
-            ~InitiateFileUploadsResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-                FromJsonUtilO(input["UploadDetails"], UploadDetails);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                Json::Value each_UploadDetails; ToJsonUtilO(UploadDetails, each_UploadDetails); output["UploadDetails"] = each_UploadDetails;
-                return output;
-            }
-        };
-
-        struct SetObject : public PlayFabBaseModel
-        {
-            Json::Value DataObject;
-            Boxed<bool> DeleteObject;
-            std::string EscapedDataObject;
-            std::string ObjectName;
-
-            SetObject() :
-                PlayFabBaseModel(),
-                DataObject(),
-                DeleteObject(),
-                EscapedDataObject(),
-                ObjectName()
-            {}
-
-            SetObject(const SetObject& src) :
-                PlayFabBaseModel(),
-                DataObject(src.DataObject),
-                DeleteObject(src.DeleteObject),
-                EscapedDataObject(src.EscapedDataObject),
-                ObjectName(src.ObjectName)
-            {}
-
-            ~SetObject() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                DataObject = input["DataObject"];
-                FromJsonUtilP(input["DeleteObject"], DeleteObject);
-                FromJsonUtilS(input["EscapedDataObject"], EscapedDataObject);
-                FromJsonUtilS(input["ObjectName"], ObjectName);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                output["DataObject"] = DataObject;
-                Json::Value each_DeleteObject; ToJsonUtilP(DeleteObject, each_DeleteObject); output["DeleteObject"] = each_DeleteObject;
-                Json::Value each_EscapedDataObject; ToJsonUtilS(EscapedDataObject, each_EscapedDataObject); output["EscapedDataObject"] = each_EscapedDataObject;
-                Json::Value each_ObjectName; ToJsonUtilS(ObjectName, each_ObjectName); output["ObjectName"] = each_ObjectName;
-                return output;
-            }
-        };
-
-        struct SetObjectInfo : public PlayFabBaseModel
-        {
-            std::string ObjectName;
-            std::string OperationReason;
-            Boxed<OperationTypes> SetResult;
-
-            SetObjectInfo() :
-                PlayFabBaseModel(),
-                ObjectName(),
-                OperationReason(),
-                SetResult()
-            {}
-
-            SetObjectInfo(const SetObjectInfo& src) :
-                PlayFabBaseModel(),
-                ObjectName(src.ObjectName),
-                OperationReason(src.OperationReason),
-                SetResult(src.SetResult)
-            {}
-
-            ~SetObjectInfo() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["ObjectName"], ObjectName);
-                FromJsonUtilS(input["OperationReason"], OperationReason);
-                FromJsonUtilE(input["SetResult"], SetResult);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_ObjectName; ToJsonUtilS(ObjectName, each_ObjectName); output["ObjectName"] = each_ObjectName;
-                Json::Value each_OperationReason; ToJsonUtilS(OperationReason, each_OperationReason); output["OperationReason"] = each_OperationReason;
-                Json::Value each_SetResult; ToJsonUtilE(SetResult, each_SetResult); output["SetResult"] = each_SetResult;
-                return output;
-            }
-        };
-
-        struct SetObjectsRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            EntityKey Entity;
-            Boxed<Int32> ExpectedProfileVersion;
-            std::list<SetObject> Objects;
-
-            SetObjectsRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Entity(),
-                ExpectedProfileVersion(),
-                Objects()
-            {}
-
-            SetObjectsRequest(const SetObjectsRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                ExpectedProfileVersion(src.ExpectedProfileVersion),
-                Objects(src.Objects)
-            {}
-
-            ~SetObjectsRequest() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilP(input["ExpectedProfileVersion"], ExpectedProfileVersion);
-                FromJsonUtilO(input["Objects"], Objects);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_ExpectedProfileVersion; ToJsonUtilP(ExpectedProfileVersion, each_ExpectedProfileVersion); output["ExpectedProfileVersion"] = each_ExpectedProfileVersion;
-                Json::Value each_Objects; ToJsonUtilO(Objects, each_Objects); output["Objects"] = each_Objects;
-                return output;
-            }
-        };
-
-        struct SetObjectsResponse : public PlayFabResultCommon
-        {
-            Int32 ProfileVersion;
-            std::list<SetObjectInfo> SetResults;
-
-            SetObjectsResponse() :
-                PlayFabResultCommon(),
-                ProfileVersion(),
-                SetResults()
-            {}
-
-            SetObjectsResponse(const SetObjectsResponse& src) :
-                PlayFabResultCommon(),
-                ProfileVersion(src.ProfileVersion),
-                SetResults(src.SetResults)
-            {}
-
-            ~SetObjectsResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilP(input["ProfileVersion"], ProfileVersion);
-                FromJsonUtilO(input["SetResults"], SetResults);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_ProfileVersion; ToJsonUtilP(ProfileVersion, each_ProfileVersion); output["ProfileVersion"] = each_ProfileVersion;
-                Json::Value each_SetResults; ToJsonUtilO(SetResults, each_SetResults); output["SetResults"] = each_SetResults;
-                return output;
-            }
-        };
-
-    }
+
+#pragma push_macro("IN")
+#undef IN
+
+/// <summary>
+/// OperationTypes enum.
+/// </summary>
+enum class PlayFabDataOperationTypes : uint32_t
+{
+    Created,
+    Updated,
+    Deleted,
+    None
+};
+
+/// <summary>
+/// PlayFabDataAbortFileUploadsRequest data model. Aborts the pending upload of the requested files.
+/// Request object for PlayFabDataAbortFileUploadsAsync.
+/// </summary>
+typedef struct PlayFabDataAbortFileUploadsRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// Names of the files to have their pending uploads aborted.
+    /// </summary>
+    const char* const* fileNames;
+
+    /// <summary>
+    /// Count of fileNames
+    /// </summary>
+    uint32_t fileNamesCount;
+
+    /// <summary>
+    /// (Optional) The expected version of the profile, if set and doesn't match the current version
+    /// of the profile the operation will not be performed.
+    /// </summary>
+    int32_t const* profileVersion;
+
+} PlayFabDataAbortFileUploadsRequest;
+
+/// <summary>
+/// PlayFabDataAbortFileUploadsResponse data model. Result payload for PlayFabDataAbortFileUploadsAsync.
+/// </summary>
+typedef struct PlayFabDataAbortFileUploadsResponse
+{
+    /// <summary>
+    /// (Optional) The entity id and type.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+} PlayFabDataAbortFileUploadsResponse;
+
+/// <summary>
+/// PlayFabDataDeleteFilesRequest data model. Deletes the requested files from the entity's profile.
+/// Request object for PlayFabDataDeleteFilesAsync.
+/// </summary>
+typedef struct PlayFabDataDeleteFilesRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// Names of the files to be deleted.
+    /// </summary>
+    const char* const* fileNames;
+
+    /// <summary>
+    /// Count of fileNames
+    /// </summary>
+    uint32_t fileNamesCount;
+
+    /// <summary>
+    /// (Optional) The expected version of the profile, if set and doesn't match the current version
+    /// of the profile the operation will not be performed.
+    /// </summary>
+    int32_t const* profileVersion;
+
+} PlayFabDataDeleteFilesRequest;
+
+/// <summary>
+/// PlayFabDataDeleteFilesResponse data model. Result payload for PlayFabDataDeleteFilesAsync.
+/// </summary>
+typedef struct PlayFabDataDeleteFilesResponse
+{
+    /// <summary>
+    /// (Optional) The entity id and type.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+} PlayFabDataDeleteFilesResponse;
+
+/// <summary>
+/// PlayFabDataFinalizeFileUploadsRequest data model. Finalizes the upload of the requested files. Verifies
+/// that the files have been successfully uploaded and moves the file pointers from pending to live.
+/// Request object for PlayFabDataFinalizeFileUploadsAsync.
+/// </summary>
+typedef struct PlayFabDataFinalizeFileUploadsRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// Names of the files to be finalized. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
+    /// </summary>
+    const char* const* fileNames;
+
+    /// <summary>
+    /// Count of fileNames
+    /// </summary>
+    uint32_t fileNamesCount;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+} PlayFabDataFinalizeFileUploadsRequest;
+
+/// <summary>
+/// PlayFabDataGetFileMetadata data model.
+/// </summary>
+typedef struct PlayFabDataGetFileMetadata
+{
+    /// <summary>
+    /// (Optional) Checksum value for the file, can be used to check if the file on the server has changed.
+    /// </summary>
+    const char* checksum;
+
+    /// <summary>
+    /// (Optional) Download URL where the file can be retrieved.
+    /// </summary>
+    const char* downloadUrl;
+
+    /// <summary>
+    /// (Optional) Name of the file.
+    /// </summary>
+    const char* fileName;
+
+    /// <summary>
+    /// Last UTC time the file was modified.
+    /// </summary>
+    time_t lastModified;
+
+    /// <summary>
+    /// Storage service's reported byte count.
+    /// </summary>
+    int32_t size;
+
+} PlayFabDataGetFileMetadata;
+
+/// <summary>
+/// PlayFabDataFinalizeFileUploadsResponse data model. Result payload for PlayFabDataFinalizeFileUploadsAsync.
+/// </summary>
+typedef struct PlayFabDataFinalizeFileUploadsResponse
+{
+    /// <summary>
+    /// (Optional) The entity id and type.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// (Optional) Collection of metadata for the entity's files.
+    /// </summary>
+    struct PlayFabDataGetFileMetadataDictionaryEntry const* metadata;
+
+    /// <summary>
+    /// Count of metadata
+    /// </summary>
+    uint32_t metadataCount;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+} PlayFabDataFinalizeFileUploadsResponse;
+
+/// <summary>
+/// PlayFabDataGetFilesRequest data model. Returns URLs that may be used to download the files for a
+/// profile for a limited length of time. Only returns files that have been successfully uploaded, files
+/// that are still pending will either return the old value, if it exists, or nothing. Request object
+/// for PlayFabDataGetFilesAsync.
+/// </summary>
+typedef struct PlayFabDataGetFilesRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+} PlayFabDataGetFilesRequest;
+
+/// <summary>
+/// PlayFabDataGetFilesResponse data model. Result payload for PlayFabDataGetFilesAsync.
+/// </summary>
+typedef struct PlayFabDataGetFilesResponse
+{
+    /// <summary>
+    /// (Optional) The entity id and type.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// (Optional) Collection of metadata for the entity's files.
+    /// </summary>
+    struct PlayFabDataGetFileMetadataDictionaryEntry const* metadata;
+
+    /// <summary>
+    /// Count of metadata
+    /// </summary>
+    uint32_t metadataCount;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+} PlayFabDataGetFilesResponse;
+
+/// <summary>
+/// PlayFabDataGetObjectsRequest data model. Gets JSON objects from an entity profile and returns it.
+/// . Request object for PlayFabDataGetObjectsAsync.
+/// </summary>
+typedef struct PlayFabDataGetObjectsRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// (Optional) Determines whether the object will be returned as an escaped JSON string or as a un-escaped
+    /// JSON object. Default is JSON object.
+    /// </summary>
+    bool const* escapeObject;
+
+} PlayFabDataGetObjectsRequest;
+
+/// <summary>
+/// PlayFabDataObjectResult data model.
+/// </summary>
+typedef struct PlayFabDataObjectResult
+{
+    /// <summary>
+    /// (Optional) Un-escaped JSON object, if EscapeObject false or default.
+    /// </summary>
+    PlayFabJsonObject dataObject;
+
+    /// <summary>
+    /// (Optional) Escaped string JSON body of the object, if EscapeObject is true.
+    /// </summary>
+    const char* escapedDataObject;
+
+    /// <summary>
+    /// (Optional) Name of the object. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
+    /// </summary>
+    const char* objectName;
+
+} PlayFabDataObjectResult;
+
+/// <summary>
+/// PlayFabDataGetObjectsResponse data model. Result payload for PlayFabDataGetObjectsAsync.
+/// </summary>
+typedef struct PlayFabDataGetObjectsResponse
+{
+    /// <summary>
+    /// (Optional) The entity id and type.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// (Optional) Requested objects that the calling entity has access to.
+    /// </summary>
+    struct PlayFabDataObjectResultDictionaryEntry const* objects;
+
+    /// <summary>
+    /// Count of objects
+    /// </summary>
+    uint32_t objectsCount;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+} PlayFabDataGetObjectsResponse;
+
+/// <summary>
+/// PlayFabDataInitiateFileUploadMetadata data model.
+/// </summary>
+typedef struct PlayFabDataInitiateFileUploadMetadata
+{
+    /// <summary>
+    /// (Optional) Name of the file.
+    /// </summary>
+    const char* fileName;
+
+    /// <summary>
+    /// (Optional) Location the data should be sent to via an HTTP PUT operation.
+    /// </summary>
+    const char* uploadUrl;
+
+} PlayFabDataInitiateFileUploadMetadata;
+
+/// <summary>
+/// PlayFabDataInitiateFileUploadsRequest data model. Returns URLs that may be used to upload the files
+/// for a profile 5 minutes. After using the upload calls FinalizeFileUploads must be called to move the
+/// file status from pending to live. Request object for PlayFabDataInitiateFileUploadsAsync.
+/// </summary>
+typedef struct PlayFabDataInitiateFileUploadsRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// Names of the files to be set. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
+    /// </summary>
+    const char* const* fileNames;
+
+    /// <summary>
+    /// Count of fileNames
+    /// </summary>
+    uint32_t fileNamesCount;
+
+    /// <summary>
+    /// (Optional) The expected version of the profile, if set and doesn't match the current version
+    /// of the profile the operation will not be performed.
+    /// </summary>
+    int32_t const* profileVersion;
+
+} PlayFabDataInitiateFileUploadsRequest;
+
+/// <summary>
+/// PlayFabDataInitiateFileUploadsResponse data model. Result payload for PlayFabDataInitiateFileUploadsAsync.
+/// </summary>
+typedef struct PlayFabDataInitiateFileUploadsResponse
+{
+    /// <summary>
+    /// (Optional) The entity id and type.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// The current version of the profile, can be used for concurrency control during updates.
+    /// </summary>
+    int32_t profileVersion;
+
+    /// <summary>
+    /// (Optional) Collection of file names and upload urls.
+    /// </summary>
+    PlayFabDataInitiateFileUploadMetadata const* const* uploadDetails;
+
+    /// <summary>
+    /// Count of uploadDetails
+    /// </summary>
+    uint32_t uploadDetailsCount;
+
+} PlayFabDataInitiateFileUploadsResponse;
+
+/// <summary>
+/// PlayFabDataSetObject data model.
+/// </summary>
+typedef struct PlayFabDataSetObject
+{
+    /// <summary>
+    /// (Optional) Body of the object to be saved. If empty and DeleteObject is true object will be deleted
+    /// if it exists, or no operation will occur if it does not exist. Only one of Object or EscapedDataObject
+    /// fields may be used.
+    /// </summary>
+    PlayFabJsonObject dataObject;
+
+    /// <summary>
+    /// (Optional) Flag to indicate that this object should be deleted. Both DataObject and EscapedDataObject
+    /// must not be set as well.
+    /// </summary>
+    bool const* deleteObject;
+
+    /// <summary>
+    /// (Optional) Body of the object to be saved as an escaped JSON string. If empty and DeleteObject
+    /// is true object will be deleted if it exists, or no operation will occur if it does not exist.
+    /// Only one of DataObject or EscapedDataObject fields may be used.
+    /// </summary>
+    const char* escapedDataObject;
+
+    /// <summary>
+    /// Name of object. Restricted to a-Z, 0-9, '(', ')', '_', '-' and '.'.
+    /// </summary>
+    const char* objectName;
+
+} PlayFabDataSetObject;
+
+/// <summary>
+/// PlayFabDataSetObjectInfo data model.
+/// </summary>
+typedef struct PlayFabDataSetObjectInfo
+{
+    /// <summary>
+    /// (Optional) Name of the object.
+    /// </summary>
+    const char* objectName;
+
+    /// <summary>
+    /// (Optional) Optional reason to explain why the operation was the result that it was.
+    /// </summary>
+    const char* operationReason;
+
+    /// <summary>
+    /// (Optional) Indicates which operation was completed, either Created, Updated, Deleted or None.
+    /// </summary>
+    PlayFabDataOperationTypes const* setResult;
+
+} PlayFabDataSetObjectInfo;
+
+/// <summary>
+/// PlayFabDataSetObjectsRequest data model. Sets JSON objects on the requested entity profile. May include
+/// a version number to be used to perform optimistic concurrency operations during update. If the current
+/// version differs from the version in the request the request will be ignored. If no version is set
+/// on the request then the value will always be updated if the values differ. Using the version value
+/// does not guarantee a write though, ConcurrentEditError may still occur if multiple clients are attempting
+/// to update the same profile. . Request object for PlayFabDataSetObjectsAsync.
+/// </summary>
+typedef struct PlayFabDataSetObjectsRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
+
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
+
+    /// <summary>
+    /// The entity to perform this action on.
+    /// </summary>
+    PlayFabEntityKey const* entity;
+
+    /// <summary>
+    /// (Optional) Optional field used for concurrency control. By specifying the previously returned
+    /// value of ProfileVersion from GetProfile API, you can ensure that the object set will only be performed
+    /// if the profile has not been updated by any other clients since the version you last loaded.
+    /// </summary>
+    int32_t const* expectedProfileVersion;
+
+    /// <summary>
+    /// Collection of objects to set on the profile.
+    /// </summary>
+    PlayFabDataSetObject const* const* objects;
+
+    /// <summary>
+    /// Count of objects
+    /// </summary>
+    uint32_t objectsCount;
+
+} PlayFabDataSetObjectsRequest;
+
+/// <summary>
+/// PlayFabDataSetObjectsResponse data model. Result payload for PlayFabDataSetObjectsAsync.
+/// </summary>
+typedef struct PlayFabDataSetObjectsResponse
+{
+    /// <summary>
+    /// New version of the entity profile.
+    /// </summary>
+    int32_t profileVersion;
+
+    /// <summary>
+    /// (Optional) New version of the entity profile.
+    /// </summary>
+    PlayFabDataSetObjectInfo const* const* setResults;
+
+    /// <summary>
+    /// Count of setResults
+    /// </summary>
+    uint32_t setResultsCount;
+
+} PlayFabDataSetObjectsResponse;
+
+/// <summary>
+/// Dictionary entry for an associative array with PlayFabDataGetFileMetadata values.
+/// </summary>
+typedef struct PlayFabDataGetFileMetadataDictionaryEntry
+{
+    const char* key;
+    PlayFabDataGetFileMetadata* value;
+} PlayFabDataGetFileMetadataDictionaryEntry;
+
+/// <summary>
+/// Dictionary entry for an associative array with PlayFabDataObjectResult values.
+/// </summary>
+typedef struct PlayFabDataObjectResultDictionaryEntry
+{
+    const char* key;
+    PlayFabDataObjectResult* value;
+} PlayFabDataObjectResultDictionaryEntry;
+
+#pragma pop_macro("IN")
+
 }
-
-#endif

@@ -2,12 +2,7 @@
 
 #pragma once
 
-#include <functional>
-#include <string>
-
 #include "TestDataTypes.h"
-
-#include <playfab/PlayFabPlatformUtils.h>
 
 namespace PlayFabUnit
 {
@@ -34,8 +29,8 @@ namespace PlayFabUnit
         std::string interrimMsg;
         TestFunc testFunc;
         TestCase* testCase;
-        Int64 startTime;
-        Int64 endTime;
+        int64_t startTime;
+        int64_t endTime;
 
         // End this test with the given state and message
         void EndTest(TestFinishState state, const std::string& resultMsg);
@@ -44,6 +39,9 @@ namespace PlayFabUnit
         void Pass(const std::string& message = "");
         // End this test with FAILED state and optional message
         void Fail(const std::string& message = "");
+        // End this test with FAILED state. Message will note failed API and HRESULT
+        void Fail(const char* failedApi, HRESULT hr);
+
         // End this test with SKIPPED state and optional message
         void Skip(const std::string& message = "");
 

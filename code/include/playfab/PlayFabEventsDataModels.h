@@ -1,178 +1,127 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
+#include <playfab/PlayFabSharedDataModels.h>
 
-#include <playfab/PlayFabBaseModel.h>
-#include <playfab/PlayFabJsonHeaders.h>
-
-namespace PlayFab
+extern "C"
 {
-    namespace EventsModels
-    {
-        // Events Enums
-        // Events Classes
-        struct EntityKey : public PlayFabBaseModel
-        {
-            std::string Id;
-            std::string Type;
 
-            EntityKey() :
-                PlayFabBaseModel(),
-                Id(),
-                Type()
-            {}
+#pragma push_macro("IN")
+#undef IN
 
-            EntityKey(const EntityKey& src) :
-                PlayFabBaseModel(),
-                Id(src.Id),
-                Type(src.Type)
-            {}
+/// <summary>
+/// PlayFabEventsEventContents data model.
+/// </summary>
+typedef struct PlayFabEventsEventContents
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the event (e.g. build number, external trace
+    /// identifiers, etc.). Before an event is written, this collection and the base request custom tags
+    /// will be merged, but not overriden. This enables the caller to specify static tags and per event
+    /// tags.
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
 
-            ~EntityKey() = default;
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
 
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["Id"], Id);
-                FromJsonUtilS(input["Type"], Type);
-            }
+    /// <summary>
+    /// (Optional) Entity associated with the event. If null, the event will apply to the calling entity.
+    /// </summary>
+    PlayFabEntityKey const* entity;
 
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_Id; ToJsonUtilS(Id, each_Id); output["Id"] = each_Id;
-                Json::Value each_Type; ToJsonUtilS(Type, each_Type); output["Type"] = each_Type;
-                return output;
-            }
-        };
+    /// <summary>
+    /// The namespace in which the event is defined. Allowed namespaces can vary by API.
+    /// </summary>
+    const char* eventNamespace;
 
-        struct EventContents : public PlayFabBaseModel
-        {
-            std::map<std::string, std::string> CustomTags;
-            Boxed<EntityKey> Entity;
-            std::string EventNamespace;
-            std::string Name;
-            std::string OriginalId;
-            Boxed<time_t> OriginalTimestamp;
-            Json::Value Payload;
-            std::string PayloadJSON;
+    /// <summary>
+    /// The name of this event.
+    /// </summary>
+    const char* name;
 
-            EventContents() :
-                PlayFabBaseModel(),
-                CustomTags(),
-                Entity(),
-                EventNamespace(),
-                Name(),
-                OriginalId(),
-                OriginalTimestamp(),
-                Payload(),
-                PayloadJSON()
-            {}
+    /// <summary>
+    /// (Optional) The original unique identifier associated with this event before it was posted to
+    /// PlayFab. The value might differ from the EventId value, which is assigned when the event is received
+    /// by the server.
+    /// </summary>
+    const char* originalId;
 
-            EventContents(const EventContents& src) :
-                PlayFabBaseModel(),
-                CustomTags(src.CustomTags),
-                Entity(src.Entity),
-                EventNamespace(src.EventNamespace),
-                Name(src.Name),
-                OriginalId(src.OriginalId),
-                OriginalTimestamp(src.OriginalTimestamp),
-                Payload(src.Payload),
-                PayloadJSON(src.PayloadJSON)
-            {}
+    /// <summary>
+    /// (Optional) The time (in UTC) associated with this event when it occurred. If specified, this
+    /// value is stored in the OriginalTimestamp property of the PlayStream event.
+    /// </summary>
+    time_t const* originalTimestamp;
 
-            ~EventContents() = default;
+    /// <summary>
+    /// (Optional) Arbitrary data associated with the event. Only one of Payload or PayloadJSON is allowed.
+    /// </summary>
+    PlayFabJsonObject payload;
 
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Entity"], Entity);
-                FromJsonUtilS(input["EventNamespace"], EventNamespace);
-                FromJsonUtilS(input["Name"], Name);
-                FromJsonUtilS(input["OriginalId"], OriginalId);
-                FromJsonUtilT(input["OriginalTimestamp"], OriginalTimestamp);
-                Payload = input["Payload"];
-                FromJsonUtilS(input["PayloadJSON"], PayloadJSON);
-            }
+    /// <summary>
+    /// (Optional) Arbitrary data associated with the event, represented as a JSON serialized string.
+    /// Only one of Payload or PayloadJSON is allowed.
+    /// </summary>
+    const char* payloadJSON;
 
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Entity; ToJsonUtilO(Entity, each_Entity); output["Entity"] = each_Entity;
-                Json::Value each_EventNamespace; ToJsonUtilS(EventNamespace, each_EventNamespace); output["EventNamespace"] = each_EventNamespace;
-                Json::Value each_Name; ToJsonUtilS(Name, each_Name); output["Name"] = each_Name;
-                Json::Value each_OriginalId; ToJsonUtilS(OriginalId, each_OriginalId); output["OriginalId"] = each_OriginalId;
-                Json::Value each_OriginalTimestamp; ToJsonUtilT(OriginalTimestamp, each_OriginalTimestamp); output["OriginalTimestamp"] = each_OriginalTimestamp;
-                output["Payload"] = Payload;
-                Json::Value each_PayloadJSON; ToJsonUtilS(PayloadJSON, each_PayloadJSON); output["PayloadJSON"] = each_PayloadJSON;
-                return output;
-            }
-        };
+} PlayFabEventsEventContents;
 
-        struct WriteEventsRequest : public PlayFabRequestCommon
-        {
-            std::map<std::string, std::string> CustomTags;
-            std::list<EventContents> Events;
+/// <summary>
+/// PlayFabEventsWriteEventsRequest data model. Request object for PlayFabEventsWriteEventsAsync and
+/// PlayFabEventsWriteTelemetryEventsAsync.
+/// </summary>
+typedef struct PlayFabEventsWriteEventsRequest
+{
+    /// <summary>
+    /// (Optional) The optional custom tags associated with the request (e.g. build number, external
+    /// trace identifiers, etc.).
+    /// </summary>
+    struct PlayFabStringDictionaryEntry const* customTags;
 
-            WriteEventsRequest() :
-                PlayFabRequestCommon(),
-                CustomTags(),
-                Events()
-            {}
+    /// <summary>
+    /// Count of customTags
+    /// </summary>
+    uint32_t customTagsCount;
 
-            WriteEventsRequest(const WriteEventsRequest& src) :
-                PlayFabRequestCommon(),
-                CustomTags(src.CustomTags),
-                Events(src.Events)
-            {}
+    /// <summary>
+    /// Collection of events to write to PlayStream.
+    /// </summary>
+    PlayFabEventsEventContents const* const* events;
 
-            ~WriteEventsRequest() = default;
+    /// <summary>
+    /// Count of events
+    /// </summary>
+    uint32_t eventsCount;
 
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["CustomTags"], CustomTags);
-                FromJsonUtilO(input["Events"], Events);
-            }
+} PlayFabEventsWriteEventsRequest;
 
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_CustomTags; ToJsonUtilS(CustomTags, each_CustomTags); output["CustomTags"] = each_CustomTags;
-                Json::Value each_Events; ToJsonUtilO(Events, each_Events); output["Events"] = each_Events;
-                return output;
-            }
-        };
+/// <summary>
+/// PlayFabEventsWriteEventsResponse data model. Result payload for PlayFabEventsWriteEventsAsync and
+/// PlayFabEventsWriteTelemetryEventsAsync.
+/// </summary>
+typedef struct PlayFabEventsWriteEventsResponse
+{
+    /// <summary>
+    /// (Optional) The unique identifiers assigned by the server to the events, in the same order as
+    /// the events in the request. Only returned if FlushToPlayStream option is true.
+    /// </summary>
+    const char* const* assignedEventIds;
 
-        struct WriteEventsResponse : public PlayFabResultCommon
-        {
-            std::list<std::string> AssignedEventIds;
+    /// <summary>
+    /// Count of assignedEventIds
+    /// </summary>
+    uint32_t assignedEventIdsCount;
 
-            WriteEventsResponse() :
-                PlayFabResultCommon(),
-                AssignedEventIds()
-            {}
+} PlayFabEventsWriteEventsResponse;
 
-            WriteEventsResponse(const WriteEventsResponse& src) :
-                PlayFabResultCommon(),
-                AssignedEventIds(src.AssignedEventIds)
-            {}
+#pragma pop_macro("IN")
 
-            ~WriteEventsResponse() = default;
-
-            void FromJson(const Json::Value& input) override
-            {
-                FromJsonUtilS(input["AssignedEventIds"], AssignedEventIds);
-            }
-
-            Json::Value ToJson() const override
-            {
-                Json::Value output;
-                Json::Value each_AssignedEventIds; ToJsonUtilS(AssignedEventIds, each_AssignedEventIds); output["AssignedEventIds"] = each_AssignedEventIds;
-                return output;
-            }
-        };
-
-    }
 }
-
-#endif

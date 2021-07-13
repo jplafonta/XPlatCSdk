@@ -1,57 +1,249 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include <playfab/PlayFabDataDataModels.h>
-#include <playfab/PlayFabError.h>
+#include <playfab/PlayFabGlobal.h>
+#include <playfab/PlayFabEntity.h>
 
-namespace PlayFab
+extern "C"
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Data APIs
-    /// </summary>
-    class PlayFabDataAPI
-    {
-    public:
-        /// <summary>
-        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
-        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
-        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
-        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
-        /// Call Update when your game ticks as follows:
-        ///     Data.Update();
-        /// </summary>
-        static size_t Update();
-        static void ForgetAllCredentials();
+/// <summary>
+/// AbortFileUploads documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataAbortFileUploadsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataAbortFileUploadsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataAbortFileUploadsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataAbortFileUploadsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataAbortFileUploadsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataAbortFileUploadsResponse** result
+) noexcept;
+
+/// <summary>
+/// DeleteFiles documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataDeleteFilesGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataDeleteFilesAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataDeleteFilesRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataDeleteFilesAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataDeleteFilesGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataDeleteFilesResponse** result
+) noexcept;
+
+/// <summary>
+/// FinalizeFileUploads documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataFinalizeFileUploadsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataFinalizeFileUploadsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataFinalizeFileUploadsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataFinalizeFileUploadsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataFinalizeFileUploadsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataFinalizeFileUploadsResponse** result
+) noexcept;
+
+/// <summary>
+/// GetFiles documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataGetFilesGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataGetFilesAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataGetFilesRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataGetFilesAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataGetFilesGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataGetFilesResponse** result
+) noexcept;
+
+/// <summary>
+/// GetObjects documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataGetObjectsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataGetObjectsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataGetObjectsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataGetObjectsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataGetObjectsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataGetObjectsResponse** result
+) noexcept;
+
+/// <summary>
+/// InitiateFileUploads documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataInitiateFileUploadsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataInitiateFileUploadsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataInitiateFileUploadsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataInitiateFileUploadsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataInitiateFileUploadsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataInitiateFileUploadsResponse** result
+) noexcept;
+
+/// <summary>
+/// SetObjects documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabDataSetObjectsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabDataSetObjectsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabDataSetObjectsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabDataSetObjectsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabDataSetObjectsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabDataSetObjectsResponse** result
+) noexcept;
 
 
-        // ------------ Generated API calls
-        static void AbortFileUploads(DataModels::AbortFileUploadsRequest& request, const ProcessApiCallback<DataModels::AbortFileUploadsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void DeleteFiles(DataModels::DeleteFilesRequest& request, const ProcessApiCallback<DataModels::DeleteFilesResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void FinalizeFileUploads(DataModels::FinalizeFileUploadsRequest& request, const ProcessApiCallback<DataModels::FinalizeFileUploadsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void GetFiles(DataModels::GetFilesRequest& request, const ProcessApiCallback<DataModels::GetFilesResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void GetObjects(DataModels::GetObjectsRequest& request, const ProcessApiCallback<DataModels::GetObjectsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void InitiateFileUploads(DataModels::InitiateFileUploadsRequest& request, const ProcessApiCallback<DataModels::InitiateFileUploadsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void SetObjects(DataModels::SetObjectsRequest& request, const ProcessApiCallback<DataModels::SetObjectsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-
-    private:
-        PlayFabDataAPI(); // Private constructor, static class should never have an instance
-        PlayFabDataAPI(const PlayFabDataAPI& other); // Private copy-constructor, static class should never have an instance
-
-        // ------------ Generated result handlers
-        static void OnAbortFileUploadsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnDeleteFilesResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnFinalizeFileUploadsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnGetFilesResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnGetObjectsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnInitiateFileUploadsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnSetObjectsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-
-        static bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
-    };
 }
-
-#endif // #if !defined(DISABLE_PLAYFABENTITY_API)

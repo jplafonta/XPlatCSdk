@@ -2,11 +2,31 @@
 
 #pragma once
 
-#include <playfab/PlayFabPlatformMacros.h>
-#include <playfab/PlayFabPlatformTypes.h>
-#include <playfab/PlayFabPlatformUtils.h>
-#include <playfab/PlayFabApiSettings.h>
-#include <playfab/PlayFabAuthenticationContext.h>
+#include <algorithm>
+#include <chrono>
+#include <condition_variable>
+#include <cstring>
+#include <functional>
+#include <fstream>
+#include <future>
+#include <iomanip>
+#include <iostream>
+#include <list>
+#include <map>
+#include <memory>
+#include <mutex>
+#include <sstream>
+#include <string>
+#include <thread>
+#include <unordered_map>
+#include <array>
+#include <assert.h>
+
+#define ENABLE_PLAYFABADMIN_API
+#include <playfab/PlayFab.h>
+
+// Test App still relying on a lot of internal types/APIs, but this should eventually be changed
+#include <stdafx.h>
 
 #if defined (_XBOX_ONE)
 
@@ -40,4 +60,8 @@ namespace DX
 #include <SDKDDKVer.h>
 #define WIN32_LEAN_AND_MEAN
 
+#endif
+
+#if HC_PLATFORM == HC_PLATFORM_GDK
+#include "GDK/GDKPch.h"
 #endif

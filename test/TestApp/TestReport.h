@@ -6,11 +6,6 @@
 #include <string>
 #include "TestDataTypes.h"
 
-namespace Json
-{
-    class Value;
-}
-
 namespace PlayFabUnit
 {
     /// <summary>
@@ -29,7 +24,7 @@ namespace PlayFabUnit
         std::string failureText;
         TestFinishState finishState;
 
-        void ToJson(Json::Value& json);
+        PlayFab::JsonValue ToJson();
     };
 
     /// <summary>
@@ -45,11 +40,11 @@ namespace PlayFabUnit
         int skipped; // count tests in state
         double time; // Duration in seconds
         // Useful for debugging but not part of the serialized format
-        Int64 timeStamp;
+        int64_t timeStamp;
         int passed; // Could be calculated from the others, but sometimes knowing if they don't add up means something
         std::list<std::shared_ptr<TestCaseReport>> testResults;
 
-        void ToJson(Json::Value& json);
+        PlayFab::JsonValue ToJson();
     };
 
     class TestReport
@@ -61,7 +56,7 @@ namespace PlayFabUnit
 
         void TestStarted();
 
-        void TestComplete(const std::string& testName, TestFinishState testFinishState, Int64 testDurationMs, std::string message);
+        void TestComplete(const std::string& testName, TestFinishState testFinishState, int64_t testDurationMs, std::string message);
 
         bool AllTestsPassed();
     };

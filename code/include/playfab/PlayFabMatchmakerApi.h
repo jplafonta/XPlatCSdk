@@ -1,53 +1,176 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
-#if defined(ENABLE_PLAYFABSERVER_API)
-
 #include <playfab/PlayFabMatchmakerDataModels.h>
-#include <playfab/PlayFabError.h>
+#include <playfab/PlayFabGlobal.h>
 
-namespace PlayFab
+extern "C"
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Matchmaker APIs
-    /// </summary>
-    class PlayFabMatchmakerAPI
-    {
-    public:
-        /// <summary>
-        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
-        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
-        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
-        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
-        /// Call Update when your game ticks as follows:
-        ///     Matchmaker.Update();
-        /// </summary>
-        static size_t Update();
-        static void ForgetAllCredentials();
+/// <summary>
+/// AuthUser documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="stateHandle">PlayFabStateHandle returned from PlayFabInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabMatchmakerAuthUserGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabMatchmakerAuthUserAsync(
+    _In_ PlayFabStateHandle stateHandle,
+    _In_ const PlayFabMatchmakerAuthUserRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a AuthUser call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PlayFabMatchmakerAuthUserGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabMatchmakerAuthUserAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PlayFabMatchmakerAuthUserGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PlayFabMatchmakerAuthUserResponse** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// PlayerJoined documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="stateHandle">PlayFabStateHandle returned from PlayFabInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PlayFabMatchmakerPlayerJoinedAsync(
+    _In_ PlayFabStateHandle stateHandle,
+    _In_ const PlayFabMatchmakerPlayerJoinedRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// PlayerLeft documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="stateHandle">PlayFabStateHandle returned from PlayFabInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PlayFabMatchmakerPlayerLeftAsync(
+    _In_ PlayFabStateHandle stateHandle,
+    _In_ const PlayFabMatchmakerPlayerLeftRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// StartGame documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="stateHandle">PlayFabStateHandle returned from PlayFabInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabMatchmakerStartGameGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabMatchmakerStartGameAsync(
+    _In_ PlayFabStateHandle stateHandle,
+    _In_ const PlayFabMatchmakerStartGameRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a StartGame call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PlayFabMatchmakerStartGameGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabMatchmakerStartGameAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PlayFabMatchmakerStartGameGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PlayFabMatchmakerStartGameResponse** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// UserInfo documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="stateHandle">PlayFabStateHandle returned from PlayFabInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabMatchmakerUserInfoGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabMatchmakerUserInfoAsync(
+    _In_ PlayFabStateHandle stateHandle,
+    _In_ const PlayFabMatchmakerUserInfoRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabMatchmakerUserInfoAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabMatchmakerUserInfoGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabMatchmakerUserInfoResponse** result
+) noexcept;
 
 
-        // ------------ Generated API calls
-        static void AuthUser(MatchmakerModels::AuthUserRequest& request, const ProcessApiCallback<MatchmakerModels::AuthUserResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void PlayerJoined(MatchmakerModels::PlayerJoinedRequest& request, const ProcessApiCallback<MatchmakerModels::PlayerJoinedResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void PlayerLeft(MatchmakerModels::PlayerLeftRequest& request, const ProcessApiCallback<MatchmakerModels::PlayerLeftResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void StartGame(MatchmakerModels::StartGameRequest& request, const ProcessApiCallback<MatchmakerModels::StartGameResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void UserInfo(MatchmakerModels::UserInfoRequest& request, const ProcessApiCallback<MatchmakerModels::UserInfoResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-
-    private:
-        PlayFabMatchmakerAPI(); // Private constructor, static class should never have an instance
-        PlayFabMatchmakerAPI(const PlayFabMatchmakerAPI& other); // Private copy-constructor, static class should never have an instance
-
-        // ------------ Generated result handlers
-        static void OnAuthUserResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnPlayerJoinedResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnPlayerLeftResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnStartGameResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnUserInfoResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-
-        static bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
-    };
 }
-
-#endif // #if defined(ENABLE_PLAYFABSERVER_API)

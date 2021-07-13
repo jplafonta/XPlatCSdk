@@ -1,55 +1,258 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
 #pragma once
 
-#if !defined(DISABLE_PLAYFABENTITY_API)
-
 #include <playfab/PlayFabInsightsDataModels.h>
-#include <playfab/PlayFabError.h>
+#include <playfab/PlayFabGlobal.h>
+#include <playfab/PlayFabEntity.h>
 
-namespace PlayFab
+extern "C"
 {
-    class CallRequestContainerBase;
-    class CallRequestContainer;
 
-    /// <summary>
-    /// Main interface for PlayFab Sdk, specifically all Insights APIs
-    /// </summary>
-    class PlayFabInsightsAPI
-    {
-    public:
-        /// <summary>
-        /// Calls the Update function on your implementation of the IHttpPlugin to check for responses to HTTP requests.
-        /// All api's (Client, Server, Admin etc.) share the same IHttpPlugin. 
-        /// This means that you only need to call Update() on one API to retrieve the responses for all APIs.
-        /// Additional calls to Update (on any API) during the same tick are unlikely to retrieve additional responses.
-        /// Call Update when your game ticks as follows:
-        ///     Insights.Update();
-        /// </summary>
-        static size_t Update();
-        static void ForgetAllCredentials();
+/// <summary>
+/// GetDetails documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabInsightsGetDetailsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabInsightsGetDetailsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabInsightsInsightsEmptyRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabInsightsGetDetailsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabInsightsGetDetailsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabInsightsInsightsGetDetailsResponse** result
+) noexcept;
+
+/// <summary>
+/// GetLimits documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabInsightsGetLimitsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabInsightsGetLimitsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabInsightsInsightsEmptyRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabInsightsGetLimitsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabInsightsGetLimitsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabInsightsInsightsGetLimitsResponse** result
+) noexcept;
+
+/// <summary>
+/// GetOperationStatus documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabInsightsGetOperationStatusGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabInsightsGetOperationStatusAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabInsightsInsightsGetOperationStatusRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a GetOperationStatus call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PlayFabInsightsGetOperationStatusGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabInsightsGetOperationStatusAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PlayFabInsightsGetOperationStatusGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PlayFabInsightsInsightsGetOperationStatusResponse** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// GetPendingOperations documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabInsightsGetPendingOperationsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabInsightsGetPendingOperationsAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabInsightsInsightsGetPendingOperationsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabInsightsGetPendingOperationsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PlayFabResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PlayFabInsightsGetPendingOperationsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PlayFabResultHandle* resultHandle,
+    _Outptr_ PlayFabInsightsInsightsGetPendingOperationsResponse** result
+) noexcept;
+
+/// <summary>
+/// SetPerformance documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabInsightsSetPerformanceGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabInsightsSetPerformanceAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabInsightsInsightsSetPerformanceRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a SetPerformance call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PlayFabInsightsSetPerformanceGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabInsightsSetPerformanceAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PlayFabInsightsSetPerformanceGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PlayFabInsightsInsightsOperationResponse** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// SetStorageRetention documentation not found in XmlRefDocs.
+/// </summary>
+/// <param name="entityHandle">PlayFabEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PlayFabInsightsSetStorageRetentionGetResult"/> to get the result.
+/// </remarks>
+HRESULT PlayFabInsightsSetStorageRetentionAsync(
+    _In_ PlayFabEntityHandle entityHandle,
+    _In_ const PlayFabInsightsInsightsSetStorageRetentionRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a SetStorageRetention call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PlayFabInsightsSetStorageRetentionGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PlayFabInsightsSetStorageRetentionAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PlayFabInsightsSetStorageRetentionGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PlayFabInsightsInsightsOperationResponse** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
 
 
-        // ------------ Generated API calls
-        static void GetDetails(InsightsModels::InsightsEmptyRequest& request, const ProcessApiCallback<InsightsModels::InsightsGetDetailsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void GetLimits(InsightsModels::InsightsEmptyRequest& request, const ProcessApiCallback<InsightsModels::InsightsGetLimitsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void GetOperationStatus(InsightsModels::InsightsGetOperationStatusRequest& request, const ProcessApiCallback<InsightsModels::InsightsGetOperationStatusResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void GetPendingOperations(InsightsModels::InsightsGetPendingOperationsRequest& request, const ProcessApiCallback<InsightsModels::InsightsGetPendingOperationsResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void SetPerformance(InsightsModels::InsightsSetPerformanceRequest& request, const ProcessApiCallback<InsightsModels::InsightsOperationResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-        static void SetStorageRetention(InsightsModels::InsightsSetStorageRetentionRequest& request, const ProcessApiCallback<InsightsModels::InsightsOperationResponse> callback, const ErrorCallback errorCallback = nullptr, void* customData = nullptr);
-
-    private:
-        PlayFabInsightsAPI(); // Private constructor, static class should never have an instance
-        PlayFabInsightsAPI(const PlayFabInsightsAPI& other); // Private copy-constructor, static class should never have an instance
-
-        // ------------ Generated result handlers
-        static void OnGetDetailsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnGetLimitsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnGetOperationStatusResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnGetPendingOperationsResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnSetPerformanceResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-        static void OnSetStorageRetentionResult(int httpCode, const std::string& result, const std::shared_ptr<CallRequestContainerBase>& reqContainer);
-
-        static bool ValidateResult(PlayFabResultCommon& resultCommon, const CallRequestContainer& container);
-    };
 }
-
-#endif // #if !defined(DISABLE_PLAYFABENTITY_API)
