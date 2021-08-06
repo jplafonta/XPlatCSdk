@@ -5,1337 +5,13 @@
 namespace PlayFab
 {
 
-EntityKey::EntityKey() :
-    PlayFabEntityKey{}
-{
-}
-
-EntityKey::EntityKey(const EntityKey& src) :
-    PlayFabEntityKey{ src },
-    m_id{ src.m_id },
-    m_type{ src.m_type }
-{
-    id = m_id.empty() ? nullptr : m_id.data();
-    type = m_type.empty() ? nullptr : m_type.data();
-}
-
-EntityKey::EntityKey(EntityKey&& src) :
-    PlayFabEntityKey{ src },
-    m_id{ std::move(src.m_id) },
-    m_type{ std::move(src.m_type) }
-{
-    id = m_id.empty() ? nullptr : m_id.data();
-    type = m_type.empty() ? nullptr : m_type.data();
-}
-
-EntityKey::EntityKey(const PlayFabEntityKey& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void EntityKey::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Id", m_id, id);
-    JsonUtils::ObjectGetMember(input, "Type", m_type, type);
-}
-
-JsonValue EntityKey::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabEntityKey>(*this);
-}
-
-size_t EntityKey::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabEntityKey) };
-    serializedSize += (m_id.size() + 1);
-    serializedSize += (m_type.size() + 1);
-    return serializedSize;
-}
-
-void EntityKey::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabEntityKey{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabEntityKey);
-    memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
-    serializedStruct->id = stringBuffer;
-    stringBuffer += m_id.size() + 1;
-    memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
-    serializedStruct->type = stringBuffer;
-    stringBuffer += m_type.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-EntityTokenResponse::EntityTokenResponse() :
-    PlayFabEntityTokenResponse{}
-{
-}
-
-EntityTokenResponse::EntityTokenResponse(const EntityTokenResponse& src) :
-    PlayFabEntityTokenResponse{ src },
-    m_entity{ src.m_entity },
-    m_entityToken{ src.m_entityToken },
-    m_tokenExpiration{ src.m_tokenExpiration }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    entityToken = m_entityToken.empty() ? nullptr : m_entityToken.data();
-    tokenExpiration = m_tokenExpiration ? m_tokenExpiration.operator->() : nullptr;
-}
-
-EntityTokenResponse::EntityTokenResponse(EntityTokenResponse&& src) :
-    PlayFabEntityTokenResponse{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_entityToken{ std::move(src.m_entityToken) },
-    m_tokenExpiration{ std::move(src.m_tokenExpiration) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    entityToken = m_entityToken.empty() ? nullptr : m_entityToken.data();
-    tokenExpiration = m_tokenExpiration ? m_tokenExpiration.operator->() : nullptr;
-}
-
-EntityTokenResponse::EntityTokenResponse(const PlayFabEntityTokenResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void EntityTokenResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "EntityToken", m_entityToken, entityToken);
-    JsonUtils::ObjectGetMember(input, "TokenExpiration", m_tokenExpiration, tokenExpiration, true);
-}
-
-JsonValue EntityTokenResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabEntityTokenResponse>(*this);
-}
-
-UserAndroidDeviceInfo::UserAndroidDeviceInfo() :
-    PlayFabUserAndroidDeviceInfo{}
-{
-}
-
-UserAndroidDeviceInfo::UserAndroidDeviceInfo(const UserAndroidDeviceInfo& src) :
-    PlayFabUserAndroidDeviceInfo{ src },
-    m_androidDeviceId{ src.m_androidDeviceId }
-{
-    androidDeviceId = m_androidDeviceId.empty() ? nullptr : m_androidDeviceId.data();
-}
-
-UserAndroidDeviceInfo::UserAndroidDeviceInfo(UserAndroidDeviceInfo&& src) :
-    PlayFabUserAndroidDeviceInfo{ src },
-    m_androidDeviceId{ std::move(src.m_androidDeviceId) }
-{
-    androidDeviceId = m_androidDeviceId.empty() ? nullptr : m_androidDeviceId.data();
-}
-
-UserAndroidDeviceInfo::UserAndroidDeviceInfo(const PlayFabUserAndroidDeviceInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserAndroidDeviceInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AndroidDeviceId", m_androidDeviceId, androidDeviceId);
-}
-
-JsonValue UserAndroidDeviceInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserAndroidDeviceInfo>(*this);
-}
-
-size_t UserAndroidDeviceInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserAndroidDeviceInfo) };
-    serializedSize += (m_androidDeviceId.size() + 1);
-    return serializedSize;
-}
-
-void UserAndroidDeviceInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserAndroidDeviceInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserAndroidDeviceInfo);
-    memcpy(stringBuffer, m_androidDeviceId.data(), m_androidDeviceId.size() + 1);
-    serializedStruct->androidDeviceId = stringBuffer;
-    stringBuffer += m_androidDeviceId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserAppleIdInfo::UserAppleIdInfo() :
-    PlayFabUserAppleIdInfo{}
-{
-}
-
-UserAppleIdInfo::UserAppleIdInfo(const UserAppleIdInfo& src) :
-    PlayFabUserAppleIdInfo{ src },
-    m_appleSubjectId{ src.m_appleSubjectId }
-{
-    appleSubjectId = m_appleSubjectId.empty() ? nullptr : m_appleSubjectId.data();
-}
-
-UserAppleIdInfo::UserAppleIdInfo(UserAppleIdInfo&& src) :
-    PlayFabUserAppleIdInfo{ src },
-    m_appleSubjectId{ std::move(src.m_appleSubjectId) }
-{
-    appleSubjectId = m_appleSubjectId.empty() ? nullptr : m_appleSubjectId.data();
-}
-
-UserAppleIdInfo::UserAppleIdInfo(const PlayFabUserAppleIdInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserAppleIdInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AppleSubjectId", m_appleSubjectId, appleSubjectId);
-}
-
-JsonValue UserAppleIdInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserAppleIdInfo>(*this);
-}
-
-size_t UserAppleIdInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserAppleIdInfo) };
-    serializedSize += (m_appleSubjectId.size() + 1);
-    return serializedSize;
-}
-
-void UserAppleIdInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserAppleIdInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserAppleIdInfo);
-    memcpy(stringBuffer, m_appleSubjectId.data(), m_appleSubjectId.size() + 1);
-    serializedStruct->appleSubjectId = stringBuffer;
-    stringBuffer += m_appleSubjectId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserCustomIdInfo::UserCustomIdInfo() :
-    PlayFabUserCustomIdInfo{}
-{
-}
-
-UserCustomIdInfo::UserCustomIdInfo(const UserCustomIdInfo& src) :
-    PlayFabUserCustomIdInfo{ src },
-    m_customId{ src.m_customId }
-{
-    customId = m_customId.empty() ? nullptr : m_customId.data();
-}
-
-UserCustomIdInfo::UserCustomIdInfo(UserCustomIdInfo&& src) :
-    PlayFabUserCustomIdInfo{ src },
-    m_customId{ std::move(src.m_customId) }
-{
-    customId = m_customId.empty() ? nullptr : m_customId.data();
-}
-
-UserCustomIdInfo::UserCustomIdInfo(const PlayFabUserCustomIdInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserCustomIdInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomId", m_customId, customId);
-}
-
-JsonValue UserCustomIdInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserCustomIdInfo>(*this);
-}
-
-size_t UserCustomIdInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserCustomIdInfo) };
-    serializedSize += (m_customId.size() + 1);
-    return serializedSize;
-}
-
-void UserCustomIdInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserCustomIdInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserCustomIdInfo);
-    memcpy(stringBuffer, m_customId.data(), m_customId.size() + 1);
-    serializedStruct->customId = stringBuffer;
-    stringBuffer += m_customId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserFacebookInfo::UserFacebookInfo() :
-    PlayFabUserFacebookInfo{}
-{
-}
-
-UserFacebookInfo::UserFacebookInfo(const UserFacebookInfo& src) :
-    PlayFabUserFacebookInfo{ src },
-    m_facebookId{ src.m_facebookId },
-    m_fullName{ src.m_fullName }
-{
-    facebookId = m_facebookId.empty() ? nullptr : m_facebookId.data();
-    fullName = m_fullName.empty() ? nullptr : m_fullName.data();
-}
-
-UserFacebookInfo::UserFacebookInfo(UserFacebookInfo&& src) :
-    PlayFabUserFacebookInfo{ src },
-    m_facebookId{ std::move(src.m_facebookId) },
-    m_fullName{ std::move(src.m_fullName) }
-{
-    facebookId = m_facebookId.empty() ? nullptr : m_facebookId.data();
-    fullName = m_fullName.empty() ? nullptr : m_fullName.data();
-}
-
-UserFacebookInfo::UserFacebookInfo(const PlayFabUserFacebookInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserFacebookInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "FacebookId", m_facebookId, facebookId);
-    JsonUtils::ObjectGetMember(input, "FullName", m_fullName, fullName);
-}
-
-JsonValue UserFacebookInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserFacebookInfo>(*this);
-}
-
-size_t UserFacebookInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserFacebookInfo) };
-    serializedSize += (m_facebookId.size() + 1);
-    serializedSize += (m_fullName.size() + 1);
-    return serializedSize;
-}
-
-void UserFacebookInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserFacebookInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserFacebookInfo);
-    memcpy(stringBuffer, m_facebookId.data(), m_facebookId.size() + 1);
-    serializedStruct->facebookId = stringBuffer;
-    stringBuffer += m_facebookId.size() + 1;
-    memcpy(stringBuffer, m_fullName.data(), m_fullName.size() + 1);
-    serializedStruct->fullName = stringBuffer;
-    stringBuffer += m_fullName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo() :
-    PlayFabUserFacebookInstantGamesIdInfo{}
-{
-}
-
-UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo(const UserFacebookInstantGamesIdInfo& src) :
-    PlayFabUserFacebookInstantGamesIdInfo{ src },
-    m_facebookInstantGamesId{ src.m_facebookInstantGamesId }
-{
-    facebookInstantGamesId = m_facebookInstantGamesId.empty() ? nullptr : m_facebookInstantGamesId.data();
-}
-
-UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo(UserFacebookInstantGamesIdInfo&& src) :
-    PlayFabUserFacebookInstantGamesIdInfo{ src },
-    m_facebookInstantGamesId{ std::move(src.m_facebookInstantGamesId) }
-{
-    facebookInstantGamesId = m_facebookInstantGamesId.empty() ? nullptr : m_facebookInstantGamesId.data();
-}
-
-UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo(const PlayFabUserFacebookInstantGamesIdInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserFacebookInstantGamesIdInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "FacebookInstantGamesId", m_facebookInstantGamesId, facebookInstantGamesId);
-}
-
-JsonValue UserFacebookInstantGamesIdInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserFacebookInstantGamesIdInfo>(*this);
-}
-
-size_t UserFacebookInstantGamesIdInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserFacebookInstantGamesIdInfo) };
-    serializedSize += (m_facebookInstantGamesId.size() + 1);
-    return serializedSize;
-}
-
-void UserFacebookInstantGamesIdInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserFacebookInstantGamesIdInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserFacebookInstantGamesIdInfo);
-    memcpy(stringBuffer, m_facebookInstantGamesId.data(), m_facebookInstantGamesId.size() + 1);
-    serializedStruct->facebookInstantGamesId = stringBuffer;
-    stringBuffer += m_facebookInstantGamesId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserGameCenterInfo::UserGameCenterInfo() :
-    PlayFabUserGameCenterInfo{}
-{
-}
-
-UserGameCenterInfo::UserGameCenterInfo(const UserGameCenterInfo& src) :
-    PlayFabUserGameCenterInfo{ src },
-    m_gameCenterId{ src.m_gameCenterId }
-{
-    gameCenterId = m_gameCenterId.empty() ? nullptr : m_gameCenterId.data();
-}
-
-UserGameCenterInfo::UserGameCenterInfo(UserGameCenterInfo&& src) :
-    PlayFabUserGameCenterInfo{ src },
-    m_gameCenterId{ std::move(src.m_gameCenterId) }
-{
-    gameCenterId = m_gameCenterId.empty() ? nullptr : m_gameCenterId.data();
-}
-
-UserGameCenterInfo::UserGameCenterInfo(const PlayFabUserGameCenterInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserGameCenterInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "GameCenterId", m_gameCenterId, gameCenterId);
-}
-
-JsonValue UserGameCenterInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserGameCenterInfo>(*this);
-}
-
-size_t UserGameCenterInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserGameCenterInfo) };
-    serializedSize += (m_gameCenterId.size() + 1);
-    return serializedSize;
-}
-
-void UserGameCenterInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserGameCenterInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserGameCenterInfo);
-    memcpy(stringBuffer, m_gameCenterId.data(), m_gameCenterId.size() + 1);
-    serializedStruct->gameCenterId = stringBuffer;
-    stringBuffer += m_gameCenterId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserGoogleInfo::UserGoogleInfo() :
-    PlayFabUserGoogleInfo{}
-{
-}
-
-UserGoogleInfo::UserGoogleInfo(const UserGoogleInfo& src) :
-    PlayFabUserGoogleInfo{ src },
-    m_googleEmail{ src.m_googleEmail },
-    m_googleGender{ src.m_googleGender },
-    m_googleId{ src.m_googleId },
-    m_googleLocale{ src.m_googleLocale },
-    m_googleName{ src.m_googleName }
-{
-    googleEmail = m_googleEmail.empty() ? nullptr : m_googleEmail.data();
-    googleGender = m_googleGender.empty() ? nullptr : m_googleGender.data();
-    googleId = m_googleId.empty() ? nullptr : m_googleId.data();
-    googleLocale = m_googleLocale.empty() ? nullptr : m_googleLocale.data();
-    googleName = m_googleName.empty() ? nullptr : m_googleName.data();
-}
-
-UserGoogleInfo::UserGoogleInfo(UserGoogleInfo&& src) :
-    PlayFabUserGoogleInfo{ src },
-    m_googleEmail{ std::move(src.m_googleEmail) },
-    m_googleGender{ std::move(src.m_googleGender) },
-    m_googleId{ std::move(src.m_googleId) },
-    m_googleLocale{ std::move(src.m_googleLocale) },
-    m_googleName{ std::move(src.m_googleName) }
-{
-    googleEmail = m_googleEmail.empty() ? nullptr : m_googleEmail.data();
-    googleGender = m_googleGender.empty() ? nullptr : m_googleGender.data();
-    googleId = m_googleId.empty() ? nullptr : m_googleId.data();
-    googleLocale = m_googleLocale.empty() ? nullptr : m_googleLocale.data();
-    googleName = m_googleName.empty() ? nullptr : m_googleName.data();
-}
-
-UserGoogleInfo::UserGoogleInfo(const PlayFabUserGoogleInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserGoogleInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "GoogleEmail", m_googleEmail, googleEmail);
-    JsonUtils::ObjectGetMember(input, "GoogleGender", m_googleGender, googleGender);
-    JsonUtils::ObjectGetMember(input, "GoogleId", m_googleId, googleId);
-    JsonUtils::ObjectGetMember(input, "GoogleLocale", m_googleLocale, googleLocale);
-    JsonUtils::ObjectGetMember(input, "GoogleName", m_googleName, googleName);
-}
-
-JsonValue UserGoogleInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserGoogleInfo>(*this);
-}
-
-size_t UserGoogleInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserGoogleInfo) };
-    serializedSize += (m_googleEmail.size() + 1);
-    serializedSize += (m_googleGender.size() + 1);
-    serializedSize += (m_googleId.size() + 1);
-    serializedSize += (m_googleLocale.size() + 1);
-    serializedSize += (m_googleName.size() + 1);
-    return serializedSize;
-}
-
-void UserGoogleInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserGoogleInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserGoogleInfo);
-    memcpy(stringBuffer, m_googleEmail.data(), m_googleEmail.size() + 1);
-    serializedStruct->googleEmail = stringBuffer;
-    stringBuffer += m_googleEmail.size() + 1;
-    memcpy(stringBuffer, m_googleGender.data(), m_googleGender.size() + 1);
-    serializedStruct->googleGender = stringBuffer;
-    stringBuffer += m_googleGender.size() + 1;
-    memcpy(stringBuffer, m_googleId.data(), m_googleId.size() + 1);
-    serializedStruct->googleId = stringBuffer;
-    stringBuffer += m_googleId.size() + 1;
-    memcpy(stringBuffer, m_googleLocale.data(), m_googleLocale.size() + 1);
-    serializedStruct->googleLocale = stringBuffer;
-    stringBuffer += m_googleLocale.size() + 1;
-    memcpy(stringBuffer, m_googleName.data(), m_googleName.size() + 1);
-    serializedStruct->googleName = stringBuffer;
-    stringBuffer += m_googleName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserIosDeviceInfo::UserIosDeviceInfo() :
-    PlayFabUserIosDeviceInfo{}
-{
-}
-
-UserIosDeviceInfo::UserIosDeviceInfo(const UserIosDeviceInfo& src) :
-    PlayFabUserIosDeviceInfo{ src },
-    m_iosDeviceId{ src.m_iosDeviceId }
-{
-    iosDeviceId = m_iosDeviceId.empty() ? nullptr : m_iosDeviceId.data();
-}
-
-UserIosDeviceInfo::UserIosDeviceInfo(UserIosDeviceInfo&& src) :
-    PlayFabUserIosDeviceInfo{ src },
-    m_iosDeviceId{ std::move(src.m_iosDeviceId) }
-{
-    iosDeviceId = m_iosDeviceId.empty() ? nullptr : m_iosDeviceId.data();
-}
-
-UserIosDeviceInfo::UserIosDeviceInfo(const PlayFabUserIosDeviceInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserIosDeviceInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "IosDeviceId", m_iosDeviceId, iosDeviceId);
-}
-
-JsonValue UserIosDeviceInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserIosDeviceInfo>(*this);
-}
-
-size_t UserIosDeviceInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserIosDeviceInfo) };
-    serializedSize += (m_iosDeviceId.size() + 1);
-    return serializedSize;
-}
-
-void UserIosDeviceInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserIosDeviceInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserIosDeviceInfo);
-    memcpy(stringBuffer, m_iosDeviceId.data(), m_iosDeviceId.size() + 1);
-    serializedStruct->iosDeviceId = stringBuffer;
-    stringBuffer += m_iosDeviceId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserKongregateInfo::UserKongregateInfo() :
-    PlayFabUserKongregateInfo{}
-{
-}
-
-UserKongregateInfo::UserKongregateInfo(const UserKongregateInfo& src) :
-    PlayFabUserKongregateInfo{ src },
-    m_kongregateId{ src.m_kongregateId },
-    m_kongregateName{ src.m_kongregateName }
-{
-    kongregateId = m_kongregateId.empty() ? nullptr : m_kongregateId.data();
-    kongregateName = m_kongregateName.empty() ? nullptr : m_kongregateName.data();
-}
-
-UserKongregateInfo::UserKongregateInfo(UserKongregateInfo&& src) :
-    PlayFabUserKongregateInfo{ src },
-    m_kongregateId{ std::move(src.m_kongregateId) },
-    m_kongregateName{ std::move(src.m_kongregateName) }
-{
-    kongregateId = m_kongregateId.empty() ? nullptr : m_kongregateId.data();
-    kongregateName = m_kongregateName.empty() ? nullptr : m_kongregateName.data();
-}
-
-UserKongregateInfo::UserKongregateInfo(const PlayFabUserKongregateInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserKongregateInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "KongregateId", m_kongregateId, kongregateId);
-    JsonUtils::ObjectGetMember(input, "KongregateName", m_kongregateName, kongregateName);
-}
-
-JsonValue UserKongregateInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserKongregateInfo>(*this);
-}
-
-size_t UserKongregateInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserKongregateInfo) };
-    serializedSize += (m_kongregateId.size() + 1);
-    serializedSize += (m_kongregateName.size() + 1);
-    return serializedSize;
-}
-
-void UserKongregateInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserKongregateInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserKongregateInfo);
-    memcpy(stringBuffer, m_kongregateId.data(), m_kongregateId.size() + 1);
-    serializedStruct->kongregateId = stringBuffer;
-    stringBuffer += m_kongregateId.size() + 1;
-    memcpy(stringBuffer, m_kongregateName.data(), m_kongregateName.size() + 1);
-    serializedStruct->kongregateName = stringBuffer;
-    stringBuffer += m_kongregateName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo() :
-    PlayFabUserNintendoSwitchAccountIdInfo{}
-{
-}
-
-UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo(const UserNintendoSwitchAccountIdInfo& src) :
-    PlayFabUserNintendoSwitchAccountIdInfo{ src },
-    m_nintendoSwitchAccountSubjectId{ src.m_nintendoSwitchAccountSubjectId }
-{
-    nintendoSwitchAccountSubjectId = m_nintendoSwitchAccountSubjectId.empty() ? nullptr : m_nintendoSwitchAccountSubjectId.data();
-}
-
-UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo(UserNintendoSwitchAccountIdInfo&& src) :
-    PlayFabUserNintendoSwitchAccountIdInfo{ src },
-    m_nintendoSwitchAccountSubjectId{ std::move(src.m_nintendoSwitchAccountSubjectId) }
-{
-    nintendoSwitchAccountSubjectId = m_nintendoSwitchAccountSubjectId.empty() ? nullptr : m_nintendoSwitchAccountSubjectId.data();
-}
-
-UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo(const PlayFabUserNintendoSwitchAccountIdInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserNintendoSwitchAccountIdInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "NintendoSwitchAccountSubjectId", m_nintendoSwitchAccountSubjectId, nintendoSwitchAccountSubjectId);
-}
-
-JsonValue UserNintendoSwitchAccountIdInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserNintendoSwitchAccountIdInfo>(*this);
-}
-
-size_t UserNintendoSwitchAccountIdInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserNintendoSwitchAccountIdInfo) };
-    serializedSize += (m_nintendoSwitchAccountSubjectId.size() + 1);
-    return serializedSize;
-}
-
-void UserNintendoSwitchAccountIdInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserNintendoSwitchAccountIdInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserNintendoSwitchAccountIdInfo);
-    memcpy(stringBuffer, m_nintendoSwitchAccountSubjectId.data(), m_nintendoSwitchAccountSubjectId.size() + 1);
-    serializedStruct->nintendoSwitchAccountSubjectId = stringBuffer;
-    stringBuffer += m_nintendoSwitchAccountSubjectId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo() :
-    PlayFabUserNintendoSwitchDeviceIdInfo{}
-{
-}
-
-UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo(const UserNintendoSwitchDeviceIdInfo& src) :
-    PlayFabUserNintendoSwitchDeviceIdInfo{ src },
-    m_nintendoSwitchDeviceId{ src.m_nintendoSwitchDeviceId }
-{
-    nintendoSwitchDeviceId = m_nintendoSwitchDeviceId.empty() ? nullptr : m_nintendoSwitchDeviceId.data();
-}
-
-UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo(UserNintendoSwitchDeviceIdInfo&& src) :
-    PlayFabUserNintendoSwitchDeviceIdInfo{ src },
-    m_nintendoSwitchDeviceId{ std::move(src.m_nintendoSwitchDeviceId) }
-{
-    nintendoSwitchDeviceId = m_nintendoSwitchDeviceId.empty() ? nullptr : m_nintendoSwitchDeviceId.data();
-}
-
-UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo(const PlayFabUserNintendoSwitchDeviceIdInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserNintendoSwitchDeviceIdInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "NintendoSwitchDeviceId", m_nintendoSwitchDeviceId, nintendoSwitchDeviceId);
-}
-
-JsonValue UserNintendoSwitchDeviceIdInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserNintendoSwitchDeviceIdInfo>(*this);
-}
-
-size_t UserNintendoSwitchDeviceIdInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserNintendoSwitchDeviceIdInfo) };
-    serializedSize += (m_nintendoSwitchDeviceId.size() + 1);
-    return serializedSize;
-}
-
-void UserNintendoSwitchDeviceIdInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserNintendoSwitchDeviceIdInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserNintendoSwitchDeviceIdInfo);
-    memcpy(stringBuffer, m_nintendoSwitchDeviceId.data(), m_nintendoSwitchDeviceId.size() + 1);
-    serializedStruct->nintendoSwitchDeviceId = stringBuffer;
-    stringBuffer += m_nintendoSwitchDeviceId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserOpenIdInfo::UserOpenIdInfo() :
-    PlayFabUserOpenIdInfo{}
-{
-}
-
-UserOpenIdInfo::UserOpenIdInfo(const UserOpenIdInfo& src) :
-    PlayFabUserOpenIdInfo{ src },
-    m_connectionId{ src.m_connectionId },
-    m_issuer{ src.m_issuer },
-    m_subject{ src.m_subject }
-{
-    connectionId = m_connectionId.empty() ? nullptr : m_connectionId.data();
-    issuer = m_issuer.empty() ? nullptr : m_issuer.data();
-    subject = m_subject.empty() ? nullptr : m_subject.data();
-}
-
-UserOpenIdInfo::UserOpenIdInfo(UserOpenIdInfo&& src) :
-    PlayFabUserOpenIdInfo{ src },
-    m_connectionId{ std::move(src.m_connectionId) },
-    m_issuer{ std::move(src.m_issuer) },
-    m_subject{ std::move(src.m_subject) }
-{
-    connectionId = m_connectionId.empty() ? nullptr : m_connectionId.data();
-    issuer = m_issuer.empty() ? nullptr : m_issuer.data();
-    subject = m_subject.empty() ? nullptr : m_subject.data();
-}
-
-UserOpenIdInfo::UserOpenIdInfo(const PlayFabUserOpenIdInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserOpenIdInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ConnectionId", m_connectionId, connectionId);
-    JsonUtils::ObjectGetMember(input, "Issuer", m_issuer, issuer);
-    JsonUtils::ObjectGetMember(input, "Subject", m_subject, subject);
-}
-
-JsonValue UserOpenIdInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserOpenIdInfo>(*this);
-}
-
-size_t UserOpenIdInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserOpenIdInfo) };
-    serializedSize += (m_connectionId.size() + 1);
-    serializedSize += (m_issuer.size() + 1);
-    serializedSize += (m_subject.size() + 1);
-    return serializedSize;
-}
-
-void UserOpenIdInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserOpenIdInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserOpenIdInfo);
-    memcpy(stringBuffer, m_connectionId.data(), m_connectionId.size() + 1);
-    serializedStruct->connectionId = stringBuffer;
-    stringBuffer += m_connectionId.size() + 1;
-    memcpy(stringBuffer, m_issuer.data(), m_issuer.size() + 1);
-    serializedStruct->issuer = stringBuffer;
-    stringBuffer += m_issuer.size() + 1;
-    memcpy(stringBuffer, m_subject.data(), m_subject.size() + 1);
-    serializedStruct->subject = stringBuffer;
-    stringBuffer += m_subject.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserPrivateAccountInfo::UserPrivateAccountInfo() :
-    PlayFabUserPrivateAccountInfo{}
-{
-}
-
-UserPrivateAccountInfo::UserPrivateAccountInfo(const UserPrivateAccountInfo& src) :
-    PlayFabUserPrivateAccountInfo{ src },
-    m_email{ src.m_email }
-{
-    email = m_email.empty() ? nullptr : m_email.data();
-}
-
-UserPrivateAccountInfo::UserPrivateAccountInfo(UserPrivateAccountInfo&& src) :
-    PlayFabUserPrivateAccountInfo{ src },
-    m_email{ std::move(src.m_email) }
-{
-    email = m_email.empty() ? nullptr : m_email.data();
-}
-
-UserPrivateAccountInfo::UserPrivateAccountInfo(const PlayFabUserPrivateAccountInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserPrivateAccountInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Email", m_email, email);
-}
-
-JsonValue UserPrivateAccountInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserPrivateAccountInfo>(*this);
-}
-
-size_t UserPrivateAccountInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserPrivateAccountInfo) };
-    serializedSize += (m_email.size() + 1);
-    return serializedSize;
-}
-
-void UserPrivateAccountInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserPrivateAccountInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserPrivateAccountInfo);
-    memcpy(stringBuffer, m_email.data(), m_email.size() + 1);
-    serializedStruct->email = stringBuffer;
-    stringBuffer += m_email.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserPsnInfo::UserPsnInfo() :
-    PlayFabUserPsnInfo{}
-{
-}
-
-UserPsnInfo::UserPsnInfo(const UserPsnInfo& src) :
-    PlayFabUserPsnInfo{ src },
-    m_psnAccountId{ src.m_psnAccountId },
-    m_psnOnlineId{ src.m_psnOnlineId }
-{
-    psnAccountId = m_psnAccountId.empty() ? nullptr : m_psnAccountId.data();
-    psnOnlineId = m_psnOnlineId.empty() ? nullptr : m_psnOnlineId.data();
-}
-
-UserPsnInfo::UserPsnInfo(UserPsnInfo&& src) :
-    PlayFabUserPsnInfo{ src },
-    m_psnAccountId{ std::move(src.m_psnAccountId) },
-    m_psnOnlineId{ std::move(src.m_psnOnlineId) }
-{
-    psnAccountId = m_psnAccountId.empty() ? nullptr : m_psnAccountId.data();
-    psnOnlineId = m_psnOnlineId.empty() ? nullptr : m_psnOnlineId.data();
-}
-
-UserPsnInfo::UserPsnInfo(const PlayFabUserPsnInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserPsnInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PsnAccountId", m_psnAccountId, psnAccountId);
-    JsonUtils::ObjectGetMember(input, "PsnOnlineId", m_psnOnlineId, psnOnlineId);
-}
-
-JsonValue UserPsnInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserPsnInfo>(*this);
-}
-
-size_t UserPsnInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserPsnInfo) };
-    serializedSize += (m_psnAccountId.size() + 1);
-    serializedSize += (m_psnOnlineId.size() + 1);
-    return serializedSize;
-}
-
-void UserPsnInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserPsnInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserPsnInfo);
-    memcpy(stringBuffer, m_psnAccountId.data(), m_psnAccountId.size() + 1);
-    serializedStruct->psnAccountId = stringBuffer;
-    stringBuffer += m_psnAccountId.size() + 1;
-    memcpy(stringBuffer, m_psnOnlineId.data(), m_psnOnlineId.size() + 1);
-    serializedStruct->psnOnlineId = stringBuffer;
-    stringBuffer += m_psnOnlineId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserSteamInfo::UserSteamInfo() :
-    PlayFabUserSteamInfo{}
-{
-}
-
-UserSteamInfo::UserSteamInfo(const UserSteamInfo& src) :
-    PlayFabUserSteamInfo{ src },
-    m_steamActivationStatus{ src.m_steamActivationStatus },
-    m_steamCountry{ src.m_steamCountry },
-    m_steamCurrency{ src.m_steamCurrency },
-    m_steamId{ src.m_steamId },
-    m_steamName{ src.m_steamName }
-{
-    steamActivationStatus = m_steamActivationStatus ? m_steamActivationStatus.operator->() : nullptr;
-    steamCountry = m_steamCountry.empty() ? nullptr : m_steamCountry.data();
-    steamCurrency = m_steamCurrency ? m_steamCurrency.operator->() : nullptr;
-    steamId = m_steamId.empty() ? nullptr : m_steamId.data();
-    steamName = m_steamName.empty() ? nullptr : m_steamName.data();
-}
-
-UserSteamInfo::UserSteamInfo(UserSteamInfo&& src) :
-    PlayFabUserSteamInfo{ src },
-    m_steamActivationStatus{ std::move(src.m_steamActivationStatus) },
-    m_steamCountry{ std::move(src.m_steamCountry) },
-    m_steamCurrency{ std::move(src.m_steamCurrency) },
-    m_steamId{ std::move(src.m_steamId) },
-    m_steamName{ std::move(src.m_steamName) }
-{
-    steamActivationStatus = m_steamActivationStatus ? m_steamActivationStatus.operator->() : nullptr;
-    steamCountry = m_steamCountry.empty() ? nullptr : m_steamCountry.data();
-    steamCurrency = m_steamCurrency ? m_steamCurrency.operator->() : nullptr;
-    steamId = m_steamId.empty() ? nullptr : m_steamId.data();
-    steamName = m_steamName.empty() ? nullptr : m_steamName.data();
-}
-
-UserSteamInfo::UserSteamInfo(const PlayFabUserSteamInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserSteamInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SteamActivationStatus", m_steamActivationStatus, steamActivationStatus);
-    JsonUtils::ObjectGetMember(input, "SteamCountry", m_steamCountry, steamCountry);
-    JsonUtils::ObjectGetMember(input, "SteamCurrency", m_steamCurrency, steamCurrency);
-    JsonUtils::ObjectGetMember(input, "SteamId", m_steamId, steamId);
-    JsonUtils::ObjectGetMember(input, "SteamName", m_steamName, steamName);
-}
-
-JsonValue UserSteamInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserSteamInfo>(*this);
-}
-
-UserTitleInfo::UserTitleInfo() :
-    PlayFabUserTitleInfo{}
-{
-}
-
-UserTitleInfo::UserTitleInfo(const UserTitleInfo& src) :
-    PlayFabUserTitleInfo{ src },
-    m_avatarUrl{ src.m_avatarUrl },
-    m_displayName{ src.m_displayName },
-    m_firstLogin{ src.m_firstLogin },
-    m_isBanned{ src.m_isBanned },
-    m_lastLogin{ src.m_lastLogin },
-    m_origination{ src.m_origination },
-    m_titlePlayerAccount{ src.m_titlePlayerAccount }
-{
-    avatarUrl = m_avatarUrl.empty() ? nullptr : m_avatarUrl.data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    firstLogin = m_firstLogin ? m_firstLogin.operator->() : nullptr;
-    isBanned = m_isBanned ? m_isBanned.operator->() : nullptr;
-    lastLogin = m_lastLogin ? m_lastLogin.operator->() : nullptr;
-    origination = m_origination ? m_origination.operator->() : nullptr;
-    titlePlayerAccount = m_titlePlayerAccount ? m_titlePlayerAccount.operator->() : nullptr;
-}
-
-UserTitleInfo::UserTitleInfo(UserTitleInfo&& src) :
-    PlayFabUserTitleInfo{ src },
-    m_avatarUrl{ std::move(src.m_avatarUrl) },
-    m_displayName{ std::move(src.m_displayName) },
-    m_firstLogin{ std::move(src.m_firstLogin) },
-    m_isBanned{ std::move(src.m_isBanned) },
-    m_lastLogin{ std::move(src.m_lastLogin) },
-    m_origination{ std::move(src.m_origination) },
-    m_titlePlayerAccount{ std::move(src.m_titlePlayerAccount) }
-{
-    avatarUrl = m_avatarUrl.empty() ? nullptr : m_avatarUrl.data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    firstLogin = m_firstLogin ? m_firstLogin.operator->() : nullptr;
-    isBanned = m_isBanned ? m_isBanned.operator->() : nullptr;
-    lastLogin = m_lastLogin ? m_lastLogin.operator->() : nullptr;
-    origination = m_origination ? m_origination.operator->() : nullptr;
-    titlePlayerAccount = m_titlePlayerAccount ? m_titlePlayerAccount.operator->() : nullptr;
-}
-
-UserTitleInfo::UserTitleInfo(const PlayFabUserTitleInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserTitleInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AvatarUrl", m_avatarUrl, avatarUrl);
-    JsonUtils::ObjectGetMember(input, "Created", created, true);
-    JsonUtils::ObjectGetMember(input, "DisplayName", m_displayName, displayName);
-    JsonUtils::ObjectGetMember(input, "FirstLogin", m_firstLogin, firstLogin, true);
-    JsonUtils::ObjectGetMember(input, "isBanned", m_isBanned, isBanned);
-    JsonUtils::ObjectGetMember(input, "LastLogin", m_lastLogin, lastLogin, true);
-    JsonUtils::ObjectGetMember(input, "Origination", m_origination, origination);
-    JsonUtils::ObjectGetMember(input, "TitlePlayerAccount", m_titlePlayerAccount, titlePlayerAccount);
-}
-
-JsonValue UserTitleInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserTitleInfo>(*this);
-}
-
-UserTwitchInfo::UserTwitchInfo() :
-    PlayFabUserTwitchInfo{}
-{
-}
-
-UserTwitchInfo::UserTwitchInfo(const UserTwitchInfo& src) :
-    PlayFabUserTwitchInfo{ src },
-    m_twitchId{ src.m_twitchId },
-    m_twitchUserName{ src.m_twitchUserName }
-{
-    twitchId = m_twitchId.empty() ? nullptr : m_twitchId.data();
-    twitchUserName = m_twitchUserName.empty() ? nullptr : m_twitchUserName.data();
-}
-
-UserTwitchInfo::UserTwitchInfo(UserTwitchInfo&& src) :
-    PlayFabUserTwitchInfo{ src },
-    m_twitchId{ std::move(src.m_twitchId) },
-    m_twitchUserName{ std::move(src.m_twitchUserName) }
-{
-    twitchId = m_twitchId.empty() ? nullptr : m_twitchId.data();
-    twitchUserName = m_twitchUserName.empty() ? nullptr : m_twitchUserName.data();
-}
-
-UserTwitchInfo::UserTwitchInfo(const PlayFabUserTwitchInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserTwitchInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "TwitchId", m_twitchId, twitchId);
-    JsonUtils::ObjectGetMember(input, "TwitchUserName", m_twitchUserName, twitchUserName);
-}
-
-JsonValue UserTwitchInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserTwitchInfo>(*this);
-}
-
-size_t UserTwitchInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserTwitchInfo) };
-    serializedSize += (m_twitchId.size() + 1);
-    serializedSize += (m_twitchUserName.size() + 1);
-    return serializedSize;
-}
-
-void UserTwitchInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserTwitchInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserTwitchInfo);
-    memcpy(stringBuffer, m_twitchId.data(), m_twitchId.size() + 1);
-    serializedStruct->twitchId = stringBuffer;
-    stringBuffer += m_twitchId.size() + 1;
-    memcpy(stringBuffer, m_twitchUserName.data(), m_twitchUserName.size() + 1);
-    serializedStruct->twitchUserName = stringBuffer;
-    stringBuffer += m_twitchUserName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserWindowsHelloInfo::UserWindowsHelloInfo() :
-    PlayFabUserWindowsHelloInfo{}
-{
-}
-
-UserWindowsHelloInfo::UserWindowsHelloInfo(const UserWindowsHelloInfo& src) :
-    PlayFabUserWindowsHelloInfo{ src },
-    m_windowsHelloDeviceName{ src.m_windowsHelloDeviceName },
-    m_windowsHelloPublicKeyHash{ src.m_windowsHelloPublicKeyHash }
-{
-    windowsHelloDeviceName = m_windowsHelloDeviceName.empty() ? nullptr : m_windowsHelloDeviceName.data();
-    windowsHelloPublicKeyHash = m_windowsHelloPublicKeyHash.empty() ? nullptr : m_windowsHelloPublicKeyHash.data();
-}
-
-UserWindowsHelloInfo::UserWindowsHelloInfo(UserWindowsHelloInfo&& src) :
-    PlayFabUserWindowsHelloInfo{ src },
-    m_windowsHelloDeviceName{ std::move(src.m_windowsHelloDeviceName) },
-    m_windowsHelloPublicKeyHash{ std::move(src.m_windowsHelloPublicKeyHash) }
-{
-    windowsHelloDeviceName = m_windowsHelloDeviceName.empty() ? nullptr : m_windowsHelloDeviceName.data();
-    windowsHelloPublicKeyHash = m_windowsHelloPublicKeyHash.empty() ? nullptr : m_windowsHelloPublicKeyHash.data();
-}
-
-UserWindowsHelloInfo::UserWindowsHelloInfo(const PlayFabUserWindowsHelloInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserWindowsHelloInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "WindowsHelloDeviceName", m_windowsHelloDeviceName, windowsHelloDeviceName);
-    JsonUtils::ObjectGetMember(input, "WindowsHelloPublicKeyHash", m_windowsHelloPublicKeyHash, windowsHelloPublicKeyHash);
-}
-
-JsonValue UserWindowsHelloInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserWindowsHelloInfo>(*this);
-}
-
-size_t UserWindowsHelloInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserWindowsHelloInfo) };
-    serializedSize += (m_windowsHelloDeviceName.size() + 1);
-    serializedSize += (m_windowsHelloPublicKeyHash.size() + 1);
-    return serializedSize;
-}
-
-void UserWindowsHelloInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserWindowsHelloInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserWindowsHelloInfo);
-    memcpy(stringBuffer, m_windowsHelloDeviceName.data(), m_windowsHelloDeviceName.size() + 1);
-    serializedStruct->windowsHelloDeviceName = stringBuffer;
-    stringBuffer += m_windowsHelloDeviceName.size() + 1;
-    memcpy(stringBuffer, m_windowsHelloPublicKeyHash.data(), m_windowsHelloPublicKeyHash.size() + 1);
-    serializedStruct->windowsHelloPublicKeyHash = stringBuffer;
-    stringBuffer += m_windowsHelloPublicKeyHash.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserXboxInfo::UserXboxInfo() :
-    PlayFabUserXboxInfo{}
-{
-}
-
-UserXboxInfo::UserXboxInfo(const UserXboxInfo& src) :
-    PlayFabUserXboxInfo{ src },
-    m_xboxUserId{ src.m_xboxUserId }
-{
-    xboxUserId = m_xboxUserId.empty() ? nullptr : m_xboxUserId.data();
-}
-
-UserXboxInfo::UserXboxInfo(UserXboxInfo&& src) :
-    PlayFabUserXboxInfo{ src },
-    m_xboxUserId{ std::move(src.m_xboxUserId) }
-{
-    xboxUserId = m_xboxUserId.empty() ? nullptr : m_xboxUserId.data();
-}
-
-UserXboxInfo::UserXboxInfo(const PlayFabUserXboxInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserXboxInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "XboxUserId", m_xboxUserId, xboxUserId);
-}
-
-JsonValue UserXboxInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserXboxInfo>(*this);
-}
-
-size_t UserXboxInfo::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabUserXboxInfo) };
-    serializedSize += (m_xboxUserId.size() + 1);
-    return serializedSize;
-}
-
-void UserXboxInfo::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabUserXboxInfo{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserXboxInfo);
-    memcpy(stringBuffer, m_xboxUserId.data(), m_xboxUserId.size() + 1);
-    serializedStruct->xboxUserId = stringBuffer;
-    stringBuffer += m_xboxUserId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UserAccountInfo::UserAccountInfo() :
-    PlayFabUserAccountInfo{}
-{
-}
-
-UserAccountInfo::UserAccountInfo(const UserAccountInfo& src) :
-    PlayFabUserAccountInfo{ src },
-    m_androidDeviceInfo{ src.m_androidDeviceInfo },
-    m_appleAccountInfo{ src.m_appleAccountInfo },
-    m_customIdInfo{ src.m_customIdInfo },
-    m_facebookInfo{ src.m_facebookInfo },
-    m_facebookInstantGamesIdInfo{ src.m_facebookInstantGamesIdInfo },
-    m_gameCenterInfo{ src.m_gameCenterInfo },
-    m_googleInfo{ src.m_googleInfo },
-    m_iosDeviceInfo{ src.m_iosDeviceInfo },
-    m_kongregateInfo{ src.m_kongregateInfo },
-    m_nintendoSwitchAccountInfo{ src.m_nintendoSwitchAccountInfo },
-    m_nintendoSwitchDeviceIdInfo{ src.m_nintendoSwitchDeviceIdInfo },
-    m_openIdInfo{ src.m_openIdInfo },
-    m_playFabId{ src.m_playFabId },
-    m_privateInfo{ src.m_privateInfo },
-    m_psnInfo{ src.m_psnInfo },
-    m_steamInfo{ src.m_steamInfo },
-    m_titleInfo{ src.m_titleInfo },
-    m_twitchInfo{ src.m_twitchInfo },
-    m_username{ src.m_username },
-    m_windowsHelloInfo{ src.m_windowsHelloInfo },
-    m_xboxInfo{ src.m_xboxInfo }
-{
-    androidDeviceInfo = m_androidDeviceInfo ? m_androidDeviceInfo.operator->() : nullptr;
-    appleAccountInfo = m_appleAccountInfo ? m_appleAccountInfo.operator->() : nullptr;
-    customIdInfo = m_customIdInfo ? m_customIdInfo.operator->() : nullptr;
-    facebookInfo = m_facebookInfo ? m_facebookInfo.operator->() : nullptr;
-    facebookInstantGamesIdInfo = m_facebookInstantGamesIdInfo ? m_facebookInstantGamesIdInfo.operator->() : nullptr;
-    gameCenterInfo = m_gameCenterInfo ? m_gameCenterInfo.operator->() : nullptr;
-    googleInfo = m_googleInfo ? m_googleInfo.operator->() : nullptr;
-    iosDeviceInfo = m_iosDeviceInfo ? m_iosDeviceInfo.operator->() : nullptr;
-    kongregateInfo = m_kongregateInfo ? m_kongregateInfo.operator->() : nullptr;
-    nintendoSwitchAccountInfo = m_nintendoSwitchAccountInfo ? m_nintendoSwitchAccountInfo.operator->() : nullptr;
-    nintendoSwitchDeviceIdInfo = m_nintendoSwitchDeviceIdInfo ? m_nintendoSwitchDeviceIdInfo.operator->() : nullptr;
-    openIdInfo = m_openIdInfo.Empty() ? nullptr : m_openIdInfo.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    privateInfo = m_privateInfo ? m_privateInfo.operator->() : nullptr;
-    psnInfo = m_psnInfo ? m_psnInfo.operator->() : nullptr;
-    steamInfo = m_steamInfo ? m_steamInfo.operator->() : nullptr;
-    titleInfo = m_titleInfo ? m_titleInfo.operator->() : nullptr;
-    twitchInfo = m_twitchInfo ? m_twitchInfo.operator->() : nullptr;
-    username = m_username.empty() ? nullptr : m_username.data();
-    windowsHelloInfo = m_windowsHelloInfo ? m_windowsHelloInfo.operator->() : nullptr;
-    xboxInfo = m_xboxInfo ? m_xboxInfo.operator->() : nullptr;
-}
-
-UserAccountInfo::UserAccountInfo(UserAccountInfo&& src) :
-    PlayFabUserAccountInfo{ src },
-    m_androidDeviceInfo{ std::move(src.m_androidDeviceInfo) },
-    m_appleAccountInfo{ std::move(src.m_appleAccountInfo) },
-    m_customIdInfo{ std::move(src.m_customIdInfo) },
-    m_facebookInfo{ std::move(src.m_facebookInfo) },
-    m_facebookInstantGamesIdInfo{ std::move(src.m_facebookInstantGamesIdInfo) },
-    m_gameCenterInfo{ std::move(src.m_gameCenterInfo) },
-    m_googleInfo{ std::move(src.m_googleInfo) },
-    m_iosDeviceInfo{ std::move(src.m_iosDeviceInfo) },
-    m_kongregateInfo{ std::move(src.m_kongregateInfo) },
-    m_nintendoSwitchAccountInfo{ std::move(src.m_nintendoSwitchAccountInfo) },
-    m_nintendoSwitchDeviceIdInfo{ std::move(src.m_nintendoSwitchDeviceIdInfo) },
-    m_openIdInfo{ std::move(src.m_openIdInfo) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_privateInfo{ std::move(src.m_privateInfo) },
-    m_psnInfo{ std::move(src.m_psnInfo) },
-    m_steamInfo{ std::move(src.m_steamInfo) },
-    m_titleInfo{ std::move(src.m_titleInfo) },
-    m_twitchInfo{ std::move(src.m_twitchInfo) },
-    m_username{ std::move(src.m_username) },
-    m_windowsHelloInfo{ std::move(src.m_windowsHelloInfo) },
-    m_xboxInfo{ std::move(src.m_xboxInfo) }
-{
-    androidDeviceInfo = m_androidDeviceInfo ? m_androidDeviceInfo.operator->() : nullptr;
-    appleAccountInfo = m_appleAccountInfo ? m_appleAccountInfo.operator->() : nullptr;
-    customIdInfo = m_customIdInfo ? m_customIdInfo.operator->() : nullptr;
-    facebookInfo = m_facebookInfo ? m_facebookInfo.operator->() : nullptr;
-    facebookInstantGamesIdInfo = m_facebookInstantGamesIdInfo ? m_facebookInstantGamesIdInfo.operator->() : nullptr;
-    gameCenterInfo = m_gameCenterInfo ? m_gameCenterInfo.operator->() : nullptr;
-    googleInfo = m_googleInfo ? m_googleInfo.operator->() : nullptr;
-    iosDeviceInfo = m_iosDeviceInfo ? m_iosDeviceInfo.operator->() : nullptr;
-    kongregateInfo = m_kongregateInfo ? m_kongregateInfo.operator->() : nullptr;
-    nintendoSwitchAccountInfo = m_nintendoSwitchAccountInfo ? m_nintendoSwitchAccountInfo.operator->() : nullptr;
-    nintendoSwitchDeviceIdInfo = m_nintendoSwitchDeviceIdInfo ? m_nintendoSwitchDeviceIdInfo.operator->() : nullptr;
-    openIdInfo = m_openIdInfo.Empty() ? nullptr : m_openIdInfo.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    privateInfo = m_privateInfo ? m_privateInfo.operator->() : nullptr;
-    psnInfo = m_psnInfo ? m_psnInfo.operator->() : nullptr;
-    steamInfo = m_steamInfo ? m_steamInfo.operator->() : nullptr;
-    titleInfo = m_titleInfo ? m_titleInfo.operator->() : nullptr;
-    twitchInfo = m_twitchInfo ? m_twitchInfo.operator->() : nullptr;
-    username = m_username.empty() ? nullptr : m_username.data();
-    windowsHelloInfo = m_windowsHelloInfo ? m_windowsHelloInfo.operator->() : nullptr;
-    xboxInfo = m_xboxInfo ? m_xboxInfo.operator->() : nullptr;
-}
-
-UserAccountInfo::UserAccountInfo(const PlayFabUserAccountInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserAccountInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AndroidDeviceInfo", m_androidDeviceInfo, androidDeviceInfo);
-    JsonUtils::ObjectGetMember(input, "AppleAccountInfo", m_appleAccountInfo, appleAccountInfo);
-    JsonUtils::ObjectGetMember(input, "Created", created, true);
-    JsonUtils::ObjectGetMember(input, "CustomIdInfo", m_customIdInfo, customIdInfo);
-    JsonUtils::ObjectGetMember(input, "FacebookInfo", m_facebookInfo, facebookInfo);
-    JsonUtils::ObjectGetMember(input, "FacebookInstantGamesIdInfo", m_facebookInstantGamesIdInfo, facebookInstantGamesIdInfo);
-    JsonUtils::ObjectGetMember(input, "GameCenterInfo", m_gameCenterInfo, gameCenterInfo);
-    JsonUtils::ObjectGetMember(input, "GoogleInfo", m_googleInfo, googleInfo);
-    JsonUtils::ObjectGetMember(input, "IosDeviceInfo", m_iosDeviceInfo, iosDeviceInfo);
-    JsonUtils::ObjectGetMember(input, "KongregateInfo", m_kongregateInfo, kongregateInfo);
-    JsonUtils::ObjectGetMember(input, "NintendoSwitchAccountInfo", m_nintendoSwitchAccountInfo, nintendoSwitchAccountInfo);
-    JsonUtils::ObjectGetMember(input, "NintendoSwitchDeviceIdInfo", m_nintendoSwitchDeviceIdInfo, nintendoSwitchDeviceIdInfo);
-    JsonUtils::ObjectGetMember(input, "OpenIdInfo", m_openIdInfo, openIdInfo, openIdInfoCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "PrivateInfo", m_privateInfo, privateInfo);
-    JsonUtils::ObjectGetMember(input, "PsnInfo", m_psnInfo, psnInfo);
-    JsonUtils::ObjectGetMember(input, "SteamInfo", m_steamInfo, steamInfo);
-    JsonUtils::ObjectGetMember(input, "TitleInfo", m_titleInfo, titleInfo);
-    JsonUtils::ObjectGetMember(input, "TwitchInfo", m_twitchInfo, twitchInfo);
-    JsonUtils::ObjectGetMember(input, "Username", m_username, username);
-    JsonUtils::ObjectGetMember(input, "WindowsHelloInfo", m_windowsHelloInfo, windowsHelloInfo);
-    JsonUtils::ObjectGetMember(input, "XboxInfo", m_xboxInfo, xboxInfo);
-}
-
-JsonValue UserAccountInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabUserAccountInfo>(*this);
-}
-
 ItemInstance::ItemInstance() :
-    PlayFabItemInstance{}
+    PFItemInstance{}
 {
 }
 
 ItemInstance::ItemInstance(const ItemInstance& src) :
-    PlayFabItemInstance{ src },
+    PFItemInstance{ src },
     m_annotation{ src.m_annotation },
     m_bundleContents{ src.m_bundleContents },
     m_bundleParent{ src.m_bundleParent },
@@ -1368,7 +44,7 @@ ItemInstance::ItemInstance(const ItemInstance& src) :
 }
 
 ItemInstance::ItemInstance(ItemInstance&& src) :
-    PlayFabItemInstance{ src },
+    PFItemInstance{ src },
     m_annotation{ std::move(src.m_annotation) },
     m_bundleContents{ std::move(src.m_bundleContents) },
     m_bundleParent{ std::move(src.m_bundleParent) },
@@ -1400,7 +76,7 @@ ItemInstance::ItemInstance(ItemInstance&& src) :
     usesIncrementedBy = m_usesIncrementedBy ? m_usesIncrementedBy.operator->() : nullptr;
 }
 
-ItemInstance::ItemInstance(const PlayFabItemInstance& src)
+ItemInstance::ItemInstance(const PFItemInstance& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1426,124 +102,345 @@ void ItemInstance::FromJson(const JsonValue& input)
 
 JsonValue ItemInstance::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabItemInstance>(*this);
+    return JsonUtils::ToJson<PFItemInstance>(*this);
 }
 
-CharacterInventory::CharacterInventory() :
-    PlayFabCharacterInventory{}
+ScriptExecutionError::ScriptExecutionError() :
+    PFScriptExecutionError{}
 {
 }
 
-CharacterInventory::CharacterInventory(const CharacterInventory& src) :
-    PlayFabCharacterInventory{ src },
-    m_characterId{ src.m_characterId },
-    m_inventory{ src.m_inventory }
+ScriptExecutionError::ScriptExecutionError(const ScriptExecutionError& src) :
+    PFScriptExecutionError{ src },
+    m_error{ src.m_error },
+    m_message{ src.m_message },
+    m_stackTrace{ src.m_stackTrace }
 {
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
+    error = m_error.empty() ? nullptr : m_error.data();
+    message = m_message.empty() ? nullptr : m_message.data();
+    stackTrace = m_stackTrace.empty() ? nullptr : m_stackTrace.data();
 }
 
-CharacterInventory::CharacterInventory(CharacterInventory&& src) :
-    PlayFabCharacterInventory{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_inventory{ std::move(src.m_inventory) }
+ScriptExecutionError::ScriptExecutionError(ScriptExecutionError&& src) :
+    PFScriptExecutionError{ src },
+    m_error{ std::move(src.m_error) },
+    m_message{ std::move(src.m_message) },
+    m_stackTrace{ std::move(src.m_stackTrace) }
 {
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
+    error = m_error.empty() ? nullptr : m_error.data();
+    message = m_message.empty() ? nullptr : m_message.data();
+    stackTrace = m_stackTrace.empty() ? nullptr : m_stackTrace.data();
 }
 
-CharacterInventory::CharacterInventory(const PlayFabCharacterInventory& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CharacterInventory::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
-}
-
-JsonValue CharacterInventory::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabCharacterInventory>(*this);
-}
-
-CharacterResult::CharacterResult() :
-    PlayFabCharacterResult{}
-{
-}
-
-CharacterResult::CharacterResult(const CharacterResult& src) :
-    PlayFabCharacterResult{ src },
-    m_characterId{ src.m_characterId },
-    m_characterName{ src.m_characterName },
-    m_characterType{ src.m_characterType }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-}
-
-CharacterResult::CharacterResult(CharacterResult&& src) :
-    PlayFabCharacterResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterName{ std::move(src.m_characterName) },
-    m_characterType{ std::move(src.m_characterType) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-}
-
-CharacterResult::CharacterResult(const PlayFabCharacterResult& src)
+ScriptExecutionError::ScriptExecutionError(const PFScriptExecutionError& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
 
-void CharacterResult::FromJson(const JsonValue& input)
+void ScriptExecutionError::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterName", m_characterName, characterName);
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
+    JsonUtils::ObjectGetMember(input, "Error", m_error, error);
+    JsonUtils::ObjectGetMember(input, "Message", m_message, message);
+    JsonUtils::ObjectGetMember(input, "StackTrace", m_stackTrace, stackTrace);
 }
 
-JsonValue CharacterResult::ToJson() const
+JsonValue ScriptExecutionError::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabCharacterResult>(*this);
+    return JsonUtils::ToJson<PFScriptExecutionError>(*this);
 }
 
-size_t CharacterResult::SerializedSize() const
+size_t ScriptExecutionError::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabCharacterResult) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_characterName.size() + 1);
-    serializedSize += (m_characterType.size() + 1);
+    size_t serializedSize{ sizeof(PFScriptExecutionError) };
+    serializedSize += (m_error.size() + 1);
+    serializedSize += (m_message.size() + 1);
+    serializedSize += (m_stackTrace.size() + 1);
     return serializedSize;
 }
 
-void CharacterResult::Serialize(void* buffer, size_t bufferSize) const
+void ScriptExecutionError::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabCharacterResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabCharacterResult);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_characterName.data(), m_characterName.size() + 1);
-    serializedStruct->characterName = stringBuffer;
-    stringBuffer += m_characterName.size() + 1;
-    memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
-    serializedStruct->characterType = stringBuffer;
-    stringBuffer += m_characterType.size() + 1;
+    auto serializedStruct = new (buffer) PFScriptExecutionError{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFScriptExecutionError);
+    memcpy(stringBuffer, m_error.data(), m_error.size() + 1);
+    serializedStruct->error = stringBuffer;
+    stringBuffer += m_error.size() + 1;
+    memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
+    serializedStruct->message = stringBuffer;
+    stringBuffer += m_message.size() + 1;
+    memcpy(stringBuffer, m_stackTrace.data(), m_stackTrace.size() + 1);
+    serializedStruct->stackTrace = stringBuffer;
+    stringBuffer += m_stackTrace.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+LogStatement::LogStatement() :
+    PFLogStatement{}
+{
+}
+
+LogStatement::LogStatement(const LogStatement& src) :
+    PFLogStatement{ src },
+    m_data{ src.m_data },
+    m_level{ src.m_level },
+    m_message{ src.m_message }
+{
+    data.stringValue = m_data.StringValue();
+    level = m_level.empty() ? nullptr : m_level.data();
+    message = m_message.empty() ? nullptr : m_message.data();
+}
+
+LogStatement::LogStatement(LogStatement&& src) :
+    PFLogStatement{ src },
+    m_data{ std::move(src.m_data) },
+    m_level{ std::move(src.m_level) },
+    m_message{ std::move(src.m_message) }
+{
+    data.stringValue = m_data.StringValue();
+    level = m_level.empty() ? nullptr : m_level.data();
+    message = m_message.empty() ? nullptr : m_message.data();
+}
+
+LogStatement::LogStatement(const PFLogStatement& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void LogStatement::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Data", m_data, data);
+    JsonUtils::ObjectGetMember(input, "Level", m_level, level);
+    JsonUtils::ObjectGetMember(input, "Message", m_message, message);
+}
+
+JsonValue LogStatement::ToJson() const
+{
+    return JsonUtils::ToJson<PFLogStatement>(*this);
+}
+
+ExecuteCloudScriptResult::ExecuteCloudScriptResult() :
+    PFExecuteCloudScriptResult{}
+{
+}
+
+ExecuteCloudScriptResult::ExecuteCloudScriptResult(const ExecuteCloudScriptResult& src) :
+    PFExecuteCloudScriptResult{ src },
+    m_error{ src.m_error },
+    m_functionName{ src.m_functionName },
+    m_functionResult{ src.m_functionResult },
+    m_functionResultTooLarge{ src.m_functionResultTooLarge },
+    m_logs{ src.m_logs },
+    m_logsTooLarge{ src.m_logsTooLarge }
+{
+    error = m_error ? m_error.operator->() : nullptr;
+    functionName = m_functionName.empty() ? nullptr : m_functionName.data();
+    functionResult.stringValue = m_functionResult.StringValue();
+    functionResultTooLarge = m_functionResultTooLarge ? m_functionResultTooLarge.operator->() : nullptr;
+    logs = m_logs.Empty() ? nullptr : m_logs.Data();
+    logsTooLarge = m_logsTooLarge ? m_logsTooLarge.operator->() : nullptr;
+}
+
+ExecuteCloudScriptResult::ExecuteCloudScriptResult(ExecuteCloudScriptResult&& src) :
+    PFExecuteCloudScriptResult{ src },
+    m_error{ std::move(src.m_error) },
+    m_functionName{ std::move(src.m_functionName) },
+    m_functionResult{ std::move(src.m_functionResult) },
+    m_functionResultTooLarge{ std::move(src.m_functionResultTooLarge) },
+    m_logs{ std::move(src.m_logs) },
+    m_logsTooLarge{ std::move(src.m_logsTooLarge) }
+{
+    error = m_error ? m_error.operator->() : nullptr;
+    functionName = m_functionName.empty() ? nullptr : m_functionName.data();
+    functionResult.stringValue = m_functionResult.StringValue();
+    functionResultTooLarge = m_functionResultTooLarge ? m_functionResultTooLarge.operator->() : nullptr;
+    logs = m_logs.Empty() ? nullptr : m_logs.Data();
+    logsTooLarge = m_logsTooLarge ? m_logsTooLarge.operator->() : nullptr;
+}
+
+ExecuteCloudScriptResult::ExecuteCloudScriptResult(const PFExecuteCloudScriptResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void ExecuteCloudScriptResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "APIRequestsIssued", aPIRequestsIssued);
+    JsonUtils::ObjectGetMember(input, "Error", m_error, error);
+    JsonUtils::ObjectGetMember(input, "ExecutionTimeSeconds", executionTimeSeconds);
+    JsonUtils::ObjectGetMember(input, "FunctionName", m_functionName, functionName);
+    JsonUtils::ObjectGetMember(input, "FunctionResult", m_functionResult, functionResult);
+    JsonUtils::ObjectGetMember(input, "FunctionResultTooLarge", m_functionResultTooLarge, functionResultTooLarge);
+    JsonUtils::ObjectGetMember(input, "HttpRequestsIssued", httpRequestsIssued);
+    JsonUtils::ObjectGetMember(input, "Logs", m_logs, logs, logsCount);
+    JsonUtils::ObjectGetMember(input, "LogsTooLarge", m_logsTooLarge, logsTooLarge);
+    JsonUtils::ObjectGetMember(input, "MemoryConsumedBytes", memoryConsumedBytes);
+    JsonUtils::ObjectGetMember(input, "ProcessorTimeSeconds", processorTimeSeconds);
+    JsonUtils::ObjectGetMember(input, "Revision", revision);
+}
+
+JsonValue ExecuteCloudScriptResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFExecuteCloudScriptResult>(*this);
+}
+
+NameIdentifier::NameIdentifier() :
+    PFNameIdentifier{}
+{
+}
+
+NameIdentifier::NameIdentifier(const NameIdentifier& src) :
+    PFNameIdentifier{ src },
+    m_id{ src.m_id },
+    m_name{ src.m_name }
+{
+    id = m_id.empty() ? nullptr : m_id.data();
+    name = m_name.empty() ? nullptr : m_name.data();
+}
+
+NameIdentifier::NameIdentifier(NameIdentifier&& src) :
+    PFNameIdentifier{ src },
+    m_id{ std::move(src.m_id) },
+    m_name{ std::move(src.m_name) }
+{
+    id = m_id.empty() ? nullptr : m_id.data();
+    name = m_name.empty() ? nullptr : m_name.data();
+}
+
+NameIdentifier::NameIdentifier(const PFNameIdentifier& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void NameIdentifier::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Id", m_id, id);
+    JsonUtils::ObjectGetMember(input, "Name", m_name, name);
+}
+
+JsonValue NameIdentifier::ToJson() const
+{
+    return JsonUtils::ToJson<PFNameIdentifier>(*this);
+}
+
+size_t NameIdentifier::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFNameIdentifier) };
+    serializedSize += (m_id.size() + 1);
+    serializedSize += (m_name.size() + 1);
+    return serializedSize;
+}
+
+void NameIdentifier::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFNameIdentifier{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFNameIdentifier);
+    memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+    serializedStruct->id = stringBuffer;
+    stringBuffer += m_id.size() + 1;
+    memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+    serializedStruct->name = stringBuffer;
+    stringBuffer += m_name.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserDataRecord::UserDataRecord() :
+    PFUserDataRecord{}
+{
+}
+
+UserDataRecord::UserDataRecord(const UserDataRecord& src) :
+    PFUserDataRecord{ src },
+    m_permission{ src.m_permission },
+    m_value{ src.m_value }
+{
+    permission = m_permission ? m_permission.operator->() : nullptr;
+    value = m_value.empty() ? nullptr : m_value.data();
+}
+
+UserDataRecord::UserDataRecord(UserDataRecord&& src) :
+    PFUserDataRecord{ src },
+    m_permission{ std::move(src.m_permission) },
+    m_value{ std::move(src.m_value) }
+{
+    permission = m_permission ? m_permission.operator->() : nullptr;
+    value = m_value.empty() ? nullptr : m_value.data();
+}
+
+UserDataRecord::UserDataRecord(const PFUserDataRecord& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserDataRecord::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "LastUpdated", lastUpdated, true);
+    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
+    JsonUtils::ObjectGetMember(input, "Value", m_value, value);
+}
+
+JsonValue UserDataRecord::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserDataRecord>(*this);
+}
+
+PlayerProfileViewConstraints::PlayerProfileViewConstraints() :
+    PFPlayerProfileViewConstraints{}
+{
+}
+
+
+PlayerProfileViewConstraints::PlayerProfileViewConstraints(const PFPlayerProfileViewConstraints& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void PlayerProfileViewConstraints::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "ShowAvatarUrl", showAvatarUrl);
+    JsonUtils::ObjectGetMember(input, "ShowBannedUntil", showBannedUntil);
+    JsonUtils::ObjectGetMember(input, "ShowCampaignAttributions", showCampaignAttributions);
+    JsonUtils::ObjectGetMember(input, "ShowContactEmailAddresses", showContactEmailAddresses);
+    JsonUtils::ObjectGetMember(input, "ShowCreated", showCreated);
+    JsonUtils::ObjectGetMember(input, "ShowDisplayName", showDisplayName);
+    JsonUtils::ObjectGetMember(input, "ShowExperimentVariants", showExperimentVariants);
+    JsonUtils::ObjectGetMember(input, "ShowLastLogin", showLastLogin);
+    JsonUtils::ObjectGetMember(input, "ShowLinkedAccounts", showLinkedAccounts);
+    JsonUtils::ObjectGetMember(input, "ShowLocations", showLocations);
+    JsonUtils::ObjectGetMember(input, "ShowMemberships", showMemberships);
+    JsonUtils::ObjectGetMember(input, "ShowOrigination", showOrigination);
+    JsonUtils::ObjectGetMember(input, "ShowPushNotificationRegistrations", showPushNotificationRegistrations);
+    JsonUtils::ObjectGetMember(input, "ShowStatistics", showStatistics);
+    JsonUtils::ObjectGetMember(input, "ShowTags", showTags);
+    JsonUtils::ObjectGetMember(input, "ShowTotalValueToDateInUsd", showTotalValueToDateInUsd);
+    JsonUtils::ObjectGetMember(input, "ShowValuesToDate", showValuesToDate);
+}
+
+JsonValue PlayerProfileViewConstraints::ToJson() const
+{
+    return JsonUtils::ToJson<PFPlayerProfileViewConstraints>(*this);
+}
+
+size_t PlayerProfileViewConstraints::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFPlayerProfileViewConstraints) };
+    return serializedSize;
+}
+
+void PlayerProfileViewConstraints::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFPlayerProfileViewConstraints{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerProfileViewConstraints);
+    UNREFERENCED_PARAMETER(serializedStruct);
     assert(stringBuffer - bufferSize == buffer);
 }
 
 AdCampaignAttributionModel::AdCampaignAttributionModel() :
-    PlayFabAdCampaignAttributionModel{}
+    PFAdCampaignAttributionModel{}
 {
 }
 
 AdCampaignAttributionModel::AdCampaignAttributionModel(const AdCampaignAttributionModel& src) :
-    PlayFabAdCampaignAttributionModel{ src },
+    PFAdCampaignAttributionModel{ src },
     m_campaignId{ src.m_campaignId },
     m_platform{ src.m_platform }
 {
@@ -1552,7 +449,7 @@ AdCampaignAttributionModel::AdCampaignAttributionModel(const AdCampaignAttributi
 }
 
 AdCampaignAttributionModel::AdCampaignAttributionModel(AdCampaignAttributionModel&& src) :
-    PlayFabAdCampaignAttributionModel{ src },
+    PFAdCampaignAttributionModel{ src },
     m_campaignId{ std::move(src.m_campaignId) },
     m_platform{ std::move(src.m_platform) }
 {
@@ -1560,7 +457,7 @@ AdCampaignAttributionModel::AdCampaignAttributionModel(AdCampaignAttributionMode
     platform = m_platform.empty() ? nullptr : m_platform.data();
 }
 
-AdCampaignAttributionModel::AdCampaignAttributionModel(const PlayFabAdCampaignAttributionModel& src)
+AdCampaignAttributionModel::AdCampaignAttributionModel(const PFAdCampaignAttributionModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1574,12 +471,12 @@ void AdCampaignAttributionModel::FromJson(const JsonValue& input)
 
 JsonValue AdCampaignAttributionModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabAdCampaignAttributionModel>(*this);
+    return JsonUtils::ToJson<PFAdCampaignAttributionModel>(*this);
 }
 
 size_t AdCampaignAttributionModel::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabAdCampaignAttributionModel) };
+    size_t serializedSize{ sizeof(PFAdCampaignAttributionModel) };
     serializedSize += (m_campaignId.size() + 1);
     serializedSize += (m_platform.size() + 1);
     return serializedSize;
@@ -1587,8 +484,8 @@ size_t AdCampaignAttributionModel::SerializedSize() const
 
 void AdCampaignAttributionModel::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabAdCampaignAttributionModel{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabAdCampaignAttributionModel);
+    auto serializedStruct = new (buffer) PFAdCampaignAttributionModel{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFAdCampaignAttributionModel);
     memcpy(stringBuffer, m_campaignId.data(), m_campaignId.size() + 1);
     serializedStruct->campaignId = stringBuffer;
     stringBuffer += m_campaignId.size() + 1;
@@ -1599,12 +496,12 @@ void AdCampaignAttributionModel::Serialize(void* buffer, size_t bufferSize) cons
 }
 
 ContactEmailInfoModel::ContactEmailInfoModel() :
-    PlayFabContactEmailInfoModel{}
+    PFContactEmailInfoModel{}
 {
 }
 
 ContactEmailInfoModel::ContactEmailInfoModel(const ContactEmailInfoModel& src) :
-    PlayFabContactEmailInfoModel{ src },
+    PFContactEmailInfoModel{ src },
     m_emailAddress{ src.m_emailAddress },
     m_name{ src.m_name },
     m_verificationStatus{ src.m_verificationStatus }
@@ -1615,7 +512,7 @@ ContactEmailInfoModel::ContactEmailInfoModel(const ContactEmailInfoModel& src) :
 }
 
 ContactEmailInfoModel::ContactEmailInfoModel(ContactEmailInfoModel&& src) :
-    PlayFabContactEmailInfoModel{ src },
+    PFContactEmailInfoModel{ src },
     m_emailAddress{ std::move(src.m_emailAddress) },
     m_name{ std::move(src.m_name) },
     m_verificationStatus{ std::move(src.m_verificationStatus) }
@@ -1625,7 +522,7 @@ ContactEmailInfoModel::ContactEmailInfoModel(ContactEmailInfoModel&& src) :
     verificationStatus = m_verificationStatus ? m_verificationStatus.operator->() : nullptr;
 }
 
-ContactEmailInfoModel::ContactEmailInfoModel(const PlayFabContactEmailInfoModel& src)
+ContactEmailInfoModel::ContactEmailInfoModel(const PFContactEmailInfoModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1639,16 +536,16 @@ void ContactEmailInfoModel::FromJson(const JsonValue& input)
 
 JsonValue ContactEmailInfoModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabContactEmailInfoModel>(*this);
+    return JsonUtils::ToJson<PFContactEmailInfoModel>(*this);
 }
 
 LinkedPlatformAccountModel::LinkedPlatformAccountModel() :
-    PlayFabLinkedPlatformAccountModel{}
+    PFLinkedPlatformAccountModel{}
 {
 }
 
 LinkedPlatformAccountModel::LinkedPlatformAccountModel(const LinkedPlatformAccountModel& src) :
-    PlayFabLinkedPlatformAccountModel{ src },
+    PFLinkedPlatformAccountModel{ src },
     m_email{ src.m_email },
     m_platform{ src.m_platform },
     m_platformUserId{ src.m_platformUserId },
@@ -1661,7 +558,7 @@ LinkedPlatformAccountModel::LinkedPlatformAccountModel(const LinkedPlatformAccou
 }
 
 LinkedPlatformAccountModel::LinkedPlatformAccountModel(LinkedPlatformAccountModel&& src) :
-    PlayFabLinkedPlatformAccountModel{ src },
+    PFLinkedPlatformAccountModel{ src },
     m_email{ std::move(src.m_email) },
     m_platform{ std::move(src.m_platform) },
     m_platformUserId{ std::move(src.m_platformUserId) },
@@ -1673,7 +570,7 @@ LinkedPlatformAccountModel::LinkedPlatformAccountModel(LinkedPlatformAccountMode
     username = m_username.empty() ? nullptr : m_username.data();
 }
 
-LinkedPlatformAccountModel::LinkedPlatformAccountModel(const PlayFabLinkedPlatformAccountModel& src)
+LinkedPlatformAccountModel::LinkedPlatformAccountModel(const PFLinkedPlatformAccountModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1688,16 +585,16 @@ void LinkedPlatformAccountModel::FromJson(const JsonValue& input)
 
 JsonValue LinkedPlatformAccountModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabLinkedPlatformAccountModel>(*this);
+    return JsonUtils::ToJson<PFLinkedPlatformAccountModel>(*this);
 }
 
 LocationModel::LocationModel() :
-    PlayFabLocationModel{}
+    PFLocationModel{}
 {
 }
 
 LocationModel::LocationModel(const LocationModel& src) :
-    PlayFabLocationModel{ src },
+    PFLocationModel{ src },
     m_city{ src.m_city },
     m_continentCode{ src.m_continentCode },
     m_countryCode{ src.m_countryCode },
@@ -1712,7 +609,7 @@ LocationModel::LocationModel(const LocationModel& src) :
 }
 
 LocationModel::LocationModel(LocationModel&& src) :
-    PlayFabLocationModel{ src },
+    PFLocationModel{ src },
     m_city{ std::move(src.m_city) },
     m_continentCode{ std::move(src.m_continentCode) },
     m_countryCode{ std::move(src.m_countryCode) },
@@ -1726,7 +623,7 @@ LocationModel::LocationModel(LocationModel&& src) :
     longitude = m_longitude ? m_longitude.operator->() : nullptr;
 }
 
-LocationModel::LocationModel(const PlayFabLocationModel& src)
+LocationModel::LocationModel(const PFLocationModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1742,16 +639,16 @@ void LocationModel::FromJson(const JsonValue& input)
 
 JsonValue LocationModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabLocationModel>(*this);
+    return JsonUtils::ToJson<PFLocationModel>(*this);
 }
 
 SubscriptionModel::SubscriptionModel() :
-    PlayFabSubscriptionModel{}
+    PFSubscriptionModel{}
 {
 }
 
 SubscriptionModel::SubscriptionModel(const SubscriptionModel& src) :
-    PlayFabSubscriptionModel{ src },
+    PFSubscriptionModel{ src },
     m_status{ src.m_status },
     m_subscriptionId{ src.m_subscriptionId },
     m_subscriptionItemId{ src.m_subscriptionItemId },
@@ -1764,7 +661,7 @@ SubscriptionModel::SubscriptionModel(const SubscriptionModel& src) :
 }
 
 SubscriptionModel::SubscriptionModel(SubscriptionModel&& src) :
-    PlayFabSubscriptionModel{ src },
+    PFSubscriptionModel{ src },
     m_status{ std::move(src.m_status) },
     m_subscriptionId{ std::move(src.m_subscriptionId) },
     m_subscriptionItemId{ std::move(src.m_subscriptionItemId) },
@@ -1776,7 +673,7 @@ SubscriptionModel::SubscriptionModel(SubscriptionModel&& src) :
     subscriptionProvider = m_subscriptionProvider.empty() ? nullptr : m_subscriptionProvider.data();
 }
 
-SubscriptionModel::SubscriptionModel(const PlayFabSubscriptionModel& src)
+SubscriptionModel::SubscriptionModel(const PFSubscriptionModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1794,16 +691,16 @@ void SubscriptionModel::FromJson(const JsonValue& input)
 
 JsonValue SubscriptionModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabSubscriptionModel>(*this);
+    return JsonUtils::ToJson<PFSubscriptionModel>(*this);
 }
 
 MembershipModel::MembershipModel() :
-    PlayFabMembershipModel{}
+    PFMembershipModel{}
 {
 }
 
 MembershipModel::MembershipModel(const MembershipModel& src) :
-    PlayFabMembershipModel{ src },
+    PFMembershipModel{ src },
     m_membershipId{ src.m_membershipId },
     m_overrideExpiration{ src.m_overrideExpiration },
     m_subscriptions{ src.m_subscriptions }
@@ -1814,7 +711,7 @@ MembershipModel::MembershipModel(const MembershipModel& src) :
 }
 
 MembershipModel::MembershipModel(MembershipModel&& src) :
-    PlayFabMembershipModel{ src },
+    PFMembershipModel{ src },
     m_membershipId{ std::move(src.m_membershipId) },
     m_overrideExpiration{ std::move(src.m_overrideExpiration) },
     m_subscriptions{ std::move(src.m_subscriptions) }
@@ -1824,7 +721,7 @@ MembershipModel::MembershipModel(MembershipModel&& src) :
     subscriptions = m_subscriptions.Empty() ? nullptr : m_subscriptions.Data();
 }
 
-MembershipModel::MembershipModel(const PlayFabMembershipModel& src)
+MembershipModel::MembershipModel(const PFMembershipModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1840,16 +737,16 @@ void MembershipModel::FromJson(const JsonValue& input)
 
 JsonValue MembershipModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabMembershipModel>(*this);
+    return JsonUtils::ToJson<PFMembershipModel>(*this);
 }
 
 PushNotificationRegistrationModel::PushNotificationRegistrationModel() :
-    PlayFabPushNotificationRegistrationModel{}
+    PFPushNotificationRegistrationModel{}
 {
 }
 
 PushNotificationRegistrationModel::PushNotificationRegistrationModel(const PushNotificationRegistrationModel& src) :
-    PlayFabPushNotificationRegistrationModel{ src },
+    PFPushNotificationRegistrationModel{ src },
     m_notificationEndpointARN{ src.m_notificationEndpointARN },
     m_platform{ src.m_platform }
 {
@@ -1858,7 +755,7 @@ PushNotificationRegistrationModel::PushNotificationRegistrationModel(const PushN
 }
 
 PushNotificationRegistrationModel::PushNotificationRegistrationModel(PushNotificationRegistrationModel&& src) :
-    PlayFabPushNotificationRegistrationModel{ src },
+    PFPushNotificationRegistrationModel{ src },
     m_notificationEndpointARN{ std::move(src.m_notificationEndpointARN) },
     m_platform{ std::move(src.m_platform) }
 {
@@ -1866,7 +763,7 @@ PushNotificationRegistrationModel::PushNotificationRegistrationModel(PushNotific
     platform = m_platform ? m_platform.operator->() : nullptr;
 }
 
-PushNotificationRegistrationModel::PushNotificationRegistrationModel(const PlayFabPushNotificationRegistrationModel& src)
+PushNotificationRegistrationModel::PushNotificationRegistrationModel(const PFPushNotificationRegistrationModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1879,29 +776,29 @@ void PushNotificationRegistrationModel::FromJson(const JsonValue& input)
 
 JsonValue PushNotificationRegistrationModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabPushNotificationRegistrationModel>(*this);
+    return JsonUtils::ToJson<PFPushNotificationRegistrationModel>(*this);
 }
 
 StatisticModel::StatisticModel() :
-    PlayFabStatisticModel{}
+    PFStatisticModel{}
 {
 }
 
 StatisticModel::StatisticModel(const StatisticModel& src) :
-    PlayFabStatisticModel{ src },
+    PFStatisticModel{ src },
     m_name{ src.m_name }
 {
     name = m_name.empty() ? nullptr : m_name.data();
 }
 
 StatisticModel::StatisticModel(StatisticModel&& src) :
-    PlayFabStatisticModel{ src },
+    PFStatisticModel{ src },
     m_name{ std::move(src.m_name) }
 {
     name = m_name.empty() ? nullptr : m_name.data();
 }
 
-StatisticModel::StatisticModel(const PlayFabStatisticModel& src)
+StatisticModel::StatisticModel(const PFStatisticModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1915,20 +812,20 @@ void StatisticModel::FromJson(const JsonValue& input)
 
 JsonValue StatisticModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabStatisticModel>(*this);
+    return JsonUtils::ToJson<PFStatisticModel>(*this);
 }
 
 size_t StatisticModel::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabStatisticModel) };
+    size_t serializedSize{ sizeof(PFStatisticModel) };
     serializedSize += (m_name.size() + 1);
     return serializedSize;
 }
 
 void StatisticModel::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabStatisticModel{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabStatisticModel);
+    auto serializedStruct = new (buffer) PFStatisticModel{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFStatisticModel);
     memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
     serializedStruct->name = stringBuffer;
     stringBuffer += m_name.size() + 1;
@@ -1936,25 +833,25 @@ void StatisticModel::Serialize(void* buffer, size_t bufferSize) const
 }
 
 TagModel::TagModel() :
-    PlayFabTagModel{}
+    PFTagModel{}
 {
 }
 
 TagModel::TagModel(const TagModel& src) :
-    PlayFabTagModel{ src },
+    PFTagModel{ src },
     m_tagValue{ src.m_tagValue }
 {
     tagValue = m_tagValue.empty() ? nullptr : m_tagValue.data();
 }
 
 TagModel::TagModel(TagModel&& src) :
-    PlayFabTagModel{ src },
+    PFTagModel{ src },
     m_tagValue{ std::move(src.m_tagValue) }
 {
     tagValue = m_tagValue.empty() ? nullptr : m_tagValue.data();
 }
 
-TagModel::TagModel(const PlayFabTagModel& src)
+TagModel::TagModel(const PFTagModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1966,20 +863,20 @@ void TagModel::FromJson(const JsonValue& input)
 
 JsonValue TagModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabTagModel>(*this);
+    return JsonUtils::ToJson<PFTagModel>(*this);
 }
 
 size_t TagModel::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabTagModel) };
+    size_t serializedSize{ sizeof(PFTagModel) };
     serializedSize += (m_tagValue.size() + 1);
     return serializedSize;
 }
 
 void TagModel::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabTagModel{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabTagModel);
+    auto serializedStruct = new (buffer) PFTagModel{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFTagModel);
     memcpy(stringBuffer, m_tagValue.data(), m_tagValue.size() + 1);
     serializedStruct->tagValue = stringBuffer;
     stringBuffer += m_tagValue.size() + 1;
@@ -1987,12 +884,12 @@ void TagModel::Serialize(void* buffer, size_t bufferSize) const
 }
 
 ValueToDateModel::ValueToDateModel() :
-    PlayFabValueToDateModel{}
+    PFValueToDateModel{}
 {
 }
 
 ValueToDateModel::ValueToDateModel(const ValueToDateModel& src) :
-    PlayFabValueToDateModel{ src },
+    PFValueToDateModel{ src },
     m_currency{ src.m_currency },
     m_totalValueAsDecimal{ src.m_totalValueAsDecimal }
 {
@@ -2001,7 +898,7 @@ ValueToDateModel::ValueToDateModel(const ValueToDateModel& src) :
 }
 
 ValueToDateModel::ValueToDateModel(ValueToDateModel&& src) :
-    PlayFabValueToDateModel{ src },
+    PFValueToDateModel{ src },
     m_currency{ std::move(src.m_currency) },
     m_totalValueAsDecimal{ std::move(src.m_totalValueAsDecimal) }
 {
@@ -2009,7 +906,7 @@ ValueToDateModel::ValueToDateModel(ValueToDateModel&& src) :
     totalValueAsDecimal = m_totalValueAsDecimal.empty() ? nullptr : m_totalValueAsDecimal.data();
 }
 
-ValueToDateModel::ValueToDateModel(const PlayFabValueToDateModel& src)
+ValueToDateModel::ValueToDateModel(const PFValueToDateModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2023,12 +920,12 @@ void ValueToDateModel::FromJson(const JsonValue& input)
 
 JsonValue ValueToDateModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabValueToDateModel>(*this);
+    return JsonUtils::ToJson<PFValueToDateModel>(*this);
 }
 
 size_t ValueToDateModel::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabValueToDateModel) };
+    size_t serializedSize{ sizeof(PFValueToDateModel) };
     serializedSize += (m_currency.size() + 1);
     serializedSize += (m_totalValueAsDecimal.size() + 1);
     return serializedSize;
@@ -2036,8 +933,8 @@ size_t ValueToDateModel::SerializedSize() const
 
 void ValueToDateModel::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabValueToDateModel{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabValueToDateModel);
+    auto serializedStruct = new (buffer) PFValueToDateModel{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFValueToDateModel);
     memcpy(stringBuffer, m_currency.data(), m_currency.size() + 1);
     serializedStruct->currency = stringBuffer;
     stringBuffer += m_currency.size() + 1;
@@ -2048,12 +945,12 @@ void ValueToDateModel::Serialize(void* buffer, size_t bufferSize) const
 }
 
 PlayerProfileModel::PlayerProfileModel() :
-    PlayFabPlayerProfileModel{}
+    PFPlayerProfileModel{}
 {
 }
 
 PlayerProfileModel::PlayerProfileModel(const PlayerProfileModel& src) :
-    PlayFabPlayerProfileModel{ src },
+    PFPlayerProfileModel{ src },
     m_adCampaignAttributions{ src.m_adCampaignAttributions },
     m_avatarUrl{ src.m_avatarUrl },
     m_bannedUntil{ src.m_bannedUntil },
@@ -2098,7 +995,7 @@ PlayerProfileModel::PlayerProfileModel(const PlayerProfileModel& src) :
 }
 
 PlayerProfileModel::PlayerProfileModel(PlayerProfileModel&& src) :
-    PlayFabPlayerProfileModel{ src },
+    PFPlayerProfileModel{ src },
     m_adCampaignAttributions{ std::move(src.m_adCampaignAttributions) },
     m_avatarUrl{ std::move(src.m_avatarUrl) },
     m_bannedUntil{ std::move(src.m_bannedUntil) },
@@ -2142,7 +1039,7 @@ PlayerProfileModel::PlayerProfileModel(PlayerProfileModel&& src) :
     valuesToDate = m_valuesToDate.Empty() ? nullptr : m_valuesToDate.Data();
 }
 
-PlayerProfileModel::PlayerProfileModel(const PlayFabPlayerProfileModel& src)
+PlayerProfileModel::PlayerProfileModel(const PFPlayerProfileModel& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2173,109 +1070,361 @@ void PlayerProfileModel::FromJson(const JsonValue& input)
 
 JsonValue PlayerProfileModel::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabPlayerProfileModel>(*this);
+    return JsonUtils::ToJson<PFPlayerProfileModel>(*this);
 }
 
-StatisticValue::StatisticValue() :
-    PlayFabStatisticValue{}
+UserFacebookInfo::UserFacebookInfo() :
+    PFUserFacebookInfo{}
 {
 }
 
-StatisticValue::StatisticValue(const StatisticValue& src) :
-    PlayFabStatisticValue{ src },
-    m_statisticName{ src.m_statisticName }
+UserFacebookInfo::UserFacebookInfo(const UserFacebookInfo& src) :
+    PFUserFacebookInfo{ src },
+    m_facebookId{ src.m_facebookId },
+    m_fullName{ src.m_fullName }
 {
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
+    facebookId = m_facebookId.empty() ? nullptr : m_facebookId.data();
+    fullName = m_fullName.empty() ? nullptr : m_fullName.data();
 }
 
-StatisticValue::StatisticValue(StatisticValue&& src) :
-    PlayFabStatisticValue{ src },
-    m_statisticName{ std::move(src.m_statisticName) }
+UserFacebookInfo::UserFacebookInfo(UserFacebookInfo&& src) :
+    PFUserFacebookInfo{ src },
+    m_facebookId{ std::move(src.m_facebookId) },
+    m_fullName{ std::move(src.m_fullName) }
 {
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
+    facebookId = m_facebookId.empty() ? nullptr : m_facebookId.data();
+    fullName = m_fullName.empty() ? nullptr : m_fullName.data();
 }
 
-StatisticValue::StatisticValue(const PlayFabStatisticValue& src)
+UserFacebookInfo::UserFacebookInfo(const PFUserFacebookInfo& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
 
-void StatisticValue::FromJson(const JsonValue& input)
+void UserFacebookInfo::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Value", value);
-    JsonUtils::ObjectGetMember(input, "Version", version);
+    JsonUtils::ObjectGetMember(input, "FacebookId", m_facebookId, facebookId);
+    JsonUtils::ObjectGetMember(input, "FullName", m_fullName, fullName);
 }
 
-JsonValue StatisticValue::ToJson() const
+JsonValue UserFacebookInfo::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabStatisticValue>(*this);
+    return JsonUtils::ToJson<PFUserFacebookInfo>(*this);
 }
 
-size_t StatisticValue::SerializedSize() const
+size_t UserFacebookInfo::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabStatisticValue) };
-    serializedSize += (m_statisticName.size() + 1);
+    size_t serializedSize{ sizeof(PFUserFacebookInfo) };
+    serializedSize += (m_facebookId.size() + 1);
+    serializedSize += (m_fullName.size() + 1);
     return serializedSize;
 }
 
-void StatisticValue::Serialize(void* buffer, size_t bufferSize) const
+void UserFacebookInfo::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabStatisticValue{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabStatisticValue);
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
+    auto serializedStruct = new (buffer) PFUserFacebookInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserFacebookInfo);
+    memcpy(stringBuffer, m_facebookId.data(), m_facebookId.size() + 1);
+    serializedStruct->facebookId = stringBuffer;
+    stringBuffer += m_facebookId.size() + 1;
+    memcpy(stringBuffer, m_fullName.data(), m_fullName.size() + 1);
+    serializedStruct->fullName = stringBuffer;
+    stringBuffer += m_fullName.size() + 1;
     assert(stringBuffer - bufferSize == buffer);
 }
 
-UserDataRecord::UserDataRecord() :
-    PlayFabUserDataRecord{}
+UserGameCenterInfo::UserGameCenterInfo() :
+    PFUserGameCenterInfo{}
 {
 }
 
-UserDataRecord::UserDataRecord(const UserDataRecord& src) :
-    PlayFabUserDataRecord{ src },
-    m_permission{ src.m_permission },
-    m_value{ src.m_value }
+UserGameCenterInfo::UserGameCenterInfo(const UserGameCenterInfo& src) :
+    PFUserGameCenterInfo{ src },
+    m_gameCenterId{ src.m_gameCenterId }
 {
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    value = m_value.empty() ? nullptr : m_value.data();
+    gameCenterId = m_gameCenterId.empty() ? nullptr : m_gameCenterId.data();
 }
 
-UserDataRecord::UserDataRecord(UserDataRecord&& src) :
-    PlayFabUserDataRecord{ src },
-    m_permission{ std::move(src.m_permission) },
-    m_value{ std::move(src.m_value) }
+UserGameCenterInfo::UserGameCenterInfo(UserGameCenterInfo&& src) :
+    PFUserGameCenterInfo{ src },
+    m_gameCenterId{ std::move(src.m_gameCenterId) }
 {
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    value = m_value.empty() ? nullptr : m_value.data();
+    gameCenterId = m_gameCenterId.empty() ? nullptr : m_gameCenterId.data();
 }
 
-UserDataRecord::UserDataRecord(const PlayFabUserDataRecord& src)
+UserGameCenterInfo::UserGameCenterInfo(const PFUserGameCenterInfo& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
 
-void UserDataRecord::FromJson(const JsonValue& input)
+void UserGameCenterInfo::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "LastUpdated", lastUpdated, true);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-    JsonUtils::ObjectGetMember(input, "Value", m_value, value);
+    JsonUtils::ObjectGetMember(input, "GameCenterId", m_gameCenterId, gameCenterId);
 }
 
-JsonValue UserDataRecord::ToJson() const
+JsonValue UserGameCenterInfo::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabUserDataRecord>(*this);
+    return JsonUtils::ToJson<PFUserGameCenterInfo>(*this);
+}
+
+size_t UserGameCenterInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserGameCenterInfo) };
+    serializedSize += (m_gameCenterId.size() + 1);
+    return serializedSize;
+}
+
+void UserGameCenterInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserGameCenterInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserGameCenterInfo);
+    memcpy(stringBuffer, m_gameCenterId.data(), m_gameCenterId.size() + 1);
+    serializedStruct->gameCenterId = stringBuffer;
+    stringBuffer += m_gameCenterId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserPsnInfo::UserPsnInfo() :
+    PFUserPsnInfo{}
+{
+}
+
+UserPsnInfo::UserPsnInfo(const UserPsnInfo& src) :
+    PFUserPsnInfo{ src },
+    m_psnAccountId{ src.m_psnAccountId },
+    m_psnOnlineId{ src.m_psnOnlineId }
+{
+    psnAccountId = m_psnAccountId.empty() ? nullptr : m_psnAccountId.data();
+    psnOnlineId = m_psnOnlineId.empty() ? nullptr : m_psnOnlineId.data();
+}
+
+UserPsnInfo::UserPsnInfo(UserPsnInfo&& src) :
+    PFUserPsnInfo{ src },
+    m_psnAccountId{ std::move(src.m_psnAccountId) },
+    m_psnOnlineId{ std::move(src.m_psnOnlineId) }
+{
+    psnAccountId = m_psnAccountId.empty() ? nullptr : m_psnAccountId.data();
+    psnOnlineId = m_psnOnlineId.empty() ? nullptr : m_psnOnlineId.data();
+}
+
+UserPsnInfo::UserPsnInfo(const PFUserPsnInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserPsnInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "PsnAccountId", m_psnAccountId, psnAccountId);
+    JsonUtils::ObjectGetMember(input, "PsnOnlineId", m_psnOnlineId, psnOnlineId);
+}
+
+JsonValue UserPsnInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserPsnInfo>(*this);
+}
+
+size_t UserPsnInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserPsnInfo) };
+    serializedSize += (m_psnAccountId.size() + 1);
+    serializedSize += (m_psnOnlineId.size() + 1);
+    return serializedSize;
+}
+
+void UserPsnInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserPsnInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserPsnInfo);
+    memcpy(stringBuffer, m_psnAccountId.data(), m_psnAccountId.size() + 1);
+    serializedStruct->psnAccountId = stringBuffer;
+    stringBuffer += m_psnAccountId.size() + 1;
+    memcpy(stringBuffer, m_psnOnlineId.data(), m_psnOnlineId.size() + 1);
+    serializedStruct->psnOnlineId = stringBuffer;
+    stringBuffer += m_psnOnlineId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserSteamInfo::UserSteamInfo() :
+    PFUserSteamInfo{}
+{
+}
+
+UserSteamInfo::UserSteamInfo(const UserSteamInfo& src) :
+    PFUserSteamInfo{ src },
+    m_steamActivationStatus{ src.m_steamActivationStatus },
+    m_steamCountry{ src.m_steamCountry },
+    m_steamCurrency{ src.m_steamCurrency },
+    m_steamId{ src.m_steamId },
+    m_steamName{ src.m_steamName }
+{
+    steamActivationStatus = m_steamActivationStatus ? m_steamActivationStatus.operator->() : nullptr;
+    steamCountry = m_steamCountry.empty() ? nullptr : m_steamCountry.data();
+    steamCurrency = m_steamCurrency ? m_steamCurrency.operator->() : nullptr;
+    steamId = m_steamId.empty() ? nullptr : m_steamId.data();
+    steamName = m_steamName.empty() ? nullptr : m_steamName.data();
+}
+
+UserSteamInfo::UserSteamInfo(UserSteamInfo&& src) :
+    PFUserSteamInfo{ src },
+    m_steamActivationStatus{ std::move(src.m_steamActivationStatus) },
+    m_steamCountry{ std::move(src.m_steamCountry) },
+    m_steamCurrency{ std::move(src.m_steamCurrency) },
+    m_steamId{ std::move(src.m_steamId) },
+    m_steamName{ std::move(src.m_steamName) }
+{
+    steamActivationStatus = m_steamActivationStatus ? m_steamActivationStatus.operator->() : nullptr;
+    steamCountry = m_steamCountry.empty() ? nullptr : m_steamCountry.data();
+    steamCurrency = m_steamCurrency ? m_steamCurrency.operator->() : nullptr;
+    steamId = m_steamId.empty() ? nullptr : m_steamId.data();
+    steamName = m_steamName.empty() ? nullptr : m_steamName.data();
+}
+
+UserSteamInfo::UserSteamInfo(const PFUserSteamInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserSteamInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "SteamActivationStatus", m_steamActivationStatus, steamActivationStatus);
+    JsonUtils::ObjectGetMember(input, "SteamCountry", m_steamCountry, steamCountry);
+    JsonUtils::ObjectGetMember(input, "SteamCurrency", m_steamCurrency, steamCurrency);
+    JsonUtils::ObjectGetMember(input, "SteamId", m_steamId, steamId);
+    JsonUtils::ObjectGetMember(input, "SteamName", m_steamName, steamName);
+}
+
+JsonValue UserSteamInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserSteamInfo>(*this);
+}
+
+UserXboxInfo::UserXboxInfo() :
+    PFUserXboxInfo{}
+{
+}
+
+UserXboxInfo::UserXboxInfo(const UserXboxInfo& src) :
+    PFUserXboxInfo{ src },
+    m_xboxUserId{ src.m_xboxUserId }
+{
+    xboxUserId = m_xboxUserId.empty() ? nullptr : m_xboxUserId.data();
+}
+
+UserXboxInfo::UserXboxInfo(UserXboxInfo&& src) :
+    PFUserXboxInfo{ src },
+    m_xboxUserId{ std::move(src.m_xboxUserId) }
+{
+    xboxUserId = m_xboxUserId.empty() ? nullptr : m_xboxUserId.data();
+}
+
+UserXboxInfo::UserXboxInfo(const PFUserXboxInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserXboxInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "XboxUserId", m_xboxUserId, xboxUserId);
+}
+
+JsonValue UserXboxInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserXboxInfo>(*this);
+}
+
+size_t UserXboxInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserXboxInfo) };
+    serializedSize += (m_xboxUserId.size() + 1);
+    return serializedSize;
+}
+
+void UserXboxInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserXboxInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserXboxInfo);
+    memcpy(stringBuffer, m_xboxUserId.data(), m_xboxUserId.size() + 1);
+    serializedStruct->xboxUserId = stringBuffer;
+    stringBuffer += m_xboxUserId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+CharacterResult::CharacterResult() :
+    PFCharacterResult{}
+{
+}
+
+CharacterResult::CharacterResult(const CharacterResult& src) :
+    PFCharacterResult{ src },
+    m_characterId{ src.m_characterId },
+    m_characterName{ src.m_characterName },
+    m_characterType{ src.m_characterType }
+{
+    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
+    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
+    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
+}
+
+CharacterResult::CharacterResult(CharacterResult&& src) :
+    PFCharacterResult{ src },
+    m_characterId{ std::move(src.m_characterId) },
+    m_characterName{ std::move(src.m_characterName) },
+    m_characterType{ std::move(src.m_characterType) }
+{
+    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
+    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
+    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
+}
+
+CharacterResult::CharacterResult(const PFCharacterResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void CharacterResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
+    JsonUtils::ObjectGetMember(input, "CharacterName", m_characterName, characterName);
+    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
+}
+
+JsonValue CharacterResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFCharacterResult>(*this);
+}
+
+size_t CharacterResult::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFCharacterResult) };
+    serializedSize += (m_characterId.size() + 1);
+    serializedSize += (m_characterName.size() + 1);
+    serializedSize += (m_characterType.size() + 1);
+    return serializedSize;
+}
+
+void CharacterResult::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFCharacterResult{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterResult);
+    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+    serializedStruct->characterId = stringBuffer;
+    stringBuffer += m_characterId.size() + 1;
+    memcpy(stringBuffer, m_characterName.data(), m_characterName.size() + 1);
+    serializedStruct->characterName = stringBuffer;
+    stringBuffer += m_characterName.size() + 1;
+    memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
+    serializedStruct->characterType = stringBuffer;
+    stringBuffer += m_characterType.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
 }
 
 VirtualCurrencyRechargeTime::VirtualCurrencyRechargeTime() :
-    PlayFabVirtualCurrencyRechargeTime{}
+    PFVirtualCurrencyRechargeTime{}
 {
 }
 
 
-VirtualCurrencyRechargeTime::VirtualCurrencyRechargeTime(const PlayFabVirtualCurrencyRechargeTime& src)
+VirtualCurrencyRechargeTime::VirtualCurrencyRechargeTime(const PFVirtualCurrencyRechargeTime& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2289,30 +1438,1125 @@ void VirtualCurrencyRechargeTime::FromJson(const JsonValue& input)
 
 JsonValue VirtualCurrencyRechargeTime::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabVirtualCurrencyRechargeTime>(*this);
+    return JsonUtils::ToJson<PFVirtualCurrencyRechargeTime>(*this);
 }
 
 size_t VirtualCurrencyRechargeTime::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabVirtualCurrencyRechargeTime) };
+    size_t serializedSize{ sizeof(PFVirtualCurrencyRechargeTime) };
     return serializedSize;
 }
 
 void VirtualCurrencyRechargeTime::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabVirtualCurrencyRechargeTime{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabVirtualCurrencyRechargeTime);
+    auto serializedStruct = new (buffer) PFVirtualCurrencyRechargeTime{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFVirtualCurrencyRechargeTime);
     UNREFERENCED_PARAMETER(serializedStruct);
     assert(stringBuffer - bufferSize == buffer);
 }
 
+StatisticValue::StatisticValue() :
+    PFStatisticValue{}
+{
+}
+
+StatisticValue::StatisticValue(const StatisticValue& src) :
+    PFStatisticValue{ src },
+    m_statisticName{ src.m_statisticName }
+{
+    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
+}
+
+StatisticValue::StatisticValue(StatisticValue&& src) :
+    PFStatisticValue{ src },
+    m_statisticName{ std::move(src.m_statisticName) }
+{
+    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
+}
+
+StatisticValue::StatisticValue(const PFStatisticValue& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void StatisticValue::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
+    JsonUtils::ObjectGetMember(input, "Value", value);
+    JsonUtils::ObjectGetMember(input, "Version", version);
+}
+
+JsonValue StatisticValue::ToJson() const
+{
+    return JsonUtils::ToJson<PFStatisticValue>(*this);
+}
+
+size_t StatisticValue::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFStatisticValue) };
+    serializedSize += (m_statisticName.size() + 1);
+    return serializedSize;
+}
+
+void StatisticValue::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFStatisticValue{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFStatisticValue);
+    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
+    serializedStruct->statisticName = stringBuffer;
+    stringBuffer += m_statisticName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+GetPlayerCombinedInfoRequestParams::GetPlayerCombinedInfoRequestParams() :
+    PFGetPlayerCombinedInfoRequestParams{}
+{
+}
+
+GetPlayerCombinedInfoRequestParams::GetPlayerCombinedInfoRequestParams(const GetPlayerCombinedInfoRequestParams& src) :
+    PFGetPlayerCombinedInfoRequestParams{ src },
+    m_playerStatisticNames{ src.m_playerStatisticNames },
+    m_profileConstraints{ src.m_profileConstraints },
+    m_titleDataKeys{ src.m_titleDataKeys },
+    m_userDataKeys{ src.m_userDataKeys },
+    m_userReadOnlyDataKeys{ src.m_userReadOnlyDataKeys }
+{
+    playerStatisticNames = m_playerStatisticNames.Empty() ? nullptr : m_playerStatisticNames.Data();
+    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
+    titleDataKeys = m_titleDataKeys.Empty() ? nullptr : m_titleDataKeys.Data();
+    userDataKeys = m_userDataKeys.Empty() ? nullptr : m_userDataKeys.Data();
+    userReadOnlyDataKeys = m_userReadOnlyDataKeys.Empty() ? nullptr : m_userReadOnlyDataKeys.Data();
+}
+
+GetPlayerCombinedInfoRequestParams::GetPlayerCombinedInfoRequestParams(GetPlayerCombinedInfoRequestParams&& src) :
+    PFGetPlayerCombinedInfoRequestParams{ src },
+    m_playerStatisticNames{ std::move(src.m_playerStatisticNames) },
+    m_profileConstraints{ std::move(src.m_profileConstraints) },
+    m_titleDataKeys{ std::move(src.m_titleDataKeys) },
+    m_userDataKeys{ std::move(src.m_userDataKeys) },
+    m_userReadOnlyDataKeys{ std::move(src.m_userReadOnlyDataKeys) }
+{
+    playerStatisticNames = m_playerStatisticNames.Empty() ? nullptr : m_playerStatisticNames.Data();
+    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
+    titleDataKeys = m_titleDataKeys.Empty() ? nullptr : m_titleDataKeys.Data();
+    userDataKeys = m_userDataKeys.Empty() ? nullptr : m_userDataKeys.Data();
+    userReadOnlyDataKeys = m_userReadOnlyDataKeys.Empty() ? nullptr : m_userReadOnlyDataKeys.Data();
+}
+
+GetPlayerCombinedInfoRequestParams::GetPlayerCombinedInfoRequestParams(const PFGetPlayerCombinedInfoRequestParams& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetPlayerCombinedInfoRequestParams::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "GetCharacterInventories", getCharacterInventories);
+    JsonUtils::ObjectGetMember(input, "GetCharacterList", getCharacterList);
+    JsonUtils::ObjectGetMember(input, "GetPlayerProfile", getPlayerProfile);
+    JsonUtils::ObjectGetMember(input, "GetPlayerStatistics", getPlayerStatistics);
+    JsonUtils::ObjectGetMember(input, "GetTitleData", getTitleData);
+    JsonUtils::ObjectGetMember(input, "GetUserAccountInfo", getUserAccountInfo);
+    JsonUtils::ObjectGetMember(input, "GetUserData", getUserData);
+    JsonUtils::ObjectGetMember(input, "GetUserInventory", getUserInventory);
+    JsonUtils::ObjectGetMember(input, "GetUserReadOnlyData", getUserReadOnlyData);
+    JsonUtils::ObjectGetMember(input, "GetUserVirtualCurrency", getUserVirtualCurrency);
+    JsonUtils::ObjectGetMember(input, "PlayerStatisticNames", m_playerStatisticNames, playerStatisticNames, playerStatisticNamesCount);
+    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
+    JsonUtils::ObjectGetMember(input, "TitleDataKeys", m_titleDataKeys, titleDataKeys, titleDataKeysCount);
+    JsonUtils::ObjectGetMember(input, "UserDataKeys", m_userDataKeys, userDataKeys, userDataKeysCount);
+    JsonUtils::ObjectGetMember(input, "UserReadOnlyDataKeys", m_userReadOnlyDataKeys, userReadOnlyDataKeys, userReadOnlyDataKeysCount);
+}
+
+JsonValue GetPlayerCombinedInfoRequestParams::ToJson() const
+{
+    return JsonUtils::ToJson<PFGetPlayerCombinedInfoRequestParams>(*this);
+}
+
+EntityKey::EntityKey() :
+    PFEntityKey{}
+{
+}
+
+EntityKey::EntityKey(const EntityKey& src) :
+    PFEntityKey{ src },
+    m_id{ src.m_id },
+    m_type{ src.m_type }
+{
+    id = m_id.empty() ? nullptr : m_id.data();
+    type = m_type.empty() ? nullptr : m_type.data();
+}
+
+EntityKey::EntityKey(EntityKey&& src) :
+    PFEntityKey{ src },
+    m_id{ std::move(src.m_id) },
+    m_type{ std::move(src.m_type) }
+{
+    id = m_id.empty() ? nullptr : m_id.data();
+    type = m_type.empty() ? nullptr : m_type.data();
+}
+
+EntityKey::EntityKey(const PFEntityKey& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void EntityKey::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Id", m_id, id);
+    JsonUtils::ObjectGetMember(input, "Type", m_type, type);
+}
+
+JsonValue EntityKey::ToJson() const
+{
+    return JsonUtils::ToJson<PFEntityKey>(*this);
+}
+
+size_t EntityKey::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFEntityKey) };
+    serializedSize += (m_id.size() + 1);
+    serializedSize += (m_type.size() + 1);
+    return serializedSize;
+}
+
+void EntityKey::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFEntityKey{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFEntityKey);
+    memcpy(stringBuffer, m_id.data(), m_id.size() + 1);
+    serializedStruct->id = stringBuffer;
+    stringBuffer += m_id.size() + 1;
+    memcpy(stringBuffer, m_type.data(), m_type.size() + 1);
+    serializedStruct->type = stringBuffer;
+    stringBuffer += m_type.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserAndroidDeviceInfo::UserAndroidDeviceInfo() :
+    PFUserAndroidDeviceInfo{}
+{
+}
+
+UserAndroidDeviceInfo::UserAndroidDeviceInfo(const UserAndroidDeviceInfo& src) :
+    PFUserAndroidDeviceInfo{ src },
+    m_androidDeviceId{ src.m_androidDeviceId }
+{
+    androidDeviceId = m_androidDeviceId.empty() ? nullptr : m_androidDeviceId.data();
+}
+
+UserAndroidDeviceInfo::UserAndroidDeviceInfo(UserAndroidDeviceInfo&& src) :
+    PFUserAndroidDeviceInfo{ src },
+    m_androidDeviceId{ std::move(src.m_androidDeviceId) }
+{
+    androidDeviceId = m_androidDeviceId.empty() ? nullptr : m_androidDeviceId.data();
+}
+
+UserAndroidDeviceInfo::UserAndroidDeviceInfo(const PFUserAndroidDeviceInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserAndroidDeviceInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "AndroidDeviceId", m_androidDeviceId, androidDeviceId);
+}
+
+JsonValue UserAndroidDeviceInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserAndroidDeviceInfo>(*this);
+}
+
+size_t UserAndroidDeviceInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserAndroidDeviceInfo) };
+    serializedSize += (m_androidDeviceId.size() + 1);
+    return serializedSize;
+}
+
+void UserAndroidDeviceInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserAndroidDeviceInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserAndroidDeviceInfo);
+    memcpy(stringBuffer, m_androidDeviceId.data(), m_androidDeviceId.size() + 1);
+    serializedStruct->androidDeviceId = stringBuffer;
+    stringBuffer += m_androidDeviceId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserAppleIdInfo::UserAppleIdInfo() :
+    PFUserAppleIdInfo{}
+{
+}
+
+UserAppleIdInfo::UserAppleIdInfo(const UserAppleIdInfo& src) :
+    PFUserAppleIdInfo{ src },
+    m_appleSubjectId{ src.m_appleSubjectId }
+{
+    appleSubjectId = m_appleSubjectId.empty() ? nullptr : m_appleSubjectId.data();
+}
+
+UserAppleIdInfo::UserAppleIdInfo(UserAppleIdInfo&& src) :
+    PFUserAppleIdInfo{ src },
+    m_appleSubjectId{ std::move(src.m_appleSubjectId) }
+{
+    appleSubjectId = m_appleSubjectId.empty() ? nullptr : m_appleSubjectId.data();
+}
+
+UserAppleIdInfo::UserAppleIdInfo(const PFUserAppleIdInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserAppleIdInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "AppleSubjectId", m_appleSubjectId, appleSubjectId);
+}
+
+JsonValue UserAppleIdInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserAppleIdInfo>(*this);
+}
+
+size_t UserAppleIdInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserAppleIdInfo) };
+    serializedSize += (m_appleSubjectId.size() + 1);
+    return serializedSize;
+}
+
+void UserAppleIdInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserAppleIdInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserAppleIdInfo);
+    memcpy(stringBuffer, m_appleSubjectId.data(), m_appleSubjectId.size() + 1);
+    serializedStruct->appleSubjectId = stringBuffer;
+    stringBuffer += m_appleSubjectId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserCustomIdInfo::UserCustomIdInfo() :
+    PFUserCustomIdInfo{}
+{
+}
+
+UserCustomIdInfo::UserCustomIdInfo(const UserCustomIdInfo& src) :
+    PFUserCustomIdInfo{ src },
+    m_customId{ src.m_customId }
+{
+    customId = m_customId.empty() ? nullptr : m_customId.data();
+}
+
+UserCustomIdInfo::UserCustomIdInfo(UserCustomIdInfo&& src) :
+    PFUserCustomIdInfo{ src },
+    m_customId{ std::move(src.m_customId) }
+{
+    customId = m_customId.empty() ? nullptr : m_customId.data();
+}
+
+UserCustomIdInfo::UserCustomIdInfo(const PFUserCustomIdInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserCustomIdInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CustomId", m_customId, customId);
+}
+
+JsonValue UserCustomIdInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserCustomIdInfo>(*this);
+}
+
+size_t UserCustomIdInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserCustomIdInfo) };
+    serializedSize += (m_customId.size() + 1);
+    return serializedSize;
+}
+
+void UserCustomIdInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserCustomIdInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserCustomIdInfo);
+    memcpy(stringBuffer, m_customId.data(), m_customId.size() + 1);
+    serializedStruct->customId = stringBuffer;
+    stringBuffer += m_customId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo() :
+    PFUserFacebookInstantGamesIdInfo{}
+{
+}
+
+UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo(const UserFacebookInstantGamesIdInfo& src) :
+    PFUserFacebookInstantGamesIdInfo{ src },
+    m_facebookInstantGamesId{ src.m_facebookInstantGamesId }
+{
+    facebookInstantGamesId = m_facebookInstantGamesId.empty() ? nullptr : m_facebookInstantGamesId.data();
+}
+
+UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo(UserFacebookInstantGamesIdInfo&& src) :
+    PFUserFacebookInstantGamesIdInfo{ src },
+    m_facebookInstantGamesId{ std::move(src.m_facebookInstantGamesId) }
+{
+    facebookInstantGamesId = m_facebookInstantGamesId.empty() ? nullptr : m_facebookInstantGamesId.data();
+}
+
+UserFacebookInstantGamesIdInfo::UserFacebookInstantGamesIdInfo(const PFUserFacebookInstantGamesIdInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserFacebookInstantGamesIdInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "FacebookInstantGamesId", m_facebookInstantGamesId, facebookInstantGamesId);
+}
+
+JsonValue UserFacebookInstantGamesIdInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserFacebookInstantGamesIdInfo>(*this);
+}
+
+size_t UserFacebookInstantGamesIdInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserFacebookInstantGamesIdInfo) };
+    serializedSize += (m_facebookInstantGamesId.size() + 1);
+    return serializedSize;
+}
+
+void UserFacebookInstantGamesIdInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserFacebookInstantGamesIdInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserFacebookInstantGamesIdInfo);
+    memcpy(stringBuffer, m_facebookInstantGamesId.data(), m_facebookInstantGamesId.size() + 1);
+    serializedStruct->facebookInstantGamesId = stringBuffer;
+    stringBuffer += m_facebookInstantGamesId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserGoogleInfo::UserGoogleInfo() :
+    PFUserGoogleInfo{}
+{
+}
+
+UserGoogleInfo::UserGoogleInfo(const UserGoogleInfo& src) :
+    PFUserGoogleInfo{ src },
+    m_googleEmail{ src.m_googleEmail },
+    m_googleGender{ src.m_googleGender },
+    m_googleId{ src.m_googleId },
+    m_googleLocale{ src.m_googleLocale },
+    m_googleName{ src.m_googleName }
+{
+    googleEmail = m_googleEmail.empty() ? nullptr : m_googleEmail.data();
+    googleGender = m_googleGender.empty() ? nullptr : m_googleGender.data();
+    googleId = m_googleId.empty() ? nullptr : m_googleId.data();
+    googleLocale = m_googleLocale.empty() ? nullptr : m_googleLocale.data();
+    googleName = m_googleName.empty() ? nullptr : m_googleName.data();
+}
+
+UserGoogleInfo::UserGoogleInfo(UserGoogleInfo&& src) :
+    PFUserGoogleInfo{ src },
+    m_googleEmail{ std::move(src.m_googleEmail) },
+    m_googleGender{ std::move(src.m_googleGender) },
+    m_googleId{ std::move(src.m_googleId) },
+    m_googleLocale{ std::move(src.m_googleLocale) },
+    m_googleName{ std::move(src.m_googleName) }
+{
+    googleEmail = m_googleEmail.empty() ? nullptr : m_googleEmail.data();
+    googleGender = m_googleGender.empty() ? nullptr : m_googleGender.data();
+    googleId = m_googleId.empty() ? nullptr : m_googleId.data();
+    googleLocale = m_googleLocale.empty() ? nullptr : m_googleLocale.data();
+    googleName = m_googleName.empty() ? nullptr : m_googleName.data();
+}
+
+UserGoogleInfo::UserGoogleInfo(const PFUserGoogleInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserGoogleInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "GoogleEmail", m_googleEmail, googleEmail);
+    JsonUtils::ObjectGetMember(input, "GoogleGender", m_googleGender, googleGender);
+    JsonUtils::ObjectGetMember(input, "GoogleId", m_googleId, googleId);
+    JsonUtils::ObjectGetMember(input, "GoogleLocale", m_googleLocale, googleLocale);
+    JsonUtils::ObjectGetMember(input, "GoogleName", m_googleName, googleName);
+}
+
+JsonValue UserGoogleInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserGoogleInfo>(*this);
+}
+
+size_t UserGoogleInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserGoogleInfo) };
+    serializedSize += (m_googleEmail.size() + 1);
+    serializedSize += (m_googleGender.size() + 1);
+    serializedSize += (m_googleId.size() + 1);
+    serializedSize += (m_googleLocale.size() + 1);
+    serializedSize += (m_googleName.size() + 1);
+    return serializedSize;
+}
+
+void UserGoogleInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserGoogleInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserGoogleInfo);
+    memcpy(stringBuffer, m_googleEmail.data(), m_googleEmail.size() + 1);
+    serializedStruct->googleEmail = stringBuffer;
+    stringBuffer += m_googleEmail.size() + 1;
+    memcpy(stringBuffer, m_googleGender.data(), m_googleGender.size() + 1);
+    serializedStruct->googleGender = stringBuffer;
+    stringBuffer += m_googleGender.size() + 1;
+    memcpy(stringBuffer, m_googleId.data(), m_googleId.size() + 1);
+    serializedStruct->googleId = stringBuffer;
+    stringBuffer += m_googleId.size() + 1;
+    memcpy(stringBuffer, m_googleLocale.data(), m_googleLocale.size() + 1);
+    serializedStruct->googleLocale = stringBuffer;
+    stringBuffer += m_googleLocale.size() + 1;
+    memcpy(stringBuffer, m_googleName.data(), m_googleName.size() + 1);
+    serializedStruct->googleName = stringBuffer;
+    stringBuffer += m_googleName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserIosDeviceInfo::UserIosDeviceInfo() :
+    PFUserIosDeviceInfo{}
+{
+}
+
+UserIosDeviceInfo::UserIosDeviceInfo(const UserIosDeviceInfo& src) :
+    PFUserIosDeviceInfo{ src },
+    m_iosDeviceId{ src.m_iosDeviceId }
+{
+    iosDeviceId = m_iosDeviceId.empty() ? nullptr : m_iosDeviceId.data();
+}
+
+UserIosDeviceInfo::UserIosDeviceInfo(UserIosDeviceInfo&& src) :
+    PFUserIosDeviceInfo{ src },
+    m_iosDeviceId{ std::move(src.m_iosDeviceId) }
+{
+    iosDeviceId = m_iosDeviceId.empty() ? nullptr : m_iosDeviceId.data();
+}
+
+UserIosDeviceInfo::UserIosDeviceInfo(const PFUserIosDeviceInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserIosDeviceInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "IosDeviceId", m_iosDeviceId, iosDeviceId);
+}
+
+JsonValue UserIosDeviceInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserIosDeviceInfo>(*this);
+}
+
+size_t UserIosDeviceInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserIosDeviceInfo) };
+    serializedSize += (m_iosDeviceId.size() + 1);
+    return serializedSize;
+}
+
+void UserIosDeviceInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserIosDeviceInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserIosDeviceInfo);
+    memcpy(stringBuffer, m_iosDeviceId.data(), m_iosDeviceId.size() + 1);
+    serializedStruct->iosDeviceId = stringBuffer;
+    stringBuffer += m_iosDeviceId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserKongregateInfo::UserKongregateInfo() :
+    PFUserKongregateInfo{}
+{
+}
+
+UserKongregateInfo::UserKongregateInfo(const UserKongregateInfo& src) :
+    PFUserKongregateInfo{ src },
+    m_kongregateId{ src.m_kongregateId },
+    m_kongregateName{ src.m_kongregateName }
+{
+    kongregateId = m_kongregateId.empty() ? nullptr : m_kongregateId.data();
+    kongregateName = m_kongregateName.empty() ? nullptr : m_kongregateName.data();
+}
+
+UserKongregateInfo::UserKongregateInfo(UserKongregateInfo&& src) :
+    PFUserKongregateInfo{ src },
+    m_kongregateId{ std::move(src.m_kongregateId) },
+    m_kongregateName{ std::move(src.m_kongregateName) }
+{
+    kongregateId = m_kongregateId.empty() ? nullptr : m_kongregateId.data();
+    kongregateName = m_kongregateName.empty() ? nullptr : m_kongregateName.data();
+}
+
+UserKongregateInfo::UserKongregateInfo(const PFUserKongregateInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserKongregateInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "KongregateId", m_kongregateId, kongregateId);
+    JsonUtils::ObjectGetMember(input, "KongregateName", m_kongregateName, kongregateName);
+}
+
+JsonValue UserKongregateInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserKongregateInfo>(*this);
+}
+
+size_t UserKongregateInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserKongregateInfo) };
+    serializedSize += (m_kongregateId.size() + 1);
+    serializedSize += (m_kongregateName.size() + 1);
+    return serializedSize;
+}
+
+void UserKongregateInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserKongregateInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserKongregateInfo);
+    memcpy(stringBuffer, m_kongregateId.data(), m_kongregateId.size() + 1);
+    serializedStruct->kongregateId = stringBuffer;
+    stringBuffer += m_kongregateId.size() + 1;
+    memcpy(stringBuffer, m_kongregateName.data(), m_kongregateName.size() + 1);
+    serializedStruct->kongregateName = stringBuffer;
+    stringBuffer += m_kongregateName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo() :
+    PFUserNintendoSwitchAccountIdInfo{}
+{
+}
+
+UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo(const UserNintendoSwitchAccountIdInfo& src) :
+    PFUserNintendoSwitchAccountIdInfo{ src },
+    m_nintendoSwitchAccountSubjectId{ src.m_nintendoSwitchAccountSubjectId }
+{
+    nintendoSwitchAccountSubjectId = m_nintendoSwitchAccountSubjectId.empty() ? nullptr : m_nintendoSwitchAccountSubjectId.data();
+}
+
+UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo(UserNintendoSwitchAccountIdInfo&& src) :
+    PFUserNintendoSwitchAccountIdInfo{ src },
+    m_nintendoSwitchAccountSubjectId{ std::move(src.m_nintendoSwitchAccountSubjectId) }
+{
+    nintendoSwitchAccountSubjectId = m_nintendoSwitchAccountSubjectId.empty() ? nullptr : m_nintendoSwitchAccountSubjectId.data();
+}
+
+UserNintendoSwitchAccountIdInfo::UserNintendoSwitchAccountIdInfo(const PFUserNintendoSwitchAccountIdInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserNintendoSwitchAccountIdInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "NintendoSwitchAccountSubjectId", m_nintendoSwitchAccountSubjectId, nintendoSwitchAccountSubjectId);
+}
+
+JsonValue UserNintendoSwitchAccountIdInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserNintendoSwitchAccountIdInfo>(*this);
+}
+
+size_t UserNintendoSwitchAccountIdInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserNintendoSwitchAccountIdInfo) };
+    serializedSize += (m_nintendoSwitchAccountSubjectId.size() + 1);
+    return serializedSize;
+}
+
+void UserNintendoSwitchAccountIdInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserNintendoSwitchAccountIdInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserNintendoSwitchAccountIdInfo);
+    memcpy(stringBuffer, m_nintendoSwitchAccountSubjectId.data(), m_nintendoSwitchAccountSubjectId.size() + 1);
+    serializedStruct->nintendoSwitchAccountSubjectId = stringBuffer;
+    stringBuffer += m_nintendoSwitchAccountSubjectId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo() :
+    PFUserNintendoSwitchDeviceIdInfo{}
+{
+}
+
+UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo(const UserNintendoSwitchDeviceIdInfo& src) :
+    PFUserNintendoSwitchDeviceIdInfo{ src },
+    m_nintendoSwitchDeviceId{ src.m_nintendoSwitchDeviceId }
+{
+    nintendoSwitchDeviceId = m_nintendoSwitchDeviceId.empty() ? nullptr : m_nintendoSwitchDeviceId.data();
+}
+
+UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo(UserNintendoSwitchDeviceIdInfo&& src) :
+    PFUserNintendoSwitchDeviceIdInfo{ src },
+    m_nintendoSwitchDeviceId{ std::move(src.m_nintendoSwitchDeviceId) }
+{
+    nintendoSwitchDeviceId = m_nintendoSwitchDeviceId.empty() ? nullptr : m_nintendoSwitchDeviceId.data();
+}
+
+UserNintendoSwitchDeviceIdInfo::UserNintendoSwitchDeviceIdInfo(const PFUserNintendoSwitchDeviceIdInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserNintendoSwitchDeviceIdInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "NintendoSwitchDeviceId", m_nintendoSwitchDeviceId, nintendoSwitchDeviceId);
+}
+
+JsonValue UserNintendoSwitchDeviceIdInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserNintendoSwitchDeviceIdInfo>(*this);
+}
+
+size_t UserNintendoSwitchDeviceIdInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserNintendoSwitchDeviceIdInfo) };
+    serializedSize += (m_nintendoSwitchDeviceId.size() + 1);
+    return serializedSize;
+}
+
+void UserNintendoSwitchDeviceIdInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserNintendoSwitchDeviceIdInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserNintendoSwitchDeviceIdInfo);
+    memcpy(stringBuffer, m_nintendoSwitchDeviceId.data(), m_nintendoSwitchDeviceId.size() + 1);
+    serializedStruct->nintendoSwitchDeviceId = stringBuffer;
+    stringBuffer += m_nintendoSwitchDeviceId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserOpenIdInfo::UserOpenIdInfo() :
+    PFUserOpenIdInfo{}
+{
+}
+
+UserOpenIdInfo::UserOpenIdInfo(const UserOpenIdInfo& src) :
+    PFUserOpenIdInfo{ src },
+    m_connectionId{ src.m_connectionId },
+    m_issuer{ src.m_issuer },
+    m_subject{ src.m_subject }
+{
+    connectionId = m_connectionId.empty() ? nullptr : m_connectionId.data();
+    issuer = m_issuer.empty() ? nullptr : m_issuer.data();
+    subject = m_subject.empty() ? nullptr : m_subject.data();
+}
+
+UserOpenIdInfo::UserOpenIdInfo(UserOpenIdInfo&& src) :
+    PFUserOpenIdInfo{ src },
+    m_connectionId{ std::move(src.m_connectionId) },
+    m_issuer{ std::move(src.m_issuer) },
+    m_subject{ std::move(src.m_subject) }
+{
+    connectionId = m_connectionId.empty() ? nullptr : m_connectionId.data();
+    issuer = m_issuer.empty() ? nullptr : m_issuer.data();
+    subject = m_subject.empty() ? nullptr : m_subject.data();
+}
+
+UserOpenIdInfo::UserOpenIdInfo(const PFUserOpenIdInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserOpenIdInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "ConnectionId", m_connectionId, connectionId);
+    JsonUtils::ObjectGetMember(input, "Issuer", m_issuer, issuer);
+    JsonUtils::ObjectGetMember(input, "Subject", m_subject, subject);
+}
+
+JsonValue UserOpenIdInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserOpenIdInfo>(*this);
+}
+
+size_t UserOpenIdInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserOpenIdInfo) };
+    serializedSize += (m_connectionId.size() + 1);
+    serializedSize += (m_issuer.size() + 1);
+    serializedSize += (m_subject.size() + 1);
+    return serializedSize;
+}
+
+void UserOpenIdInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserOpenIdInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserOpenIdInfo);
+    memcpy(stringBuffer, m_connectionId.data(), m_connectionId.size() + 1);
+    serializedStruct->connectionId = stringBuffer;
+    stringBuffer += m_connectionId.size() + 1;
+    memcpy(stringBuffer, m_issuer.data(), m_issuer.size() + 1);
+    serializedStruct->issuer = stringBuffer;
+    stringBuffer += m_issuer.size() + 1;
+    memcpy(stringBuffer, m_subject.data(), m_subject.size() + 1);
+    serializedStruct->subject = stringBuffer;
+    stringBuffer += m_subject.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserPrivateAccountInfo::UserPrivateAccountInfo() :
+    PFUserPrivateAccountInfo{}
+{
+}
+
+UserPrivateAccountInfo::UserPrivateAccountInfo(const UserPrivateAccountInfo& src) :
+    PFUserPrivateAccountInfo{ src },
+    m_email{ src.m_email }
+{
+    email = m_email.empty() ? nullptr : m_email.data();
+}
+
+UserPrivateAccountInfo::UserPrivateAccountInfo(UserPrivateAccountInfo&& src) :
+    PFUserPrivateAccountInfo{ src },
+    m_email{ std::move(src.m_email) }
+{
+    email = m_email.empty() ? nullptr : m_email.data();
+}
+
+UserPrivateAccountInfo::UserPrivateAccountInfo(const PFUserPrivateAccountInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserPrivateAccountInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Email", m_email, email);
+}
+
+JsonValue UserPrivateAccountInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserPrivateAccountInfo>(*this);
+}
+
+size_t UserPrivateAccountInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserPrivateAccountInfo) };
+    serializedSize += (m_email.size() + 1);
+    return serializedSize;
+}
+
+void UserPrivateAccountInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserPrivateAccountInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserPrivateAccountInfo);
+    memcpy(stringBuffer, m_email.data(), m_email.size() + 1);
+    serializedStruct->email = stringBuffer;
+    stringBuffer += m_email.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserTitleInfo::UserTitleInfo() :
+    PFUserTitleInfo{}
+{
+}
+
+UserTitleInfo::UserTitleInfo(const UserTitleInfo& src) :
+    PFUserTitleInfo{ src },
+    m_avatarUrl{ src.m_avatarUrl },
+    m_displayName{ src.m_displayName },
+    m_firstLogin{ src.m_firstLogin },
+    m_isBanned{ src.m_isBanned },
+    m_lastLogin{ src.m_lastLogin },
+    m_origination{ src.m_origination },
+    m_titlePlayerAccount{ src.m_titlePlayerAccount }
+{
+    avatarUrl = m_avatarUrl.empty() ? nullptr : m_avatarUrl.data();
+    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
+    firstLogin = m_firstLogin ? m_firstLogin.operator->() : nullptr;
+    isBanned = m_isBanned ? m_isBanned.operator->() : nullptr;
+    lastLogin = m_lastLogin ? m_lastLogin.operator->() : nullptr;
+    origination = m_origination ? m_origination.operator->() : nullptr;
+    titlePlayerAccount = m_titlePlayerAccount ? m_titlePlayerAccount.operator->() : nullptr;
+}
+
+UserTitleInfo::UserTitleInfo(UserTitleInfo&& src) :
+    PFUserTitleInfo{ src },
+    m_avatarUrl{ std::move(src.m_avatarUrl) },
+    m_displayName{ std::move(src.m_displayName) },
+    m_firstLogin{ std::move(src.m_firstLogin) },
+    m_isBanned{ std::move(src.m_isBanned) },
+    m_lastLogin{ std::move(src.m_lastLogin) },
+    m_origination{ std::move(src.m_origination) },
+    m_titlePlayerAccount{ std::move(src.m_titlePlayerAccount) }
+{
+    avatarUrl = m_avatarUrl.empty() ? nullptr : m_avatarUrl.data();
+    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
+    firstLogin = m_firstLogin ? m_firstLogin.operator->() : nullptr;
+    isBanned = m_isBanned ? m_isBanned.operator->() : nullptr;
+    lastLogin = m_lastLogin ? m_lastLogin.operator->() : nullptr;
+    origination = m_origination ? m_origination.operator->() : nullptr;
+    titlePlayerAccount = m_titlePlayerAccount ? m_titlePlayerAccount.operator->() : nullptr;
+}
+
+UserTitleInfo::UserTitleInfo(const PFUserTitleInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserTitleInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "AvatarUrl", m_avatarUrl, avatarUrl);
+    JsonUtils::ObjectGetMember(input, "Created", created, true);
+    JsonUtils::ObjectGetMember(input, "DisplayName", m_displayName, displayName);
+    JsonUtils::ObjectGetMember(input, "FirstLogin", m_firstLogin, firstLogin, true);
+    JsonUtils::ObjectGetMember(input, "isBanned", m_isBanned, isBanned);
+    JsonUtils::ObjectGetMember(input, "LastLogin", m_lastLogin, lastLogin, true);
+    JsonUtils::ObjectGetMember(input, "Origination", m_origination, origination);
+    JsonUtils::ObjectGetMember(input, "TitlePlayerAccount", m_titlePlayerAccount, titlePlayerAccount);
+}
+
+JsonValue UserTitleInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserTitleInfo>(*this);
+}
+
+UserTwitchInfo::UserTwitchInfo() :
+    PFUserTwitchInfo{}
+{
+}
+
+UserTwitchInfo::UserTwitchInfo(const UserTwitchInfo& src) :
+    PFUserTwitchInfo{ src },
+    m_twitchId{ src.m_twitchId },
+    m_twitchUserName{ src.m_twitchUserName }
+{
+    twitchId = m_twitchId.empty() ? nullptr : m_twitchId.data();
+    twitchUserName = m_twitchUserName.empty() ? nullptr : m_twitchUserName.data();
+}
+
+UserTwitchInfo::UserTwitchInfo(UserTwitchInfo&& src) :
+    PFUserTwitchInfo{ src },
+    m_twitchId{ std::move(src.m_twitchId) },
+    m_twitchUserName{ std::move(src.m_twitchUserName) }
+{
+    twitchId = m_twitchId.empty() ? nullptr : m_twitchId.data();
+    twitchUserName = m_twitchUserName.empty() ? nullptr : m_twitchUserName.data();
+}
+
+UserTwitchInfo::UserTwitchInfo(const PFUserTwitchInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserTwitchInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "TwitchId", m_twitchId, twitchId);
+    JsonUtils::ObjectGetMember(input, "TwitchUserName", m_twitchUserName, twitchUserName);
+}
+
+JsonValue UserTwitchInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserTwitchInfo>(*this);
+}
+
+size_t UserTwitchInfo::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFUserTwitchInfo) };
+    serializedSize += (m_twitchId.size() + 1);
+    serializedSize += (m_twitchUserName.size() + 1);
+    return serializedSize;
+}
+
+void UserTwitchInfo::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFUserTwitchInfo{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFUserTwitchInfo);
+    memcpy(stringBuffer, m_twitchId.data(), m_twitchId.size() + 1);
+    serializedStruct->twitchId = stringBuffer;
+    stringBuffer += m_twitchId.size() + 1;
+    memcpy(stringBuffer, m_twitchUserName.data(), m_twitchUserName.size() + 1);
+    serializedStruct->twitchUserName = stringBuffer;
+    stringBuffer += m_twitchUserName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+UserAccountInfo::UserAccountInfo() :
+    PFUserAccountInfo{}
+{
+}
+
+UserAccountInfo::UserAccountInfo(const UserAccountInfo& src) :
+    PFUserAccountInfo{ src },
+    m_androidDeviceInfo{ src.m_androidDeviceInfo },
+    m_appleAccountInfo{ src.m_appleAccountInfo },
+    m_customIdInfo{ src.m_customIdInfo },
+    m_facebookInfo{ src.m_facebookInfo },
+    m_facebookInstantGamesIdInfo{ src.m_facebookInstantGamesIdInfo },
+    m_gameCenterInfo{ src.m_gameCenterInfo },
+    m_googleInfo{ src.m_googleInfo },
+    m_iosDeviceInfo{ src.m_iosDeviceInfo },
+    m_kongregateInfo{ src.m_kongregateInfo },
+    m_nintendoSwitchAccountInfo{ src.m_nintendoSwitchAccountInfo },
+    m_nintendoSwitchDeviceIdInfo{ src.m_nintendoSwitchDeviceIdInfo },
+    m_openIdInfo{ src.m_openIdInfo },
+    m_playFabId{ src.m_playFabId },
+    m_privateInfo{ src.m_privateInfo },
+    m_psnInfo{ src.m_psnInfo },
+    m_steamInfo{ src.m_steamInfo },
+    m_titleInfo{ src.m_titleInfo },
+    m_twitchInfo{ src.m_twitchInfo },
+    m_username{ src.m_username },
+    m_xboxInfo{ src.m_xboxInfo }
+{
+    androidDeviceInfo = m_androidDeviceInfo ? m_androidDeviceInfo.operator->() : nullptr;
+    appleAccountInfo = m_appleAccountInfo ? m_appleAccountInfo.operator->() : nullptr;
+    customIdInfo = m_customIdInfo ? m_customIdInfo.operator->() : nullptr;
+    facebookInfo = m_facebookInfo ? m_facebookInfo.operator->() : nullptr;
+    facebookInstantGamesIdInfo = m_facebookInstantGamesIdInfo ? m_facebookInstantGamesIdInfo.operator->() : nullptr;
+    gameCenterInfo = m_gameCenterInfo ? m_gameCenterInfo.operator->() : nullptr;
+    googleInfo = m_googleInfo ? m_googleInfo.operator->() : nullptr;
+    iosDeviceInfo = m_iosDeviceInfo ? m_iosDeviceInfo.operator->() : nullptr;
+    kongregateInfo = m_kongregateInfo ? m_kongregateInfo.operator->() : nullptr;
+    nintendoSwitchAccountInfo = m_nintendoSwitchAccountInfo ? m_nintendoSwitchAccountInfo.operator->() : nullptr;
+    nintendoSwitchDeviceIdInfo = m_nintendoSwitchDeviceIdInfo ? m_nintendoSwitchDeviceIdInfo.operator->() : nullptr;
+    openIdInfo = m_openIdInfo.Empty() ? nullptr : m_openIdInfo.Data();
+    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+    privateInfo = m_privateInfo ? m_privateInfo.operator->() : nullptr;
+    psnInfo = m_psnInfo ? m_psnInfo.operator->() : nullptr;
+    steamInfo = m_steamInfo ? m_steamInfo.operator->() : nullptr;
+    titleInfo = m_titleInfo ? m_titleInfo.operator->() : nullptr;
+    twitchInfo = m_twitchInfo ? m_twitchInfo.operator->() : nullptr;
+    username = m_username.empty() ? nullptr : m_username.data();
+    xboxInfo = m_xboxInfo ? m_xboxInfo.operator->() : nullptr;
+}
+
+UserAccountInfo::UserAccountInfo(UserAccountInfo&& src) :
+    PFUserAccountInfo{ src },
+    m_androidDeviceInfo{ std::move(src.m_androidDeviceInfo) },
+    m_appleAccountInfo{ std::move(src.m_appleAccountInfo) },
+    m_customIdInfo{ std::move(src.m_customIdInfo) },
+    m_facebookInfo{ std::move(src.m_facebookInfo) },
+    m_facebookInstantGamesIdInfo{ std::move(src.m_facebookInstantGamesIdInfo) },
+    m_gameCenterInfo{ std::move(src.m_gameCenterInfo) },
+    m_googleInfo{ std::move(src.m_googleInfo) },
+    m_iosDeviceInfo{ std::move(src.m_iosDeviceInfo) },
+    m_kongregateInfo{ std::move(src.m_kongregateInfo) },
+    m_nintendoSwitchAccountInfo{ std::move(src.m_nintendoSwitchAccountInfo) },
+    m_nintendoSwitchDeviceIdInfo{ std::move(src.m_nintendoSwitchDeviceIdInfo) },
+    m_openIdInfo{ std::move(src.m_openIdInfo) },
+    m_playFabId{ std::move(src.m_playFabId) },
+    m_privateInfo{ std::move(src.m_privateInfo) },
+    m_psnInfo{ std::move(src.m_psnInfo) },
+    m_steamInfo{ std::move(src.m_steamInfo) },
+    m_titleInfo{ std::move(src.m_titleInfo) },
+    m_twitchInfo{ std::move(src.m_twitchInfo) },
+    m_username{ std::move(src.m_username) },
+    m_xboxInfo{ std::move(src.m_xboxInfo) }
+{
+    androidDeviceInfo = m_androidDeviceInfo ? m_androidDeviceInfo.operator->() : nullptr;
+    appleAccountInfo = m_appleAccountInfo ? m_appleAccountInfo.operator->() : nullptr;
+    customIdInfo = m_customIdInfo ? m_customIdInfo.operator->() : nullptr;
+    facebookInfo = m_facebookInfo ? m_facebookInfo.operator->() : nullptr;
+    facebookInstantGamesIdInfo = m_facebookInstantGamesIdInfo ? m_facebookInstantGamesIdInfo.operator->() : nullptr;
+    gameCenterInfo = m_gameCenterInfo ? m_gameCenterInfo.operator->() : nullptr;
+    googleInfo = m_googleInfo ? m_googleInfo.operator->() : nullptr;
+    iosDeviceInfo = m_iosDeviceInfo ? m_iosDeviceInfo.operator->() : nullptr;
+    kongregateInfo = m_kongregateInfo ? m_kongregateInfo.operator->() : nullptr;
+    nintendoSwitchAccountInfo = m_nintendoSwitchAccountInfo ? m_nintendoSwitchAccountInfo.operator->() : nullptr;
+    nintendoSwitchDeviceIdInfo = m_nintendoSwitchDeviceIdInfo ? m_nintendoSwitchDeviceIdInfo.operator->() : nullptr;
+    openIdInfo = m_openIdInfo.Empty() ? nullptr : m_openIdInfo.Data();
+    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+    privateInfo = m_privateInfo ? m_privateInfo.operator->() : nullptr;
+    psnInfo = m_psnInfo ? m_psnInfo.operator->() : nullptr;
+    steamInfo = m_steamInfo ? m_steamInfo.operator->() : nullptr;
+    titleInfo = m_titleInfo ? m_titleInfo.operator->() : nullptr;
+    twitchInfo = m_twitchInfo ? m_twitchInfo.operator->() : nullptr;
+    username = m_username.empty() ? nullptr : m_username.data();
+    xboxInfo = m_xboxInfo ? m_xboxInfo.operator->() : nullptr;
+}
+
+UserAccountInfo::UserAccountInfo(const PFUserAccountInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UserAccountInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "AndroidDeviceInfo", m_androidDeviceInfo, androidDeviceInfo);
+    JsonUtils::ObjectGetMember(input, "AppleAccountInfo", m_appleAccountInfo, appleAccountInfo);
+    JsonUtils::ObjectGetMember(input, "Created", created, true);
+    JsonUtils::ObjectGetMember(input, "CustomIdInfo", m_customIdInfo, customIdInfo);
+    JsonUtils::ObjectGetMember(input, "FacebookInfo", m_facebookInfo, facebookInfo);
+    JsonUtils::ObjectGetMember(input, "FacebookInstantGamesIdInfo", m_facebookInstantGamesIdInfo, facebookInstantGamesIdInfo);
+    JsonUtils::ObjectGetMember(input, "GameCenterInfo", m_gameCenterInfo, gameCenterInfo);
+    JsonUtils::ObjectGetMember(input, "GoogleInfo", m_googleInfo, googleInfo);
+    JsonUtils::ObjectGetMember(input, "IosDeviceInfo", m_iosDeviceInfo, iosDeviceInfo);
+    JsonUtils::ObjectGetMember(input, "KongregateInfo", m_kongregateInfo, kongregateInfo);
+    JsonUtils::ObjectGetMember(input, "NintendoSwitchAccountInfo", m_nintendoSwitchAccountInfo, nintendoSwitchAccountInfo);
+    JsonUtils::ObjectGetMember(input, "NintendoSwitchDeviceIdInfo", m_nintendoSwitchDeviceIdInfo, nintendoSwitchDeviceIdInfo);
+    JsonUtils::ObjectGetMember(input, "OpenIdInfo", m_openIdInfo, openIdInfo, openIdInfoCount);
+    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    JsonUtils::ObjectGetMember(input, "PrivateInfo", m_privateInfo, privateInfo);
+    JsonUtils::ObjectGetMember(input, "PsnInfo", m_psnInfo, psnInfo);
+    JsonUtils::ObjectGetMember(input, "SteamInfo", m_steamInfo, steamInfo);
+    JsonUtils::ObjectGetMember(input, "TitleInfo", m_titleInfo, titleInfo);
+    JsonUtils::ObjectGetMember(input, "TwitchInfo", m_twitchInfo, twitchInfo);
+    JsonUtils::ObjectGetMember(input, "Username", m_username, username);
+    JsonUtils::ObjectGetMember(input, "XboxInfo", m_xboxInfo, xboxInfo);
+}
+
+JsonValue UserAccountInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFUserAccountInfo>(*this);
+}
+
+CharacterInventory::CharacterInventory() :
+    PFCharacterInventory{}
+{
+}
+
+CharacterInventory::CharacterInventory(const CharacterInventory& src) :
+    PFCharacterInventory{ src },
+    m_characterId{ src.m_characterId },
+    m_inventory{ src.m_inventory }
+{
+    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
+    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
+}
+
+CharacterInventory::CharacterInventory(CharacterInventory&& src) :
+    PFCharacterInventory{ src },
+    m_characterId{ std::move(src.m_characterId) },
+    m_inventory{ std::move(src.m_inventory) }
+{
+    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
+    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
+}
+
+CharacterInventory::CharacterInventory(const PFCharacterInventory& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void CharacterInventory::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
+    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
+}
+
+JsonValue CharacterInventory::ToJson() const
+{
+    return JsonUtils::ToJson<PFCharacterInventory>(*this);
+}
+
 GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload() :
-    PlayFabGetPlayerCombinedInfoResultPayload{}
+    PFGetPlayerCombinedInfoResultPayload{}
 {
 }
 
 GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload(const GetPlayerCombinedInfoResultPayload& src) :
-    PlayFabGetPlayerCombinedInfoResultPayload{ src },
+    PFGetPlayerCombinedInfoResultPayload{ src },
     m_accountInfo{ src.m_accountInfo },
     m_characterInventories{ src.m_characterInventories },
     m_characterList{ src.m_characterList },
@@ -2339,7 +2583,7 @@ GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload(const Get
 }
 
 GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload(GetPlayerCombinedInfoResultPayload&& src) :
-    PlayFabGetPlayerCombinedInfoResultPayload{ src },
+    PFGetPlayerCombinedInfoResultPayload{ src },
     m_accountInfo{ std::move(src.m_accountInfo) },
     m_characterInventories{ std::move(src.m_characterInventories) },
     m_characterList{ std::move(src.m_characterList) },
@@ -2365,7 +2609,7 @@ GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload(GetPlayer
     userVirtualCurrencyRechargeTimes = m_userVirtualCurrencyRechargeTimes.Empty() ? nullptr : m_userVirtualCurrencyRechargeTimes.Data();
 }
 
-GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload(const PlayFabGetPlayerCombinedInfoResultPayload& src)
+GetPlayerCombinedInfoResultPayload::GetPlayerCombinedInfoResultPayload(const PFGetPlayerCombinedInfoResultPayload& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2389,53 +2633,290 @@ void GetPlayerCombinedInfoResultPayload::FromJson(const JsonValue& input)
 
 JsonValue GetPlayerCombinedInfoResultPayload::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGetPlayerCombinedInfoResultPayload>(*this);
+    return JsonUtils::ToJson<PFGetPlayerCombinedInfoResultPayload>(*this);
 }
 
-UserSettings::UserSettings() :
-    PlayFabUserSettings{}
+GetPlayerCombinedInfoRequest::GetPlayerCombinedInfoRequest() :
+    PFGetPlayerCombinedInfoRequest{}
 {
 }
 
+GetPlayerCombinedInfoRequest::GetPlayerCombinedInfoRequest(const GetPlayerCombinedInfoRequest& src) :
+    PFGetPlayerCombinedInfoRequest{ src },
+    m_customTags{ src.m_customTags },
+    m_infoRequestParameters{ src.m_infoRequestParameters },
+    m_playFabId{ src.m_playFabId }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    infoRequestParameters = (PFGetPlayerCombinedInfoRequestParams const*)&m_infoRequestParameters;
+    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+}
 
-UserSettings::UserSettings(const PlayFabUserSettings& src)
+GetPlayerCombinedInfoRequest::GetPlayerCombinedInfoRequest(GetPlayerCombinedInfoRequest&& src) :
+    PFGetPlayerCombinedInfoRequest{ src },
+    m_customTags{ std::move(src.m_customTags) },
+    m_infoRequestParameters{ std::move(src.m_infoRequestParameters) },
+    m_playFabId{ std::move(src.m_playFabId) }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    infoRequestParameters = (PFGetPlayerCombinedInfoRequestParams const*)&m_infoRequestParameters;
+    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+}
+
+GetPlayerCombinedInfoRequest::GetPlayerCombinedInfoRequest(const PFGetPlayerCombinedInfoRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
 
-void UserSettings::FromJson(const JsonValue& input)
+void GetPlayerCombinedInfoRequest::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "GatherDeviceInfo", gatherDeviceInfo);
-    JsonUtils::ObjectGetMember(input, "GatherFocusInfo", gatherFocusInfo);
-    JsonUtils::ObjectGetMember(input, "NeedsAttribution", needsAttribution);
+    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+    JsonUtils::ObjectGetMember(input, "InfoRequestParameters", m_infoRequestParameters, infoRequestParameters);
+    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
 }
 
-JsonValue UserSettings::ToJson() const
+JsonValue GetPlayerCombinedInfoRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabUserSettings>(*this);
+    return JsonUtils::ToJson<PFGetPlayerCombinedInfoRequest>(*this);
 }
 
-size_t UserSettings::SerializedSize() const
+GetPlayerCombinedInfoResult::GetPlayerCombinedInfoResult() :
+    PFGetPlayerCombinedInfoResult{}
 {
-    size_t serializedSize{ sizeof(PlayFabUserSettings) };
+}
+
+GetPlayerCombinedInfoResult::GetPlayerCombinedInfoResult(const GetPlayerCombinedInfoResult& src) :
+    PFGetPlayerCombinedInfoResult{ src },
+    m_infoResultPayload{ src.m_infoResultPayload },
+    m_playFabId{ src.m_playFabId }
+{
+    infoResultPayload = m_infoResultPayload ? m_infoResultPayload.operator->() : nullptr;
+    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+}
+
+GetPlayerCombinedInfoResult::GetPlayerCombinedInfoResult(GetPlayerCombinedInfoResult&& src) :
+    PFGetPlayerCombinedInfoResult{ src },
+    m_infoResultPayload{ std::move(src.m_infoResultPayload) },
+    m_playFabId{ std::move(src.m_playFabId) }
+{
+    infoResultPayload = m_infoResultPayload ? m_infoResultPayload.operator->() : nullptr;
+    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+}
+
+GetPlayerCombinedInfoResult::GetPlayerCombinedInfoResult(const PFGetPlayerCombinedInfoResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetPlayerCombinedInfoResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "InfoResultPayload", m_infoResultPayload, infoResultPayload);
+    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+}
+
+JsonValue GetPlayerCombinedInfoResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFGetPlayerCombinedInfoResult>(*this);
+}
+
+ResultTableNode::ResultTableNode() :
+    PFResultTableNode{}
+{
+}
+
+ResultTableNode::ResultTableNode(const ResultTableNode& src) :
+    PFResultTableNode{ src },
+    m_resultItem{ src.m_resultItem }
+{
+    resultItem = m_resultItem.empty() ? nullptr : m_resultItem.data();
+}
+
+ResultTableNode::ResultTableNode(ResultTableNode&& src) :
+    PFResultTableNode{ src },
+    m_resultItem{ std::move(src.m_resultItem) }
+{
+    resultItem = m_resultItem.empty() ? nullptr : m_resultItem.data();
+}
+
+ResultTableNode::ResultTableNode(const PFResultTableNode& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void ResultTableNode::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "ResultItem", m_resultItem, resultItem);
+    JsonUtils::ObjectGetMember(input, "ResultItemType", resultItemType);
+    JsonUtils::ObjectGetMember(input, "Weight", weight);
+}
+
+JsonValue ResultTableNode::ToJson() const
+{
+    return JsonUtils::ToJson<PFResultTableNode>(*this);
+}
+
+size_t ResultTableNode::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFResultTableNode) };
+    serializedSize += (m_resultItem.size() + 1);
     return serializedSize;
 }
 
-void UserSettings::Serialize(void* buffer, size_t bufferSize) const
+void ResultTableNode::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabUserSettings{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabUserSettings);
-    UNREFERENCED_PARAMETER(serializedStruct);
+    auto serializedStruct = new (buffer) PFResultTableNode{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFResultTableNode);
+    memcpy(stringBuffer, m_resultItem.data(), m_resultItem.size() + 1);
+    serializedStruct->resultItem = stringBuffer;
+    stringBuffer += m_resultItem.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+RandomResultTableListing::RandomResultTableListing() :
+    PFRandomResultTableListing{}
+{
+}
+
+RandomResultTableListing::RandomResultTableListing(const RandomResultTableListing& src) :
+    PFRandomResultTableListing{ src },
+    m_catalogVersion{ src.m_catalogVersion },
+    m_nodes{ src.m_nodes },
+    m_tableId{ src.m_tableId }
+{
+    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
+    nodes = m_nodes.Empty() ? nullptr : m_nodes.Data();
+    tableId = m_tableId.empty() ? nullptr : m_tableId.data();
+}
+
+RandomResultTableListing::RandomResultTableListing(RandomResultTableListing&& src) :
+    PFRandomResultTableListing{ src },
+    m_catalogVersion{ std::move(src.m_catalogVersion) },
+    m_nodes{ std::move(src.m_nodes) },
+    m_tableId{ std::move(src.m_tableId) }
+{
+    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
+    nodes = m_nodes.Empty() ? nullptr : m_nodes.Data();
+    tableId = m_tableId.empty() ? nullptr : m_tableId.data();
+}
+
+RandomResultTableListing::RandomResultTableListing(const PFRandomResultTableListing& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void RandomResultTableListing::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
+    JsonUtils::ObjectGetMember(input, "Nodes", m_nodes, nodes, nodesCount);
+    JsonUtils::ObjectGetMember(input, "TableId", m_tableId, tableId);
+}
+
+JsonValue RandomResultTableListing::ToJson() const
+{
+    return JsonUtils::ToJson<PFRandomResultTableListing>(*this);
+}
+
+GetRandomResultTablesResult::GetRandomResultTablesResult() :
+    PFGetRandomResultTablesResult{}
+{
+}
+
+GetRandomResultTablesResult::GetRandomResultTablesResult(const GetRandomResultTablesResult& src) :
+    PFGetRandomResultTablesResult{ src },
+    m_tables{ src.m_tables }
+{
+    tables = m_tables.Empty() ? nullptr : m_tables.Data();
+}
+
+GetRandomResultTablesResult::GetRandomResultTablesResult(GetRandomResultTablesResult&& src) :
+    PFGetRandomResultTablesResult{ src },
+    m_tables{ std::move(src.m_tables) }
+{
+    tables = m_tables.Empty() ? nullptr : m_tables.Data();
+}
+
+GetRandomResultTablesResult::GetRandomResultTablesResult(const PFGetRandomResultTablesResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetRandomResultTablesResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Tables", m_tables, tables, tablesCount);
+}
+
+JsonValue GetRandomResultTablesResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFGetRandomResultTablesResult>(*this);
+}
+
+SetPublisherDataRequest::SetPublisherDataRequest() :
+    PFSetPublisherDataRequest{}
+{
+}
+
+SetPublisherDataRequest::SetPublisherDataRequest(const SetPublisherDataRequest& src) :
+    PFSetPublisherDataRequest{ src },
+    m_key{ src.m_key },
+    m_value{ src.m_value }
+{
+    key = m_key.empty() ? nullptr : m_key.data();
+    value = m_value.empty() ? nullptr : m_value.data();
+}
+
+SetPublisherDataRequest::SetPublisherDataRequest(SetPublisherDataRequest&& src) :
+    PFSetPublisherDataRequest{ src },
+    m_key{ std::move(src.m_key) },
+    m_value{ std::move(src.m_value) }
+{
+    key = m_key.empty() ? nullptr : m_key.data();
+    value = m_value.empty() ? nullptr : m_value.data();
+}
+
+SetPublisherDataRequest::SetPublisherDataRequest(const PFSetPublisherDataRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void SetPublisherDataRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Key", m_key, key);
+    JsonUtils::ObjectGetMember(input, "Value", m_value, value);
+}
+
+JsonValue SetPublisherDataRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFSetPublisherDataRequest>(*this);
+}
+
+size_t SetPublisherDataRequest::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFSetPublisherDataRequest) };
+    serializedSize += (m_key.size() + 1);
+    serializedSize += (m_value.size() + 1);
+    return serializedSize;
+}
+
+void SetPublisherDataRequest::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFSetPublisherDataRequest{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSetPublisherDataRequest);
+    memcpy(stringBuffer, m_key.data(), m_key.size() + 1);
+    serializedStruct->key = stringBuffer;
+    stringBuffer += m_key.size() + 1;
+    memcpy(stringBuffer, m_value.data(), m_value.size() + 1);
+    serializedStruct->value = stringBuffer;
+    stringBuffer += m_value.size() + 1;
     assert(stringBuffer - bufferSize == buffer);
 }
 
 Variable::Variable() :
-    PlayFabVariable{}
+    PFVariable{}
 {
 }
 
 Variable::Variable(const Variable& src) :
-    PlayFabVariable{ src },
+    PFVariable{ src },
     m_name{ src.m_name },
     m_value{ src.m_value }
 {
@@ -2444,7 +2925,7 @@ Variable::Variable(const Variable& src) :
 }
 
 Variable::Variable(Variable&& src) :
-    PlayFabVariable{ src },
+    PFVariable{ src },
     m_name{ std::move(src.m_name) },
     m_value{ std::move(src.m_value) }
 {
@@ -2452,7 +2933,7 @@ Variable::Variable(Variable&& src) :
     value = m_value.empty() ? nullptr : m_value.data();
 }
 
-Variable::Variable(const PlayFabVariable& src)
+Variable::Variable(const PFVariable& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2465,12 +2946,12 @@ void Variable::FromJson(const JsonValue& input)
 
 JsonValue Variable::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabVariable>(*this);
+    return JsonUtils::ToJson<PFVariable>(*this);
 }
 
 size_t Variable::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabVariable) };
+    size_t serializedSize{ sizeof(PFVariable) };
     serializedSize += (m_name.size() + 1);
     serializedSize += (m_value.size() + 1);
     return serializedSize;
@@ -2478,8 +2959,8 @@ size_t Variable::SerializedSize() const
 
 void Variable::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabVariable{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabVariable);
+    auto serializedStruct = new (buffer) PFVariable{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFVariable);
     memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
     serializedStruct->name = stringBuffer;
     stringBuffer += m_name.size() + 1;
@@ -2490,12 +2971,12 @@ void Variable::Serialize(void* buffer, size_t bufferSize) const
 }
 
 TreatmentAssignment::TreatmentAssignment() :
-    PlayFabTreatmentAssignment{}
+    PFTreatmentAssignment{}
 {
 }
 
 TreatmentAssignment::TreatmentAssignment(const TreatmentAssignment& src) :
-    PlayFabTreatmentAssignment{ src },
+    PFTreatmentAssignment{ src },
     m_variables{ src.m_variables },
     m_variants{ src.m_variants }
 {
@@ -2504,7 +2985,7 @@ TreatmentAssignment::TreatmentAssignment(const TreatmentAssignment& src) :
 }
 
 TreatmentAssignment::TreatmentAssignment(TreatmentAssignment&& src) :
-    PlayFabTreatmentAssignment{ src },
+    PFTreatmentAssignment{ src },
     m_variables{ std::move(src.m_variables) },
     m_variants{ std::move(src.m_variants) }
 {
@@ -2512,7 +2993,7 @@ TreatmentAssignment::TreatmentAssignment(TreatmentAssignment&& src) :
     variants = m_variants.Empty() ? nullptr : m_variants.Data();
 }
 
-TreatmentAssignment::TreatmentAssignment(const PlayFabTreatmentAssignment& src)
+TreatmentAssignment::TreatmentAssignment(const PFTreatmentAssignment& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2525,61 +3006,156 @@ void TreatmentAssignment::FromJson(const JsonValue& input)
 
 JsonValue TreatmentAssignment::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabTreatmentAssignment>(*this);
+    return JsonUtils::ToJson<PFTreatmentAssignment>(*this);
 }
 
-LoginResult::LoginResult()
+Port::Port() :
+    PFPort{}
 {
 }
 
-LoginResult::LoginResult(const LoginResult& src) :
-    entityToken{ src.entityToken },
-    infoResultPayload{ src.infoResultPayload },
-    lastLoginTime{ src.lastLoginTime },
-    newlyCreated{ src.newlyCreated },
-    playFabId{ src.playFabId },
-    sessionTicket{ src.sessionTicket },
-    settingsForUser{ src.settingsForUser },
-    treatmentAssignment{ src.treatmentAssignment }
+Port::Port(const Port& src) :
+    PFPort{ src },
+    m_name{ src.m_name }
+{
+    name = m_name.empty() ? nullptr : m_name.data();
+}
+
+Port::Port(Port&& src) :
+    PFPort{ src },
+    m_name{ std::move(src.m_name) }
+{
+    name = m_name.empty() ? nullptr : m_name.data();
+}
+
+Port::Port(const PFPort& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void Port::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Name", m_name, name);
+    JsonUtils::ObjectGetMember(input, "Num", num);
+    JsonUtils::ObjectGetMember(input, "Protocol", protocol);
+}
+
+JsonValue Port::ToJson() const
+{
+    return JsonUtils::ToJson<PFPort>(*this);
+}
+
+size_t Port::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFPort) };
+    serializedSize += (m_name.size() + 1);
+    return serializedSize;
+}
+
+void Port::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFPort{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPort);
+    memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+    serializedStruct->name = stringBuffer;
+    stringBuffer += m_name.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+EntityLineage::EntityLineage() :
+    PFEntityLineage{}
 {
 }
 
-LoginResult::LoginResult(LoginResult&& src) :
-    entityToken{ std::move(src.entityToken) },
-    infoResultPayload{ std::move(src.infoResultPayload) },
-    lastLoginTime{ std::move(src.lastLoginTime) },
-    newlyCreated{ std::move(src.newlyCreated) },
-    playFabId{ std::move(src.playFabId) },
-    sessionTicket{ std::move(src.sessionTicket) },
-    settingsForUser{ std::move(src.settingsForUser) },
-    treatmentAssignment{ std::move(src.treatmentAssignment) }
+EntityLineage::EntityLineage(const EntityLineage& src) :
+    PFEntityLineage{ src },
+    m_characterId{ src.m_characterId },
+    m_groupId{ src.m_groupId },
+    m_masterPlayerAccountId{ src.m_masterPlayerAccountId },
+    m_namespaceId{ src.m_namespaceId },
+    m_titleId{ src.m_titleId },
+    m_titlePlayerAccountId{ src.m_titlePlayerAccountId }
 {
+    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
+    groupId = m_groupId.empty() ? nullptr : m_groupId.data();
+    masterPlayerAccountId = m_masterPlayerAccountId.empty() ? nullptr : m_masterPlayerAccountId.data();
+    namespaceId = m_namespaceId.empty() ? nullptr : m_namespaceId.data();
+    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
+    titlePlayerAccountId = m_titlePlayerAccountId.empty() ? nullptr : m_titlePlayerAccountId.data();
 }
 
-void LoginResult::FromJson(const JsonValue& input)
+EntityLineage::EntityLineage(EntityLineage&& src) :
+    PFEntityLineage{ src },
+    m_characterId{ std::move(src.m_characterId) },
+    m_groupId{ std::move(src.m_groupId) },
+    m_masterPlayerAccountId{ std::move(src.m_masterPlayerAccountId) },
+    m_namespaceId{ std::move(src.m_namespaceId) },
+    m_titleId{ std::move(src.m_titleId) },
+    m_titlePlayerAccountId{ std::move(src.m_titlePlayerAccountId) }
 {
-    JsonUtils::ObjectGetMember(input, "EntityToken", entityToken);
-    JsonUtils::ObjectGetMember(input, "InfoResultPayload", infoResultPayload);
-    JsonUtils::ObjectGetMember(input, "LastLoginTime", lastLoginTime, true);
-    JsonUtils::ObjectGetMember(input, "NewlyCreated", newlyCreated);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
-    JsonUtils::ObjectGetMember(input, "SessionTicket", sessionTicket);
-    JsonUtils::ObjectGetMember(input, "SettingsForUser", settingsForUser);
-    JsonUtils::ObjectGetMember(input, "TreatmentAssignment", treatmentAssignment);
+    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
+    groupId = m_groupId.empty() ? nullptr : m_groupId.data();
+    masterPlayerAccountId = m_masterPlayerAccountId.empty() ? nullptr : m_masterPlayerAccountId.data();
+    namespaceId = m_namespaceId.empty() ? nullptr : m_namespaceId.data();
+    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
+    titlePlayerAccountId = m_titlePlayerAccountId.empty() ? nullptr : m_titlePlayerAccountId.data();
 }
 
-JsonValue LoginResult::ToJson() const
+EntityLineage::EntityLineage(const PFEntityLineage& src)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "EntityToken", entityToken);
-    JsonUtils::ObjectAddMember(output, "InfoResultPayload", infoResultPayload);
-    JsonUtils::ObjectAddMember(output, "LastLoginTime", lastLoginTime, true);
-    JsonUtils::ObjectAddMember(output, "NewlyCreated", newlyCreated);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", playFabId);
-    JsonUtils::ObjectAddMember(output, "SessionTicket", sessionTicket);
-    JsonUtils::ObjectAddMember(output, "SettingsForUser", settingsForUser);
-    JsonUtils::ObjectAddMember(output, "TreatmentAssignment", treatmentAssignment);
-    return output;
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void EntityLineage::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
+    JsonUtils::ObjectGetMember(input, "GroupId", m_groupId, groupId);
+    JsonUtils::ObjectGetMember(input, "MasterPlayerAccountId", m_masterPlayerAccountId, masterPlayerAccountId);
+    JsonUtils::ObjectGetMember(input, "NamespaceId", m_namespaceId, namespaceId);
+    JsonUtils::ObjectGetMember(input, "TitleId", m_titleId, titleId);
+    JsonUtils::ObjectGetMember(input, "TitlePlayerAccountId", m_titlePlayerAccountId, titlePlayerAccountId);
+}
+
+JsonValue EntityLineage::ToJson() const
+{
+    return JsonUtils::ToJson<PFEntityLineage>(*this);
+}
+
+size_t EntityLineage::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFEntityLineage) };
+    serializedSize += (m_characterId.size() + 1);
+    serializedSize += (m_groupId.size() + 1);
+    serializedSize += (m_masterPlayerAccountId.size() + 1);
+    serializedSize += (m_namespaceId.size() + 1);
+    serializedSize += (m_titleId.size() + 1);
+    serializedSize += (m_titlePlayerAccountId.size() + 1);
+    return serializedSize;
+}
+
+void EntityLineage::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFEntityLineage{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFEntityLineage);
+    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
+    serializedStruct->characterId = stringBuffer;
+    stringBuffer += m_characterId.size() + 1;
+    memcpy(stringBuffer, m_groupId.data(), m_groupId.size() + 1);
+    serializedStruct->groupId = stringBuffer;
+    stringBuffer += m_groupId.size() + 1;
+    memcpy(stringBuffer, m_masterPlayerAccountId.data(), m_masterPlayerAccountId.size() + 1);
+    serializedStruct->masterPlayerAccountId = stringBuffer;
+    stringBuffer += m_masterPlayerAccountId.size() + 1;
+    memcpy(stringBuffer, m_namespaceId.data(), m_namespaceId.size() + 1);
+    serializedStruct->namespaceId = stringBuffer;
+    stringBuffer += m_namespaceId.size() + 1;
+    memcpy(stringBuffer, m_titleId.data(), m_titleId.size() + 1);
+    serializedStruct->titleId = stringBuffer;
+    stringBuffer += m_titleId.size() + 1;
+    memcpy(stringBuffer, m_titlePlayerAccountId.data(), m_titlePlayerAccountId.size() + 1);
+    serializedStruct->titlePlayerAccountId = stringBuffer;
+    stringBuffer += m_titlePlayerAccountId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
 }
 
 
@@ -2588,229 +3164,7 @@ namespace JsonUtils
 // Serialization methods for public models
 
 template<>
-inline JsonValue ToJson<>(const PlayFabEntityKey& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Id", input.id);
-    JsonUtils::ObjectAddMember(output, "Type", input.type);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabEntityTokenResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "EntityToken", input.entityToken);
-    JsonUtils::ObjectAddMember(output, "TokenExpiration", input.tokenExpiration, true);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserAndroidDeviceInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AndroidDeviceId", input.androidDeviceId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserAppleIdInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AppleSubjectId", input.appleSubjectId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserCustomIdInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomId", input.customId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserFacebookInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "FacebookId", input.facebookId);
-    JsonUtils::ObjectAddMember(output, "FullName", input.fullName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserFacebookInstantGamesIdInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "FacebookInstantGamesId", input.facebookInstantGamesId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserGameCenterInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "GameCenterId", input.gameCenterId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserGoogleInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "GoogleEmail", input.googleEmail);
-    JsonUtils::ObjectAddMember(output, "GoogleGender", input.googleGender);
-    JsonUtils::ObjectAddMember(output, "GoogleId", input.googleId);
-    JsonUtils::ObjectAddMember(output, "GoogleLocale", input.googleLocale);
-    JsonUtils::ObjectAddMember(output, "GoogleName", input.googleName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserIosDeviceInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "IosDeviceId", input.iosDeviceId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserKongregateInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "KongregateId", input.kongregateId);
-    JsonUtils::ObjectAddMember(output, "KongregateName", input.kongregateName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserNintendoSwitchAccountIdInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "NintendoSwitchAccountSubjectId", input.nintendoSwitchAccountSubjectId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserNintendoSwitchDeviceIdInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "NintendoSwitchDeviceId", input.nintendoSwitchDeviceId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserOpenIdInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ConnectionId", input.connectionId);
-    JsonUtils::ObjectAddMember(output, "Issuer", input.issuer);
-    JsonUtils::ObjectAddMember(output, "Subject", input.subject);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserPrivateAccountInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Email", input.email);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserPsnInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PsnAccountId", input.psnAccountId);
-    JsonUtils::ObjectAddMember(output, "PsnOnlineId", input.psnOnlineId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserSteamInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SteamActivationStatus", input.steamActivationStatus);
-    JsonUtils::ObjectAddMember(output, "SteamCountry", input.steamCountry);
-    JsonUtils::ObjectAddMember(output, "SteamCurrency", input.steamCurrency);
-    JsonUtils::ObjectAddMember(output, "SteamId", input.steamId);
-    JsonUtils::ObjectAddMember(output, "SteamName", input.steamName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserTitleInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AvatarUrl", input.avatarUrl);
-    JsonUtils::ObjectAddMember(output, "Created", input.created, true);
-    JsonUtils::ObjectAddMember(output, "DisplayName", input.displayName);
-    JsonUtils::ObjectAddMember(output, "FirstLogin", input.firstLogin, true);
-    JsonUtils::ObjectAddMember(output, "isBanned", input.isBanned);
-    JsonUtils::ObjectAddMember(output, "LastLogin", input.lastLogin, true);
-    JsonUtils::ObjectAddMember(output, "Origination", input.origination);
-    JsonUtils::ObjectAddMember(output, "TitlePlayerAccount", input.titlePlayerAccount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserTwitchInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "TwitchId", input.twitchId);
-    JsonUtils::ObjectAddMember(output, "TwitchUserName", input.twitchUserName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserWindowsHelloInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "WindowsHelloDeviceName", input.windowsHelloDeviceName);
-    JsonUtils::ObjectAddMember(output, "WindowsHelloPublicKeyHash", input.windowsHelloPublicKeyHash);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserXboxInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "XboxUserId", input.xboxUserId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabUserAccountInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AndroidDeviceInfo", input.androidDeviceInfo);
-    JsonUtils::ObjectAddMember(output, "AppleAccountInfo", input.appleAccountInfo);
-    JsonUtils::ObjectAddMember(output, "Created", input.created, true);
-    JsonUtils::ObjectAddMember(output, "CustomIdInfo", input.customIdInfo);
-    JsonUtils::ObjectAddMember(output, "FacebookInfo", input.facebookInfo);
-    JsonUtils::ObjectAddMember(output, "FacebookInstantGamesIdInfo", input.facebookInstantGamesIdInfo);
-    JsonUtils::ObjectAddMember(output, "GameCenterInfo", input.gameCenterInfo);
-    JsonUtils::ObjectAddMember(output, "GoogleInfo", input.googleInfo);
-    JsonUtils::ObjectAddMember(output, "IosDeviceInfo", input.iosDeviceInfo);
-    JsonUtils::ObjectAddMember(output, "KongregateInfo", input.kongregateInfo);
-    JsonUtils::ObjectAddMember(output, "NintendoSwitchAccountInfo", input.nintendoSwitchAccountInfo);
-    JsonUtils::ObjectAddMember(output, "NintendoSwitchDeviceIdInfo", input.nintendoSwitchDeviceIdInfo);
-    JsonUtils::ObjectAddMember(output, "OpenIdInfo", input.openIdInfo, input.openIdInfoCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "PrivateInfo", input.privateInfo);
-    JsonUtils::ObjectAddMember(output, "PsnInfo", input.psnInfo);
-    JsonUtils::ObjectAddMember(output, "SteamInfo", input.steamInfo);
-    JsonUtils::ObjectAddMember(output, "TitleInfo", input.titleInfo);
-    JsonUtils::ObjectAddMember(output, "TwitchInfo", input.twitchInfo);
-    JsonUtils::ObjectAddMember(output, "Username", input.username);
-    JsonUtils::ObjectAddMember(output, "WindowsHelloInfo", input.windowsHelloInfo);
-    JsonUtils::ObjectAddMember(output, "XboxInfo", input.xboxInfo);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabItemInstance& input)
+inline JsonValue ToJson<>(const PFItemInstance& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
@@ -2832,26 +3186,89 @@ inline JsonValue ToJson<>(const PlayFabItemInstance& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabCharacterInventory& input)
+inline JsonValue ToJson<>(const PFScriptExecutionError& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
+    JsonUtils::ObjectAddMember(output, "Error", input.error);
+    JsonUtils::ObjectAddMember(output, "Message", input.message);
+    JsonUtils::ObjectAddMember(output, "StackTrace", input.stackTrace);
     return output;
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabCharacterResult& input)
+inline JsonValue ToJson<>(const PFLogStatement& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CharacterName", input.characterName);
-    JsonUtils::ObjectAddMember(output, "CharacterType", input.characterType);
+    JsonUtils::ObjectAddMember(output, "Data", input.data);
+    JsonUtils::ObjectAddMember(output, "Level", input.level);
+    JsonUtils::ObjectAddMember(output, "Message", input.message);
     return output;
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabAdCampaignAttributionModel& input)
+inline JsonValue ToJson<>(const PFExecuteCloudScriptResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "APIRequestsIssued", input.aPIRequestsIssued);
+    JsonUtils::ObjectAddMember(output, "Error", input.error);
+    JsonUtils::ObjectAddMember(output, "ExecutionTimeSeconds", input.executionTimeSeconds);
+    JsonUtils::ObjectAddMember(output, "FunctionName", input.functionName);
+    JsonUtils::ObjectAddMember(output, "FunctionResult", input.functionResult);
+    JsonUtils::ObjectAddMember(output, "FunctionResultTooLarge", input.functionResultTooLarge);
+    JsonUtils::ObjectAddMember(output, "HttpRequestsIssued", input.httpRequestsIssued);
+    JsonUtils::ObjectAddMember(output, "Logs", input.logs, input.logsCount);
+    JsonUtils::ObjectAddMember(output, "LogsTooLarge", input.logsTooLarge);
+    JsonUtils::ObjectAddMember(output, "MemoryConsumedBytes", input.memoryConsumedBytes);
+    JsonUtils::ObjectAddMember(output, "ProcessorTimeSeconds", input.processorTimeSeconds);
+    JsonUtils::ObjectAddMember(output, "Revision", input.revision);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFNameIdentifier& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Id", input.id);
+    JsonUtils::ObjectAddMember(output, "Name", input.name);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserDataRecord& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "LastUpdated", input.lastUpdated, true);
+    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
+    JsonUtils::ObjectAddMember(output, "Value", input.value);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFPlayerProfileViewConstraints& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "ShowAvatarUrl", input.showAvatarUrl);
+    JsonUtils::ObjectAddMember(output, "ShowBannedUntil", input.showBannedUntil);
+    JsonUtils::ObjectAddMember(output, "ShowCampaignAttributions", input.showCampaignAttributions);
+    JsonUtils::ObjectAddMember(output, "ShowContactEmailAddresses", input.showContactEmailAddresses);
+    JsonUtils::ObjectAddMember(output, "ShowCreated", input.showCreated);
+    JsonUtils::ObjectAddMember(output, "ShowDisplayName", input.showDisplayName);
+    JsonUtils::ObjectAddMember(output, "ShowExperimentVariants", input.showExperimentVariants);
+    JsonUtils::ObjectAddMember(output, "ShowLastLogin", input.showLastLogin);
+    JsonUtils::ObjectAddMember(output, "ShowLinkedAccounts", input.showLinkedAccounts);
+    JsonUtils::ObjectAddMember(output, "ShowLocations", input.showLocations);
+    JsonUtils::ObjectAddMember(output, "ShowMemberships", input.showMemberships);
+    JsonUtils::ObjectAddMember(output, "ShowOrigination", input.showOrigination);
+    JsonUtils::ObjectAddMember(output, "ShowPushNotificationRegistrations", input.showPushNotificationRegistrations);
+    JsonUtils::ObjectAddMember(output, "ShowStatistics", input.showStatistics);
+    JsonUtils::ObjectAddMember(output, "ShowTags", input.showTags);
+    JsonUtils::ObjectAddMember(output, "ShowTotalValueToDateInUsd", input.showTotalValueToDateInUsd);
+    JsonUtils::ObjectAddMember(output, "ShowValuesToDate", input.showValuesToDate);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFAdCampaignAttributionModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AttributedAt", input.attributedAt, true);
@@ -2861,7 +3278,7 @@ inline JsonValue ToJson<>(const PlayFabAdCampaignAttributionModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabContactEmailInfoModel& input)
+inline JsonValue ToJson<>(const PFContactEmailInfoModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "EmailAddress", input.emailAddress);
@@ -2871,7 +3288,7 @@ inline JsonValue ToJson<>(const PlayFabContactEmailInfoModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabLinkedPlatformAccountModel& input)
+inline JsonValue ToJson<>(const PFLinkedPlatformAccountModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Email", input.email);
@@ -2882,7 +3299,7 @@ inline JsonValue ToJson<>(const PlayFabLinkedPlatformAccountModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabLocationModel& input)
+inline JsonValue ToJson<>(const PFLocationModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "City", input.city);
@@ -2894,7 +3311,7 @@ inline JsonValue ToJson<>(const PlayFabLocationModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabSubscriptionModel& input)
+inline JsonValue ToJson<>(const PFSubscriptionModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Expiration", input.expiration, true);
@@ -2908,7 +3325,7 @@ inline JsonValue ToJson<>(const PlayFabSubscriptionModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabMembershipModel& input)
+inline JsonValue ToJson<>(const PFMembershipModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "IsActive", input.isActive);
@@ -2920,7 +3337,7 @@ inline JsonValue ToJson<>(const PlayFabMembershipModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabPushNotificationRegistrationModel& input)
+inline JsonValue ToJson<>(const PFPushNotificationRegistrationModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "NotificationEndpointARN", input.notificationEndpointARN);
@@ -2929,7 +3346,7 @@ inline JsonValue ToJson<>(const PlayFabPushNotificationRegistrationModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabStatisticModel& input)
+inline JsonValue ToJson<>(const PFStatisticModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Name", input.name);
@@ -2939,7 +3356,7 @@ inline JsonValue ToJson<>(const PlayFabStatisticModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabTagModel& input)
+inline JsonValue ToJson<>(const PFTagModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "TagValue", input.tagValue);
@@ -2947,7 +3364,7 @@ inline JsonValue ToJson<>(const PlayFabTagModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabValueToDateModel& input)
+inline JsonValue ToJson<>(const PFValueToDateModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Currency", input.currency);
@@ -2957,7 +3374,7 @@ inline JsonValue ToJson<>(const PlayFabValueToDateModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabPlayerProfileModel& input)
+inline JsonValue ToJson<>(const PFPlayerProfileModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AdCampaignAttributions", input.adCampaignAttributions, input.adCampaignAttributionsCount);
@@ -2984,27 +3401,63 @@ inline JsonValue ToJson<>(const PlayFabPlayerProfileModel& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabStatisticValue& input)
+inline JsonValue ToJson<>(const PFUserFacebookInfo& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
-    JsonUtils::ObjectAddMember(output, "Value", input.value);
-    JsonUtils::ObjectAddMember(output, "Version", input.version);
+    JsonUtils::ObjectAddMember(output, "FacebookId", input.facebookId);
+    JsonUtils::ObjectAddMember(output, "FullName", input.fullName);
     return output;
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabUserDataRecord& input)
+inline JsonValue ToJson<>(const PFUserGameCenterInfo& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "LastUpdated", input.lastUpdated, true);
-    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
-    JsonUtils::ObjectAddMember(output, "Value", input.value);
+    JsonUtils::ObjectAddMember(output, "GameCenterId", input.gameCenterId);
     return output;
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabVirtualCurrencyRechargeTime& input)
+inline JsonValue ToJson<>(const PFUserPsnInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "PsnAccountId", input.psnAccountId);
+    JsonUtils::ObjectAddMember(output, "PsnOnlineId", input.psnOnlineId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserSteamInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "SteamActivationStatus", input.steamActivationStatus);
+    JsonUtils::ObjectAddMember(output, "SteamCountry", input.steamCountry);
+    JsonUtils::ObjectAddMember(output, "SteamCurrency", input.steamCurrency);
+    JsonUtils::ObjectAddMember(output, "SteamId", input.steamId);
+    JsonUtils::ObjectAddMember(output, "SteamName", input.steamName);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserXboxInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "XboxUserId", input.xboxUserId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFCharacterResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMember(output, "CharacterName", input.characterName);
+    JsonUtils::ObjectAddMember(output, "CharacterType", input.characterType);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFVirtualCurrencyRechargeTime& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "RechargeMax", input.rechargeMax);
@@ -3014,7 +3467,204 @@ inline JsonValue ToJson<>(const PlayFabVirtualCurrencyRechargeTime& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGetPlayerCombinedInfoResultPayload& input)
+inline JsonValue ToJson<>(const PFStatisticValue& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
+    JsonUtils::ObjectAddMember(output, "Value", input.value);
+    JsonUtils::ObjectAddMember(output, "Version", input.version);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoRequestParams& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "GetCharacterInventories", input.getCharacterInventories);
+    JsonUtils::ObjectAddMember(output, "GetCharacterList", input.getCharacterList);
+    JsonUtils::ObjectAddMember(output, "GetPlayerProfile", input.getPlayerProfile);
+    JsonUtils::ObjectAddMember(output, "GetPlayerStatistics", input.getPlayerStatistics);
+    JsonUtils::ObjectAddMember(output, "GetTitleData", input.getTitleData);
+    JsonUtils::ObjectAddMember(output, "GetUserAccountInfo", input.getUserAccountInfo);
+    JsonUtils::ObjectAddMember(output, "GetUserData", input.getUserData);
+    JsonUtils::ObjectAddMember(output, "GetUserInventory", input.getUserInventory);
+    JsonUtils::ObjectAddMember(output, "GetUserReadOnlyData", input.getUserReadOnlyData);
+    JsonUtils::ObjectAddMember(output, "GetUserVirtualCurrency", input.getUserVirtualCurrency);
+    JsonUtils::ObjectAddMember(output, "PlayerStatisticNames", input.playerStatisticNames, input.playerStatisticNamesCount);
+    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember(output, "TitleDataKeys", input.titleDataKeys, input.titleDataKeysCount);
+    JsonUtils::ObjectAddMember(output, "UserDataKeys", input.userDataKeys, input.userDataKeysCount);
+    JsonUtils::ObjectAddMember(output, "UserReadOnlyDataKeys", input.userReadOnlyDataKeys, input.userReadOnlyDataKeysCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFEntityKey& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Id", input.id);
+    JsonUtils::ObjectAddMember(output, "Type", input.type);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserAndroidDeviceInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "AndroidDeviceId", input.androidDeviceId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserAppleIdInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "AppleSubjectId", input.appleSubjectId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserCustomIdInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomId", input.customId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserFacebookInstantGamesIdInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "FacebookInstantGamesId", input.facebookInstantGamesId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserGoogleInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "GoogleEmail", input.googleEmail);
+    JsonUtils::ObjectAddMember(output, "GoogleGender", input.googleGender);
+    JsonUtils::ObjectAddMember(output, "GoogleId", input.googleId);
+    JsonUtils::ObjectAddMember(output, "GoogleLocale", input.googleLocale);
+    JsonUtils::ObjectAddMember(output, "GoogleName", input.googleName);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserIosDeviceInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "IosDeviceId", input.iosDeviceId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserKongregateInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "KongregateId", input.kongregateId);
+    JsonUtils::ObjectAddMember(output, "KongregateName", input.kongregateName);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserNintendoSwitchAccountIdInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "NintendoSwitchAccountSubjectId", input.nintendoSwitchAccountSubjectId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserNintendoSwitchDeviceIdInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "NintendoSwitchDeviceId", input.nintendoSwitchDeviceId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserOpenIdInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "ConnectionId", input.connectionId);
+    JsonUtils::ObjectAddMember(output, "Issuer", input.issuer);
+    JsonUtils::ObjectAddMember(output, "Subject", input.subject);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserPrivateAccountInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Email", input.email);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserTitleInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "AvatarUrl", input.avatarUrl);
+    JsonUtils::ObjectAddMember(output, "Created", input.created, true);
+    JsonUtils::ObjectAddMember(output, "DisplayName", input.displayName);
+    JsonUtils::ObjectAddMember(output, "FirstLogin", input.firstLogin, true);
+    JsonUtils::ObjectAddMember(output, "isBanned", input.isBanned);
+    JsonUtils::ObjectAddMember(output, "LastLogin", input.lastLogin, true);
+    JsonUtils::ObjectAddMember(output, "Origination", input.origination);
+    JsonUtils::ObjectAddMember(output, "TitlePlayerAccount", input.titlePlayerAccount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserTwitchInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "TwitchId", input.twitchId);
+    JsonUtils::ObjectAddMember(output, "TwitchUserName", input.twitchUserName);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFUserAccountInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "AndroidDeviceInfo", input.androidDeviceInfo);
+    JsonUtils::ObjectAddMember(output, "AppleAccountInfo", input.appleAccountInfo);
+    JsonUtils::ObjectAddMember(output, "Created", input.created, true);
+    JsonUtils::ObjectAddMember(output, "CustomIdInfo", input.customIdInfo);
+    JsonUtils::ObjectAddMember(output, "FacebookInfo", input.facebookInfo);
+    JsonUtils::ObjectAddMember(output, "FacebookInstantGamesIdInfo", input.facebookInstantGamesIdInfo);
+    JsonUtils::ObjectAddMember(output, "GameCenterInfo", input.gameCenterInfo);
+    JsonUtils::ObjectAddMember(output, "GoogleInfo", input.googleInfo);
+    JsonUtils::ObjectAddMember(output, "IosDeviceInfo", input.iosDeviceInfo);
+    JsonUtils::ObjectAddMember(output, "KongregateInfo", input.kongregateInfo);
+    JsonUtils::ObjectAddMember(output, "NintendoSwitchAccountInfo", input.nintendoSwitchAccountInfo);
+    JsonUtils::ObjectAddMember(output, "NintendoSwitchDeviceIdInfo", input.nintendoSwitchDeviceIdInfo);
+    JsonUtils::ObjectAddMember(output, "OpenIdInfo", input.openIdInfo, input.openIdInfoCount);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    JsonUtils::ObjectAddMember(output, "PrivateInfo", input.privateInfo);
+    JsonUtils::ObjectAddMember(output, "PsnInfo", input.psnInfo);
+    JsonUtils::ObjectAddMember(output, "SteamInfo", input.steamInfo);
+    JsonUtils::ObjectAddMember(output, "TitleInfo", input.titleInfo);
+    JsonUtils::ObjectAddMember(output, "TwitchInfo", input.twitchInfo);
+    JsonUtils::ObjectAddMember(output, "Username", input.username);
+    JsonUtils::ObjectAddMember(output, "XboxInfo", input.xboxInfo);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFCharacterInventory& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoResultPayload& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AccountInfo", input.accountInfo);
@@ -3034,17 +3684,63 @@ inline JsonValue ToJson<>(const PlayFabGetPlayerCombinedInfoResultPayload& input
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabUserSettings& input)
+inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "GatherDeviceInfo", input.gatherDeviceInfo);
-    JsonUtils::ObjectAddMember(output, "GatherFocusInfo", input.gatherFocusInfo);
-    JsonUtils::ObjectAddMember(output, "NeedsAttribution", input.needsAttribution);
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "InfoRequestParameters", input.infoRequestParameters);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabVariable& input)
+inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "InfoResultPayload", input.infoResultPayload);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFResultTableNode& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "ResultItem", input.resultItem);
+    JsonUtils::ObjectAddMember(output, "ResultItemType", input.resultItemType);
+    JsonUtils::ObjectAddMember(output, "Weight", input.weight);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFRandomResultTableListing& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
+    JsonUtils::ObjectAddMember(output, "Nodes", input.nodes, input.nodesCount);
+    JsonUtils::ObjectAddMember(output, "TableId", input.tableId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGetRandomResultTablesResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Tables", input.tables, input.tablesCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFSetPublisherDataRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Key", input.key);
+    JsonUtils::ObjectAddMember(output, "Value", input.value);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFVariable& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Name", input.name);
@@ -3053,11 +3749,34 @@ inline JsonValue ToJson<>(const PlayFabVariable& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabTreatmentAssignment& input)
+inline JsonValue ToJson<>(const PFTreatmentAssignment& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Variables", input.variables, input.variablesCount);
     JsonUtils::ObjectAddMember(output, "Variants", input.variants, input.variantsCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFPort& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Name", input.name);
+    JsonUtils::ObjectAddMember(output, "Num", input.num);
+    JsonUtils::ObjectAddMember(output, "Protocol", input.protocol);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFEntityLineage& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMember(output, "GroupId", input.groupId);
+    JsonUtils::ObjectAddMember(output, "MasterPlayerAccountId", input.masterPlayerAccountId);
+    JsonUtils::ObjectAddMember(output, "NamespaceId", input.namespaceId);
+    JsonUtils::ObjectAddMember(output, "TitleId", input.titleId);
+    JsonUtils::ObjectAddMember(output, "TitlePlayerAccountId", input.titlePlayerAccountId);
     return output;
 }
 

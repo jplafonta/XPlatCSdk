@@ -3,12 +3,7 @@
 #include "TestApp.h"
 #include "AutoGenLocalizationTests.h"
 #include "XAsyncHelper.h"
-#include <playfab/PlayFabClientAuthApi.h>
-#include <playfab/PlayFabClientApi.h>
-#include <playfab/PlayFabProfilesApi.h>
-#include <playfab/PlayFabAdminApi.h>
-#include <playfab/PlayFabAuthenticationAuthApi.h>
-#include <playfab/PlayFabClientDataModels.h>
+#include "playfab/PFAuthentication.h"
 
 namespace PlayFabUnit
 {
@@ -20,7 +15,7 @@ void AutoGenLocalizationTests::Log(std::stringstream& ss)
     ss.clear();
 }
 
-HRESULT AutoGenClientTests::LogHR(HRESULT hr)
+HRESULT AutoGenLocalizationTests::LogHR(HRESULT hr)
 {
     if( TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -32,23 +27,25 @@ HRESULT AutoGenClientTests::LogHR(HRESULT hr)
 
 void AutoGenLocalizationTests::AddTests()
 {
+    // Generated prerequisites
+
     // Generated tests 
     AddTest("TestLocalizationGetLanguageList", &AutoGenLocalizationTests::TestLocalizationGetLanguageList);
 }
 
 void AutoGenLocalizationTests::ClassSetUp()
 {
-    HRESULT hr = PlayFabAdminInitialize(testTitleData.titleId.data(), testTitleData.developerSecretKey.data(), nullptr, &stateHandle);
+    HRESULT hr = PFAdminInitialize(testTitleData.titleId.data(), testTitleData.developerSecretKey.data(), nullptr, &stateHandle);
     assert(SUCCEEDED(hr));
     if (SUCCEEDED(hr))
     {
-        PlayFabClientLoginWithCustomIDRequest request{};
+        PFAuthenticationLoginWithCustomIDRequest request{};
         request.customId = "CustomId";
         bool createAccount = true;
         request.createAccount = &createAccount;
         request.titleId = testTitleData.titleId.data();
 
-        PlayFabClientGetPlayerCombinedInfoRequestParams combinedInfoRequestParams{};
+        PFGetPlayerCombinedInfoRequestParams combinedInfoRequestParams{};
         combinedInfoRequestParams.getCharacterInventories = true;
         combinedInfoRequestParams.getCharacterList = true;
         combinedInfoRequestParams.getPlayerProfile = true;
@@ -62,7 +59,7 @@ void AutoGenLocalizationTests::ClassSetUp()
         request.infoRequestParameters = &combinedInfoRequestParams;
 
         XAsyncBlock async{};
-        hr = PlayFabClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
         assert(SUCCEEDED(hr));
         if (SUCCEEDED(hr))
         {
@@ -71,10 +68,10 @@ void AutoGenLocalizationTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PlayFabGetAuthResult(&async, &entityHandle);
+                hr = PFGetAuthResult(&async, &entityHandle);
                 assert(SUCCEEDED(hr) && entityHandle != nullptr);
 
-                hr = PlayFabEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -83,10 +80,10 @@ void AutoGenLocalizationTests::ClassSetUp()
 
 void AutoGenLocalizationTests::ClassTearDown()
 {
-    PlayFabEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(entityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PlayFabCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFCleanupAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -101,38 +98,40 @@ void AutoGenLocalizationTests::SetUp(TestContext& testContext)
     {
         testContext.Skip("Skipping test because login failed");
     }
+
+
 }
+
 
 void AutoGenLocalizationTests::TestLocalizationGetLanguageList(TestContext& testContext)
 {
     struct GetLanguageListResult : public XAsyncResult
     {
-        PlayFabLocalizationGetLanguageListResponse* result = nullptr;
+        PFLocalizationGetLanguageListResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabLocalizationGetLanguageListGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFLocalizationGetLanguageListGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabLocalizationGetLanguageListResponse( result );
-            return ValidatePlayFabLocalizationGetLanguageListResponse( result );
+            LogPFLocalizationGetLanguageListResponse( result );
+            return ValidatePFLocalizationGetLanguageListResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<GetLanguageListResult>>(testContext);
 
     PlayFab::LocalizationModels::GetLanguageListRequest request;
-    FillPlayFabLocalizationGetLanguageListRequest( &request );
-    LogPlayFabLocalizationGetLanguageListRequest( &request, "TestLocalizationGetLanguageList" );
-    HRESULT hr = PlayFabLocalizationGetLanguageListAsync(entityHandle, &request, &async->asyncBlock); 
+    FillGetLanguageListRequest( &request );
+    LogGetLanguageListRequest( &request, "TestLocalizationGetLanguageList" );
+    HRESULT hr = PFLocalizationGetLanguageListAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabLocalizationGetLanguageListAsync", hr);
+        testContext.Fail("PFLocalizationLocalizationGetLanguageListAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 
 }

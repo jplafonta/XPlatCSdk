@@ -1,0 +1,2951 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
+#pragma once
+
+#include <playfab/PFAccountManagementDataModels.h>
+#include <playfab/PFGlobal.h>
+#include <playfab/PFEntity.h>
+
+extern "C"
+{
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Bans users by PlayFab ID with optional IP address, or MAC address for the provided game.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The existence of each user will not be verified. When banning by IP or MAC address, multiple players
+/// may be affected, so use this feature with caution. Returns information about the new bans. See also
+/// PFAdminGetUserBansAsync, PFAdminRevokeAllBansForUserAsync, PFAdminRevokeBansAsync, PFAdminUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminBanUsersAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementBanUsersRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminBanUsersAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminBanUsersGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementBanUsersResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Removes a master player account entirely from all titles and deletes all associated data
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Deletes all data associated with the master player account, including data from all titles the player
+/// has played, such as statistics, custom data, inventory, purchases, virtual currency balances, characters,
+/// group memberships, publisher data, credential data, account linkages, friends list and PlayStream
+/// event history. Removes the player from all leaderboards and player search indexes. Note, this API
+/// queues the player for deletion and returns a receipt immediately. Record the receipt ID for future
+/// reference. It may take some time before all player data is fully deleted. Upon completion of the deletion,
+/// an email will be sent to the notification email address configured for the title confirming the deletion.
+/// Until the player data is fully deleted, attempts to recreate the player with the same user account
+/// in the same title will fail with the 'AccountDeleted' error. It is highly recommended to know the
+/// impact of the deletion by calling GetPlayedTitleList, before calling this API. See also PFAdminGetPlayedTitleListAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminDeleteMasterPlayerAccountAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementDeleteMasterPlayerAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminDeleteMasterPlayerAccountAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminDeleteMasterPlayerAccountGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementDeleteMasterPlayerAccountResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Removes a user's player account from a title and deletes all associated data
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Deletes all data associated with the player, including statistics, custom data, inventory, purchases,
+/// virtual currency balances, characters and shared group memberships. Removes the player from all leaderboards
+/// and player search indexes. Does not delete PlayStream event history associated with the player. Does
+/// not delete the publisher user account that created the player in the title nor associated data such
+/// as username, password, email address, account linkages, or friends list. Note, this API queues the
+/// player for deletion and returns immediately. It may take several minutes or more before all player
+/// data is fully deleted. Until the player data is fully deleted, attempts to recreate the player with
+/// the same user account in the same title will fail with the 'AccountDeleted' error.
+/// </remarks>
+HRESULT PFAccountManagementAdminDeletePlayerAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementDeletePlayerRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Permanently deletes a title and all associated configuration
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Deletes all data associated with the title, including catalog, virtual currencies, leaderboard statistics,
+/// Cloud Script revisions, segment definitions, event rules, tasks, add-ons, secret keys, data encryption
+/// keys, and permission policies. Removes the title from its studio and removes all associated developer
+/// roles and permissions. Does not delete PlayStream event history associated with the title. Note, this
+/// API queues the title for deletion and returns immediately. It may take several hours or more before
+/// all title data is fully deleted. All player accounts in the title must be deleted before deleting
+/// the title. If any player accounts exist, the API will return a 'TitleContainsUserAccounts' error.
+/// Until the title data is fully deleted, attempts to call APIs with the title will fail with the 'TitleDeleted'
+/// error. See also PFAdminDeletePlayerAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminDeleteTitleAsync(
+    _In_ PFStateHandle stateHandle,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Exports all associated data of a master player account
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Exports all data associated with the master player account, including data from all titles the player
+/// has played, such as statistics, custom data, inventory, purchases, virtual currency balances, characters,
+/// group memberships, publisher data, credential data, account linkages, friends list and PlayStream
+/// event history. Note, this API queues the player for export and returns a receipt immediately. Record
+/// the receipt ID for future reference. It may take some time before the export is available for download.
+/// Upon completion of the export, an email containing the URL to download the export dump will be sent
+/// to the notification email address configured for the title.
+/// </remarks>
+HRESULT PFAccountManagementAdminExportMasterPlayerDataAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementExportMasterPlayerDataRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a AdminExportMasterPlayerData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementAdminExportMasterPlayerDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminExportMasterPlayerDataAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFAccountManagementAdminExportMasterPlayerDataGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAccountManagementExportMasterPlayerDataResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Get the list of titles that the player has played
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer. See
+/// also PFAdminDeleteMasterPlayerAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminGetPlayedTitleListAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayedTitleListRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminGetPlayedTitleListAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetPlayedTitleListGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayedTitleListResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Gets a player's ID from an auth token.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Gets a player ID from an auth token. The token expires after 30 minutes and cannot be used to look
+/// up a player when expired.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetPlayerIdFromAuthTokenAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayerIdFromAuthTokenRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetPlayerIdFromAuthToken call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementAdminGetPlayerIdFromAuthTokenGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminGetPlayerIdFromAuthTokenAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetPlayerIdFromAuthTokenGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAccountManagementGetPlayerIdFromAuthTokenResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Retrieves the player's profile
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API allows for access to details regarding a user in the PlayFab service, usually for purposes
+/// of customer support. Note that data returned may be Personally Identifying Information (PII), such
+/// as email address, and so care should be taken in how this data is stored and managed. Since this call
+/// will always return the relevant information for users who have accessed the title, the recommendation
+/// is to not store this data locally.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetPlayerProfileAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayerProfileRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminGetPlayerProfileAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetPlayerProfileGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayerProfileResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Retrieves the relevant details for a specified user, based upon a match against a supplied unique
+/// identifier
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API allows for access to details regarding a user in the PlayFab service, usually for purposes
+/// of customer support. Note that data returned may be Personally Identifying Information (PII), such
+/// as email address, and so care should be taken in how this data is stored and managed. Since this call
+/// will always return the relevant information for users who have accessed the title, the recommendation
+/// is to not store this data locally. See also PFAdminGetUserInventoryAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminGetUserAccountInfoAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementLookupUserAccountInfoRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminGetUserAccountInfoAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetUserAccountInfoGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementLookupUserAccountInfoResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Gets all bans for a user.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Get all bans for a user, including inactive and expired bans.  See also PFAdminBanUsersAsync, PFAdminRevokeAllBansForUserAsync,
+/// PFAdminRevokeBansAsync, PFAdminUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminGetUserBansAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetUserBansRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminGetUserBansAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminGetUserBansGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetUserBansResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Reset a player's password for a given title.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Resets a player's password taking in a new password based and validating the user based off of a
+/// token sent to the playerto their email. The token expires after 30 minutes.
+/// </remarks>
+HRESULT PFAccountManagementAdminResetPasswordAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementResetPasswordRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Revoke all active bans for a user.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Setting the active state of all non-expired bans for a user to Inactive. Expired bans with an Active
+/// state will be ignored, however. Returns information about applied updates only. See also PFAdminBanUsersAsync,
+/// PFAdminGetUserBansAsync, PFAdminRevokeBansAsync, PFAdminUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminRevokeAllBansForUserAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementRevokeAllBansForUserRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminRevokeAllBansForUserAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminRevokeAllBansForUserGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementRevokeAllBansForUserResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Revoke all active bans specified with BanId.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Setting the active state of all bans requested to Inactive regardless of whether that ban has already
+/// expired. BanIds that do not exist will be skipped. Returns information about applied updates only.
+///  See also PFAdminBanUsersAsync, PFAdminGetUserBansAsync, PFAdminRevokeAllBansForUserAsync, PFAdminUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminRevokeBansAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementRevokeBansRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminRevokeBansAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminRevokeBansGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementRevokeBansResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Forces an email to be sent to the registered email address for the user's account, with a link allowing
+/// the user to change the password.If an account recovery email template ID is provided, an email using
+/// the custom email template will be used.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If the account in question is a 'temporary' account (for example, one that was created via a call
+/// to LoginFromIOSDeviceID), thisfunction will have no effect. Only PlayFab accounts which have valid
+/// email addresses will be able to receive a password reset email using this API.
+/// </remarks>
+HRESULT PFAccountManagementAdminSendAccountRecoveryEmailAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementAdminSendAccountRecoveryEmailRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Updates information of a list of existing bans specified with Ban Ids.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// For each ban, only updates the values that are set. Leave any value to null for no change. If a ban
+/// could not be found, the rest are still applied. Returns information about applied updates only. See
+/// also PFAdminBanUsersAsync, PFAdminGetUserBansAsync, PFAdminRevokeAllBansForUserAsync, PFAdminRevokeBansAsync
+/// </remarks>
+HRESULT PFAccountManagementAdminUpdateBansAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementUpdateBansRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminUpdateBansAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementAdminUpdateBansGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementUpdateBansResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Updates the title specific display name for a user
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// In addition to the PlayFab username, titles can make use of a DisplayName which is also a unique
+/// identifier, but specific to the title. This allows for unique names which more closely match the theme
+/// or genre of a title, for example. This API enables changing that name, whether due to a customer request,
+/// an offensive name choice, etc.
+/// </remarks>
+HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementAdminUpdateUserTitleDisplayNameRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a AdminUpdateUserTitleDisplayName call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementAdminUpdateUserTitleDisplayNameAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAccountManagementUpdateUserTitleDisplayNameResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+#endif
+
+/// <summary>
+/// Adds the specified generic service identifier to the player's PlayFab account. This is designed to
+/// allow for a PlayFab ID lookup of any arbitrary service identifier a title wants to add. This identifier
+/// should never be used as authentication credentials, as the intent is that it is easily accessible
+/// by other players.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientGetPlayFabIDsFromGenericIDsAsync, PFClientRemoveGenericIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientAddGenericIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientAddGenericIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Adds or updates a contact email to the player's profile.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API adds a contact email to the player's profile. If the player's profile already contains a
+/// contact email, it will update the contact email to the email address specified.
+/// </remarks>
+HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementAddOrUpdateContactEmailRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Adds playfab username/password auth to an existing account created via an anonymous auth method,
+/// e.g. automatic device ID login.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithEmailAddressAsync, PFClientLoginWithPlayFabAsync
+/// </remarks>
+HRESULT PFAccountManagementClientAddUsernamePasswordAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementAddUsernamePasswordRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a ClientAddUsernamePassword call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementClientAddUsernamePasswordGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientAddUsernamePasswordAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFAccountManagementClientAddUsernamePasswordGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAccountManagementAddUsernamePasswordResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// Retrieves the user's PlayFab account details
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetAccountInfoGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetAccountInfoAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetAccountInfoRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetAccountInfoAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetAccountInfoGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetAccountInfoResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves all of the user's different kinds of info.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayerCombinedInfoGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayerCombinedInfoAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFGetPlayerCombinedInfoRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayerCombinedInfoAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayerCombinedInfoGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFGetPlayerCombinedInfoResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the player's profile
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API allows for access to details regarding a user in the PlayFab service, usually for purposes
+/// of customer support. Note that data returned may be Personally Identifying Information (PII), such
+/// as email address, and so care should be taken in how this data is stored and managed. Since this call
+/// will always return the relevant information for users who have accessed the title, the recommendation
+/// is to not store this data locally.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayerProfileAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayerProfileRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayerProfileAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayerProfileGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayerProfileResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromFacebookIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Facebook Instant Game identifiers.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Game Center identifiers (referenced
+/// in the Game Center Programming Guide as the Player Identifier).
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of generic service identifiers. A generic
+/// identifier is the service name plus the service-specific ID for the player, as specified by the title
+/// when the generic identifier was added to the player account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientAddGenericIDAsync, PFClientRemoveGenericIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromGenericIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Google identifiers. The Google identifiers
+/// are the IDs for the user accounts, available as 'id' in the Google+ People API calls.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromGoogleIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Kongregate identifiers. The Kongregate
+/// identifiers are the IDs for the user accounts, available as 'user_id' from the Kongregate API methods(ex:
+/// http://developers.kongregate.com/docs/client/getUserId).
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromKongregateIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch identifiers.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers
+/// are the profile IDs for the user accounts, available as SteamId in the Steamworks Community API calls.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromSteamIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers
+/// are the IDs for the user accounts, available as '_id' from the Twitch API methods (ex: https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser).
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromTwitchIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult** result
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Android device identifier to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithAndroidDeviceIDAsync, PFClientUnlinkAndroidDeviceIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkAndroidDeviceIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Apple account associated with the token to the user's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithAppleAsync, PFClientUnlinkAppleAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkAppleAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkAppleRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Links the custom identifier, generated by the title, to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithCustomIDAsync, PFClientUnlinkCustomIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkCustomIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkCustomIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Facebook account associated with the provided Facebook access token to the user's PlayFab
+/// account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Facebook sign-in is accomplished using the Facebook User Access Token. More information on the Token
+/// can be found in the Facebook developer documentation (https://developers.facebook.com/docs/facebook-login/access-tokens/).
+/// In Unity, for example, the Token is available as AccessToken in the Facebook SDK ScriptableObject
+/// FB. Note that titles should never re-use the same Facebook applications between PlayFab Title IDs,
+/// as Facebook provides unique user IDs per application and doing so can result in issues with the Facebook
+/// ID for the user in their PlayFab account information. If you must re-use an application in a new PlayFab
+/// Title ID, please be sure to first unlink all accounts from Facebook, or delete all users in the first
+/// Title ID. See also PFClientLoginWithFacebookAsync, PFClientUnlinkFacebookAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkFacebookAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Facebook Instant Games Id to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithFacebookInstantGamesIdAsync, PFClientUnlinkFacebookInstantGamesIdAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkFacebookInstantGamesIdRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Game Center account associated with the provided Game Center ID to the user's PlayFab account.
+/// Logging in with a Game Center ID is insecure if you do not include the optional PublicKeyUrl, Salt,
+/// Signature, and Timestamp parameters in this request. It is recommended you require these parameters
+/// on all Game Center calls by going to the Apple Add-ons page in the PlayFab Game Manager and enabling
+/// the 'Require secure authentication only for this app' option.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientUnlinkGameCenterAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkGameCenterAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the currently signed-in user account to their Google account, using their Google account credentials
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Google sign-in is accomplished by obtaining a Google OAuth 2.0 credential using the Google sign-in
+/// for Android APIs on the device and passing it to this API. See also PFClientLoginWithGoogleAccountAsync,
+/// PFClientUnlinkGoogleAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkGoogleAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the vendor-specific iOS device identifier to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithIOSDeviceIDAsync, PFClientUnlinkIOSDeviceIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkIOSDeviceIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Kongregate identifier to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithKongregateAsync, PFClientUnlinkKongregateAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkKongregateAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkKongregateAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Nintendo account associated with the token to the user's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithNintendoServiceAccountAsync, PFClientUnlinkNintendoServiceAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkNintendoServiceAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the NintendoSwitchDeviceId to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithNintendoSwitchDeviceIdAsync, PFClientUnlinkNintendoSwitchDeviceIdAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkNintendoSwitchDeviceIdRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Links an OpenID Connect account to a user's PlayFab account, based on an existing relationship between
+/// a title and an Open ID Connect provider and the OpenId Connect JWT from that provider.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithOpenIdConnectAsync, PFClientUnlinkOpenIdConnectAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkOpenIdConnectRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the PlayStation Network account associated with the provided access code to the user's PlayFab
+/// account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithPSNAsync, PFClientUnlinkPSNAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkPSNAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientLinkPSNAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Steam account associated with the provided Steam authentication ticket to the user's PlayFab
+/// account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Steam authentication is accomplished with the Steam Session Ticket. More information on the Ticket
+/// can be found in the Steamworks SDK, here: https://partner.steamgames.com/documentation/auth (requires
+/// sign-in). NOTE: For Steam authentication to work, the title must be configured with the Steam Application
+/// ID and Publisher Key in the PlayFab Game Manager (under Properties). Information on creating a Publisher
+/// Key (referred to as the Secret Key in PlayFab) for your title can be found here: https://partner.steamgames.com/documentation/webapi#publisherkey.
+/// See also PFClientLoginWithSteamAsync, PFClientUnlinkSteamAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkSteamAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkSteamAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the Twitch account associated with the token to the user's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithTwitchAsync, PFClientUnlinkTwitchAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkTwitchAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementLinkTwitchAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Links the Xbox Live account associated with the provided access code to the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLoginWithXboxAsync, PFClientUnlinkXboxAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientLinkXboxAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientLinkXboxAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Removes a contact email from the player's profile.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API removes an existing contact email from the player's profile.
+/// </remarks>
+HRESULT PFAccountManagementClientRemoveContactEmailAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementRemoveContactEmailRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Removes the specified generic service identifier from the player's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientAddGenericIDAsync, PFClientGetPlayFabIDsFromGenericIDsAsync
+/// </remarks>
+HRESULT PFAccountManagementClientRemoveGenericIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientRemoveGenericIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Submit a report for another player (due to bad bahavior, etc.), so that customer service representatives
+/// for the title can take action concerning potentially toxic players.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementClientReportPlayerGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementClientReportPlayerAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementReportPlayerClientRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientReportPlayerAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="result">PFAccountManagementReportPlayerClientResult object that will be populated with the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementClientReportPlayerGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFAccountManagementReportPlayerClientResult* result
+) noexcept;
+
+/// <summary>
+/// Forces an email to be sent to the registered email address for the user's account, with a link allowing
+/// the user to change the password.If an account recovery email template ID is provided, an email using
+/// the custom email template will be used.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If the account in question is a 'temporary' account (for example, one that was created via a call
+/// to LoginFromIOSDeviceID), thisfunction will have no effect. Only PlayFab accounts which have valid
+/// email addresses will be able to receive a password reset email using this API.
+/// </remarks>
+HRESULT PFAccountManagementClientSendAccountRecoveryEmailAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementClientSendAccountRecoveryEmailRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Android device identifier from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkAndroidDeviceIDAsync, PFClientLoginWithAndroidDeviceIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkAndroidDeviceIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Apple account from the user's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkAppleAsync, PFClientLoginWithAppleAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkAppleAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkAppleRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Unlinks the related custom identifier from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkCustomIDAsync, PFClientLoginWithCustomIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkCustomIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Facebook account from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkFacebookAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkFacebookAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Facebook Instant Game Ids from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkFacebookInstantGamesIdAsync, PFClientLoginWithFacebookInstantGamesIdAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkFacebookInstantGamesIdRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Game Center account from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkGameCenterAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkGameCenterAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Google account from the user's PlayFab account (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods).
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkGoogleAccountAsync, PFClientLoginWithGoogleAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkGoogleAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related iOS device identifier from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkIOSDeviceIDAsync, PFClientLoginWithIOSDeviceIDAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkIOSDeviceIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Kongregate identifier from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkKongregateAsync, PFClientLoginWithKongregateAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkKongregateAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkKongregateAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Nintendo account from the user's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkNintendoServiceAccountAsync, PFClientLoginWithNintendoServiceAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkNintendoServiceAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkNintendoSwitchDeviceIdAsync, PFClientLoginWithNintendoSwitchDeviceIdAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Unlinks an OpenID Connect account from a user's PlayFab account, based on the connection ID of an
+/// existing relationship between a title and an Open ID Connect provider.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkOpenIdConnectAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkOpenIdConnectRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related PSN account from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkPSNAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientUnlinkPSNAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Steam account from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkSteamAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkSteamAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Unlinks the related Twitch account from the user's PlayFab account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkTwitchAsync, PFClientLoginWithTwitchAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkTwitchAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementUnlinkTwitchAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Unlinks the related Xbox Live account from the user's PlayFab account
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientLinkXboxAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientUnlinkXboxAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Update the avatar URL of the player
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientUpdateAvatarUrlRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Updates the title specific display name for the user
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// In addition to the PlayFab username, titles can make use of a DisplayName which is also a unique
+/// identifier, but specific to the title. This allows for unique names which more closely match the theme
+/// or genre of a title, for example.
+/// </remarks>
+HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementClientUpdateUserTitleDisplayNameRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a ClientUpdateUserTitleDisplayName call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementClientUpdateUserTitleDisplayNameAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAccountManagementUpdateUserTitleDisplayNameResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// Adds the specified generic service identifier to the player's PlayFab account. This is designed to
+/// allow for a PlayFab ID lookup of any arbitrary service identifier a title wants to add. This identifier
+/// should never be used as authentication credentials, as the intent is that it is easily accessible
+/// by other players.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerGetPlayFabIDsFromGenericIDsAsync, PFServerRemoveGenericIDAsync
+/// </remarks>
+HRESULT PFAccountManagementServerAddGenericIDAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerAddGenericIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Bans users by PlayFab ID with optional IP address, or MAC address for the provided game.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The existence of each user will not be verified. When banning by IP or MAC address, multiple players
+/// may be affected, so use this feature with caution. Returns information about the new bans. See also
+/// PFServerGetUserBansAsync, PFServerRevokeAllBansForUserAsync, PFServerRevokeBansAsync, PFServerUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementServerBanUsersAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementBanUsersRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerBanUsersAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerBanUsersGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementBanUsersResult** result
+) noexcept;
+
+/// <summary>
+/// Removes a user's player account from a title and deletes all associated data
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Deletes all data associated with the player, including statistics, custom data, inventory, purchases,
+/// virtual currency balances, characters and shared group memberships. Removes the player from all leaderboards
+/// and player search indexes. Does not delete PlayStream event history associated with the player. Does
+/// not delete the publisher user account that created the player in the title nor associated data such
+/// as username, password, email address, account linkages, or friends list. Note, this API queues the
+/// player for deletion and returns immediately. It may take several minutes or more before all player
+/// data is fully deleted. Until the player data is fully deleted, attempts to recreate the player with
+/// the same user account in the same title will fail with the 'AccountDeleted' error. This API must be
+/// enabled for use as an option in the game manager website. It is disabled by default.
+/// </remarks>
+HRESULT PFAccountManagementServerDeletePlayerAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementDeletePlayerRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Deletes push notification template for title
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PFAccountManagementServerDeletePushNotificationTemplateAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementDeletePushNotificationTemplateRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Retrieves the player's profile
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API allows for access to details regarding a user in the PlayFab service, usually for purposes
+/// of customer support. Note that data returned may be Personally Identifying Information (PII), such
+/// as email address, and so care should be taken in how this data is stored and managed. Since this call
+/// will always return the relevant information for users who have accessed the title, the recommendation
+/// is to not store this data locally.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayerProfileAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayerProfileRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayerProfileAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayerProfileGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayerProfileResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookIDsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromFacebookIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromFacebookIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Facebook Instant Games identifiers.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of generic service identifiers. A generic
+/// identifier is the service name plus the service-specific ID for the player, as specified by the title
+/// when the generic identifier was added to the player account.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerAddGenericIDAsync, PFServerRemoveGenericIDAsync
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromGenericIDsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromGenericIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromGenericIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromGenericIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch Device identifiers.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers
+/// are the profile IDs for the user accounts, available as SteamId in the Steamworks Community API calls.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromSteamIDsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromSteamIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromSteamIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the associated PlayFab account identifiers for the given set of server custom identifiers.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the relevant details for a specified user
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This API allows for access to details regarding a user in the PlayFab service, usually for purposes
+/// of customer support. Note that data returned may be Personally Identifying Information (PII), such
+/// as email address, and so care should be taken in how this data is stored and managed. Since this call
+/// will always return the relevant information for users who have accessed the title, the recommendation
+/// is to not store this data locally. See also PFServerGetUserInventoryAsync
+/// </remarks>
+HRESULT PFAccountManagementServerGetUserAccountInfoAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetUserAccountInfoRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetUserAccountInfoAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetUserAccountInfoGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetUserAccountInfoResult** result
+) noexcept;
+
+/// <summary>
+/// Gets all bans for a user.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Get all bans for a user, including inactive and expired bans.  See also PFServerBanUsersAsync, PFServerRevokeAllBansForUserAsync,
+/// PFServerRevokeBansAsync, PFServerUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementServerGetUserBansAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementGetUserBansRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerGetUserBansAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerGetUserBansGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetUserBansResult** result
+) noexcept;
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Links the PlayStation Network account associated with the provided access code to the user's PlayFab
+/// account
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerUnlinkPSNAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementServerLinkPSNAccountAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerLinkPSNAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+/// <summary>
+/// Links the custom server identifier, generated by the title, to the user's PlayFab account.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PFAccountManagementServerLinkServerCustomIdAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementLinkServerCustomIdRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Links the Xbox Live account associated with the provided access code to the user's PlayFab account
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerLoginWithXboxAsync, PFServerUnlinkXboxAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementServerLinkXboxAccountAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerLinkXboxAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Removes the specified generic service identifier from the player's PlayFab account.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerAddGenericIDAsync, PFServerGetPlayFabIDsFromGenericIDsAsync
+/// </remarks>
+HRESULT PFAccountManagementServerRemoveGenericIDAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerRemoveGenericIDRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Revoke all active bans for a user.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Setting the active state of all non-expired bans for a user to Inactive. Expired bans with an Active
+/// state will be ignored, however. Returns information about applied updates only. See also PFServerBanUsersAsync,
+/// PFServerGetUserBansAsync, PFServerRevokeBansAsync, PFServerUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementServerRevokeAllBansForUserAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementRevokeAllBansForUserRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerRevokeAllBansForUserAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerRevokeAllBansForUserGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementRevokeAllBansForUserResult** result
+) noexcept;
+
+/// <summary>
+/// Revoke all active bans specified with BanId.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Setting the active state of all bans requested to Inactive regardless of whether that ban has already
+/// expired. BanIds that do not exist will be skipped. Returns information about applied updates only.
+///  See also PFServerBanUsersAsync, PFServerGetUserBansAsync, PFServerRevokeAllBansForUserAsync, PFServerUpdateBansAsync
+/// </remarks>
+HRESULT PFAccountManagementServerRevokeBansAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementRevokeBansRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerRevokeBansAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerRevokeBansGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementRevokeBansResult** result
+) noexcept;
+
+/// <summary>
+/// Saves push notification template for title
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If successful, call <see cref="PFAccountManagementServerSavePushNotificationTemplateGetResult"/> to get the result.
+/// </remarks>
+HRESULT PFAccountManagementServerSavePushNotificationTemplateAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementSavePushNotificationTemplateRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a ServerSavePushNotificationTemplate call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFAccountManagementServerSavePushNotificationTemplateGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerSavePushNotificationTemplateAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFAccountManagementServerSavePushNotificationTemplateGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAccountManagementSavePushNotificationTemplateResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+
+/// <summary>
+/// Forces an email to be sent to the registered contact email address for the user's account based on
+/// an account recovery email template
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// PlayFab accounts which have valid email address or username will be able to receive a password reset
+/// email using this API.The email sent must be an account recovery email template. The username or email
+/// can be passed in to send the email
+/// </remarks>
+HRESULT PFAccountManagementServerSendCustomAccountRecoveryEmailAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementSendCustomAccountRecoveryEmailRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Sends an email based on an email template to a player's contact email 
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Sends an email for only players that have contact emails associated with them. Takes in an email
+/// template ID specifyingthe email template to send.
+/// </remarks>
+HRESULT PFAccountManagementServerSendEmailFromTemplateAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementSendEmailFromTemplateRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Sends an iOS/Android Push Notification to a specific user, if that user's device has been configured
+/// for Push Notifications in PlayFab. If a user has linked both Android and iOS devices, both will be
+/// notified.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PFAccountManagementServerSendPushNotificationAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementSendPushNotificationRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Sends an iOS/Android Push Notification template to a specific user, if that user's device has been
+/// configured for Push Notifications in PlayFab. If a user has linked both Android and iOS devices, both
+/// will be notified.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PFAccountManagementServerSendPushNotificationFromTemplateAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementSendPushNotificationFromTemplateRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Unlinks the related PSN account from the user's PlayFab account
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerLinkPSNAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementServerUnlinkPSNAccountAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerUnlinkPSNAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Unlinks the custom server identifier from the user's PlayFab account.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerLinkServerCustomIdAsync, PFServerLoginWithServerCustomIdAsync
+/// </remarks>
+HRESULT PFAccountManagementServerUnlinkServerCustomIdAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementUnlinkServerCustomIdRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Unlinks the related Xbox Live account from the user's PlayFab account
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerLinkXboxAccountAsync
+/// </remarks>
+HRESULT PFAccountManagementServerUnlinkXboxAccountAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerUnlinkXboxAccountRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Update the avatar URL of the specified player
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
+/// </remarks>
+HRESULT PFAccountManagementServerUpdateAvatarUrlAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementServerUpdateAvatarUrlRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Updates information of a list of existing bans specified with Ban Ids.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// For each ban, only updates the values that are set. Leave any value to null for no change. If a ban
+/// could not be found, the rest are still applied. Returns information about applied updates only. See
+/// also PFServerBanUsersAsync, PFServerGetUserBansAsync, PFServerRevokeAllBansForUserAsync, PFServerRevokeBansAsync
+/// </remarks>
+HRESULT PFAccountManagementServerUpdateBansAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFAccountManagementUpdateBansRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementServerUpdateBansAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementServerUpdateBansGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementUpdateBansResult** result
+) noexcept;
+
+/// <summary>
+/// Gets the global title access policy 
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Retrieves the title access policy that is used before the profile's policy is inspected during a
+/// request. If never customized this will return the default starter policy built by PlayFab. See also
+/// PFProfileGetProfileAsync
+/// </remarks>
+HRESULT PFAccountManagementGetGlobalPolicyAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetGlobalPolicyRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementGetGlobalPolicyAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementGetGlobalPolicyGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetGlobalPolicyResponse** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the entity's profile.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Given an entity type and entity identifier will retrieve the profile from the entity store. If the
+/// profile being retrieved is the caller's, then the read operation is consistent, if not it is an inconsistent
+/// read. An inconsistent read means that we do not guarantee all committed writes have occurred before
+/// reading the profile, allowing for a stale read. If consistency is important the Version Number on
+/// the result can be used to compare which version of the profile any reader has.
+/// </remarks>
+HRESULT PFAccountManagementGetProfileAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetEntityProfileRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementGetProfileAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementGetProfileGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetEntityProfileResponse** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the entity's profile.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Given a set of entity types and entity identifiers will retrieve all readable profiles properties
+/// for the caller. Profiles that the caller is not allowed to read will silently not be included in the
+/// results.
+/// </remarks>
+HRESULT PFAccountManagementGetProfilesAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetEntityProfilesRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementGetProfilesAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementGetProfilesGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetEntityProfilesResponse** result
+) noexcept;
+
+/// <summary>
+/// Retrieves the title player accounts associated with the given master player account.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Given a master player account id (PlayFab ID), returns all title player accounts associated with
+/// it.
+/// </remarks>
+HRESULT PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse** result
+) noexcept;
+
+/// <summary>
+/// Sets the global title access policy 
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Updates the title access policy that is used before the profile's policy is inspected during a request.
+/// Policies are compiled and cached for several minutes so an update here may not be reflected in behavior
+/// for a short time. See also PFProfileGetProfileAsync
+/// </remarks>
+HRESULT PFAccountManagementSetGlobalPolicyAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementSetGlobalPolicyRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Updates the entity's language. The precedence hierarchy for communication to the player is Title
+/// Player Account language, Master Player Account language, and then title default language if the first
+/// two aren't set or supported.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// Given an entity profile, will update its language to the one passed in if the profile's version is
+/// equal to the one passed in.
+/// </remarks>
+HRESULT PFAccountManagementSetProfileLanguageAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementSetProfileLanguageRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementSetProfileLanguageAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementSetProfileLanguageGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementSetProfileLanguageResponse** result
+) noexcept;
+
+/// <summary>
+/// Sets the profiles access policy
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This will set the access policy statements on the given entity profile. This is not additive, any
+/// existing statements will be replaced with the statements in this request. See also PFProfileGetProfileAsync
+/// </remarks>
+HRESULT PFAccountManagementSetProfilePolicyAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFAccountManagementSetEntityProfilePolicyRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFAccountManagementSetProfilePolicyAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFAccountManagementSetProfilePolicyGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFAccountManagementSetEntityProfilePolicyResponse** result
+) noexcept;
+
+
+}

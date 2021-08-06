@@ -1,0 +1,205 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
+#pragma once
+
+#include <playfab/PFFriendsDataModels.h>
+#include <playfab/PFGlobal.h>
+#include <playfab/PFEntity.h>
+
+extern "C"
+{
+
+/// <summary>
+/// Adds the PlayFab user, based upon a match against a supplied unique identifier, to the friend list
+/// of the local user. At least one of FriendPlayFabId,FriendUsername,FriendEmail, or FriendTitleDisplayName
+/// should be initialized.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientGetFriendsListAsync, PFClientSetFriendTagsAsync
+/// </remarks>
+HRESULT PFFriendsClientAddFriendAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFFriendsClientAddFriendRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFFriendsClientAddFriendAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="result">PFFriendsAddFriendResult object that will be populated with the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFFriendsClientAddFriendGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFFriendsAddFriendResult* result
+) noexcept;
+
+/// <summary>
+/// Retrieves the current friend list for the local user, constrained to users who have PlayFab accounts.
+/// Friends from linked accounts (Facebook, Steam) are also included. You may optionally exclude some
+/// linked services' friends.
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientAddFriendAsync, PFClientGetPlayerProfileAsync, PFClientRemoveFriendAsync
+/// </remarks>
+HRESULT PFFriendsClientGetFriendsListAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFFriendsClientGetFriendsListRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFFriendsClientGetFriendsListAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFFriendsClientGetFriendsListGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFFriendsGetFriendsListResult** result
+) noexcept;
+
+/// <summary>
+/// Removes a specified user from the friend list of the local user
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFClientAddFriendAsync, PFClientSetFriendTagsAsync
+/// </remarks>
+HRESULT PFFriendsClientRemoveFriendAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFFriendsClientRemoveFriendRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Updates the tag list for a specified user in the friend list of the local user
+/// </summary>
+/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This operation is not additive. It will completely replace the tag list for the specified user. Please
+/// note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on
+/// a friend only included in the friends list from a social site integration (such as Facebook or Steam)
+/// will return the AccountNotFound error. See also PFClientAddFriendAsync, PFClientRemoveFriendAsync
+/// </remarks>
+HRESULT PFFriendsClientSetFriendTagsAsync(
+    _In_ PFEntityHandle entityHandle,
+    _In_ const PFFriendsClientSetFriendTagsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Adds the Friend user to the friendlist of the user with PlayFabId. At least one of FriendPlayFabId,FriendUsername,FriendEmail,
+/// or FriendTitleDisplayName should be initialized.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerGetFriendsListAsync, PFServerRemoveFriendAsync, PFServerSetFriendTagsAsync
+/// </remarks>
+HRESULT PFFriendsServerAddFriendAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFFriendsServerAddFriendRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Retrieves the current friends for the user with PlayFabId, constrained to users who have PlayFab
+/// accounts. Friends from linked accounts (Facebook, Steam) are also included. You may optionally exclude
+/// some linked services' friends.
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerAddFriendAsync, PFServerGetPlayerProfileAsync, PFServerRemoveFriendAsync, PFServerSetFriendTagsAsync
+/// </remarks>
+HRESULT PFFriendsServerGetFriendsListAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFFriendsServerGetFriendsListRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFFriendsServerGetFriendsListAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFFriendsServerGetFriendsListGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFFriendsGetFriendsListResult** result
+) noexcept;
+
+/// <summary>
+/// Removes the specified friend from the the user's friend list
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFServerAddFriendAsync, PFServerSetFriendTagsAsync
+/// </remarks>
+HRESULT PFFriendsServerRemoveFriendAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFFriendsServerRemoveFriendRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Updates the tag list for a specified user in the friend list of another user
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// This operation is not additive. It will completely replace the tag list for the specified user. Please
+/// note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on
+/// a friend only included in the friends list from a social site integration (such as Facebook or Steam)
+/// will return the AccountNotFound error. See also PFServerAddFriendAsync, PFServerGetFriendsListAsync,
+/// PFServerRemoveFriendAsync
+/// </remarks>
+HRESULT PFFriendsServerSetFriendTagsAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFFriendsServerSetFriendTagsRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+
+}

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "TestCase.h"
-#include <playfab/PlayFabGlobal.h>
-#include <playfab/PlayFabEntity.h>
+#include <playfab/PFGlobal.h>
+#include <playfab/PFEntity.h>
 
 namespace PlayFabUnit
 {
@@ -33,8 +33,8 @@ protected:
     void AddTests() override;
 
 public:
-    PlayFabStateHandle stateHandle{ nullptr };
-    PlayFabEntityHandle entityHandle{ nullptr };
+    PFStateHandle stateHandle{ nullptr };
+    PFEntityHandle entityHandle{ nullptr };
 
     void ClassSetUp() override;
     void ClassTearDown() override;

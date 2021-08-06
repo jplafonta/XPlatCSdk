@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabGlobal.h>
+#include <playfab/PFGlobal.h>
 
 namespace PlayFab
 {
@@ -15,8 +15,8 @@ public:
     CallbackManager& operator=(const CallbackManager&) = delete;
     ~CallbackManager() = default;
 
-    PlayFabRegistrationToken Register(CallbackT&& callback);
-    void Unregister(PlayFabRegistrationToken token);
+    PFRegistrationToken Register(CallbackT&& callback);
+    void Unregister(PFRegistrationToken token);
 
     template<typename... Args>
     typename std::enable_if_t<std::is_void_v<std::result_of_t<CallbackT(Args...)>>> Invoke(Args... args) const;
@@ -24,8 +24,8 @@ public:
 private:
     mutable std::recursive_mutex m_mutex; // recursive to allow unregistration within callback
 
-    Map<PlayFabRegistrationToken, CallbackT> m_callbacks;
-    PlayFabRegistrationToken m_nextToken;
+    Map<PFRegistrationToken, CallbackT> m_callbacks;
+    PFRegistrationToken m_nextToken;
 };
 
 //------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ private:
 namespace Detail
 {
 // Arbitrary first token thats recognizable when debugging
-PlayFabRegistrationToken const kFirstCallbackToken = 0xAAAA000000000000;
+PFRegistrationToken const kFirstCallbackToken = 0xAAAA000000000000;
 
 }
 
@@ -45,13 +45,13 @@ CallbackManager<CallbackT>::CallbackManager() : m_nextToken{ Detail::kFirstCallb
 }
 
 template<typename CallbackT>
-PlayFabRegistrationToken CallbackManager<CallbackT>::Register(CallbackT&& callback)
+PFRegistrationToken CallbackManager<CallbackT>::Register(CallbackT&& callback)
 {
     std::unique_lock<std::recursive_mutex> lock{ m_mutex };
 
     assert(callback);
 
-    PlayFabRegistrationToken token{ m_nextToken++ };
+    PFRegistrationToken token{ m_nextToken++ };
 
     auto res = m_callbacks.emplace(token, std::move(callback));
     assert(res.second);
@@ -61,7 +61,7 @@ PlayFabRegistrationToken CallbackManager<CallbackT>::Register(CallbackT&& callba
 }
 
 template<typename CallbackT>
-void CallbackManager<CallbackT>::Unregister(PlayFabRegistrationToken token)
+void CallbackManager<CallbackT>::Unregister(PFRegistrationToken token)
 {
     std::unique_lock<std::recursive_mutex> lock{ m_mutex };
 

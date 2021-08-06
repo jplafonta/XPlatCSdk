@@ -2,31 +2,53 @@
 
 #include <AuthTokens.h>
 #include <CallbackManager.h>
-#include <Client/ClientDataModels.h>
 #include <Authentication/AuthenticationDataModels.h>
-#include <Events/Manager/EventManagerApi.h>
-#include <QoS/QoSApi.h>
-#include <Client/ClientApi.h>
-#include <Authentication/AuthenticationApi.h>
-#include <CloudScript/CloudScriptApi.h>
-#include <Data/DataApi.h>
-#include <Events/EventsApi.h>
-#include <Experimentation/ExperimentationApi.h>
-#include <Insights/InsightsApi.h>
-#include <Groups/GroupsApi.h>
-#include <Localization/LocalizationApi.h>
-#include <Multiplayer/MultiplayerApi.h>
-#include <Profiles/ProfilesApi.h>
+#include <QoS/QoS.h>
+#include <ScheduledTask/ScheduledTask.h>
+#include <TitleDataManagement/TitleDataManagement.h>
+#include <PlayStream/PlayStream.h>
+#include <GameServer/GameServer.h>
+#include <PlayerItemManagement/PlayerItemManagement.h>
+#include <AccountManagement/AccountManagement.h>
+#include <Authentication/Authentication.h>
+#include <PlayerDataManagement/PlayerDataManagement.h>
+#include <Segments/Segments.h>
+#include <Content/Content.h>
+#include <CloudScript/CloudScript.h>
+#include <Matchmaking/Matchmaking.h>
+#include <Character/Character.h>
+#include <Groups/Groups.h>
+#include <Trading/Trading.h>
+#include <Friends/Friends.h>
+#include <PlatformSpecific/PlatformSpecific.h>
+#include <Advertising/Advertising.h>
+#include <Analytics/Analytics.h>
+#include <Data/Data.h>
+#include <Experimentation/Experimentation.h>
+#include <Localization/Localization.h>
+#include <MultiplayerServer/MultiplayerServer.h>
 
 namespace PlayFab
 {
 
-// Context needed to re-authenticate an Entity with PlayFab prior to token-expiration
-struct LoginContext
+// Context needed to re-authenticate an Entity with PlayFab prior to token-expiration.
+// By default, the original login request will just replayed without modification. For behavior specific to a login API, derive
+// from this class and override methods as necessary.
+class LoginContext
 {
-    String path;
-    JsonValue requestBody;
-    SharedPtr<String const> secretKey;
+public:
+    LoginContext(const char* requestPath);
+    LoginContext(const char* requestPath, JsonValue&& requestBody);
+    LoginContext(const char* requestPath, JsonValue&& requestBody, UnorderedMap<String, String> requestHeaders);
+
+    virtual const char* RequestPath() const;
+    virtual AsyncOp<JsonValue> GetRequestBody(const TaskQueue& queue) const;
+    virtual const UnorderedMap<String, String>& RequestHeaders() const;
+
+private:
+    String m_path;
+    JsonValue m_requestBody;
+    UnorderedMap<String, String> m_requestHeaders;
 };
 
 // An entity authenticated with PlayFab via one of the various login methods. For more detail on PlayFab entities see the service
@@ -34,9 +56,10 @@ struct LoginContext
 class Entity : public std::enable_shared_from_this<Entity>
 {
 public:
-    Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginContext, const LoginResult& loginResult);
-    Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginContext, const ClientModels::RegisterPlayFabUserResult& registerUserResult);
-    Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginContext, const AuthenticationModels::GetEntityTokenResponse& getEntityTokenResponse);
+    Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::LoginResult& loginResult);
+    Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::ServerLoginResult& loginResult);
+    Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::RegisterPlayFabUserResult& registerUserResult);
+    Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::GetEntityTokenResponse& getEntityTokenResponse);
 
     Entity(const Entity&) = delete;
     Entity& operator=(const Entity&) = delete;
@@ -59,7 +82,7 @@ public:
     // call will be authenticated with either the EntityToken or the ClientSessionTicket. If the Entity Token requested if for the calling Entity
     // (aka just refreshing our token), the AuthTokens will be updated and a SharedPtr to 'this' will be returned. If the token requested is for another
     // entity, a new Entity object will be created and returned.
-    AsyncOp<SharedPtr<Entity>> GetEntityToken(const PlayFabAuthenticationGetEntityTokenRequest& request, const TaskQueue& queue);
+    AsyncOp<SharedPtr<Entity>> GetEntityToken(const PFAuthenticationGetEntityTokenRequest& request, const TaskQueue& queue);
 
     // TokenRefreshedCallbacks exist to support PlayFab Party & PlayFab Lobby interfaces which require titles to provide and manually update a raw 
     // entity token. Whenever the Entity token is silently refreshed (ex. during MakePlayFabCallWithAuthRetry) these callbacks will be invoked.
@@ -75,29 +98,40 @@ public:
     PlayFab::EntityToken const& EntityToken() const;
     GetPlayerCombinedInfoResultPayload const* PlayerCombinedInfo() const;
     time_t const* LastLoginTime() const;
-    UserSettings const* UserSettings() const;
+    AuthenticationModels::UserSettings const* UserSettings() const;
     TreatmentAssignment const* TreatmentAssignment() const;
 
-    // Non-generated APIs
-    EventManager::EventManagerAPI eventManagerAPI;
+    // Non-generated API
     QoS::QoSAPI const QoSAPI;
 
-    ClientAPI const clientAPI;
+    ScheduledTaskAPI const scheduledTaskAPI;
+    TitleDataManagementAPI const titleDataManagementAPI;
+    PlayStreamAPI const playStreamAPI;
+    GameServerAPI const gameServerAPI;
+    PlayerItemManagementAPI const playerItemManagementAPI;
+    AccountManagementAPI const accountManagementAPI;
     AuthenticationAPI const authenticationAPI;
+    PlayerDataManagementAPI const playerDataManagementAPI;
+    SegmentsAPI const segmentsAPI;
+    ContentAPI const contentAPI;
     CloudScriptAPI const cloudScriptAPI;
-    DataAPI const dataAPI;
-    EventsAPI const eventsAPI;
-    ExperimentationAPI const experimentationAPI;
-    InsightsAPI const insightsAPI;
+    MatchmakingAPI const matchmakingAPI;
+    CharacterAPI const characterAPI;
     GroupsAPI const groupsAPI;
+    TradingAPI const tradingAPI;
+    FriendsAPI const friendsAPI;
+    PlatformSpecificAPI const platformSpecificAPI;
+    AdvertisingAPI const advertisingAPI;
+    AnalyticsAPI const analyticsAPI;
+    DataAPI const dataAPI;
+    ExperimentationAPI const experimentationAPI;
     LocalizationAPI const localizationAPI;
-    MultiplayerAPI const multiplayerAPI;
-    ProfilesAPI const profilesAPI;
+    MultiplayerServerAPI const multiplayerServerAPI;
 
 private:
     AsyncOp<void> RefreshLogin(const TaskQueue& queue);
 
-    LoginContext const m_loginContext;
+    SharedPtr<LoginContext const> m_loginContext;
 
     // Entity attributes
     String const m_playFabId; // Master_Player_Entity Id for the Player that logged in
@@ -106,17 +140,17 @@ private:
 
     UniquePtr<GetPlayerCombinedInfoResultPayload> m_playerCombinedInfo;
     StdExtra::optional<time_t const> m_lastLoginTime;
-    StdExtra::optional<PlayFab::UserSettings const> m_userSettings;
+    StdExtra::optional<AuthenticationModels::UserSettings const> m_userSettings;
     UniquePtr<PlayFab::TreatmentAssignment> m_treatmentAssignment;
 };
 
 }
 
-struct PlayFabEntity
+struct PFEntity
 {
-    PlayFabEntity(PlayFab::SharedPtr<PlayFab::Entity> entity_) : entity{ entity_ } {}
-    PlayFabEntity(const PlayFabEntity&) = default;
-    ~PlayFabEntity() = default;
+    PFEntity(PlayFab::SharedPtr<PlayFab::Entity> entity_) : entity{ entity_ } {}
+    PFEntity(const PFEntity&) = default;
+    ~PFEntity() = default;
 
     PlayFab::SharedPtr<PlayFab::Entity> entity;
 };
@@ -168,8 +202,8 @@ auto Entity::MakePlayFabCallWithAuthRetry(const TaskQueue& queue, CallT call) ->
                 m_attemptRefreshLogin = false;
 
                 if (result.hr == HTTP_E_STATUS_DENIED || /* REST error code (401) */
-                    result.hr == E_PLAYFAB_INTERNAL_EXPIREDAUTHTOKEN || /* PlayFab error code for EntityToken expired */
-                    result.hr == E_PLAYFAB_NOTAUTHENTICATED /* PlayFab error code for SessionTicket expired */)
+                    result.hr == E_PF_INTERNAL_EXPIREDAUTHTOKEN || /* PlayFab error code for EntityToken expired */
+                    result.hr == E_PF_NOTAUTHENTICATED /* PlayFab error code for SessionTicket expired */)
                 {
                     m_entity->RefreshLogin(m_queue).Finally([this](Result<void> result)
                     {

@@ -3,254 +3,42 @@
 #include "TestApp.h"
 #include "AutoGenGroupsTests.h"
 #include "XAsyncHelper.h"
-#include <playfab/PlayFabClientAuthApi.h>
-#include <playfab/PlayFabClientApi.h>
-#include <playfab/PlayFabProfilesApi.h>
-#include <playfab/PlayFabAdminApi.h>
-#include <playfab/PlayFabAuthenticationAuthApi.h>
-#include <playfab/PlayFabClientDataModels.h>
 
-uint32_t g_testIndex = 1;
+uint32_t g_GroupsTestIndex = 1;
 
 namespace PlayFabUnit
 {
 
-void AutoGenGroupsTests::LogPlayFabGroupsAcceptGroupApplicationRequest( PlayFab::GroupsModels::AcceptGroupApplicationRequest* request, const char* testName )
+void AutoGenGroupsTests::LogPrerequisiteCreateGroupRequest( PlayFab::GroupsModels::CreateGroupRequest* request, const char* prereqName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
         return;
     }
-
+    
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsAcceptGroupApplicationRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PlayFabStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
-
-}
-
-void AutoGenGroupsTests::LogPlayFabGroupsAcceptGroupInvitationRequest( PlayFab::GroupsModels::AcceptGroupInvitationRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsAcceptGroupInvitationRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PlayFabStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
-
-}
-
-void AutoGenGroupsTests::LogPlayFabGroupsAddMembersRequest( PlayFab::GroupsModels::AddMembersRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsAddMembersRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PlayFabStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
-    } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey     
-    ss << "  membersCount " << request->membersCount; Log(ss);
-
-    // PlayFabEntityKey
-    for( uint32_t i=0; i<request->membersCount; i++ )
-    {
-        ss << "  request->members[" << i << "]:" << request->members[i]; Log(ss); // PlayFabEntityKey
-    } 
-    if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-void AutoGenGroupsTests::LogPlayFabGroupsApplyToGroupRequest( PlayFab::GroupsModels::ApplyToGroupRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsApplyToGroupRequest struct:
-    // request->autoAcceptOutstandingInvite: bool const*
-    ss << "  autoAcceptOutstandingInvite " << request->autoAcceptOutstandingInvite; Log(ss); // Class: bool     
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PlayFabStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsApplyToGroupResponse( PlayFabGroupsApplyToGroupResponse* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsApplyToGroupResponse
-    ss << "  entity " << result->entity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-    ss << "  expires " << result->expires; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PlayFabEntityKey 
-    return S_OK;
-}
-
-void AutoGenGroupsTests::LogPlayFabGroupsBlockEntityRequest( PlayFab::GroupsModels::BlockEntityRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsBlockEntityRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PlayFabStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
-
-}
-
-void AutoGenGroupsTests::LogPlayFabGroupsChangeMemberRoleRequest( PlayFab::GroupsModels::ChangeMemberRoleRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsChangeMemberRoleRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PlayFabStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
-    } 
-    if( request->destinationRoleId ) { ss << "  destinationRoleId " << request->destinationRoleId; Log(ss); } else { ss << "  destinationRoleId = nullptr"; Log(ss); } // Class: const char* 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey     
-    ss << "  membersCount " << request->membersCount; Log(ss);
-
-    // PlayFabEntityKey
-    for( uint32_t i=0; i<request->membersCount; i++ )
-    {
-        ss << "  request->members[" << i << "]:" << request->members[i]; Log(ss); // PlayFabEntityKey
-    } 
-    if( request->originRoleId ) { ss << "  originRoleId " << request->originRoleId; Log(ss); } else { ss << "  originRoleId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-void AutoGenGroupsTests::LogPlayFabGroupsCreateGroupRequest( PlayFab::GroupsModels::CreateGroupRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Prerequisite: " << prereqName; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsCreateGroupRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
     if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsCreateGroupResponse( PlayFabGroupsCreateGroupResponse* result )
+HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsCreateGroupResponse( PFGroupsCreateGroupResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -263,22 +51,201 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsCreateGroupResponse( PlayFabGroupsCr
     // Found PlayFabGroupsCreateGroupResponse
     if( result->adminRoleId ) { ss << "  adminRoleId " << result->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char* 
     ss << "  created " << result->created; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
     if( result->groupName ) { ss << "  groupName " << result->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
     if( result->memberRoleId ) { ss << "  memberRoleId " << result->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
     ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t     
     ss << "  rolesCount " << result->rolesCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<result->rolesCount; i++ )
     {
-        ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
-        
+            ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
+            
     } 
     return S_OK;
 }
+void AutoGenGroupsTests::LogPrerequisiteGetGroupRequest( PlayFab::GroupsModels::GetGroupRequest* request, const char* prereqName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+    
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Prerequisite: " << prereqName; Log(ss);
+    ss << "Request:"; Log(ss);
 
-void AutoGenGroupsTests::LogPlayFabGroupsCreateGroupRoleRequest( PlayFab::GroupsModels::CreateGroupRoleRequest* request, const char* testName )
+
+    // PlayFabGroupsGetGroupRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+    if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsGetGroupResponse( PFGroupsGetGroupResponse* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsGetGroupResponse
+    if( result->adminRoleId ) { ss << "  adminRoleId " << result->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char* 
+    ss << "  created " << result->created; Log(ss); // Class: time_t 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
+    if( result->groupName ) { ss << "  groupName " << result->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
+    if( result->memberRoleId ) { ss << "  memberRoleId " << result->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
+    ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t     
+    ss << "  rolesCount " << result->rolesCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<result->rolesCount; i++ )
+    {
+            ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
+            
+    } 
+    return S_OK;
+}
+void AutoGenGroupsTests::LogPrerequisiteApplyToGroupRequest( PlayFab::GroupsModels::ApplyToGroupRequest* request, const char* prereqName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+    
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Prerequisite: " << prereqName; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsApplyToGroupRequest struct:
+    // request->autoAcceptOutstandingInvite: bool const*
+    ss << "  autoAcceptOutstandingInvite " << request->autoAcceptOutstandingInvite; Log(ss); // Class: bool     
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsApplyToGroupResponse( PFGroupsApplyToGroupResponse* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsApplyToGroupResponse
+    ss << "  entity " << result->entity; Log(ss); // Class: PFGroupsEntityWithLineage 
+    ss << "  expires " << result->expires; Log(ss); // Class: time_t 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
+    return S_OK;
+}
+void AutoGenGroupsTests::LogPrerequisiteInviteToGroupRequest( PlayFab::GroupsModels::InviteToGroupRequest* request, const char* prereqName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+    
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Prerequisite: " << prereqName; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsInviteToGroupRequest struct:
+    // request->autoAcceptOutstandingApplication: bool const*
+    ss << "  autoAcceptOutstandingApplication " << request->autoAcceptOutstandingApplication; Log(ss); // Class: bool     
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+    if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsInviteToGroupResponse( PFGroupsInviteToGroupResponse* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsInviteToGroupResponse
+    ss << "  expires " << result->expires; Log(ss); // Class: time_t 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
+    ss << "  invitedByEntity " << result->invitedByEntity; Log(ss); // Class: PFGroupsEntityWithLineage 
+    ss << "  invitedEntity " << result->invitedEntity; Log(ss); // Class: PFGroupsEntityWithLineage 
+    if( result->roleId ) { ss << "  roleId " << result->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
+    return S_OK;
+}
+void AutoGenGroupsTests::LogPrerequisiteBlockEntityRequest( PlayFab::GroupsModels::BlockEntityRequest* request, const char* prereqName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+    
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Prerequisite: " << prereqName; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsBlockEntityRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+
+}
+
+ 
+
+void AutoGenGroupsTests::LogSetPublisherDataRequest( PlayFab::SetPublisherDataRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -287,28 +254,518 @@ void AutoGenGroupsTests::LogPlayFabGroupsCreateGroupRoleRequest( PlayFab::Groups
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsSetPublisherDataRequest struct:
+    // request->key: const char*
+    if( request->key ) { ss << "  key " << request->key; Log(ss); } else { ss << "  key = nullptr"; Log(ss); } // Class: const char* 
+    if( request->value ) { ss << "  value " << request->value; Log(ss); } else { ss << "  value = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogAddSharedGroupMembersRequest( PlayFab::GroupsModels::AddSharedGroupMembersRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsAddSharedGroupMembersRequest struct:
+    // request->playFabIds: const char* const*
+    // request->playFabIdsCount: uint32_t    
+    ss << "  playFabIdsCount " << request->playFabIdsCount; Log(ss);
+
+    // const char*
+    for( uint32_t i=0; i<request->playFabIdsCount; i++ )
+    {
+            ss << "  request->playFabIds[" << i << "]:" << request->playFabIds[i]; Log(ss); // const char*
+    } 
+    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogCreateSharedGroupRequest( PlayFab::GroupsModels::CreateSharedGroupRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsCreateSharedGroupRequest struct:
+    // request->sharedGroupId: const char*
+    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPFGroupsCreateSharedGroupResult(PFGroupsCreateSharedGroupResult* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsCreateSharedGroupResult
+    if( result->sharedGroupId ) { ss << "  sharedGroupId " << result->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+    return S_OK;
+}
+
+void AutoGenGroupsTests::LogGetSharedGroupDataRequest( PlayFab::GroupsModels::GetSharedGroupDataRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsGetSharedGroupDataRequest struct:
+    // request->getMembers: bool const*
+    ss << "  getMembers " << request->getMembers; Log(ss); // Class: bool     
+    ss << "  keysCount " << request->keysCount; Log(ss);
+
+    // const char*
+    for( uint32_t i=0; i<request->keysCount; i++ )
+    {
+            ss << "  request->keys[" << i << "]:" << request->keys[i]; Log(ss); // const char*
+    } 
+    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPFGroupsGetSharedGroupDataResult(PFGroupsGetSharedGroupDataResult* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsGetSharedGroupDataResult    
+    ss << "  dataCount " << result->dataCount; Log(ss);
+
+    // PFGroupsSharedGroupDataRecordDictionaryEntry
+    for( uint32_t i=0; i<result->dataCount; i++ )
+    {
+            ss << "  result->data[" << i << "]:" << result->data[i].key << "=" << result->data[i].value; Log(ss);
+            
+    }     
+    ss << "  membersCount " << result->membersCount; Log(ss);
+
+    // const char*
+    for( uint32_t i=0; i<result->membersCount; i++ )
+    {
+            ss << "  result->members[" << i << "]:" << result->members[i]; Log(ss); // const char*
+    } 
+    return S_OK;
+}
+
+void AutoGenGroupsTests::LogRemoveSharedGroupMembersRequest( PlayFab::GroupsModels::RemoveSharedGroupMembersRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsRemoveSharedGroupMembersRequest struct:
+    // request->playFabIds: const char* const*
+    // request->playFabIdsCount: uint32_t    
+    ss << "  playFabIdsCount " << request->playFabIdsCount; Log(ss);
+
+    // const char*
+    for( uint32_t i=0; i<request->playFabIdsCount; i++ )
+    {
+            ss << "  request->playFabIds[" << i << "]:" << request->playFabIds[i]; Log(ss); // const char*
+    } 
+    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogUpdateSharedGroupDataRequest( PlayFab::GroupsModels::UpdateSharedGroupDataRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsUpdateSharedGroupDataRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    }     
+    ss << "  dataCount " << request->dataCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->dataCount; i++ )
+    {
+            ss << "  request->data[" << i << "]:" << request->data[i].key << "=" << request->data[i].value; Log(ss);
+            
+    }     
+    ss << "  keysToRemoveCount " << request->keysToRemoveCount; Log(ss);
+
+    // const char*
+    for( uint32_t i=0; i<request->keysToRemoveCount; i++ )
+    {
+            ss << "  request->keysToRemove[" << i << "]:" << request->keysToRemove[i]; Log(ss); // const char*
+    } 
+    ss << "  permission " << request->permission; Log(ss); // Class: PFUserDataPermission 
+    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogDeleteSharedGroupRequest( PlayFab::GroupsModels::DeleteSharedGroupRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsDeleteSharedGroupRequest struct:
+    // request->sharedGroupId: const char*
+    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogAcceptGroupApplicationRequest( PlayFab::GroupsModels::AcceptGroupApplicationRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsAcceptGroupApplicationRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+
+}
+
+void AutoGenGroupsTests::LogAcceptGroupInvitationRequest( PlayFab::GroupsModels::AcceptGroupInvitationRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsAcceptGroupInvitationRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+
+}
+
+void AutoGenGroupsTests::LogAddMembersRequest( PlayFab::GroupsModels::AddMembersRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsAddMembersRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey     
+    ss << "  membersCount " << request->membersCount; Log(ss);
+
+    // PFEntityKey
+    for( uint32_t i=0; i<request->membersCount; i++ )
+    {
+            ss << "  request->members[" << i << "]:" << request->members[i]; Log(ss); // PFEntityKey
+    } 
+    if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogApplyToGroupRequest( PlayFab::GroupsModels::ApplyToGroupRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsApplyToGroupRequest struct:
+    // request->autoAcceptOutstandingInvite: bool const*
+    ss << "  autoAcceptOutstandingInvite " << request->autoAcceptOutstandingInvite; Log(ss); // Class: bool     
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPFGroupsApplyToGroupResponse(PFGroupsApplyToGroupResponse* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsApplyToGroupResponse
+    ss << "  entity " << result->entity; Log(ss); // Class: PFGroupsEntityWithLineage 
+    ss << "  expires " << result->expires; Log(ss); // Class: time_t 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
+    return S_OK;
+}
+
+void AutoGenGroupsTests::LogBlockEntityRequest( PlayFab::GroupsModels::BlockEntityRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsBlockEntityRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
+
+}
+
+void AutoGenGroupsTests::LogChangeMemberRoleRequest( PlayFab::GroupsModels::ChangeMemberRoleRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsChangeMemberRoleRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    if( request->destinationRoleId ) { ss << "  destinationRoleId " << request->destinationRoleId; Log(ss); } else { ss << "  destinationRoleId = nullptr"; Log(ss); } // Class: const char* 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey     
+    ss << "  membersCount " << request->membersCount; Log(ss);
+
+    // PFEntityKey
+    for( uint32_t i=0; i<request->membersCount; i++ )
+    {
+            ss << "  request->members[" << i << "]:" << request->members[i]; Log(ss); // PFEntityKey
+    } 
+    if( request->originRoleId ) { ss << "  originRoleId " << request->originRoleId; Log(ss); } else { ss << "  originRoleId = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+void AutoGenGroupsTests::LogCreateGroupRequest( PlayFab::GroupsModels::CreateGroupRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
+    ss << "Request:"; Log(ss);
+
+
+    // PlayFabGroupsCreateGroupRequest struct:
+    // request->customTags: struct PFStringDictionaryEntry const*
+    // request->customTagsCount: uint32_t    
+    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<request->customTagsCount; i++ )
+    {
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
+    } 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
+
+}
+
+HRESULT AutoGenGroupsTests::LogPFGroupsCreateGroupResponse(PFGroupsCreateGroupResponse* result )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return S_OK;
+    }
+
+    std::stringstream ss;
+    ss << "Response:"; Log(ss);
+
+    // Found PlayFabGroupsCreateGroupResponse
+    if( result->adminRoleId ) { ss << "  adminRoleId " << result->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char* 
+    ss << "  created " << result->created; Log(ss); // Class: time_t 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
+    if( result->groupName ) { ss << "  groupName " << result->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
+    if( result->memberRoleId ) { ss << "  memberRoleId " << result->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
+    ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t     
+    ss << "  rolesCount " << result->rolesCount; Log(ss);
+
+    // PFStringDictionaryEntry
+    for( uint32_t i=0; i<result->rolesCount; i++ )
+    {
+            ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
+            
+    } 
+    return S_OK;
+}
+
+void AutoGenGroupsTests::LogCreateGroupRoleRequest( PlayFab::GroupsModels::CreateGroupRoleRequest* request, const char* testName )
+{
+    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
+    {
+        return;
+    }
+
+    std::stringstream ss;
+    ss << "----------"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsCreateGroupRoleRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
     if( request->roleName ) { ss << "  roleName " << request->roleName; Log(ss); } else { ss << "  roleName = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsCreateGroupRoleResponse( PlayFabGroupsCreateGroupRoleResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsCreateGroupRoleResponse(PFGroupsCreateGroupRoleResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -325,7 +782,7 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsCreateGroupRoleResponse( PlayFabGrou
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsDeleteGroupRequest( PlayFab::GroupsModels::DeleteGroupRequest* request, const char* testName )
+void AutoGenGroupsTests::LogDeleteGroupRequest( PlayFab::GroupsModels::DeleteGroupRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -334,26 +791,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsDeleteGroupRequest( PlayFab::GroupsMode
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsDeleteGroupRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsDeleteRoleRequest( PlayFab::GroupsModels::DeleteRoleRequest* request, const char* testName )
+void AutoGenGroupsTests::LogDeleteRoleRequest( PlayFab::GroupsModels::DeleteRoleRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -362,27 +819,27 @@ void AutoGenGroupsTests::LogPlayFabGroupsDeleteRoleRequest( PlayFab::GroupsModel
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsDeleteRoleRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsGetGroupRequest( PlayFab::GroupsModels::GetGroupRequest* request, const char* testName )
+void AutoGenGroupsTests::LogGetGroupRequest( PlayFab::GroupsModels::GetGroupRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -391,27 +848,27 @@ void AutoGenGroupsTests::LogPlayFabGroupsGetGroupRequest( PlayFab::GroupsModels:
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsGetGroupRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsGetGroupResponse( PlayFabGroupsGetGroupResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsGetGroupResponse(PFGroupsGetGroupResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -424,22 +881,22 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsGetGroupResponse( PlayFabGroupsGetGr
     // Found PlayFabGroupsGetGroupResponse
     if( result->adminRoleId ) { ss << "  adminRoleId " << result->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char* 
     ss << "  created " << result->created; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
     if( result->groupName ) { ss << "  groupName " << result->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
     if( result->memberRoleId ) { ss << "  memberRoleId " << result->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
     ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t     
     ss << "  rolesCount " << result->rolesCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<result->rolesCount; i++ )
     {
-        ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
-        
+            ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
+            
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsInviteToGroupRequest( PlayFab::GroupsModels::InviteToGroupRequest* request, const char* testName )
+void AutoGenGroupsTests::LogInviteToGroupRequest( PlayFab::GroupsModels::InviteToGroupRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -448,7 +905,7 @@ void AutoGenGroupsTests::LogPlayFabGroupsInviteToGroupRequest( PlayFab::GroupsMo
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -457,19 +914,19 @@ void AutoGenGroupsTests::LogPlayFabGroupsInviteToGroupRequest( PlayFab::GroupsMo
     ss << "  autoAcceptOutstandingApplication " << request->autoAcceptOutstandingApplication; Log(ss); // Class: bool     
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsInviteToGroupResponse( PlayFabGroupsInviteToGroupResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsInviteToGroupResponse(PFGroupsInviteToGroupResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -481,14 +938,14 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsInviteToGroupResponse( PlayFabGroups
 
     // Found PlayFabGroupsInviteToGroupResponse
     ss << "  expires " << result->expires; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  invitedByEntity " << result->invitedByEntity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-    ss << "  invitedEntity " << result->invitedEntity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
+    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
+    ss << "  invitedByEntity " << result->invitedByEntity; Log(ss); // Class: PFGroupsEntityWithLineage 
+    ss << "  invitedEntity " << result->invitedEntity; Log(ss); // Class: PFGroupsEntityWithLineage 
     if( result->roleId ) { ss << "  roleId " << result->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsIsMemberRequest( PlayFab::GroupsModels::IsMemberRequest* request, const char* testName )
+void AutoGenGroupsTests::LogIsMemberRequest( PlayFab::GroupsModels::IsMemberRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -497,28 +954,28 @@ void AutoGenGroupsTests::LogPlayFabGroupsIsMemberRequest( PlayFab::GroupsModels:
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsIsMemberRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsIsMemberResponse( PlayFabGroupsIsMemberResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsIsMemberResponse(PFGroupsIsMemberResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -533,7 +990,7 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsIsMemberResponse( PlayFabGroupsIsMem
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsListGroupApplicationsRequest( PlayFab::GroupsModels::ListGroupApplicationsRequest* request, const char* testName )
+void AutoGenGroupsTests::LogListGroupApplicationsRequest( PlayFab::GroupsModels::ListGroupApplicationsRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -542,26 +999,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsListGroupApplicationsRequest( PlayFab::
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsListGroupApplicationsRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupApplicationsResponse( PlayFabGroupsListGroupApplicationsResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsListGroupApplicationsResponse(PFGroupsListGroupApplicationsResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -574,17 +1031,15 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupApplicationsResponse( PlayF
     // Found PlayFabGroupsListGroupApplicationsResponse    
     ss << "  applicationsCount " << result->applicationsCount; Log(ss);
 
-    // PlayFabGroupsGroupApplication
+    // PFGroupsGroupApplication
     for( uint32_t i=0; i<result->applicationsCount; i++ )
     {
-        ss << "  applications["<<i<<"]->entity " << result->applications[i]->entity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        ss << "  applications["<<i<<"]->expires " << result->applications[i]->expires; Log(ss); // Class: time_t 
-        ss << "  applications["<<i<<"]->group " << result->applications[i]->group; Log(ss); // Class: PlayFabEntityKey 
+            ss << "  result->applications[" << i << "]:" << result->applications[i]; Log(ss); // PFGroupsGroupApplication
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsListGroupBlocksRequest( PlayFab::GroupsModels::ListGroupBlocksRequest* request, const char* testName )
+void AutoGenGroupsTests::LogListGroupBlocksRequest( PlayFab::GroupsModels::ListGroupBlocksRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -593,26 +1048,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsListGroupBlocksRequest( PlayFab::Groups
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsListGroupBlocksRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupBlocksResponse( PlayFabGroupsListGroupBlocksResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsListGroupBlocksResponse(PFGroupsListGroupBlocksResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -625,16 +1080,15 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupBlocksResponse( PlayFabGrou
     // Found PlayFabGroupsListGroupBlocksResponse    
     ss << "  blockedEntitiesCount " << result->blockedEntitiesCount; Log(ss);
 
-    // PlayFabGroupsGroupBlock
+    // PFGroupsGroupBlock
     for( uint32_t i=0; i<result->blockedEntitiesCount; i++ )
     {
-        ss << "  blockedEntities["<<i<<"]->entity " << result->blockedEntities[i]->entity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        ss << "  blockedEntities["<<i<<"]->group " << result->blockedEntities[i]->group; Log(ss); // Class: PlayFabEntityKey 
+            ss << "  result->blockedEntities[" << i << "]:" << result->blockedEntities[i]; Log(ss); // PFGroupsGroupBlock
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsListGroupInvitationsRequest( PlayFab::GroupsModels::ListGroupInvitationsRequest* request, const char* testName )
+void AutoGenGroupsTests::LogListGroupInvitationsRequest( PlayFab::GroupsModels::ListGroupInvitationsRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -643,26 +1097,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsListGroupInvitationsRequest( PlayFab::G
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsListGroupInvitationsRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupInvitationsResponse( PlayFabGroupsListGroupInvitationsResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsListGroupInvitationsResponse(PFGroupsListGroupInvitationsResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -675,19 +1129,15 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupInvitationsResponse( PlayFa
     // Found PlayFabGroupsListGroupInvitationsResponse    
     ss << "  invitationsCount " << result->invitationsCount; Log(ss);
 
-    // PlayFabGroupsGroupInvitation
+    // PFGroupsGroupInvitation
     for( uint32_t i=0; i<result->invitationsCount; i++ )
     {
-        ss << "  invitations["<<i<<"]->expires " << result->invitations[i]->expires; Log(ss); // Class: time_t 
-        ss << "  invitations["<<i<<"]->group " << result->invitations[i]->group; Log(ss); // Class: PlayFabEntityKey 
-        ss << "  invitations["<<i<<"]->invitedByEntity " << result->invitations[i]->invitedByEntity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        ss << "  invitations["<<i<<"]->invitedEntity " << result->invitations[i]->invitedEntity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        if( result->invitations[i]->roleId ) { ss << "  invitations["<<i<<"]->roleId " << result->invitations[i]->roleId; Log(ss); } else { ss << "  invitations["<<i<<"]->roleId = nullptr"; Log(ss); } // Class: const char* 
+            ss << "  result->invitations[" << i << "]:" << result->invitations[i]; Log(ss); // PFGroupsGroupInvitation
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsListGroupMembersRequest( PlayFab::GroupsModels::ListGroupMembersRequest* request, const char* testName )
+void AutoGenGroupsTests::LogListGroupMembersRequest( PlayFab::GroupsModels::ListGroupMembersRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -696,26 +1146,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsListGroupMembersRequest( PlayFab::Group
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsListGroupMembersRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupMembersResponse( PlayFabGroupsListGroupMembersResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsListGroupMembersResponse(PFGroupsListGroupMembersResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -728,17 +1178,15 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsListGroupMembersResponse( PlayFabGro
     // Found PlayFabGroupsListGroupMembersResponse    
     ss << "  membersCount " << result->membersCount; Log(ss);
 
-    // PlayFabGroupsEntityMemberRole
+    // PFGroupsEntityMemberRole
     for( uint32_t i=0; i<result->membersCount; i++ )
     {
-        ss << "  members["<<i<<"]->members " << result->members[i]->members; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        if( result->members[i]->roleId ) { ss << "  members["<<i<<"]->roleId " << result->members[i]->roleId; Log(ss); } else { ss << "  members["<<i<<"]->roleId = nullptr"; Log(ss); } // Class: const char* 
-        if( result->members[i]->roleName ) { ss << "  members["<<i<<"]->roleName " << result->members[i]->roleName; Log(ss); } else { ss << "  members["<<i<<"]->roleName = nullptr"; Log(ss); } // Class: const char* 
+            ss << "  result->members[" << i << "]:" << result->members[i]; Log(ss); // PFGroupsEntityMemberRole
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsListMembershipRequest( PlayFab::GroupsModels::ListMembershipRequest* request, const char* testName )
+void AutoGenGroupsTests::LogListMembershipRequest( PlayFab::GroupsModels::ListMembershipRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -747,26 +1195,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsListMembershipRequest( PlayFab::GroupsM
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsListMembershipRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsListMembershipResponse( PlayFabGroupsListMembershipResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsListMembershipResponse(PFGroupsListMembershipResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -779,18 +1227,15 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsListMembershipResponse( PlayFabGroup
     // Found PlayFabGroupsListMembershipResponse    
     ss << "  groupsCount " << result->groupsCount; Log(ss);
 
-    // PlayFabGroupsGroupWithRoles
+    // PFGroupsGroupWithRoles
     for( uint32_t i=0; i<result->groupsCount; i++ )
     {
-        ss << "  groups["<<i<<"]->group " << result->groups[i]->group; Log(ss); // Class: PlayFabEntityKey 
-        if( result->groups[i]->groupName ) { ss << "  groups["<<i<<"]->groupName " << result->groups[i]->groupName; Log(ss); } else { ss << "  groups["<<i<<"]->groupName = nullptr"; Log(ss); } // Class: const char* 
-        ss << "  groups["<<i<<"]->profileVersion " << result->groups[i]->profileVersion; Log(ss); // Class: int32_t 
-        ss << "  groups["<<i<<"]->roles " << result->groups[i]->roles; Log(ss); // Class: PlayFabGroupsGroupRole 
+            ss << "  result->groups[" << i << "]:" << result->groups[i]; Log(ss); // PFGroupsGroupWithRoles
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsListMembershipOpportunitiesRequest( PlayFab::GroupsModels::ListMembershipOpportunitiesRequest* request, const char* testName )
+void AutoGenGroupsTests::LogListMembershipOpportunitiesRequest( PlayFab::GroupsModels::ListMembershipOpportunitiesRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -799,26 +1244,26 @@ void AutoGenGroupsTests::LogPlayFabGroupsListMembershipOpportunitiesRequest( Pla
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsListMembershipOpportunitiesRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsListMembershipOpportunitiesResponse( PlayFabGroupsListMembershipOpportunitiesResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsListMembershipOpportunitiesResponse(PFGroupsListMembershipOpportunitiesResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -831,28 +1276,22 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsListMembershipOpportunitiesResponse(
     // Found PlayFabGroupsListMembershipOpportunitiesResponse    
     ss << "  applicationsCount " << result->applicationsCount; Log(ss);
 
-    // PlayFabGroupsGroupApplication
+    // PFGroupsGroupApplication
     for( uint32_t i=0; i<result->applicationsCount; i++ )
     {
-        ss << "  applications["<<i<<"]->entity " << result->applications[i]->entity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        ss << "  applications["<<i<<"]->expires " << result->applications[i]->expires; Log(ss); // Class: time_t 
-        ss << "  applications["<<i<<"]->group " << result->applications[i]->group; Log(ss); // Class: PlayFabEntityKey 
+            ss << "  result->applications[" << i << "]:" << result->applications[i]; Log(ss); // PFGroupsGroupApplication
     }     
     ss << "  invitationsCount " << result->invitationsCount; Log(ss);
 
-    // PlayFabGroupsGroupInvitation
+    // PFGroupsGroupInvitation
     for( uint32_t i=0; i<result->invitationsCount; i++ )
     {
-        ss << "  invitations["<<i<<"]->expires " << result->invitations[i]->expires; Log(ss); // Class: time_t 
-        ss << "  invitations["<<i<<"]->group " << result->invitations[i]->group; Log(ss); // Class: PlayFabEntityKey 
-        ss << "  invitations["<<i<<"]->invitedByEntity " << result->invitations[i]->invitedByEntity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        ss << "  invitations["<<i<<"]->invitedEntity " << result->invitations[i]->invitedEntity; Log(ss); // Class: PlayFabGroupsEntityWithLineage 
-        if( result->invitations[i]->roleId ) { ss << "  invitations["<<i<<"]->roleId " << result->invitations[i]->roleId; Log(ss); } else { ss << "  invitations["<<i<<"]->roleId = nullptr"; Log(ss); } // Class: const char* 
+            ss << "  result->invitations[" << i << "]:" << result->invitations[i]; Log(ss); // PFGroupsGroupInvitation
     } 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsRemoveGroupApplicationRequest( PlayFab::GroupsModels::RemoveGroupApplicationRequest* request, const char* testName )
+void AutoGenGroupsTests::LogRemoveGroupApplicationRequest( PlayFab::GroupsModels::RemoveGroupApplicationRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -861,27 +1300,27 @@ void AutoGenGroupsTests::LogPlayFabGroupsRemoveGroupApplicationRequest( PlayFab:
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsRemoveGroupApplicationRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsRemoveGroupInvitationRequest( PlayFab::GroupsModels::RemoveGroupInvitationRequest* request, const char* testName )
+void AutoGenGroupsTests::LogRemoveGroupInvitationRequest( PlayFab::GroupsModels::RemoveGroupInvitationRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -890,27 +1329,27 @@ void AutoGenGroupsTests::LogPlayFabGroupsRemoveGroupInvitationRequest( PlayFab::
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsRemoveGroupInvitationRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsRemoveMembersRequest( PlayFab::GroupsModels::RemoveMembersRequest* request, const char* testName )
+void AutoGenGroupsTests::LogRemoveMembersRequest( PlayFab::GroupsModels::RemoveMembersRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -919,34 +1358,34 @@ void AutoGenGroupsTests::LogPlayFabGroupsRemoveMembersRequest( PlayFab::GroupsMo
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsRemoveMembersRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey     
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey     
     ss << "  membersCount " << request->membersCount; Log(ss);
 
-    // PlayFabEntityKey
+    // PFEntityKey
     for( uint32_t i=0; i<request->membersCount; i++ )
     {
-        ss << "  request->members[" << i << "]:" << request->members[i]; Log(ss); // PlayFabEntityKey
+            ss << "  request->members[" << i << "]:" << request->members[i]; Log(ss); // PFEntityKey
     } 
     if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsUnblockEntityRequest( PlayFab::GroupsModels::UnblockEntityRequest* request, const char* testName )
+void AutoGenGroupsTests::LogUnblockEntityRequest( PlayFab::GroupsModels::UnblockEntityRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -955,27 +1394,27 @@ void AutoGenGroupsTests::LogPlayFabGroupsUnblockEntityRequest( PlayFab::GroupsMo
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsUnblockEntityRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PlayFabEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
 
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRequest( PlayFab::GroupsModels::UpdateGroupRequest* request, const char* testName )
+void AutoGenGroupsTests::LogUpdateGroupRequest( PlayFab::GroupsModels::UpdateGroupRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -984,7 +1423,7 @@ void AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRequest( PlayFab::GroupsMode
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -993,20 +1432,20 @@ void AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRequest( PlayFab::GroupsMode
     if( request->adminRoleId ) { ss << "  adminRoleId " << request->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char*     
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
     ss << "  expectedProfileVersion " << request->expectedProfileVersion; Log(ss); // Class: int32_t 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
     if( request->memberRoleId ) { ss << "  memberRoleId " << request->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupResponse( PlayFabGroupsUpdateGroupResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsUpdateGroupResponse(PFGroupsUpdateGroupResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -1019,11 +1458,11 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupResponse( PlayFabGroupsUp
     // Found PlayFabGroupsUpdateGroupResponse
     if( result->operationReason ) { ss << "  operationReason " << result->operationReason; Log(ss); } else { ss << "  operationReason = nullptr"; Log(ss); } // Class: const char* 
     ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t 
-    ss << "  setResult " << result->setResult; Log(ss); // Class: PlayFabGroupsOperationTypes 
+    ss << "  setResult " << result->setResult; Log(ss); // Class: PFOperationTypes 
     return S_OK;
 }
 
-void AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRoleRequest( PlayFab::GroupsModels::UpdateGroupRoleRequest* request, const char* testName )
+void AutoGenGroupsTests::LogUpdateGroupRoleRequest( PlayFab::GroupsModels::UpdateGroupRoleRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -1032,29 +1471,29 @@ void AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRoleRequest( PlayFab::Groups
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabGroupsUpdateGroupRoleRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
     ss << "  expectedProfileVersion " << request->expectedProfileVersion; Log(ss); // Class: int32_t 
-    ss << "  group " << request->group; Log(ss); // Class: PlayFabEntityKey 
+    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
     if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
     if( request->roleName ) { ss << "  roleName " << request->roleName; Log(ss); } else { ss << "  roleName = nullptr"; Log(ss); } // Class: const char* 
 
 }
 
-HRESULT AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRoleResponse( PlayFabGroupsUpdateGroupRoleResponse* result )
+HRESULT AutoGenGroupsTests::LogPFGroupsUpdateGroupRoleResponse(PFGroupsUpdateGroupRoleResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -1067,7 +1506,7 @@ HRESULT AutoGenGroupsTests::LogPlayFabGroupsUpdateGroupRoleResponse( PlayFabGrou
     // Found PlayFabGroupsUpdateGroupRoleResponse
     if( result->operationReason ) { ss << "  operationReason " << result->operationReason; Log(ss); } else { ss << "  operationReason = nullptr"; Log(ss); } // Class: const char* 
     ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t 
-    ss << "  setResult " << result->setResult; Log(ss); // Class: PlayFabGroupsOperationTypes 
+    ss << "  setResult " << result->setResult; Log(ss); // Class: PFOperationTypes 
     return S_OK;
 }
 

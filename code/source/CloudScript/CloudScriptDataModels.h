@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabCloudScriptDataModels.h>
+#include <playfab/PFCloudScriptDataModels.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
@@ -10,14 +10,31 @@ namespace CloudScriptModels
 {
 
 // CloudScript Classes
-struct ScriptExecutionError : public PlayFabCloudScriptScriptExecutionError, public SerializableModel
+struct GetCloudScriptRevisionRequest : public PFCloudScriptGetCloudScriptRevisionRequest, public BaseModel
 {
-    ScriptExecutionError();
-    ScriptExecutionError(const ScriptExecutionError& src);
-    ScriptExecutionError(ScriptExecutionError&& src);
-    ScriptExecutionError(const PlayFabCloudScriptScriptExecutionError& src);
-    ScriptExecutionError& operator=(const ScriptExecutionError&) = delete;
-    ~ScriptExecutionError() = default;
+    GetCloudScriptRevisionRequest();
+    GetCloudScriptRevisionRequest(const GetCloudScriptRevisionRequest& src);
+    GetCloudScriptRevisionRequest(GetCloudScriptRevisionRequest&& src);
+    GetCloudScriptRevisionRequest(const PFCloudScriptGetCloudScriptRevisionRequest& src);
+    GetCloudScriptRevisionRequest& operator=(const GetCloudScriptRevisionRequest&) = delete;
+    ~GetCloudScriptRevisionRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    StdExtra::optional<int32_t> m_revision;
+    StdExtra::optional<int32_t> m_version;
+};
+
+struct CloudScriptFile : public PFCloudScriptCloudScriptFile, public SerializableModel
+{
+    CloudScriptFile();
+    CloudScriptFile(const CloudScriptFile& src);
+    CloudScriptFile(CloudScriptFile&& src);
+    CloudScriptFile(const PFCloudScriptCloudScriptFile& src);
+    CloudScriptFile& operator=(const CloudScriptFile&) = delete;
+    ~CloudScriptFile() = default;
 
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
@@ -26,56 +43,161 @@ struct ScriptExecutionError : public PlayFabCloudScriptScriptExecutionError, pub
     void Serialize(void* buffer, size_t bufferSize) const override;
 
 private:
-    String m_error;
-    String m_message;
-    String m_stackTrace;
+    String m_fileContents;
+    String m_filename;
 };
 
-struct LogStatement : public PlayFabCloudScriptLogStatement, public BaseModel
+struct GetCloudScriptRevisionResult : public PFCloudScriptGetCloudScriptRevisionResult, public BaseModel, public ApiResult
 {
-    LogStatement();
-    LogStatement(const LogStatement& src);
-    LogStatement(LogStatement&& src);
-    LogStatement(const PlayFabCloudScriptLogStatement& src);
-    LogStatement& operator=(const LogStatement&) = delete;
-    ~LogStatement() = default;
+    GetCloudScriptRevisionResult();
+    GetCloudScriptRevisionResult(const GetCloudScriptRevisionResult& src);
+    GetCloudScriptRevisionResult(GetCloudScriptRevisionResult&& src);
+    GetCloudScriptRevisionResult(const PFCloudScriptGetCloudScriptRevisionResult& src);
+    GetCloudScriptRevisionResult& operator=(const GetCloudScriptRevisionResult&) = delete;
+    ~GetCloudScriptRevisionResult() = default;
 
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
 
 private:
-    JsonObject m_data;
-    String m_level;
-    String m_message;
+    PointerArrayModel<PFCloudScriptCloudScriptFile, CloudScriptFile> m_files;
 };
 
-struct ExecuteCloudScriptResult : public PlayFabCloudScriptExecuteCloudScriptResult, public BaseModel, public ApiResult
+struct CloudScriptVersionStatus : public PFCloudScriptCloudScriptVersionStatus, public SerializableModel
 {
-    ExecuteCloudScriptResult();
-    ExecuteCloudScriptResult(const ExecuteCloudScriptResult& src);
-    ExecuteCloudScriptResult(ExecuteCloudScriptResult&& src);
-    ExecuteCloudScriptResult(const PlayFabCloudScriptExecuteCloudScriptResult& src);
-    ExecuteCloudScriptResult& operator=(const ExecuteCloudScriptResult&) = delete;
-    ~ExecuteCloudScriptResult() = default;
+    CloudScriptVersionStatus();
+    CloudScriptVersionStatus(const CloudScriptVersionStatus&) = default;
+    CloudScriptVersionStatus(CloudScriptVersionStatus&&) = default;
+    CloudScriptVersionStatus(const PFCloudScriptCloudScriptVersionStatus& src);
+    CloudScriptVersionStatus& operator=(const CloudScriptVersionStatus&) = delete;
+    ~CloudScriptVersionStatus() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+    size_t SerializedSize() const override;
+    void Serialize(void* buffer, size_t bufferSize) const override;
+
+private:
+};
+
+struct GetCloudScriptVersionsResult : public PFCloudScriptGetCloudScriptVersionsResult, public BaseModel, public ApiResult
+{
+    GetCloudScriptVersionsResult();
+    GetCloudScriptVersionsResult(const GetCloudScriptVersionsResult& src);
+    GetCloudScriptVersionsResult(GetCloudScriptVersionsResult&& src);
+    GetCloudScriptVersionsResult(const PFCloudScriptGetCloudScriptVersionsResult& src);
+    GetCloudScriptVersionsResult& operator=(const GetCloudScriptVersionsResult&) = delete;
+    ~GetCloudScriptVersionsResult() = default;
 
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
 
 private:
-    StdExtra::optional<ScriptExecutionError> m_error;
+    PointerArrayModel<PFCloudScriptCloudScriptVersionStatus, CloudScriptVersionStatus> m_versions;
+};
+
+struct SetPublishedRevisionRequest : public PFCloudScriptSetPublishedRevisionRequest, public BaseModel
+{
+    SetPublishedRevisionRequest();
+    SetPublishedRevisionRequest(const SetPublishedRevisionRequest& src);
+    SetPublishedRevisionRequest(SetPublishedRevisionRequest&& src);
+    SetPublishedRevisionRequest(const PFCloudScriptSetPublishedRevisionRequest& src);
+    SetPublishedRevisionRequest& operator=(const SetPublishedRevisionRequest&) = delete;
+    ~SetPublishedRevisionRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+};
+
+struct UpdateCloudScriptRequest : public PFCloudScriptUpdateCloudScriptRequest, public BaseModel
+{
+    UpdateCloudScriptRequest();
+    UpdateCloudScriptRequest(const UpdateCloudScriptRequest& src);
+    UpdateCloudScriptRequest(UpdateCloudScriptRequest&& src);
+    UpdateCloudScriptRequest(const PFCloudScriptUpdateCloudScriptRequest& src);
+    UpdateCloudScriptRequest& operator=(const UpdateCloudScriptRequest&) = delete;
+    ~UpdateCloudScriptRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+    String m_developerPlayFabId;
+    PointerArrayModel<PFCloudScriptCloudScriptFile, CloudScriptFile> m_files;
+};
+
+struct UpdateCloudScriptResult : public PFCloudScriptUpdateCloudScriptResult, public SerializableModel, public ApiResult
+{
+    UpdateCloudScriptResult();
+    UpdateCloudScriptResult(const UpdateCloudScriptResult&) = default;
+    UpdateCloudScriptResult(UpdateCloudScriptResult&&) = default;
+    UpdateCloudScriptResult(const PFCloudScriptUpdateCloudScriptResult& src);
+    UpdateCloudScriptResult& operator=(const UpdateCloudScriptResult&) = delete;
+    ~UpdateCloudScriptResult() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+    size_t SerializedSize() const override;
+    void Serialize(void* buffer, size_t bufferSize) const override;
+
+private:
+};
+
+struct ExecuteCloudScriptRequest : public PFCloudScriptExecuteCloudScriptRequest, public BaseModel
+{
+    ExecuteCloudScriptRequest();
+    ExecuteCloudScriptRequest(const ExecuteCloudScriptRequest& src);
+    ExecuteCloudScriptRequest(ExecuteCloudScriptRequest&& src);
+    ExecuteCloudScriptRequest(const PFCloudScriptExecuteCloudScriptRequest& src);
+    ExecuteCloudScriptRequest& operator=(const ExecuteCloudScriptRequest&) = delete;
+    ~ExecuteCloudScriptRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_functionName;
-    JsonObject m_functionResult;
-    StdExtra::optional<bool> m_functionResultTooLarge;
-    PointerArrayModel<PlayFabCloudScriptLogStatement, LogStatement> m_logs;
-    StdExtra::optional<bool> m_logsTooLarge;
+    JsonObject m_functionParameter;
+    StdExtra::optional<bool> m_generatePlayStreamEvent;
+    StdExtra::optional<PFCloudScriptCloudScriptRevisionOption> m_revisionSelection;
+    StdExtra::optional<int32_t> m_specificRevision;
 };
 
-struct ExecuteEntityCloudScriptRequest : public PlayFabCloudScriptExecuteEntityCloudScriptRequest, public BaseModel
+struct ExecuteCloudScriptServerRequest : public PFCloudScriptExecuteCloudScriptServerRequest, public BaseModel
+{
+    ExecuteCloudScriptServerRequest();
+    ExecuteCloudScriptServerRequest(const ExecuteCloudScriptServerRequest& src);
+    ExecuteCloudScriptServerRequest(ExecuteCloudScriptServerRequest&& src);
+    ExecuteCloudScriptServerRequest(const PFCloudScriptExecuteCloudScriptServerRequest& src);
+    ExecuteCloudScriptServerRequest& operator=(const ExecuteCloudScriptServerRequest&) = delete;
+    ~ExecuteCloudScriptServerRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+    String m_functionName;
+    JsonObject m_functionParameter;
+    StdExtra::optional<bool> m_generatePlayStreamEvent;
+    String m_playFabId;
+    StdExtra::optional<PFCloudScriptCloudScriptRevisionOption> m_revisionSelection;
+    StdExtra::optional<int32_t> m_specificRevision;
+};
+
+struct ExecuteEntityCloudScriptRequest : public PFCloudScriptExecuteEntityCloudScriptRequest, public BaseModel
 {
     ExecuteEntityCloudScriptRequest();
     ExecuteEntityCloudScriptRequest(const ExecuteEntityCloudScriptRequest& src);
     ExecuteEntityCloudScriptRequest(ExecuteEntityCloudScriptRequest&& src);
-    ExecuteEntityCloudScriptRequest(const PlayFabCloudScriptExecuteEntityCloudScriptRequest& src);
+    ExecuteEntityCloudScriptRequest(const PFCloudScriptExecuteEntityCloudScriptRequest& src);
     ExecuteEntityCloudScriptRequest& operator=(const ExecuteEntityCloudScriptRequest&) = delete;
     ~ExecuteEntityCloudScriptRequest() = default;
 
@@ -83,21 +205,21 @@ struct ExecuteEntityCloudScriptRequest : public PlayFabCloudScriptExecuteEntityC
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     StdExtra::optional<EntityKey> m_entity;
     String m_functionName;
     JsonObject m_functionParameter;
     StdExtra::optional<bool> m_generatePlayStreamEvent;
-    StdExtra::optional<PlayFabCloudScriptCloudScriptRevisionOption> m_revisionSelection;
+    StdExtra::optional<PFCloudScriptCloudScriptRevisionOption> m_revisionSelection;
     StdExtra::optional<int32_t> m_specificRevision;
 };
 
-struct ExecuteFunctionRequest : public PlayFabCloudScriptExecuteFunctionRequest, public BaseModel
+struct ExecuteFunctionRequest : public PFCloudScriptExecuteFunctionRequest, public BaseModel
 {
     ExecuteFunctionRequest();
     ExecuteFunctionRequest(const ExecuteFunctionRequest& src);
     ExecuteFunctionRequest(ExecuteFunctionRequest&& src);
-    ExecuteFunctionRequest(const PlayFabCloudScriptExecuteFunctionRequest& src);
+    ExecuteFunctionRequest(const PFCloudScriptExecuteFunctionRequest& src);
     ExecuteFunctionRequest& operator=(const ExecuteFunctionRequest&) = delete;
     ~ExecuteFunctionRequest() = default;
 
@@ -105,19 +227,19 @@ struct ExecuteFunctionRequest : public PlayFabCloudScriptExecuteFunctionRequest,
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     StdExtra::optional<EntityKey> m_entity;
     String m_functionName;
     JsonObject m_functionParameter;
     StdExtra::optional<bool> m_generatePlayStreamEvent;
 };
 
-struct FunctionExecutionError : public PlayFabCloudScriptFunctionExecutionError, public SerializableModel
+struct FunctionExecutionError : public PFCloudScriptFunctionExecutionError, public SerializableModel
 {
     FunctionExecutionError();
     FunctionExecutionError(const FunctionExecutionError& src);
     FunctionExecutionError(FunctionExecutionError&& src);
-    FunctionExecutionError(const PlayFabCloudScriptFunctionExecutionError& src);
+    FunctionExecutionError(const PFCloudScriptFunctionExecutionError& src);
     FunctionExecutionError& operator=(const FunctionExecutionError&) = delete;
     ~FunctionExecutionError() = default;
 
@@ -133,12 +255,12 @@ private:
     String m_stackTrace;
 };
 
-struct ExecuteFunctionResult : public PlayFabCloudScriptExecuteFunctionResult, public BaseModel, public ApiResult
+struct ExecuteFunctionResult : public PFCloudScriptExecuteFunctionResult, public BaseModel, public ApiResult
 {
     ExecuteFunctionResult();
     ExecuteFunctionResult(const ExecuteFunctionResult& src);
     ExecuteFunctionResult(ExecuteFunctionResult&& src);
-    ExecuteFunctionResult(const PlayFabCloudScriptExecuteFunctionResult& src);
+    ExecuteFunctionResult(const PFCloudScriptExecuteFunctionResult& src);
     ExecuteFunctionResult& operator=(const ExecuteFunctionResult&) = delete;
     ~ExecuteFunctionResult() = default;
 
@@ -152,12 +274,28 @@ private:
     StdExtra::optional<bool> m_functionResultTooLarge;
 };
 
-struct FunctionModel : public PlayFabCloudScriptFunctionModel, public SerializableModel
+struct ListFunctionsRequest : public PFCloudScriptListFunctionsRequest, public BaseModel
+{
+    ListFunctionsRequest();
+    ListFunctionsRequest(const ListFunctionsRequest& src);
+    ListFunctionsRequest(ListFunctionsRequest&& src);
+    ListFunctionsRequest(const PFCloudScriptListFunctionsRequest& src);
+    ListFunctionsRequest& operator=(const ListFunctionsRequest&) = delete;
+    ~ListFunctionsRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+};
+
+struct FunctionModel : public PFCloudScriptFunctionModel, public SerializableModel
 {
     FunctionModel();
     FunctionModel(const FunctionModel& src);
     FunctionModel(FunctionModel&& src);
-    FunctionModel(const PlayFabCloudScriptFunctionModel& src);
+    FunctionModel(const PFCloudScriptFunctionModel& src);
     FunctionModel& operator=(const FunctionModel&) = delete;
     ~FunctionModel() = default;
 
@@ -173,12 +311,28 @@ private:
     String m_triggerType;
 };
 
-struct HttpFunctionModel : public PlayFabCloudScriptHttpFunctionModel, public SerializableModel
+struct ListFunctionsResult : public PFCloudScriptListFunctionsResult, public BaseModel, public ApiResult
+{
+    ListFunctionsResult();
+    ListFunctionsResult(const ListFunctionsResult& src);
+    ListFunctionsResult(ListFunctionsResult&& src);
+    ListFunctionsResult(const PFCloudScriptListFunctionsResult& src);
+    ListFunctionsResult& operator=(const ListFunctionsResult&) = delete;
+    ~ListFunctionsResult() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    PointerArrayModel<PFCloudScriptFunctionModel, FunctionModel> m_functions;
+};
+
+struct HttpFunctionModel : public PFCloudScriptHttpFunctionModel, public SerializableModel
 {
     HttpFunctionModel();
     HttpFunctionModel(const HttpFunctionModel& src);
     HttpFunctionModel(HttpFunctionModel&& src);
-    HttpFunctionModel(const PlayFabCloudScriptHttpFunctionModel& src);
+    HttpFunctionModel(const PFCloudScriptHttpFunctionModel& src);
     HttpFunctionModel& operator=(const HttpFunctionModel&) = delete;
     ~HttpFunctionModel() = default;
 
@@ -193,44 +347,12 @@ private:
     String m_functionUrl;
 };
 
-struct ListFunctionsRequest : public PlayFabCloudScriptListFunctionsRequest, public BaseModel
-{
-    ListFunctionsRequest();
-    ListFunctionsRequest(const ListFunctionsRequest& src);
-    ListFunctionsRequest(ListFunctionsRequest&& src);
-    ListFunctionsRequest(const PlayFabCloudScriptListFunctionsRequest& src);
-    ListFunctionsRequest& operator=(const ListFunctionsRequest&) = delete;
-    ~ListFunctionsRequest() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
-};
-
-struct ListFunctionsResult : public PlayFabCloudScriptListFunctionsResult, public BaseModel, public ApiResult
-{
-    ListFunctionsResult();
-    ListFunctionsResult(const ListFunctionsResult& src);
-    ListFunctionsResult(ListFunctionsResult&& src);
-    ListFunctionsResult(const PlayFabCloudScriptListFunctionsResult& src);
-    ListFunctionsResult& operator=(const ListFunctionsResult&) = delete;
-    ~ListFunctionsResult() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    PointerArrayModel<PlayFabCloudScriptFunctionModel, FunctionModel> m_functions;
-};
-
-struct ListHttpFunctionsResult : public PlayFabCloudScriptListHttpFunctionsResult, public BaseModel, public ApiResult
+struct ListHttpFunctionsResult : public PFCloudScriptListHttpFunctionsResult, public BaseModel, public ApiResult
 {
     ListHttpFunctionsResult();
     ListHttpFunctionsResult(const ListHttpFunctionsResult& src);
     ListHttpFunctionsResult(ListHttpFunctionsResult&& src);
-    ListHttpFunctionsResult(const PlayFabCloudScriptListHttpFunctionsResult& src);
+    ListHttpFunctionsResult(const PFCloudScriptListHttpFunctionsResult& src);
     ListHttpFunctionsResult& operator=(const ListHttpFunctionsResult&) = delete;
     ~ListHttpFunctionsResult() = default;
 
@@ -238,15 +360,15 @@ struct ListHttpFunctionsResult : public PlayFabCloudScriptListHttpFunctionsResul
     JsonValue ToJson() const override;
 
 private:
-    PointerArrayModel<PlayFabCloudScriptHttpFunctionModel, HttpFunctionModel> m_functions;
+    PointerArrayModel<PFCloudScriptHttpFunctionModel, HttpFunctionModel> m_functions;
 };
 
-struct QueuedFunctionModel : public PlayFabCloudScriptQueuedFunctionModel, public SerializableModel
+struct QueuedFunctionModel : public PFCloudScriptQueuedFunctionModel, public SerializableModel
 {
     QueuedFunctionModel();
     QueuedFunctionModel(const QueuedFunctionModel& src);
     QueuedFunctionModel(QueuedFunctionModel&& src);
-    QueuedFunctionModel(const PlayFabCloudScriptQueuedFunctionModel& src);
+    QueuedFunctionModel(const PFCloudScriptQueuedFunctionModel& src);
     QueuedFunctionModel& operator=(const QueuedFunctionModel&) = delete;
     ~QueuedFunctionModel() = default;
 
@@ -262,12 +384,12 @@ private:
     String m_queueName;
 };
 
-struct ListQueuedFunctionsResult : public PlayFabCloudScriptListQueuedFunctionsResult, public BaseModel, public ApiResult
+struct ListQueuedFunctionsResult : public PFCloudScriptListQueuedFunctionsResult, public BaseModel, public ApiResult
 {
     ListQueuedFunctionsResult();
     ListQueuedFunctionsResult(const ListQueuedFunctionsResult& src);
     ListQueuedFunctionsResult(ListQueuedFunctionsResult&& src);
-    ListQueuedFunctionsResult(const PlayFabCloudScriptListQueuedFunctionsResult& src);
+    ListQueuedFunctionsResult(const PFCloudScriptListQueuedFunctionsResult& src);
     ListQueuedFunctionsResult& operator=(const ListQueuedFunctionsResult&) = delete;
     ~ListQueuedFunctionsResult() = default;
 
@@ -275,35 +397,51 @@ struct ListQueuedFunctionsResult : public PlayFabCloudScriptListQueuedFunctionsR
     JsonValue ToJson() const override;
 
 private:
-    PointerArrayModel<PlayFabCloudScriptQueuedFunctionModel, QueuedFunctionModel> m_functions;
+    PointerArrayModel<PFCloudScriptQueuedFunctionModel, QueuedFunctionModel> m_functions;
 };
 
-struct NameIdentifier : public PlayFabCloudScriptNameIdentifier, public SerializableModel
+struct PostFunctionResultForEntityTriggeredActionRequest : public PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest, public BaseModel
 {
-    NameIdentifier();
-    NameIdentifier(const NameIdentifier& src);
-    NameIdentifier(NameIdentifier&& src);
-    NameIdentifier(const PlayFabCloudScriptNameIdentifier& src);
-    NameIdentifier& operator=(const NameIdentifier&) = delete;
-    ~NameIdentifier() = default;
+    PostFunctionResultForEntityTriggeredActionRequest();
+    PostFunctionResultForEntityTriggeredActionRequest(const PostFunctionResultForEntityTriggeredActionRequest& src);
+    PostFunctionResultForEntityTriggeredActionRequest(PostFunctionResultForEntityTriggeredActionRequest&& src);
+    PostFunctionResultForEntityTriggeredActionRequest(const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& src);
+    PostFunctionResultForEntityTriggeredActionRequest& operator=(const PostFunctionResultForEntityTriggeredActionRequest&) = delete;
+    ~PostFunctionResultForEntityTriggeredActionRequest() = default;
 
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
 private:
-    String m_id;
-    String m_name;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+    EntityKey m_entity;
+    ExecuteFunctionResult m_functionResult;
 };
 
-struct PlayStreamEventEnvelopeModel : public PlayFabCloudScriptPlayStreamEventEnvelopeModel, public SerializableModel
+struct PostFunctionResultForFunctionExecutionRequest : public PFCloudScriptPostFunctionResultForFunctionExecutionRequest, public BaseModel
+{
+    PostFunctionResultForFunctionExecutionRequest();
+    PostFunctionResultForFunctionExecutionRequest(const PostFunctionResultForFunctionExecutionRequest& src);
+    PostFunctionResultForFunctionExecutionRequest(PostFunctionResultForFunctionExecutionRequest&& src);
+    PostFunctionResultForFunctionExecutionRequest(const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& src);
+    PostFunctionResultForFunctionExecutionRequest& operator=(const PostFunctionResultForFunctionExecutionRequest&) = delete;
+    ~PostFunctionResultForFunctionExecutionRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+    EntityKey m_entity;
+    ExecuteFunctionResult m_functionResult;
+};
+
+struct PlayStreamEventEnvelopeModel : public PFCloudScriptPlayStreamEventEnvelopeModel, public SerializableModel
 {
     PlayStreamEventEnvelopeModel();
     PlayStreamEventEnvelopeModel(const PlayStreamEventEnvelopeModel& src);
     PlayStreamEventEnvelopeModel(PlayStreamEventEnvelopeModel&& src);
-    PlayStreamEventEnvelopeModel(const PlayFabCloudScriptPlayStreamEventEnvelopeModel& src);
+    PlayStreamEventEnvelopeModel(const PFCloudScriptPlayStreamEventEnvelopeModel& src);
     PlayStreamEventEnvelopeModel& operator=(const PlayStreamEventEnvelopeModel&) = delete;
     ~PlayStreamEventEnvelopeModel() = default;
 
@@ -322,48 +460,12 @@ private:
     String m_eventSettings;
 };
 
-struct PostFunctionResultForEntityTriggeredActionRequest : public PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest, public BaseModel
-{
-    PostFunctionResultForEntityTriggeredActionRequest();
-    PostFunctionResultForEntityTriggeredActionRequest(const PostFunctionResultForEntityTriggeredActionRequest& src);
-    PostFunctionResultForEntityTriggeredActionRequest(PostFunctionResultForEntityTriggeredActionRequest&& src);
-    PostFunctionResultForEntityTriggeredActionRequest(const PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest& src);
-    PostFunctionResultForEntityTriggeredActionRequest& operator=(const PostFunctionResultForEntityTriggeredActionRequest&) = delete;
-    ~PostFunctionResultForEntityTriggeredActionRequest() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    ExecuteFunctionResult m_functionResult;
-};
-
-struct PostFunctionResultForFunctionExecutionRequest : public PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest, public BaseModel
-{
-    PostFunctionResultForFunctionExecutionRequest();
-    PostFunctionResultForFunctionExecutionRequest(const PostFunctionResultForFunctionExecutionRequest& src);
-    PostFunctionResultForFunctionExecutionRequest(PostFunctionResultForFunctionExecutionRequest&& src);
-    PostFunctionResultForFunctionExecutionRequest(const PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest& src);
-    PostFunctionResultForFunctionExecutionRequest& operator=(const PostFunctionResultForFunctionExecutionRequest&) = delete;
-    ~PostFunctionResultForFunctionExecutionRequest() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    ExecuteFunctionResult m_functionResult;
-};
-
-struct PostFunctionResultForPlayerTriggeredActionRequest : public PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest, public BaseModel
+struct PostFunctionResultForPlayerTriggeredActionRequest : public PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest, public BaseModel
 {
     PostFunctionResultForPlayerTriggeredActionRequest();
     PostFunctionResultForPlayerTriggeredActionRequest(const PostFunctionResultForPlayerTriggeredActionRequest& src);
     PostFunctionResultForPlayerTriggeredActionRequest(PostFunctionResultForPlayerTriggeredActionRequest&& src);
-    PostFunctionResultForPlayerTriggeredActionRequest(const PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& src);
+    PostFunctionResultForPlayerTriggeredActionRequest(const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& src);
     PostFunctionResultForPlayerTriggeredActionRequest& operator=(const PostFunctionResultForPlayerTriggeredActionRequest&) = delete;
     ~PostFunctionResultForPlayerTriggeredActionRequest() = default;
 
@@ -371,19 +473,19 @@ struct PostFunctionResultForPlayerTriggeredActionRequest : public PlayFabCloudSc
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     StdExtra::optional<EntityKey> m_entity;
     ExecuteFunctionResult m_functionResult;
     PlayerProfileModel m_playerProfile;
     StdExtra::optional<PlayStreamEventEnvelopeModel> m_playStreamEventEnvelope;
 };
 
-struct PostFunctionResultForScheduledTaskRequest : public PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest, public BaseModel
+struct PostFunctionResultForScheduledTaskRequest : public PFCloudScriptPostFunctionResultForScheduledTaskRequest, public BaseModel
 {
     PostFunctionResultForScheduledTaskRequest();
     PostFunctionResultForScheduledTaskRequest(const PostFunctionResultForScheduledTaskRequest& src);
     PostFunctionResultForScheduledTaskRequest(PostFunctionResultForScheduledTaskRequest&& src);
-    PostFunctionResultForScheduledTaskRequest(const PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest& src);
+    PostFunctionResultForScheduledTaskRequest(const PFCloudScriptPostFunctionResultForScheduledTaskRequest& src);
     PostFunctionResultForScheduledTaskRequest& operator=(const PostFunctionResultForScheduledTaskRequest&) = delete;
     ~PostFunctionResultForScheduledTaskRequest() = default;
 
@@ -391,18 +493,18 @@ struct PostFunctionResultForScheduledTaskRequest : public PlayFabCloudScriptPost
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     EntityKey m_entity;
     ExecuteFunctionResult m_functionResult;
     NameIdentifier m_scheduledTaskId;
 };
 
-struct RegisterHttpFunctionRequest : public PlayFabCloudScriptRegisterHttpFunctionRequest, public BaseModel
+struct RegisterHttpFunctionRequest : public PFCloudScriptRegisterHttpFunctionRequest, public BaseModel
 {
     RegisterHttpFunctionRequest();
     RegisterHttpFunctionRequest(const RegisterHttpFunctionRequest& src);
     RegisterHttpFunctionRequest(RegisterHttpFunctionRequest&& src);
-    RegisterHttpFunctionRequest(const PlayFabCloudScriptRegisterHttpFunctionRequest& src);
+    RegisterHttpFunctionRequest(const PFCloudScriptRegisterHttpFunctionRequest& src);
     RegisterHttpFunctionRequest& operator=(const RegisterHttpFunctionRequest&) = delete;
     ~RegisterHttpFunctionRequest() = default;
 
@@ -410,17 +512,17 @@ struct RegisterHttpFunctionRequest : public PlayFabCloudScriptRegisterHttpFuncti
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_functionName;
     String m_functionUrl;
 };
 
-struct RegisterQueuedFunctionRequest : public PlayFabCloudScriptRegisterQueuedFunctionRequest, public BaseModel
+struct RegisterQueuedFunctionRequest : public PFCloudScriptRegisterQueuedFunctionRequest, public BaseModel
 {
     RegisterQueuedFunctionRequest();
     RegisterQueuedFunctionRequest(const RegisterQueuedFunctionRequest& src);
     RegisterQueuedFunctionRequest(RegisterQueuedFunctionRequest&& src);
-    RegisterQueuedFunctionRequest(const PlayFabCloudScriptRegisterQueuedFunctionRequest& src);
+    RegisterQueuedFunctionRequest(const PFCloudScriptRegisterQueuedFunctionRequest& src);
     RegisterQueuedFunctionRequest& operator=(const RegisterQueuedFunctionRequest&) = delete;
     ~RegisterQueuedFunctionRequest() = default;
 
@@ -429,17 +531,17 @@ struct RegisterQueuedFunctionRequest : public PlayFabCloudScriptRegisterQueuedFu
 
 private:
     String m_connectionString;
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_functionName;
     String m_queueName;
 };
 
-struct UnregisterFunctionRequest : public PlayFabCloudScriptUnregisterFunctionRequest, public BaseModel
+struct UnregisterFunctionRequest : public PFCloudScriptUnregisterFunctionRequest, public BaseModel
 {
     UnregisterFunctionRequest();
     UnregisterFunctionRequest(const UnregisterFunctionRequest& src);
     UnregisterFunctionRequest(UnregisterFunctionRequest&& src);
-    UnregisterFunctionRequest(const PlayFabCloudScriptUnregisterFunctionRequest& src);
+    UnregisterFunctionRequest(const PFCloudScriptUnregisterFunctionRequest& src);
     UnregisterFunctionRequest& operator=(const UnregisterFunctionRequest&) = delete;
     ~UnregisterFunctionRequest() = default;
 
@@ -447,7 +549,7 @@ struct UnregisterFunctionRequest : public PlayFabCloudScriptUnregisterFunctionRe
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_functionName;
 };
 
@@ -457,40 +559,36 @@ namespace JsonUtils
 {
 // Serialization methods for public models
 
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptScriptExecutionError& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptLogStatement& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptExecuteCloudScriptResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptExecuteEntityCloudScriptRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptExecuteFunctionRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptFunctionExecutionError& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptExecuteFunctionResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptFunctionModel& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptHttpFunctionModel& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptListFunctionsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptListFunctionsResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptListHttpFunctionsResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptQueuedFunctionModel& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptListQueuedFunctionsResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptNameIdentifier& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptPlayStreamEventEnvelopeModel& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptPostFunctionResultForScheduledTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptRegisterHttpFunctionRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptRegisterQueuedFunctionRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabCloudScriptUnregisterFunctionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptGetCloudScriptRevisionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptCloudScriptFile& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptGetCloudScriptRevisionResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptCloudScriptVersionStatus& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptGetCloudScriptVersionsResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptSetPublishedRevisionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptUpdateCloudScriptRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptUpdateCloudScriptResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteCloudScriptRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteCloudScriptServerRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteEntityCloudScriptRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteFunctionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptFunctionExecutionError& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteFunctionResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptListFunctionsRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptFunctionModel& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptListFunctionsResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptHttpFunctionModel& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptListHttpFunctionsResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptQueuedFunctionModel& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptListQueuedFunctionsResult& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptPlayStreamEventEnvelopeModel& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForScheduledTaskRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptRegisterHttpFunctionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptRegisterQueuedFunctionRequest& input);
+template<> inline JsonValue ToJson<>(const PFCloudScriptUnregisterFunctionRequest& input);
 } // namespace JsonUtils
 
 // EnumRange definitions used for Enum (de)serialization
-template<> struct EnumRange<PlayFabCloudScriptCloudScriptRevisionOption>
-{
-    static constexpr PlayFabCloudScriptCloudScriptRevisionOption maxValue = PlayFabCloudScriptCloudScriptRevisionOption::Specific;
-};
-
-template<> struct EnumRange<PlayFabCloudScriptTriggerType>
-{
-    static constexpr PlayFabCloudScriptTriggerType maxValue = PlayFabCloudScriptTriggerType::Queue;
-};
-
 } // namespace PlayFab

@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabGlobal.h>
+#include <playfab/PFGlobal.h>
 
 namespace PlayFab
 {
@@ -10,12 +10,12 @@ namespace Detail
 
 struct MemoryHooks
 {
-    PlayFabMemAllocFunction* alloc;
-    PlayFabMemFreeFunction* free;
+    PFMemAllocFunction* alloc;
+    PFMemFreeFunction* free;
 };
 
 MemoryHooks& GetMemoryHooks();
-HRESULT SetMemoryHooks(PlayFabMemAllocFunction* memAllocFunc, PlayFabMemFreeFunction* memFreeFunc);
+HRESULT SetMemoryHooks(PFMemAllocFunction* memAllocFunc, PFMemFreeFunction* memFreeFunc);
 
 }
 

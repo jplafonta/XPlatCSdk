@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabExperimentationDataModels.h>
+#include <playfab/PFExperimentationDataModels.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
@@ -10,12 +10,12 @@ namespace ExperimentationModels
 {
 
 // Experimentation Classes
-struct CreateExclusionGroupRequest : public PlayFabExperimentationCreateExclusionGroupRequest, public BaseModel
+struct CreateExclusionGroupRequest : public PFExperimentationCreateExclusionGroupRequest, public BaseModel
 {
     CreateExclusionGroupRequest();
     CreateExclusionGroupRequest(const CreateExclusionGroupRequest& src);
     CreateExclusionGroupRequest(CreateExclusionGroupRequest&& src);
-    CreateExclusionGroupRequest(const PlayFabExperimentationCreateExclusionGroupRequest& src);
+    CreateExclusionGroupRequest(const PFExperimentationCreateExclusionGroupRequest& src);
     CreateExclusionGroupRequest& operator=(const CreateExclusionGroupRequest&) = delete;
     ~CreateExclusionGroupRequest() = default;
 
@@ -23,17 +23,17 @@ struct CreateExclusionGroupRequest : public PlayFabExperimentationCreateExclusio
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_description;
     String m_name;
 };
 
-struct CreateExclusionGroupResult : public PlayFabExperimentationCreateExclusionGroupResult, public SerializableModel, public ApiResult
+struct CreateExclusionGroupResult : public PFExperimentationCreateExclusionGroupResult, public SerializableModel, public ApiResult
 {
     CreateExclusionGroupResult();
     CreateExclusionGroupResult(const CreateExclusionGroupResult& src);
     CreateExclusionGroupResult(CreateExclusionGroupResult&& src);
-    CreateExclusionGroupResult(const PlayFabExperimentationCreateExclusionGroupResult& src);
+    CreateExclusionGroupResult(const PFExperimentationCreateExclusionGroupResult& src);
     CreateExclusionGroupResult& operator=(const CreateExclusionGroupResult&) = delete;
     ~CreateExclusionGroupResult() = default;
 
@@ -47,12 +47,12 @@ private:
     String m_exclusionGroupId;
 };
 
-struct Variant : public PlayFabExperimentationVariant, public BaseModel
+struct Variant : public PFExperimentationVariant, public BaseModel
 {
     Variant();
     Variant(const Variant& src);
     Variant(Variant&& src);
-    Variant(const PlayFabExperimentationVariant& src);
+    Variant(const PFExperimentationVariant& src);
     Variant& operator=(const Variant&) = delete;
     ~Variant() = default;
 
@@ -64,15 +64,15 @@ private:
     String m_id;
     String m_name;
     String m_titleDataOverrideLabel;
-    PointerArrayModel<PlayFabVariable, Variable> m_variables;
+    PointerArrayModel<PFVariable, Variable> m_variables;
 };
 
-struct CreateExperimentRequest : public PlayFabExperimentationCreateExperimentRequest, public BaseModel
+struct CreateExperimentRequest : public PFExperimentationCreateExperimentRequest, public BaseModel
 {
     CreateExperimentRequest();
     CreateExperimentRequest(const CreateExperimentRequest& src);
     CreateExperimentRequest(CreateExperimentRequest&& src);
-    CreateExperimentRequest(const PlayFabExperimentationCreateExperimentRequest& src);
+    CreateExperimentRequest(const PFExperimentationCreateExperimentRequest& src);
     CreateExperimentRequest& operator=(const CreateExperimentRequest&) = delete;
     ~CreateExperimentRequest() = default;
 
@@ -80,24 +80,24 @@ struct CreateExperimentRequest : public PlayFabExperimentationCreateExperimentRe
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_description;
     StdExtra::optional<time_t> m_endDate;
     String m_exclusionGroupId;
     StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
-    StdExtra::optional<PlayFabExperimentationExperimentType> m_experimentType;
+    StdExtra::optional<PFExperimentationExperimentType> m_experimentType;
     String m_name;
     String m_segmentId;
     PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
-    PointerArrayModel<PlayFabExperimentationVariant, Variant> m_variants;
+    PointerArrayModel<PFExperimentationVariant, Variant> m_variants;
 };
 
-struct CreateExperimentResult : public PlayFabExperimentationCreateExperimentResult, public SerializableModel, public ApiResult
+struct CreateExperimentResult : public PFExperimentationCreateExperimentResult, public SerializableModel, public ApiResult
 {
     CreateExperimentResult();
     CreateExperimentResult(const CreateExperimentResult& src);
     CreateExperimentResult(CreateExperimentResult&& src);
-    CreateExperimentResult(const PlayFabExperimentationCreateExperimentResult& src);
+    CreateExperimentResult(const PFExperimentationCreateExperimentResult& src);
     CreateExperimentResult& operator=(const CreateExperimentResult&) = delete;
     ~CreateExperimentResult() = default;
 
@@ -111,12 +111,12 @@ private:
     String m_experimentId;
 };
 
-struct DeleteExclusionGroupRequest : public PlayFabExperimentationDeleteExclusionGroupRequest, public BaseModel
+struct DeleteExclusionGroupRequest : public PFExperimentationDeleteExclusionGroupRequest, public BaseModel
 {
     DeleteExclusionGroupRequest();
     DeleteExclusionGroupRequest(const DeleteExclusionGroupRequest& src);
     DeleteExclusionGroupRequest(DeleteExclusionGroupRequest&& src);
-    DeleteExclusionGroupRequest(const PlayFabExperimentationDeleteExclusionGroupRequest& src);
+    DeleteExclusionGroupRequest(const PFExperimentationDeleteExclusionGroupRequest& src);
     DeleteExclusionGroupRequest& operator=(const DeleteExclusionGroupRequest&) = delete;
     ~DeleteExclusionGroupRequest() = default;
 
@@ -124,16 +124,16 @@ struct DeleteExclusionGroupRequest : public PlayFabExperimentationDeleteExclusio
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_exclusionGroupId;
 };
 
-struct DeleteExperimentRequest : public PlayFabExperimentationDeleteExperimentRequest, public BaseModel
+struct DeleteExperimentRequest : public PFExperimentationDeleteExperimentRequest, public BaseModel
 {
     DeleteExperimentRequest();
     DeleteExperimentRequest(const DeleteExperimentRequest& src);
     DeleteExperimentRequest(DeleteExperimentRequest&& src);
-    DeleteExperimentRequest(const PlayFabExperimentationDeleteExperimentRequest& src);
+    DeleteExperimentRequest(const PFExperimentationDeleteExperimentRequest& src);
     DeleteExperimentRequest& operator=(const DeleteExperimentRequest&) = delete;
     ~DeleteExperimentRequest() = default;
 
@@ -141,61 +141,32 @@ struct DeleteExperimentRequest : public PlayFabExperimentationDeleteExperimentRe
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_experimentId;
 };
 
-struct ExclusionGroupTrafficAllocation : public PlayFabExperimentationExclusionGroupTrafficAllocation, public SerializableModel
+struct GetExclusionGroupsRequest : public PFExperimentationGetExclusionGroupsRequest, public BaseModel
 {
-    ExclusionGroupTrafficAllocation();
-    ExclusionGroupTrafficAllocation(const ExclusionGroupTrafficAllocation& src);
-    ExclusionGroupTrafficAllocation(ExclusionGroupTrafficAllocation&& src);
-    ExclusionGroupTrafficAllocation(const PlayFabExperimentationExclusionGroupTrafficAllocation& src);
-    ExclusionGroupTrafficAllocation& operator=(const ExclusionGroupTrafficAllocation&) = delete;
-    ~ExclusionGroupTrafficAllocation() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_experimentId;
-};
-
-struct Experiment : public PlayFabExperimentationExperiment, public BaseModel
-{
-    Experiment();
-    Experiment(const Experiment& src);
-    Experiment(Experiment&& src);
-    Experiment(const PlayFabExperimentationExperiment& src);
-    Experiment& operator=(const Experiment&) = delete;
-    ~Experiment() = default;
+    GetExclusionGroupsRequest();
+    GetExclusionGroupsRequest(const GetExclusionGroupsRequest& src);
+    GetExclusionGroupsRequest(GetExclusionGroupsRequest&& src);
+    GetExclusionGroupsRequest(const PFExperimentationGetExclusionGroupsRequest& src);
+    GetExclusionGroupsRequest& operator=(const GetExclusionGroupsRequest&) = delete;
+    ~GetExclusionGroupsRequest() = default;
 
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
 
 private:
-    String m_description;
-    StdExtra::optional<time_t> m_endDate;
-    String m_exclusionGroupId;
-    StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
-    StdExtra::optional<PlayFabExperimentationExperimentType> m_experimentType;
-    String m_id;
-    String m_name;
-    String m_segmentId;
-    StdExtra::optional<PlayFabExperimentationExperimentState> m_state;
-    PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
-    PointerArrayModel<PlayFabExperimentationVariant, Variant> m_variants;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ExperimentExclusionGroup : public PlayFabExperimentationExperimentExclusionGroup, public SerializableModel
+struct ExperimentExclusionGroup : public PFExperimentationExperimentExclusionGroup, public SerializableModel
 {
     ExperimentExclusionGroup();
     ExperimentExclusionGroup(const ExperimentExclusionGroup& src);
     ExperimentExclusionGroup(ExperimentExclusionGroup&& src);
-    ExperimentExclusionGroup(const PlayFabExperimentationExperimentExclusionGroup& src);
+    ExperimentExclusionGroup(const PFExperimentationExperimentExclusionGroup& src);
     ExperimentExclusionGroup& operator=(const ExperimentExclusionGroup&) = delete;
     ~ExperimentExclusionGroup() = default;
 
@@ -211,28 +182,12 @@ private:
     String m_name;
 };
 
-struct GetExclusionGroupsRequest : public PlayFabExperimentationGetExclusionGroupsRequest, public BaseModel
-{
-    GetExclusionGroupsRequest();
-    GetExclusionGroupsRequest(const GetExclusionGroupsRequest& src);
-    GetExclusionGroupsRequest(GetExclusionGroupsRequest&& src);
-    GetExclusionGroupsRequest(const PlayFabExperimentationGetExclusionGroupsRequest& src);
-    GetExclusionGroupsRequest& operator=(const GetExclusionGroupsRequest&) = delete;
-    ~GetExclusionGroupsRequest() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
-};
-
-struct GetExclusionGroupsResult : public PlayFabExperimentationGetExclusionGroupsResult, public BaseModel, public ApiResult
+struct GetExclusionGroupsResult : public PFExperimentationGetExclusionGroupsResult, public BaseModel, public ApiResult
 {
     GetExclusionGroupsResult();
     GetExclusionGroupsResult(const GetExclusionGroupsResult& src);
     GetExclusionGroupsResult(GetExclusionGroupsResult&& src);
-    GetExclusionGroupsResult(const PlayFabExperimentationGetExclusionGroupsResult& src);
+    GetExclusionGroupsResult(const PFExperimentationGetExclusionGroupsResult& src);
     GetExclusionGroupsResult& operator=(const GetExclusionGroupsResult&) = delete;
     ~GetExclusionGroupsResult() = default;
 
@@ -240,15 +195,15 @@ struct GetExclusionGroupsResult : public PlayFabExperimentationGetExclusionGroup
     JsonValue ToJson() const override;
 
 private:
-    PointerArrayModel<PlayFabExperimentationExperimentExclusionGroup, ExperimentExclusionGroup> m_exclusionGroups;
+    PointerArrayModel<PFExperimentationExperimentExclusionGroup, ExperimentExclusionGroup> m_exclusionGroups;
 };
 
-struct GetExclusionGroupTrafficRequest : public PlayFabExperimentationGetExclusionGroupTrafficRequest, public BaseModel
+struct GetExclusionGroupTrafficRequest : public PFExperimentationGetExclusionGroupTrafficRequest, public BaseModel
 {
     GetExclusionGroupTrafficRequest();
     GetExclusionGroupTrafficRequest(const GetExclusionGroupTrafficRequest& src);
     GetExclusionGroupTrafficRequest(GetExclusionGroupTrafficRequest&& src);
-    GetExclusionGroupTrafficRequest(const PlayFabExperimentationGetExclusionGroupTrafficRequest& src);
+    GetExclusionGroupTrafficRequest(const PFExperimentationGetExclusionGroupTrafficRequest& src);
     GetExclusionGroupTrafficRequest& operator=(const GetExclusionGroupTrafficRequest&) = delete;
     ~GetExclusionGroupTrafficRequest() = default;
 
@@ -256,16 +211,35 @@ struct GetExclusionGroupTrafficRequest : public PlayFabExperimentationGetExclusi
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_exclusionGroupId;
 };
 
-struct GetExclusionGroupTrafficResult : public PlayFabExperimentationGetExclusionGroupTrafficResult, public BaseModel, public ApiResult
+struct ExclusionGroupTrafficAllocation : public PFExperimentationExclusionGroupTrafficAllocation, public SerializableModel
+{
+    ExclusionGroupTrafficAllocation();
+    ExclusionGroupTrafficAllocation(const ExclusionGroupTrafficAllocation& src);
+    ExclusionGroupTrafficAllocation(ExclusionGroupTrafficAllocation&& src);
+    ExclusionGroupTrafficAllocation(const PFExperimentationExclusionGroupTrafficAllocation& src);
+    ExclusionGroupTrafficAllocation& operator=(const ExclusionGroupTrafficAllocation&) = delete;
+    ~ExclusionGroupTrafficAllocation() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+    size_t SerializedSize() const override;
+    void Serialize(void* buffer, size_t bufferSize) const override;
+
+private:
+    String m_experimentId;
+};
+
+struct GetExclusionGroupTrafficResult : public PFExperimentationGetExclusionGroupTrafficResult, public BaseModel, public ApiResult
 {
     GetExclusionGroupTrafficResult();
     GetExclusionGroupTrafficResult(const GetExclusionGroupTrafficResult& src);
     GetExclusionGroupTrafficResult(GetExclusionGroupTrafficResult&& src);
-    GetExclusionGroupTrafficResult(const PlayFabExperimentationGetExclusionGroupTrafficResult& src);
+    GetExclusionGroupTrafficResult(const PFExperimentationGetExclusionGroupTrafficResult& src);
     GetExclusionGroupTrafficResult& operator=(const GetExclusionGroupTrafficResult&) = delete;
     ~GetExclusionGroupTrafficResult() = default;
 
@@ -273,15 +247,15 @@ struct GetExclusionGroupTrafficResult : public PlayFabExperimentationGetExclusio
     JsonValue ToJson() const override;
 
 private:
-    PointerArrayModel<PlayFabExperimentationExclusionGroupTrafficAllocation, ExclusionGroupTrafficAllocation> m_trafficAllocations;
+    PointerArrayModel<PFExperimentationExclusionGroupTrafficAllocation, ExclusionGroupTrafficAllocation> m_trafficAllocations;
 };
 
-struct GetExperimentsRequest : public PlayFabExperimentationGetExperimentsRequest, public BaseModel
+struct GetExperimentsRequest : public PFExperimentationGetExperimentsRequest, public BaseModel
 {
     GetExperimentsRequest();
     GetExperimentsRequest(const GetExperimentsRequest& src);
     GetExperimentsRequest(GetExperimentsRequest&& src);
-    GetExperimentsRequest(const PlayFabExperimentationGetExperimentsRequest& src);
+    GetExperimentsRequest(const PFExperimentationGetExperimentsRequest& src);
     GetExperimentsRequest& operator=(const GetExperimentsRequest&) = delete;
     ~GetExperimentsRequest() = default;
 
@@ -289,15 +263,41 @@ struct GetExperimentsRequest : public PlayFabExperimentationGetExperimentsReques
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct GetExperimentsResult : public PlayFabExperimentationGetExperimentsResult, public BaseModel, public ApiResult
+struct Experiment : public PFExperimentationExperiment, public BaseModel
+{
+    Experiment();
+    Experiment(const Experiment& src);
+    Experiment(Experiment&& src);
+    Experiment(const PFExperimentationExperiment& src);
+    Experiment& operator=(const Experiment&) = delete;
+    ~Experiment() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    String m_description;
+    StdExtra::optional<time_t> m_endDate;
+    String m_exclusionGroupId;
+    StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
+    StdExtra::optional<PFExperimentationExperimentType> m_experimentType;
+    String m_id;
+    String m_name;
+    String m_segmentId;
+    StdExtra::optional<PFExperimentationExperimentState> m_state;
+    PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
+    PointerArrayModel<PFExperimentationVariant, Variant> m_variants;
+};
+
+struct GetExperimentsResult : public PFExperimentationGetExperimentsResult, public BaseModel, public ApiResult
 {
     GetExperimentsResult();
     GetExperimentsResult(const GetExperimentsResult& src);
     GetExperimentsResult(GetExperimentsResult&& src);
-    GetExperimentsResult(const PlayFabExperimentationGetExperimentsResult& src);
+    GetExperimentsResult(const PFExperimentationGetExperimentsResult& src);
     GetExperimentsResult& operator=(const GetExperimentsResult&) = delete;
     ~GetExperimentsResult() = default;
 
@@ -305,15 +305,15 @@ struct GetExperimentsResult : public PlayFabExperimentationGetExperimentsResult,
     JsonValue ToJson() const override;
 
 private:
-    PointerArrayModel<PlayFabExperimentationExperiment, Experiment> m_experiments;
+    PointerArrayModel<PFExperimentationExperiment, Experiment> m_experiments;
 };
 
-struct GetLatestScorecardRequest : public PlayFabExperimentationGetLatestScorecardRequest, public BaseModel
+struct GetLatestScorecardRequest : public PFExperimentationGetLatestScorecardRequest, public BaseModel
 {
     GetLatestScorecardRequest();
     GetLatestScorecardRequest(const GetLatestScorecardRequest& src);
     GetLatestScorecardRequest(GetLatestScorecardRequest&& src);
-    GetLatestScorecardRequest(const PlayFabExperimentationGetLatestScorecardRequest& src);
+    GetLatestScorecardRequest(const PFExperimentationGetLatestScorecardRequest& src);
     GetLatestScorecardRequest& operator=(const GetLatestScorecardRequest&) = delete;
     ~GetLatestScorecardRequest() = default;
 
@@ -321,16 +321,16 @@ struct GetLatestScorecardRequest : public PlayFabExperimentationGetLatestScoreca
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_experimentId;
 };
 
-struct MetricData : public PlayFabExperimentationMetricData, public SerializableModel
+struct MetricData : public PFExperimentationMetricData, public SerializableModel
 {
     MetricData();
     MetricData(const MetricData& src);
     MetricData(MetricData&& src);
-    MetricData(const PlayFabExperimentationMetricData& src);
+    MetricData(const PFExperimentationMetricData& src);
     MetricData& operator=(const MetricData&) = delete;
     ~MetricData() = default;
 
@@ -347,12 +347,12 @@ private:
     String m_statSigLevel;
 };
 
-struct ScorecardDataRow : public PlayFabExperimentationScorecardDataRow, public BaseModel
+struct ScorecardDataRow : public PFExperimentationScorecardDataRow, public BaseModel
 {
     ScorecardDataRow();
     ScorecardDataRow(const ScorecardDataRow& src);
     ScorecardDataRow(ScorecardDataRow&& src);
-    ScorecardDataRow(const PlayFabExperimentationScorecardDataRow& src);
+    ScorecardDataRow(const PFExperimentationScorecardDataRow& src);
     ScorecardDataRow& operator=(const ScorecardDataRow&) = delete;
     ~ScorecardDataRow() = default;
 
@@ -360,16 +360,16 @@ struct ScorecardDataRow : public PlayFabExperimentationScorecardDataRow, public 
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabExperimentationMetricDataDictionaryEntry, MetricData> m_metricDataRows;
+    AssociativeArrayModel<PFExperimentationMetricDataDictionaryEntry, MetricData> m_metricDataRows;
     String m_variantName;
 };
 
-struct Scorecard : public PlayFabExperimentationScorecard, public BaseModel
+struct Scorecard : public PFExperimentationScorecard, public BaseModel
 {
     Scorecard();
     Scorecard(const Scorecard& src);
     Scorecard(Scorecard&& src);
-    Scorecard(const PlayFabExperimentationScorecard& src);
+    Scorecard(const PFExperimentationScorecard& src);
     Scorecard& operator=(const Scorecard&) = delete;
     ~Scorecard() = default;
 
@@ -381,16 +381,16 @@ private:
     String m_duration;
     String m_experimentId;
     String m_experimentName;
-    StdExtra::optional<PlayFabExperimentationAnalysisTaskState> m_latestJobStatus;
-    PointerArrayModel<PlayFabExperimentationScorecardDataRow, ScorecardDataRow> m_scorecardDataRows;
+    StdExtra::optional<PFExperimentationAnalysisTaskState> m_latestJobStatus;
+    PointerArrayModel<PFExperimentationScorecardDataRow, ScorecardDataRow> m_scorecardDataRows;
 };
 
-struct GetLatestScorecardResult : public PlayFabExperimentationGetLatestScorecardResult, public BaseModel, public ApiResult
+struct GetLatestScorecardResult : public PFExperimentationGetLatestScorecardResult, public BaseModel, public ApiResult
 {
     GetLatestScorecardResult();
     GetLatestScorecardResult(const GetLatestScorecardResult& src);
     GetLatestScorecardResult(GetLatestScorecardResult&& src);
-    GetLatestScorecardResult(const PlayFabExperimentationGetLatestScorecardResult& src);
+    GetLatestScorecardResult(const PFExperimentationGetLatestScorecardResult& src);
     GetLatestScorecardResult& operator=(const GetLatestScorecardResult&) = delete;
     ~GetLatestScorecardResult() = default;
 
@@ -401,12 +401,12 @@ private:
     StdExtra::optional<Scorecard> m_scorecard;
 };
 
-struct GetTreatmentAssignmentRequest : public PlayFabExperimentationGetTreatmentAssignmentRequest, public BaseModel
+struct GetTreatmentAssignmentRequest : public PFExperimentationGetTreatmentAssignmentRequest, public BaseModel
 {
     GetTreatmentAssignmentRequest();
     GetTreatmentAssignmentRequest(const GetTreatmentAssignmentRequest& src);
     GetTreatmentAssignmentRequest(GetTreatmentAssignmentRequest&& src);
-    GetTreatmentAssignmentRequest(const PlayFabExperimentationGetTreatmentAssignmentRequest& src);
+    GetTreatmentAssignmentRequest(const PFExperimentationGetTreatmentAssignmentRequest& src);
     GetTreatmentAssignmentRequest& operator=(const GetTreatmentAssignmentRequest&) = delete;
     ~GetTreatmentAssignmentRequest() = default;
 
@@ -414,16 +414,16 @@ struct GetTreatmentAssignmentRequest : public PlayFabExperimentationGetTreatment
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     StdExtra::optional<EntityKey> m_entity;
 };
 
-struct GetTreatmentAssignmentResult : public PlayFabExperimentationGetTreatmentAssignmentResult, public BaseModel, public ApiResult
+struct GetTreatmentAssignmentResult : public PFExperimentationGetTreatmentAssignmentResult, public BaseModel, public ApiResult
 {
     GetTreatmentAssignmentResult();
     GetTreatmentAssignmentResult(const GetTreatmentAssignmentResult& src);
     GetTreatmentAssignmentResult(GetTreatmentAssignmentResult&& src);
-    GetTreatmentAssignmentResult(const PlayFabExperimentationGetTreatmentAssignmentResult& src);
+    GetTreatmentAssignmentResult(const PFExperimentationGetTreatmentAssignmentResult& src);
     GetTreatmentAssignmentResult& operator=(const GetTreatmentAssignmentResult&) = delete;
     ~GetTreatmentAssignmentResult() = default;
 
@@ -434,12 +434,12 @@ private:
     StdExtra::optional<TreatmentAssignment> m_treatmentAssignment;
 };
 
-struct StartExperimentRequest : public PlayFabExperimentationStartExperimentRequest, public BaseModel
+struct StartExperimentRequest : public PFExperimentationStartExperimentRequest, public BaseModel
 {
     StartExperimentRequest();
     StartExperimentRequest(const StartExperimentRequest& src);
     StartExperimentRequest(StartExperimentRequest&& src);
-    StartExperimentRequest(const PlayFabExperimentationStartExperimentRequest& src);
+    StartExperimentRequest(const PFExperimentationStartExperimentRequest& src);
     StartExperimentRequest& operator=(const StartExperimentRequest&) = delete;
     ~StartExperimentRequest() = default;
 
@@ -447,16 +447,16 @@ struct StartExperimentRequest : public PlayFabExperimentationStartExperimentRequ
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_experimentId;
 };
 
-struct StopExperimentRequest : public PlayFabExperimentationStopExperimentRequest, public BaseModel
+struct StopExperimentRequest : public PFExperimentationStopExperimentRequest, public BaseModel
 {
     StopExperimentRequest();
     StopExperimentRequest(const StopExperimentRequest& src);
     StopExperimentRequest(StopExperimentRequest&& src);
-    StopExperimentRequest(const PlayFabExperimentationStopExperimentRequest& src);
+    StopExperimentRequest(const PFExperimentationStopExperimentRequest& src);
     StopExperimentRequest& operator=(const StopExperimentRequest&) = delete;
     ~StopExperimentRequest() = default;
 
@@ -464,16 +464,16 @@ struct StopExperimentRequest : public PlayFabExperimentationStopExperimentReques
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_experimentId;
 };
 
-struct UpdateExclusionGroupRequest : public PlayFabExperimentationUpdateExclusionGroupRequest, public BaseModel
+struct UpdateExclusionGroupRequest : public PFExperimentationUpdateExclusionGroupRequest, public BaseModel
 {
     UpdateExclusionGroupRequest();
     UpdateExclusionGroupRequest(const UpdateExclusionGroupRequest& src);
     UpdateExclusionGroupRequest(UpdateExclusionGroupRequest&& src);
-    UpdateExclusionGroupRequest(const PlayFabExperimentationUpdateExclusionGroupRequest& src);
+    UpdateExclusionGroupRequest(const PFExperimentationUpdateExclusionGroupRequest& src);
     UpdateExclusionGroupRequest& operator=(const UpdateExclusionGroupRequest&) = delete;
     ~UpdateExclusionGroupRequest() = default;
 
@@ -481,18 +481,18 @@ struct UpdateExclusionGroupRequest : public PlayFabExperimentationUpdateExclusio
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_description;
     String m_exclusionGroupId;
     String m_name;
 };
 
-struct UpdateExperimentRequest : public PlayFabExperimentationUpdateExperimentRequest, public BaseModel
+struct UpdateExperimentRequest : public PFExperimentationUpdateExperimentRequest, public BaseModel
 {
     UpdateExperimentRequest();
     UpdateExperimentRequest(const UpdateExperimentRequest& src);
     UpdateExperimentRequest(UpdateExperimentRequest&& src);
-    UpdateExperimentRequest(const PlayFabExperimentationUpdateExperimentRequest& src);
+    UpdateExperimentRequest(const PFExperimentationUpdateExperimentRequest& src);
     UpdateExperimentRequest& operator=(const UpdateExperimentRequest&) = delete;
     ~UpdateExperimentRequest() = default;
 
@@ -500,17 +500,17 @@ struct UpdateExperimentRequest : public PlayFabExperimentationUpdateExperimentRe
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     String m_description;
     StdExtra::optional<time_t> m_endDate;
     String m_exclusionGroupId;
     StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
-    StdExtra::optional<PlayFabExperimentationExperimentType> m_experimentType;
+    StdExtra::optional<PFExperimentationExperimentType> m_experimentType;
     String m_id;
     String m_name;
     String m_segmentId;
     PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
-    PointerArrayModel<PlayFabExperimentationVariant, Variant> m_variants;
+    PointerArrayModel<PFExperimentationVariant, Variant> m_variants;
 };
 
 } // namespace ExperimentationModels
@@ -519,49 +519,34 @@ namespace JsonUtils
 {
 // Serialization methods for public models
 
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationVariant& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExclusionGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationExclusionGroupTrafficAllocation& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationExperiment& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationExperimentExclusionGroup& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupsResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupTrafficRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupTrafficResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationMetricData& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationScorecardDataRow& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationScorecard& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationStartExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationStopExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExclusionGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExperimentRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationCreateExclusionGroupRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationCreateExclusionGroupResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationVariant& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationCreateExperimentRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationCreateExperimentResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationDeleteExclusionGroupRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationDeleteExperimentRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupsRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationExperimentExclusionGroup& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupsResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupTrafficRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationExclusionGroupTrafficAllocation& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupTrafficResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetExperimentsRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationExperiment& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetExperimentsResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetLatestScorecardRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationMetricData& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationScorecardDataRow& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationScorecard& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetLatestScorecardResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetTreatmentAssignmentRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationGetTreatmentAssignmentResult& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationStartExperimentRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationStopExperimentRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationUpdateExclusionGroupRequest& input);
+template<> inline JsonValue ToJson<>(const PFExperimentationUpdateExperimentRequest& input);
 } // namespace JsonUtils
 
 // EnumRange definitions used for Enum (de)serialization
-template<> struct EnumRange<PlayFabExperimentationAnalysisTaskState>
-{
-    static constexpr PlayFabExperimentationAnalysisTaskState maxValue = PlayFabExperimentationAnalysisTaskState::Canceled;
-};
-
-template<> struct EnumRange<PlayFabExperimentationExperimentState>
-{
-    static constexpr PlayFabExperimentationExperimentState maxValue = PlayFabExperimentationExperimentState::Deleted;
-};
-
-template<> struct EnumRange<PlayFabExperimentationExperimentType>
-{
-    static constexpr PlayFabExperimentationExperimentType maxValue = PlayFabExperimentationExperimentType::Snapshot;
-};
-
 } // namespace PlayFab

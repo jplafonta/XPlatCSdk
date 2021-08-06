@@ -1,0 +1,687 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="C Public Includes" />
+    <Filter Include="C Public Includes\playfab" />
+    <Filter Include="Source" />
+    <Filter Include="Source\Api" />
+    <Filter Include="Source\QoS" />
+    <Filter Include="Source\Shared" />
+    <Filter Include="Source\ScheduledTask" />
+    <Filter Include="Source\TitleDataManagement" />
+    <Filter Include="Source\PlayStream" />
+    <Filter Include="Source\GameServer" />
+    <Filter Include="Source\PlayerItemManagement" />
+    <Filter Include="Source\AccountManagement" />
+    <Filter Include="Source\Authentication" />
+    <Filter Include="Source\PlayerDataManagement" />
+    <Filter Include="Source\Segments" />
+    <Filter Include="Source\Content" />
+    <Filter Include="Source\CloudScript" />
+    <Filter Include="Source\Matchmaking" />
+    <Filter Include="Source\Character" />
+    <Filter Include="Source\Groups" />
+    <Filter Include="Source\Trading" />
+    <Filter Include="Source\Friends" />
+    <Filter Include="Source\PlatformSpecific" />
+    <Filter Include="Source\Advertising" />
+    <Filter Include="Source\Analytics" />
+    <Filter Include="Source\Data" />
+    <Filter Include="Source\Experimentation" />
+    <Filter Include="Source\Localization" />
+    <Filter Include="Source\MultiplayerServer" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFCore.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFEntity.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFErrors.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGlobal.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPal.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFQoS.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\ApiAsyncProviders.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\AsyncOp.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\AsyncProvider.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\AsyncProvider.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\AuthTokens.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\AuthTokens.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\BaseModel.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\BaseModel.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\CallbackManager.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Entity.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Entity.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\EnumTraits.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Error.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Error.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\GlobalState.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\GlobalState.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\HttpClient.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\HttpClient.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\InternalMemory.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\InternalMemory.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\JsonUtils.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\JsonUtils.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlatformUser.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlatformUser.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlatformUtils.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Result.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\ResultMacros.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\SdkVersion.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Socket.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Socket.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\StdOptional.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\TaskQueue.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\TaskQueue.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Trace.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Trace.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Types.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Api\PFEntity.cpp" >
+      <Filter>Source\Api</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Api\PFGlobal.cpp" >
+      <Filter>Source\Api</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabSourceDir)\source\QoS\PFQoS.cpp" >
+      <Filter>Source\QoS</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabSourceDir)\source\QoS\QoS.cpp" >
+      <Filter>Source\QoS</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\QoS\QoS.h" >
+      <Filter>Source\QoS</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\QoS\QoSDataModels.cpp" >
+      <Filter>Source\QoS</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\QoS\QoSDataModels.h" >
+      <Filter>Source\QoS</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\QoS\QoSSocket.cpp" >
+      <Filter>Source\QoS</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\QoS\QoSSocket.h" >
+      <Filter>Source\QoS</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFSharedDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Shared\SharedDataModels.h">
+      <Filter>Source\Shared</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Shared\SharedDataModels.cpp">
+      <Filter>Source\Shared</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFScheduledTaskDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\ScheduledTask\ScheduledTaskDataModels.h">
+      <Filter>Source\ScheduledTask</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\ScheduledTask\ScheduledTaskDataModels.cpp">
+      <Filter>Source\ScheduledTask</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\ScheduledTask\ScheduledTask.h">
+      <Filter>Source\ScheduledTask</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\ScheduledTask\ScheduledTask.cpp">
+      <Filter>Source\ScheduledTask</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFScheduledTask.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\ScheduledTask\PFScheduledTask.cpp">
+      <Filter>Source\ScheduledTask</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFTitleDataManagementDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\TitleDataManagement\TitleDataManagementDataModels.h">
+      <Filter>Source\TitleDataManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\TitleDataManagement\TitleDataManagementDataModels.cpp">
+      <Filter>Source\TitleDataManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\TitleDataManagement\TitleDataManagement.h">
+      <Filter>Source\TitleDataManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\TitleDataManagement\TitleDataManagement.cpp">
+      <Filter>Source\TitleDataManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFTitleDataManagement.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\TitleDataManagement\PFTitleDataManagement.cpp">
+      <Filter>Source\TitleDataManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlayStreamDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlayStream\PlayStreamDataModels.h">
+      <Filter>Source\PlayStream</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayStream\PlayStreamDataModels.cpp">
+      <Filter>Source\PlayStream</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlayStream\PlayStream.h">
+      <Filter>Source\PlayStream</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayStream\PlayStream.cpp">
+      <Filter>Source\PlayStream</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlayStream.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayStream\PFPlayStream.cpp">
+      <Filter>Source\PlayStream</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGameServerDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\GameServer\GameServerDataModels.h">
+      <Filter>Source\GameServer</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\GameServer\GameServerDataModels.cpp">
+      <Filter>Source\GameServer</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\GameServer\GameServer.h">
+      <Filter>Source\GameServer</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\GameServer\GameServer.cpp">
+      <Filter>Source\GameServer</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGameServer.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\GameServer\PFGameServer.cpp">
+      <Filter>Source\GameServer</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlayerItemManagementDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlayerItemManagement\PlayerItemManagementDataModels.h">
+      <Filter>Source\PlayerItemManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayerItemManagement\PlayerItemManagementDataModels.cpp">
+      <Filter>Source\PlayerItemManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlayerItemManagement\PlayerItemManagement.h">
+      <Filter>Source\PlayerItemManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayerItemManagement\PlayerItemManagement.cpp">
+      <Filter>Source\PlayerItemManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlayerItemManagement.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayerItemManagement\PFPlayerItemManagement.cpp">
+      <Filter>Source\PlayerItemManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAccountManagementDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\AccountManagement\AccountManagementDataModels.h">
+      <Filter>Source\AccountManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\AccountManagement\AccountManagementDataModels.cpp">
+      <Filter>Source\AccountManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\AccountManagement\AccountManagement.h">
+      <Filter>Source\AccountManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\AccountManagement\AccountManagement.cpp">
+      <Filter>Source\AccountManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAccountManagement.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\AccountManagement\PFAccountManagement.cpp">
+      <Filter>Source\AccountManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAuthenticationDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Authentication\AuthenticationDataModels.h">
+      <Filter>Source\Authentication</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Authentication\AuthenticationDataModels.cpp">
+      <Filter>Source\Authentication</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Authentication\Authentication.h">
+      <Filter>Source\Authentication</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Authentication\Authentication.cpp">
+      <Filter>Source\Authentication</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAuthentication.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Authentication\PFAuthentication.cpp">
+      <Filter>Source\Authentication</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlayerDataManagementDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlayerDataManagement\PlayerDataManagementDataModels.h">
+      <Filter>Source\PlayerDataManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayerDataManagement\PlayerDataManagementDataModels.cpp">
+      <Filter>Source\PlayerDataManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlayerDataManagement\PlayerDataManagement.h">
+      <Filter>Source\PlayerDataManagement</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayerDataManagement\PlayerDataManagement.cpp">
+      <Filter>Source\PlayerDataManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlayerDataManagement.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlayerDataManagement\PFPlayerDataManagement.cpp">
+      <Filter>Source\PlayerDataManagement</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFSegmentsDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Segments\SegmentsDataModels.h">
+      <Filter>Source\Segments</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Segments\SegmentsDataModels.cpp">
+      <Filter>Source\Segments</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Segments\Segments.h">
+      <Filter>Source\Segments</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Segments\Segments.cpp">
+      <Filter>Source\Segments</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFSegments.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Segments\PFSegments.cpp">
+      <Filter>Source\Segments</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFContentDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Content\ContentDataModels.h">
+      <Filter>Source\Content</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Content\ContentDataModels.cpp">
+      <Filter>Source\Content</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Content\Content.h">
+      <Filter>Source\Content</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Content\Content.cpp">
+      <Filter>Source\Content</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFContent.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Content\PFContent.cpp">
+      <Filter>Source\Content</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFCloudScriptDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\CloudScript\CloudScriptDataModels.h">
+      <Filter>Source\CloudScript</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\CloudScript\CloudScriptDataModels.cpp">
+      <Filter>Source\CloudScript</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\CloudScript\CloudScript.h">
+      <Filter>Source\CloudScript</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\CloudScript\CloudScript.cpp">
+      <Filter>Source\CloudScript</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFCloudScript.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\CloudScript\PFCloudScript.cpp">
+      <Filter>Source\CloudScript</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFMatchmakingDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Matchmaking\MatchmakingDataModels.h">
+      <Filter>Source\Matchmaking</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Matchmaking\MatchmakingDataModels.cpp">
+      <Filter>Source\Matchmaking</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Matchmaking\Matchmaking.h">
+      <Filter>Source\Matchmaking</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Matchmaking\Matchmaking.cpp">
+      <Filter>Source\Matchmaking</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFMatchmaking.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Matchmaking\PFMatchmaking.cpp">
+      <Filter>Source\Matchmaking</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFCharacterDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Character\CharacterDataModels.h">
+      <Filter>Source\Character</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Character\CharacterDataModels.cpp">
+      <Filter>Source\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Character\Character.h">
+      <Filter>Source\Character</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Character\Character.cpp">
+      <Filter>Source\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFCharacter.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Character\PFCharacter.cpp">
+      <Filter>Source\Character</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGroupsDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Groups\GroupsDataModels.h">
+      <Filter>Source\Groups</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\GroupsDataModels.cpp">
+      <Filter>Source\Groups</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Groups\Groups.h">
+      <Filter>Source\Groups</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\Groups.cpp">
+      <Filter>Source\Groups</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGroups.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\PFGroups.cpp">
+      <Filter>Source\Groups</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFTradingDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Trading\TradingDataModels.h">
+      <Filter>Source\Trading</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Trading\TradingDataModels.cpp">
+      <Filter>Source\Trading</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Trading\Trading.h">
+      <Filter>Source\Trading</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Trading\Trading.cpp">
+      <Filter>Source\Trading</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFTrading.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Trading\PFTrading.cpp">
+      <Filter>Source\Trading</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFFriendsDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Friends\FriendsDataModels.h">
+      <Filter>Source\Friends</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Friends\FriendsDataModels.cpp">
+      <Filter>Source\Friends</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Friends\Friends.h">
+      <Filter>Source\Friends</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Friends\Friends.cpp">
+      <Filter>Source\Friends</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFFriends.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Friends\PFFriends.cpp">
+      <Filter>Source\Friends</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlatformSpecificDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlatformSpecific\PlatformSpecificDataModels.h">
+      <Filter>Source\PlatformSpecific</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlatformSpecific\PlatformSpecificDataModels.cpp">
+      <Filter>Source\PlatformSpecific</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\PlatformSpecific\PlatformSpecific.h">
+      <Filter>Source\PlatformSpecific</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlatformSpecific\PlatformSpecific.cpp">
+      <Filter>Source\PlatformSpecific</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFPlatformSpecific.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\PlatformSpecific\PFPlatformSpecific.cpp">
+      <Filter>Source\PlatformSpecific</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAdvertisingDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Advertising\AdvertisingDataModels.h">
+      <Filter>Source\Advertising</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Advertising\AdvertisingDataModels.cpp">
+      <Filter>Source\Advertising</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Advertising\Advertising.h">
+      <Filter>Source\Advertising</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Advertising\Advertising.cpp">
+      <Filter>Source\Advertising</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAdvertising.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Advertising\PFAdvertising.cpp">
+      <Filter>Source\Advertising</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAnalyticsDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Analytics\AnalyticsDataModels.h">
+      <Filter>Source\Analytics</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Analytics\AnalyticsDataModels.cpp">
+      <Filter>Source\Analytics</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Analytics\Analytics.h">
+      <Filter>Source\Analytics</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Analytics\Analytics.cpp">
+      <Filter>Source\Analytics</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFAnalytics.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Analytics\PFAnalytics.cpp">
+      <Filter>Source\Analytics</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFDataDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Data\DataDataModels.h">
+      <Filter>Source\Data</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Data\DataDataModels.cpp">
+      <Filter>Source\Data</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Data\Data.h">
+      <Filter>Source\Data</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Data\Data.cpp">
+      <Filter>Source\Data</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFData.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Data\PFData.cpp">
+      <Filter>Source\Data</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFExperimentationDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Experimentation\ExperimentationDataModels.h">
+      <Filter>Source\Experimentation</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Experimentation\ExperimentationDataModels.cpp">
+      <Filter>Source\Experimentation</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Experimentation\Experimentation.h">
+      <Filter>Source\Experimentation</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Experimentation\Experimentation.cpp">
+      <Filter>Source\Experimentation</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFExperimentation.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Experimentation\PFExperimentation.cpp">
+      <Filter>Source\Experimentation</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFLocalizationDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Localization\LocalizationDataModels.h">
+      <Filter>Source\Localization</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Localization\LocalizationDataModels.cpp">
+      <Filter>Source\Localization</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Localization\Localization.h">
+      <Filter>Source\Localization</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Localization\Localization.cpp">
+      <Filter>Source\Localization</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFLocalization.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Localization\PFLocalization.cpp">
+      <Filter>Source\Localization</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFMultiplayerServerDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\MultiplayerServer\MultiplayerServerDataModels.h">
+      <Filter>Source\MultiplayerServer</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\MultiplayerServer\MultiplayerServerDataModels.cpp">
+      <Filter>Source\MultiplayerServer</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\MultiplayerServer\MultiplayerServer.h">
+      <Filter>Source\MultiplayerServer</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\MultiplayerServer\MultiplayerServer.cpp">
+      <Filter>Source\MultiplayerServer</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFMultiplayerServer.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\MultiplayerServer\PFMultiplayerServer.cpp">
+      <Filter>Source\MultiplayerServer</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\stdafx.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\stdafx.cpp">
+      <Filter>Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

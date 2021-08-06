@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabQoSApi.h>
+#include <playfab/PFQoS.h>
 
 namespace PlayFab
 {
@@ -13,7 +13,7 @@ struct Server
     String address;
 };
 
-struct RegionResult : public PlayFabQoSRegionResult
+struct RegionResult : public PFQoSRegionResult
 {
     RegionResult(const String& _region);
     RegionResult(const RegionResult& src);
@@ -29,7 +29,7 @@ private:
     uint32_t m_totalLatencyMs;
 };
 
-struct Measurements : public PlayFabQoSMeasurements, public ApiResult
+struct Measurements : public PFQoSMeasurements, public ApiResult
 {
     Measurements();
     Measurements(const UnorderedMap<String, RegionResult>& regionResultsMap);
@@ -40,7 +40,7 @@ struct Measurements : public PlayFabQoSMeasurements, public ApiResult
 private:
     static Vector<RegionResult> SortRegionResults(const UnorderedMap<String, RegionResult>& regionResultsMap);
 
-    PointerArray<PlayFabQoSRegionResult, RegionResult> m_regionResults;
+    PointerArray<PFQoSRegionResult, RegionResult> m_regionResults;
 };
 
 } // namespace QoS

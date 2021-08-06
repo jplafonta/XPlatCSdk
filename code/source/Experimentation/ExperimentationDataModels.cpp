@@ -8,12 +8,12 @@ namespace ExperimentationModels
 {
 
 CreateExclusionGroupRequest::CreateExclusionGroupRequest() :
-    PlayFabExperimentationCreateExclusionGroupRequest{}
+    PFExperimentationCreateExclusionGroupRequest{}
 {
 }
 
 CreateExclusionGroupRequest::CreateExclusionGroupRequest(const CreateExclusionGroupRequest& src) :
-    PlayFabExperimentationCreateExclusionGroupRequest{ src },
+    PFExperimentationCreateExclusionGroupRequest{ src },
     m_customTags{ src.m_customTags },
     m_description{ src.m_description },
     m_name{ src.m_name }
@@ -24,7 +24,7 @@ CreateExclusionGroupRequest::CreateExclusionGroupRequest(const CreateExclusionGr
 }
 
 CreateExclusionGroupRequest::CreateExclusionGroupRequest(CreateExclusionGroupRequest&& src) :
-    PlayFabExperimentationCreateExclusionGroupRequest{ src },
+    PFExperimentationCreateExclusionGroupRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_description{ std::move(src.m_description) },
     m_name{ std::move(src.m_name) }
@@ -34,7 +34,7 @@ CreateExclusionGroupRequest::CreateExclusionGroupRequest(CreateExclusionGroupReq
     name = m_name.empty() ? nullptr : m_name.data();
 }
 
-CreateExclusionGroupRequest::CreateExclusionGroupRequest(const PlayFabExperimentationCreateExclusionGroupRequest& src)
+CreateExclusionGroupRequest::CreateExclusionGroupRequest(const PFExperimentationCreateExclusionGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -48,29 +48,29 @@ void CreateExclusionGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue CreateExclusionGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationCreateExclusionGroupRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationCreateExclusionGroupRequest>(*this);
 }
 
 CreateExclusionGroupResult::CreateExclusionGroupResult() :
-    PlayFabExperimentationCreateExclusionGroupResult{}
+    PFExperimentationCreateExclusionGroupResult{}
 {
 }
 
 CreateExclusionGroupResult::CreateExclusionGroupResult(const CreateExclusionGroupResult& src) :
-    PlayFabExperimentationCreateExclusionGroupResult{ src },
+    PFExperimentationCreateExclusionGroupResult{ src },
     m_exclusionGroupId{ src.m_exclusionGroupId }
 {
     exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
 }
 
 CreateExclusionGroupResult::CreateExclusionGroupResult(CreateExclusionGroupResult&& src) :
-    PlayFabExperimentationCreateExclusionGroupResult{ src },
+    PFExperimentationCreateExclusionGroupResult{ src },
     m_exclusionGroupId{ std::move(src.m_exclusionGroupId) }
 {
     exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
 }
 
-CreateExclusionGroupResult::CreateExclusionGroupResult(const PlayFabExperimentationCreateExclusionGroupResult& src)
+CreateExclusionGroupResult::CreateExclusionGroupResult(const PFExperimentationCreateExclusionGroupResult& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -82,20 +82,20 @@ void CreateExclusionGroupResult::FromJson(const JsonValue& input)
 
 JsonValue CreateExclusionGroupResult::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationCreateExclusionGroupResult>(*this);
+    return JsonUtils::ToJson<PFExperimentationCreateExclusionGroupResult>(*this);
 }
 
 size_t CreateExclusionGroupResult::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabExperimentationCreateExclusionGroupResult) };
+    size_t serializedSize{ sizeof(PFExperimentationCreateExclusionGroupResult) };
     serializedSize += (m_exclusionGroupId.size() + 1);
     return serializedSize;
 }
 
 void CreateExclusionGroupResult::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabExperimentationCreateExclusionGroupResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationCreateExclusionGroupResult);
+    auto serializedStruct = new (buffer) PFExperimentationCreateExclusionGroupResult{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFExperimentationCreateExclusionGroupResult);
     memcpy(stringBuffer, m_exclusionGroupId.data(), m_exclusionGroupId.size() + 1);
     serializedStruct->exclusionGroupId = stringBuffer;
     stringBuffer += m_exclusionGroupId.size() + 1;
@@ -103,12 +103,12 @@ void CreateExclusionGroupResult::Serialize(void* buffer, size_t bufferSize) cons
 }
 
 Variant::Variant() :
-    PlayFabExperimentationVariant{}
+    PFExperimentationVariant{}
 {
 }
 
 Variant::Variant(const Variant& src) :
-    PlayFabExperimentationVariant{ src },
+    PFExperimentationVariant{ src },
     m_description{ src.m_description },
     m_id{ src.m_id },
     m_name{ src.m_name },
@@ -123,7 +123,7 @@ Variant::Variant(const Variant& src) :
 }
 
 Variant::Variant(Variant&& src) :
-    PlayFabExperimentationVariant{ src },
+    PFExperimentationVariant{ src },
     m_description{ std::move(src.m_description) },
     m_id{ std::move(src.m_id) },
     m_name{ std::move(src.m_name) },
@@ -137,7 +137,7 @@ Variant::Variant(Variant&& src) :
     variables = m_variables.Empty() ? nullptr : m_variables.Data();
 }
 
-Variant::Variant(const PlayFabExperimentationVariant& src)
+Variant::Variant(const PFExperimentationVariant& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -155,16 +155,16 @@ void Variant::FromJson(const JsonValue& input)
 
 JsonValue Variant::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationVariant>(*this);
+    return JsonUtils::ToJson<PFExperimentationVariant>(*this);
 }
 
 CreateExperimentRequest::CreateExperimentRequest() :
-    PlayFabExperimentationCreateExperimentRequest{}
+    PFExperimentationCreateExperimentRequest{}
 {
 }
 
 CreateExperimentRequest::CreateExperimentRequest(const CreateExperimentRequest& src) :
-    PlayFabExperimentationCreateExperimentRequest{ src },
+    PFExperimentationCreateExperimentRequest{ src },
     m_customTags{ src.m_customTags },
     m_description{ src.m_description },
     m_endDate{ src.m_endDate },
@@ -189,7 +189,7 @@ CreateExperimentRequest::CreateExperimentRequest(const CreateExperimentRequest& 
 }
 
 CreateExperimentRequest::CreateExperimentRequest(CreateExperimentRequest&& src) :
-    PlayFabExperimentationCreateExperimentRequest{ src },
+    PFExperimentationCreateExperimentRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_description{ std::move(src.m_description) },
     m_endDate{ std::move(src.m_endDate) },
@@ -213,7 +213,7 @@ CreateExperimentRequest::CreateExperimentRequest(CreateExperimentRequest&& src) 
     variants = m_variants.Empty() ? nullptr : m_variants.Data();
 }
 
-CreateExperimentRequest::CreateExperimentRequest(const PlayFabExperimentationCreateExperimentRequest& src)
+CreateExperimentRequest::CreateExperimentRequest(const PFExperimentationCreateExperimentRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -235,29 +235,29 @@ void CreateExperimentRequest::FromJson(const JsonValue& input)
 
 JsonValue CreateExperimentRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationCreateExperimentRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationCreateExperimentRequest>(*this);
 }
 
 CreateExperimentResult::CreateExperimentResult() :
-    PlayFabExperimentationCreateExperimentResult{}
+    PFExperimentationCreateExperimentResult{}
 {
 }
 
 CreateExperimentResult::CreateExperimentResult(const CreateExperimentResult& src) :
-    PlayFabExperimentationCreateExperimentResult{ src },
+    PFExperimentationCreateExperimentResult{ src },
     m_experimentId{ src.m_experimentId }
 {
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
 CreateExperimentResult::CreateExperimentResult(CreateExperimentResult&& src) :
-    PlayFabExperimentationCreateExperimentResult{ src },
+    PFExperimentationCreateExperimentResult{ src },
     m_experimentId{ std::move(src.m_experimentId) }
 {
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
-CreateExperimentResult::CreateExperimentResult(const PlayFabExperimentationCreateExperimentResult& src)
+CreateExperimentResult::CreateExperimentResult(const PFExperimentationCreateExperimentResult& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -269,20 +269,20 @@ void CreateExperimentResult::FromJson(const JsonValue& input)
 
 JsonValue CreateExperimentResult::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationCreateExperimentResult>(*this);
+    return JsonUtils::ToJson<PFExperimentationCreateExperimentResult>(*this);
 }
 
 size_t CreateExperimentResult::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabExperimentationCreateExperimentResult) };
+    size_t serializedSize{ sizeof(PFExperimentationCreateExperimentResult) };
     serializedSize += (m_experimentId.size() + 1);
     return serializedSize;
 }
 
 void CreateExperimentResult::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabExperimentationCreateExperimentResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationCreateExperimentResult);
+    auto serializedStruct = new (buffer) PFExperimentationCreateExperimentResult{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFExperimentationCreateExperimentResult);
     memcpy(stringBuffer, m_experimentId.data(), m_experimentId.size() + 1);
     serializedStruct->experimentId = stringBuffer;
     stringBuffer += m_experimentId.size() + 1;
@@ -290,12 +290,12 @@ void CreateExperimentResult::Serialize(void* buffer, size_t bufferSize) const
 }
 
 DeleteExclusionGroupRequest::DeleteExclusionGroupRequest() :
-    PlayFabExperimentationDeleteExclusionGroupRequest{}
+    PFExperimentationDeleteExclusionGroupRequest{}
 {
 }
 
 DeleteExclusionGroupRequest::DeleteExclusionGroupRequest(const DeleteExclusionGroupRequest& src) :
-    PlayFabExperimentationDeleteExclusionGroupRequest{ src },
+    PFExperimentationDeleteExclusionGroupRequest{ src },
     m_customTags{ src.m_customTags },
     m_exclusionGroupId{ src.m_exclusionGroupId }
 {
@@ -304,7 +304,7 @@ DeleteExclusionGroupRequest::DeleteExclusionGroupRequest(const DeleteExclusionGr
 }
 
 DeleteExclusionGroupRequest::DeleteExclusionGroupRequest(DeleteExclusionGroupRequest&& src) :
-    PlayFabExperimentationDeleteExclusionGroupRequest{ src },
+    PFExperimentationDeleteExclusionGroupRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_exclusionGroupId{ std::move(src.m_exclusionGroupId) }
 {
@@ -312,7 +312,7 @@ DeleteExclusionGroupRequest::DeleteExclusionGroupRequest(DeleteExclusionGroupReq
     exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
 }
 
-DeleteExclusionGroupRequest::DeleteExclusionGroupRequest(const PlayFabExperimentationDeleteExclusionGroupRequest& src)
+DeleteExclusionGroupRequest::DeleteExclusionGroupRequest(const PFExperimentationDeleteExclusionGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -325,16 +325,16 @@ void DeleteExclusionGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue DeleteExclusionGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationDeleteExclusionGroupRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationDeleteExclusionGroupRequest>(*this);
 }
 
 DeleteExperimentRequest::DeleteExperimentRequest() :
-    PlayFabExperimentationDeleteExperimentRequest{}
+    PFExperimentationDeleteExperimentRequest{}
 {
 }
 
 DeleteExperimentRequest::DeleteExperimentRequest(const DeleteExperimentRequest& src) :
-    PlayFabExperimentationDeleteExperimentRequest{ src },
+    PFExperimentationDeleteExperimentRequest{ src },
     m_customTags{ src.m_customTags },
     m_experimentId{ src.m_experimentId }
 {
@@ -343,7 +343,7 @@ DeleteExperimentRequest::DeleteExperimentRequest(const DeleteExperimentRequest& 
 }
 
 DeleteExperimentRequest::DeleteExperimentRequest(DeleteExperimentRequest&& src) :
-    PlayFabExperimentationDeleteExperimentRequest{ src },
+    PFExperimentationDeleteExperimentRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_experimentId{ std::move(src.m_experimentId) }
 {
@@ -351,7 +351,7 @@ DeleteExperimentRequest::DeleteExperimentRequest(DeleteExperimentRequest&& src) 
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
-DeleteExperimentRequest::DeleteExperimentRequest(const PlayFabExperimentationDeleteExperimentRequest& src)
+DeleteExperimentRequest::DeleteExperimentRequest(const PFExperimentationDeleteExperimentRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -364,29 +364,205 @@ void DeleteExperimentRequest::FromJson(const JsonValue& input)
 
 JsonValue DeleteExperimentRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationDeleteExperimentRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationDeleteExperimentRequest>(*this);
+}
+
+GetExclusionGroupsRequest::GetExclusionGroupsRequest() :
+    PFExperimentationGetExclusionGroupsRequest{}
+{
+}
+
+GetExclusionGroupsRequest::GetExclusionGroupsRequest(const GetExclusionGroupsRequest& src) :
+    PFExperimentationGetExclusionGroupsRequest{ src },
+    m_customTags{ src.m_customTags }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+}
+
+GetExclusionGroupsRequest::GetExclusionGroupsRequest(GetExclusionGroupsRequest&& src) :
+    PFExperimentationGetExclusionGroupsRequest{ src },
+    m_customTags{ std::move(src.m_customTags) }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+}
+
+GetExclusionGroupsRequest::GetExclusionGroupsRequest(const PFExperimentationGetExclusionGroupsRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetExclusionGroupsRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+}
+
+JsonValue GetExclusionGroupsRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFExperimentationGetExclusionGroupsRequest>(*this);
+}
+
+ExperimentExclusionGroup::ExperimentExclusionGroup() :
+    PFExperimentationExperimentExclusionGroup{}
+{
+}
+
+ExperimentExclusionGroup::ExperimentExclusionGroup(const ExperimentExclusionGroup& src) :
+    PFExperimentationExperimentExclusionGroup{ src },
+    m_description{ src.m_description },
+    m_exclusionGroupId{ src.m_exclusionGroupId },
+    m_name{ src.m_name }
+{
+    description = m_description.empty() ? nullptr : m_description.data();
+    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
+    name = m_name.empty() ? nullptr : m_name.data();
+}
+
+ExperimentExclusionGroup::ExperimentExclusionGroup(ExperimentExclusionGroup&& src) :
+    PFExperimentationExperimentExclusionGroup{ src },
+    m_description{ std::move(src.m_description) },
+    m_exclusionGroupId{ std::move(src.m_exclusionGroupId) },
+    m_name{ std::move(src.m_name) }
+{
+    description = m_description.empty() ? nullptr : m_description.data();
+    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
+    name = m_name.empty() ? nullptr : m_name.data();
+}
+
+ExperimentExclusionGroup::ExperimentExclusionGroup(const PFExperimentationExperimentExclusionGroup& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void ExperimentExclusionGroup::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Description", m_description, description);
+    JsonUtils::ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
+    JsonUtils::ObjectGetMember(input, "Name", m_name, name);
+}
+
+JsonValue ExperimentExclusionGroup::ToJson() const
+{
+    return JsonUtils::ToJson<PFExperimentationExperimentExclusionGroup>(*this);
+}
+
+size_t ExperimentExclusionGroup::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFExperimentationExperimentExclusionGroup) };
+    serializedSize += (m_description.size() + 1);
+    serializedSize += (m_exclusionGroupId.size() + 1);
+    serializedSize += (m_name.size() + 1);
+    return serializedSize;
+}
+
+void ExperimentExclusionGroup::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFExperimentationExperimentExclusionGroup{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFExperimentationExperimentExclusionGroup);
+    memcpy(stringBuffer, m_description.data(), m_description.size() + 1);
+    serializedStruct->description = stringBuffer;
+    stringBuffer += m_description.size() + 1;
+    memcpy(stringBuffer, m_exclusionGroupId.data(), m_exclusionGroupId.size() + 1);
+    serializedStruct->exclusionGroupId = stringBuffer;
+    stringBuffer += m_exclusionGroupId.size() + 1;
+    memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
+    serializedStruct->name = stringBuffer;
+    stringBuffer += m_name.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+GetExclusionGroupsResult::GetExclusionGroupsResult() :
+    PFExperimentationGetExclusionGroupsResult{}
+{
+}
+
+GetExclusionGroupsResult::GetExclusionGroupsResult(const GetExclusionGroupsResult& src) :
+    PFExperimentationGetExclusionGroupsResult{ src },
+    m_exclusionGroups{ src.m_exclusionGroups }
+{
+    exclusionGroups = m_exclusionGroups.Empty() ? nullptr : m_exclusionGroups.Data();
+}
+
+GetExclusionGroupsResult::GetExclusionGroupsResult(GetExclusionGroupsResult&& src) :
+    PFExperimentationGetExclusionGroupsResult{ src },
+    m_exclusionGroups{ std::move(src.m_exclusionGroups) }
+{
+    exclusionGroups = m_exclusionGroups.Empty() ? nullptr : m_exclusionGroups.Data();
+}
+
+GetExclusionGroupsResult::GetExclusionGroupsResult(const PFExperimentationGetExclusionGroupsResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetExclusionGroupsResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "ExclusionGroups", m_exclusionGroups, exclusionGroups, exclusionGroupsCount);
+}
+
+JsonValue GetExclusionGroupsResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFExperimentationGetExclusionGroupsResult>(*this);
+}
+
+GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest() :
+    PFExperimentationGetExclusionGroupTrafficRequest{}
+{
+}
+
+GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest(const GetExclusionGroupTrafficRequest& src) :
+    PFExperimentationGetExclusionGroupTrafficRequest{ src },
+    m_customTags{ src.m_customTags },
+    m_exclusionGroupId{ src.m_exclusionGroupId }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
+}
+
+GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest(GetExclusionGroupTrafficRequest&& src) :
+    PFExperimentationGetExclusionGroupTrafficRequest{ src },
+    m_customTags{ std::move(src.m_customTags) },
+    m_exclusionGroupId{ std::move(src.m_exclusionGroupId) }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
+}
+
+GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest(const PFExperimentationGetExclusionGroupTrafficRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetExclusionGroupTrafficRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+    JsonUtils::ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
+}
+
+JsonValue GetExclusionGroupTrafficRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFExperimentationGetExclusionGroupTrafficRequest>(*this);
 }
 
 ExclusionGroupTrafficAllocation::ExclusionGroupTrafficAllocation() :
-    PlayFabExperimentationExclusionGroupTrafficAllocation{}
+    PFExperimentationExclusionGroupTrafficAllocation{}
 {
 }
 
 ExclusionGroupTrafficAllocation::ExclusionGroupTrafficAllocation(const ExclusionGroupTrafficAllocation& src) :
-    PlayFabExperimentationExclusionGroupTrafficAllocation{ src },
+    PFExperimentationExclusionGroupTrafficAllocation{ src },
     m_experimentId{ src.m_experimentId }
 {
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
 ExclusionGroupTrafficAllocation::ExclusionGroupTrafficAllocation(ExclusionGroupTrafficAllocation&& src) :
-    PlayFabExperimentationExclusionGroupTrafficAllocation{ src },
+    PFExperimentationExclusionGroupTrafficAllocation{ src },
     m_experimentId{ std::move(src.m_experimentId) }
 {
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
-ExclusionGroupTrafficAllocation::ExclusionGroupTrafficAllocation(const PlayFabExperimentationExclusionGroupTrafficAllocation& src)
+ExclusionGroupTrafficAllocation::ExclusionGroupTrafficAllocation(const PFExperimentationExclusionGroupTrafficAllocation& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -399,33 +575,101 @@ void ExclusionGroupTrafficAllocation::FromJson(const JsonValue& input)
 
 JsonValue ExclusionGroupTrafficAllocation::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationExclusionGroupTrafficAllocation>(*this);
+    return JsonUtils::ToJson<PFExperimentationExclusionGroupTrafficAllocation>(*this);
 }
 
 size_t ExclusionGroupTrafficAllocation::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabExperimentationExclusionGroupTrafficAllocation) };
+    size_t serializedSize{ sizeof(PFExperimentationExclusionGroupTrafficAllocation) };
     serializedSize += (m_experimentId.size() + 1);
     return serializedSize;
 }
 
 void ExclusionGroupTrafficAllocation::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabExperimentationExclusionGroupTrafficAllocation{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationExclusionGroupTrafficAllocation);
+    auto serializedStruct = new (buffer) PFExperimentationExclusionGroupTrafficAllocation{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFExperimentationExclusionGroupTrafficAllocation);
     memcpy(stringBuffer, m_experimentId.data(), m_experimentId.size() + 1);
     serializedStruct->experimentId = stringBuffer;
     stringBuffer += m_experimentId.size() + 1;
     assert(stringBuffer - bufferSize == buffer);
 }
 
+GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult() :
+    PFExperimentationGetExclusionGroupTrafficResult{}
+{
+}
+
+GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult(const GetExclusionGroupTrafficResult& src) :
+    PFExperimentationGetExclusionGroupTrafficResult{ src },
+    m_trafficAllocations{ src.m_trafficAllocations }
+{
+    trafficAllocations = m_trafficAllocations.Empty() ? nullptr : m_trafficAllocations.Data();
+}
+
+GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult(GetExclusionGroupTrafficResult&& src) :
+    PFExperimentationGetExclusionGroupTrafficResult{ src },
+    m_trafficAllocations{ std::move(src.m_trafficAllocations) }
+{
+    trafficAllocations = m_trafficAllocations.Empty() ? nullptr : m_trafficAllocations.Data();
+}
+
+GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult(const PFExperimentationGetExclusionGroupTrafficResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetExclusionGroupTrafficResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "TrafficAllocations", m_trafficAllocations, trafficAllocations, trafficAllocationsCount);
+}
+
+JsonValue GetExclusionGroupTrafficResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFExperimentationGetExclusionGroupTrafficResult>(*this);
+}
+
+GetExperimentsRequest::GetExperimentsRequest() :
+    PFExperimentationGetExperimentsRequest{}
+{
+}
+
+GetExperimentsRequest::GetExperimentsRequest(const GetExperimentsRequest& src) :
+    PFExperimentationGetExperimentsRequest{ src },
+    m_customTags{ src.m_customTags }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+}
+
+GetExperimentsRequest::GetExperimentsRequest(GetExperimentsRequest&& src) :
+    PFExperimentationGetExperimentsRequest{ src },
+    m_customTags{ std::move(src.m_customTags) }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+}
+
+GetExperimentsRequest::GetExperimentsRequest(const PFExperimentationGetExperimentsRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetExperimentsRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+}
+
+JsonValue GetExperimentsRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFExperimentationGetExperimentsRequest>(*this);
+}
+
 Experiment::Experiment() :
-    PlayFabExperimentationExperiment{}
+    PFExperimentationExperiment{}
 {
 }
 
 Experiment::Experiment(const Experiment& src) :
-    PlayFabExperimentationExperiment{ src },
+    PFExperimentationExperiment{ src },
     m_description{ src.m_description },
     m_endDate{ src.m_endDate },
     m_exclusionGroupId{ src.m_exclusionGroupId },
@@ -452,7 +696,7 @@ Experiment::Experiment(const Experiment& src) :
 }
 
 Experiment::Experiment(Experiment&& src) :
-    PlayFabExperimentationExperiment{ src },
+    PFExperimentationExperiment{ src },
     m_description{ std::move(src.m_description) },
     m_endDate{ std::move(src.m_endDate) },
     m_exclusionGroupId{ std::move(src.m_exclusionGroupId) },
@@ -478,7 +722,7 @@ Experiment::Experiment(Experiment&& src) :
     variants = m_variants.Empty() ? nullptr : m_variants.Data();
 }
 
-Experiment::Experiment(const PlayFabExperimentationExperiment& src)
+Experiment::Experiment(const PFExperimentationExperiment& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -501,273 +745,29 @@ void Experiment::FromJson(const JsonValue& input)
 
 JsonValue Experiment::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationExperiment>(*this);
-}
-
-ExperimentExclusionGroup::ExperimentExclusionGroup() :
-    PlayFabExperimentationExperimentExclusionGroup{}
-{
-}
-
-ExperimentExclusionGroup::ExperimentExclusionGroup(const ExperimentExclusionGroup& src) :
-    PlayFabExperimentationExperimentExclusionGroup{ src },
-    m_description{ src.m_description },
-    m_exclusionGroupId{ src.m_exclusionGroupId },
-    m_name{ src.m_name }
-{
-    description = m_description.empty() ? nullptr : m_description.data();
-    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
-    name = m_name.empty() ? nullptr : m_name.data();
-}
-
-ExperimentExclusionGroup::ExperimentExclusionGroup(ExperimentExclusionGroup&& src) :
-    PlayFabExperimentationExperimentExclusionGroup{ src },
-    m_description{ std::move(src.m_description) },
-    m_exclusionGroupId{ std::move(src.m_exclusionGroupId) },
-    m_name{ std::move(src.m_name) }
-{
-    description = m_description.empty() ? nullptr : m_description.data();
-    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
-    name = m_name.empty() ? nullptr : m_name.data();
-}
-
-ExperimentExclusionGroup::ExperimentExclusionGroup(const PlayFabExperimentationExperimentExclusionGroup& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ExperimentExclusionGroup::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Description", m_description, description);
-    JsonUtils::ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
-    JsonUtils::ObjectGetMember(input, "Name", m_name, name);
-}
-
-JsonValue ExperimentExclusionGroup::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabExperimentationExperimentExclusionGroup>(*this);
-}
-
-size_t ExperimentExclusionGroup::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabExperimentationExperimentExclusionGroup) };
-    serializedSize += (m_description.size() + 1);
-    serializedSize += (m_exclusionGroupId.size() + 1);
-    serializedSize += (m_name.size() + 1);
-    return serializedSize;
-}
-
-void ExperimentExclusionGroup::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabExperimentationExperimentExclusionGroup{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationExperimentExclusionGroup);
-    memcpy(stringBuffer, m_description.data(), m_description.size() + 1);
-    serializedStruct->description = stringBuffer;
-    stringBuffer += m_description.size() + 1;
-    memcpy(stringBuffer, m_exclusionGroupId.data(), m_exclusionGroupId.size() + 1);
-    serializedStruct->exclusionGroupId = stringBuffer;
-    stringBuffer += m_exclusionGroupId.size() + 1;
-    memcpy(stringBuffer, m_name.data(), m_name.size() + 1);
-    serializedStruct->name = stringBuffer;
-    stringBuffer += m_name.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetExclusionGroupsRequest::GetExclusionGroupsRequest() :
-    PlayFabExperimentationGetExclusionGroupsRequest{}
-{
-}
-
-GetExclusionGroupsRequest::GetExclusionGroupsRequest(const GetExclusionGroupsRequest& src) :
-    PlayFabExperimentationGetExclusionGroupsRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-GetExclusionGroupsRequest::GetExclusionGroupsRequest(GetExclusionGroupsRequest&& src) :
-    PlayFabExperimentationGetExclusionGroupsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-GetExclusionGroupsRequest::GetExclusionGroupsRequest(const PlayFabExperimentationGetExclusionGroupsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetExclusionGroupsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue GetExclusionGroupsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupsRequest>(*this);
-}
-
-GetExclusionGroupsResult::GetExclusionGroupsResult() :
-    PlayFabExperimentationGetExclusionGroupsResult{}
-{
-}
-
-GetExclusionGroupsResult::GetExclusionGroupsResult(const GetExclusionGroupsResult& src) :
-    PlayFabExperimentationGetExclusionGroupsResult{ src },
-    m_exclusionGroups{ src.m_exclusionGroups }
-{
-    exclusionGroups = m_exclusionGroups.Empty() ? nullptr : m_exclusionGroups.Data();
-}
-
-GetExclusionGroupsResult::GetExclusionGroupsResult(GetExclusionGroupsResult&& src) :
-    PlayFabExperimentationGetExclusionGroupsResult{ src },
-    m_exclusionGroups{ std::move(src.m_exclusionGroups) }
-{
-    exclusionGroups = m_exclusionGroups.Empty() ? nullptr : m_exclusionGroups.Data();
-}
-
-GetExclusionGroupsResult::GetExclusionGroupsResult(const PlayFabExperimentationGetExclusionGroupsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetExclusionGroupsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ExclusionGroups", m_exclusionGroups, exclusionGroups, exclusionGroupsCount);
-}
-
-JsonValue GetExclusionGroupsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupsResult>(*this);
-}
-
-GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest() :
-    PlayFabExperimentationGetExclusionGroupTrafficRequest{}
-{
-}
-
-GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest(const GetExclusionGroupTrafficRequest& src) :
-    PlayFabExperimentationGetExclusionGroupTrafficRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_exclusionGroupId{ src.m_exclusionGroupId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
-}
-
-GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest(GetExclusionGroupTrafficRequest&& src) :
-    PlayFabExperimentationGetExclusionGroupTrafficRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_exclusionGroupId{ std::move(src.m_exclusionGroupId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    exclusionGroupId = m_exclusionGroupId.empty() ? nullptr : m_exclusionGroupId.data();
-}
-
-GetExclusionGroupTrafficRequest::GetExclusionGroupTrafficRequest(const PlayFabExperimentationGetExclusionGroupTrafficRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetExclusionGroupTrafficRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ExclusionGroupId", m_exclusionGroupId, exclusionGroupId);
-}
-
-JsonValue GetExclusionGroupTrafficRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupTrafficRequest>(*this);
-}
-
-GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult() :
-    PlayFabExperimentationGetExclusionGroupTrafficResult{}
-{
-}
-
-GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult(const GetExclusionGroupTrafficResult& src) :
-    PlayFabExperimentationGetExclusionGroupTrafficResult{ src },
-    m_trafficAllocations{ src.m_trafficAllocations }
-{
-    trafficAllocations = m_trafficAllocations.Empty() ? nullptr : m_trafficAllocations.Data();
-}
-
-GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult(GetExclusionGroupTrafficResult&& src) :
-    PlayFabExperimentationGetExclusionGroupTrafficResult{ src },
-    m_trafficAllocations{ std::move(src.m_trafficAllocations) }
-{
-    trafficAllocations = m_trafficAllocations.Empty() ? nullptr : m_trafficAllocations.Data();
-}
-
-GetExclusionGroupTrafficResult::GetExclusionGroupTrafficResult(const PlayFabExperimentationGetExclusionGroupTrafficResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetExclusionGroupTrafficResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "TrafficAllocations", m_trafficAllocations, trafficAllocations, trafficAllocationsCount);
-}
-
-JsonValue GetExclusionGroupTrafficResult::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabExperimentationGetExclusionGroupTrafficResult>(*this);
-}
-
-GetExperimentsRequest::GetExperimentsRequest() :
-    PlayFabExperimentationGetExperimentsRequest{}
-{
-}
-
-GetExperimentsRequest::GetExperimentsRequest(const GetExperimentsRequest& src) :
-    PlayFabExperimentationGetExperimentsRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-GetExperimentsRequest::GetExperimentsRequest(GetExperimentsRequest&& src) :
-    PlayFabExperimentationGetExperimentsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-GetExperimentsRequest::GetExperimentsRequest(const PlayFabExperimentationGetExperimentsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetExperimentsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue GetExperimentsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabExperimentationGetExperimentsRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationExperiment>(*this);
 }
 
 GetExperimentsResult::GetExperimentsResult() :
-    PlayFabExperimentationGetExperimentsResult{}
+    PFExperimentationGetExperimentsResult{}
 {
 }
 
 GetExperimentsResult::GetExperimentsResult(const GetExperimentsResult& src) :
-    PlayFabExperimentationGetExperimentsResult{ src },
+    PFExperimentationGetExperimentsResult{ src },
     m_experiments{ src.m_experiments }
 {
     experiments = m_experiments.Empty() ? nullptr : m_experiments.Data();
 }
 
 GetExperimentsResult::GetExperimentsResult(GetExperimentsResult&& src) :
-    PlayFabExperimentationGetExperimentsResult{ src },
+    PFExperimentationGetExperimentsResult{ src },
     m_experiments{ std::move(src.m_experiments) }
 {
     experiments = m_experiments.Empty() ? nullptr : m_experiments.Data();
 }
 
-GetExperimentsResult::GetExperimentsResult(const PlayFabExperimentationGetExperimentsResult& src)
+GetExperimentsResult::GetExperimentsResult(const PFExperimentationGetExperimentsResult& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -779,16 +779,16 @@ void GetExperimentsResult::FromJson(const JsonValue& input)
 
 JsonValue GetExperimentsResult::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationGetExperimentsResult>(*this);
+    return JsonUtils::ToJson<PFExperimentationGetExperimentsResult>(*this);
 }
 
 GetLatestScorecardRequest::GetLatestScorecardRequest() :
-    PlayFabExperimentationGetLatestScorecardRequest{}
+    PFExperimentationGetLatestScorecardRequest{}
 {
 }
 
 GetLatestScorecardRequest::GetLatestScorecardRequest(const GetLatestScorecardRequest& src) :
-    PlayFabExperimentationGetLatestScorecardRequest{ src },
+    PFExperimentationGetLatestScorecardRequest{ src },
     m_customTags{ src.m_customTags },
     m_experimentId{ src.m_experimentId }
 {
@@ -797,7 +797,7 @@ GetLatestScorecardRequest::GetLatestScorecardRequest(const GetLatestScorecardReq
 }
 
 GetLatestScorecardRequest::GetLatestScorecardRequest(GetLatestScorecardRequest&& src) :
-    PlayFabExperimentationGetLatestScorecardRequest{ src },
+    PFExperimentationGetLatestScorecardRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_experimentId{ std::move(src.m_experimentId) }
 {
@@ -805,7 +805,7 @@ GetLatestScorecardRequest::GetLatestScorecardRequest(GetLatestScorecardRequest&&
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
-GetLatestScorecardRequest::GetLatestScorecardRequest(const PlayFabExperimentationGetLatestScorecardRequest& src)
+GetLatestScorecardRequest::GetLatestScorecardRequest(const PFExperimentationGetLatestScorecardRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -818,16 +818,16 @@ void GetLatestScorecardRequest::FromJson(const JsonValue& input)
 
 JsonValue GetLatestScorecardRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationGetLatestScorecardRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationGetLatestScorecardRequest>(*this);
 }
 
 MetricData::MetricData() :
-    PlayFabExperimentationMetricData{}
+    PFExperimentationMetricData{}
 {
 }
 
 MetricData::MetricData(const MetricData& src) :
-    PlayFabExperimentationMetricData{ src },
+    PFExperimentationMetricData{ src },
     m_internalName{ src.m_internalName },
     m_movement{ src.m_movement },
     m_name{ src.m_name },
@@ -840,7 +840,7 @@ MetricData::MetricData(const MetricData& src) :
 }
 
 MetricData::MetricData(MetricData&& src) :
-    PlayFabExperimentationMetricData{ src },
+    PFExperimentationMetricData{ src },
     m_internalName{ std::move(src.m_internalName) },
     m_movement{ std::move(src.m_movement) },
     m_name{ std::move(src.m_name) },
@@ -852,7 +852,7 @@ MetricData::MetricData(MetricData&& src) :
     statSigLevel = m_statSigLevel.empty() ? nullptr : m_statSigLevel.data();
 }
 
-MetricData::MetricData(const PlayFabExperimentationMetricData& src)
+MetricData::MetricData(const PFExperimentationMetricData& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -876,12 +876,12 @@ void MetricData::FromJson(const JsonValue& input)
 
 JsonValue MetricData::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationMetricData>(*this);
+    return JsonUtils::ToJson<PFExperimentationMetricData>(*this);
 }
 
 size_t MetricData::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabExperimentationMetricData) };
+    size_t serializedSize{ sizeof(PFExperimentationMetricData) };
     serializedSize += (m_internalName.size() + 1);
     serializedSize += (m_movement.size() + 1);
     serializedSize += (m_name.size() + 1);
@@ -891,8 +891,8 @@ size_t MetricData::SerializedSize() const
 
 void MetricData::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabExperimentationMetricData{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabExperimentationMetricData);
+    auto serializedStruct = new (buffer) PFExperimentationMetricData{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFExperimentationMetricData);
     memcpy(stringBuffer, m_internalName.data(), m_internalName.size() + 1);
     serializedStruct->internalName = stringBuffer;
     stringBuffer += m_internalName.size() + 1;
@@ -909,12 +909,12 @@ void MetricData::Serialize(void* buffer, size_t bufferSize) const
 }
 
 ScorecardDataRow::ScorecardDataRow() :
-    PlayFabExperimentationScorecardDataRow{}
+    PFExperimentationScorecardDataRow{}
 {
 }
 
 ScorecardDataRow::ScorecardDataRow(const ScorecardDataRow& src) :
-    PlayFabExperimentationScorecardDataRow{ src },
+    PFExperimentationScorecardDataRow{ src },
     m_metricDataRows{ src.m_metricDataRows },
     m_variantName{ src.m_variantName }
 {
@@ -923,7 +923,7 @@ ScorecardDataRow::ScorecardDataRow(const ScorecardDataRow& src) :
 }
 
 ScorecardDataRow::ScorecardDataRow(ScorecardDataRow&& src) :
-    PlayFabExperimentationScorecardDataRow{ src },
+    PFExperimentationScorecardDataRow{ src },
     m_metricDataRows{ std::move(src.m_metricDataRows) },
     m_variantName{ std::move(src.m_variantName) }
 {
@@ -931,7 +931,7 @@ ScorecardDataRow::ScorecardDataRow(ScorecardDataRow&& src) :
     variantName = m_variantName.empty() ? nullptr : m_variantName.data();
 }
 
-ScorecardDataRow::ScorecardDataRow(const PlayFabExperimentationScorecardDataRow& src)
+ScorecardDataRow::ScorecardDataRow(const PFExperimentationScorecardDataRow& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -946,16 +946,16 @@ void ScorecardDataRow::FromJson(const JsonValue& input)
 
 JsonValue ScorecardDataRow::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationScorecardDataRow>(*this);
+    return JsonUtils::ToJson<PFExperimentationScorecardDataRow>(*this);
 }
 
 Scorecard::Scorecard() :
-    PlayFabExperimentationScorecard{}
+    PFExperimentationScorecard{}
 {
 }
 
 Scorecard::Scorecard(const Scorecard& src) :
-    PlayFabExperimentationScorecard{ src },
+    PFExperimentationScorecard{ src },
     m_dateGenerated{ src.m_dateGenerated },
     m_duration{ src.m_duration },
     m_experimentId{ src.m_experimentId },
@@ -972,7 +972,7 @@ Scorecard::Scorecard(const Scorecard& src) :
 }
 
 Scorecard::Scorecard(Scorecard&& src) :
-    PlayFabExperimentationScorecard{ src },
+    PFExperimentationScorecard{ src },
     m_dateGenerated{ std::move(src.m_dateGenerated) },
     m_duration{ std::move(src.m_duration) },
     m_experimentId{ std::move(src.m_experimentId) },
@@ -988,7 +988,7 @@ Scorecard::Scorecard(Scorecard&& src) :
     scorecardDataRows = m_scorecardDataRows.Empty() ? nullptr : m_scorecardDataRows.Data();
 }
 
-Scorecard::Scorecard(const PlayFabExperimentationScorecard& src)
+Scorecard::Scorecard(const PFExperimentationScorecard& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1007,29 +1007,29 @@ void Scorecard::FromJson(const JsonValue& input)
 
 JsonValue Scorecard::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationScorecard>(*this);
+    return JsonUtils::ToJson<PFExperimentationScorecard>(*this);
 }
 
 GetLatestScorecardResult::GetLatestScorecardResult() :
-    PlayFabExperimentationGetLatestScorecardResult{}
+    PFExperimentationGetLatestScorecardResult{}
 {
 }
 
 GetLatestScorecardResult::GetLatestScorecardResult(const GetLatestScorecardResult& src) :
-    PlayFabExperimentationGetLatestScorecardResult{ src },
+    PFExperimentationGetLatestScorecardResult{ src },
     m_scorecard{ src.m_scorecard }
 {
     scorecard = m_scorecard ? m_scorecard.operator->() : nullptr;
 }
 
 GetLatestScorecardResult::GetLatestScorecardResult(GetLatestScorecardResult&& src) :
-    PlayFabExperimentationGetLatestScorecardResult{ src },
+    PFExperimentationGetLatestScorecardResult{ src },
     m_scorecard{ std::move(src.m_scorecard) }
 {
     scorecard = m_scorecard ? m_scorecard.operator->() : nullptr;
 }
 
-GetLatestScorecardResult::GetLatestScorecardResult(const PlayFabExperimentationGetLatestScorecardResult& src)
+GetLatestScorecardResult::GetLatestScorecardResult(const PFExperimentationGetLatestScorecardResult& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1041,16 +1041,16 @@ void GetLatestScorecardResult::FromJson(const JsonValue& input)
 
 JsonValue GetLatestScorecardResult::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationGetLatestScorecardResult>(*this);
+    return JsonUtils::ToJson<PFExperimentationGetLatestScorecardResult>(*this);
 }
 
 GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest() :
-    PlayFabExperimentationGetTreatmentAssignmentRequest{}
+    PFExperimentationGetTreatmentAssignmentRequest{}
 {
 }
 
 GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest(const GetTreatmentAssignmentRequest& src) :
-    PlayFabExperimentationGetTreatmentAssignmentRequest{ src },
+    PFExperimentationGetTreatmentAssignmentRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity }
 {
@@ -1059,7 +1059,7 @@ GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest(const GetTreatmentA
 }
 
 GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest(GetTreatmentAssignmentRequest&& src) :
-    PlayFabExperimentationGetTreatmentAssignmentRequest{ src },
+    PFExperimentationGetTreatmentAssignmentRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) }
 {
@@ -1067,7 +1067,7 @@ GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest(GetTreatmentAssignm
     entity = m_entity ? m_entity.operator->() : nullptr;
 }
 
-GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest(const PlayFabExperimentationGetTreatmentAssignmentRequest& src)
+GetTreatmentAssignmentRequest::GetTreatmentAssignmentRequest(const PFExperimentationGetTreatmentAssignmentRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1080,29 +1080,29 @@ void GetTreatmentAssignmentRequest::FromJson(const JsonValue& input)
 
 JsonValue GetTreatmentAssignmentRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationGetTreatmentAssignmentRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationGetTreatmentAssignmentRequest>(*this);
 }
 
 GetTreatmentAssignmentResult::GetTreatmentAssignmentResult() :
-    PlayFabExperimentationGetTreatmentAssignmentResult{}
+    PFExperimentationGetTreatmentAssignmentResult{}
 {
 }
 
 GetTreatmentAssignmentResult::GetTreatmentAssignmentResult(const GetTreatmentAssignmentResult& src) :
-    PlayFabExperimentationGetTreatmentAssignmentResult{ src },
+    PFExperimentationGetTreatmentAssignmentResult{ src },
     m_treatmentAssignment{ src.m_treatmentAssignment }
 {
     treatmentAssignment = m_treatmentAssignment ? m_treatmentAssignment.operator->() : nullptr;
 }
 
 GetTreatmentAssignmentResult::GetTreatmentAssignmentResult(GetTreatmentAssignmentResult&& src) :
-    PlayFabExperimentationGetTreatmentAssignmentResult{ src },
+    PFExperimentationGetTreatmentAssignmentResult{ src },
     m_treatmentAssignment{ std::move(src.m_treatmentAssignment) }
 {
     treatmentAssignment = m_treatmentAssignment ? m_treatmentAssignment.operator->() : nullptr;
 }
 
-GetTreatmentAssignmentResult::GetTreatmentAssignmentResult(const PlayFabExperimentationGetTreatmentAssignmentResult& src)
+GetTreatmentAssignmentResult::GetTreatmentAssignmentResult(const PFExperimentationGetTreatmentAssignmentResult& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1114,16 +1114,16 @@ void GetTreatmentAssignmentResult::FromJson(const JsonValue& input)
 
 JsonValue GetTreatmentAssignmentResult::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationGetTreatmentAssignmentResult>(*this);
+    return JsonUtils::ToJson<PFExperimentationGetTreatmentAssignmentResult>(*this);
 }
 
 StartExperimentRequest::StartExperimentRequest() :
-    PlayFabExperimentationStartExperimentRequest{}
+    PFExperimentationStartExperimentRequest{}
 {
 }
 
 StartExperimentRequest::StartExperimentRequest(const StartExperimentRequest& src) :
-    PlayFabExperimentationStartExperimentRequest{ src },
+    PFExperimentationStartExperimentRequest{ src },
     m_customTags{ src.m_customTags },
     m_experimentId{ src.m_experimentId }
 {
@@ -1132,7 +1132,7 @@ StartExperimentRequest::StartExperimentRequest(const StartExperimentRequest& src
 }
 
 StartExperimentRequest::StartExperimentRequest(StartExperimentRequest&& src) :
-    PlayFabExperimentationStartExperimentRequest{ src },
+    PFExperimentationStartExperimentRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_experimentId{ std::move(src.m_experimentId) }
 {
@@ -1140,7 +1140,7 @@ StartExperimentRequest::StartExperimentRequest(StartExperimentRequest&& src) :
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
-StartExperimentRequest::StartExperimentRequest(const PlayFabExperimentationStartExperimentRequest& src)
+StartExperimentRequest::StartExperimentRequest(const PFExperimentationStartExperimentRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1153,16 +1153,16 @@ void StartExperimentRequest::FromJson(const JsonValue& input)
 
 JsonValue StartExperimentRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationStartExperimentRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationStartExperimentRequest>(*this);
 }
 
 StopExperimentRequest::StopExperimentRequest() :
-    PlayFabExperimentationStopExperimentRequest{}
+    PFExperimentationStopExperimentRequest{}
 {
 }
 
 StopExperimentRequest::StopExperimentRequest(const StopExperimentRequest& src) :
-    PlayFabExperimentationStopExperimentRequest{ src },
+    PFExperimentationStopExperimentRequest{ src },
     m_customTags{ src.m_customTags },
     m_experimentId{ src.m_experimentId }
 {
@@ -1171,7 +1171,7 @@ StopExperimentRequest::StopExperimentRequest(const StopExperimentRequest& src) :
 }
 
 StopExperimentRequest::StopExperimentRequest(StopExperimentRequest&& src) :
-    PlayFabExperimentationStopExperimentRequest{ src },
+    PFExperimentationStopExperimentRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_experimentId{ std::move(src.m_experimentId) }
 {
@@ -1179,7 +1179,7 @@ StopExperimentRequest::StopExperimentRequest(StopExperimentRequest&& src) :
     experimentId = m_experimentId.empty() ? nullptr : m_experimentId.data();
 }
 
-StopExperimentRequest::StopExperimentRequest(const PlayFabExperimentationStopExperimentRequest& src)
+StopExperimentRequest::StopExperimentRequest(const PFExperimentationStopExperimentRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1192,16 +1192,16 @@ void StopExperimentRequest::FromJson(const JsonValue& input)
 
 JsonValue StopExperimentRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationStopExperimentRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationStopExperimentRequest>(*this);
 }
 
 UpdateExclusionGroupRequest::UpdateExclusionGroupRequest() :
-    PlayFabExperimentationUpdateExclusionGroupRequest{}
+    PFExperimentationUpdateExclusionGroupRequest{}
 {
 }
 
 UpdateExclusionGroupRequest::UpdateExclusionGroupRequest(const UpdateExclusionGroupRequest& src) :
-    PlayFabExperimentationUpdateExclusionGroupRequest{ src },
+    PFExperimentationUpdateExclusionGroupRequest{ src },
     m_customTags{ src.m_customTags },
     m_description{ src.m_description },
     m_exclusionGroupId{ src.m_exclusionGroupId },
@@ -1214,7 +1214,7 @@ UpdateExclusionGroupRequest::UpdateExclusionGroupRequest(const UpdateExclusionGr
 }
 
 UpdateExclusionGroupRequest::UpdateExclusionGroupRequest(UpdateExclusionGroupRequest&& src) :
-    PlayFabExperimentationUpdateExclusionGroupRequest{ src },
+    PFExperimentationUpdateExclusionGroupRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_description{ std::move(src.m_description) },
     m_exclusionGroupId{ std::move(src.m_exclusionGroupId) },
@@ -1226,7 +1226,7 @@ UpdateExclusionGroupRequest::UpdateExclusionGroupRequest(UpdateExclusionGroupReq
     name = m_name.empty() ? nullptr : m_name.data();
 }
 
-UpdateExclusionGroupRequest::UpdateExclusionGroupRequest(const PlayFabExperimentationUpdateExclusionGroupRequest& src)
+UpdateExclusionGroupRequest::UpdateExclusionGroupRequest(const PFExperimentationUpdateExclusionGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1241,16 +1241,16 @@ void UpdateExclusionGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue UpdateExclusionGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationUpdateExclusionGroupRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationUpdateExclusionGroupRequest>(*this);
 }
 
 UpdateExperimentRequest::UpdateExperimentRequest() :
-    PlayFabExperimentationUpdateExperimentRequest{}
+    PFExperimentationUpdateExperimentRequest{}
 {
 }
 
 UpdateExperimentRequest::UpdateExperimentRequest(const UpdateExperimentRequest& src) :
-    PlayFabExperimentationUpdateExperimentRequest{ src },
+    PFExperimentationUpdateExperimentRequest{ src },
     m_customTags{ src.m_customTags },
     m_description{ src.m_description },
     m_endDate{ src.m_endDate },
@@ -1277,7 +1277,7 @@ UpdateExperimentRequest::UpdateExperimentRequest(const UpdateExperimentRequest& 
 }
 
 UpdateExperimentRequest::UpdateExperimentRequest(UpdateExperimentRequest&& src) :
-    PlayFabExperimentationUpdateExperimentRequest{ src },
+    PFExperimentationUpdateExperimentRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_description{ std::move(src.m_description) },
     m_endDate{ std::move(src.m_endDate) },
@@ -1303,7 +1303,7 @@ UpdateExperimentRequest::UpdateExperimentRequest(UpdateExperimentRequest&& src) 
     variants = m_variants.Empty() ? nullptr : m_variants.Data();
 }
 
-UpdateExperimentRequest::UpdateExperimentRequest(const PlayFabExperimentationUpdateExperimentRequest& src)
+UpdateExperimentRequest::UpdateExperimentRequest(const PFExperimentationUpdateExperimentRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1326,7 +1326,7 @@ void UpdateExperimentRequest::FromJson(const JsonValue& input)
 
 JsonValue UpdateExperimentRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabExperimentationUpdateExperimentRequest>(*this);
+    return JsonUtils::ToJson<PFExperimentationUpdateExperimentRequest>(*this);
 }
 
 } // namespace ExperimentationModels
@@ -1336,7 +1336,7 @@ namespace JsonUtils
 // Serialization methods for public models
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationCreateExclusionGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1346,7 +1346,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupReques
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupResult& input)
+inline JsonValue ToJson<>(const PFExperimentationCreateExclusionGroupResult& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
@@ -1354,7 +1354,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationCreateExclusionGroupResult
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationVariant& input)
+inline JsonValue ToJson<>(const PFExperimentationVariant& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Description", input.description);
@@ -1368,7 +1368,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationVariant& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationCreateExperimentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1386,7 +1386,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentRequest& i
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentResult& input)
+inline JsonValue ToJson<>(const PFExperimentationCreateExperimentResult& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
@@ -1394,7 +1394,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationCreateExperimentResult& in
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExclusionGroupRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationDeleteExclusionGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1403,7 +1403,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExclusionGroupReques
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExperimentRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationDeleteExperimentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1412,7 +1412,42 @@ inline JsonValue ToJson<>(const PlayFabExperimentationDeleteExperimentRequest& i
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationExclusionGroupTrafficAllocation& input)
+inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupsRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFExperimentationExperimentExclusionGroup& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Description", input.description);
+    JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
+    JsonUtils::ObjectAddMember(output, "Name", input.name);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupsResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "ExclusionGroups", input.exclusionGroups, input.exclusionGroupsCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupTrafficRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFExperimentationExclusionGroupTrafficAllocation& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "ExperimentId", input.experimentId);
@@ -1421,7 +1456,23 @@ inline JsonValue ToJson<>(const PlayFabExperimentationExclusionGroupTrafficAlloc
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationExperiment& input)
+inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupTrafficResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "TrafficAllocations", input.trafficAllocations, input.trafficAllocationsCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFExperimentationGetExperimentsRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFExperimentationExperiment& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Description", input.description);
@@ -1440,58 +1491,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationExperiment& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationExperimentExclusionGroup& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Description", input.description);
-    JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
-    JsonUtils::ObjectAddMember(output, "Name", input.name);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupsResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ExclusionGroups", input.exclusionGroups, input.exclusionGroupsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupTrafficRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ExclusionGroupId", input.exclusionGroupId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetExclusionGroupTrafficResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "TrafficAllocations", input.trafficAllocations, input.trafficAllocationsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsResult& input)
+inline JsonValue ToJson<>(const PFExperimentationGetExperimentsResult& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Experiments", input.experiments, input.experimentsCount);
@@ -1499,7 +1499,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationGetExperimentsResult& inpu
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationGetLatestScorecardRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1508,7 +1508,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardRequest&
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationMetricData& input)
+inline JsonValue ToJson<>(const PFExperimentationMetricData& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "ConfidenceIntervalEnd", input.confidenceIntervalEnd);
@@ -1528,7 +1528,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationMetricData& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationScorecardDataRow& input)
+inline JsonValue ToJson<>(const PFExperimentationScorecardDataRow& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "IsControl", input.isControl);
@@ -1539,7 +1539,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationScorecardDataRow& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationScorecard& input)
+inline JsonValue ToJson<>(const PFExperimentationScorecard& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "DateGenerated", input.dateGenerated);
@@ -1554,7 +1554,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationScorecard& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardResult& input)
+inline JsonValue ToJson<>(const PFExperimentationGetLatestScorecardResult& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Scorecard", input.scorecard);
@@ -1562,7 +1562,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationGetLatestScorecardResult& 
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationGetTreatmentAssignmentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1571,7 +1571,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentRequ
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentResult& input)
+inline JsonValue ToJson<>(const PFExperimentationGetTreatmentAssignmentResult& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "TreatmentAssignment", input.treatmentAssignment);
@@ -1579,7 +1579,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationGetTreatmentAssignmentResu
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationStartExperimentRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationStartExperimentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1588,7 +1588,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationStartExperimentRequest& in
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationStopExperimentRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationStopExperimentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1597,7 +1597,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationStopExperimentRequest& inp
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExclusionGroupRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationUpdateExclusionGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1608,7 +1608,7 @@ inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExclusionGroupReques
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabExperimentationUpdateExperimentRequest& input)
+inline JsonValue ToJson<>(const PFExperimentationUpdateExperimentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);

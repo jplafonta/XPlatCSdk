@@ -3,12 +3,7 @@
 #include "TestApp.h"
 #include "AutoGenCloudScriptTests.h"
 #include "XAsyncHelper.h"
-#include <playfab/PlayFabClientAuthApi.h>
-#include <playfab/PlayFabClientApi.h>
-#include <playfab/PlayFabProfilesApi.h>
-#include <playfab/PlayFabAdminApi.h>
-#include <playfab/PlayFabAuthenticationAuthApi.h>
-#include <playfab/PlayFabClientDataModels.h>
+#include "playfab/PFAuthentication.h"
 
 namespace PlayFabUnit
 {
@@ -20,7 +15,7 @@ void AutoGenCloudScriptTests::Log(std::stringstream& ss)
     ss.clear();
 }
 
-HRESULT AutoGenClientTests::LogHR(HRESULT hr)
+HRESULT AutoGenCloudScriptTests::LogHR(HRESULT hr)
 {
     if( TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -32,7 +27,15 @@ HRESULT AutoGenClientTests::LogHR(HRESULT hr)
 
 void AutoGenCloudScriptTests::AddTests()
 {
+    // Generated prerequisites
+
     // Generated tests 
+    AddTest("TestCloudScriptAdminGetCloudScriptRevision", &AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptRevision);
+    AddTest("TestCloudScriptAdminGetCloudScriptVersions", &AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptVersions);
+    AddTest("TestCloudScriptAdminSetPublishedRevision", &AutoGenCloudScriptTests::TestCloudScriptAdminSetPublishedRevision);
+    AddTest("TestCloudScriptAdminUpdateCloudScript", &AutoGenCloudScriptTests::TestCloudScriptAdminUpdateCloudScript);
+    AddTest("TestCloudScriptClientExecuteCloudScript", &AutoGenCloudScriptTests::TestCloudScriptClientExecuteCloudScript);
+    AddTest("TestCloudScriptServerExecuteCloudScript", &AutoGenCloudScriptTests::TestCloudScriptServerExecuteCloudScript);
     AddTest("TestCloudScriptExecuteEntityCloudScript", &AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript);
     AddTest("TestCloudScriptExecuteFunction", &AutoGenCloudScriptTests::TestCloudScriptExecuteFunction);
     AddTest("TestCloudScriptListFunctions", &AutoGenCloudScriptTests::TestCloudScriptListFunctions);
@@ -49,17 +52,17 @@ void AutoGenCloudScriptTests::AddTests()
 
 void AutoGenCloudScriptTests::ClassSetUp()
 {
-    HRESULT hr = PlayFabAdminInitialize(testTitleData.titleId.data(), testTitleData.developerSecretKey.data(), nullptr, &stateHandle);
+    HRESULT hr = PFAdminInitialize(testTitleData.titleId.data(), testTitleData.developerSecretKey.data(), nullptr, &stateHandle);
     assert(SUCCEEDED(hr));
     if (SUCCEEDED(hr))
     {
-        PlayFabClientLoginWithCustomIDRequest request{};
+        PFAuthenticationLoginWithCustomIDRequest request{};
         request.customId = "CustomId";
         bool createAccount = true;
         request.createAccount = &createAccount;
         request.titleId = testTitleData.titleId.data();
 
-        PlayFabClientGetPlayerCombinedInfoRequestParams combinedInfoRequestParams{};
+        PFGetPlayerCombinedInfoRequestParams combinedInfoRequestParams{};
         combinedInfoRequestParams.getCharacterInventories = true;
         combinedInfoRequestParams.getCharacterList = true;
         combinedInfoRequestParams.getPlayerProfile = true;
@@ -73,7 +76,7 @@ void AutoGenCloudScriptTests::ClassSetUp()
         request.infoRequestParameters = &combinedInfoRequestParams;
 
         XAsyncBlock async{};
-        hr = PlayFabClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
         assert(SUCCEEDED(hr));
         if (SUCCEEDED(hr))
         {
@@ -82,10 +85,10 @@ void AutoGenCloudScriptTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PlayFabGetAuthResult(&async, &entityHandle);
+                hr = PFGetAuthResult(&async, &entityHandle);
                 assert(SUCCEEDED(hr) && entityHandle != nullptr);
 
-                hr = PlayFabEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -94,10 +97,10 @@ void AutoGenCloudScriptTests::ClassSetUp()
 
 void AutoGenCloudScriptTests::ClassTearDown()
 {
-    PlayFabEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(entityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PlayFabCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFCleanupAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -112,163 +115,337 @@ void AutoGenCloudScriptTests::SetUp(TestContext& testContext)
     {
         testContext.Skip("Skipping test because login failed");
     }
+
+
 }
 
-void AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript(TestContext& testContext)
+
+void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptRevision(TestContext& testContext)
 {
-    struct ExecuteEntityCloudScriptResult : public XAsyncResult
+    struct AdminGetCloudScriptRevisionResult : public XAsyncResult
     {
-        PlayFabCloudScriptExecuteCloudScriptResult* result = nullptr;
+        PFCloudScriptGetCloudScriptRevisionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabCloudScriptExecuteEntityCloudScriptGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFCloudScriptAdminGetCloudScriptRevisionGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabCloudScriptExecuteCloudScriptResult( result );
-            return ValidatePlayFabCloudScriptExecuteCloudScriptResult( result );
+            LogPFCloudScriptGetCloudScriptRevisionResult( result );
+            return ValidatePFCloudScriptGetCloudScriptRevisionResult( result );
+        }
+    };
+
+    auto async = std::make_unique<XAsyncHelper<AdminGetCloudScriptRevisionResult>>(testContext);
+
+    PlayFab::CloudScriptModels::GetCloudScriptRevisionRequest request;
+    FillGetCloudScriptRevisionRequest( &request );
+    LogGetCloudScriptRevisionRequest( &request, "TestCloudScriptAdminGetCloudScriptRevision" );
+    HRESULT hr = PFCloudScriptAdminGetCloudScriptRevisionAsync(stateHandle, &request, &async->asyncBlock); 
+    if (FAILED(hr))
+    {
+        testContext.Fail("PFCloudScriptCloudScriptAdminGetCloudScriptRevisionAsync", hr);
+        return;
+    }
+    async.release(); 
+} 
+void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptVersions(TestContext& testContext)
+{
+    struct AdminGetCloudScriptVersionsResult : public XAsyncResult
+    {
+        PFCloudScriptGetCloudScriptVersionsResult* result = nullptr;
+        HRESULT Get(XAsyncBlock* async) override
+        { 
+            return LogHR(PFCloudScriptAdminGetCloudScriptVersionsGetResult(async, &resultHandle, &result)); 
+        }
+
+        HRESULT Validate()
+        {
+            LogPFCloudScriptGetCloudScriptVersionsResult( result );
+            return ValidatePFCloudScriptGetCloudScriptVersionsResult( result );
+        }
+    };
+
+    auto async = std::make_unique<XAsyncHelper<AdminGetCloudScriptVersionsResult>>(testContext);
+
+    HRESULT hr = PFCloudScriptAdminGetCloudScriptVersionsAsync(stateHandle, &async->asyncBlock); 
+    if (FAILED(hr))
+    {
+        testContext.Fail("PFCloudScriptCloudScriptAdminGetCloudScriptVersionsAsync", hr);
+        return;
+    }
+    async.release(); 
+} 
+void AutoGenCloudScriptTests::TestCloudScriptAdminSetPublishedRevision(TestContext& testContext)
+{
+    struct AdminSetPublishedRevisionResult : public XAsyncResult
+    {
+        HRESULT Get(XAsyncBlock* async) override
+        { 
+            // No Get Result method needed
+            return LogHR(XAsyncGetStatus(async, true));
+        }
+
+        HRESULT Validate()
+        {
+            return S_OK;
+        }
+    };
+
+    auto async = std::make_unique<XAsyncHelper<AdminSetPublishedRevisionResult>>(testContext);
+
+    PlayFab::CloudScriptModels::SetPublishedRevisionRequest request;
+    FillSetPublishedRevisionRequest( &request );
+    LogSetPublishedRevisionRequest( &request, "TestCloudScriptAdminSetPublishedRevision" );
+    HRESULT hr = PFCloudScriptAdminSetPublishedRevisionAsync(stateHandle, &request, &async->asyncBlock); 
+    if (FAILED(hr))
+    {
+        testContext.Fail("PFCloudScriptCloudScriptAdminSetPublishedRevisionAsync", hr);
+        return;
+    }
+    async.release(); 
+} 
+void AutoGenCloudScriptTests::TestCloudScriptAdminUpdateCloudScript(TestContext& testContext)
+{
+    struct AdminUpdateCloudScriptResult : public XAsyncResult
+    {
+        PFCloudScriptUpdateCloudScriptResult result{};
+        HRESULT Get(XAsyncBlock* async) override
+        { 
+            return LogHR(PFCloudScriptAdminUpdateCloudScriptGetResult(async, &result)); 
+        }
+
+        HRESULT Validate()
+        {
+            LogPFCloudScriptUpdateCloudScriptResult( &result );
+            return ValidatePFCloudScriptUpdateCloudScriptResult( &result );
+        }
+    };
+
+    auto async = std::make_unique<XAsyncHelper<AdminUpdateCloudScriptResult>>(testContext);
+
+    PlayFab::CloudScriptModels::UpdateCloudScriptRequest request;
+    FillUpdateCloudScriptRequest( &request );
+    LogUpdateCloudScriptRequest( &request, "TestCloudScriptAdminUpdateCloudScript" );
+    HRESULT hr = PFCloudScriptAdminUpdateCloudScriptAsync(stateHandle, &request, &async->asyncBlock); 
+    if (FAILED(hr))
+    {
+        testContext.Fail("PFCloudScriptCloudScriptAdminUpdateCloudScriptAsync", hr);
+        return;
+    }
+    async.release(); 
+} 
+void AutoGenCloudScriptTests::TestCloudScriptClientExecuteCloudScript(TestContext& testContext)
+{
+    struct ClientExecuteCloudScriptResult : public XAsyncResult
+    {
+        PFExecuteCloudScriptResult* result = nullptr;
+        HRESULT Get(XAsyncBlock* async) override
+        { 
+            return LogHR(PFCloudScriptClientExecuteCloudScriptGetResult(async, &resultHandle, &result)); 
+        }
+
+        HRESULT Validate()
+        {
+            LogPFExecuteCloudScriptResult( result );
+            return ValidatePFExecuteCloudScriptResult( result );
+        }
+    };
+
+    auto async = std::make_unique<XAsyncHelper<ClientExecuteCloudScriptResult>>(testContext);
+
+    PlayFab::CloudScriptModels::ExecuteCloudScriptRequest request;
+    FillExecuteCloudScriptRequest( &request );
+    LogExecuteCloudScriptRequest( &request, "TestCloudScriptClientExecuteCloudScript" );
+    HRESULT hr = PFCloudScriptClientExecuteCloudScriptAsync(entityHandle, &request, &async->asyncBlock); 
+    if (FAILED(hr))
+    {
+        testContext.Fail("PFCloudScriptCloudScriptClientExecuteCloudScriptAsync", hr);
+        return;
+    }
+    async.release(); 
+} 
+void AutoGenCloudScriptTests::TestCloudScriptServerExecuteCloudScript(TestContext& testContext)
+{
+    struct ServerExecuteCloudScriptResult : public XAsyncResult
+    {
+        PFExecuteCloudScriptResult* result = nullptr;
+        HRESULT Get(XAsyncBlock* async) override
+        { 
+            return LogHR(PFCloudScriptServerExecuteCloudScriptGetResult(async, &resultHandle, &result)); 
+        }
+
+        HRESULT Validate()
+        {
+            LogPFExecuteCloudScriptResult( result );
+            return ValidatePFExecuteCloudScriptResult( result );
+        }
+    };
+
+    auto async = std::make_unique<XAsyncHelper<ServerExecuteCloudScriptResult>>(testContext);
+
+    PlayFab::CloudScriptModels::ExecuteCloudScriptServerRequest request;
+    FillExecuteCloudScriptServerRequest( &request );
+    LogExecuteCloudScriptServerRequest( &request, "TestCloudScriptServerExecuteCloudScript" );
+    HRESULT hr = PFCloudScriptServerExecuteCloudScriptAsync(stateHandle, &request, &async->asyncBlock); 
+    if (FAILED(hr))
+    {
+        testContext.Fail("PFCloudScriptCloudScriptServerExecuteCloudScriptAsync", hr);
+        return;
+    }
+    async.release(); 
+} 
+void AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript(TestContext& testContext)
+{
+    struct ExecuteEntityCloudScriptResult : public XAsyncResult
+    {
+        PFExecuteCloudScriptResult* result = nullptr;
+        HRESULT Get(XAsyncBlock* async) override
+        { 
+            return LogHR(PFCloudScriptExecuteEntityCloudScriptGetResult(async, &resultHandle, &result)); 
+        }
+
+        HRESULT Validate()
+        {
+            LogPFExecuteCloudScriptResult( result );
+            return ValidatePFExecuteCloudScriptResult( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<ExecuteEntityCloudScriptResult>>(testContext);
 
     PlayFab::CloudScriptModels::ExecuteEntityCloudScriptRequest request;
-    FillPlayFabCloudScriptExecuteEntityCloudScriptRequest( &request );
-    LogPlayFabCloudScriptExecuteEntityCloudScriptRequest( &request, "TestCloudScriptExecuteEntityCloudScript" );
-    HRESULT hr = PlayFabCloudScriptExecuteEntityCloudScriptAsync(entityHandle, &request, &async->asyncBlock); 
+    FillExecuteEntityCloudScriptRequest( &request );
+    LogExecuteEntityCloudScriptRequest( &request, "TestCloudScriptExecuteEntityCloudScript" );
+    HRESULT hr = PFCloudScriptExecuteEntityCloudScriptAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptExecuteEntityCloudScriptAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptExecuteEntityCloudScriptAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptExecuteFunction(TestContext& testContext)
 {
     struct ExecuteFunctionResult : public XAsyncResult
     {
-        PlayFabCloudScriptExecuteFunctionResult* result = nullptr;
+        PFCloudScriptExecuteFunctionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabCloudScriptExecuteFunctionGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFCloudScriptExecuteFunctionGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabCloudScriptExecuteFunctionResult( result );
-            return ValidatePlayFabCloudScriptExecuteFunctionResult( result );
+            LogPFCloudScriptExecuteFunctionResult( result );
+            return ValidatePFCloudScriptExecuteFunctionResult( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<ExecuteFunctionResult>>(testContext);
 
     PlayFab::CloudScriptModels::ExecuteFunctionRequest request;
-    FillPlayFabCloudScriptExecuteFunctionRequest( &request );
-    LogPlayFabCloudScriptExecuteFunctionRequest( &request, "TestCloudScriptExecuteFunction" );
-    HRESULT hr = PlayFabCloudScriptExecuteFunctionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillExecuteFunctionRequest( &request );
+    LogExecuteFunctionRequest( &request, "TestCloudScriptExecuteFunction" );
+    HRESULT hr = PFCloudScriptExecuteFunctionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptExecuteFunctionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptExecuteFunctionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptListFunctions(TestContext& testContext)
 {
     struct ListFunctionsResult : public XAsyncResult
     {
-        PlayFabCloudScriptListFunctionsResult* result = nullptr;
+        PFCloudScriptListFunctionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabCloudScriptListFunctionsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFCloudScriptListFunctionsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabCloudScriptListFunctionsResult( result );
-            return ValidatePlayFabCloudScriptListFunctionsResult( result );
+            LogPFCloudScriptListFunctionsResult( result );
+            return ValidatePFCloudScriptListFunctionsResult( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<ListFunctionsResult>>(testContext);
 
     PlayFab::CloudScriptModels::ListFunctionsRequest request;
-    FillPlayFabCloudScriptListFunctionsRequest( &request );
-    LogPlayFabCloudScriptListFunctionsRequest( &request, "TestCloudScriptListFunctions" );
-    HRESULT hr = PlayFabCloudScriptListFunctionsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillListFunctionsRequest( &request );
+    LogListFunctionsRequest( &request, "TestCloudScriptListFunctions" );
+    HRESULT hr = PFCloudScriptListFunctionsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptListFunctionsAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptListFunctionsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptListHttpFunctions(TestContext& testContext)
 {
     struct ListHttpFunctionsResult : public XAsyncResult
     {
-        PlayFabCloudScriptListHttpFunctionsResult* result = nullptr;
+        PFCloudScriptListHttpFunctionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabCloudScriptListHttpFunctionsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFCloudScriptListHttpFunctionsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabCloudScriptListHttpFunctionsResult( result );
-            return ValidatePlayFabCloudScriptListHttpFunctionsResult( result );
+            LogPFCloudScriptListHttpFunctionsResult( result );
+            return ValidatePFCloudScriptListHttpFunctionsResult( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<ListHttpFunctionsResult>>(testContext);
 
     PlayFab::CloudScriptModels::ListFunctionsRequest request;
-    FillPlayFabCloudScriptListFunctionsRequest( &request );
-    LogPlayFabCloudScriptListFunctionsRequest( &request, "TestCloudScriptListHttpFunctions" );
-    HRESULT hr = PlayFabCloudScriptListHttpFunctionsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillListFunctionsRequest( &request );
+    LogListFunctionsRequest( &request, "TestCloudScriptListHttpFunctions" );
+    HRESULT hr = PFCloudScriptListHttpFunctionsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptListHttpFunctionsAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptListHttpFunctionsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptListQueuedFunctions(TestContext& testContext)
 {
     struct ListQueuedFunctionsResult : public XAsyncResult
     {
-        PlayFabCloudScriptListQueuedFunctionsResult* result = nullptr;
+        PFCloudScriptListQueuedFunctionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabCloudScriptListQueuedFunctionsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFCloudScriptListQueuedFunctionsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabCloudScriptListQueuedFunctionsResult( result );
-            return ValidatePlayFabCloudScriptListQueuedFunctionsResult( result );
+            LogPFCloudScriptListQueuedFunctionsResult( result );
+            return ValidatePFCloudScriptListQueuedFunctionsResult( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<ListQueuedFunctionsResult>>(testContext);
 
     PlayFab::CloudScriptModels::ListFunctionsRequest request;
-    FillPlayFabCloudScriptListFunctionsRequest( &request );
-    LogPlayFabCloudScriptListFunctionsRequest( &request, "TestCloudScriptListQueuedFunctions" );
-    HRESULT hr = PlayFabCloudScriptListQueuedFunctionsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillListFunctionsRequest( &request );
+    LogListFunctionsRequest( &request, "TestCloudScriptListQueuedFunctions" );
+    HRESULT hr = PFCloudScriptListQueuedFunctionsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptListQueuedFunctionsAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptListQueuedFunctionsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForEntityTriggeredAction(TestContext& testContext)
 {
     struct PostFunctionResultForEntityTriggeredActionResult : public XAsyncResult
@@ -288,17 +465,16 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForEntityTriggere
     auto async = std::make_unique<XAsyncHelper<PostFunctionResultForEntityTriggeredActionResult>>(testContext);
 
     PlayFab::CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest request;
-    FillPlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest( &request );
-    LogPlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest( &request, "TestCloudScriptPostFunctionResultForEntityTriggeredAction" );
-    HRESULT hr = PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillPostFunctionResultForEntityTriggeredActionRequest( &request );
+    LogPostFunctionResultForEntityTriggeredActionRequest( &request, "TestCloudScriptPostFunctionResultForEntityTriggeredAction" );
+    HRESULT hr = PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptPostFunctionResultForEntityTriggeredActionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptPostFunctionResultForEntityTriggeredActionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForFunctionExecution(TestContext& testContext)
 {
     struct PostFunctionResultForFunctionExecutionResult : public XAsyncResult
@@ -318,17 +494,16 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForFunctionExecut
     auto async = std::make_unique<XAsyncHelper<PostFunctionResultForFunctionExecutionResult>>(testContext);
 
     PlayFab::CloudScriptModels::PostFunctionResultForFunctionExecutionRequest request;
-    FillPlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest( &request );
-    LogPlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest( &request, "TestCloudScriptPostFunctionResultForFunctionExecution" );
-    HRESULT hr = PlayFabCloudScriptPostFunctionResultForFunctionExecutionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillPostFunctionResultForFunctionExecutionRequest( &request );
+    LogPostFunctionResultForFunctionExecutionRequest( &request, "TestCloudScriptPostFunctionResultForFunctionExecution" );
+    HRESULT hr = PFCloudScriptPostFunctionResultForFunctionExecutionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptPostFunctionResultForFunctionExecutionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptPostFunctionResultForFunctionExecutionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForPlayerTriggeredAction(TestContext& testContext)
 {
     struct PostFunctionResultForPlayerTriggeredActionResult : public XAsyncResult
@@ -348,17 +523,16 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForPlayerTriggere
     auto async = std::make_unique<XAsyncHelper<PostFunctionResultForPlayerTriggeredActionResult>>(testContext);
 
     PlayFab::CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest request;
-    FillPlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest( &request );
-    LogPlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest( &request, "TestCloudScriptPostFunctionResultForPlayerTriggeredAction" );
-    HRESULT hr = PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillPostFunctionResultForPlayerTriggeredActionRequest( &request );
+    LogPostFunctionResultForPlayerTriggeredActionRequest( &request, "TestCloudScriptPostFunctionResultForPlayerTriggeredAction" );
+    HRESULT hr = PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptPostFunctionResultForPlayerTriggeredActionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForScheduledTask(TestContext& testContext)
 {
     struct PostFunctionResultForScheduledTaskResult : public XAsyncResult
@@ -378,17 +552,16 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForScheduledTask(
     auto async = std::make_unique<XAsyncHelper<PostFunctionResultForScheduledTaskResult>>(testContext);
 
     PlayFab::CloudScriptModels::PostFunctionResultForScheduledTaskRequest request;
-    FillPlayFabCloudScriptPostFunctionResultForScheduledTaskRequest( &request );
-    LogPlayFabCloudScriptPostFunctionResultForScheduledTaskRequest( &request, "TestCloudScriptPostFunctionResultForScheduledTask" );
-    HRESULT hr = PlayFabCloudScriptPostFunctionResultForScheduledTaskAsync(entityHandle, &request, &async->asyncBlock); 
+    FillPostFunctionResultForScheduledTaskRequest( &request );
+    LogPostFunctionResultForScheduledTaskRequest( &request, "TestCloudScriptPostFunctionResultForScheduledTask" );
+    HRESULT hr = PFCloudScriptPostFunctionResultForScheduledTaskAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptPostFunctionResultForScheduledTaskAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptPostFunctionResultForScheduledTaskAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptRegisterHttpFunction(TestContext& testContext)
 {
     struct RegisterHttpFunctionResult : public XAsyncResult
@@ -408,17 +581,16 @@ void AutoGenCloudScriptTests::TestCloudScriptRegisterHttpFunction(TestContext& t
     auto async = std::make_unique<XAsyncHelper<RegisterHttpFunctionResult>>(testContext);
 
     PlayFab::CloudScriptModels::RegisterHttpFunctionRequest request;
-    FillPlayFabCloudScriptRegisterHttpFunctionRequest( &request );
-    LogPlayFabCloudScriptRegisterHttpFunctionRequest( &request, "TestCloudScriptRegisterHttpFunction" );
-    HRESULT hr = PlayFabCloudScriptRegisterHttpFunctionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillRegisterHttpFunctionRequest( &request );
+    LogRegisterHttpFunctionRequest( &request, "TestCloudScriptRegisterHttpFunction" );
+    HRESULT hr = PFCloudScriptRegisterHttpFunctionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptRegisterHttpFunctionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptRegisterHttpFunctionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptRegisterQueuedFunction(TestContext& testContext)
 {
     struct RegisterQueuedFunctionResult : public XAsyncResult
@@ -438,17 +610,16 @@ void AutoGenCloudScriptTests::TestCloudScriptRegisterQueuedFunction(TestContext&
     auto async = std::make_unique<XAsyncHelper<RegisterQueuedFunctionResult>>(testContext);
 
     PlayFab::CloudScriptModels::RegisterQueuedFunctionRequest request;
-    FillPlayFabCloudScriptRegisterQueuedFunctionRequest( &request );
-    LogPlayFabCloudScriptRegisterQueuedFunctionRequest( &request, "TestCloudScriptRegisterQueuedFunction" );
-    HRESULT hr = PlayFabCloudScriptRegisterQueuedFunctionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillRegisterQueuedFunctionRequest( &request );
+    LogRegisterQueuedFunctionRequest( &request, "TestCloudScriptRegisterQueuedFunction" );
+    HRESULT hr = PFCloudScriptRegisterQueuedFunctionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptRegisterQueuedFunctionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptRegisterQueuedFunctionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenCloudScriptTests::TestCloudScriptUnregisterFunction(TestContext& testContext)
 {
     struct UnregisterFunctionResult : public XAsyncResult
@@ -468,16 +639,15 @@ void AutoGenCloudScriptTests::TestCloudScriptUnregisterFunction(TestContext& tes
     auto async = std::make_unique<XAsyncHelper<UnregisterFunctionResult>>(testContext);
 
     PlayFab::CloudScriptModels::UnregisterFunctionRequest request;
-    FillPlayFabCloudScriptUnregisterFunctionRequest( &request );
-    LogPlayFabCloudScriptUnregisterFunctionRequest( &request, "TestCloudScriptUnregisterFunction" );
-    HRESULT hr = PlayFabCloudScriptUnregisterFunctionAsync(entityHandle, &request, &async->asyncBlock); 
+    FillUnregisterFunctionRequest( &request );
+    LogUnregisterFunctionRequest( &request, "TestCloudScriptUnregisterFunction" );
+    HRESULT hr = PFCloudScriptUnregisterFunctionAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabCloudScriptUnregisterFunctionAsync", hr);
+        testContext.Fail("PFCloudScriptCloudScriptUnregisterFunctionAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 
 }

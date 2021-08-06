@@ -7,7 +7,7 @@ namespace QoS
 {
 
 RegionResult::RegionResult(const String& _region) :
-    PlayFabQoSRegionResult{},
+    PFQoSRegionResult{},
     m_region{ _region },
     m_totalLatencyMs{ 0 }
 {
@@ -15,7 +15,7 @@ RegionResult::RegionResult(const String& _region) :
 }
 
 RegionResult::RegionResult(const RegionResult& src) :
-    PlayFabQoSRegionResult{ src },
+    PFQoSRegionResult{ src },
     m_region{ src.region },
     m_totalLatencyMs{ src.m_totalLatencyMs }
 {
@@ -47,12 +47,12 @@ void RegionResult::AddPingResult(Result<uint32_t> pingResult)
     }
 }
 
-Measurements::Measurements() : PlayFabQoSMeasurements {}
+Measurements::Measurements() : PFQoSMeasurements {}
 {
 }
 
 Measurements::Measurements(const UnorderedMap<String, RegionResult>& regionResultsMap) :
-    PlayFabQoSMeasurements{},
+    PFQoSMeasurements{},
     m_regionResults{ SortRegionResults(regionResultsMap) }
 {
     regionResults = m_regionResults.Empty() ? nullptr : m_regionResults.Data();
@@ -60,7 +60,7 @@ Measurements::Measurements(const UnorderedMap<String, RegionResult>& regionResul
 }
 
 Measurements::Measurements(const Measurements& src) :
-    PlayFabQoSMeasurements{ src },
+    PFQoSMeasurements{ src },
     m_regionResults{ src.m_regionResults }
 {
     regionResults = m_regionResults.Empty() ? nullptr : m_regionResults.Data();

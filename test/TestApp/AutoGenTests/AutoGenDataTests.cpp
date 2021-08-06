@@ -3,12 +3,7 @@
 #include "TestApp.h"
 #include "AutoGenDataTests.h"
 #include "XAsyncHelper.h"
-#include <playfab/PlayFabClientAuthApi.h>
-#include <playfab/PlayFabClientApi.h>
-#include <playfab/PlayFabProfilesApi.h>
-#include <playfab/PlayFabAdminApi.h>
-#include <playfab/PlayFabAuthenticationAuthApi.h>
-#include <playfab/PlayFabClientDataModels.h>
+#include "playfab/PFAuthentication.h"
 
 namespace PlayFabUnit
 {
@@ -20,7 +15,7 @@ void AutoGenDataTests::Log(std::stringstream& ss)
     ss.clear();
 }
 
-HRESULT AutoGenClientTests::LogHR(HRESULT hr)
+HRESULT AutoGenDataTests::LogHR(HRESULT hr)
 {
     if( TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -32,6 +27,8 @@ HRESULT AutoGenClientTests::LogHR(HRESULT hr)
 
 void AutoGenDataTests::AddTests()
 {
+    // Generated prerequisites
+
     // Generated tests 
     AddTest("TestDataAbortFileUploads", &AutoGenDataTests::TestDataAbortFileUploads);
     AddTest("TestDataDeleteFiles", &AutoGenDataTests::TestDataDeleteFiles);
@@ -44,17 +41,17 @@ void AutoGenDataTests::AddTests()
 
 void AutoGenDataTests::ClassSetUp()
 {
-    HRESULT hr = PlayFabAdminInitialize(testTitleData.titleId.data(), testTitleData.developerSecretKey.data(), nullptr, &stateHandle);
+    HRESULT hr = PFAdminInitialize(testTitleData.titleId.data(), testTitleData.developerSecretKey.data(), nullptr, &stateHandle);
     assert(SUCCEEDED(hr));
     if (SUCCEEDED(hr))
     {
-        PlayFabClientLoginWithCustomIDRequest request{};
+        PFAuthenticationLoginWithCustomIDRequest request{};
         request.customId = "CustomId";
         bool createAccount = true;
         request.createAccount = &createAccount;
         request.titleId = testTitleData.titleId.data();
 
-        PlayFabClientGetPlayerCombinedInfoRequestParams combinedInfoRequestParams{};
+        PFGetPlayerCombinedInfoRequestParams combinedInfoRequestParams{};
         combinedInfoRequestParams.getCharacterInventories = true;
         combinedInfoRequestParams.getCharacterList = true;
         combinedInfoRequestParams.getPlayerProfile = true;
@@ -68,7 +65,7 @@ void AutoGenDataTests::ClassSetUp()
         request.infoRequestParameters = &combinedInfoRequestParams;
 
         XAsyncBlock async{};
-        hr = PlayFabClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
         assert(SUCCEEDED(hr));
         if (SUCCEEDED(hr))
         {
@@ -77,10 +74,10 @@ void AutoGenDataTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PlayFabGetAuthResult(&async, &entityHandle);
+                hr = PFGetAuthResult(&async, &entityHandle);
                 assert(SUCCEEDED(hr) && entityHandle != nullptr);
 
-                hr = PlayFabEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -89,10 +86,10 @@ void AutoGenDataTests::ClassSetUp()
 
 void AutoGenDataTests::ClassTearDown()
 {
-    PlayFabEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(entityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PlayFabCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFCleanupAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -107,224 +104,220 @@ void AutoGenDataTests::SetUp(TestContext& testContext)
     {
         testContext.Skip("Skipping test because login failed");
     }
+
+
 }
+
 
 void AutoGenDataTests::TestDataAbortFileUploads(TestContext& testContext)
 {
     struct AbortFileUploadsResult : public XAsyncResult
     {
-        PlayFabDataAbortFileUploadsResponse* result = nullptr;
+        PFDataAbortFileUploadsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataAbortFileUploadsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataAbortFileUploadsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataAbortFileUploadsResponse( result );
-            return ValidatePlayFabDataAbortFileUploadsResponse( result );
+            LogPFDataAbortFileUploadsResponse( result );
+            return ValidatePFDataAbortFileUploadsResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<AbortFileUploadsResult>>(testContext);
 
     PlayFab::DataModels::AbortFileUploadsRequest request;
-    FillPlayFabDataAbortFileUploadsRequest( &request );
-    LogPlayFabDataAbortFileUploadsRequest( &request, "TestDataAbortFileUploads" );
-    HRESULT hr = PlayFabDataAbortFileUploadsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillAbortFileUploadsRequest( &request );
+    LogAbortFileUploadsRequest( &request, "TestDataAbortFileUploads" );
+    HRESULT hr = PFDataAbortFileUploadsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataAbortFileUploadsAsync", hr);
+        testContext.Fail("PFDataDataAbortFileUploadsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenDataTests::TestDataDeleteFiles(TestContext& testContext)
 {
     struct DeleteFilesResult : public XAsyncResult
     {
-        PlayFabDataDeleteFilesResponse* result = nullptr;
+        PFDataDeleteFilesResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataDeleteFilesGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataDeleteFilesGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataDeleteFilesResponse( result );
-            return ValidatePlayFabDataDeleteFilesResponse( result );
+            LogPFDataDeleteFilesResponse( result );
+            return ValidatePFDataDeleteFilesResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<DeleteFilesResult>>(testContext);
 
     PlayFab::DataModels::DeleteFilesRequest request;
-    FillPlayFabDataDeleteFilesRequest( &request );
-    LogPlayFabDataDeleteFilesRequest( &request, "TestDataDeleteFiles" );
-    HRESULT hr = PlayFabDataDeleteFilesAsync(entityHandle, &request, &async->asyncBlock); 
+    FillDeleteFilesRequest( &request );
+    LogDeleteFilesRequest( &request, "TestDataDeleteFiles" );
+    HRESULT hr = PFDataDeleteFilesAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataDeleteFilesAsync", hr);
+        testContext.Fail("PFDataDataDeleteFilesAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenDataTests::TestDataFinalizeFileUploads(TestContext& testContext)
 {
     struct FinalizeFileUploadsResult : public XAsyncResult
     {
-        PlayFabDataFinalizeFileUploadsResponse* result = nullptr;
+        PFDataFinalizeFileUploadsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataFinalizeFileUploadsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataFinalizeFileUploadsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataFinalizeFileUploadsResponse( result );
-            return ValidatePlayFabDataFinalizeFileUploadsResponse( result );
+            LogPFDataFinalizeFileUploadsResponse( result );
+            return ValidatePFDataFinalizeFileUploadsResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<FinalizeFileUploadsResult>>(testContext);
 
     PlayFab::DataModels::FinalizeFileUploadsRequest request;
-    FillPlayFabDataFinalizeFileUploadsRequest( &request );
-    LogPlayFabDataFinalizeFileUploadsRequest( &request, "TestDataFinalizeFileUploads" );
-    HRESULT hr = PlayFabDataFinalizeFileUploadsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillFinalizeFileUploadsRequest( &request );
+    LogFinalizeFileUploadsRequest( &request, "TestDataFinalizeFileUploads" );
+    HRESULT hr = PFDataFinalizeFileUploadsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataFinalizeFileUploadsAsync", hr);
+        testContext.Fail("PFDataDataFinalizeFileUploadsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenDataTests::TestDataGetFiles(TestContext& testContext)
 {
     struct GetFilesResult : public XAsyncResult
     {
-        PlayFabDataGetFilesResponse* result = nullptr;
+        PFDataGetFilesResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataGetFilesGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataGetFilesGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataGetFilesResponse( result );
-            return ValidatePlayFabDataGetFilesResponse( result );
+            LogPFDataGetFilesResponse( result );
+            return ValidatePFDataGetFilesResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<GetFilesResult>>(testContext);
 
     PlayFab::DataModels::GetFilesRequest request;
-    FillPlayFabDataGetFilesRequest( &request );
-    LogPlayFabDataGetFilesRequest( &request, "TestDataGetFiles" );
-    HRESULT hr = PlayFabDataGetFilesAsync(entityHandle, &request, &async->asyncBlock); 
+    FillGetFilesRequest( &request );
+    LogGetFilesRequest( &request, "TestDataGetFiles" );
+    HRESULT hr = PFDataGetFilesAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataGetFilesAsync", hr);
+        testContext.Fail("PFDataDataGetFilesAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenDataTests::TestDataGetObjects(TestContext& testContext)
 {
     struct GetObjectsResult : public XAsyncResult
     {
-        PlayFabDataGetObjectsResponse* result = nullptr;
+        PFDataGetObjectsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataGetObjectsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataGetObjectsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataGetObjectsResponse( result );
-            return ValidatePlayFabDataGetObjectsResponse( result );
+            LogPFDataGetObjectsResponse( result );
+            return ValidatePFDataGetObjectsResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<GetObjectsResult>>(testContext);
 
     PlayFab::DataModels::GetObjectsRequest request;
-    FillPlayFabDataGetObjectsRequest( &request );
-    LogPlayFabDataGetObjectsRequest( &request, "TestDataGetObjects" );
-    HRESULT hr = PlayFabDataGetObjectsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillGetObjectsRequest( &request );
+    LogGetObjectsRequest( &request, "TestDataGetObjects" );
+    HRESULT hr = PFDataGetObjectsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataGetObjectsAsync", hr);
+        testContext.Fail("PFDataDataGetObjectsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenDataTests::TestDataInitiateFileUploads(TestContext& testContext)
 {
     struct InitiateFileUploadsResult : public XAsyncResult
     {
-        PlayFabDataInitiateFileUploadsResponse* result = nullptr;
+        PFDataInitiateFileUploadsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataInitiateFileUploadsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataInitiateFileUploadsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataInitiateFileUploadsResponse( result );
-            return ValidatePlayFabDataInitiateFileUploadsResponse( result );
+            LogPFDataInitiateFileUploadsResponse( result );
+            return ValidatePFDataInitiateFileUploadsResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<InitiateFileUploadsResult>>(testContext);
 
     PlayFab::DataModels::InitiateFileUploadsRequest request;
-    FillPlayFabDataInitiateFileUploadsRequest( &request );
-    LogPlayFabDataInitiateFileUploadsRequest( &request, "TestDataInitiateFileUploads" );
-    HRESULT hr = PlayFabDataInitiateFileUploadsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillInitiateFileUploadsRequest( &request );
+    LogInitiateFileUploadsRequest( &request, "TestDataInitiateFileUploads" );
+    HRESULT hr = PFDataInitiateFileUploadsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataInitiateFileUploadsAsync", hr);
+        testContext.Fail("PFDataDataInitiateFileUploadsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 void AutoGenDataTests::TestDataSetObjects(TestContext& testContext)
 {
     struct SetObjectsResult : public XAsyncResult
     {
-        PlayFabDataSetObjectsResponse* result = nullptr;
+        PFDataSetObjectsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PlayFabDataSetObjectsGetResult(async, &resultHandle, &result)); 
+            return LogHR(PFDataSetObjectsGetResult(async, &resultHandle, &result)); 
         }
 
         HRESULT Validate()
         {
-            LogPlayFabDataSetObjectsResponse( result );
-            return ValidatePlayFabDataSetObjectsResponse( result );
+            LogPFDataSetObjectsResponse( result );
+            return ValidatePFDataSetObjectsResponse( result );
         }
     };
 
     auto async = std::make_unique<XAsyncHelper<SetObjectsResult>>(testContext);
 
     PlayFab::DataModels::SetObjectsRequest request;
-    FillPlayFabDataSetObjectsRequest( &request );
-    LogPlayFabDataSetObjectsRequest( &request, "TestDataSetObjects" );
-    HRESULT hr = PlayFabDataSetObjectsAsync(entityHandle, &request, &async->asyncBlock); 
+    FillSetObjectsRequest( &request );
+    LogSetObjectsRequest( &request, "TestDataSetObjects" );
+    HRESULT hr = PFDataSetObjectsAsync(entityHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
-        testContext.Fail("PlayFabDataSetObjectsAsync", hr);
+        testContext.Fail("PFDataDataSetObjectsAsync", hr);
         return;
     }
     async.release(); 
 } 
-
 
 }

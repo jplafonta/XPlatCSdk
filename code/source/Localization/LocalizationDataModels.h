@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabLocalizationDataModels.h>
+#include <playfab/PFLocalizationDataModels.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
@@ -10,12 +10,12 @@ namespace LocalizationModels
 {
 
 // Localization Classes
-struct GetLanguageListRequest : public PlayFabLocalizationGetLanguageListRequest, public BaseModel
+struct GetLanguageListRequest : public PFLocalizationGetLanguageListRequest, public BaseModel
 {
     GetLanguageListRequest();
     GetLanguageListRequest(const GetLanguageListRequest& src);
     GetLanguageListRequest(GetLanguageListRequest&& src);
-    GetLanguageListRequest(const PlayFabLocalizationGetLanguageListRequest& src);
+    GetLanguageListRequest(const PFLocalizationGetLanguageListRequest& src);
     GetLanguageListRequest& operator=(const GetLanguageListRequest&) = delete;
     ~GetLanguageListRequest() = default;
 
@@ -23,15 +23,15 @@ struct GetLanguageListRequest : public PlayFabLocalizationGetLanguageListRequest
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct GetLanguageListResponse : public PlayFabLocalizationGetLanguageListResponse, public BaseModel, public ApiResult
+struct GetLanguageListResponse : public PFLocalizationGetLanguageListResponse, public BaseModel, public ApiResult
 {
     GetLanguageListResponse();
     GetLanguageListResponse(const GetLanguageListResponse& src);
     GetLanguageListResponse(GetLanguageListResponse&& src);
-    GetLanguageListResponse(const PlayFabLocalizationGetLanguageListResponse& src);
+    GetLanguageListResponse(const PFLocalizationGetLanguageListResponse& src);
     GetLanguageListResponse& operator=(const GetLanguageListResponse&) = delete;
     ~GetLanguageListResponse() = default;
 
@@ -48,8 +48,8 @@ namespace JsonUtils
 {
 // Serialization methods for public models
 
-template<> inline JsonValue ToJson<>(const PlayFabLocalizationGetLanguageListRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabLocalizationGetLanguageListResponse& input);
+template<> inline JsonValue ToJson<>(const PFLocalizationGetLanguageListRequest& input);
+template<> inline JsonValue ToJson<>(const PFLocalizationGetLanguageListResponse& input);
 } // namespace JsonUtils
 
 // EnumRange definitions used for Enum (de)serialization

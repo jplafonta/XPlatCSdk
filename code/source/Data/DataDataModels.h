@@ -1,6 +1,6 @@
 #pragma once
 
-#include <playfab/PlayFabDataDataModels.h>
+#include <playfab/PFDataDataModels.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
@@ -10,12 +10,12 @@ namespace DataModels
 {
 
 // Data Classes
-struct AbortFileUploadsRequest : public PlayFabDataAbortFileUploadsRequest, public BaseModel
+struct AbortFileUploadsRequest : public PFDataAbortFileUploadsRequest, public BaseModel
 {
     AbortFileUploadsRequest();
     AbortFileUploadsRequest(const AbortFileUploadsRequest& src);
     AbortFileUploadsRequest(AbortFileUploadsRequest&& src);
-    AbortFileUploadsRequest(const PlayFabDataAbortFileUploadsRequest& src);
+    AbortFileUploadsRequest(const PFDataAbortFileUploadsRequest& src);
     AbortFileUploadsRequest& operator=(const AbortFileUploadsRequest&) = delete;
     ~AbortFileUploadsRequest() = default;
 
@@ -23,18 +23,18 @@ struct AbortFileUploadsRequest : public PlayFabDataAbortFileUploadsRequest, publ
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     EntityKey m_entity;
     PointerArrayModel<char, String> m_fileNames;
     StdExtra::optional<int32_t> m_profileVersion;
 };
 
-struct AbortFileUploadsResponse : public PlayFabDataAbortFileUploadsResponse, public BaseModel, public ApiResult
+struct AbortFileUploadsResponse : public PFDataAbortFileUploadsResponse, public BaseModel, public ApiResult
 {
     AbortFileUploadsResponse();
     AbortFileUploadsResponse(const AbortFileUploadsResponse& src);
     AbortFileUploadsResponse(AbortFileUploadsResponse&& src);
-    AbortFileUploadsResponse(const PlayFabDataAbortFileUploadsResponse& src);
+    AbortFileUploadsResponse(const PFDataAbortFileUploadsResponse& src);
     AbortFileUploadsResponse& operator=(const AbortFileUploadsResponse&) = delete;
     ~AbortFileUploadsResponse() = default;
 
@@ -45,12 +45,12 @@ private:
     StdExtra::optional<EntityKey> m_entity;
 };
 
-struct DeleteFilesRequest : public PlayFabDataDeleteFilesRequest, public BaseModel
+struct DeleteFilesRequest : public PFDataDeleteFilesRequest, public BaseModel
 {
     DeleteFilesRequest();
     DeleteFilesRequest(const DeleteFilesRequest& src);
     DeleteFilesRequest(DeleteFilesRequest&& src);
-    DeleteFilesRequest(const PlayFabDataDeleteFilesRequest& src);
+    DeleteFilesRequest(const PFDataDeleteFilesRequest& src);
     DeleteFilesRequest& operator=(const DeleteFilesRequest&) = delete;
     ~DeleteFilesRequest() = default;
 
@@ -58,18 +58,18 @@ struct DeleteFilesRequest : public PlayFabDataDeleteFilesRequest, public BaseMod
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     EntityKey m_entity;
     PointerArrayModel<char, String> m_fileNames;
     StdExtra::optional<int32_t> m_profileVersion;
 };
 
-struct DeleteFilesResponse : public PlayFabDataDeleteFilesResponse, public BaseModel, public ApiResult
+struct DeleteFilesResponse : public PFDataDeleteFilesResponse, public BaseModel, public ApiResult
 {
     DeleteFilesResponse();
     DeleteFilesResponse(const DeleteFilesResponse& src);
     DeleteFilesResponse(DeleteFilesResponse&& src);
-    DeleteFilesResponse(const PlayFabDataDeleteFilesResponse& src);
+    DeleteFilesResponse(const PFDataDeleteFilesResponse& src);
     DeleteFilesResponse& operator=(const DeleteFilesResponse&) = delete;
     ~DeleteFilesResponse() = default;
 
@@ -80,12 +80,12 @@ private:
     StdExtra::optional<EntityKey> m_entity;
 };
 
-struct FinalizeFileUploadsRequest : public PlayFabDataFinalizeFileUploadsRequest, public BaseModel
+struct FinalizeFileUploadsRequest : public PFDataFinalizeFileUploadsRequest, public BaseModel
 {
     FinalizeFileUploadsRequest();
     FinalizeFileUploadsRequest(const FinalizeFileUploadsRequest& src);
     FinalizeFileUploadsRequest(FinalizeFileUploadsRequest&& src);
-    FinalizeFileUploadsRequest(const PlayFabDataFinalizeFileUploadsRequest& src);
+    FinalizeFileUploadsRequest(const PFDataFinalizeFileUploadsRequest& src);
     FinalizeFileUploadsRequest& operator=(const FinalizeFileUploadsRequest&) = delete;
     ~FinalizeFileUploadsRequest() = default;
 
@@ -93,17 +93,17 @@ struct FinalizeFileUploadsRequest : public PlayFabDataFinalizeFileUploadsRequest
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     EntityKey m_entity;
     PointerArrayModel<char, String> m_fileNames;
 };
 
-struct GetFileMetadata : public PlayFabDataGetFileMetadata, public SerializableModel
+struct GetFileMetadata : public PFDataGetFileMetadata, public SerializableModel
 {
     GetFileMetadata();
     GetFileMetadata(const GetFileMetadata& src);
     GetFileMetadata(GetFileMetadata&& src);
-    GetFileMetadata(const PlayFabDataGetFileMetadata& src);
+    GetFileMetadata(const PFDataGetFileMetadata& src);
     GetFileMetadata& operator=(const GetFileMetadata&) = delete;
     ~GetFileMetadata() = default;
 
@@ -119,12 +119,12 @@ private:
     String m_fileName;
 };
 
-struct FinalizeFileUploadsResponse : public PlayFabDataFinalizeFileUploadsResponse, public BaseModel, public ApiResult
+struct FinalizeFileUploadsResponse : public PFDataFinalizeFileUploadsResponse, public BaseModel, public ApiResult
 {
     FinalizeFileUploadsResponse();
     FinalizeFileUploadsResponse(const FinalizeFileUploadsResponse& src);
     FinalizeFileUploadsResponse(FinalizeFileUploadsResponse&& src);
-    FinalizeFileUploadsResponse(const PlayFabDataFinalizeFileUploadsResponse& src);
+    FinalizeFileUploadsResponse(const PFDataFinalizeFileUploadsResponse& src);
     FinalizeFileUploadsResponse& operator=(const FinalizeFileUploadsResponse&) = delete;
     ~FinalizeFileUploadsResponse() = default;
 
@@ -133,15 +133,15 @@ struct FinalizeFileUploadsResponse : public PlayFabDataFinalizeFileUploadsRespon
 
 private:
     StdExtra::optional<EntityKey> m_entity;
-    AssociativeArrayModel<PlayFabDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
+    AssociativeArrayModel<PFDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
 };
 
-struct GetFilesRequest : public PlayFabDataGetFilesRequest, public BaseModel
+struct GetFilesRequest : public PFDataGetFilesRequest, public BaseModel
 {
     GetFilesRequest();
     GetFilesRequest(const GetFilesRequest& src);
     GetFilesRequest(GetFilesRequest&& src);
-    GetFilesRequest(const PlayFabDataGetFilesRequest& src);
+    GetFilesRequest(const PFDataGetFilesRequest& src);
     GetFilesRequest& operator=(const GetFilesRequest&) = delete;
     ~GetFilesRequest() = default;
 
@@ -149,16 +149,16 @@ struct GetFilesRequest : public PlayFabDataGetFilesRequest, public BaseModel
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     EntityKey m_entity;
 };
 
-struct GetFilesResponse : public PlayFabDataGetFilesResponse, public BaseModel, public ApiResult
+struct GetFilesResponse : public PFDataGetFilesResponse, public BaseModel, public ApiResult
 {
     GetFilesResponse();
     GetFilesResponse(const GetFilesResponse& src);
     GetFilesResponse(GetFilesResponse&& src);
-    GetFilesResponse(const PlayFabDataGetFilesResponse& src);
+    GetFilesResponse(const PFDataGetFilesResponse& src);
     GetFilesResponse& operator=(const GetFilesResponse&) = delete;
     ~GetFilesResponse() = default;
 
@@ -167,15 +167,15 @@ struct GetFilesResponse : public PlayFabDataGetFilesResponse, public BaseModel, 
 
 private:
     StdExtra::optional<EntityKey> m_entity;
-    AssociativeArrayModel<PlayFabDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
+    AssociativeArrayModel<PFDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
 };
 
-struct GetObjectsRequest : public PlayFabDataGetObjectsRequest, public BaseModel
+struct GetObjectsRequest : public PFDataGetObjectsRequest, public BaseModel
 {
     GetObjectsRequest();
     GetObjectsRequest(const GetObjectsRequest& src);
     GetObjectsRequest(GetObjectsRequest&& src);
-    GetObjectsRequest(const PlayFabDataGetObjectsRequest& src);
+    GetObjectsRequest(const PFDataGetObjectsRequest& src);
     GetObjectsRequest& operator=(const GetObjectsRequest&) = delete;
     ~GetObjectsRequest() = default;
 
@@ -183,17 +183,17 @@ struct GetObjectsRequest : public PlayFabDataGetObjectsRequest, public BaseModel
     JsonValue ToJson() const override;
 
 private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
     EntityKey m_entity;
     StdExtra::optional<bool> m_escapeObject;
 };
 
-struct ObjectResult : public PlayFabDataObjectResult, public BaseModel, public ApiResult
+struct ObjectResult : public PFDataObjectResult, public BaseModel, public ApiResult
 {
     ObjectResult();
     ObjectResult(const ObjectResult& src);
     ObjectResult(ObjectResult&& src);
-    ObjectResult(const PlayFabDataObjectResult& src);
+    ObjectResult(const PFDataObjectResult& src);
     ObjectResult& operator=(const ObjectResult&) = delete;
     ~ObjectResult() = default;
 
@@ -206,12 +206,12 @@ private:
     String m_objectName;
 };
 
-struct GetObjectsResponse : public PlayFabDataGetObjectsResponse, public BaseModel, public ApiResult
+struct GetObjectsResponse : public PFDataGetObjectsResponse, public BaseModel, public ApiResult
 {
     GetObjectsResponse();
     GetObjectsResponse(const GetObjectsResponse& src);
     GetObjectsResponse(GetObjectsResponse&& src);
-    GetObjectsResponse(const PlayFabDataGetObjectsResponse& src);
+    GetObjectsResponse(const PFDataGetObjectsResponse& src);
     GetObjectsResponse& operator=(const GetObjectsResponse&) = delete;
     ~GetObjectsResponse() = default;
 
@@ -220,15 +220,34 @@ struct GetObjectsResponse : public PlayFabDataGetObjectsResponse, public BaseMod
 
 private:
     StdExtra::optional<EntityKey> m_entity;
-    AssociativeArrayModel<PlayFabDataObjectResultDictionaryEntry, ObjectResult> m_objects;
+    AssociativeArrayModel<PFDataObjectResultDictionaryEntry, ObjectResult> m_objects;
 };
 
-struct InitiateFileUploadMetadata : public PlayFabDataInitiateFileUploadMetadata, public SerializableModel
+struct InitiateFileUploadsRequest : public PFDataInitiateFileUploadsRequest, public BaseModel
+{
+    InitiateFileUploadsRequest();
+    InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src);
+    InitiateFileUploadsRequest(InitiateFileUploadsRequest&& src);
+    InitiateFileUploadsRequest(const PFDataInitiateFileUploadsRequest& src);
+    InitiateFileUploadsRequest& operator=(const InitiateFileUploadsRequest&) = delete;
+    ~InitiateFileUploadsRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+    EntityKey m_entity;
+    PointerArrayModel<char, String> m_fileNames;
+    StdExtra::optional<int32_t> m_profileVersion;
+};
+
+struct InitiateFileUploadMetadata : public PFDataInitiateFileUploadMetadata, public SerializableModel
 {
     InitiateFileUploadMetadata();
     InitiateFileUploadMetadata(const InitiateFileUploadMetadata& src);
     InitiateFileUploadMetadata(InitiateFileUploadMetadata&& src);
-    InitiateFileUploadMetadata(const PlayFabDataInitiateFileUploadMetadata& src);
+    InitiateFileUploadMetadata(const PFDataInitiateFileUploadMetadata& src);
     InitiateFileUploadMetadata& operator=(const InitiateFileUploadMetadata&) = delete;
     ~InitiateFileUploadMetadata() = default;
 
@@ -243,31 +262,12 @@ private:
     String m_uploadUrl;
 };
 
-struct InitiateFileUploadsRequest : public PlayFabDataInitiateFileUploadsRequest, public BaseModel
-{
-    InitiateFileUploadsRequest();
-    InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src);
-    InitiateFileUploadsRequest(InitiateFileUploadsRequest&& src);
-    InitiateFileUploadsRequest(const PlayFabDataInitiateFileUploadsRequest& src);
-    InitiateFileUploadsRequest& operator=(const InitiateFileUploadsRequest&) = delete;
-    ~InitiateFileUploadsRequest() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    PointerArrayModel<char, String> m_fileNames;
-    StdExtra::optional<int32_t> m_profileVersion;
-};
-
-struct InitiateFileUploadsResponse : public PlayFabDataInitiateFileUploadsResponse, public BaseModel, public ApiResult
+struct InitiateFileUploadsResponse : public PFDataInitiateFileUploadsResponse, public BaseModel, public ApiResult
 {
     InitiateFileUploadsResponse();
     InitiateFileUploadsResponse(const InitiateFileUploadsResponse& src);
     InitiateFileUploadsResponse(InitiateFileUploadsResponse&& src);
-    InitiateFileUploadsResponse(const PlayFabDataInitiateFileUploadsResponse& src);
+    InitiateFileUploadsResponse(const PFDataInitiateFileUploadsResponse& src);
     InitiateFileUploadsResponse& operator=(const InitiateFileUploadsResponse&) = delete;
     ~InitiateFileUploadsResponse() = default;
 
@@ -276,15 +276,15 @@ struct InitiateFileUploadsResponse : public PlayFabDataInitiateFileUploadsRespon
 
 private:
     StdExtra::optional<EntityKey> m_entity;
-    PointerArrayModel<PlayFabDataInitiateFileUploadMetadata, InitiateFileUploadMetadata> m_uploadDetails;
+    PointerArrayModel<PFDataInitiateFileUploadMetadata, InitiateFileUploadMetadata> m_uploadDetails;
 };
 
-struct SetObject : public PlayFabDataSetObject, public BaseModel
+struct SetObject : public PFDataSetObject, public BaseModel
 {
     SetObject();
     SetObject(const SetObject& src);
     SetObject(SetObject&& src);
-    SetObject(const PlayFabDataSetObject& src);
+    SetObject(const PFDataSetObject& src);
     SetObject& operator=(const SetObject&) = delete;
     ~SetObject() = default;
 
@@ -298,12 +298,31 @@ private:
     String m_objectName;
 };
 
-struct SetObjectInfo : public PlayFabDataSetObjectInfo, public BaseModel
+struct SetObjectsRequest : public PFDataSetObjectsRequest, public BaseModel
+{
+    SetObjectsRequest();
+    SetObjectsRequest(const SetObjectsRequest& src);
+    SetObjectsRequest(SetObjectsRequest&& src);
+    SetObjectsRequest(const PFDataSetObjectsRequest& src);
+    SetObjectsRequest& operator=(const SetObjectsRequest&) = delete;
+    ~SetObjectsRequest() = default;
+
+    void FromJson(const JsonValue& input) override;
+    JsonValue ToJson() const override;
+
+private:
+    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
+    EntityKey m_entity;
+    StdExtra::optional<int32_t> m_expectedProfileVersion;
+    PointerArrayModel<PFDataSetObject, SetObject> m_objects;
+};
+
+struct SetObjectInfo : public PFDataSetObjectInfo, public BaseModel
 {
     SetObjectInfo();
     SetObjectInfo(const SetObjectInfo& src);
     SetObjectInfo(SetObjectInfo&& src);
-    SetObjectInfo(const PlayFabDataSetObjectInfo& src);
+    SetObjectInfo(const PFDataSetObjectInfo& src);
     SetObjectInfo& operator=(const SetObjectInfo&) = delete;
     ~SetObjectInfo() = default;
 
@@ -313,34 +332,15 @@ struct SetObjectInfo : public PlayFabDataSetObjectInfo, public BaseModel
 private:
     String m_objectName;
     String m_operationReason;
-    StdExtra::optional<PlayFabDataOperationTypes> m_setResult;
+    StdExtra::optional<PFOperationTypes> m_setResult;
 };
 
-struct SetObjectsRequest : public PlayFabDataSetObjectsRequest, public BaseModel
-{
-    SetObjectsRequest();
-    SetObjectsRequest(const SetObjectsRequest& src);
-    SetObjectsRequest(SetObjectsRequest&& src);
-    SetObjectsRequest(const PlayFabDataSetObjectsRequest& src);
-    SetObjectsRequest& operator=(const SetObjectsRequest&) = delete;
-    ~SetObjectsRequest() = default;
-
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
-
-private:
-    AssociativeArrayModel<PlayFabStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    StdExtra::optional<int32_t> m_expectedProfileVersion;
-    PointerArrayModel<PlayFabDataSetObject, SetObject> m_objects;
-};
-
-struct SetObjectsResponse : public PlayFabDataSetObjectsResponse, public BaseModel, public ApiResult
+struct SetObjectsResponse : public PFDataSetObjectsResponse, public BaseModel, public ApiResult
 {
     SetObjectsResponse();
     SetObjectsResponse(const SetObjectsResponse& src);
     SetObjectsResponse(SetObjectsResponse&& src);
-    SetObjectsResponse(const PlayFabDataSetObjectsResponse& src);
+    SetObjectsResponse(const PFDataSetObjectsResponse& src);
     SetObjectsResponse& operator=(const SetObjectsResponse&) = delete;
     ~SetObjectsResponse() = default;
 
@@ -348,7 +348,7 @@ struct SetObjectsResponse : public PlayFabDataSetObjectsResponse, public BaseMod
     JsonValue ToJson() const override;
 
 private:
-    PointerArrayModel<PlayFabDataSetObjectInfo, SetObjectInfo> m_setResults;
+    PointerArrayModel<PFDataSetObjectInfo, SetObjectInfo> m_setResults;
 };
 
 } // namespace DataModels
@@ -357,31 +357,26 @@ namespace JsonUtils
 {
 // Serialization methods for public models
 
-template<> inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsResponse& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataDeleteFilesRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataDeleteFilesResponse& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataGetFileMetadata& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsResponse& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataGetFilesRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataGetFilesResponse& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataGetObjectsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataObjectResult& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataGetObjectsResponse& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadMetadata& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsResponse& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataSetObject& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataSetObjectInfo& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataSetObjectsRequest& input);
-template<> inline JsonValue ToJson<>(const PlayFabDataSetObjectsResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataAbortFileUploadsRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataAbortFileUploadsResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataDeleteFilesRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataDeleteFilesResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataGetFileMetadata& input);
+template<> inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataGetFilesRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataGetFilesResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataGetObjectsRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataObjectResult& input);
+template<> inline JsonValue ToJson<>(const PFDataGetObjectsResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataInitiateFileUploadsRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataInitiateFileUploadMetadata& input);
+template<> inline JsonValue ToJson<>(const PFDataInitiateFileUploadsResponse& input);
+template<> inline JsonValue ToJson<>(const PFDataSetObject& input);
+template<> inline JsonValue ToJson<>(const PFDataSetObjectsRequest& input);
+template<> inline JsonValue ToJson<>(const PFDataSetObjectInfo& input);
+template<> inline JsonValue ToJson<>(const PFDataSetObjectsResponse& input);
 } // namespace JsonUtils
 
 // EnumRange definitions used for Enum (de)serialization
-template<> struct EnumRange<PlayFabDataOperationTypes>
-{
-    static constexpr PlayFabDataOperationTypes maxValue = PlayFabDataOperationTypes::None;
-};
-
 } // namespace PlayFab

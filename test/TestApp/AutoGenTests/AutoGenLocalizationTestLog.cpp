@@ -3,19 +3,15 @@
 #include "TestApp.h"
 #include "AutoGenLocalizationTests.h"
 #include "XAsyncHelper.h"
-#include <playfab/PlayFabClientAuthApi.h>
-#include <playfab/PlayFabClientApi.h>
-#include <playfab/PlayFabProfilesApi.h>
-#include <playfab/PlayFabAdminApi.h>
-#include <playfab/PlayFabAuthenticationAuthApi.h>
-#include <playfab/PlayFabClientDataModels.h>
 
-uint32_t g_testIndex = 1;
+uint32_t g_LocalizationTestIndex = 1;
 
 namespace PlayFabUnit
 {
 
-void AutoGenLocalizationTests::LogPlayFabLocalizationGetLanguageListRequest( PlayFab::LocalizationModels::GetLanguageListRequest* request, const char* testName )
+ 
+
+void AutoGenLocalizationTests::LogGetLanguageListRequest( PlayFab::LocalizationModels::GetLanguageListRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -24,25 +20,25 @@ void AutoGenLocalizationTests::LogPlayFabLocalizationGetLanguageListRequest( Pla
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_testIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_LocalizationTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
     ss << "Request:"; Log(ss);
 
 
     // PlayFabLocalizationGetLanguageListRequest struct:
-    // request->customTags: struct PlayFabStringDictionaryEntry const*
+    // request->customTags: struct PFStringDictionaryEntry const*
     // request->customTagsCount: uint32_t    
     ss << "  customTagsCount " << request->customTagsCount; Log(ss);
 
-    // PlayFabStringDictionaryEntry
+    // PFStringDictionaryEntry
     for( uint32_t i=0; i<request->customTagsCount; i++ )
     {
-        ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-        
+            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
+            
     } 
 
 }
 
-HRESULT AutoGenLocalizationTests::LogPlayFabLocalizationGetLanguageListResponse( PlayFabLocalizationGetLanguageListResponse* result )
+HRESULT AutoGenLocalizationTests::LogPFLocalizationGetLanguageListResponse(PFLocalizationGetLanguageListResponse* result )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
     {
@@ -58,7 +54,7 @@ HRESULT AutoGenLocalizationTests::LogPlayFabLocalizationGetLanguageListResponse(
     // const char*
     for( uint32_t i=0; i<result->languageListCount; i++ )
     {
-        ss << "  result->languageList[" << i << "]:" << result->languageList[i]; Log(ss); // const char*
+            ss << "  result->languageList[" << i << "]:" << result->languageList[i]; Log(ss); // const char*
     } 
     return S_OK;
 }

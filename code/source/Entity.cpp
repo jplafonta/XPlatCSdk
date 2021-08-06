@@ -6,22 +6,33 @@
 namespace PlayFab
 {
 
-Entity::Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginContext, const LoginResult& result) :
+Entity::Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::LoginResult& result) :
     m_httpClient{ std::move(httpClient) },
     m_authTokens{ MakeShared<AuthTokens>(result) },
-    eventManagerAPI{ m_httpClient, m_authTokens },
     QoSAPI{ m_httpClient, m_authTokens },
-    clientAPI{ m_httpClient, m_authTokens },
+    scheduledTaskAPI{ m_httpClient, m_authTokens },
+    titleDataManagementAPI{ m_httpClient, m_authTokens },
+    playStreamAPI{ m_httpClient, m_authTokens },
+    gameServerAPI{ m_httpClient, m_authTokens },
+    playerItemManagementAPI{ m_httpClient, m_authTokens },
+    accountManagementAPI{ m_httpClient, m_authTokens },
     authenticationAPI{ m_httpClient, m_authTokens },
+    playerDataManagementAPI{ m_httpClient, m_authTokens },
+    segmentsAPI{ m_httpClient, m_authTokens },
+    contentAPI{ m_httpClient, m_authTokens },
     cloudScriptAPI{ m_httpClient, m_authTokens },
-    dataAPI{ m_httpClient, m_authTokens },
-    eventsAPI{ m_httpClient, m_authTokens },
-    experimentationAPI{ m_httpClient, m_authTokens },
-    insightsAPI{ m_httpClient, m_authTokens },
+    matchmakingAPI{ m_httpClient, m_authTokens },
+    characterAPI{ m_httpClient, m_authTokens },
     groupsAPI{ m_httpClient, m_authTokens },
+    tradingAPI{ m_httpClient, m_authTokens },
+    friendsAPI{ m_httpClient, m_authTokens },
+    platformSpecificAPI{ m_httpClient, m_authTokens },
+    advertisingAPI{ m_httpClient, m_authTokens },
+    analyticsAPI{ m_httpClient, m_authTokens },
+    dataAPI{ m_httpClient, m_authTokens },
+    experimentationAPI{ m_httpClient, m_authTokens },
     localizationAPI{ m_httpClient, m_authTokens },
-    multiplayerAPI{ m_httpClient, m_authTokens },
-    profilesAPI{ m_httpClient, m_authTokens },
+    multiplayerServerAPI{ m_httpClient, m_authTokens },
     m_loginContext{ std::move(loginContext) },
     m_playFabId{ result.playFabId },
     m_entityId{ AS_STRING(result.entityToken->entity->id) },
@@ -33,22 +44,71 @@ Entity::Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginConte
 {
 }
 
-Entity::Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginContext, const ClientModels::RegisterPlayFabUserResult& result) :
+Entity::Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::ServerLoginResult& result) :
     m_httpClient{ std::move(httpClient) },
     m_authTokens{ MakeShared<AuthTokens>(result) },
-    eventManagerAPI{ m_httpClient, m_authTokens },
     QoSAPI{ m_httpClient, m_authTokens },
-    clientAPI{ m_httpClient, m_authTokens },
+    scheduledTaskAPI{ m_httpClient, m_authTokens },
+    titleDataManagementAPI{ m_httpClient, m_authTokens },
+    playStreamAPI{ m_httpClient, m_authTokens },
+    gameServerAPI{ m_httpClient, m_authTokens },
+    playerItemManagementAPI{ m_httpClient, m_authTokens },
+    accountManagementAPI{ m_httpClient, m_authTokens },
     authenticationAPI{ m_httpClient, m_authTokens },
+    playerDataManagementAPI{ m_httpClient, m_authTokens },
+    segmentsAPI{ m_httpClient, m_authTokens },
+    contentAPI{ m_httpClient, m_authTokens },
     cloudScriptAPI{ m_httpClient, m_authTokens },
-    dataAPI{ m_httpClient, m_authTokens },
-    eventsAPI{ m_httpClient, m_authTokens },
-    experimentationAPI{ m_httpClient, m_authTokens },
-    insightsAPI{ m_httpClient, m_authTokens },
+    matchmakingAPI{ m_httpClient, m_authTokens },
+    characterAPI{ m_httpClient, m_authTokens },
     groupsAPI{ m_httpClient, m_authTokens },
+    tradingAPI{ m_httpClient, m_authTokens },
+    friendsAPI{ m_httpClient, m_authTokens },
+    platformSpecificAPI{ m_httpClient, m_authTokens },
+    advertisingAPI{ m_httpClient, m_authTokens },
+    analyticsAPI{ m_httpClient, m_authTokens },
+    dataAPI{ m_httpClient, m_authTokens },
+    experimentationAPI{ m_httpClient, m_authTokens },
     localizationAPI{ m_httpClient, m_authTokens },
-    multiplayerAPI{ m_httpClient, m_authTokens },
-    profilesAPI{ m_httpClient, m_authTokens },
+    multiplayerServerAPI{ m_httpClient, m_authTokens },
+    m_loginContext{ std::move(loginContext) },
+    m_playFabId{ result.playFabId },
+    m_entityId{ AS_STRING(result.entityToken->entity->id) },
+    m_entityType{ AS_STRING(result.entityToken->entity->type) },
+    m_playerCombinedInfo{ result.infoResultPayload.has_value() ? MakeUnique<GetPlayerCombinedInfoResultPayload>(*result.infoResultPayload) : nullptr },
+    m_lastLoginTime{ result.lastLoginTime },
+    m_userSettings{ result.settingsForUser },
+    m_treatmentAssignment{ result.treatmentAssignment.has_value() ? MakeUnique<PlayFab::TreatmentAssignment>(*result.treatmentAssignment) : nullptr }
+{
+}
+
+Entity::Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::RegisterPlayFabUserResult& result) :
+    m_httpClient{ std::move(httpClient) },
+    m_authTokens{ MakeShared<AuthTokens>(result) },
+    QoSAPI{ m_httpClient, m_authTokens },
+    scheduledTaskAPI{ m_httpClient, m_authTokens },
+    titleDataManagementAPI{ m_httpClient, m_authTokens },
+    playStreamAPI{ m_httpClient, m_authTokens },
+    gameServerAPI{ m_httpClient, m_authTokens },
+    playerItemManagementAPI{ m_httpClient, m_authTokens },
+    accountManagementAPI{ m_httpClient, m_authTokens },
+    authenticationAPI{ m_httpClient, m_authTokens },
+    playerDataManagementAPI{ m_httpClient, m_authTokens },
+    segmentsAPI{ m_httpClient, m_authTokens },
+    contentAPI{ m_httpClient, m_authTokens },
+    cloudScriptAPI{ m_httpClient, m_authTokens },
+    matchmakingAPI{ m_httpClient, m_authTokens },
+    characterAPI{ m_httpClient, m_authTokens },
+    groupsAPI{ m_httpClient, m_authTokens },
+    tradingAPI{ m_httpClient, m_authTokens },
+    friendsAPI{ m_httpClient, m_authTokens },
+    platformSpecificAPI{ m_httpClient, m_authTokens },
+    advertisingAPI{ m_httpClient, m_authTokens },
+    analyticsAPI{ m_httpClient, m_authTokens },
+    dataAPI{ m_httpClient, m_authTokens },
+    experimentationAPI{ m_httpClient, m_authTokens },
+    localizationAPI{ m_httpClient, m_authTokens },
+    multiplayerServerAPI{ m_httpClient, m_authTokens },
     m_loginContext{ std::move(loginContext) },
     m_playFabId{ result.playFabId },
     m_entityId{ AS_STRING(result.entityToken->entity->id) },
@@ -57,22 +117,33 @@ Entity::Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginConte
 {
 }
 
-Entity::Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginContext, const AuthenticationModels::GetEntityTokenResponse& result) :
+Entity::Entity(SharedPtr<HttpClient const> httpClient, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::GetEntityTokenResponse& result) :
     m_httpClient{ std::move(httpClient) },
     m_authTokens{ MakeShared<AuthTokens>(result) },
-    eventManagerAPI{ m_httpClient, m_authTokens },
     QoSAPI{ m_httpClient, m_authTokens },
-    clientAPI{ m_httpClient, m_authTokens },
+    scheduledTaskAPI{ m_httpClient, m_authTokens },
+    titleDataManagementAPI{ m_httpClient, m_authTokens },
+    playStreamAPI{ m_httpClient, m_authTokens },
+    gameServerAPI{ m_httpClient, m_authTokens },
+    playerItemManagementAPI{ m_httpClient, m_authTokens },
+    accountManagementAPI{ m_httpClient, m_authTokens },
     authenticationAPI{ m_httpClient, m_authTokens },
+    playerDataManagementAPI{ m_httpClient, m_authTokens },
+    segmentsAPI{ m_httpClient, m_authTokens },
+    contentAPI{ m_httpClient, m_authTokens },
     cloudScriptAPI{ m_httpClient, m_authTokens },
-    dataAPI{ m_httpClient, m_authTokens },
-    eventsAPI{ m_httpClient, m_authTokens },
-    experimentationAPI{ m_httpClient, m_authTokens },
-    insightsAPI{ m_httpClient, m_authTokens },
+    matchmakingAPI{ m_httpClient, m_authTokens },
+    characterAPI{ m_httpClient, m_authTokens },
     groupsAPI{ m_httpClient, m_authTokens },
+    tradingAPI{ m_httpClient, m_authTokens },
+    friendsAPI{ m_httpClient, m_authTokens },
+    platformSpecificAPI{ m_httpClient, m_authTokens },
+    advertisingAPI{ m_httpClient, m_authTokens },
+    analyticsAPI{ m_httpClient, m_authTokens },
+    dataAPI{ m_httpClient, m_authTokens },
+    experimentationAPI{ m_httpClient, m_authTokens },
     localizationAPI{ m_httpClient, m_authTokens },
-    multiplayerAPI{ m_httpClient, m_authTokens },
-    profilesAPI{ m_httpClient, m_authTokens },
+    multiplayerServerAPI{ m_httpClient, m_authTokens },
     m_loginContext{ std::move(loginContext) },
     m_entityId{ AS_STRING(result.entity->id) },
     m_entityType{ AS_STRING(result.entity->type) }
@@ -80,7 +151,7 @@ Entity::Entity(SharedPtr<HttpClient const> httpClient, LoginContext&& loginConte
 }
 
 AsyncOp<SharedPtr<Entity>> Entity::GetEntityToken(
-    const PlayFabAuthenticationGetEntityTokenRequest& request,
+    const PFAuthenticationGetEntityTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -129,7 +200,7 @@ AsyncOp<SharedPtr<Entity>> Entity::GetEntityToken(
             else
             {
                 // Otherwise create and return a new Entity object
-                return MakeShared<Entity>(sharedThis->m_httpClient, LoginContext{} /* TODO */, std::move(resultModel));
+                return MakeShared<Entity>(sharedThis->m_httpClient, MakeShared<LoginContext>("/Authentication/GetEntityToken"), std::move(resultModel));
             }
         }
         else
@@ -169,7 +240,7 @@ time_t const* Entity::LastLoginTime() const
     return m_lastLoginTime.has_value() ? m_lastLoginTime.operator->() : nullptr;
 }
 
-UserSettings const* Entity::UserSettings() const
+AuthenticationModels::UserSettings const* Entity::UserSettings() const
 {
     return m_userSettings.has_value() ? m_userSettings.operator->() : nullptr;
 }
@@ -181,25 +252,27 @@ TreatmentAssignment const* Entity::TreatmentAssignment() const
 
 AsyncOp<void> Entity::RefreshLogin(const TaskQueue& queue)
 {
-    UnorderedMap<String, String> headers;
-    if (m_loginContext.secretKey)
-    {
-        headers.emplace("X-SecretKey", *m_loginContext.secretKey);
-    }
+    SharedPtr<Entity> sharedThis{ shared_from_this() };
 
-    return m_httpClient->MakePostRequest(
-        m_loginContext.path.data(),
-        headers,
-        m_loginContext.requestBody,
-        queue
-    ).Then([sharedThis = shared_from_this(), this](Result<ServiceResponse> result)->Result<void>
+    return m_loginContext->GetRequestBody(queue.DeriveWorkerQueue()).Then([sharedThis, this, queue = TaskQueue{ queue }](Result<JsonValue> requestBodyResult) -> AsyncOp<ServiceResponse>
+    {
+        RETURN_IF_FAILED(requestBodyResult.hr);
+
+        return m_httpClient->MakePostRequest(
+            m_loginContext->RequestPath(),
+            m_loginContext->RequestHeaders(),
+            requestBodyResult.Payload(),
+            queue
+        );
+
+    }).Then([sharedThis, this](Result<ServiceResponse> result)->Result<void>
     {
         RETURN_IF_FAILED(result.hr);
 
         auto serviceResponse = result.ExtractPayload();
         if (serviceResponse.HttpCode == 200)
         {
-            LoginResult resultModel;
+            AuthenticationModels::LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
             m_authTokens->Refresh(resultModel);
         }
@@ -209,6 +282,42 @@ AsyncOp<void> Entity::RefreshLogin(const TaskQueue& queue)
         }
         return S_OK;
     });
+}
+
+LoginContext::LoginContext(const char* requestPath)
+    : m_path{ requestPath }
+{
+}
+
+LoginContext::LoginContext(const char* requestPath, JsonValue&& requestBody)
+    : m_path{ requestPath },
+    m_requestBody{ std::move(requestBody) }
+{
+}
+
+LoginContext::LoginContext(const char* requestPath, JsonValue&& requestBody, UnorderedMap<String, String> requestHeaders)
+    : m_path{ requestPath },
+    m_requestBody{ std::move(requestBody) },
+    m_requestHeaders{ std::move(requestHeaders) }
+{
+}
+
+const char* LoginContext::RequestPath() const
+{
+    return m_path.data();
+}
+
+AsyncOp<JsonValue> LoginContext::GetRequestBody(const TaskQueue& queue) const
+{
+    UNREFERENCED_PARAMETER(queue); // No async work to be done in base LoginContext
+    JsonValue requestBodyCopy;
+    JsonUtils::FromJson(m_requestBody, requestBodyCopy);
+    return Result<JsonValue>{ std::move(requestBodyCopy) };
+}
+
+const UnorderedMap<String, String>& LoginContext::RequestHeaders() const
+{
+    return m_requestHeaders;
 }
 
 }

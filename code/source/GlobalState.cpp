@@ -5,16 +5,13 @@
 
 using namespace PlayFab;
 
+namespace PlayFab
+{
+
 GlobalState::GlobalState(String&& titleId, _In_opt_z_ const char* secretKey, _In_opt_ XTaskQueueHandle backgroundQueue) :
     m_httpClient{ MakeShared<PlayFab::HttpClient>(std::move(titleId)) },
     m_secretKey{ secretKey ? MakeShared<String>(secretKey) : nullptr },
-    m_backgroundQueue{ backgroundQueue },
-    clientAuthAPI{ m_httpClient },
-    serverAuthAPI{ m_httpClient, m_secretKey },
-    authenticationAuthAPI{ m_httpClient, m_secretKey },
-    adminAPI{ m_httpClient, m_secretKey },
-    matchmakerAPI{ m_httpClient, m_secretKey },
-    serverAPI{ m_httpClient, m_secretKey }
+    m_backgroundQueue{ backgroundQueue }
 {
 }
 
@@ -23,31 +20,38 @@ SharedPtr<HttpClient const> GlobalState::HttpClient() const
     return m_httpClient;
 }
 
-PlayFabGlobalState::PlayFabGlobalState(_In_z_ const char* titleId, _In_opt_z_ const char* secretKey, _In_opt_ XTaskQueueHandle backgroundQueue) :
+SharedPtr<String const> GlobalState::SecretKey() const
+{
+    return m_secretKey;
+}
+
+} // namespace PlayFab
+
+PFGlobalState::PFGlobalState(_In_z_ const char* titleId, _In_opt_z_ const char* secretKey, _In_opt_ XTaskQueueHandle backgroundQueue) :
     state{ MakeShared<GlobalState>(titleId, secretKey, backgroundQueue) }
 {
 }
 
-HRESULT PlayFabGlobalState::Create(
+HRESULT PFGlobalState::Create(
     _In_z_ const char* titleId,
     _In_opt_z_ const char* secretKey,
     _In_opt_ XTaskQueueHandle backgroundQueue,
-    _Outptr_ PlayFabStateHandle* stateHandle
+    _Outptr_ PFStateHandle* stateHandle
 )
 {
     RETURN_HR_INVALIDARG_IF_NULL(titleId);
     RETURN_IF_FAILED(HCInitialize(nullptr));
 
-    Allocator<PlayFabGlobalState> a{};
-    *stateHandle = UniquePtr<PlayFabGlobalState>(new (a.allocate(1)) PlayFabGlobalState(titleId, secretKey, backgroundQueue)).release();
+    Allocator<PFGlobalState> a{};
+    *stateHandle = UniquePtr<PFGlobalState>(new (a.allocate(1)) PFGlobalState(titleId, secretKey, backgroundQueue)).release();
     return S_OK;
 }
 
-HRESULT PlayFabGlobalState::CleanupAsync(XAsyncBlock* async)
+HRESULT PFGlobalState::CleanupAsync(XAsyncBlock* async)
 {
     struct CleanupProvider : public Provider
     {
-        CleanupProvider(XAsyncBlock* async, PlayFabStateHandle handle) :
+        CleanupProvider(XAsyncBlock* async, PFStateHandle handle) :
             Provider{ async },
             stateHandle{ handle }
         {
@@ -65,7 +69,7 @@ HRESULT PlayFabGlobalState::CleanupAsync(XAsyncBlock* async)
             {
                 // stateHandle->state is the only remaining reference. GlobalState will be destroyed on this thread before
                 // control returns to client
-                UniquePtr<PlayFabGlobalState> reclaim{ stateHandle };
+                UniquePtr<PFGlobalState> reclaim{ stateHandle };
 
                 // Cleanup libHttpClient
                 hcCleanupQueue = queue.DeriveWorkerQueue();
@@ -105,7 +109,7 @@ HRESULT PlayFabGlobalState::CleanupAsync(XAsyncBlock* async)
 
         XAsyncBlock hcCleanupAsync{};
         TaskQueue hcCleanupQueue;
-        PlayFabStateHandle stateHandle;
+        PFStateHandle stateHandle;
     };
 
     return Provider::Run(UniquePtr<Provider>{ MakeUnique<CleanupProvider>(async, this).release() });

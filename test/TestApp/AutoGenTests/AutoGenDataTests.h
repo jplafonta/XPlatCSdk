@@ -1,10 +1,9 @@
 #pragma once
 
 #include "TestCase.h"
-#include <playfab/PlayFabGlobal.h>
-#include <playfab/PlayFabEntity.h>
-#include <playfab/PlayFabClientDataModels.h>
-#include "../../../code/source/Client/DataDataModels.h"
+#include <playfab/PFGlobal.h>
+#include <playfab/PFEntity.h>
+#include "../../../code/source/Data/DataDataModels.h"
 
 namespace PlayFabUnit
 {
@@ -14,6 +13,8 @@ class AutoGenDataTests : public PlayFabApiTestCase
 private: 
     static void Log(std::stringstream& ss);
     static HRESULT LogHR(HRESULT hr);
+
+
     void TestDataAbortFileUploads(TestContext& testContext); 
     void TestDataDeleteFiles(TestContext& testContext); 
     void TestDataFinalizeFileUploads(TestContext& testContext); 
@@ -26,40 +27,40 @@ private:
 protected:
     void AddTests();
 
-    static void LogPlayFabDataAbortFileUploadsRequest( PlayFab::DataModels::AbortFileUploadsRequest* request, const char* testName );
-    static void FillPlayFabDataAbortFileUploadsRequest( PlayFab::DataModels::AbortFileUploadsRequest* request );
-    static HRESULT LogPlayFabDataAbortFileUploadsResponse( PlayFabDataAbortFileUploadsResponse* result );
-    static HRESULT ValidatePlayFabDataAbortFileUploadsResponse( PlayFabDataAbortFileUploadsResponse* result );
-    static void LogPlayFabDataDeleteFilesRequest( PlayFab::DataModels::DeleteFilesRequest* request, const char* testName );
-    static void FillPlayFabDataDeleteFilesRequest( PlayFab::DataModels::DeleteFilesRequest* request );
-    static HRESULT LogPlayFabDataDeleteFilesResponse( PlayFabDataDeleteFilesResponse* result );
-    static HRESULT ValidatePlayFabDataDeleteFilesResponse( PlayFabDataDeleteFilesResponse* result );
-    static void LogPlayFabDataFinalizeFileUploadsRequest( PlayFab::DataModels::FinalizeFileUploadsRequest* request, const char* testName );
-    static void FillPlayFabDataFinalizeFileUploadsRequest( PlayFab::DataModels::FinalizeFileUploadsRequest* request );
-    static HRESULT LogPlayFabDataFinalizeFileUploadsResponse( PlayFabDataFinalizeFileUploadsResponse* result );
-    static HRESULT ValidatePlayFabDataFinalizeFileUploadsResponse( PlayFabDataFinalizeFileUploadsResponse* result );
-    static void LogPlayFabDataGetFilesRequest( PlayFab::DataModels::GetFilesRequest* request, const char* testName );
-    static void FillPlayFabDataGetFilesRequest( PlayFab::DataModels::GetFilesRequest* request );
-    static HRESULT LogPlayFabDataGetFilesResponse( PlayFabDataGetFilesResponse* result );
-    static HRESULT ValidatePlayFabDataGetFilesResponse( PlayFabDataGetFilesResponse* result );
-    static void LogPlayFabDataGetObjectsRequest( PlayFab::DataModels::GetObjectsRequest* request, const char* testName );
-    static void FillPlayFabDataGetObjectsRequest( PlayFab::DataModels::GetObjectsRequest* request );
-    static HRESULT LogPlayFabDataGetObjectsResponse( PlayFabDataGetObjectsResponse* result );
-    static HRESULT ValidatePlayFabDataGetObjectsResponse( PlayFabDataGetObjectsResponse* result );
-    static void LogPlayFabDataInitiateFileUploadsRequest( PlayFab::DataModels::InitiateFileUploadsRequest* request, const char* testName );
-    static void FillPlayFabDataInitiateFileUploadsRequest( PlayFab::DataModels::InitiateFileUploadsRequest* request );
-    static HRESULT LogPlayFabDataInitiateFileUploadsResponse( PlayFabDataInitiateFileUploadsResponse* result );
-    static HRESULT ValidatePlayFabDataInitiateFileUploadsResponse( PlayFabDataInitiateFileUploadsResponse* result );
-    static void LogPlayFabDataSetObjectsRequest( PlayFab::DataModels::SetObjectsRequest* request, const char* testName );
-    static void FillPlayFabDataSetObjectsRequest( PlayFab::DataModels::SetObjectsRequest* request );
-    static HRESULT LogPlayFabDataSetObjectsResponse( PlayFabDataSetObjectsResponse* result );
-    static HRESULT ValidatePlayFabDataSetObjectsResponse( PlayFabDataSetObjectsResponse* result );
 
+    static void LogAbortFileUploadsRequest( PlayFab::DataModels::AbortFileUploadsRequest* request, const char* testName );
+    static void FillAbortFileUploadsRequest( PlayFab::DataModels::AbortFileUploadsRequest* request );
+    static HRESULT LogPFDataAbortFileUploadsResponse( PFDataAbortFileUploadsResponse* result );
+    static HRESULT ValidatePFDataAbortFileUploadsResponse( PFDataAbortFileUploadsResponse* result );
+    static void LogDeleteFilesRequest( PlayFab::DataModels::DeleteFilesRequest* request, const char* testName );
+    static void FillDeleteFilesRequest( PlayFab::DataModels::DeleteFilesRequest* request );
+    static HRESULT LogPFDataDeleteFilesResponse( PFDataDeleteFilesResponse* result );
+    static HRESULT ValidatePFDataDeleteFilesResponse( PFDataDeleteFilesResponse* result );
+    static void LogFinalizeFileUploadsRequest( PlayFab::DataModels::FinalizeFileUploadsRequest* request, const char* testName );
+    static void FillFinalizeFileUploadsRequest( PlayFab::DataModels::FinalizeFileUploadsRequest* request );
+    static HRESULT LogPFDataFinalizeFileUploadsResponse( PFDataFinalizeFileUploadsResponse* result );
+    static HRESULT ValidatePFDataFinalizeFileUploadsResponse( PFDataFinalizeFileUploadsResponse* result );
+    static void LogGetFilesRequest( PlayFab::DataModels::GetFilesRequest* request, const char* testName );
+    static void FillGetFilesRequest( PlayFab::DataModels::GetFilesRequest* request );
+    static HRESULT LogPFDataGetFilesResponse( PFDataGetFilesResponse* result );
+    static HRESULT ValidatePFDataGetFilesResponse( PFDataGetFilesResponse* result );
+    static void LogGetObjectsRequest( PlayFab::DataModels::GetObjectsRequest* request, const char* testName );
+    static void FillGetObjectsRequest( PlayFab::DataModels::GetObjectsRequest* request );
+    static HRESULT LogPFDataGetObjectsResponse( PFDataGetObjectsResponse* result );
+    static HRESULT ValidatePFDataGetObjectsResponse( PFDataGetObjectsResponse* result );
+    static void LogInitiateFileUploadsRequest( PlayFab::DataModels::InitiateFileUploadsRequest* request, const char* testName );
+    static void FillInitiateFileUploadsRequest( PlayFab::DataModels::InitiateFileUploadsRequest* request );
+    static HRESULT LogPFDataInitiateFileUploadsResponse( PFDataInitiateFileUploadsResponse* result );
+    static HRESULT ValidatePFDataInitiateFileUploadsResponse( PFDataInitiateFileUploadsResponse* result );
+    static void LogSetObjectsRequest( PlayFab::DataModels::SetObjectsRequest* request, const char* testName );
+    static void FillSetObjectsRequest( PlayFab::DataModels::SetObjectsRequest* request );
+    static HRESULT LogPFDataSetObjectsResponse( PFDataSetObjectsResponse* result );
+    static HRESULT ValidatePFDataSetObjectsResponse( PFDataSetObjectsResponse* result );
 
 public:
-    PlayFabStateHandle stateHandle{ nullptr };
-    PlayFabEntityHandle entityHandle{ nullptr };
-    PlayFabGetPlayerCombinedInfoResultPayload const* playerCombinedInfo{ nullptr };
+    PFStateHandle stateHandle{ nullptr };
+    PFEntityHandle entityHandle{ nullptr };
+    PFGetPlayerCombinedInfoResultPayload const* playerCombinedInfo{ nullptr };
 
     void ClassSetUp() override;
     void ClassTearDown() override;

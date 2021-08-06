@@ -7,34 +7,447 @@ namespace PlayFab
 namespace GroupsModels
 {
 
+AddSharedGroupMembersRequest::AddSharedGroupMembersRequest() :
+    PFGroupsAddSharedGroupMembersRequest{}
+{
+}
+
+AddSharedGroupMembersRequest::AddSharedGroupMembersRequest(const AddSharedGroupMembersRequest& src) :
+    PFGroupsAddSharedGroupMembersRequest{ src },
+    m_playFabIds{ src.m_playFabIds },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+AddSharedGroupMembersRequest::AddSharedGroupMembersRequest(AddSharedGroupMembersRequest&& src) :
+    PFGroupsAddSharedGroupMembersRequest{ src },
+    m_playFabIds{ std::move(src.m_playFabIds) },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+AddSharedGroupMembersRequest::AddSharedGroupMembersRequest(const PFGroupsAddSharedGroupMembersRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void AddSharedGroupMembersRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "PlayFabIds", m_playFabIds, playFabIds, playFabIdsCount);
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue AddSharedGroupMembersRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsAddSharedGroupMembersRequest>(*this);
+}
+
+CreateSharedGroupRequest::CreateSharedGroupRequest() :
+    PFGroupsCreateSharedGroupRequest{}
+{
+}
+
+CreateSharedGroupRequest::CreateSharedGroupRequest(const CreateSharedGroupRequest& src) :
+    PFGroupsCreateSharedGroupRequest{ src },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+CreateSharedGroupRequest::CreateSharedGroupRequest(CreateSharedGroupRequest&& src) :
+    PFGroupsCreateSharedGroupRequest{ src },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+CreateSharedGroupRequest::CreateSharedGroupRequest(const PFGroupsCreateSharedGroupRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void CreateSharedGroupRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue CreateSharedGroupRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsCreateSharedGroupRequest>(*this);
+}
+
+size_t CreateSharedGroupRequest::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFGroupsCreateSharedGroupRequest) };
+    serializedSize += (m_sharedGroupId.size() + 1);
+    return serializedSize;
+}
+
+void CreateSharedGroupRequest::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFGroupsCreateSharedGroupRequest{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGroupsCreateSharedGroupRequest);
+    memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
+    serializedStruct->sharedGroupId = stringBuffer;
+    stringBuffer += m_sharedGroupId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+CreateSharedGroupResult::CreateSharedGroupResult() :
+    PFGroupsCreateSharedGroupResult{}
+{
+}
+
+CreateSharedGroupResult::CreateSharedGroupResult(const CreateSharedGroupResult& src) :
+    PFGroupsCreateSharedGroupResult{ src },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+CreateSharedGroupResult::CreateSharedGroupResult(CreateSharedGroupResult&& src) :
+    PFGroupsCreateSharedGroupResult{ src },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+CreateSharedGroupResult::CreateSharedGroupResult(const PFGroupsCreateSharedGroupResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void CreateSharedGroupResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue CreateSharedGroupResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsCreateSharedGroupResult>(*this);
+}
+
+size_t CreateSharedGroupResult::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFGroupsCreateSharedGroupResult) };
+    serializedSize += (m_sharedGroupId.size() + 1);
+    return serializedSize;
+}
+
+void CreateSharedGroupResult::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFGroupsCreateSharedGroupResult{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGroupsCreateSharedGroupResult);
+    memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
+    serializedStruct->sharedGroupId = stringBuffer;
+    stringBuffer += m_sharedGroupId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+GetSharedGroupDataRequest::GetSharedGroupDataRequest() :
+    PFGroupsGetSharedGroupDataRequest{}
+{
+}
+
+GetSharedGroupDataRequest::GetSharedGroupDataRequest(const GetSharedGroupDataRequest& src) :
+    PFGroupsGetSharedGroupDataRequest{ src },
+    m_getMembers{ src.m_getMembers },
+    m_keys{ src.m_keys },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    getMembers = m_getMembers ? m_getMembers.operator->() : nullptr;
+    keys = m_keys.Empty() ? nullptr : m_keys.Data();
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+GetSharedGroupDataRequest::GetSharedGroupDataRequest(GetSharedGroupDataRequest&& src) :
+    PFGroupsGetSharedGroupDataRequest{ src },
+    m_getMembers{ std::move(src.m_getMembers) },
+    m_keys{ std::move(src.m_keys) },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    getMembers = m_getMembers ? m_getMembers.operator->() : nullptr;
+    keys = m_keys.Empty() ? nullptr : m_keys.Data();
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+GetSharedGroupDataRequest::GetSharedGroupDataRequest(const PFGroupsGetSharedGroupDataRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetSharedGroupDataRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "GetMembers", m_getMembers, getMembers);
+    JsonUtils::ObjectGetMember(input, "Keys", m_keys, keys, keysCount);
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue GetSharedGroupDataRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGetSharedGroupDataRequest>(*this);
+}
+
+SharedGroupDataRecord::SharedGroupDataRecord() :
+    PFGroupsSharedGroupDataRecord{}
+{
+}
+
+SharedGroupDataRecord::SharedGroupDataRecord(const SharedGroupDataRecord& src) :
+    PFGroupsSharedGroupDataRecord{ src },
+    m_lastUpdatedBy{ src.m_lastUpdatedBy },
+    m_permission{ src.m_permission },
+    m_value{ src.m_value }
+{
+    lastUpdatedBy = m_lastUpdatedBy.empty() ? nullptr : m_lastUpdatedBy.data();
+    permission = m_permission ? m_permission.operator->() : nullptr;
+    value = m_value.empty() ? nullptr : m_value.data();
+}
+
+SharedGroupDataRecord::SharedGroupDataRecord(SharedGroupDataRecord&& src) :
+    PFGroupsSharedGroupDataRecord{ src },
+    m_lastUpdatedBy{ std::move(src.m_lastUpdatedBy) },
+    m_permission{ std::move(src.m_permission) },
+    m_value{ std::move(src.m_value) }
+{
+    lastUpdatedBy = m_lastUpdatedBy.empty() ? nullptr : m_lastUpdatedBy.data();
+    permission = m_permission ? m_permission.operator->() : nullptr;
+    value = m_value.empty() ? nullptr : m_value.data();
+}
+
+SharedGroupDataRecord::SharedGroupDataRecord(const PFGroupsSharedGroupDataRecord& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void SharedGroupDataRecord::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "LastUpdated", lastUpdated, true);
+    JsonUtils::ObjectGetMember(input, "LastUpdatedBy", m_lastUpdatedBy, lastUpdatedBy);
+    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
+    JsonUtils::ObjectGetMember(input, "Value", m_value, value);
+}
+
+JsonValue SharedGroupDataRecord::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsSharedGroupDataRecord>(*this);
+}
+
+GetSharedGroupDataResult::GetSharedGroupDataResult() :
+    PFGroupsGetSharedGroupDataResult{}
+{
+}
+
+GetSharedGroupDataResult::GetSharedGroupDataResult(const GetSharedGroupDataResult& src) :
+    PFGroupsGetSharedGroupDataResult{ src },
+    m_data{ src.m_data },
+    m_members{ src.m_members }
+{
+    data = m_data.Empty() ? nullptr : m_data.Data();
+    members = m_members.Empty() ? nullptr : m_members.Data();
+}
+
+GetSharedGroupDataResult::GetSharedGroupDataResult(GetSharedGroupDataResult&& src) :
+    PFGroupsGetSharedGroupDataResult{ src },
+    m_data{ std::move(src.m_data) },
+    m_members{ std::move(src.m_members) }
+{
+    data = m_data.Empty() ? nullptr : m_data.Data();
+    members = m_members.Empty() ? nullptr : m_members.Data();
+}
+
+GetSharedGroupDataResult::GetSharedGroupDataResult(const PFGroupsGetSharedGroupDataResult& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GetSharedGroupDataResult::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
+    JsonUtils::ObjectGetMember(input, "Members", m_members, members, membersCount);
+}
+
+JsonValue GetSharedGroupDataResult::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGetSharedGroupDataResult>(*this);
+}
+
+RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest() :
+    PFGroupsRemoveSharedGroupMembersRequest{}
+{
+}
+
+RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest(const RemoveSharedGroupMembersRequest& src) :
+    PFGroupsRemoveSharedGroupMembersRequest{ src },
+    m_playFabIds{ src.m_playFabIds },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest(RemoveSharedGroupMembersRequest&& src) :
+    PFGroupsRemoveSharedGroupMembersRequest{ src },
+    m_playFabIds{ std::move(src.m_playFabIds) },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest(const PFGroupsRemoveSharedGroupMembersRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void RemoveSharedGroupMembersRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "PlayFabIds", m_playFabIds, playFabIds, playFabIdsCount);
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue RemoveSharedGroupMembersRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsRemoveSharedGroupMembersRequest>(*this);
+}
+
+UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest() :
+    PFGroupsUpdateSharedGroupDataRequest{}
+{
+}
+
+UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest(const UpdateSharedGroupDataRequest& src) :
+    PFGroupsUpdateSharedGroupDataRequest{ src },
+    m_customTags{ src.m_customTags },
+    m_data{ src.m_data },
+    m_keysToRemove{ src.m_keysToRemove },
+    m_permission{ src.m_permission },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    data = m_data.Empty() ? nullptr : m_data.Data();
+    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
+    permission = m_permission ? m_permission.operator->() : nullptr;
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest(UpdateSharedGroupDataRequest&& src) :
+    PFGroupsUpdateSharedGroupDataRequest{ src },
+    m_customTags{ std::move(src.m_customTags) },
+    m_data{ std::move(src.m_data) },
+    m_keysToRemove{ std::move(src.m_keysToRemove) },
+    m_permission{ std::move(src.m_permission) },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    data = m_data.Empty() ? nullptr : m_data.Data();
+    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
+    permission = m_permission ? m_permission.operator->() : nullptr;
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest(const PFGroupsUpdateSharedGroupDataRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void UpdateSharedGroupDataRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
+    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
+    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue UpdateSharedGroupDataRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsUpdateSharedGroupDataRequest>(*this);
+}
+
+DeleteSharedGroupRequest::DeleteSharedGroupRequest() :
+    PFGroupsDeleteSharedGroupRequest{}
+{
+}
+
+DeleteSharedGroupRequest::DeleteSharedGroupRequest(const DeleteSharedGroupRequest& src) :
+    PFGroupsDeleteSharedGroupRequest{ src },
+    m_sharedGroupId{ src.m_sharedGroupId }
+{
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+DeleteSharedGroupRequest::DeleteSharedGroupRequest(DeleteSharedGroupRequest&& src) :
+    PFGroupsDeleteSharedGroupRequest{ src },
+    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+{
+    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+}
+
+DeleteSharedGroupRequest::DeleteSharedGroupRequest(const PFGroupsDeleteSharedGroupRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void DeleteSharedGroupRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+}
+
+JsonValue DeleteSharedGroupRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsDeleteSharedGroupRequest>(*this);
+}
+
+size_t DeleteSharedGroupRequest::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFGroupsDeleteSharedGroupRequest) };
+    serializedSize += (m_sharedGroupId.size() + 1);
+    return serializedSize;
+}
+
+void DeleteSharedGroupRequest::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFGroupsDeleteSharedGroupRequest{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGroupsDeleteSharedGroupRequest);
+    memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
+    serializedStruct->sharedGroupId = stringBuffer;
+    stringBuffer += m_sharedGroupId.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
 AcceptGroupApplicationRequest::AcceptGroupApplicationRequest() :
-    PlayFabGroupsAcceptGroupApplicationRequest{}
+    PFGroupsAcceptGroupApplicationRequest{}
 {
 }
 
 AcceptGroupApplicationRequest::AcceptGroupApplicationRequest(const AcceptGroupApplicationRequest& src) :
-    PlayFabGroupsAcceptGroupApplicationRequest{ src },
+    PFGroupsAcceptGroupApplicationRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
 AcceptGroupApplicationRequest::AcceptGroupApplicationRequest(AcceptGroupApplicationRequest&& src) :
-    PlayFabGroupsAcceptGroupApplicationRequest{ src },
+    PFGroupsAcceptGroupApplicationRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
-AcceptGroupApplicationRequest::AcceptGroupApplicationRequest(const PlayFabGroupsAcceptGroupApplicationRequest& src)
+AcceptGroupApplicationRequest::AcceptGroupApplicationRequest(const PFGroupsAcceptGroupApplicationRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -48,37 +461,37 @@ void AcceptGroupApplicationRequest::FromJson(const JsonValue& input)
 
 JsonValue AcceptGroupApplicationRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsAcceptGroupApplicationRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsAcceptGroupApplicationRequest>(*this);
 }
 
 AcceptGroupInvitationRequest::AcceptGroupInvitationRequest() :
-    PlayFabGroupsAcceptGroupInvitationRequest{}
+    PFGroupsAcceptGroupInvitationRequest{}
 {
 }
 
 AcceptGroupInvitationRequest::AcceptGroupInvitationRequest(const AcceptGroupInvitationRequest& src) :
-    PlayFabGroupsAcceptGroupInvitationRequest{ src },
+    PFGroupsAcceptGroupInvitationRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     entity = m_entity ? m_entity.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 AcceptGroupInvitationRequest::AcceptGroupInvitationRequest(AcceptGroupInvitationRequest&& src) :
-    PlayFabGroupsAcceptGroupInvitationRequest{ src },
+    PFGroupsAcceptGroupInvitationRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     entity = m_entity ? m_entity.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-AcceptGroupInvitationRequest::AcceptGroupInvitationRequest(const PlayFabGroupsAcceptGroupInvitationRequest& src)
+AcceptGroupInvitationRequest::AcceptGroupInvitationRequest(const PFGroupsAcceptGroupInvitationRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -92,41 +505,41 @@ void AcceptGroupInvitationRequest::FromJson(const JsonValue& input)
 
 JsonValue AcceptGroupInvitationRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsAcceptGroupInvitationRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsAcceptGroupInvitationRequest>(*this);
 }
 
 AddMembersRequest::AddMembersRequest() :
-    PlayFabGroupsAddMembersRequest{}
+    PFGroupsAddMembersRequest{}
 {
 }
 
 AddMembersRequest::AddMembersRequest(const AddMembersRequest& src) :
-    PlayFabGroupsAddMembersRequest{ src },
+    PFGroupsAddMembersRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group },
     m_members{ src.m_members },
     m_roleId{ src.m_roleId }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     members = m_members.Empty() ? nullptr : m_members.Data();
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
 AddMembersRequest::AddMembersRequest(AddMembersRequest&& src) :
-    PlayFabGroupsAddMembersRequest{ src },
+    PFGroupsAddMembersRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) },
     m_members{ std::move(src.m_members) },
     m_roleId{ std::move(src.m_roleId) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     members = m_members.Empty() ? nullptr : m_members.Data();
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
-AddMembersRequest::AddMembersRequest(const PlayFabGroupsAddMembersRequest& src)
+AddMembersRequest::AddMembersRequest(const PFGroupsAddMembersRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -141,16 +554,16 @@ void AddMembersRequest::FromJson(const JsonValue& input)
 
 JsonValue AddMembersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsAddMembersRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsAddMembersRequest>(*this);
 }
 
 ApplyToGroupRequest::ApplyToGroupRequest() :
-    PlayFabGroupsApplyToGroupRequest{}
+    PFGroupsApplyToGroupRequest{}
 {
 }
 
 ApplyToGroupRequest::ApplyToGroupRequest(const ApplyToGroupRequest& src) :
-    PlayFabGroupsApplyToGroupRequest{ src },
+    PFGroupsApplyToGroupRequest{ src },
     m_autoAcceptOutstandingInvite{ src.m_autoAcceptOutstandingInvite },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
@@ -159,11 +572,11 @@ ApplyToGroupRequest::ApplyToGroupRequest(const ApplyToGroupRequest& src) :
     autoAcceptOutstandingInvite = m_autoAcceptOutstandingInvite ? m_autoAcceptOutstandingInvite.operator->() : nullptr;
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     entity = m_entity ? m_entity.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 ApplyToGroupRequest::ApplyToGroupRequest(ApplyToGroupRequest&& src) :
-    PlayFabGroupsApplyToGroupRequest{ src },
+    PFGroupsApplyToGroupRequest{ src },
     m_autoAcceptOutstandingInvite{ std::move(src.m_autoAcceptOutstandingInvite) },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
@@ -172,10 +585,10 @@ ApplyToGroupRequest::ApplyToGroupRequest(ApplyToGroupRequest&& src) :
     autoAcceptOutstandingInvite = m_autoAcceptOutstandingInvite ? m_autoAcceptOutstandingInvite.operator->() : nullptr;
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     entity = m_entity ? m_entity.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-ApplyToGroupRequest::ApplyToGroupRequest(const PlayFabGroupsApplyToGroupRequest& src)
+ApplyToGroupRequest::ApplyToGroupRequest(const PFGroupsApplyToGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -190,16 +603,16 @@ void ApplyToGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue ApplyToGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsApplyToGroupRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsApplyToGroupRequest>(*this);
 }
 
 EntityWithLineage::EntityWithLineage() :
-    PlayFabGroupsEntityWithLineage{}
+    PFGroupsEntityWithLineage{}
 {
 }
 
 EntityWithLineage::EntityWithLineage(const EntityWithLineage& src) :
-    PlayFabGroupsEntityWithLineage{ src },
+    PFGroupsEntityWithLineage{ src },
     m_key{ src.m_key },
     m_lineage{ src.m_lineage }
 {
@@ -208,7 +621,7 @@ EntityWithLineage::EntityWithLineage(const EntityWithLineage& src) :
 }
 
 EntityWithLineage::EntityWithLineage(EntityWithLineage&& src) :
-    PlayFabGroupsEntityWithLineage{ src },
+    PFGroupsEntityWithLineage{ src },
     m_key{ std::move(src.m_key) },
     m_lineage{ std::move(src.m_lineage) }
 {
@@ -216,7 +629,7 @@ EntityWithLineage::EntityWithLineage(EntityWithLineage&& src) :
     lineage = m_lineage.Empty() ? nullptr : m_lineage.Data();
 }
 
-EntityWithLineage::EntityWithLineage(const PlayFabGroupsEntityWithLineage& src)
+EntityWithLineage::EntityWithLineage(const PFGroupsEntityWithLineage& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -229,16 +642,16 @@ void EntityWithLineage::FromJson(const JsonValue& input)
 
 JsonValue EntityWithLineage::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsEntityWithLineage>(*this);
+    return JsonUtils::ToJson<PFGroupsEntityWithLineage>(*this);
 }
 
 ApplyToGroupResponse::ApplyToGroupResponse() :
-    PlayFabGroupsApplyToGroupResponse{}
+    PFGroupsApplyToGroupResponse{}
 {
 }
 
 ApplyToGroupResponse::ApplyToGroupResponse(const ApplyToGroupResponse& src) :
-    PlayFabGroupsApplyToGroupResponse{ src },
+    PFGroupsApplyToGroupResponse{ src },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
@@ -247,7 +660,7 @@ ApplyToGroupResponse::ApplyToGroupResponse(const ApplyToGroupResponse& src) :
 }
 
 ApplyToGroupResponse::ApplyToGroupResponse(ApplyToGroupResponse&& src) :
-    PlayFabGroupsApplyToGroupResponse{ src },
+    PFGroupsApplyToGroupResponse{ src },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
@@ -255,7 +668,7 @@ ApplyToGroupResponse::ApplyToGroupResponse(ApplyToGroupResponse&& src) :
     group = m_group ? m_group.operator->() : nullptr;
 }
 
-ApplyToGroupResponse::ApplyToGroupResponse(const PlayFabGroupsApplyToGroupResponse& src)
+ApplyToGroupResponse::ApplyToGroupResponse(const PFGroupsApplyToGroupResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -269,37 +682,37 @@ void ApplyToGroupResponse::FromJson(const JsonValue& input)
 
 JsonValue ApplyToGroupResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsApplyToGroupResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsApplyToGroupResponse>(*this);
 }
 
 BlockEntityRequest::BlockEntityRequest() :
-    PlayFabGroupsBlockEntityRequest{}
+    PFGroupsBlockEntityRequest{}
 {
 }
 
 BlockEntityRequest::BlockEntityRequest(const BlockEntityRequest& src) :
-    PlayFabGroupsBlockEntityRequest{ src },
+    PFGroupsBlockEntityRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
 BlockEntityRequest::BlockEntityRequest(BlockEntityRequest&& src) :
-    PlayFabGroupsBlockEntityRequest{ src },
+    PFGroupsBlockEntityRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
-BlockEntityRequest::BlockEntityRequest(const PlayFabGroupsBlockEntityRequest& src)
+BlockEntityRequest::BlockEntityRequest(const PFGroupsBlockEntityRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -313,16 +726,16 @@ void BlockEntityRequest::FromJson(const JsonValue& input)
 
 JsonValue BlockEntityRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsBlockEntityRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsBlockEntityRequest>(*this);
 }
 
 ChangeMemberRoleRequest::ChangeMemberRoleRequest() :
-    PlayFabGroupsChangeMemberRoleRequest{}
+    PFGroupsChangeMemberRoleRequest{}
 {
 }
 
 ChangeMemberRoleRequest::ChangeMemberRoleRequest(const ChangeMemberRoleRequest& src) :
-    PlayFabGroupsChangeMemberRoleRequest{ src },
+    PFGroupsChangeMemberRoleRequest{ src },
     m_customTags{ src.m_customTags },
     m_destinationRoleId{ src.m_destinationRoleId },
     m_group{ src.m_group },
@@ -331,13 +744,13 @@ ChangeMemberRoleRequest::ChangeMemberRoleRequest(const ChangeMemberRoleRequest& 
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     destinationRoleId = m_destinationRoleId.empty() ? nullptr : m_destinationRoleId.data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     members = m_members.Empty() ? nullptr : m_members.Data();
     originRoleId = m_originRoleId.empty() ? nullptr : m_originRoleId.data();
 }
 
 ChangeMemberRoleRequest::ChangeMemberRoleRequest(ChangeMemberRoleRequest&& src) :
-    PlayFabGroupsChangeMemberRoleRequest{ src },
+    PFGroupsChangeMemberRoleRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_destinationRoleId{ std::move(src.m_destinationRoleId) },
     m_group{ std::move(src.m_group) },
@@ -346,12 +759,12 @@ ChangeMemberRoleRequest::ChangeMemberRoleRequest(ChangeMemberRoleRequest&& src) 
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     destinationRoleId = m_destinationRoleId.empty() ? nullptr : m_destinationRoleId.data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     members = m_members.Empty() ? nullptr : m_members.Data();
     originRoleId = m_originRoleId.empty() ? nullptr : m_originRoleId.data();
 }
 
-ChangeMemberRoleRequest::ChangeMemberRoleRequest(const PlayFabGroupsChangeMemberRoleRequest& src)
+ChangeMemberRoleRequest::ChangeMemberRoleRequest(const PFGroupsChangeMemberRoleRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -367,16 +780,16 @@ void ChangeMemberRoleRequest::FromJson(const JsonValue& input)
 
 JsonValue ChangeMemberRoleRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsChangeMemberRoleRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsChangeMemberRoleRequest>(*this);
 }
 
 CreateGroupRequest::CreateGroupRequest() :
-    PlayFabGroupsCreateGroupRequest{}
+    PFGroupsCreateGroupRequest{}
 {
 }
 
 CreateGroupRequest::CreateGroupRequest(const CreateGroupRequest& src) :
-    PlayFabGroupsCreateGroupRequest{ src },
+    PFGroupsCreateGroupRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_groupName{ src.m_groupName }
@@ -387,7 +800,7 @@ CreateGroupRequest::CreateGroupRequest(const CreateGroupRequest& src) :
 }
 
 CreateGroupRequest::CreateGroupRequest(CreateGroupRequest&& src) :
-    PlayFabGroupsCreateGroupRequest{ src },
+    PFGroupsCreateGroupRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_groupName{ std::move(src.m_groupName) }
@@ -397,7 +810,7 @@ CreateGroupRequest::CreateGroupRequest(CreateGroupRequest&& src) :
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
 }
 
-CreateGroupRequest::CreateGroupRequest(const PlayFabGroupsCreateGroupRequest& src)
+CreateGroupRequest::CreateGroupRequest(const PFGroupsCreateGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -411,16 +824,16 @@ void CreateGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue CreateGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsCreateGroupRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsCreateGroupRequest>(*this);
 }
 
 CreateGroupResponse::CreateGroupResponse() :
-    PlayFabGroupsCreateGroupResponse{}
+    PFGroupsCreateGroupResponse{}
 {
 }
 
 CreateGroupResponse::CreateGroupResponse(const CreateGroupResponse& src) :
-    PlayFabGroupsCreateGroupResponse{ src },
+    PFGroupsCreateGroupResponse{ src },
     m_adminRoleId{ src.m_adminRoleId },
     m_group{ src.m_group },
     m_groupName{ src.m_groupName },
@@ -428,14 +841,14 @@ CreateGroupResponse::CreateGroupResponse(const CreateGroupResponse& src) :
     m_roles{ src.m_roles }
 {
     adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
     memberRoleId = m_memberRoleId.empty() ? nullptr : m_memberRoleId.data();
     roles = m_roles.Empty() ? nullptr : m_roles.Data();
 }
 
 CreateGroupResponse::CreateGroupResponse(CreateGroupResponse&& src) :
-    PlayFabGroupsCreateGroupResponse{ src },
+    PFGroupsCreateGroupResponse{ src },
     m_adminRoleId{ std::move(src.m_adminRoleId) },
     m_group{ std::move(src.m_group) },
     m_groupName{ std::move(src.m_groupName) },
@@ -443,13 +856,13 @@ CreateGroupResponse::CreateGroupResponse(CreateGroupResponse&& src) :
     m_roles{ std::move(src.m_roles) }
 {
     adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
     memberRoleId = m_memberRoleId.empty() ? nullptr : m_memberRoleId.data();
     roles = m_roles.Empty() ? nullptr : m_roles.Data();
 }
 
-CreateGroupResponse::CreateGroupResponse(const PlayFabGroupsCreateGroupResponse& src)
+CreateGroupResponse::CreateGroupResponse(const PFGroupsCreateGroupResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -467,41 +880,41 @@ void CreateGroupResponse::FromJson(const JsonValue& input)
 
 JsonValue CreateGroupResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsCreateGroupResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsCreateGroupResponse>(*this);
 }
 
 CreateGroupRoleRequest::CreateGroupRoleRequest() :
-    PlayFabGroupsCreateGroupRoleRequest{}
+    PFGroupsCreateGroupRoleRequest{}
 {
 }
 
 CreateGroupRoleRequest::CreateGroupRoleRequest(const CreateGroupRoleRequest& src) :
-    PlayFabGroupsCreateGroupRoleRequest{ src },
+    PFGroupsCreateGroupRoleRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group },
     m_roleId{ src.m_roleId },
     m_roleName{ src.m_roleName }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
     roleName = m_roleName.empty() ? nullptr : m_roleName.data();
 }
 
 CreateGroupRoleRequest::CreateGroupRoleRequest(CreateGroupRoleRequest&& src) :
-    PlayFabGroupsCreateGroupRoleRequest{ src },
+    PFGroupsCreateGroupRoleRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) },
     m_roleId{ std::move(src.m_roleId) },
     m_roleName{ std::move(src.m_roleName) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
     roleName = m_roleName.empty() ? nullptr : m_roleName.data();
 }
 
-CreateGroupRoleRequest::CreateGroupRoleRequest(const PlayFabGroupsCreateGroupRoleRequest& src)
+CreateGroupRoleRequest::CreateGroupRoleRequest(const PFGroupsCreateGroupRoleRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -516,16 +929,16 @@ void CreateGroupRoleRequest::FromJson(const JsonValue& input)
 
 JsonValue CreateGroupRoleRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsCreateGroupRoleRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsCreateGroupRoleRequest>(*this);
 }
 
 CreateGroupRoleResponse::CreateGroupRoleResponse() :
-    PlayFabGroupsCreateGroupRoleResponse{}
+    PFGroupsCreateGroupRoleResponse{}
 {
 }
 
 CreateGroupRoleResponse::CreateGroupRoleResponse(const CreateGroupRoleResponse& src) :
-    PlayFabGroupsCreateGroupRoleResponse{ src },
+    PFGroupsCreateGroupRoleResponse{ src },
     m_roleId{ src.m_roleId },
     m_roleName{ src.m_roleName }
 {
@@ -534,7 +947,7 @@ CreateGroupRoleResponse::CreateGroupRoleResponse(const CreateGroupRoleResponse& 
 }
 
 CreateGroupRoleResponse::CreateGroupRoleResponse(CreateGroupRoleResponse&& src) :
-    PlayFabGroupsCreateGroupRoleResponse{ src },
+    PFGroupsCreateGroupRoleResponse{ src },
     m_roleId{ std::move(src.m_roleId) },
     m_roleName{ std::move(src.m_roleName) }
 {
@@ -542,7 +955,7 @@ CreateGroupRoleResponse::CreateGroupRoleResponse(CreateGroupRoleResponse&& src) 
     roleName = m_roleName.empty() ? nullptr : m_roleName.data();
 }
 
-CreateGroupRoleResponse::CreateGroupRoleResponse(const PlayFabGroupsCreateGroupRoleResponse& src)
+CreateGroupRoleResponse::CreateGroupRoleResponse(const PFGroupsCreateGroupRoleResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -556,12 +969,12 @@ void CreateGroupRoleResponse::FromJson(const JsonValue& input)
 
 JsonValue CreateGroupRoleResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsCreateGroupRoleResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsCreateGroupRoleResponse>(*this);
 }
 
 size_t CreateGroupRoleResponse::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabGroupsCreateGroupRoleResponse) };
+    size_t serializedSize{ sizeof(PFGroupsCreateGroupRoleResponse) };
     serializedSize += (m_roleId.size() + 1);
     serializedSize += (m_roleName.size() + 1);
     return serializedSize;
@@ -569,8 +982,8 @@ size_t CreateGroupRoleResponse::SerializedSize() const
 
 void CreateGroupRoleResponse::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabGroupsCreateGroupRoleResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsCreateGroupRoleResponse);
+    auto serializedStruct = new (buffer) PFGroupsCreateGroupRoleResponse{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGroupsCreateGroupRoleResponse);
     memcpy(stringBuffer, m_roleId.data(), m_roleId.size() + 1);
     serializedStruct->roleId = stringBuffer;
     stringBuffer += m_roleId.size() + 1;
@@ -581,29 +994,29 @@ void CreateGroupRoleResponse::Serialize(void* buffer, size_t bufferSize) const
 }
 
 DeleteGroupRequest::DeleteGroupRequest() :
-    PlayFabGroupsDeleteGroupRequest{}
+    PFGroupsDeleteGroupRequest{}
 {
 }
 
 DeleteGroupRequest::DeleteGroupRequest(const DeleteGroupRequest& src) :
-    PlayFabGroupsDeleteGroupRequest{ src },
+    PFGroupsDeleteGroupRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 DeleteGroupRequest::DeleteGroupRequest(DeleteGroupRequest&& src) :
-    PlayFabGroupsDeleteGroupRequest{ src },
+    PFGroupsDeleteGroupRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-DeleteGroupRequest::DeleteGroupRequest(const PlayFabGroupsDeleteGroupRequest& src)
+DeleteGroupRequest::DeleteGroupRequest(const PFGroupsDeleteGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -616,37 +1029,37 @@ void DeleteGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue DeleteGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsDeleteGroupRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsDeleteGroupRequest>(*this);
 }
 
 DeleteRoleRequest::DeleteRoleRequest() :
-    PlayFabGroupsDeleteRoleRequest{}
+    PFGroupsDeleteRoleRequest{}
 {
 }
 
 DeleteRoleRequest::DeleteRoleRequest(const DeleteRoleRequest& src) :
-    PlayFabGroupsDeleteRoleRequest{ src },
+    PFGroupsDeleteRoleRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group },
     m_roleId{ src.m_roleId }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
 DeleteRoleRequest::DeleteRoleRequest(DeleteRoleRequest&& src) :
-    PlayFabGroupsDeleteRoleRequest{ src },
+    PFGroupsDeleteRoleRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) },
     m_roleId{ std::move(src.m_roleId) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
-DeleteRoleRequest::DeleteRoleRequest(const PlayFabGroupsDeleteRoleRequest& src)
+DeleteRoleRequest::DeleteRoleRequest(const PFGroupsDeleteRoleRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -660,60 +1073,16 @@ void DeleteRoleRequest::FromJson(const JsonValue& input)
 
 JsonValue DeleteRoleRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsDeleteRoleRequest>(*this);
-}
-
-EntityMemberRole::EntityMemberRole() :
-    PlayFabGroupsEntityMemberRole{}
-{
-}
-
-EntityMemberRole::EntityMemberRole(const EntityMemberRole& src) :
-    PlayFabGroupsEntityMemberRole{ src },
-    m_members{ src.m_members },
-    m_roleId{ src.m_roleId },
-    m_roleName{ src.m_roleName }
-{
-    members = m_members.Empty() ? nullptr : m_members.Data();
-    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
-    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
-}
-
-EntityMemberRole::EntityMemberRole(EntityMemberRole&& src) :
-    PlayFabGroupsEntityMemberRole{ src },
-    m_members{ std::move(src.m_members) },
-    m_roleId{ std::move(src.m_roleId) },
-    m_roleName{ std::move(src.m_roleName) }
-{
-    members = m_members.Empty() ? nullptr : m_members.Data();
-    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
-    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
-}
-
-EntityMemberRole::EntityMemberRole(const PlayFabGroupsEntityMemberRole& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void EntityMemberRole::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Members", m_members, members, membersCount);
-    JsonUtils::ObjectGetMember(input, "RoleId", m_roleId, roleId);
-    JsonUtils::ObjectGetMember(input, "RoleName", m_roleName, roleName);
-}
-
-JsonValue EntityMemberRole::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsEntityMemberRole>(*this);
+    return JsonUtils::ToJson<PFGroupsDeleteRoleRequest>(*this);
 }
 
 GetGroupRequest::GetGroupRequest() :
-    PlayFabGroupsGetGroupRequest{}
+    PFGroupsGetGroupRequest{}
 {
 }
 
 GetGroupRequest::GetGroupRequest(const GetGroupRequest& src) :
-    PlayFabGroupsGetGroupRequest{ src },
+    PFGroupsGetGroupRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group },
     m_groupName{ src.m_groupName }
@@ -724,7 +1093,7 @@ GetGroupRequest::GetGroupRequest(const GetGroupRequest& src) :
 }
 
 GetGroupRequest::GetGroupRequest(GetGroupRequest&& src) :
-    PlayFabGroupsGetGroupRequest{ src },
+    PFGroupsGetGroupRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) },
     m_groupName{ std::move(src.m_groupName) }
@@ -734,7 +1103,7 @@ GetGroupRequest::GetGroupRequest(GetGroupRequest&& src) :
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
 }
 
-GetGroupRequest::GetGroupRequest(const PlayFabGroupsGetGroupRequest& src)
+GetGroupRequest::GetGroupRequest(const PFGroupsGetGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -748,16 +1117,16 @@ void GetGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue GetGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsGetGroupRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsGetGroupRequest>(*this);
 }
 
 GetGroupResponse::GetGroupResponse() :
-    PlayFabGroupsGetGroupResponse{}
+    PFGroupsGetGroupResponse{}
 {
 }
 
 GetGroupResponse::GetGroupResponse(const GetGroupResponse& src) :
-    PlayFabGroupsGetGroupResponse{ src },
+    PFGroupsGetGroupResponse{ src },
     m_adminRoleId{ src.m_adminRoleId },
     m_group{ src.m_group },
     m_groupName{ src.m_groupName },
@@ -765,14 +1134,14 @@ GetGroupResponse::GetGroupResponse(const GetGroupResponse& src) :
     m_roles{ src.m_roles }
 {
     adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
     memberRoleId = m_memberRoleId.empty() ? nullptr : m_memberRoleId.data();
     roles = m_roles.Empty() ? nullptr : m_roles.Data();
 }
 
 GetGroupResponse::GetGroupResponse(GetGroupResponse&& src) :
-    PlayFabGroupsGetGroupResponse{ src },
+    PFGroupsGetGroupResponse{ src },
     m_adminRoleId{ std::move(src.m_adminRoleId) },
     m_group{ std::move(src.m_group) },
     m_groupName{ std::move(src.m_groupName) },
@@ -780,13 +1149,13 @@ GetGroupResponse::GetGroupResponse(GetGroupResponse&& src) :
     m_roles{ std::move(src.m_roles) }
 {
     adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
     memberRoleId = m_memberRoleId.empty() ? nullptr : m_memberRoleId.data();
     roles = m_roles.Empty() ? nullptr : m_roles.Data();
 }
 
-GetGroupResponse::GetGroupResponse(const PlayFabGroupsGetGroupResponse& src)
+GetGroupResponse::GetGroupResponse(const PFGroupsGetGroupResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -804,250 +1173,16 @@ void GetGroupResponse::FromJson(const JsonValue& input)
 
 JsonValue GetGroupResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsGetGroupResponse>(*this);
-}
-
-GroupApplication::GroupApplication() :
-    PlayFabGroupsGroupApplication{}
-{
-}
-
-GroupApplication::GroupApplication(const GroupApplication& src) :
-    PlayFabGroupsGroupApplication{ src },
-    m_entity{ src.m_entity },
-    m_group{ src.m_group }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    group = m_group ? m_group.operator->() : nullptr;
-}
-
-GroupApplication::GroupApplication(GroupApplication&& src) :
-    PlayFabGroupsGroupApplication{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_group{ std::move(src.m_group) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    group = m_group ? m_group.operator->() : nullptr;
-}
-
-GroupApplication::GroupApplication(const PlayFabGroupsGroupApplication& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GroupApplication::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "Expires", expires, true);
-    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
-}
-
-JsonValue GroupApplication::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsGroupApplication>(*this);
-}
-
-GroupBlock::GroupBlock() :
-    PlayFabGroupsGroupBlock{}
-{
-}
-
-GroupBlock::GroupBlock(const GroupBlock& src) :
-    PlayFabGroupsGroupBlock{ src },
-    m_entity{ src.m_entity },
-    m_group{ src.m_group }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
-}
-
-GroupBlock::GroupBlock(GroupBlock&& src) :
-    PlayFabGroupsGroupBlock{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_group{ std::move(src.m_group) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
-}
-
-GroupBlock::GroupBlock(const PlayFabGroupsGroupBlock& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GroupBlock::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
-}
-
-JsonValue GroupBlock::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsGroupBlock>(*this);
-}
-
-GroupInvitation::GroupInvitation() :
-    PlayFabGroupsGroupInvitation{}
-{
-}
-
-GroupInvitation::GroupInvitation(const GroupInvitation& src) :
-    PlayFabGroupsGroupInvitation{ src },
-    m_group{ src.m_group },
-    m_invitedByEntity{ src.m_invitedByEntity },
-    m_invitedEntity{ src.m_invitedEntity },
-    m_roleId{ src.m_roleId }
-{
-    group = m_group ? m_group.operator->() : nullptr;
-    invitedByEntity = m_invitedByEntity ? m_invitedByEntity.operator->() : nullptr;
-    invitedEntity = m_invitedEntity ? m_invitedEntity.operator->() : nullptr;
-    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
-}
-
-GroupInvitation::GroupInvitation(GroupInvitation&& src) :
-    PlayFabGroupsGroupInvitation{ src },
-    m_group{ std::move(src.m_group) },
-    m_invitedByEntity{ std::move(src.m_invitedByEntity) },
-    m_invitedEntity{ std::move(src.m_invitedEntity) },
-    m_roleId{ std::move(src.m_roleId) }
-{
-    group = m_group ? m_group.operator->() : nullptr;
-    invitedByEntity = m_invitedByEntity ? m_invitedByEntity.operator->() : nullptr;
-    invitedEntity = m_invitedEntity ? m_invitedEntity.operator->() : nullptr;
-    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
-}
-
-GroupInvitation::GroupInvitation(const PlayFabGroupsGroupInvitation& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GroupInvitation::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Expires", expires, true);
-    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
-    JsonUtils::ObjectGetMember(input, "InvitedByEntity", m_invitedByEntity, invitedByEntity);
-    JsonUtils::ObjectGetMember(input, "InvitedEntity", m_invitedEntity, invitedEntity);
-    JsonUtils::ObjectGetMember(input, "RoleId", m_roleId, roleId);
-}
-
-JsonValue GroupInvitation::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsGroupInvitation>(*this);
-}
-
-GroupRole::GroupRole() :
-    PlayFabGroupsGroupRole{}
-{
-}
-
-GroupRole::GroupRole(const GroupRole& src) :
-    PlayFabGroupsGroupRole{ src },
-    m_roleId{ src.m_roleId },
-    m_roleName{ src.m_roleName }
-{
-    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
-    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
-}
-
-GroupRole::GroupRole(GroupRole&& src) :
-    PlayFabGroupsGroupRole{ src },
-    m_roleId{ std::move(src.m_roleId) },
-    m_roleName{ std::move(src.m_roleName) }
-{
-    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
-    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
-}
-
-GroupRole::GroupRole(const PlayFabGroupsGroupRole& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GroupRole::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "RoleId", m_roleId, roleId);
-    JsonUtils::ObjectGetMember(input, "RoleName", m_roleName, roleName);
-}
-
-JsonValue GroupRole::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsGroupRole>(*this);
-}
-
-size_t GroupRole::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabGroupsGroupRole) };
-    serializedSize += (m_roleId.size() + 1);
-    serializedSize += (m_roleName.size() + 1);
-    return serializedSize;
-}
-
-void GroupRole::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabGroupsGroupRole{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsGroupRole);
-    memcpy(stringBuffer, m_roleId.data(), m_roleId.size() + 1);
-    serializedStruct->roleId = stringBuffer;
-    stringBuffer += m_roleId.size() + 1;
-    memcpy(stringBuffer, m_roleName.data(), m_roleName.size() + 1);
-    serializedStruct->roleName = stringBuffer;
-    stringBuffer += m_roleName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GroupWithRoles::GroupWithRoles() :
-    PlayFabGroupsGroupWithRoles{}
-{
-}
-
-GroupWithRoles::GroupWithRoles(const GroupWithRoles& src) :
-    PlayFabGroupsGroupWithRoles{ src },
-    m_group{ src.m_group },
-    m_groupName{ src.m_groupName },
-    m_roles{ src.m_roles }
-{
-    group = m_group ? m_group.operator->() : nullptr;
-    groupName = m_groupName.empty() ? nullptr : m_groupName.data();
-    roles = m_roles.Empty() ? nullptr : m_roles.Data();
-}
-
-GroupWithRoles::GroupWithRoles(GroupWithRoles&& src) :
-    PlayFabGroupsGroupWithRoles{ src },
-    m_group{ std::move(src.m_group) },
-    m_groupName{ std::move(src.m_groupName) },
-    m_roles{ std::move(src.m_roles) }
-{
-    group = m_group ? m_group.operator->() : nullptr;
-    groupName = m_groupName.empty() ? nullptr : m_groupName.data();
-    roles = m_roles.Empty() ? nullptr : m_roles.Data();
-}
-
-GroupWithRoles::GroupWithRoles(const PlayFabGroupsGroupWithRoles& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GroupWithRoles::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
-    JsonUtils::ObjectGetMember(input, "GroupName", m_groupName, groupName);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
-    JsonUtils::ObjectGetMember(input, "Roles", m_roles, roles, rolesCount);
-}
-
-JsonValue GroupWithRoles::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsGroupWithRoles>(*this);
+    return JsonUtils::ToJson<PFGroupsGetGroupResponse>(*this);
 }
 
 InviteToGroupRequest::InviteToGroupRequest() :
-    PlayFabGroupsInviteToGroupRequest{}
+    PFGroupsInviteToGroupRequest{}
 {
 }
 
 InviteToGroupRequest::InviteToGroupRequest(const InviteToGroupRequest& src) :
-    PlayFabGroupsInviteToGroupRequest{ src },
+    PFGroupsInviteToGroupRequest{ src },
     m_autoAcceptOutstandingApplication{ src.m_autoAcceptOutstandingApplication },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
@@ -1056,13 +1191,13 @@ InviteToGroupRequest::InviteToGroupRequest(const InviteToGroupRequest& src) :
 {
     autoAcceptOutstandingApplication = m_autoAcceptOutstandingApplication ? m_autoAcceptOutstandingApplication.operator->() : nullptr;
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
 InviteToGroupRequest::InviteToGroupRequest(InviteToGroupRequest&& src) :
-    PlayFabGroupsInviteToGroupRequest{ src },
+    PFGroupsInviteToGroupRequest{ src },
     m_autoAcceptOutstandingApplication{ std::move(src.m_autoAcceptOutstandingApplication) },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
@@ -1071,12 +1206,12 @@ InviteToGroupRequest::InviteToGroupRequest(InviteToGroupRequest&& src) :
 {
     autoAcceptOutstandingApplication = m_autoAcceptOutstandingApplication ? m_autoAcceptOutstandingApplication.operator->() : nullptr;
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
-InviteToGroupRequest::InviteToGroupRequest(const PlayFabGroupsInviteToGroupRequest& src)
+InviteToGroupRequest::InviteToGroupRequest(const PFGroupsInviteToGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1092,16 +1227,16 @@ void InviteToGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue InviteToGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsInviteToGroupRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsInviteToGroupRequest>(*this);
 }
 
 InviteToGroupResponse::InviteToGroupResponse() :
-    PlayFabGroupsInviteToGroupResponse{}
+    PFGroupsInviteToGroupResponse{}
 {
 }
 
 InviteToGroupResponse::InviteToGroupResponse(const InviteToGroupResponse& src) :
-    PlayFabGroupsInviteToGroupResponse{ src },
+    PFGroupsInviteToGroupResponse{ src },
     m_group{ src.m_group },
     m_invitedByEntity{ src.m_invitedByEntity },
     m_invitedEntity{ src.m_invitedEntity },
@@ -1114,7 +1249,7 @@ InviteToGroupResponse::InviteToGroupResponse(const InviteToGroupResponse& src) :
 }
 
 InviteToGroupResponse::InviteToGroupResponse(InviteToGroupResponse&& src) :
-    PlayFabGroupsInviteToGroupResponse{ src },
+    PFGroupsInviteToGroupResponse{ src },
     m_group{ std::move(src.m_group) },
     m_invitedByEntity{ std::move(src.m_invitedByEntity) },
     m_invitedEntity{ std::move(src.m_invitedEntity) },
@@ -1126,7 +1261,7 @@ InviteToGroupResponse::InviteToGroupResponse(InviteToGroupResponse&& src) :
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
-InviteToGroupResponse::InviteToGroupResponse(const PlayFabGroupsInviteToGroupResponse& src)
+InviteToGroupResponse::InviteToGroupResponse(const PFGroupsInviteToGroupResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1142,41 +1277,41 @@ void InviteToGroupResponse::FromJson(const JsonValue& input)
 
 JsonValue InviteToGroupResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsInviteToGroupResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsInviteToGroupResponse>(*this);
 }
 
 IsMemberRequest::IsMemberRequest() :
-    PlayFabGroupsIsMemberRequest{}
+    PFGroupsIsMemberRequest{}
 {
 }
 
 IsMemberRequest::IsMemberRequest(const IsMemberRequest& src) :
-    PlayFabGroupsIsMemberRequest{ src },
+    PFGroupsIsMemberRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group },
     m_roleId{ src.m_roleId }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
 IsMemberRequest::IsMemberRequest(IsMemberRequest&& src) :
-    PlayFabGroupsIsMemberRequest{ src },
+    PFGroupsIsMemberRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) },
     m_roleId{ std::move(src.m_roleId) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
-IsMemberRequest::IsMemberRequest(const PlayFabGroupsIsMemberRequest& src)
+IsMemberRequest::IsMemberRequest(const PFGroupsIsMemberRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1191,16 +1326,16 @@ void IsMemberRequest::FromJson(const JsonValue& input)
 
 JsonValue IsMemberRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsIsMemberRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsIsMemberRequest>(*this);
 }
 
 IsMemberResponse::IsMemberResponse() :
-    PlayFabGroupsIsMemberResponse{}
+    PFGroupsIsMemberResponse{}
 {
 }
 
 
-IsMemberResponse::IsMemberResponse(const PlayFabGroupsIsMemberResponse& src)
+IsMemberResponse::IsMemberResponse(const PFGroupsIsMemberResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1212,47 +1347,47 @@ void IsMemberResponse::FromJson(const JsonValue& input)
 
 JsonValue IsMemberResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsIsMemberResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsIsMemberResponse>(*this);
 }
 
 size_t IsMemberResponse::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabGroupsIsMemberResponse) };
+    size_t serializedSize{ sizeof(PFGroupsIsMemberResponse) };
     return serializedSize;
 }
 
 void IsMemberResponse::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabGroupsIsMemberResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabGroupsIsMemberResponse);
+    auto serializedStruct = new (buffer) PFGroupsIsMemberResponse{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGroupsIsMemberResponse);
     UNREFERENCED_PARAMETER(serializedStruct);
     assert(stringBuffer - bufferSize == buffer);
 }
 
 ListGroupApplicationsRequest::ListGroupApplicationsRequest() :
-    PlayFabGroupsListGroupApplicationsRequest{}
+    PFGroupsListGroupApplicationsRequest{}
 {
 }
 
 ListGroupApplicationsRequest::ListGroupApplicationsRequest(const ListGroupApplicationsRequest& src) :
-    PlayFabGroupsListGroupApplicationsRequest{ src },
+    PFGroupsListGroupApplicationsRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 ListGroupApplicationsRequest::ListGroupApplicationsRequest(ListGroupApplicationsRequest&& src) :
-    PlayFabGroupsListGroupApplicationsRequest{ src },
+    PFGroupsListGroupApplicationsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-ListGroupApplicationsRequest::ListGroupApplicationsRequest(const PlayFabGroupsListGroupApplicationsRequest& src)
+ListGroupApplicationsRequest::ListGroupApplicationsRequest(const PFGroupsListGroupApplicationsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1265,29 +1400,69 @@ void ListGroupApplicationsRequest::FromJson(const JsonValue& input)
 
 JsonValue ListGroupApplicationsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupApplicationsRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupApplicationsRequest>(*this);
+}
+
+GroupApplication::GroupApplication() :
+    PFGroupsGroupApplication{}
+{
+}
+
+GroupApplication::GroupApplication(const GroupApplication& src) :
+    PFGroupsGroupApplication{ src },
+    m_entity{ src.m_entity },
+    m_group{ src.m_group }
+{
+    entity = m_entity ? m_entity.operator->() : nullptr;
+    group = m_group ? m_group.operator->() : nullptr;
+}
+
+GroupApplication::GroupApplication(GroupApplication&& src) :
+    PFGroupsGroupApplication{ src },
+    m_entity{ std::move(src.m_entity) },
+    m_group{ std::move(src.m_group) }
+{
+    entity = m_entity ? m_entity.operator->() : nullptr;
+    group = m_group ? m_group.operator->() : nullptr;
+}
+
+GroupApplication::GroupApplication(const PFGroupsGroupApplication& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GroupApplication::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
+    JsonUtils::ObjectGetMember(input, "Expires", expires, true);
+    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
+}
+
+JsonValue GroupApplication::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGroupApplication>(*this);
 }
 
 ListGroupApplicationsResponse::ListGroupApplicationsResponse() :
-    PlayFabGroupsListGroupApplicationsResponse{}
+    PFGroupsListGroupApplicationsResponse{}
 {
 }
 
 ListGroupApplicationsResponse::ListGroupApplicationsResponse(const ListGroupApplicationsResponse& src) :
-    PlayFabGroupsListGroupApplicationsResponse{ src },
+    PFGroupsListGroupApplicationsResponse{ src },
     m_applications{ src.m_applications }
 {
     applications = m_applications.Empty() ? nullptr : m_applications.Data();
 }
 
 ListGroupApplicationsResponse::ListGroupApplicationsResponse(ListGroupApplicationsResponse&& src) :
-    PlayFabGroupsListGroupApplicationsResponse{ src },
+    PFGroupsListGroupApplicationsResponse{ src },
     m_applications{ std::move(src.m_applications) }
 {
     applications = m_applications.Empty() ? nullptr : m_applications.Data();
 }
 
-ListGroupApplicationsResponse::ListGroupApplicationsResponse(const PlayFabGroupsListGroupApplicationsResponse& src)
+ListGroupApplicationsResponse::ListGroupApplicationsResponse(const PFGroupsListGroupApplicationsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1299,33 +1474,33 @@ void ListGroupApplicationsResponse::FromJson(const JsonValue& input)
 
 JsonValue ListGroupApplicationsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupApplicationsResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupApplicationsResponse>(*this);
 }
 
 ListGroupBlocksRequest::ListGroupBlocksRequest() :
-    PlayFabGroupsListGroupBlocksRequest{}
+    PFGroupsListGroupBlocksRequest{}
 {
 }
 
 ListGroupBlocksRequest::ListGroupBlocksRequest(const ListGroupBlocksRequest& src) :
-    PlayFabGroupsListGroupBlocksRequest{ src },
+    PFGroupsListGroupBlocksRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 ListGroupBlocksRequest::ListGroupBlocksRequest(ListGroupBlocksRequest&& src) :
-    PlayFabGroupsListGroupBlocksRequest{ src },
+    PFGroupsListGroupBlocksRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-ListGroupBlocksRequest::ListGroupBlocksRequest(const PlayFabGroupsListGroupBlocksRequest& src)
+ListGroupBlocksRequest::ListGroupBlocksRequest(const PFGroupsListGroupBlocksRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1338,29 +1513,68 @@ void ListGroupBlocksRequest::FromJson(const JsonValue& input)
 
 JsonValue ListGroupBlocksRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupBlocksRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupBlocksRequest>(*this);
+}
+
+GroupBlock::GroupBlock() :
+    PFGroupsGroupBlock{}
+{
+}
+
+GroupBlock::GroupBlock(const GroupBlock& src) :
+    PFGroupsGroupBlock{ src },
+    m_entity{ src.m_entity },
+    m_group{ src.m_group }
+{
+    entity = m_entity ? m_entity.operator->() : nullptr;
+    group = (PFEntityKey const*)&m_group;
+}
+
+GroupBlock::GroupBlock(GroupBlock&& src) :
+    PFGroupsGroupBlock{ src },
+    m_entity{ std::move(src.m_entity) },
+    m_group{ std::move(src.m_group) }
+{
+    entity = m_entity ? m_entity.operator->() : nullptr;
+    group = (PFEntityKey const*)&m_group;
+}
+
+GroupBlock::GroupBlock(const PFGroupsGroupBlock& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GroupBlock::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
+    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
+}
+
+JsonValue GroupBlock::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGroupBlock>(*this);
 }
 
 ListGroupBlocksResponse::ListGroupBlocksResponse() :
-    PlayFabGroupsListGroupBlocksResponse{}
+    PFGroupsListGroupBlocksResponse{}
 {
 }
 
 ListGroupBlocksResponse::ListGroupBlocksResponse(const ListGroupBlocksResponse& src) :
-    PlayFabGroupsListGroupBlocksResponse{ src },
+    PFGroupsListGroupBlocksResponse{ src },
     m_blockedEntities{ src.m_blockedEntities }
 {
     blockedEntities = m_blockedEntities.Empty() ? nullptr : m_blockedEntities.Data();
 }
 
 ListGroupBlocksResponse::ListGroupBlocksResponse(ListGroupBlocksResponse&& src) :
-    PlayFabGroupsListGroupBlocksResponse{ src },
+    PFGroupsListGroupBlocksResponse{ src },
     m_blockedEntities{ std::move(src.m_blockedEntities) }
 {
     blockedEntities = m_blockedEntities.Empty() ? nullptr : m_blockedEntities.Data();
 }
 
-ListGroupBlocksResponse::ListGroupBlocksResponse(const PlayFabGroupsListGroupBlocksResponse& src)
+ListGroupBlocksResponse::ListGroupBlocksResponse(const PFGroupsListGroupBlocksResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1372,33 +1586,33 @@ void ListGroupBlocksResponse::FromJson(const JsonValue& input)
 
 JsonValue ListGroupBlocksResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupBlocksResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupBlocksResponse>(*this);
 }
 
 ListGroupInvitationsRequest::ListGroupInvitationsRequest() :
-    PlayFabGroupsListGroupInvitationsRequest{}
+    PFGroupsListGroupInvitationsRequest{}
 {
 }
 
 ListGroupInvitationsRequest::ListGroupInvitationsRequest(const ListGroupInvitationsRequest& src) :
-    PlayFabGroupsListGroupInvitationsRequest{ src },
+    PFGroupsListGroupInvitationsRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 ListGroupInvitationsRequest::ListGroupInvitationsRequest(ListGroupInvitationsRequest&& src) :
-    PlayFabGroupsListGroupInvitationsRequest{ src },
+    PFGroupsListGroupInvitationsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-ListGroupInvitationsRequest::ListGroupInvitationsRequest(const PlayFabGroupsListGroupInvitationsRequest& src)
+ListGroupInvitationsRequest::ListGroupInvitationsRequest(const PFGroupsListGroupInvitationsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1411,29 +1625,79 @@ void ListGroupInvitationsRequest::FromJson(const JsonValue& input)
 
 JsonValue ListGroupInvitationsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupInvitationsRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupInvitationsRequest>(*this);
+}
+
+GroupInvitation::GroupInvitation() :
+    PFGroupsGroupInvitation{}
+{
+}
+
+GroupInvitation::GroupInvitation(const GroupInvitation& src) :
+    PFGroupsGroupInvitation{ src },
+    m_group{ src.m_group },
+    m_invitedByEntity{ src.m_invitedByEntity },
+    m_invitedEntity{ src.m_invitedEntity },
+    m_roleId{ src.m_roleId }
+{
+    group = m_group ? m_group.operator->() : nullptr;
+    invitedByEntity = m_invitedByEntity ? m_invitedByEntity.operator->() : nullptr;
+    invitedEntity = m_invitedEntity ? m_invitedEntity.operator->() : nullptr;
+    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
+}
+
+GroupInvitation::GroupInvitation(GroupInvitation&& src) :
+    PFGroupsGroupInvitation{ src },
+    m_group{ std::move(src.m_group) },
+    m_invitedByEntity{ std::move(src.m_invitedByEntity) },
+    m_invitedEntity{ std::move(src.m_invitedEntity) },
+    m_roleId{ std::move(src.m_roleId) }
+{
+    group = m_group ? m_group.operator->() : nullptr;
+    invitedByEntity = m_invitedByEntity ? m_invitedByEntity.operator->() : nullptr;
+    invitedEntity = m_invitedEntity ? m_invitedEntity.operator->() : nullptr;
+    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
+}
+
+GroupInvitation::GroupInvitation(const PFGroupsGroupInvitation& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GroupInvitation::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Expires", expires, true);
+    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
+    JsonUtils::ObjectGetMember(input, "InvitedByEntity", m_invitedByEntity, invitedByEntity);
+    JsonUtils::ObjectGetMember(input, "InvitedEntity", m_invitedEntity, invitedEntity);
+    JsonUtils::ObjectGetMember(input, "RoleId", m_roleId, roleId);
+}
+
+JsonValue GroupInvitation::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGroupInvitation>(*this);
 }
 
 ListGroupInvitationsResponse::ListGroupInvitationsResponse() :
-    PlayFabGroupsListGroupInvitationsResponse{}
+    PFGroupsListGroupInvitationsResponse{}
 {
 }
 
 ListGroupInvitationsResponse::ListGroupInvitationsResponse(const ListGroupInvitationsResponse& src) :
-    PlayFabGroupsListGroupInvitationsResponse{ src },
+    PFGroupsListGroupInvitationsResponse{ src },
     m_invitations{ src.m_invitations }
 {
     invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
 }
 
 ListGroupInvitationsResponse::ListGroupInvitationsResponse(ListGroupInvitationsResponse&& src) :
-    PlayFabGroupsListGroupInvitationsResponse{ src },
+    PFGroupsListGroupInvitationsResponse{ src },
     m_invitations{ std::move(src.m_invitations) }
 {
     invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
 }
 
-ListGroupInvitationsResponse::ListGroupInvitationsResponse(const PlayFabGroupsListGroupInvitationsResponse& src)
+ListGroupInvitationsResponse::ListGroupInvitationsResponse(const PFGroupsListGroupInvitationsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1445,33 +1709,33 @@ void ListGroupInvitationsResponse::FromJson(const JsonValue& input)
 
 JsonValue ListGroupInvitationsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupInvitationsResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupInvitationsResponse>(*this);
 }
 
 ListGroupMembersRequest::ListGroupMembersRequest() :
-    PlayFabGroupsListGroupMembersRequest{}
+    PFGroupsListGroupMembersRequest{}
 {
 }
 
 ListGroupMembersRequest::ListGroupMembersRequest(const ListGroupMembersRequest& src) :
-    PlayFabGroupsListGroupMembersRequest{ src },
+    PFGroupsListGroupMembersRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
 ListGroupMembersRequest::ListGroupMembersRequest(ListGroupMembersRequest&& src) :
-    PlayFabGroupsListGroupMembersRequest{ src },
+    PFGroupsListGroupMembersRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
 }
 
-ListGroupMembersRequest::ListGroupMembersRequest(const PlayFabGroupsListGroupMembersRequest& src)
+ListGroupMembersRequest::ListGroupMembersRequest(const PFGroupsListGroupMembersRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1484,29 +1748,73 @@ void ListGroupMembersRequest::FromJson(const JsonValue& input)
 
 JsonValue ListGroupMembersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupMembersRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupMembersRequest>(*this);
+}
+
+EntityMemberRole::EntityMemberRole() :
+    PFGroupsEntityMemberRole{}
+{
+}
+
+EntityMemberRole::EntityMemberRole(const EntityMemberRole& src) :
+    PFGroupsEntityMemberRole{ src },
+    m_members{ src.m_members },
+    m_roleId{ src.m_roleId },
+    m_roleName{ src.m_roleName }
+{
+    members = m_members.Empty() ? nullptr : m_members.Data();
+    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
+    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
+}
+
+EntityMemberRole::EntityMemberRole(EntityMemberRole&& src) :
+    PFGroupsEntityMemberRole{ src },
+    m_members{ std::move(src.m_members) },
+    m_roleId{ std::move(src.m_roleId) },
+    m_roleName{ std::move(src.m_roleName) }
+{
+    members = m_members.Empty() ? nullptr : m_members.Data();
+    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
+    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
+}
+
+EntityMemberRole::EntityMemberRole(const PFGroupsEntityMemberRole& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void EntityMemberRole::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Members", m_members, members, membersCount);
+    JsonUtils::ObjectGetMember(input, "RoleId", m_roleId, roleId);
+    JsonUtils::ObjectGetMember(input, "RoleName", m_roleName, roleName);
+}
+
+JsonValue EntityMemberRole::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsEntityMemberRole>(*this);
 }
 
 ListGroupMembersResponse::ListGroupMembersResponse() :
-    PlayFabGroupsListGroupMembersResponse{}
+    PFGroupsListGroupMembersResponse{}
 {
 }
 
 ListGroupMembersResponse::ListGroupMembersResponse(const ListGroupMembersResponse& src) :
-    PlayFabGroupsListGroupMembersResponse{ src },
+    PFGroupsListGroupMembersResponse{ src },
     m_members{ src.m_members }
 {
     members = m_members.Empty() ? nullptr : m_members.Data();
 }
 
 ListGroupMembersResponse::ListGroupMembersResponse(ListGroupMembersResponse&& src) :
-    PlayFabGroupsListGroupMembersResponse{ src },
+    PFGroupsListGroupMembersResponse{ src },
     m_members{ std::move(src.m_members) }
 {
     members = m_members.Empty() ? nullptr : m_members.Data();
 }
 
-ListGroupMembersResponse::ListGroupMembersResponse(const PlayFabGroupsListGroupMembersResponse& src)
+ListGroupMembersResponse::ListGroupMembersResponse(const PFGroupsListGroupMembersResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1518,94 +1826,16 @@ void ListGroupMembersResponse::FromJson(const JsonValue& input)
 
 JsonValue ListGroupMembersResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListGroupMembersResponse>(*this);
-}
-
-ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest() :
-    PlayFabGroupsListMembershipOpportunitiesRequest{}
-{
-}
-
-ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest(const ListMembershipOpportunitiesRequest& src) :
-    PlayFabGroupsListMembershipOpportunitiesRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = m_entity ? m_entity.operator->() : nullptr;
-}
-
-ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest(ListMembershipOpportunitiesRequest&& src) :
-    PlayFabGroupsListMembershipOpportunitiesRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = m_entity ? m_entity.operator->() : nullptr;
-}
-
-ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest(const PlayFabGroupsListMembershipOpportunitiesRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ListMembershipOpportunitiesRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-}
-
-JsonValue ListMembershipOpportunitiesRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsListMembershipOpportunitiesRequest>(*this);
-}
-
-ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse() :
-    PlayFabGroupsListMembershipOpportunitiesResponse{}
-{
-}
-
-ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse(const ListMembershipOpportunitiesResponse& src) :
-    PlayFabGroupsListMembershipOpportunitiesResponse{ src },
-    m_applications{ src.m_applications },
-    m_invitations{ src.m_invitations }
-{
-    applications = m_applications.Empty() ? nullptr : m_applications.Data();
-    invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
-}
-
-ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse(ListMembershipOpportunitiesResponse&& src) :
-    PlayFabGroupsListMembershipOpportunitiesResponse{ src },
-    m_applications{ std::move(src.m_applications) },
-    m_invitations{ std::move(src.m_invitations) }
-{
-    applications = m_applications.Empty() ? nullptr : m_applications.Data();
-    invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
-}
-
-ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse(const PlayFabGroupsListMembershipOpportunitiesResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ListMembershipOpportunitiesResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Applications", m_applications, applications, applicationsCount);
-    JsonUtils::ObjectGetMember(input, "Invitations", m_invitations, invitations, invitationsCount);
-}
-
-JsonValue ListMembershipOpportunitiesResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabGroupsListMembershipOpportunitiesResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsListGroupMembersResponse>(*this);
 }
 
 ListMembershipRequest::ListMembershipRequest() :
-    PlayFabGroupsListMembershipRequest{}
+    PFGroupsListMembershipRequest{}
 {
 }
 
 ListMembershipRequest::ListMembershipRequest(const ListMembershipRequest& src) :
-    PlayFabGroupsListMembershipRequest{ src },
+    PFGroupsListMembershipRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity }
 {
@@ -1614,7 +1844,7 @@ ListMembershipRequest::ListMembershipRequest(const ListMembershipRequest& src) :
 }
 
 ListMembershipRequest::ListMembershipRequest(ListMembershipRequest&& src) :
-    PlayFabGroupsListMembershipRequest{ src },
+    PFGroupsListMembershipRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) }
 {
@@ -1622,7 +1852,7 @@ ListMembershipRequest::ListMembershipRequest(ListMembershipRequest&& src) :
     entity = m_entity ? m_entity.operator->() : nullptr;
 }
 
-ListMembershipRequest::ListMembershipRequest(const PlayFabGroupsListMembershipRequest& src)
+ListMembershipRequest::ListMembershipRequest(const PFGroupsListMembershipRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1635,29 +1865,134 @@ void ListMembershipRequest::FromJson(const JsonValue& input)
 
 JsonValue ListMembershipRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListMembershipRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsListMembershipRequest>(*this);
+}
+
+GroupRole::GroupRole() :
+    PFGroupsGroupRole{}
+{
+}
+
+GroupRole::GroupRole(const GroupRole& src) :
+    PFGroupsGroupRole{ src },
+    m_roleId{ src.m_roleId },
+    m_roleName{ src.m_roleName }
+{
+    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
+    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
+}
+
+GroupRole::GroupRole(GroupRole&& src) :
+    PFGroupsGroupRole{ src },
+    m_roleId{ std::move(src.m_roleId) },
+    m_roleName{ std::move(src.m_roleName) }
+{
+    roleId = m_roleId.empty() ? nullptr : m_roleId.data();
+    roleName = m_roleName.empty() ? nullptr : m_roleName.data();
+}
+
+GroupRole::GroupRole(const PFGroupsGroupRole& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GroupRole::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "RoleId", m_roleId, roleId);
+    JsonUtils::ObjectGetMember(input, "RoleName", m_roleName, roleName);
+}
+
+JsonValue GroupRole::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGroupRole>(*this);
+}
+
+size_t GroupRole::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFGroupsGroupRole) };
+    serializedSize += (m_roleId.size() + 1);
+    serializedSize += (m_roleName.size() + 1);
+    return serializedSize;
+}
+
+void GroupRole::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFGroupsGroupRole{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGroupsGroupRole);
+    memcpy(stringBuffer, m_roleId.data(), m_roleId.size() + 1);
+    serializedStruct->roleId = stringBuffer;
+    stringBuffer += m_roleId.size() + 1;
+    memcpy(stringBuffer, m_roleName.data(), m_roleName.size() + 1);
+    serializedStruct->roleName = stringBuffer;
+    stringBuffer += m_roleName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
+}
+
+GroupWithRoles::GroupWithRoles() :
+    PFGroupsGroupWithRoles{}
+{
+}
+
+GroupWithRoles::GroupWithRoles(const GroupWithRoles& src) :
+    PFGroupsGroupWithRoles{ src },
+    m_group{ src.m_group },
+    m_groupName{ src.m_groupName },
+    m_roles{ src.m_roles }
+{
+    group = m_group ? m_group.operator->() : nullptr;
+    groupName = m_groupName.empty() ? nullptr : m_groupName.data();
+    roles = m_roles.Empty() ? nullptr : m_roles.Data();
+}
+
+GroupWithRoles::GroupWithRoles(GroupWithRoles&& src) :
+    PFGroupsGroupWithRoles{ src },
+    m_group{ std::move(src.m_group) },
+    m_groupName{ std::move(src.m_groupName) },
+    m_roles{ std::move(src.m_roles) }
+{
+    group = m_group ? m_group.operator->() : nullptr;
+    groupName = m_groupName.empty() ? nullptr : m_groupName.data();
+    roles = m_roles.Empty() ? nullptr : m_roles.Data();
+}
+
+GroupWithRoles::GroupWithRoles(const PFGroupsGroupWithRoles& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void GroupWithRoles::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Group", m_group, group);
+    JsonUtils::ObjectGetMember(input, "GroupName", m_groupName, groupName);
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
+    JsonUtils::ObjectGetMember(input, "Roles", m_roles, roles, rolesCount);
+}
+
+JsonValue GroupWithRoles::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsGroupWithRoles>(*this);
 }
 
 ListMembershipResponse::ListMembershipResponse() :
-    PlayFabGroupsListMembershipResponse{}
+    PFGroupsListMembershipResponse{}
 {
 }
 
 ListMembershipResponse::ListMembershipResponse(const ListMembershipResponse& src) :
-    PlayFabGroupsListMembershipResponse{ src },
+    PFGroupsListMembershipResponse{ src },
     m_groups{ src.m_groups }
 {
     groups = m_groups.Empty() ? nullptr : m_groups.Data();
 }
 
 ListMembershipResponse::ListMembershipResponse(ListMembershipResponse&& src) :
-    PlayFabGroupsListMembershipResponse{ src },
+    PFGroupsListMembershipResponse{ src },
     m_groups{ std::move(src.m_groups) }
 {
     groups = m_groups.Empty() ? nullptr : m_groups.Data();
 }
 
-ListMembershipResponse::ListMembershipResponse(const PlayFabGroupsListMembershipResponse& src)
+ListMembershipResponse::ListMembershipResponse(const PFGroupsListMembershipResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1669,37 +2004,115 @@ void ListMembershipResponse::FromJson(const JsonValue& input)
 
 JsonValue ListMembershipResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsListMembershipResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsListMembershipResponse>(*this);
+}
+
+ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest() :
+    PFGroupsListMembershipOpportunitiesRequest{}
+{
+}
+
+ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest(const ListMembershipOpportunitiesRequest& src) :
+    PFGroupsListMembershipOpportunitiesRequest{ src },
+    m_customTags{ src.m_customTags },
+    m_entity{ src.m_entity }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    entity = m_entity ? m_entity.operator->() : nullptr;
+}
+
+ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest(ListMembershipOpportunitiesRequest&& src) :
+    PFGroupsListMembershipOpportunitiesRequest{ src },
+    m_customTags{ std::move(src.m_customTags) },
+    m_entity{ std::move(src.m_entity) }
+{
+    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
+    entity = m_entity ? m_entity.operator->() : nullptr;
+}
+
+ListMembershipOpportunitiesRequest::ListMembershipOpportunitiesRequest(const PFGroupsListMembershipOpportunitiesRequest& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void ListMembershipOpportunitiesRequest::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
+    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
+}
+
+JsonValue ListMembershipOpportunitiesRequest::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsListMembershipOpportunitiesRequest>(*this);
+}
+
+ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse() :
+    PFGroupsListMembershipOpportunitiesResponse{}
+{
+}
+
+ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse(const ListMembershipOpportunitiesResponse& src) :
+    PFGroupsListMembershipOpportunitiesResponse{ src },
+    m_applications{ src.m_applications },
+    m_invitations{ src.m_invitations }
+{
+    applications = m_applications.Empty() ? nullptr : m_applications.Data();
+    invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
+}
+
+ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse(ListMembershipOpportunitiesResponse&& src) :
+    PFGroupsListMembershipOpportunitiesResponse{ src },
+    m_applications{ std::move(src.m_applications) },
+    m_invitations{ std::move(src.m_invitations) }
+{
+    applications = m_applications.Empty() ? nullptr : m_applications.Data();
+    invitations = m_invitations.Empty() ? nullptr : m_invitations.Data();
+}
+
+ListMembershipOpportunitiesResponse::ListMembershipOpportunitiesResponse(const PFGroupsListMembershipOpportunitiesResponse& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void ListMembershipOpportunitiesResponse::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Applications", m_applications, applications, applicationsCount);
+    JsonUtils::ObjectGetMember(input, "Invitations", m_invitations, invitations, invitationsCount);
+}
+
+JsonValue ListMembershipOpportunitiesResponse::ToJson() const
+{
+    return JsonUtils::ToJson<PFGroupsListMembershipOpportunitiesResponse>(*this);
 }
 
 RemoveGroupApplicationRequest::RemoveGroupApplicationRequest() :
-    PlayFabGroupsRemoveGroupApplicationRequest{}
+    PFGroupsRemoveGroupApplicationRequest{}
 {
 }
 
 RemoveGroupApplicationRequest::RemoveGroupApplicationRequest(const RemoveGroupApplicationRequest& src) :
-    PlayFabGroupsRemoveGroupApplicationRequest{ src },
+    PFGroupsRemoveGroupApplicationRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
 RemoveGroupApplicationRequest::RemoveGroupApplicationRequest(RemoveGroupApplicationRequest&& src) :
-    PlayFabGroupsRemoveGroupApplicationRequest{ src },
+    PFGroupsRemoveGroupApplicationRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
-RemoveGroupApplicationRequest::RemoveGroupApplicationRequest(const PlayFabGroupsRemoveGroupApplicationRequest& src)
+RemoveGroupApplicationRequest::RemoveGroupApplicationRequest(const PFGroupsRemoveGroupApplicationRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1713,37 +2126,37 @@ void RemoveGroupApplicationRequest::FromJson(const JsonValue& input)
 
 JsonValue RemoveGroupApplicationRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsRemoveGroupApplicationRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsRemoveGroupApplicationRequest>(*this);
 }
 
 RemoveGroupInvitationRequest::RemoveGroupInvitationRequest() :
-    PlayFabGroupsRemoveGroupInvitationRequest{}
+    PFGroupsRemoveGroupInvitationRequest{}
 {
 }
 
 RemoveGroupInvitationRequest::RemoveGroupInvitationRequest(const RemoveGroupInvitationRequest& src) :
-    PlayFabGroupsRemoveGroupInvitationRequest{ src },
+    PFGroupsRemoveGroupInvitationRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
 RemoveGroupInvitationRequest::RemoveGroupInvitationRequest(RemoveGroupInvitationRequest&& src) :
-    PlayFabGroupsRemoveGroupInvitationRequest{ src },
+    PFGroupsRemoveGroupInvitationRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
-RemoveGroupInvitationRequest::RemoveGroupInvitationRequest(const PlayFabGroupsRemoveGroupInvitationRequest& src)
+RemoveGroupInvitationRequest::RemoveGroupInvitationRequest(const PFGroupsRemoveGroupInvitationRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1757,41 +2170,41 @@ void RemoveGroupInvitationRequest::FromJson(const JsonValue& input)
 
 JsonValue RemoveGroupInvitationRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsRemoveGroupInvitationRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsRemoveGroupInvitationRequest>(*this);
 }
 
 RemoveMembersRequest::RemoveMembersRequest() :
-    PlayFabGroupsRemoveMembersRequest{}
+    PFGroupsRemoveMembersRequest{}
 {
 }
 
 RemoveMembersRequest::RemoveMembersRequest(const RemoveMembersRequest& src) :
-    PlayFabGroupsRemoveMembersRequest{ src },
+    PFGroupsRemoveMembersRequest{ src },
     m_customTags{ src.m_customTags },
     m_group{ src.m_group },
     m_members{ src.m_members },
     m_roleId{ src.m_roleId }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     members = m_members.Empty() ? nullptr : m_members.Data();
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
 RemoveMembersRequest::RemoveMembersRequest(RemoveMembersRequest&& src) :
-    PlayFabGroupsRemoveMembersRequest{ src },
+    PFGroupsRemoveMembersRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_group{ std::move(src.m_group) },
     m_members{ std::move(src.m_members) },
     m_roleId{ std::move(src.m_roleId) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     members = m_members.Empty() ? nullptr : m_members.Data();
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
 }
 
-RemoveMembersRequest::RemoveMembersRequest(const PlayFabGroupsRemoveMembersRequest& src)
+RemoveMembersRequest::RemoveMembersRequest(const PFGroupsRemoveMembersRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1806,37 +2219,37 @@ void RemoveMembersRequest::FromJson(const JsonValue& input)
 
 JsonValue RemoveMembersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsRemoveMembersRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsRemoveMembersRequest>(*this);
 }
 
 UnblockEntityRequest::UnblockEntityRequest() :
-    PlayFabGroupsUnblockEntityRequest{}
+    PFGroupsUnblockEntityRequest{}
 {
 }
 
 UnblockEntityRequest::UnblockEntityRequest(const UnblockEntityRequest& src) :
-    PlayFabGroupsUnblockEntityRequest{ src },
+    PFGroupsUnblockEntityRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_group{ src.m_group }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
 UnblockEntityRequest::UnblockEntityRequest(UnblockEntityRequest&& src) :
-    PlayFabGroupsUnblockEntityRequest{ src },
+    PFGroupsUnblockEntityRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_group{ std::move(src.m_group) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
-    group = (PlayFabEntityKey const*)&m_group;
+    entity = (PFEntityKey const*)&m_entity;
+    group = (PFEntityKey const*)&m_group;
 }
 
-UnblockEntityRequest::UnblockEntityRequest(const PlayFabGroupsUnblockEntityRequest& src)
+UnblockEntityRequest::UnblockEntityRequest(const PFGroupsUnblockEntityRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1850,16 +2263,16 @@ void UnblockEntityRequest::FromJson(const JsonValue& input)
 
 JsonValue UnblockEntityRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsUnblockEntityRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsUnblockEntityRequest>(*this);
 }
 
 UpdateGroupRequest::UpdateGroupRequest() :
-    PlayFabGroupsUpdateGroupRequest{}
+    PFGroupsUpdateGroupRequest{}
 {
 }
 
 UpdateGroupRequest::UpdateGroupRequest(const UpdateGroupRequest& src) :
-    PlayFabGroupsUpdateGroupRequest{ src },
+    PFGroupsUpdateGroupRequest{ src },
     m_adminRoleId{ src.m_adminRoleId },
     m_customTags{ src.m_customTags },
     m_expectedProfileVersion{ src.m_expectedProfileVersion },
@@ -1870,13 +2283,13 @@ UpdateGroupRequest::UpdateGroupRequest(const UpdateGroupRequest& src) :
     adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
     memberRoleId = m_memberRoleId.empty() ? nullptr : m_memberRoleId.data();
 }
 
 UpdateGroupRequest::UpdateGroupRequest(UpdateGroupRequest&& src) :
-    PlayFabGroupsUpdateGroupRequest{ src },
+    PFGroupsUpdateGroupRequest{ src },
     m_adminRoleId{ std::move(src.m_adminRoleId) },
     m_customTags{ std::move(src.m_customTags) },
     m_expectedProfileVersion{ std::move(src.m_expectedProfileVersion) },
@@ -1887,12 +2300,12 @@ UpdateGroupRequest::UpdateGroupRequest(UpdateGroupRequest&& src) :
     adminRoleId = m_adminRoleId.empty() ? nullptr : m_adminRoleId.data();
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     groupName = m_groupName.empty() ? nullptr : m_groupName.data();
     memberRoleId = m_memberRoleId.empty() ? nullptr : m_memberRoleId.data();
 }
 
-UpdateGroupRequest::UpdateGroupRequest(const PlayFabGroupsUpdateGroupRequest& src)
+UpdateGroupRequest::UpdateGroupRequest(const PFGroupsUpdateGroupRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1909,16 +2322,16 @@ void UpdateGroupRequest::FromJson(const JsonValue& input)
 
 JsonValue UpdateGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsUpdateGroupRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsUpdateGroupRequest>(*this);
 }
 
 UpdateGroupResponse::UpdateGroupResponse() :
-    PlayFabGroupsUpdateGroupResponse{}
+    PFGroupsUpdateGroupResponse{}
 {
 }
 
 UpdateGroupResponse::UpdateGroupResponse(const UpdateGroupResponse& src) :
-    PlayFabGroupsUpdateGroupResponse{ src },
+    PFGroupsUpdateGroupResponse{ src },
     m_operationReason{ src.m_operationReason },
     m_setResult{ src.m_setResult }
 {
@@ -1927,7 +2340,7 @@ UpdateGroupResponse::UpdateGroupResponse(const UpdateGroupResponse& src) :
 }
 
 UpdateGroupResponse::UpdateGroupResponse(UpdateGroupResponse&& src) :
-    PlayFabGroupsUpdateGroupResponse{ src },
+    PFGroupsUpdateGroupResponse{ src },
     m_operationReason{ std::move(src.m_operationReason) },
     m_setResult{ std::move(src.m_setResult) }
 {
@@ -1935,7 +2348,7 @@ UpdateGroupResponse::UpdateGroupResponse(UpdateGroupResponse&& src) :
     setResult = m_setResult ? m_setResult.operator->() : nullptr;
 }
 
-UpdateGroupResponse::UpdateGroupResponse(const PlayFabGroupsUpdateGroupResponse& src)
+UpdateGroupResponse::UpdateGroupResponse(const PFGroupsUpdateGroupResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -1949,16 +2362,16 @@ void UpdateGroupResponse::FromJson(const JsonValue& input)
 
 JsonValue UpdateGroupResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsUpdateGroupResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsUpdateGroupResponse>(*this);
 }
 
 UpdateGroupRoleRequest::UpdateGroupRoleRequest() :
-    PlayFabGroupsUpdateGroupRoleRequest{}
+    PFGroupsUpdateGroupRoleRequest{}
 {
 }
 
 UpdateGroupRoleRequest::UpdateGroupRoleRequest(const UpdateGroupRoleRequest& src) :
-    PlayFabGroupsUpdateGroupRoleRequest{ src },
+    PFGroupsUpdateGroupRoleRequest{ src },
     m_customTags{ src.m_customTags },
     m_expectedProfileVersion{ src.m_expectedProfileVersion },
     m_group{ src.m_group },
@@ -1967,13 +2380,13 @@ UpdateGroupRoleRequest::UpdateGroupRoleRequest(const UpdateGroupRoleRequest& src
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
     roleName = m_roleName.empty() ? nullptr : m_roleName.data();
 }
 
 UpdateGroupRoleRequest::UpdateGroupRoleRequest(UpdateGroupRoleRequest&& src) :
-    PlayFabGroupsUpdateGroupRoleRequest{ src },
+    PFGroupsUpdateGroupRoleRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_expectedProfileVersion{ std::move(src.m_expectedProfileVersion) },
     m_group{ std::move(src.m_group) },
@@ -1982,12 +2395,12 @@ UpdateGroupRoleRequest::UpdateGroupRoleRequest(UpdateGroupRoleRequest&& src) :
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
     expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
-    group = (PlayFabEntityKey const*)&m_group;
+    group = (PFEntityKey const*)&m_group;
     roleId = m_roleId.empty() ? nullptr : m_roleId.data();
     roleName = m_roleName.empty() ? nullptr : m_roleName.data();
 }
 
-UpdateGroupRoleRequest::UpdateGroupRoleRequest(const PlayFabGroupsUpdateGroupRoleRequest& src)
+UpdateGroupRoleRequest::UpdateGroupRoleRequest(const PFGroupsUpdateGroupRoleRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2003,16 +2416,16 @@ void UpdateGroupRoleRequest::FromJson(const JsonValue& input)
 
 JsonValue UpdateGroupRoleRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsUpdateGroupRoleRequest>(*this);
+    return JsonUtils::ToJson<PFGroupsUpdateGroupRoleRequest>(*this);
 }
 
 UpdateGroupRoleResponse::UpdateGroupRoleResponse() :
-    PlayFabGroupsUpdateGroupRoleResponse{}
+    PFGroupsUpdateGroupRoleResponse{}
 {
 }
 
 UpdateGroupRoleResponse::UpdateGroupRoleResponse(const UpdateGroupRoleResponse& src) :
-    PlayFabGroupsUpdateGroupRoleResponse{ src },
+    PFGroupsUpdateGroupRoleResponse{ src },
     m_operationReason{ src.m_operationReason },
     m_setResult{ src.m_setResult }
 {
@@ -2021,7 +2434,7 @@ UpdateGroupRoleResponse::UpdateGroupRoleResponse(const UpdateGroupRoleResponse& 
 }
 
 UpdateGroupRoleResponse::UpdateGroupRoleResponse(UpdateGroupRoleResponse&& src) :
-    PlayFabGroupsUpdateGroupRoleResponse{ src },
+    PFGroupsUpdateGroupRoleResponse{ src },
     m_operationReason{ std::move(src.m_operationReason) },
     m_setResult{ std::move(src.m_setResult) }
 {
@@ -2029,7 +2442,7 @@ UpdateGroupRoleResponse::UpdateGroupRoleResponse(UpdateGroupRoleResponse&& src) 
     setResult = m_setResult ? m_setResult.operator->() : nullptr;
 }
 
-UpdateGroupRoleResponse::UpdateGroupRoleResponse(const PlayFabGroupsUpdateGroupRoleResponse& src)
+UpdateGroupRoleResponse::UpdateGroupRoleResponse(const PFGroupsUpdateGroupRoleResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -2043,7 +2456,7 @@ void UpdateGroupRoleResponse::FromJson(const JsonValue& input)
 
 JsonValue UpdateGroupRoleResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabGroupsUpdateGroupRoleResponse>(*this);
+    return JsonUtils::ToJson<PFGroupsUpdateGroupRoleResponse>(*this);
 }
 
 } // namespace GroupsModels
@@ -2053,7 +2466,91 @@ namespace JsonUtils
 // Serialization methods for public models
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsAcceptGroupApplicationRequest& input)
+inline JsonValue ToJson<>(const PFGroupsAddSharedGroupMembersRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "PlayFabIds", input.playFabIds, input.playFabIdsCount);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsCreateSharedGroupRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsCreateSharedGroupResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsGetSharedGroupDataRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "GetMembers", input.getMembers);
+    JsonUtils::ObjectAddMember(output, "Keys", input.keys, input.keysCount);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsSharedGroupDataRecord& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "LastUpdated", input.lastUpdated, true);
+    JsonUtils::ObjectAddMember(output, "LastUpdatedBy", input.lastUpdatedBy);
+    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
+    JsonUtils::ObjectAddMember(output, "Value", input.value);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsGetSharedGroupDataResult& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsRemoveSharedGroupMembersRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "PlayFabIds", input.playFabIds, input.playFabIdsCount);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsUpdateSharedGroupDataRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsDeleteSharedGroupRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsAcceptGroupApplicationRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2063,7 +2560,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsAcceptGroupApplicationRequest& inpu
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsAcceptGroupInvitationRequest& input)
+inline JsonValue ToJson<>(const PFGroupsAcceptGroupInvitationRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2073,7 +2570,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsAcceptGroupInvitationRequest& input
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsAddMembersRequest& input)
+inline JsonValue ToJson<>(const PFGroupsAddMembersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2084,7 +2581,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsAddMembersRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsApplyToGroupRequest& input)
+inline JsonValue ToJson<>(const PFGroupsApplyToGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AutoAcceptOutstandingInvite", input.autoAcceptOutstandingInvite);
@@ -2095,7 +2592,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsApplyToGroupRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsEntityWithLineage& input)
+inline JsonValue ToJson<>(const PFGroupsEntityWithLineage& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Key", input.key);
@@ -2104,7 +2601,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsEntityWithLineage& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsApplyToGroupResponse& input)
+inline JsonValue ToJson<>(const PFGroupsApplyToGroupResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -2114,7 +2611,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsApplyToGroupResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsBlockEntityRequest& input)
+inline JsonValue ToJson<>(const PFGroupsBlockEntityRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2124,7 +2621,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsBlockEntityRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsChangeMemberRoleRequest& input)
+inline JsonValue ToJson<>(const PFGroupsChangeMemberRoleRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2136,7 +2633,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsChangeMemberRoleRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRequest& input)
+inline JsonValue ToJson<>(const PFGroupsCreateGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2146,7 +2643,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupResponse& input)
+inline JsonValue ToJson<>(const PFGroupsCreateGroupResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AdminRoleId", input.adminRoleId);
@@ -2160,7 +2657,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRoleRequest& input)
+inline JsonValue ToJson<>(const PFGroupsCreateGroupRoleRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2171,7 +2668,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRoleRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRoleResponse& input)
+inline JsonValue ToJson<>(const PFGroupsCreateGroupRoleResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
@@ -2181,7 +2678,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsCreateGroupRoleResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsDeleteGroupRequest& input)
+inline JsonValue ToJson<>(const PFGroupsDeleteGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2190,7 +2687,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsDeleteGroupRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsDeleteRoleRequest& input)
+inline JsonValue ToJson<>(const PFGroupsDeleteRoleRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2200,17 +2697,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsDeleteRoleRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsEntityMemberRole& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
-    JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
-    JsonUtils::ObjectAddMember(output, "RoleName", input.roleName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGetGroupRequest& input)
+inline JsonValue ToJson<>(const PFGroupsGetGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2220,7 +2707,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsGetGroupRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGetGroupResponse& input)
+inline JsonValue ToJson<>(const PFGroupsGetGroupResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AdminRoleId", input.adminRoleId);
@@ -2234,58 +2721,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsGetGroupResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGroupApplication& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
-    JsonUtils::ObjectAddMember(output, "Group", input.group);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGroupBlock& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "Group", input.group);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGroupInvitation& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
-    JsonUtils::ObjectAddMember(output, "Group", input.group);
-    JsonUtils::ObjectAddMember(output, "InvitedByEntity", input.invitedByEntity);
-    JsonUtils::ObjectAddMember(output, "InvitedEntity", input.invitedEntity);
-    JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGroupRole& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
-    JsonUtils::ObjectAddMember(output, "RoleName", input.roleName);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsGroupWithRoles& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Group", input.group);
-    JsonUtils::ObjectAddMember(output, "GroupName", input.groupName);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    JsonUtils::ObjectAddMember(output, "Roles", input.roles, input.rolesCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsInviteToGroupRequest& input)
+inline JsonValue ToJson<>(const PFGroupsInviteToGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AutoAcceptOutstandingApplication", input.autoAcceptOutstandingApplication);
@@ -2297,7 +2733,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsInviteToGroupRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsInviteToGroupResponse& input)
+inline JsonValue ToJson<>(const PFGroupsInviteToGroupResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
@@ -2309,7 +2745,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsInviteToGroupResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsIsMemberRequest& input)
+inline JsonValue ToJson<>(const PFGroupsIsMemberRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2320,7 +2756,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsIsMemberRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsIsMemberResponse& input)
+inline JsonValue ToJson<>(const PFGroupsIsMemberResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "IsMember", input.isMember);
@@ -2328,7 +2764,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsIsMemberResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupApplicationsRequest& input)
+inline JsonValue ToJson<>(const PFGroupsListGroupApplicationsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2337,7 +2773,17 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupApplicationsRequest& input
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupApplicationsResponse& input)
+inline JsonValue ToJson<>(const PFGroupsGroupApplication& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
+    JsonUtils::ObjectAddMember(output, "Group", input.group);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListGroupApplicationsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Applications", input.applications, input.applicationsCount);
@@ -2345,7 +2791,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupApplicationsResponse& inpu
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupBlocksRequest& input)
+inline JsonValue ToJson<>(const PFGroupsListGroupBlocksRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2354,7 +2800,16 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupBlocksRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupBlocksResponse& input)
+inline JsonValue ToJson<>(const PFGroupsGroupBlock& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMember(output, "Group", input.group);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListGroupBlocksResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "BlockedEntities", input.blockedEntities, input.blockedEntitiesCount);
@@ -2362,7 +2817,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupBlocksResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupInvitationsRequest& input)
+inline JsonValue ToJson<>(const PFGroupsListGroupInvitationsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2371,7 +2826,19 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupInvitationsRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupInvitationsResponse& input)
+inline JsonValue ToJson<>(const PFGroupsGroupInvitation& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Expires", input.expires, true);
+    JsonUtils::ObjectAddMember(output, "Group", input.group);
+    JsonUtils::ObjectAddMember(output, "InvitedByEntity", input.invitedByEntity);
+    JsonUtils::ObjectAddMember(output, "InvitedEntity", input.invitedEntity);
+    JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListGroupInvitationsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Invitations", input.invitations, input.invitationsCount);
@@ -2379,7 +2846,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupInvitationsResponse& input
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupMembersRequest& input)
+inline JsonValue ToJson<>(const PFGroupsListGroupMembersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2388,7 +2855,17 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupMembersRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListGroupMembersResponse& input)
+inline JsonValue ToJson<>(const PFGroupsEntityMemberRole& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
+    JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
+    JsonUtils::ObjectAddMember(output, "RoleName", input.roleName);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListGroupMembersResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
@@ -2396,7 +2873,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsListGroupMembersResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListMembershipOpportunitiesRequest& input)
+inline JsonValue ToJson<>(const PFGroupsListMembershipRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2405,7 +2882,44 @@ inline JsonValue ToJson<>(const PlayFabGroupsListMembershipOpportunitiesRequest&
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListMembershipOpportunitiesResponse& input)
+inline JsonValue ToJson<>(const PFGroupsGroupRole& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "RoleId", input.roleId);
+    JsonUtils::ObjectAddMember(output, "RoleName", input.roleName);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsGroupWithRoles& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Group", input.group);
+    JsonUtils::ObjectAddMember(output, "GroupName", input.groupName);
+    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
+    JsonUtils::ObjectAddMember(output, "Roles", input.roles, input.rolesCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListMembershipResponse& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Groups", input.groups, input.groupsCount);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListMembershipOpportunitiesRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFGroupsListMembershipOpportunitiesResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Applications", input.applications, input.applicationsCount);
@@ -2414,24 +2928,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsListMembershipOpportunitiesResponse
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListMembershipRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsListMembershipResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Groups", input.groups, input.groupsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabGroupsRemoveGroupApplicationRequest& input)
+inline JsonValue ToJson<>(const PFGroupsRemoveGroupApplicationRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2441,7 +2938,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsRemoveGroupApplicationRequest& inpu
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsRemoveGroupInvitationRequest& input)
+inline JsonValue ToJson<>(const PFGroupsRemoveGroupInvitationRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2451,7 +2948,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsRemoveGroupInvitationRequest& input
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsRemoveMembersRequest& input)
+inline JsonValue ToJson<>(const PFGroupsRemoveMembersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2462,7 +2959,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsRemoveMembersRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsUnblockEntityRequest& input)
+inline JsonValue ToJson<>(const PFGroupsUnblockEntityRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2472,7 +2969,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsUnblockEntityRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRequest& input)
+inline JsonValue ToJson<>(const PFGroupsUpdateGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AdminRoleId", input.adminRoleId);
@@ -2485,7 +2982,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupResponse& input)
+inline JsonValue ToJson<>(const PFGroupsUpdateGroupResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
@@ -2495,7 +2992,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRoleRequest& input)
+inline JsonValue ToJson<>(const PFGroupsUpdateGroupRoleRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -2507,7 +3004,7 @@ inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRoleRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabGroupsUpdateGroupRoleResponse& input)
+inline JsonValue ToJson<>(const PFGroupsUpdateGroupRoleResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);

@@ -8,37 +8,37 @@ namespace DataModels
 {
 
 AbortFileUploadsRequest::AbortFileUploadsRequest() :
-    PlayFabDataAbortFileUploadsRequest{}
+    PFDataAbortFileUploadsRequest{}
 {
 }
 
 AbortFileUploadsRequest::AbortFileUploadsRequest(const AbortFileUploadsRequest& src) :
-    PlayFabDataAbortFileUploadsRequest{ src },
+    PFDataAbortFileUploadsRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_fileNames{ src.m_fileNames },
     m_profileVersion{ src.m_profileVersion }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
     profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
 }
 
 AbortFileUploadsRequest::AbortFileUploadsRequest(AbortFileUploadsRequest&& src) :
-    PlayFabDataAbortFileUploadsRequest{ src },
+    PFDataAbortFileUploadsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_fileNames{ std::move(src.m_fileNames) },
     m_profileVersion{ std::move(src.m_profileVersion) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
     profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
 }
 
-AbortFileUploadsRequest::AbortFileUploadsRequest(const PlayFabDataAbortFileUploadsRequest& src)
+AbortFileUploadsRequest::AbortFileUploadsRequest(const PFDataAbortFileUploadsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -53,29 +53,29 @@ void AbortFileUploadsRequest::FromJson(const JsonValue& input)
 
 JsonValue AbortFileUploadsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataAbortFileUploadsRequest>(*this);
+    return JsonUtils::ToJson<PFDataAbortFileUploadsRequest>(*this);
 }
 
 AbortFileUploadsResponse::AbortFileUploadsResponse() :
-    PlayFabDataAbortFileUploadsResponse{}
+    PFDataAbortFileUploadsResponse{}
 {
 }
 
 AbortFileUploadsResponse::AbortFileUploadsResponse(const AbortFileUploadsResponse& src) :
-    PlayFabDataAbortFileUploadsResponse{ src },
+    PFDataAbortFileUploadsResponse{ src },
     m_entity{ src.m_entity }
 {
     entity = m_entity ? m_entity.operator->() : nullptr;
 }
 
 AbortFileUploadsResponse::AbortFileUploadsResponse(AbortFileUploadsResponse&& src) :
-    PlayFabDataAbortFileUploadsResponse{ src },
+    PFDataAbortFileUploadsResponse{ src },
     m_entity{ std::move(src.m_entity) }
 {
     entity = m_entity ? m_entity.operator->() : nullptr;
 }
 
-AbortFileUploadsResponse::AbortFileUploadsResponse(const PlayFabDataAbortFileUploadsResponse& src)
+AbortFileUploadsResponse::AbortFileUploadsResponse(const PFDataAbortFileUploadsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -88,41 +88,41 @@ void AbortFileUploadsResponse::FromJson(const JsonValue& input)
 
 JsonValue AbortFileUploadsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataAbortFileUploadsResponse>(*this);
+    return JsonUtils::ToJson<PFDataAbortFileUploadsResponse>(*this);
 }
 
 DeleteFilesRequest::DeleteFilesRequest() :
-    PlayFabDataDeleteFilesRequest{}
+    PFDataDeleteFilesRequest{}
 {
 }
 
 DeleteFilesRequest::DeleteFilesRequest(const DeleteFilesRequest& src) :
-    PlayFabDataDeleteFilesRequest{ src },
+    PFDataDeleteFilesRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_fileNames{ src.m_fileNames },
     m_profileVersion{ src.m_profileVersion }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
     profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
 }
 
 DeleteFilesRequest::DeleteFilesRequest(DeleteFilesRequest&& src) :
-    PlayFabDataDeleteFilesRequest{ src },
+    PFDataDeleteFilesRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_fileNames{ std::move(src.m_fileNames) },
     m_profileVersion{ std::move(src.m_profileVersion) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
     profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
 }
 
-DeleteFilesRequest::DeleteFilesRequest(const PlayFabDataDeleteFilesRequest& src)
+DeleteFilesRequest::DeleteFilesRequest(const PFDataDeleteFilesRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -137,29 +137,29 @@ void DeleteFilesRequest::FromJson(const JsonValue& input)
 
 JsonValue DeleteFilesRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataDeleteFilesRequest>(*this);
+    return JsonUtils::ToJson<PFDataDeleteFilesRequest>(*this);
 }
 
 DeleteFilesResponse::DeleteFilesResponse() :
-    PlayFabDataDeleteFilesResponse{}
+    PFDataDeleteFilesResponse{}
 {
 }
 
 DeleteFilesResponse::DeleteFilesResponse(const DeleteFilesResponse& src) :
-    PlayFabDataDeleteFilesResponse{ src },
+    PFDataDeleteFilesResponse{ src },
     m_entity{ src.m_entity }
 {
     entity = m_entity ? m_entity.operator->() : nullptr;
 }
 
 DeleteFilesResponse::DeleteFilesResponse(DeleteFilesResponse&& src) :
-    PlayFabDataDeleteFilesResponse{ src },
+    PFDataDeleteFilesResponse{ src },
     m_entity{ std::move(src.m_entity) }
 {
     entity = m_entity ? m_entity.operator->() : nullptr;
 }
 
-DeleteFilesResponse::DeleteFilesResponse(const PlayFabDataDeleteFilesResponse& src)
+DeleteFilesResponse::DeleteFilesResponse(const PFDataDeleteFilesResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -172,37 +172,37 @@ void DeleteFilesResponse::FromJson(const JsonValue& input)
 
 JsonValue DeleteFilesResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataDeleteFilesResponse>(*this);
+    return JsonUtils::ToJson<PFDataDeleteFilesResponse>(*this);
 }
 
 FinalizeFileUploadsRequest::FinalizeFileUploadsRequest() :
-    PlayFabDataFinalizeFileUploadsRequest{}
+    PFDataFinalizeFileUploadsRequest{}
 {
 }
 
 FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(const FinalizeFileUploadsRequest& src) :
-    PlayFabDataFinalizeFileUploadsRequest{ src },
+    PFDataFinalizeFileUploadsRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_fileNames{ src.m_fileNames }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
 }
 
 FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(FinalizeFileUploadsRequest&& src) :
-    PlayFabDataFinalizeFileUploadsRequest{ src },
+    PFDataFinalizeFileUploadsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_fileNames{ std::move(src.m_fileNames) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
 }
 
-FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(const PlayFabDataFinalizeFileUploadsRequest& src)
+FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(const PFDataFinalizeFileUploadsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -217,16 +217,16 @@ void FinalizeFileUploadsRequest::FromJson(const JsonValue& input)
 
 JsonValue FinalizeFileUploadsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataFinalizeFileUploadsRequest>(*this);
+    return JsonUtils::ToJson<PFDataFinalizeFileUploadsRequest>(*this);
 }
 
 GetFileMetadata::GetFileMetadata() :
-    PlayFabDataGetFileMetadata{}
+    PFDataGetFileMetadata{}
 {
 }
 
 GetFileMetadata::GetFileMetadata(const GetFileMetadata& src) :
-    PlayFabDataGetFileMetadata{ src },
+    PFDataGetFileMetadata{ src },
     m_checksum{ src.m_checksum },
     m_downloadUrl{ src.m_downloadUrl },
     m_fileName{ src.m_fileName }
@@ -237,7 +237,7 @@ GetFileMetadata::GetFileMetadata(const GetFileMetadata& src) :
 }
 
 GetFileMetadata::GetFileMetadata(GetFileMetadata&& src) :
-    PlayFabDataGetFileMetadata{ src },
+    PFDataGetFileMetadata{ src },
     m_checksum{ std::move(src.m_checksum) },
     m_downloadUrl{ std::move(src.m_downloadUrl) },
     m_fileName{ std::move(src.m_fileName) }
@@ -247,7 +247,7 @@ GetFileMetadata::GetFileMetadata(GetFileMetadata&& src) :
     fileName = m_fileName.empty() ? nullptr : m_fileName.data();
 }
 
-GetFileMetadata::GetFileMetadata(const PlayFabDataGetFileMetadata& src)
+GetFileMetadata::GetFileMetadata(const PFDataGetFileMetadata& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -263,12 +263,12 @@ void GetFileMetadata::FromJson(const JsonValue& input)
 
 JsonValue GetFileMetadata::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataGetFileMetadata>(*this);
+    return JsonUtils::ToJson<PFDataGetFileMetadata>(*this);
 }
 
 size_t GetFileMetadata::SerializedSize() const
 {
-    size_t serializedSize{ sizeof(PlayFabDataGetFileMetadata) };
+    size_t serializedSize{ sizeof(PFDataGetFileMetadata) };
     serializedSize += (m_checksum.size() + 1);
     serializedSize += (m_downloadUrl.size() + 1);
     serializedSize += (m_fileName.size() + 1);
@@ -277,8 +277,8 @@ size_t GetFileMetadata::SerializedSize() const
 
 void GetFileMetadata::Serialize(void* buffer, size_t bufferSize) const
 {
-    auto serializedStruct = new (buffer) PlayFabDataGetFileMetadata{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabDataGetFileMetadata);
+    auto serializedStruct = new (buffer) PFDataGetFileMetadata{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFDataGetFileMetadata);
     memcpy(stringBuffer, m_checksum.data(), m_checksum.size() + 1);
     serializedStruct->checksum = stringBuffer;
     stringBuffer += m_checksum.size() + 1;
@@ -292,12 +292,12 @@ void GetFileMetadata::Serialize(void* buffer, size_t bufferSize) const
 }
 
 FinalizeFileUploadsResponse::FinalizeFileUploadsResponse() :
-    PlayFabDataFinalizeFileUploadsResponse{}
+    PFDataFinalizeFileUploadsResponse{}
 {
 }
 
 FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(const FinalizeFileUploadsResponse& src) :
-    PlayFabDataFinalizeFileUploadsResponse{ src },
+    PFDataFinalizeFileUploadsResponse{ src },
     m_entity{ src.m_entity },
     m_metadata{ src.m_metadata }
 {
@@ -306,7 +306,7 @@ FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(const FinalizeFileUploa
 }
 
 FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(FinalizeFileUploadsResponse&& src) :
-    PlayFabDataFinalizeFileUploadsResponse{ src },
+    PFDataFinalizeFileUploadsResponse{ src },
     m_entity{ std::move(src.m_entity) },
     m_metadata{ std::move(src.m_metadata) }
 {
@@ -314,7 +314,7 @@ FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(FinalizeFileUploadsResp
     metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
 }
 
-FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(const PlayFabDataFinalizeFileUploadsResponse& src)
+FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(const PFDataFinalizeFileUploadsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -328,33 +328,33 @@ void FinalizeFileUploadsResponse::FromJson(const JsonValue& input)
 
 JsonValue FinalizeFileUploadsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataFinalizeFileUploadsResponse>(*this);
+    return JsonUtils::ToJson<PFDataFinalizeFileUploadsResponse>(*this);
 }
 
 GetFilesRequest::GetFilesRequest() :
-    PlayFabDataGetFilesRequest{}
+    PFDataGetFilesRequest{}
 {
 }
 
 GetFilesRequest::GetFilesRequest(const GetFilesRequest& src) :
-    PlayFabDataGetFilesRequest{ src },
+    PFDataGetFilesRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
 }
 
 GetFilesRequest::GetFilesRequest(GetFilesRequest&& src) :
-    PlayFabDataGetFilesRequest{ src },
+    PFDataGetFilesRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
 }
 
-GetFilesRequest::GetFilesRequest(const PlayFabDataGetFilesRequest& src)
+GetFilesRequest::GetFilesRequest(const PFDataGetFilesRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -367,16 +367,16 @@ void GetFilesRequest::FromJson(const JsonValue& input)
 
 JsonValue GetFilesRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataGetFilesRequest>(*this);
+    return JsonUtils::ToJson<PFDataGetFilesRequest>(*this);
 }
 
 GetFilesResponse::GetFilesResponse() :
-    PlayFabDataGetFilesResponse{}
+    PFDataGetFilesResponse{}
 {
 }
 
 GetFilesResponse::GetFilesResponse(const GetFilesResponse& src) :
-    PlayFabDataGetFilesResponse{ src },
+    PFDataGetFilesResponse{ src },
     m_entity{ src.m_entity },
     m_metadata{ src.m_metadata }
 {
@@ -385,7 +385,7 @@ GetFilesResponse::GetFilesResponse(const GetFilesResponse& src) :
 }
 
 GetFilesResponse::GetFilesResponse(GetFilesResponse&& src) :
-    PlayFabDataGetFilesResponse{ src },
+    PFDataGetFilesResponse{ src },
     m_entity{ std::move(src.m_entity) },
     m_metadata{ std::move(src.m_metadata) }
 {
@@ -393,7 +393,7 @@ GetFilesResponse::GetFilesResponse(GetFilesResponse&& src) :
     metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
 }
 
-GetFilesResponse::GetFilesResponse(const PlayFabDataGetFilesResponse& src)
+GetFilesResponse::GetFilesResponse(const PFDataGetFilesResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -407,37 +407,37 @@ void GetFilesResponse::FromJson(const JsonValue& input)
 
 JsonValue GetFilesResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataGetFilesResponse>(*this);
+    return JsonUtils::ToJson<PFDataGetFilesResponse>(*this);
 }
 
 GetObjectsRequest::GetObjectsRequest() :
-    PlayFabDataGetObjectsRequest{}
+    PFDataGetObjectsRequest{}
 {
 }
 
 GetObjectsRequest::GetObjectsRequest(const GetObjectsRequest& src) :
-    PlayFabDataGetObjectsRequest{ src },
+    PFDataGetObjectsRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_escapeObject{ src.m_escapeObject }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     escapeObject = m_escapeObject ? m_escapeObject.operator->() : nullptr;
 }
 
 GetObjectsRequest::GetObjectsRequest(GetObjectsRequest&& src) :
-    PlayFabDataGetObjectsRequest{ src },
+    PFDataGetObjectsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_escapeObject{ std::move(src.m_escapeObject) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     escapeObject = m_escapeObject ? m_escapeObject.operator->() : nullptr;
 }
 
-GetObjectsRequest::GetObjectsRequest(const PlayFabDataGetObjectsRequest& src)
+GetObjectsRequest::GetObjectsRequest(const PFDataGetObjectsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -451,16 +451,16 @@ void GetObjectsRequest::FromJson(const JsonValue& input)
 
 JsonValue GetObjectsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataGetObjectsRequest>(*this);
+    return JsonUtils::ToJson<PFDataGetObjectsRequest>(*this);
 }
 
 ObjectResult::ObjectResult() :
-    PlayFabDataObjectResult{}
+    PFDataObjectResult{}
 {
 }
 
 ObjectResult::ObjectResult(const ObjectResult& src) :
-    PlayFabDataObjectResult{ src },
+    PFDataObjectResult{ src },
     m_dataObject{ src.m_dataObject },
     m_escapedDataObject{ src.m_escapedDataObject },
     m_objectName{ src.m_objectName }
@@ -471,7 +471,7 @@ ObjectResult::ObjectResult(const ObjectResult& src) :
 }
 
 ObjectResult::ObjectResult(ObjectResult&& src) :
-    PlayFabDataObjectResult{ src },
+    PFDataObjectResult{ src },
     m_dataObject{ std::move(src.m_dataObject) },
     m_escapedDataObject{ std::move(src.m_escapedDataObject) },
     m_objectName{ std::move(src.m_objectName) }
@@ -481,7 +481,7 @@ ObjectResult::ObjectResult(ObjectResult&& src) :
     objectName = m_objectName.empty() ? nullptr : m_objectName.data();
 }
 
-ObjectResult::ObjectResult(const PlayFabDataObjectResult& src)
+ObjectResult::ObjectResult(const PFDataObjectResult& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -495,16 +495,16 @@ void ObjectResult::FromJson(const JsonValue& input)
 
 JsonValue ObjectResult::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataObjectResult>(*this);
+    return JsonUtils::ToJson<PFDataObjectResult>(*this);
 }
 
 GetObjectsResponse::GetObjectsResponse() :
-    PlayFabDataGetObjectsResponse{}
+    PFDataGetObjectsResponse{}
 {
 }
 
 GetObjectsResponse::GetObjectsResponse(const GetObjectsResponse& src) :
-    PlayFabDataGetObjectsResponse{ src },
+    PFDataGetObjectsResponse{ src },
     m_entity{ src.m_entity },
     m_objects{ src.m_objects }
 {
@@ -513,7 +513,7 @@ GetObjectsResponse::GetObjectsResponse(const GetObjectsResponse& src) :
 }
 
 GetObjectsResponse::GetObjectsResponse(GetObjectsResponse&& src) :
-    PlayFabDataGetObjectsResponse{ src },
+    PFDataGetObjectsResponse{ src },
     m_entity{ std::move(src.m_entity) },
     m_objects{ std::move(src.m_objects) }
 {
@@ -521,7 +521,7 @@ GetObjectsResponse::GetObjectsResponse(GetObjectsResponse&& src) :
     objects = m_objects.Empty() ? nullptr : m_objects.Data();
 }
 
-GetObjectsResponse::GetObjectsResponse(const PlayFabDataGetObjectsResponse& src)
+GetObjectsResponse::GetObjectsResponse(const PFDataGetObjectsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -535,101 +535,41 @@ void GetObjectsResponse::FromJson(const JsonValue& input)
 
 JsonValue GetObjectsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataGetObjectsResponse>(*this);
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata() :
-    PlayFabDataInitiateFileUploadMetadata{}
-{
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata(const InitiateFileUploadMetadata& src) :
-    PlayFabDataInitiateFileUploadMetadata{ src },
-    m_fileName{ src.m_fileName },
-    m_uploadUrl{ src.m_uploadUrl }
-{
-    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
-    uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata(InitiateFileUploadMetadata&& src) :
-    PlayFabDataInitiateFileUploadMetadata{ src },
-    m_fileName{ std::move(src.m_fileName) },
-    m_uploadUrl{ std::move(src.m_uploadUrl) }
-{
-    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
-    uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata(const PlayFabDataInitiateFileUploadMetadata& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InitiateFileUploadMetadata::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "FileName", m_fileName, fileName);
-    JsonUtils::ObjectGetMember(input, "UploadUrl", m_uploadUrl, uploadUrl);
-}
-
-JsonValue InitiateFileUploadMetadata::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabDataInitiateFileUploadMetadata>(*this);
-}
-
-size_t InitiateFileUploadMetadata::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PlayFabDataInitiateFileUploadMetadata) };
-    serializedSize += (m_fileName.size() + 1);
-    serializedSize += (m_uploadUrl.size() + 1);
-    return serializedSize;
-}
-
-void InitiateFileUploadMetadata::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PlayFabDataInitiateFileUploadMetadata{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PlayFabDataInitiateFileUploadMetadata);
-    memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
-    serializedStruct->fileName = stringBuffer;
-    stringBuffer += m_fileName.size() + 1;
-    memcpy(stringBuffer, m_uploadUrl.data(), m_uploadUrl.size() + 1);
-    serializedStruct->uploadUrl = stringBuffer;
-    stringBuffer += m_uploadUrl.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
+    return JsonUtils::ToJson<PFDataGetObjectsResponse>(*this);
 }
 
 InitiateFileUploadsRequest::InitiateFileUploadsRequest() :
-    PlayFabDataInitiateFileUploadsRequest{}
+    PFDataInitiateFileUploadsRequest{}
 {
 }
 
 InitiateFileUploadsRequest::InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src) :
-    PlayFabDataInitiateFileUploadsRequest{ src },
+    PFDataInitiateFileUploadsRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_fileNames{ src.m_fileNames },
     m_profileVersion{ src.m_profileVersion }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
     profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
 }
 
 InitiateFileUploadsRequest::InitiateFileUploadsRequest(InitiateFileUploadsRequest&& src) :
-    PlayFabDataInitiateFileUploadsRequest{ src },
+    PFDataInitiateFileUploadsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_fileNames{ std::move(src.m_fileNames) },
     m_profileVersion{ std::move(src.m_profileVersion) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
     profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
 }
 
-InitiateFileUploadsRequest::InitiateFileUploadsRequest(const PlayFabDataInitiateFileUploadsRequest& src)
+InitiateFileUploadsRequest::InitiateFileUploadsRequest(const PFDataInitiateFileUploadsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -644,16 +584,76 @@ void InitiateFileUploadsRequest::FromJson(const JsonValue& input)
 
 JsonValue InitiateFileUploadsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataInitiateFileUploadsRequest>(*this);
+    return JsonUtils::ToJson<PFDataInitiateFileUploadsRequest>(*this);
+}
+
+InitiateFileUploadMetadata::InitiateFileUploadMetadata() :
+    PFDataInitiateFileUploadMetadata{}
+{
+}
+
+InitiateFileUploadMetadata::InitiateFileUploadMetadata(const InitiateFileUploadMetadata& src) :
+    PFDataInitiateFileUploadMetadata{ src },
+    m_fileName{ src.m_fileName },
+    m_uploadUrl{ src.m_uploadUrl }
+{
+    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
+    uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
+}
+
+InitiateFileUploadMetadata::InitiateFileUploadMetadata(InitiateFileUploadMetadata&& src) :
+    PFDataInitiateFileUploadMetadata{ src },
+    m_fileName{ std::move(src.m_fileName) },
+    m_uploadUrl{ std::move(src.m_uploadUrl) }
+{
+    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
+    uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
+}
+
+InitiateFileUploadMetadata::InitiateFileUploadMetadata(const PFDataInitiateFileUploadMetadata& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void InitiateFileUploadMetadata::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "FileName", m_fileName, fileName);
+    JsonUtils::ObjectGetMember(input, "UploadUrl", m_uploadUrl, uploadUrl);
+}
+
+JsonValue InitiateFileUploadMetadata::ToJson() const
+{
+    return JsonUtils::ToJson<PFDataInitiateFileUploadMetadata>(*this);
+}
+
+size_t InitiateFileUploadMetadata::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFDataInitiateFileUploadMetadata) };
+    serializedSize += (m_fileName.size() + 1);
+    serializedSize += (m_uploadUrl.size() + 1);
+    return serializedSize;
+}
+
+void InitiateFileUploadMetadata::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFDataInitiateFileUploadMetadata{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFDataInitiateFileUploadMetadata);
+    memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
+    serializedStruct->fileName = stringBuffer;
+    stringBuffer += m_fileName.size() + 1;
+    memcpy(stringBuffer, m_uploadUrl.data(), m_uploadUrl.size() + 1);
+    serializedStruct->uploadUrl = stringBuffer;
+    stringBuffer += m_uploadUrl.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
 }
 
 InitiateFileUploadsResponse::InitiateFileUploadsResponse() :
-    PlayFabDataInitiateFileUploadsResponse{}
+    PFDataInitiateFileUploadsResponse{}
 {
 }
 
 InitiateFileUploadsResponse::InitiateFileUploadsResponse(const InitiateFileUploadsResponse& src) :
-    PlayFabDataInitiateFileUploadsResponse{ src },
+    PFDataInitiateFileUploadsResponse{ src },
     m_entity{ src.m_entity },
     m_uploadDetails{ src.m_uploadDetails }
 {
@@ -662,7 +662,7 @@ InitiateFileUploadsResponse::InitiateFileUploadsResponse(const InitiateFileUploa
 }
 
 InitiateFileUploadsResponse::InitiateFileUploadsResponse(InitiateFileUploadsResponse&& src) :
-    PlayFabDataInitiateFileUploadsResponse{ src },
+    PFDataInitiateFileUploadsResponse{ src },
     m_entity{ std::move(src.m_entity) },
     m_uploadDetails{ std::move(src.m_uploadDetails) }
 {
@@ -670,7 +670,7 @@ InitiateFileUploadsResponse::InitiateFileUploadsResponse(InitiateFileUploadsResp
     uploadDetails = m_uploadDetails.Empty() ? nullptr : m_uploadDetails.Data();
 }
 
-InitiateFileUploadsResponse::InitiateFileUploadsResponse(const PlayFabDataInitiateFileUploadsResponse& src)
+InitiateFileUploadsResponse::InitiateFileUploadsResponse(const PFDataInitiateFileUploadsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -684,16 +684,16 @@ void InitiateFileUploadsResponse::FromJson(const JsonValue& input)
 
 JsonValue InitiateFileUploadsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataInitiateFileUploadsResponse>(*this);
+    return JsonUtils::ToJson<PFDataInitiateFileUploadsResponse>(*this);
 }
 
 SetObject::SetObject() :
-    PlayFabDataSetObject{}
+    PFDataSetObject{}
 {
 }
 
 SetObject::SetObject(const SetObject& src) :
-    PlayFabDataSetObject{ src },
+    PFDataSetObject{ src },
     m_dataObject{ src.m_dataObject },
     m_deleteObject{ src.m_deleteObject },
     m_escapedDataObject{ src.m_escapedDataObject },
@@ -706,7 +706,7 @@ SetObject::SetObject(const SetObject& src) :
 }
 
 SetObject::SetObject(SetObject&& src) :
-    PlayFabDataSetObject{ src },
+    PFDataSetObject{ src },
     m_dataObject{ std::move(src.m_dataObject) },
     m_deleteObject{ std::move(src.m_deleteObject) },
     m_escapedDataObject{ std::move(src.m_escapedDataObject) },
@@ -718,7 +718,7 @@ SetObject::SetObject(SetObject&& src) :
     objectName = m_objectName.empty() ? nullptr : m_objectName.data();
 }
 
-SetObject::SetObject(const PlayFabDataSetObject& src)
+SetObject::SetObject(const PFDataSetObject& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -733,85 +733,41 @@ void SetObject::FromJson(const JsonValue& input)
 
 JsonValue SetObject::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataSetObject>(*this);
-}
-
-SetObjectInfo::SetObjectInfo() :
-    PlayFabDataSetObjectInfo{}
-{
-}
-
-SetObjectInfo::SetObjectInfo(const SetObjectInfo& src) :
-    PlayFabDataSetObjectInfo{ src },
-    m_objectName{ src.m_objectName },
-    m_operationReason{ src.m_operationReason },
-    m_setResult{ src.m_setResult }
-{
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-    operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
-    setResult = m_setResult ? m_setResult.operator->() : nullptr;
-}
-
-SetObjectInfo::SetObjectInfo(SetObjectInfo&& src) :
-    PlayFabDataSetObjectInfo{ src },
-    m_objectName{ std::move(src.m_objectName) },
-    m_operationReason{ std::move(src.m_operationReason) },
-    m_setResult{ std::move(src.m_setResult) }
-{
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-    operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
-    setResult = m_setResult ? m_setResult.operator->() : nullptr;
-}
-
-SetObjectInfo::SetObjectInfo(const PlayFabDataSetObjectInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SetObjectInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ObjectName", m_objectName, objectName);
-    JsonUtils::ObjectGetMember(input, "OperationReason", m_operationReason, operationReason);
-    JsonUtils::ObjectGetMember(input, "SetResult", m_setResult, setResult);
-}
-
-JsonValue SetObjectInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PlayFabDataSetObjectInfo>(*this);
+    return JsonUtils::ToJson<PFDataSetObject>(*this);
 }
 
 SetObjectsRequest::SetObjectsRequest() :
-    PlayFabDataSetObjectsRequest{}
+    PFDataSetObjectsRequest{}
 {
 }
 
 SetObjectsRequest::SetObjectsRequest(const SetObjectsRequest& src) :
-    PlayFabDataSetObjectsRequest{ src },
+    PFDataSetObjectsRequest{ src },
     m_customTags{ src.m_customTags },
     m_entity{ src.m_entity },
     m_expectedProfileVersion{ src.m_expectedProfileVersion },
     m_objects{ src.m_objects }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
     objects = m_objects.Empty() ? nullptr : m_objects.Data();
 }
 
 SetObjectsRequest::SetObjectsRequest(SetObjectsRequest&& src) :
-    PlayFabDataSetObjectsRequest{ src },
+    PFDataSetObjectsRequest{ src },
     m_customTags{ std::move(src.m_customTags) },
     m_entity{ std::move(src.m_entity) },
     m_expectedProfileVersion{ std::move(src.m_expectedProfileVersion) },
     m_objects{ std::move(src.m_objects) }
 {
     customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PlayFabEntityKey const*)&m_entity;
+    entity = (PFEntityKey const*)&m_entity;
     expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
     objects = m_objects.Empty() ? nullptr : m_objects.Data();
 }
 
-SetObjectsRequest::SetObjectsRequest(const PlayFabDataSetObjectsRequest& src)
+SetObjectsRequest::SetObjectsRequest(const PFDataSetObjectsRequest& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -826,29 +782,73 @@ void SetObjectsRequest::FromJson(const JsonValue& input)
 
 JsonValue SetObjectsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataSetObjectsRequest>(*this);
+    return JsonUtils::ToJson<PFDataSetObjectsRequest>(*this);
+}
+
+SetObjectInfo::SetObjectInfo() :
+    PFDataSetObjectInfo{}
+{
+}
+
+SetObjectInfo::SetObjectInfo(const SetObjectInfo& src) :
+    PFDataSetObjectInfo{ src },
+    m_objectName{ src.m_objectName },
+    m_operationReason{ src.m_operationReason },
+    m_setResult{ src.m_setResult }
+{
+    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
+    operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
+    setResult = m_setResult ? m_setResult.operator->() : nullptr;
+}
+
+SetObjectInfo::SetObjectInfo(SetObjectInfo&& src) :
+    PFDataSetObjectInfo{ src },
+    m_objectName{ std::move(src.m_objectName) },
+    m_operationReason{ std::move(src.m_operationReason) },
+    m_setResult{ std::move(src.m_setResult) }
+{
+    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
+    operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
+    setResult = m_setResult ? m_setResult.operator->() : nullptr;
+}
+
+SetObjectInfo::SetObjectInfo(const PFDataSetObjectInfo& src)
+{
+    FromJson(JsonUtils::ToJson(src));
+}
+
+void SetObjectInfo::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "ObjectName", m_objectName, objectName);
+    JsonUtils::ObjectGetMember(input, "OperationReason", m_operationReason, operationReason);
+    JsonUtils::ObjectGetMember(input, "SetResult", m_setResult, setResult);
+}
+
+JsonValue SetObjectInfo::ToJson() const
+{
+    return JsonUtils::ToJson<PFDataSetObjectInfo>(*this);
 }
 
 SetObjectsResponse::SetObjectsResponse() :
-    PlayFabDataSetObjectsResponse{}
+    PFDataSetObjectsResponse{}
 {
 }
 
 SetObjectsResponse::SetObjectsResponse(const SetObjectsResponse& src) :
-    PlayFabDataSetObjectsResponse{ src },
+    PFDataSetObjectsResponse{ src },
     m_setResults{ src.m_setResults }
 {
     setResults = m_setResults.Empty() ? nullptr : m_setResults.Data();
 }
 
 SetObjectsResponse::SetObjectsResponse(SetObjectsResponse&& src) :
-    PlayFabDataSetObjectsResponse{ src },
+    PFDataSetObjectsResponse{ src },
     m_setResults{ std::move(src.m_setResults) }
 {
     setResults = m_setResults.Empty() ? nullptr : m_setResults.Data();
 }
 
-SetObjectsResponse::SetObjectsResponse(const PlayFabDataSetObjectsResponse& src)
+SetObjectsResponse::SetObjectsResponse(const PFDataSetObjectsResponse& src)
 {
     FromJson(JsonUtils::ToJson(src));
 }
@@ -861,7 +861,7 @@ void SetObjectsResponse::FromJson(const JsonValue& input)
 
 JsonValue SetObjectsResponse::ToJson() const
 {
-    return JsonUtils::ToJson<PlayFabDataSetObjectsResponse>(*this);
+    return JsonUtils::ToJson<PFDataSetObjectsResponse>(*this);
 }
 
 } // namespace DataModels
@@ -871,7 +871,7 @@ namespace JsonUtils
 // Serialization methods for public models
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsRequest& input)
+inline JsonValue ToJson<>(const PFDataAbortFileUploadsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -882,7 +882,7 @@ inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsResponse& input)
+inline JsonValue ToJson<>(const PFDataAbortFileUploadsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -891,27 +891,7 @@ inline JsonValue ToJson<>(const PlayFabDataAbortFileUploadsResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataDeleteFilesRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "FileNames", input.fileNames, input.fileNamesCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabDataDeleteFilesResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsRequest& input)
+inline JsonValue ToJson<>(const PFDataDeleteFilesRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -922,7 +902,27 @@ inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataGetFileMetadata& input)
+inline JsonValue ToJson<>(const PFDataDeleteFilesResponse& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMember(output, "FileNames", input.fileNames, input.fileNamesCount);
+    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFDataGetFileMetadata& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Checksum", input.checksum);
@@ -934,7 +934,7 @@ inline JsonValue ToJson<>(const PlayFabDataGetFileMetadata& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsResponse& input)
+inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -944,7 +944,7 @@ inline JsonValue ToJson<>(const PlayFabDataFinalizeFileUploadsResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataGetFilesRequest& input)
+inline JsonValue ToJson<>(const PFDataGetFilesRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -953,7 +953,7 @@ inline JsonValue ToJson<>(const PlayFabDataGetFilesRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataGetFilesResponse& input)
+inline JsonValue ToJson<>(const PFDataGetFilesResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -963,7 +963,7 @@ inline JsonValue ToJson<>(const PlayFabDataGetFilesResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataGetObjectsRequest& input)
+inline JsonValue ToJson<>(const PFDataGetObjectsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -973,7 +973,7 @@ inline JsonValue ToJson<>(const PlayFabDataGetObjectsRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataObjectResult& input)
+inline JsonValue ToJson<>(const PFDataObjectResult& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "DataObject", input.dataObject);
@@ -983,7 +983,7 @@ inline JsonValue ToJson<>(const PlayFabDataObjectResult& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataGetObjectsResponse& input)
+inline JsonValue ToJson<>(const PFDataGetObjectsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -993,16 +993,7 @@ inline JsonValue ToJson<>(const PlayFabDataGetObjectsResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadMetadata& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "FileName", input.fileName);
-    JsonUtils::ObjectAddMember(output, "UploadUrl", input.uploadUrl);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsRequest& input)
+inline JsonValue ToJson<>(const PFDataInitiateFileUploadsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1013,7 +1004,16 @@ inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsResponse& input)
+inline JsonValue ToJson<>(const PFDataInitiateFileUploadMetadata& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "FileName", input.fileName);
+    JsonUtils::ObjectAddMember(output, "UploadUrl", input.uploadUrl);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFDataInitiateFileUploadsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Entity", input.entity);
@@ -1023,7 +1023,7 @@ inline JsonValue ToJson<>(const PlayFabDataInitiateFileUploadsResponse& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataSetObject& input)
+inline JsonValue ToJson<>(const PFDataSetObject& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "DataObject", input.dataObject);
@@ -1034,17 +1034,7 @@ inline JsonValue ToJson<>(const PlayFabDataSetObject& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataSetObjectInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ObjectName", input.objectName);
-    JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
-    JsonUtils::ObjectAddMember(output, "SetResult", input.setResult);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PlayFabDataSetObjectsRequest& input)
+inline JsonValue ToJson<>(const PFDataSetObjectsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
@@ -1055,7 +1045,17 @@ inline JsonValue ToJson<>(const PlayFabDataSetObjectsRequest& input)
 }
 
 template<>
-inline JsonValue ToJson<>(const PlayFabDataSetObjectsResponse& input)
+inline JsonValue ToJson<>(const PFDataSetObjectInfo& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "ObjectName", input.objectName);
+    JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
+    JsonUtils::ObjectAddMember(output, "SetResult", input.setResult);
+    return output;
+}
+
+template<>
+inline JsonValue ToJson<>(const PFDataSetObjectsResponse& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);

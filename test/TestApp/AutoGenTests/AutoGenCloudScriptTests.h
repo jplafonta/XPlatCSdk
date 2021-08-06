@@ -1,10 +1,9 @@
 #pragma once
 
 #include "TestCase.h"
-#include <playfab/PlayFabGlobal.h>
-#include <playfab/PlayFabEntity.h>
-#include <playfab/PlayFabClientDataModels.h>
-#include "../../../code/source/Client/CloudScriptDataModels.h"
+#include <playfab/PFGlobal.h>
+#include <playfab/PFEntity.h>
+#include "../../../code/source/CloudScript/CloudScriptDataModels.h"
 
 namespace PlayFabUnit
 {
@@ -14,6 +13,14 @@ class AutoGenCloudScriptTests : public PlayFabApiTestCase
 private: 
     static void Log(std::stringstream& ss);
     static HRESULT LogHR(HRESULT hr);
+
+
+    void TestCloudScriptAdminGetCloudScriptRevision(TestContext& testContext); 
+    void TestCloudScriptAdminGetCloudScriptVersions(TestContext& testContext); 
+    void TestCloudScriptAdminSetPublishedRevision(TestContext& testContext); 
+    void TestCloudScriptAdminUpdateCloudScript(TestContext& testContext); 
+    void TestCloudScriptClientExecuteCloudScript(TestContext& testContext); 
+    void TestCloudScriptServerExecuteCloudScript(TestContext& testContext); 
     void TestCloudScriptExecuteEntityCloudScript(TestContext& testContext); 
     void TestCloudScriptExecuteFunction(TestContext& testContext); 
     void TestCloudScriptListFunctions(TestContext& testContext); 
@@ -31,42 +38,58 @@ private:
 protected:
     void AddTests();
 
-    static void LogPlayFabCloudScriptExecuteEntityCloudScriptRequest( PlayFab::CloudScriptModels::ExecuteEntityCloudScriptRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptExecuteEntityCloudScriptRequest( PlayFab::CloudScriptModels::ExecuteEntityCloudScriptRequest* request );
-    static HRESULT LogPlayFabCloudScriptExecuteCloudScriptResult( PlayFabCloudScriptExecuteCloudScriptResult* result );
-    static HRESULT ValidatePlayFabCloudScriptExecuteCloudScriptResult( PlayFabCloudScriptExecuteCloudScriptResult* result );
-    static void LogPlayFabCloudScriptExecuteFunctionRequest( PlayFab::CloudScriptModels::ExecuteFunctionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptExecuteFunctionRequest( PlayFab::CloudScriptModels::ExecuteFunctionRequest* request );
-    static HRESULT LogPlayFabCloudScriptExecuteFunctionResult( PlayFabCloudScriptExecuteFunctionResult* result );
-    static HRESULT ValidatePlayFabCloudScriptExecuteFunctionResult( PlayFabCloudScriptExecuteFunctionResult* result );
-    static void LogPlayFabCloudScriptListFunctionsRequest( PlayFab::CloudScriptModels::ListFunctionsRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptListFunctionsRequest( PlayFab::CloudScriptModels::ListFunctionsRequest* request );
-    static HRESULT LogPlayFabCloudScriptListFunctionsResult( PlayFabCloudScriptListFunctionsResult* result );
-    static HRESULT ValidatePlayFabCloudScriptListFunctionsResult( PlayFabCloudScriptListFunctionsResult* result );
-    static HRESULT LogPlayFabCloudScriptListHttpFunctionsResult( PlayFabCloudScriptListHttpFunctionsResult* result );
-    static HRESULT ValidatePlayFabCloudScriptListHttpFunctionsResult( PlayFabCloudScriptListHttpFunctionsResult* result );
-    static HRESULT LogPlayFabCloudScriptListQueuedFunctionsResult( PlayFabCloudScriptListQueuedFunctionsResult* result );
-    static HRESULT ValidatePlayFabCloudScriptListQueuedFunctionsResult( PlayFabCloudScriptListQueuedFunctionsResult* result );
-    static void LogPlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptPostFunctionResultForEntityTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest* request );
-    static void LogPlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest( PlayFab::CloudScriptModels::PostFunctionResultForFunctionExecutionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptPostFunctionResultForFunctionExecutionRequest( PlayFab::CloudScriptModels::PostFunctionResultForFunctionExecutionRequest* request );
-    static void LogPlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptPostFunctionResultForPlayerTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest* request );
-    static void LogPlayFabCloudScriptPostFunctionResultForScheduledTaskRequest( PlayFab::CloudScriptModels::PostFunctionResultForScheduledTaskRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptPostFunctionResultForScheduledTaskRequest( PlayFab::CloudScriptModels::PostFunctionResultForScheduledTaskRequest* request );
-    static void LogPlayFabCloudScriptRegisterHttpFunctionRequest( PlayFab::CloudScriptModels::RegisterHttpFunctionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptRegisterHttpFunctionRequest( PlayFab::CloudScriptModels::RegisterHttpFunctionRequest* request );
-    static void LogPlayFabCloudScriptRegisterQueuedFunctionRequest( PlayFab::CloudScriptModels::RegisterQueuedFunctionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptRegisterQueuedFunctionRequest( PlayFab::CloudScriptModels::RegisterQueuedFunctionRequest* request );
-    static void LogPlayFabCloudScriptUnregisterFunctionRequest( PlayFab::CloudScriptModels::UnregisterFunctionRequest* request, const char* testName );
-    static void FillPlayFabCloudScriptUnregisterFunctionRequest( PlayFab::CloudScriptModels::UnregisterFunctionRequest* request );
 
+    static void LogGetCloudScriptRevisionRequest( PlayFab::CloudScriptModels::GetCloudScriptRevisionRequest* request, const char* testName );
+    static void FillGetCloudScriptRevisionRequest( PlayFab::CloudScriptModels::GetCloudScriptRevisionRequest* request );
+    static HRESULT LogPFCloudScriptGetCloudScriptRevisionResult( PFCloudScriptGetCloudScriptRevisionResult* result );
+    static HRESULT ValidatePFCloudScriptGetCloudScriptRevisionResult( PFCloudScriptGetCloudScriptRevisionResult* result );
+    static HRESULT LogPFCloudScriptGetCloudScriptVersionsResult( PFCloudScriptGetCloudScriptVersionsResult* result );
+    static HRESULT ValidatePFCloudScriptGetCloudScriptVersionsResult( PFCloudScriptGetCloudScriptVersionsResult* result );
+    static void LogSetPublishedRevisionRequest( PlayFab::CloudScriptModels::SetPublishedRevisionRequest* request, const char* testName );
+    static void FillSetPublishedRevisionRequest( PlayFab::CloudScriptModels::SetPublishedRevisionRequest* request );
+    static void LogUpdateCloudScriptRequest( PlayFab::CloudScriptModels::UpdateCloudScriptRequest* request, const char* testName );
+    static void FillUpdateCloudScriptRequest( PlayFab::CloudScriptModels::UpdateCloudScriptRequest* request );
+    static HRESULT LogPFCloudScriptUpdateCloudScriptResult( PFCloudScriptUpdateCloudScriptResult* result );
+    static HRESULT ValidatePFCloudScriptUpdateCloudScriptResult( PFCloudScriptUpdateCloudScriptResult* result );
+    static void LogExecuteCloudScriptRequest( PlayFab::CloudScriptModels::ExecuteCloudScriptRequest* request, const char* testName );
+    static void FillExecuteCloudScriptRequest( PlayFab::CloudScriptModels::ExecuteCloudScriptRequest* request );
+    static HRESULT LogPFExecuteCloudScriptResult( PFExecuteCloudScriptResult* result );
+    static HRESULT ValidatePFExecuteCloudScriptResult( PFExecuteCloudScriptResult* result );
+    static void LogExecuteCloudScriptServerRequest( PlayFab::CloudScriptModels::ExecuteCloudScriptServerRequest* request, const char* testName );
+    static void FillExecuteCloudScriptServerRequest( PlayFab::CloudScriptModels::ExecuteCloudScriptServerRequest* request );
+    static void LogExecuteEntityCloudScriptRequest( PlayFab::CloudScriptModels::ExecuteEntityCloudScriptRequest* request, const char* testName );
+    static void FillExecuteEntityCloudScriptRequest( PlayFab::CloudScriptModels::ExecuteEntityCloudScriptRequest* request );
+    static void LogExecuteFunctionRequest( PlayFab::CloudScriptModels::ExecuteFunctionRequest* request, const char* testName );
+    static void FillExecuteFunctionRequest( PlayFab::CloudScriptModels::ExecuteFunctionRequest* request );
+    static HRESULT LogPFCloudScriptExecuteFunctionResult( PFCloudScriptExecuteFunctionResult* result );
+    static HRESULT ValidatePFCloudScriptExecuteFunctionResult( PFCloudScriptExecuteFunctionResult* result );
+    static void LogListFunctionsRequest( PlayFab::CloudScriptModels::ListFunctionsRequest* request, const char* testName );
+    static void FillListFunctionsRequest( PlayFab::CloudScriptModels::ListFunctionsRequest* request );
+    static HRESULT LogPFCloudScriptListFunctionsResult( PFCloudScriptListFunctionsResult* result );
+    static HRESULT ValidatePFCloudScriptListFunctionsResult( PFCloudScriptListFunctionsResult* result );
+    static HRESULT LogPFCloudScriptListHttpFunctionsResult( PFCloudScriptListHttpFunctionsResult* result );
+    static HRESULT ValidatePFCloudScriptListHttpFunctionsResult( PFCloudScriptListHttpFunctionsResult* result );
+    static HRESULT LogPFCloudScriptListQueuedFunctionsResult( PFCloudScriptListQueuedFunctionsResult* result );
+    static HRESULT ValidatePFCloudScriptListQueuedFunctionsResult( PFCloudScriptListQueuedFunctionsResult* result );
+    static void LogPostFunctionResultForEntityTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest* request, const char* testName );
+    static void FillPostFunctionResultForEntityTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForEntityTriggeredActionRequest* request );
+    static void LogPostFunctionResultForFunctionExecutionRequest( PlayFab::CloudScriptModels::PostFunctionResultForFunctionExecutionRequest* request, const char* testName );
+    static void FillPostFunctionResultForFunctionExecutionRequest( PlayFab::CloudScriptModels::PostFunctionResultForFunctionExecutionRequest* request );
+    static void LogPostFunctionResultForPlayerTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest* request, const char* testName );
+    static void FillPostFunctionResultForPlayerTriggeredActionRequest( PlayFab::CloudScriptModels::PostFunctionResultForPlayerTriggeredActionRequest* request );
+    static void LogPostFunctionResultForScheduledTaskRequest( PlayFab::CloudScriptModels::PostFunctionResultForScheduledTaskRequest* request, const char* testName );
+    static void FillPostFunctionResultForScheduledTaskRequest( PlayFab::CloudScriptModels::PostFunctionResultForScheduledTaskRequest* request );
+    static void LogRegisterHttpFunctionRequest( PlayFab::CloudScriptModels::RegisterHttpFunctionRequest* request, const char* testName );
+    static void FillRegisterHttpFunctionRequest( PlayFab::CloudScriptModels::RegisterHttpFunctionRequest* request );
+    static void LogRegisterQueuedFunctionRequest( PlayFab::CloudScriptModels::RegisterQueuedFunctionRequest* request, const char* testName );
+    static void FillRegisterQueuedFunctionRequest( PlayFab::CloudScriptModels::RegisterQueuedFunctionRequest* request );
+    static void LogUnregisterFunctionRequest( PlayFab::CloudScriptModels::UnregisterFunctionRequest* request, const char* testName );
+    static void FillUnregisterFunctionRequest( PlayFab::CloudScriptModels::UnregisterFunctionRequest* request );
 
 public:
-    PlayFabStateHandle stateHandle{ nullptr };
-    PlayFabEntityHandle entityHandle{ nullptr };
-    PlayFabGetPlayerCombinedInfoResultPayload const* playerCombinedInfo{ nullptr };
+    PFStateHandle stateHandle{ nullptr };
+    PFEntityHandle entityHandle{ nullptr };
+    PFGetPlayerCombinedInfoResultPayload const* playerCombinedInfo{ nullptr };
 
     void ClassSetUp() override;
     void ClassTearDown() override;

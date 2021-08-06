@@ -1,0 +1,232 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
+#if !defined(__cplusplus)
+#error C++11 required
+#endif
+
+#pragma once
+
+#include <playfab/PFGameServerDataModels.h>
+#include <playfab/PFGlobal.h>
+#include <playfab/PFEntity.h>
+
+extern "C"
+{
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Adds the game server executable specified (previously uploaded - see GetServerBuildUploadUrl) to
+/// the set of those a client is permitted to request in a call to StartGame
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFAdminGetServerBuildInfoAsync, PFAdminListServerBuildsAsync, PFClientMatchmakeAsync, PFAdminModifyServerBuildAsync,
+/// PFAdminRemoveServerBuildAsync, PFMatchmakerStartGameAsync
+/// </remarks>
+HRESULT PFGameServerAdminAddServerBuildAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFGameServerAddServerBuildRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFGameServerAdminAddServerBuildAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFGameServerAdminAddServerBuildGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFGameServerAddServerBuildResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Retrieves the build details for the specified game server executable
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFAdminAddServerBuildAsync, PFAdminListServerBuildsAsync, PFAdminModifyServerBuildAsync,
+/// PFAdminRemoveServerBuildAsync
+/// </remarks>
+HRESULT PFGameServerAdminGetServerBuildInfoAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFGameServerGetServerBuildInfoRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFGameServerAdminGetServerBuildInfoAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFGameServerAdminGetServerBuildInfoGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFGameServerGetServerBuildInfoResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Retrieves the pre-authorized URL for uploading a game server package containing a build (does not
+/// enable the build for use - see AddServerBuild)
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFAdminAddServerBuildAsync, PFAdminListServerBuildsAsync, PFAdminModifyServerBuildAsync,
+/// PFAdminRemoveServerBuildAsync
+/// </remarks>
+HRESULT PFGameServerAdminGetServerBuildUploadUrlAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFGameServerGetServerBuildUploadURLRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetServerBuildUploadUrl call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGameServerAdminGetServerBuildUploadUrlGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFGameServerAdminGetServerBuildUploadUrlAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// result is a pointer within buffer and does not need to be freed separately.
+/// </remarks>
+HRESULT PFGameServerAdminGetServerBuildUploadUrlGetResult(
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGameServerGetServerBuildUploadURLResult** result,
+    _Out_opt_ size_t* bufferUsed
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Retrieves the build details for all game server executables which are currently defined for the title
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFAdminAddServerBuildAsync, PFAdminGetServerBuildInfoAsync, PFClientMatchmakeAsync, PFAdminModifyServerBuildAsync,
+/// PFAdminRemoveServerBuildAsync, PFMatchmakerStartGameAsync
+/// </remarks>
+HRESULT PFGameServerAdminListServerBuildsAsync(
+    _In_ PFStateHandle stateHandle,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFGameServerAdminListServerBuildsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFGameServerAdminListServerBuildsGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFGameServerListBuildsResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Updates the build details for the specified game server executable
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFAdminAddServerBuildAsync, PFAdminGetServerBuildInfoAsync, PFAdminListServerBuildsAsync,
+/// PFAdminRemoveServerBuildAsync
+/// </remarks>
+HRESULT PFGameServerAdminModifyServerBuildAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFGameServerModifyServerBuildRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFGameServerAdminModifyServerBuildAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="result">Pointer to the result object.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
+/// PFResultCloseHandle to release the result object.
+/// </remarks>
+HRESULT PFGameServerAdminModifyServerBuildGetResult(
+    _Inout_ XAsyncBlock* async,
+    _Out_ PFResultHandle* resultHandle,
+    _Outptr_ PFGameServerModifyServerBuildResult** result
+) noexcept;
+#endif
+
+#if HC_PLATFORM != HC_PLATFORM_GDK
+/// <summary>
+/// Removes the game server executable specified from the set of those a client is permitted to request
+/// in a call to StartGame
+/// </summary>
+/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
+/// <param name="request">Populated request object.</param>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// See also PFAdminAddServerBuildAsync, PFAdminGetServerBuildInfoAsync, PFAdminListServerBuildsAsync,
+/// PFClientMatchmakeAsync, PFAdminModifyServerBuildAsync, PFMatchmakerStartGameAsync
+/// </remarks>
+HRESULT PFGameServerAdminRemoveServerBuildAsync(
+    _In_ PFStateHandle stateHandle,
+    _In_ const PFGameServerRemoveServerBuildRequest* request,
+    _Inout_ XAsyncBlock* async
+) noexcept;
+#endif
+
+
+}
