@@ -36,9 +36,12 @@ extern "C"
 /// for players in the title may be retrieved using the URL specified in the version information (GetPlayerStatisticVersions).
 /// The AggregationMethod determines what action is taken when a new statistic value is submitted - always
 /// update with the new value (Last), use the highest of the old and new values (Max), use the smallest
-/// (Min), or add them together (Sum). See also PFAdminGetPlayerStatisticDefinitionsAsync, PFClientGetPlayerStatisticsAsync,
-/// PFServerGetPlayerStatisticsAsync, PFAdminGetPlayerStatisticVersionsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFClientUpdatePlayerStatisticsAsync, PFServerUpdatePlayerStatisticsAsync
+/// (Min), or add them together (Sum). See also AdminGetPlayerStatisticDefinitionsAsync, ClientGetPlayerStatisticsAsync,
+/// ServerGetPlayerStatisticsAsync, AdminGetPlayerStatisticVersionsAsync, AdminUpdatePlayerStatisticDefinitionAsync,
+/// ClientUpdatePlayerStatisticsAsync, ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionAsync(
     _In_ PFStateHandle stateHandle,
@@ -75,6 +78,8 @@ HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResult(
 /// <remarks>
 /// Gets the download URL for the requested report data (in CSV form). The reports available through
 /// this API call are those available in the Game Manager, in the Analytics->Reports tab.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetDataReportGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetDataReportAsync(
     _In_ PFStateHandle stateHandle,
@@ -123,8 +128,11 @@ HRESULT PFPlayerDataManagementAdminGetDataReportGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFClientGetPlayerStatisticsAsync, PFServerGetPlayerStatisticsAsync,
-/// PFAdminUpdatePlayerStatisticDefinitionAsync, PFClientUpdatePlayerStatisticsAsync, PFServerUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, ClientGetPlayerStatisticsAsync, ServerGetPlayerStatisticsAsync,
+/// AdminUpdatePlayerStatisticDefinitionAsync, ClientUpdatePlayerStatisticsAsync, ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsAsync(
     _In_ PFStateHandle stateHandle,
@@ -158,9 +166,12 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFAdminGetPlayerStatisticDefinitionsAsync,
-/// PFClientGetPlayerStatisticsAsync, PFServerGetPlayerStatisticsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFClientUpdatePlayerStatisticsAsync, PFServerUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, AdminGetPlayerStatisticDefinitionsAsync, ClientGetPlayerStatisticsAsync,
+/// ServerGetPlayerStatisticsAsync, AdminUpdatePlayerStatisticDefinitionAsync, ClientUpdatePlayerStatisticsAsync,
+/// ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsAsync(
     _In_ PFStateHandle stateHandle,
@@ -197,8 +208,10 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFAdminGetUserInternalDataAsync, PFAdminGetUserReadOnlyDataAsync,
-/// PFAdminUpdateUserDataAsync, PFAdminUpdateUserInternalDataAsync, PFAdminUpdateUserReadOnlyDataAsync
+/// data will be returned. See also AdminGetUserInternalDataAsync, AdminGetUserReadOnlyDataAsync, AdminUpdateUserDataAsync,
+/// AdminUpdateUserInternalDataAsync, AdminUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetUserDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -235,8 +248,11 @@ HRESULT PFPlayerDataManagementAdminGetUserDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFAdminGetUserDataAsync, PFAdminGetUserReadOnlyDataAsync, PFAdminUpdateUserDataAsync,
-/// PFAdminUpdateUserInternalDataAsync, PFAdminUpdateUserReadOnlyDataAsync
+/// data will be returned. See also AdminGetUserDataAsync, AdminGetUserReadOnlyDataAsync, AdminUpdateUserDataAsync,
+/// AdminUpdateUserInternalDataAsync, AdminUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetUserInternalDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -273,8 +289,11 @@ HRESULT PFPlayerDataManagementAdminGetUserInternalDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFAdminGetUserPublisherInternalDataAsync, PFAdminGetUserPublisherReadOnlyDataAsync,
-/// PFAdminUpdateUserPublisherDataAsync, PFAdminUpdateUserPublisherInternalDataAsync, PFAdminUpdateUserPublisherReadOnlyDataAsync
+/// data will be returned. See also AdminGetUserPublisherInternalDataAsync, AdminGetUserPublisherReadOnlyDataAsync,
+/// AdminUpdateUserPublisherDataAsync, AdminUpdateUserPublisherInternalDataAsync, AdminUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetUserPublisherDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -311,8 +330,11 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFAdminGetUserPublisherDataAsync, PFAdminGetUserPublisherReadOnlyDataAsync,
-/// PFAdminUpdateUserPublisherDataAsync, PFAdminUpdateUserPublisherInternalDataAsync, PFAdminUpdateUserPublisherReadOnlyDataAsync
+/// data will be returned. See also AdminGetUserPublisherDataAsync, AdminGetUserPublisherReadOnlyDataAsync,
+/// AdminUpdateUserPublisherDataAsync, AdminUpdateUserPublisherInternalDataAsync, AdminUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -349,8 +371,11 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFAdminGetUserPublisherDataAsync, PFAdminGetUserPublisherInternalDataAsync,
-/// PFAdminUpdateUserPublisherDataAsync, PFAdminUpdateUserPublisherInternalDataAsync, PFAdminUpdateUserPublisherReadOnlyDataAsync
+/// data will be returned. See also AdminGetUserPublisherDataAsync, AdminGetUserPublisherInternalDataAsync,
+/// AdminUpdateUserPublisherDataAsync, AdminUpdateUserPublisherInternalDataAsync, AdminUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -387,8 +412,11 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFAdminGetUserDataAsync, PFAdminGetUserInternalDataAsync, PFAdminUpdateUserDataAsync,
-/// PFAdminUpdateUserInternalDataAsync, PFAdminUpdateUserReadOnlyDataAsync
+/// data will be returned. See also AdminGetUserDataAsync, AdminGetUserInternalDataAsync, AdminUpdateUserDataAsync,
+/// AdminUpdateUserInternalDataAsync, AdminUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminGetUserReadOnlyDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -433,9 +461,12 @@ HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataGetResult(
 /// version can still be written to for up a short, pre-defined period (currently 10 seconds), to prevent
 /// issues with levels completing around the time of the reset. Also, once reset, the historical statistics
 /// for players in the title may be retrieved using the URL specified in the version information (GetPlayerStatisticVersions).
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFAdminGetPlayerStatisticDefinitionsAsync, PFClientGetPlayerStatisticsAsync,
-/// PFServerGetPlayerStatisticsAsync, PFAdminGetPlayerStatisticVersionsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFClientUpdatePlayerStatisticsAsync, PFServerUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, AdminGetPlayerStatisticDefinitionsAsync, ClientGetPlayerStatisticsAsync,
+/// ServerGetPlayerStatisticsAsync, AdminGetPlayerStatisticVersionsAsync, AdminUpdatePlayerStatisticDefinitionAsync,
+/// ClientUpdatePlayerStatisticsAsync, ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionAsync(
     _In_ PFStateHandle stateHandle,
@@ -521,6 +552,8 @@ HRESULT PFPlayerDataManagementAdminRefundPurchaseGetResult(
 /// <remarks>
 /// Note that this action cannot be un-done. All statistics for this user will be deleted, removing the
 /// user from all leaderboards for the game.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminResetUserStatisticsAsync(
     _In_ PFStateHandle stateHandle,
@@ -538,7 +571,8 @@ HRESULT PFPlayerDataManagementAdminResetUserStatisticsAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlayerDataManagementAdminResolvePurchaseDisputeGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlayerDataManagementAdminResolvePurchaseDisputeGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminResolvePurchaseDisputeAsync(
     _In_ PFStateHandle stateHandle,
@@ -600,9 +634,12 @@ HRESULT PFPlayerDataManagementAdminResolvePurchaseDisputeGetResult(
 /// for players in the title may be retrieved using the URL specified in the version information (GetPlayerStatisticVersions).
 /// The AggregationMethod determines what action is taken when a new statistic value is submitted - always
 /// update with the new value (Last), use the highest of the old and new values (Max), use the smallest
-/// (Min), or add them together (Sum). See also PFAdminCreatePlayerStatisticDefinitionAsync, PFAdminGetPlayerStatisticDefinitionsAsync,
-/// PFClientGetPlayerStatisticsAsync, PFServerGetPlayerStatisticsAsync, PFAdminGetPlayerStatisticVersionsAsync,
-/// PFClientUpdatePlayerStatisticsAsync, PFServerUpdatePlayerStatisticsAsync
+/// (Min), or add them together (Sum). See also AdminCreatePlayerStatisticDefinitionAsync, AdminGetPlayerStatisticDefinitionsAsync,
+/// ClientGetPlayerStatisticsAsync, ServerGetPlayerStatisticsAsync, AdminGetPlayerStatisticVersionsAsync,
+/// ClientUpdatePlayerStatisticsAsync, ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionAsync(
     _In_ PFStateHandle stateHandle,
@@ -640,8 +677,10 @@ HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, while keys with null values will be removed. No other key-value pairs will
-/// be changed apart from those specified in the call. See also PFAdminGetUserDataAsync, PFAdminGetUserInternalDataAsync,
-/// PFAdminGetUserReadOnlyDataAsync, PFAdminUpdateUserInternalDataAsync, PFAdminUpdateUserReadOnlyDataAsync
+/// be changed apart from those specified in the call. See also AdminGetUserDataAsync, AdminGetUserInternalDataAsync,
+/// AdminGetUserReadOnlyDataAsync, AdminUpdateUserInternalDataAsync, AdminUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdateUserDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdateUserDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -673,8 +712,11 @@ HRESULT PFPlayerDataManagementAdminUpdateUserDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFAdminGetUserDataAsync, PFAdminGetUserInternalDataAsync,
-/// PFAdminGetUserReadOnlyDataAsync, PFAdminUpdateUserDataAsync, PFAdminUpdateUserReadOnlyDataAsync
+/// changed apart from those specified in the call. See also AdminGetUserDataAsync, AdminGetUserInternalDataAsync,
+/// AdminGetUserReadOnlyDataAsync, AdminUpdateUserDataAsync, AdminUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdateUserInternalDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdateUserInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -708,8 +750,11 @@ HRESULT PFPlayerDataManagementAdminUpdateUserInternalDataGetResult(
 /// their values overwritten, while keys with null values will be removed. No other key-value pairs will
 /// be changed apart from those specified in the call. Note that in the example call provided, title-specific
 /// data is used, as there may be a need to share this across titles (in sequels, for example). See also
-/// PFAdminGetUserPublisherDataAsync, PFAdminGetUserPublisherInternalDataAsync, PFAdminGetUserPublisherReadOnlyDataAsync,
-/// PFAdminUpdateUserPublisherInternalDataAsync, PFAdminUpdateUserPublisherReadOnlyDataAsync
+/// AdminGetUserPublisherDataAsync, AdminGetUserPublisherInternalDataAsync, AdminGetUserPublisherReadOnlyDataAsync,
+/// AdminUpdateUserPublisherInternalDataAsync, AdminUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdateUserPublisherDataGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdateUserPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -743,8 +788,11 @@ HRESULT PFPlayerDataManagementAdminUpdateUserPublisherDataGetResult(
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
 /// changed apart from those specified in the call. Note that in the example call provided, title-specific
 /// data is used, as there may be a need to share this across titles (in sequels, for example). See also
-/// PFAdminGetUserPublisherDataAsync, PFAdminGetUserPublisherInternalDataAsync, PFAdminGetUserPublisherReadOnlyDataAsync,
-/// PFAdminUpdateUserPublisherDataAsync, PFAdminUpdateUserPublisherReadOnlyDataAsync
+/// AdminGetUserPublisherDataAsync, AdminGetUserPublisherInternalDataAsync, AdminGetUserPublisherReadOnlyDataAsync,
+/// AdminUpdateUserPublisherDataAsync, AdminUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdateUserPublisherInternalDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdateUserPublisherInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -778,8 +826,11 @@ HRESULT PFPlayerDataManagementAdminUpdateUserPublisherInternalDataGetResult(
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
 /// changed apart from those specified in the call. Note that in the example call provided, title-specific
 /// data is used, as there may be a need to share this across titles (in sequels, for example). See also
-/// PFAdminGetUserPublisherDataAsync, PFAdminGetUserPublisherInternalDataAsync, PFAdminGetUserPublisherReadOnlyDataAsync,
-/// PFAdminUpdateUserPublisherDataAsync, PFAdminUpdateUserPublisherInternalDataAsync
+/// AdminGetUserPublisherDataAsync, AdminGetUserPublisherInternalDataAsync, AdminGetUserPublisherReadOnlyDataAsync,
+/// AdminUpdateUserPublisherDataAsync, AdminUpdateUserPublisherInternalDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdateUserPublisherReadOnlyDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdateUserPublisherReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -811,8 +862,11 @@ HRESULT PFPlayerDataManagementAdminUpdateUserPublisherReadOnlyDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFAdminGetUserDataAsync, PFAdminGetUserInternalDataAsync,
-/// PFAdminGetUserReadOnlyDataAsync, PFAdminUpdateUserDataAsync, PFAdminUpdateUserInternalDataAsync
+/// changed apart from those specified in the call. See also AdminGetUserDataAsync, AdminGetUserInternalDataAsync,
+/// AdminGetUserReadOnlyDataAsync, AdminUpdateUserDataAsync, AdminUpdateUserInternalDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementAdminUpdateUserReadOnlyDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdateUserReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -841,8 +895,11 @@ HRESULT PFPlayerDataManagementAdminUpdateUserReadOnlyDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetFriendLeaderboardAroundPlayerAsync, PFClientGetLeaderboardAsync, PFClientGetLeaderboardAroundPlayerAsync,
-/// PFClientGetUserStatisticsAsync
+/// See also ClientGetFriendLeaderboardAroundPlayerAsync, ClientGetLeaderboardAsync, ClientGetLeaderboardAroundPlayerAsync,
+/// ClientGetUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetFriendLeaderboardGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAsync(
     _In_ PFEntityHandle entityHandle,
@@ -876,8 +933,11 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetFriendLeaderboardAsync, PFClientGetLeaderboardAsync, PFClientGetLeaderboardAroundPlayerAsync,
-/// PFClientGetUserStatisticsAsync
+/// See also ClientGetFriendLeaderboardAsync, ClientGetLeaderboardAsync, ClientGetLeaderboardAroundPlayerAsync,
+/// ClientGetUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -911,7 +971,10 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetFriendLeaderboardAsync, PFClientGetLeaderboardAroundPlayerAsync, PFClientGetUserStatisticsAsync
+/// See also ClientGetFriendLeaderboardAsync, ClientGetLeaderboardAroundPlayerAsync, ClientGetUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetLeaderboardGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetLeaderboardAsync(
     _In_ PFEntityHandle entityHandle,
@@ -945,7 +1008,10 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetFriendLeaderboardAsync, PFClientGetLeaderboardAsync, PFClientGetUserStatisticsAsync
+/// See also ClientGetFriendLeaderboardAsync, ClientGetLeaderboardAsync, ClientGetUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -979,8 +1045,11 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFClientGetPlayerStatisticVersionsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFClientUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, ClientGetPlayerStatisticVersionsAsync, AdminUpdatePlayerStatisticDefinitionAsync,
+/// ClientUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetPlayerStatisticsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1013,8 +1082,11 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFClientGetPlayerStatisticsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFClientUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, ClientGetPlayerStatisticsAsync, AdminUpdatePlayerStatisticDefinitionAsync,
+/// ClientUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1051,7 +1123,9 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(
 /// counter is incremented. If the Version parameter is provided, then this call will only return data
 /// if the current version on the system is greater than the value provided. If the Keys parameter is
 /// provided, the data object returned will only contain the data specific to the indicated Keys. Otherwise,
-/// the full set of custom user data will be returned. See also PFClientGetUserReadOnlyDataAsync, PFClientUpdateUserDataAsync
+/// the full set of custom user data will be returned. See also ClientGetUserReadOnlyDataAsync, ClientUpdateUserDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetUserDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1086,7 +1160,10 @@ HRESULT PFPlayerDataManagementClientGetUserDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFClientGetUserPublisherReadOnlyDataAsync, PFClientUpdateUserPublisherDataAsync
+/// data will be returned. See also ClientGetUserPublisherReadOnlyDataAsync, ClientUpdateUserPublisherDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetUserPublisherDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserPublisherDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1121,7 +1198,10 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFClientGetUserPublisherDataAsync, PFClientUpdateUserPublisherDataAsync
+/// data will be returned. See also ClientGetUserPublisherDataAsync, ClientUpdateUserPublisherDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1158,7 +1238,10 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(
 /// counter is incremented. If the Version parameter is provided, then this call will only return data
 /// if the current version on the system is greater than the value provided. If the Keys parameter is
 /// provided, the data object returned will only contain the data specific to the indicated Keys. Otherwise,
-/// the full set of custom user data will be returned. See also PFClientGetUserDataAsync, PFClientUpdateUserDataAsync
+/// the full set of custom user data will be returned. See also ClientGetUserDataAsync, ClientUpdateUserDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientGetUserReadOnlyDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1200,8 +1283,10 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(
 /// Note that if the statistic is intended to have a reset period, the UpdatePlayerStatisticDefinition
 /// API call can be used to define that reset period. Once a statistic has been versioned (reset), the
 /// now-previous version can still be written to for up a short, pre-defined period (currently 10 seconds),
-/// using the Version parameter in this call. See also PFAdminCreatePlayerStatisticDefinitionAsync, PFClientGetPlayerStatisticsAsync,
-/// PFAdminUpdatePlayerStatisticDefinitionAsync
+/// using the Version parameter in this call. See also AdminCreatePlayerStatisticDefinitionAsync, ClientGetPlayerStatisticsAsync,
+/// AdminUpdatePlayerStatisticDefinitionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1222,7 +1307,10 @@ HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
 /// the user. In updating the custom data object, keys which already exist in the object will have their
 /// values overwritten, while keys with null values will be removed. New keys will be added, with the
 /// given values. No other key-value pairs will be changed apart from those specified in the call. See
-/// also PFClientGetUserDataAsync, PFClientGetUserReadOnlyDataAsync
+/// also ClientGetUserDataAsync, ClientGetUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientUpdateUserDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientUpdateUserDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1254,7 +1342,10 @@ HRESULT PFPlayerDataManagementClientUpdateUserDataGetResult(
 /// the user. In updating the custom data object, keys which already exist in the object will have their
 /// values overwritten, while keys with null values will be removed. New keys will be added, with the
 /// given values. No other key-value pairs will be changed apart from those specified in the call. See
-/// also PFClientGetUserPublisherDataAsync, PFClientGetUserPublisherReadOnlyDataAsync
+/// also ClientGetUserPublisherDataAsync, ClientGetUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementClientUpdateUserPublisherDataGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientUpdateUserPublisherDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1282,7 +1373,10 @@ HRESULT PFPlayerDataManagementClientUpdateUserPublisherDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetLeaderboardAroundCurrentUserAsync, PFServerGetLeaderboardAroundUserAsync, PFServerGetUserStatisticsAsync
+/// See also ClientGetLeaderboardAroundCurrentUserAsync, ServerGetLeaderboardAroundUserAsync, ServerGetUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetFriendLeaderboardGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetFriendLeaderboardAsync(
     _In_ PFStateHandle stateHandle,
@@ -1316,7 +1410,10 @@ HRESULT PFPlayerDataManagementServerGetFriendLeaderboardGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetLeaderboardAroundUserAsync, PFServerGetUserStatisticsAsync, PFServerUpdateUserStatisticsAsync
+/// See also ServerGetLeaderboardAroundUserAsync, ServerGetUserStatisticsAsync, ServerUpdateUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetLeaderboardGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetLeaderboardAsync(
     _In_ PFStateHandle stateHandle,
@@ -1349,7 +1446,10 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetLeaderboardAsync, PFServerGetUserStatisticsAsync, PFServerUpdateUserStatisticsAsync
+/// See also ServerGetLeaderboardAsync, ServerGetUserStatisticsAsync, ServerUpdateUserStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetLeaderboardAroundUserGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -1383,7 +1483,8 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoAsync(
     _In_ PFStateHandle stateHandle,
@@ -1416,8 +1517,11 @@ HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFServerGetPlayerStatisticVersionsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFServerUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, ServerGetPlayerStatisticVersionsAsync, AdminUpdatePlayerStatisticDefinitionAsync,
+/// ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetPlayerStatisticsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetPlayerStatisticsAsync(
     _In_ PFStateHandle stateHandle,
@@ -1450,8 +1554,11 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreatePlayerStatisticDefinitionAsync, PFServerGetPlayerStatisticsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync,
-/// PFServerUpdatePlayerStatisticsAsync
+/// See also AdminCreatePlayerStatisticDefinitionAsync, ServerGetPlayerStatisticsAsync, AdminUpdatePlayerStatisticDefinitionAsync,
+/// ServerUpdatePlayerStatisticsAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsAsync(
     _In_ PFStateHandle stateHandle,
@@ -1486,8 +1593,10 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserInternalDataAsync, PFServerGetUserReadOnlyDataAsync,
-/// PFServerUpdateUserDataAsync, PFServerUpdateUserInternalDataAsync, PFServerUpdateUserReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserInternalDataAsync, ServerGetUserReadOnlyDataAsync, ServerUpdateUserDataAsync,
+/// ServerUpdateUserInternalDataAsync, ServerUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetUserDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1522,8 +1631,11 @@ HRESULT PFPlayerDataManagementServerGetUserDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserDataAsync, PFServerGetUserReadOnlyDataAsync, PFServerUpdateUserDataAsync,
-/// PFServerUpdateUserInternalDataAsync, PFServerUpdateUserReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserDataAsync, ServerGetUserReadOnlyDataAsync, ServerUpdateUserDataAsync,
+/// ServerUpdateUserInternalDataAsync, ServerUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetUserInternalDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1558,8 +1670,11 @@ HRESULT PFPlayerDataManagementServerGetUserInternalDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserPublisherInternalDataAsync, PFServerGetUserPublisherReadOnlyDataAsync,
-/// PFServerUpdateUserPublisherDataAsync, PFServerUpdateUserPublisherInternalDataAsync, PFServerUpdateUserPublisherReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserPublisherInternalDataAsync, ServerGetUserPublisherReadOnlyDataAsync,
+/// ServerUpdateUserPublisherDataAsync, ServerUpdateUserPublisherInternalDataAsync, ServerUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetUserPublisherDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1594,8 +1709,11 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserPublisherDataAsync, PFServerGetUserPublisherReadOnlyDataAsync,
-/// PFServerUpdateUserPublisherDataAsync, PFServerUpdateUserPublisherInternalDataAsync, PFServerUpdateUserPublisherReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserPublisherDataAsync, ServerGetUserPublisherReadOnlyDataAsync,
+/// ServerUpdateUserPublisherDataAsync, ServerUpdateUserPublisherInternalDataAsync, ServerUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetUserPublisherInternalDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1630,8 +1748,11 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserPublisherDataAsync, PFServerGetUserPublisherInternalDataAsync,
-/// PFServerUpdateUserPublisherDataAsync, PFServerUpdateUserPublisherInternalDataAsync, PFServerUpdateUserPublisherReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserPublisherDataAsync, ServerGetUserPublisherInternalDataAsync,
+/// ServerUpdateUserPublisherDataAsync, ServerUpdateUserPublisherInternalDataAsync, ServerUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1666,8 +1787,11 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserDataAsync, PFServerGetUserInternalDataAsync, PFServerUpdateUserDataAsync,
-/// PFServerUpdateUserInternalDataAsync, PFServerUpdateUserReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserDataAsync, ServerGetUserInternalDataAsync, ServerUpdateUserDataAsync,
+/// ServerUpdateUserInternalDataAsync, ServerUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerGetUserReadOnlyDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1701,8 +1825,10 @@ HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This operation is additive. Statistics not currently defined will be added, while those already defined
-/// will be updated with the given values. All other user statistics will remain unchanged. See also PFAdminCreatePlayerStatisticDefinitionAsync,
-/// PFServerGetPlayerStatisticsAsync, PFAdminUpdatePlayerStatisticDefinitionAsync
+/// will be updated with the given values. All other user statistics will remain unchanged. See also AdminCreatePlayerStatisticDefinitionAsync,
+/// ServerGetPlayerStatisticsAsync, AdminUpdatePlayerStatisticDefinitionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdatePlayerStatisticsAsync(
     _In_ PFStateHandle stateHandle,
@@ -1721,8 +1847,11 @@ HRESULT PFPlayerDataManagementServerUpdatePlayerStatisticsAsync(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, while keys with null values will be removed. No other key-value pairs will
-/// be changed apart from those specified in the call. See also PFServerGetUserDataAsync, PFServerGetUserInternalDataAsync,
-/// PFServerGetUserReadOnlyDataAsync, PFServerUpdateUserInternalDataAsync, PFServerUpdateUserReadOnlyDataAsync
+/// be changed apart from those specified in the call. See also ServerGetUserDataAsync, ServerGetUserInternalDataAsync,
+/// ServerGetUserReadOnlyDataAsync, ServerUpdateUserInternalDataAsync, ServerUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerUpdateUserDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdateUserDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1752,8 +1881,11 @@ HRESULT PFPlayerDataManagementServerUpdateUserDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFServerGetUserDataAsync, PFServerGetUserInternalDataAsync,
-/// PFServerGetUserReadOnlyDataAsync, PFServerUpdateUserDataAsync, PFServerUpdateUserReadOnlyDataAsync
+/// changed apart from those specified in the call. See also ServerGetUserDataAsync, ServerGetUserInternalDataAsync,
+/// ServerGetUserReadOnlyDataAsync, ServerUpdateUserDataAsync, ServerUpdateUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerUpdateUserInternalDataGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdateUserInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1783,8 +1915,11 @@ HRESULT PFPlayerDataManagementServerUpdateUserInternalDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, while keys with null values will be removed. No other key-value pairs will
-/// be changed apart from those specified in the call. See also PFServerGetUserPublisherDataAsync, PFServerGetUserPublisherInternalDataAsync,
-/// PFServerGetUserPublisherReadOnlyDataAsync, PFServerUpdateUserPublisherInternalDataAsync, PFServerUpdateUserPublisherReadOnlyDataAsync
+/// be changed apart from those specified in the call. See also ServerGetUserPublisherDataAsync, ServerGetUserPublisherInternalDataAsync,
+/// ServerGetUserPublisherReadOnlyDataAsync, ServerUpdateUserPublisherInternalDataAsync, ServerUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerUpdateUserPublisherDataGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdateUserPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1814,8 +1949,11 @@ HRESULT PFPlayerDataManagementServerUpdateUserPublisherDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFServerGetUserPublisherDataAsync, PFServerGetUserPublisherInternalDataAsync,
-/// PFServerGetUserPublisherReadOnlyDataAsync, PFServerUpdateUserPublisherDataAsync, PFServerUpdateUserPublisherReadOnlyDataAsync
+/// changed apart from those specified in the call. See also ServerGetUserPublisherDataAsync, ServerGetUserPublisherInternalDataAsync,
+/// ServerGetUserPublisherReadOnlyDataAsync, ServerUpdateUserPublisherDataAsync, ServerUpdateUserPublisherReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerUpdateUserPublisherInternalDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdateUserPublisherInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1845,8 +1983,11 @@ HRESULT PFPlayerDataManagementServerUpdateUserPublisherInternalDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFServerGetUserPublisherDataAsync, PFServerGetUserPublisherInternalDataAsync,
-/// PFServerGetUserPublisherReadOnlyDataAsync, PFServerUpdateUserPublisherDataAsync, PFServerUpdateUserPublisherInternalDataAsync
+/// changed apart from those specified in the call. See also ServerGetUserPublisherDataAsync, ServerGetUserPublisherInternalDataAsync,
+/// ServerGetUserPublisherReadOnlyDataAsync, ServerUpdateUserPublisherDataAsync, ServerUpdateUserPublisherInternalDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerUpdateUserPublisherReadOnlyDataGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdateUserPublisherReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1876,8 +2017,11 @@ HRESULT PFPlayerDataManagementServerUpdateUserPublisherReadOnlyDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFServerGetUserDataAsync, PFServerGetUserInternalDataAsync,
-/// PFServerGetUserReadOnlyDataAsync, PFServerUpdateUserDataAsync, PFServerUpdateUserInternalDataAsync
+/// changed apart from those specified in the call. See also ServerGetUserDataAsync, ServerGetUserInternalDataAsync,
+/// ServerGetUserReadOnlyDataAsync, ServerUpdateUserDataAsync, ServerUpdateUserInternalDataAsync.
+///
+/// If successful, call <see cref="PFPlayerDataManagementServerUpdateUserReadOnlyDataGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerUpdateUserReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,

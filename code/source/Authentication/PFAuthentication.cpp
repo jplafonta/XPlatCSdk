@@ -314,6 +314,14 @@ HRESULT PFAuthenticationClientLoginWithAndroidDeviceIDAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationClientLoginGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
+) noexcept
+{
+    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
+}
+
 HRESULT PFAuthenticationClientLoginWithAppleAsync(
     _In_ PFStateHandle contextHandle,
     _In_ const PFAuthenticationLoginWithAppleRequest* request,
@@ -563,6 +571,14 @@ HRESULT PFAuthenticationClientRegisterPlayFabUserAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationClientRegisterPlayFabUserGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
+) noexcept
+{
+    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
+}
+
 HRESULT PFAuthenticationClientSetPlayerSecretAsync(
     _In_ PFEntityHandle contextHandle,
     _In_ const PFAuthenticationClientSetPlayerSecretRequest* request,
@@ -615,6 +631,14 @@ HRESULT PFAuthenticationServerLoginWithServerCustomIdAsync(
     auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithServerCustomId, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
+
+HRESULT PFAuthenticationServerLoginGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
+) noexcept
+{
+    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
+}            
 
 HRESULT PFAuthenticationServerLoginWithSteamIdAsync(
     _In_ PFStateHandle contextHandle,
@@ -679,6 +703,14 @@ HRESULT PFAuthenticationGetEntityTokenAsync(
 
     auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::GetEntityToken, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
+}
+
+HRESULT PFAuthenticationGetEntityTokenGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
+) noexcept
+{
+    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
 }
 
 HRESULT PFAuthenticationValidateEntityTokenAsync(

@@ -210,6 +210,8 @@ HRESULT PFCloudScriptServerExecuteCloudScriptGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Executes CloudScript with the entity profile that is defined in the request.
+///
+/// If successful, call <see cref="PFCloudScriptExecuteEntityCloudScriptGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCloudScriptExecuteEntityCloudScriptAsync(
     _In_ PFEntityHandle entityHandle,
@@ -245,7 +247,9 @@ HRESULT PFCloudScriptExecuteEntityCloudScriptGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Executes an Azure Function with the profile of the entity that is defined in the request. See also
-/// PFCloudScriptRegisterHttpFunctionAsync, PFCloudScriptRegisterQueuedFunctionAsync
+/// CloudScriptRegisterHttpFunctionAsync, CloudScriptRegisterQueuedFunctionAsync.
+///
+/// If successful, call <see cref="PFCloudScriptExecuteFunctionGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCloudScriptExecuteFunctionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -279,8 +283,10 @@ HRESULT PFCloudScriptExecuteFunctionGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptListHttpFunctionsAsync, PFCloudScriptListQueuedFunctionsAsync, PFCloudScriptRegisterHttpFunctionAsync,
-/// PFCloudScriptRegisterQueuedFunctionAsync
+/// See also CloudScriptListHttpFunctionsAsync, CloudScriptListQueuedFunctionsAsync, CloudScriptRegisterHttpFunctionAsync,
+/// CloudScriptRegisterQueuedFunctionAsync.
+///
+/// If successful, call <see cref="PFCloudScriptListFunctionsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCloudScriptListFunctionsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -316,8 +322,10 @@ HRESULT PFCloudScriptListFunctionsGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// A title can have many functions, ListHttpFunctions will return a list of all the currently registered
-/// HTTP triggered functions for a given title. See also PFCloudScriptListFunctionsAsync, PFCloudScriptListQueuedFunctionsAsync,
-/// PFCloudScriptRegisterHttpFunctionAsync
+/// HTTP triggered functions for a given title. See also CloudScriptListFunctionsAsync, CloudScriptListQueuedFunctionsAsync,
+/// CloudScriptRegisterHttpFunctionAsync.
+///
+/// If successful, call <see cref="PFCloudScriptListHttpFunctionsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCloudScriptListHttpFunctionsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -352,7 +360,9 @@ HRESULT PFCloudScriptListHttpFunctionsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptListFunctionsAsync, PFCloudScriptListHttpFunctionsAsync, PFCloudScriptRegisterQueuedFunctionAsync
+/// See also CloudScriptListFunctionsAsync, CloudScriptListHttpFunctionsAsync, CloudScriptRegisterQueuedFunctionAsync.
+///
+/// If successful, call <see cref="PFCloudScriptListQueuedFunctionsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCloudScriptListQueuedFunctionsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -387,8 +397,10 @@ HRESULT PFCloudScriptListQueuedFunctionsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptPostFunctionResultForFunctionExecutionAsync, PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync,
-/// PFCloudScriptPostFunctionResultForScheduledTaskAsync
+/// See also CloudScriptPostFunctionResultForFunctionExecutionAsync, CloudScriptPostFunctionResultForPlayerTriggeredActionAsync,
+/// CloudScriptPostFunctionResultForScheduledTaskAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -406,8 +418,10 @@ HRESULT PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync, PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync,
-/// PFCloudScriptPostFunctionResultForScheduledTaskAsync
+/// See also CloudScriptPostFunctionResultForEntityTriggeredActionAsync, CloudScriptPostFunctionResultForPlayerTriggeredActionAsync,
+/// CloudScriptPostFunctionResultForScheduledTaskAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptPostFunctionResultForFunctionExecutionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -425,8 +439,10 @@ HRESULT PFCloudScriptPostFunctionResultForFunctionExecutionAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync, PFCloudScriptPostFunctionResultForFunctionExecutionAsync,
-/// PFCloudScriptPostFunctionResultForScheduledTaskAsync
+/// See also CloudScriptPostFunctionResultForEntityTriggeredActionAsync, CloudScriptPostFunctionResultForFunctionExecutionAsync,
+/// CloudScriptPostFunctionResultForScheduledTaskAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -444,8 +460,10 @@ HRESULT PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync, PFCloudScriptPostFunctionResultForFunctionExecutionAsync,
-/// PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync
+/// See also CloudScriptPostFunctionResultForEntityTriggeredActionAsync, CloudScriptPostFunctionResultForFunctionExecutionAsync,
+/// CloudScriptPostFunctionResultForPlayerTriggeredActionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptPostFunctionResultForScheduledTaskAsync(
     _In_ PFEntityHandle entityHandle,
@@ -463,8 +481,10 @@ HRESULT PFCloudScriptPostFunctionResultForScheduledTaskAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptExecuteFunctionAsync, PFCloudScriptListFunctionsAsync, PFCloudScriptListHttpFunctionsAsync,
-/// PFCloudScriptRegisterQueuedFunctionAsync, PFCloudScriptUnregisterFunctionAsync
+/// See also CloudScriptExecuteFunctionAsync, CloudScriptListFunctionsAsync, CloudScriptListHttpFunctionsAsync,
+/// CloudScriptRegisterQueuedFunctionAsync, CloudScriptUnregisterFunctionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptRegisterHttpFunctionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -483,10 +503,12 @@ HRESULT PFCloudScriptRegisterHttpFunctionAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// A title can have many functions, RegisterQueuedFunction associates a function name with a queue name
-/// and connection string. See also PFCloudScriptExecuteFunctionAsync, PFCloudScriptListFunctionsAsync,
-/// PFCloudScriptListQueuedFunctionsAsync, PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync,
-/// PFCloudScriptPostFunctionResultForFunctionExecutionAsync, PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync,
-/// PFCloudScriptPostFunctionResultForScheduledTaskAsync, PFCloudScriptRegisterHttpFunctionAsync, PFCloudScriptUnregisterFunctionAsync
+/// and connection string. See also CloudScriptExecuteFunctionAsync, CloudScriptListFunctionsAsync, CloudScriptListQueuedFunctionsAsync,
+/// CloudScriptPostFunctionResultForEntityTriggeredActionAsync, CloudScriptPostFunctionResultForFunctionExecutionAsync,
+/// CloudScriptPostFunctionResultForPlayerTriggeredActionAsync, CloudScriptPostFunctionResultForScheduledTaskAsync,
+/// CloudScriptRegisterHttpFunctionAsync, CloudScriptUnregisterFunctionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptRegisterQueuedFunctionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -504,7 +526,9 @@ HRESULT PFCloudScriptRegisterQueuedFunctionAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFCloudScriptRegisterHttpFunctionAsync, PFCloudScriptRegisterQueuedFunctionAsync
+/// See also CloudScriptRegisterHttpFunctionAsync, CloudScriptRegisterQueuedFunctionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCloudScriptUnregisterFunctionAsync(
     _In_ PFEntityHandle entityHandle,

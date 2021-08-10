@@ -25,6 +25,8 @@ extern "C"
 /// <remarks>
 /// Note that this action cannot be un-done. All statistics for this character will be deleted, removing
 /// the user from all leaderboards for the game.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCharacterAdminResetCharacterStatisticsAsync(
     _In_ PFStateHandle stateHandle,
@@ -42,7 +44,9 @@ HRESULT PFCharacterAdminResetCharacterStatisticsAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of every character that currently belongs to a user. See also PFClientGetCharacterDataAsync
+/// Returns a list of every character that currently belongs to a user. See also ClientGetCharacterDataAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetAllUsersCharactersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetAllUsersCharactersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -78,7 +82,9 @@ HRESULT PFCharacterClientGetAllUsersCharactersGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom character
-/// data will be returned. See also PFClientGetCharacterReadOnlyDataAsync, PFClientGetUserDataAsync, PFClientUpdateCharacterDataAsync
+/// data will be returned. See also ClientGetCharacterReadOnlyDataAsync, ClientGetUserDataAsync, ClientUpdateCharacterDataAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetCharacterDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -112,7 +118,9 @@ HRESULT PFCharacterClientGetCharacterDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetCharacterStatisticsAsync, PFClientGetLeaderboardAroundCharacterAsync, PFClientUpdateCharacterStatisticsAsync
+/// See also ClientGetCharacterStatisticsAsync, ClientGetLeaderboardAroundCharacterAsync, ClientUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetCharacterLeaderboardGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterLeaderboardAsync(
     _In_ PFEntityHandle entityHandle,
@@ -147,7 +155,9 @@ HRESULT PFCharacterClientGetCharacterLeaderboardGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom character
-/// data will be returned. See also PFClientGetCharacterDataAsync, PFClientGetUserDataAsync, PFClientUpdateCharacterDataAsync
+/// data will be returned. See also ClientGetCharacterDataAsync, ClientGetUserDataAsync, ClientUpdateCharacterDataAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetCharacterReadOnlyDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterReadOnlyDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -180,8 +190,10 @@ HRESULT PFCharacterClientGetCharacterReadOnlyDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetCharacterLeaderboardAsync, PFClientGetLeaderboardAroundCharacterAsync, PFClientGetLeaderboardForUserCharactersAsync,
-/// PFClientUpdateCharacterStatisticsAsync
+/// See also ClientGetCharacterLeaderboardAsync, ClientGetLeaderboardAroundCharacterAsync, ClientGetLeaderboardForUserCharactersAsync,
+/// ClientUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetCharacterStatisticsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterStatisticsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -215,7 +227,10 @@ HRESULT PFCharacterClientGetCharacterStatisticsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetCharacterLeaderboardAsync, PFClientGetLeaderboardAsync, PFClientUpdateCharacterStatisticsAsync
+/// See also ClientGetCharacterLeaderboardAsync, ClientGetLeaderboardAsync, ClientUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetLeaderboardAroundCharacterGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFCharacterClientGetLeaderboardAroundCharacterAsync(
     _In_ PFEntityHandle entityHandle,
@@ -248,7 +263,10 @@ HRESULT PFCharacterClientGetLeaderboardAroundCharacterGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetCharacterLeaderboardAsync, PFClientGetLeaderboardAsync, PFServerGetLeaderboardAroundUserAsync
+/// See also ClientGetCharacterLeaderboardAsync, ClientGetLeaderboardAsync, ServerGetLeaderboardAroundUserAsync.
+///
+/// If successful, call <see cref="PFCharacterClientGetLeaderboardForUserCharactersGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFCharacterClientGetLeaderboardForUserCharactersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -285,6 +303,8 @@ HRESULT PFCharacterClientGetLeaderboardForUserCharactersGetResult(
 /// Grants a character to the user of the type specified by the item ID. The user must already have an
 /// instance of this item in their inventory in order to allow character creation. This item can come
 /// from a purchase or grant, which must be done before calling to create the character.
+///
+/// If successful, call <see cref="PFCharacterClientGrantCharacterToUserGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGrantCharacterToUserAsync(
     _In_ PFEntityHandle entityHandle,
@@ -336,7 +356,9 @@ HRESULT PFCharacterClientGrantCharacterToUserGetResult(
 /// the character. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, while keys with null values will be removed. New keys will be added, with
 /// the given values. No other key-value pairs will be changed apart from those specified in the call.
-/// See also PFClientGetCharacterDataAsync, PFClientGetCharacterReadOnlyDataAsync, PFClientGetUserDataAsync
+/// See also ClientGetCharacterDataAsync, ClientGetCharacterReadOnlyDataAsync, ClientGetUserDataAsync.
+///
+/// If successful, call <see cref="PFCharacterClientUpdateCharacterDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientUpdateCharacterDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -370,8 +392,10 @@ HRESULT PFCharacterClientUpdateCharacterDataGetResult(
 /// by the server. This operation is additive. Character Statistics not currently defined will be added,
 /// while those already defined will be updated with the given values. All other user statistics will
 /// remain unchanged. Character statistics are used by the character-leaderboard apis, and accessible
-/// for custom game-logic. See also PFClientGetCharacterLeaderboardAsync, PFClientGetCharacterStatisticsAsync,
-/// PFClientGetLeaderboardAroundCharacterAsync, PFClientGetLeaderboardForUserCharactersAsync
+/// for custom game-logic. See also ClientGetCharacterLeaderboardAsync, ClientGetCharacterStatisticsAsync,
+/// ClientGetLeaderboardAroundCharacterAsync, ClientGetLeaderboardForUserCharactersAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCharacterClientUpdateCharacterStatisticsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -390,6 +414,8 @@ HRESULT PFCharacterClientUpdateCharacterStatisticsAsync(
 /// This function will delete the specified character from the list allowed by the user, and will also
 /// delete any inventory or VC currently held by that character. It will NOT delete any statistics associated
 /// for this character, in order to preserve leaderboard integrity.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCharacterServerDeleteCharacterFromUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -407,6 +433,8 @@ HRESULT PFCharacterServerDeleteCharacterFromUserAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns a list of every character that currently belongs to a user.
+///
+/// If successful, call <see cref="PFCharacterServerGetAllUsersCharactersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGetAllUsersCharactersAsync(
     _In_ PFStateHandle stateHandle,
@@ -441,8 +469,10 @@ HRESULT PFCharacterServerGetAllUsersCharactersGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserDataAsync, PFServerUpdateCharacterDataAsync, PFServerUpdateCharacterInternalDataAsync,
-/// PFServerUpdateCharacterReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserDataAsync, ServerUpdateCharacterDataAsync, ServerUpdateCharacterInternalDataAsync,
+/// ServerUpdateCharacterReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetCharacterDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGetCharacterDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -478,8 +508,10 @@ HRESULT PFCharacterServerGetCharacterDataGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom user
-/// data will be returned. See also PFServerGetUserInternalDataAsync, PFServerUpdateCharacterDataAsync,
-/// PFServerUpdateCharacterInternalDataAsync, PFServerUpdateCharacterReadOnlyDataAsync
+/// data will be returned. See also ServerGetUserInternalDataAsync, ServerUpdateCharacterDataAsync, ServerUpdateCharacterInternalDataAsync,
+/// ServerUpdateCharacterReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetCharacterInternalDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGetCharacterInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -513,7 +545,9 @@ HRESULT PFCharacterServerGetCharacterInternalDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetCharacterStatisticsAsync, PFServerGetLeaderboardAroundCharacterAsync, PFServerUpdateCharacterStatisticsAsync
+/// See also ServerGetCharacterStatisticsAsync, ServerGetLeaderboardAroundCharacterAsync, ServerUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetCharacterLeaderboardGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGetCharacterLeaderboardAsync(
     _In_ PFStateHandle stateHandle,
@@ -548,8 +582,10 @@ HRESULT PFCharacterServerGetCharacterLeaderboardGetResult(
 /// <remarks>
 /// Data is stored as JSON key-value pairs. If the Keys parameter is provided, the data object returned
 /// will only contain the data specific to the indicated Keys. Otherwise, the full set of custom data
-/// will be returned. See also PFServerGetCharacterDataAsync, PFServerGetCharacterInternalDataAsync, PFServerGetUserReadOnlyDataAsync,
-/// PFServerUpdateCharacterReadOnlyDataAsync
+/// will be returned. See also ServerGetCharacterDataAsync, ServerGetCharacterInternalDataAsync, ServerGetUserReadOnlyDataAsync,
+/// ServerUpdateCharacterReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetCharacterReadOnlyDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGetCharacterReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -585,7 +621,9 @@ HRESULT PFCharacterServerGetCharacterReadOnlyDataGetResult(
 /// Character statistics are similar to user statistics in that they are numeric values which may only
 /// be updated by a server operation, in order to minimize the opportunity for unauthorized changes. In
 /// addition to being available for use by the title, the statistics are used for all leaderboard operations
-/// in PlayFab. See also PFServerGetLeaderboardAsync, PFServerGetUserStatisticsAsync, PFServerUpdateCharacterStatisticsAsync
+/// in PlayFab. See also ServerGetLeaderboardAsync, ServerGetUserStatisticsAsync, ServerUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetCharacterStatisticsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGetCharacterStatisticsAsync(
     _In_ PFStateHandle stateHandle,
@@ -618,7 +656,10 @@ HRESULT PFCharacterServerGetCharacterStatisticsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetCharacterLeaderboardAsync, PFServerGetLeaderboardAsync, PFServerUpdateCharacterStatisticsAsync
+/// See also ServerGetCharacterLeaderboardAsync, ServerGetLeaderboardAsync, ServerUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetLeaderboardAroundCharacterGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFCharacterServerGetLeaderboardAroundCharacterAsync(
     _In_ PFStateHandle stateHandle,
@@ -651,7 +692,10 @@ HRESULT PFCharacterServerGetLeaderboardAroundCharacterGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetLeaderboardAsync, PFServerGetLeaderboardAroundCharacterAsync, PFServerUpdateCharacterStatisticsAsync
+/// See also ServerGetLeaderboardAsync, ServerGetLeaderboardAroundCharacterAsync, ServerUpdateCharacterStatisticsAsync.
+///
+/// If successful, call <see cref="PFCharacterServerGetLeaderboardForUserCharactersGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFCharacterServerGetLeaderboardForUserCharactersAsync(
     _In_ PFStateHandle stateHandle,
@@ -686,6 +730,8 @@ HRESULT PFCharacterServerGetLeaderboardForUserCharactersGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Grants a character to the user of the type and name specified in the request.
+///
+/// If successful, call <see cref="PFCharacterServerGrantCharacterToUserGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerGrantCharacterToUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -736,8 +782,10 @@ HRESULT PFCharacterServerGrantCharacterToUserGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, while keys with null values will be removed. No other key-value pairs will
-/// be changed apart from those specified in the call. See also PFServerGetCharacterDataAsync, PFServerUpdateCharacterInternalDataAsync,
-/// PFServerUpdateCharacterReadOnlyDataAsync, PFServerUpdateUserDataAsync
+/// be changed apart from those specified in the call. See also ServerGetCharacterDataAsync, ServerUpdateCharacterInternalDataAsync,
+/// ServerUpdateCharacterReadOnlyDataAsync, ServerUpdateUserDataAsync.
+///
+/// If successful, call <see cref="PFCharacterServerUpdateCharacterDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterServerUpdateCharacterDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -767,8 +815,11 @@ HRESULT PFCharacterServerUpdateCharacterDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFServerGetCharacterInternalDataAsync, PFServerUpdateCharacterDataAsync,
-/// PFServerUpdateCharacterReadOnlyDataAsync, PFServerUpdateUserInternalDataAsync
+/// changed apart from those specified in the call. See also ServerGetCharacterInternalDataAsync, ServerUpdateCharacterDataAsync,
+/// ServerUpdateCharacterReadOnlyDataAsync, ServerUpdateUserInternalDataAsync.
+///
+/// If successful, call <see cref="PFCharacterServerUpdateCharacterInternalDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFCharacterServerUpdateCharacterInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -798,8 +849,11 @@ HRESULT PFCharacterServerUpdateCharacterInternalDataGetResult(
 /// This function performs an additive update of the arbitrary JSON object containing the custom data
 /// for the user. In updating the custom data object, keys which already exist in the object will have
 /// their values overwritten, keys with null values will be removed. No other key-value pairs will be
-/// changed apart from those specified in the call. See also PFServerGetCharacterDataAsync, PFServerGetCharacterInternalDataAsync,
-/// PFServerGetCharacterReadOnlyDataAsync, PFServerGetUserReadOnlyDataAsync
+/// changed apart from those specified in the call. See also ServerGetCharacterDataAsync, ServerGetCharacterInternalDataAsync,
+/// ServerGetCharacterReadOnlyDataAsync, ServerGetUserReadOnlyDataAsync.
+///
+/// If successful, call <see cref="PFCharacterServerUpdateCharacterReadOnlyDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFCharacterServerUpdateCharacterReadOnlyDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -830,6 +884,8 @@ HRESULT PFCharacterServerUpdateCharacterReadOnlyDataGetResult(
 /// be updated by a server operation, in order to minimize the opportunity for unauthorized changes. In
 /// addition to being available for use by the title, the statistics are used for all leaderboard operations
 /// in PlayFab.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCharacterServerUpdateCharacterStatisticsAsync(
     _In_ PFStateHandle stateHandle,

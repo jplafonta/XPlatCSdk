@@ -24,7 +24,9 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientCancelTradeAsync, PFClientGetPlayerTradesAsync, PFClientGetTradeStatusAsync, PFClientOpenTradeAsync
+/// See also ClientCancelTradeAsync, ClientGetPlayerTradesAsync, ClientGetTradeStatusAsync, ClientOpenTradeAsync.
+///
+/// If successful, call <see cref="PFTradingClientAcceptTradeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientAcceptTradeAsync(
     _In_ PFEntityHandle entityHandle,
@@ -60,7 +62,9 @@ HRESULT PFTradingClientAcceptTradeGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAcceptTradeAsync, PFClientGetPlayerTradesAsync, PFClientGetTradeStatusAsync, PFClientOpenTradeAsync
+/// See also ClientAcceptTradeAsync, ClientGetPlayerTradesAsync, ClientGetTradeStatusAsync, ClientOpenTradeAsync.
+///
+/// If successful, call <see cref="PFTradingClientCancelTradeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientCancelTradeAsync(
     _In_ PFEntityHandle entityHandle,
@@ -93,7 +97,9 @@ HRESULT PFTradingClientCancelTradeGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAcceptTradeAsync, PFClientCancelTradeAsync, PFClientGetTradeStatusAsync, PFClientOpenTradeAsync
+/// See also ClientAcceptTradeAsync, ClientCancelTradeAsync, ClientGetTradeStatusAsync, ClientOpenTradeAsync.
+///
+/// If successful, call <see cref="PFTradingClientGetPlayerTradesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientGetPlayerTradesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -126,7 +132,9 @@ HRESULT PFTradingClientGetPlayerTradesGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAcceptTradeAsync, PFClientCancelTradeAsync, PFClientGetPlayerTradesAsync, PFClientOpenTradeAsync
+/// See also ClientAcceptTradeAsync, ClientCancelTradeAsync, ClientGetPlayerTradesAsync, ClientOpenTradeAsync.
+///
+/// If successful, call <see cref="PFTradingClientGetTradeStatusGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientGetTradeStatusAsync(
     _In_ PFEntityHandle entityHandle,
@@ -160,7 +168,9 @@ HRESULT PFTradingClientGetTradeStatusGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAcceptTradeAsync, PFClientCancelTradeAsync, PFClientGetPlayerTradesAsync, PFClientGetTradeStatusAsync
+/// See also ClientAcceptTradeAsync, ClientCancelTradeAsync, ClientGetPlayerTradesAsync, ClientGetTradeStatusAsync.
+///
+/// If successful, call <see cref="PFTradingClientOpenTradeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientOpenTradeAsync(
     _In_ PFEntityHandle entityHandle,

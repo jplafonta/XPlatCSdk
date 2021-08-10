@@ -24,7 +24,9 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Any arbitrary information collected by the device
+/// Any arbitrary information collected by the device.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAnalyticsClientReportDeviceInfoAsync(
     _In_ PFEntityHandle entityHandle,
@@ -42,7 +44,9 @@ HRESULT PFAnalyticsClientReportDeviceInfoAsync(
 /// <remarks>
 /// This API is designed to write a multitude of different client-defined events into PlayStream. It
 /// supports a flexible JSON schema, which allowsfor arbitrary key-value pairs to describe any character-based
-/// event. The created event will be locked to the authenticated title and player. 
+/// event. The created event will be locked to the authenticated title and player. .
+///
+/// If successful, call <see cref="PFAnalyticsClientWriteCharacterEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsClientWriteCharacterEventAsync(
     _In_ PFEntityHandle entityHandle,
@@ -91,7 +95,9 @@ HRESULT PFAnalyticsClientWriteCharacterEventGetResult(
 /// <remarks>
 /// This API is designed to write a multitude of different event types into PlayStream. It supports a
 /// flexible JSON schema, which allowsfor arbitrary key-value pairs to describe any player-based event.
-/// The created event will be locked to the authenticated title and player. 
+/// The created event will be locked to the authenticated title and player. .
+///
+/// If successful, call <see cref="PFAnalyticsClientWritePlayerEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsClientWritePlayerEventAsync(
     _In_ PFEntityHandle entityHandle,
@@ -140,7 +146,9 @@ HRESULT PFAnalyticsClientWritePlayerEventGetResult(
 /// <remarks>
 /// This API is designed to write a multitude of different client-defined events into PlayStream. It
 /// supports a flexible JSON schema, which allowsfor arbitrary key-value pairs to describe any title-based
-/// event. The created event will be locked to the authenticated title. 
+/// event. The created event will be locked to the authenticated title. .
+///
+/// If successful, call <see cref="PFAnalyticsClientWriteTitleEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsClientWriteTitleEventAsync(
     _In_ PFEntityHandle entityHandle,
@@ -189,7 +197,9 @@ HRESULT PFAnalyticsClientWriteTitleEventGetResult(
 /// <remarks>
 /// This API is designed to write a multitude of different event types into PlayStream. It supports a
 /// flexible JSON schema, which allowsfor arbitrary key-value pairs to describe any character-based event.
-/// The created event will be locked to the authenticated title. 
+/// The created event will be locked to the authenticated title. .
+///
+/// If successful, call <see cref="PFAnalyticsServerWriteCharacterEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsServerWriteCharacterEventAsync(
     _In_ PFStateHandle stateHandle,
@@ -238,7 +248,9 @@ HRESULT PFAnalyticsServerWriteCharacterEventGetResult(
 /// <remarks>
 /// This API is designed to write a multitude of different event types into PlayStream. It supports a
 /// flexible JSON schema, which allowsfor arbitrary key-value pairs to describe any player-based event.
-/// The created event will be locked to the authenticated title. 
+/// The created event will be locked to the authenticated title. .
+///
+/// If successful, call <see cref="PFAnalyticsServerWritePlayerEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsServerWritePlayerEventAsync(
     _In_ PFStateHandle stateHandle,
@@ -287,7 +299,9 @@ HRESULT PFAnalyticsServerWritePlayerEventGetResult(
 /// <remarks>
 /// This API is designed to write a multitude of different event types into PlayStream. It supports a
 /// flexible JSON schema, which allowsfor arbitrary key-value pairs to describe any title-based event.
-/// The created event will be locked to the authenticated title. 
+/// The created event will be locked to the authenticated title. .
+///
+/// If successful, call <see cref="PFAnalyticsServerWriteTitleEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsServerWriteTitleEventAsync(
     _In_ PFStateHandle stateHandle,

@@ -24,7 +24,9 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Send all the segment details part of CreateSegmentRequest
+/// Send all the segment details part of CreateSegmentRequest.
+///
+/// If successful, call <see cref="PFSegmentsAdminCreateSegmentGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFSegmentsAdminCreateSegmentAsync(
     _In_ PFStateHandle stateHandle,
@@ -73,7 +75,9 @@ HRESULT PFSegmentsAdminCreateSegmentGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Send segment id planning to delete part of DeleteSegmentRequest object
+/// Send segment id planning to delete part of DeleteSegmentRequest object.
+///
+/// If successful, call <see cref="PFSegmentsAdminDeleteSegmentGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFSegmentsAdminDeleteSegmentAsync(
     _In_ PFStateHandle stateHandle,
@@ -122,7 +126,9 @@ HRESULT PFSegmentsAdminDeleteSegmentGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Send segment filter details part of GetSegmentsRequest object
+/// Send segment filter details part of GetSegmentsRequest object.
+///
+/// If successful, call <see cref="PFSegmentsAdminGetSegmentsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFSegmentsAdminGetSegmentsAsync(
     _In_ PFStateHandle stateHandle,
@@ -157,7 +163,9 @@ HRESULT PFSegmentsAdminGetSegmentsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Update segment properties data which are planning to update
+/// Update segment properties data which are planning to update.
+///
+/// If successful, call <see cref="PFSegmentsAdminUpdateSegmentGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFSegmentsAdminUpdateSegmentAsync(
     _In_ PFStateHandle stateHandle,

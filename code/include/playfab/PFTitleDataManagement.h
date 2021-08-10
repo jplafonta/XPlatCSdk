@@ -93,7 +93,9 @@ HRESULT PFTitleDataManagementAdminAddNewsGetResult(
 /// <remarks>
 /// This operation is additive. Any new currencies defined in the array will be added to the set of those
 /// available for the title, while any CurrencyCode identifiers matching existing ones in the game will
-/// be overwritten with the new values. See also PFAdminListVirtualCurrencyTypesAsync, PFAdminRemoveVirtualCurrencyTypesAsync
+/// be overwritten with the new values. See also AdminListVirtualCurrencyTypesAsync, AdminRemoveVirtualCurrencyTypesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminAddVirtualCurrencyTypesAsync(
     _In_ PFStateHandle stateHandle,
@@ -111,8 +113,10 @@ HRESULT PFTitleDataManagementAdminAddVirtualCurrencyTypesAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// This non-reversible operation will permanently delete the requested store. See also PFAdminGetStoreItemsAsync,
-/// PFAdminSetStoreItemsAsync, PFAdminUpdateStoreItemsAsync
+/// This non-reversible operation will permanently delete the requested store. See also AdminGetStoreItemsAsync,
+/// AdminSetStoreItemsAsync, AdminUpdateStoreItemsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminDeleteStoreAsync(
     _In_ PFStateHandle stateHandle,
@@ -131,6 +135,8 @@ HRESULT PFTitleDataManagementAdminDeleteStoreAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This API method is designed to delete specified title data overrides associated with the given label.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminDeleteTitleDataOverrideAsync(
     _In_ PFStateHandle stateHandle,
@@ -148,7 +154,9 @@ HRESULT PFTitleDataManagementAdminDeleteTitleDataOverrideAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminSetCatalogItemsAsync, PFAdminUpdateCatalogItemsAsync
+/// See also AdminSetCatalogItemsAsync, AdminUpdateCatalogItemsAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminGetCatalogItemsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminGetCatalogItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -187,7 +195,10 @@ HRESULT PFTitleDataManagementAdminGetCatalogItemsGetResult(
 /// the client. This data is shared across all titles assigned to a particular publisher, and can be used
 /// for cross-game coordination. Only titles assigned to a publisher can use this API. For more information
 /// email helloplayfab@microsoft.com. This AdminAPI call for getting title data guarantees no delay in
-/// between update and retrieval of newly set data. See also PFAdminSetPublisherDataAsync
+/// between update and retrieval of newly set data. See also AdminSetPublisherDataAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminGetPublisherDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminGetPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -222,7 +233,10 @@ HRESULT PFTitleDataManagementAdminGetPublisherDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminUpdateRandomResultTablesAsync
+/// See also AdminUpdateRandomResultTablesAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminGetRandomResultTablesGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminGetRandomResultTablesAsync(
     _In_ PFStateHandle stateHandle,
@@ -266,7 +280,9 @@ HRESULT PFTitleDataManagementAdminGetRandomResultTablesGetResult(
 /// that all prices defined in the catalog and store definitions for the item are considered valid, and
 /// that a compromised client can be made to send a request for an item based upon any of these definitions.
 /// If no price is specified in the store for an item, the price set in the catalog should be displayed
-/// to the user. See also PFAdminDeleteStoreAsync, PFAdminSetStoreItemsAsync, PFAdminUpdateStoreItemsAsync
+/// to the user. See also AdminDeleteStoreAsync, AdminSetStoreItemsAsync, AdminUpdateStoreItemsAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminGetStoreItemsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminGetStoreItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -307,7 +323,9 @@ HRESULT PFTitleDataManagementAdminGetStoreItemsGetResult(
 /// the need to create, test, and ship a new build. If an override label is specified in the request,
 /// the overrides are applied automatically and returned with the title data. Note that due to caching,
 /// there may up to a minute delay in between updating title data and a query returning the newest value.
-/// See also PFAdminSetTitleDataAsync
+/// See also AdminSetTitleDataAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminGetTitleDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminGetTitleDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -345,7 +363,10 @@ HRESULT PFTitleDataManagementAdminGetTitleDataGetResult(
 /// This API method is designed to return title specific values which are accessible only by the server.
 /// These values can be used to tweak settings used by game servers and Cloud Scripts without the need
 /// to update and re-deploy. Note that due to caching, there may up to a minute delay in between updating
-/// title data and this query returning the newest value. See also PFAdminSetTitleInternalDataAsync
+/// title data and this query returning the newest value. See also AdminSetTitleInternalDataAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminGetTitleInternalDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminGetTitleInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -379,7 +400,10 @@ HRESULT PFTitleDataManagementAdminGetTitleInternalDataGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddVirtualCurrencyTypesAsync, PFAdminRemoveVirtualCurrencyTypesAsync
+/// See also AdminAddVirtualCurrencyTypesAsync, AdminRemoveVirtualCurrencyTypesAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminListVirtualCurrencyTypesGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminListVirtualCurrencyTypesAsync(
     _In_ PFStateHandle stateHandle,
@@ -415,8 +439,10 @@ HRESULT PFTitleDataManagementAdminListVirtualCurrencyTypesGetResult(
 /// <remarks>
 /// Virtual currencies to be removed cannot have entries in any catalog nor store for the title. Note
 /// that this operation will not remove player balances for the removed currencies; if a deleted currency
-/// is recreated at any point, user balances will be in an undefined state. See also PFAdminAddVirtualCurrencyTypesAsync,
-/// PFAdminListVirtualCurrencyTypesAsync
+/// is recreated at any point, user balances will be in an undefined state. See also AdminAddVirtualCurrencyTypesAsync,
+/// AdminListVirtualCurrencyTypesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminRemoveVirtualCurrencyTypesAsync(
     _In_ PFStateHandle stateHandle,
@@ -436,7 +462,9 @@ HRESULT PFTitleDataManagementAdminRemoveVirtualCurrencyTypesAsync(
 /// <remarks>
 /// This operation is not additive. Using it will cause the indicated catalog version to be created from
 /// scratch. If there is an existing catalog with the version number in question, it will be deleted and
-/// replaced with only the items specified in this call. See also PFAdminGetCatalogItemsAsync, PFAdminUpdateCatalogItemsAsync
+/// replaced with only the items specified in this call. See also AdminGetCatalogItemsAsync, AdminUpdateCatalogItemsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminSetCatalogItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -465,8 +493,10 @@ HRESULT PFTitleDataManagementAdminSetCatalogItemsAsync(
 /// along with unique prices. Note that all prices defined in the catalog and store definitions for the
 /// item are considered valid, and that a compromised client can be made to send a request for an item
 /// based upon any of these definitions. If no price is specified in the store for an item, the price
-/// set in the catalog should be displayed to the user. See also PFAdminDeleteStoreAsync, PFAdminGetStoreItemsAsync,
-/// PFAdminUpdateStoreItemsAsync
+/// set in the catalog should be displayed to the user. See also AdminDeleteStoreAsync, AdminGetStoreItemsAsync,
+/// AdminUpdateStoreItemsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminSetStoreItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -489,7 +519,9 @@ HRESULT PFTitleDataManagementAdminSetStoreItemsAsync(
 /// weapon strengths, movement speeds, etc. This allows a developer to update the title without the need
 /// to create, test, and ship a new build. This operation is additive. If a Key does not exist in the
 /// current dataset, it will be added with the specified Value. If it already exists, the Value for that
-/// key will be overwritten with the new Value. See also PFAdminGetTitleDataAsync
+/// key will be overwritten with the new Value. See also AdminGetTitleDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminSetTitleDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -510,7 +542,9 @@ HRESULT PFTitleDataManagementAdminSetTitleDataAsync(
 /// This API method is designed to set and delete key-value pairs in a title data override instance.
 /// If the key exists and the new value is empty, the method will delete the key; otherwise, the method
 /// will update the current value with the new value. Keys are trimmed and cannot start with '!'. See
-/// also PFAdminGetTitleDataAsync
+/// also AdminGetTitleDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminSetTitleDataAndOverridesAsync(
     _In_ PFStateHandle stateHandle,
@@ -532,7 +566,9 @@ HRESULT PFTitleDataManagementAdminSetTitleDataAndOverridesAsync(
 /// These values can be used to tweak settings used by game servers and Cloud Scripts without the need
 /// to update and re-deploy. This operation is additive. If a Key does not exist in the current dataset,
 /// it will be added with the specified Value. If it already exists, the Value for that key will be overwritten
-/// with the new Value. See also PFAdminGetTitleInternalDataAsync
+/// with the new Value. See also AdminGetTitleInternalDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminSetTitleInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -556,6 +592,9 @@ HRESULT PFTitleDataManagementAdminSetTitleInternalDataAsync(
 /// the APNS Private Key should be used as the Credential in this call. With Google Cloud Messaging (GCM),
 /// the Android API Key should be used. The current ARN (if one exists) can be overwritten by setting
 /// the OverwriteOldARN boolean to true.
+///
+/// If successful, call <see cref="PFTitleDataManagementAdminSetupPushNotificationGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminSetupPushNotificationAsync(
     _In_ PFStateHandle stateHandle,
@@ -606,7 +645,9 @@ HRESULT PFTitleDataManagementAdminSetupPushNotificationGetResult(
 /// <remarks>
 /// This operation is additive. Items with ItemId values not currently in the catalog will be added,
 /// while those with ItemId values matching items currently in the catalog will overwrite those items
-/// with the given values. See also PFAdminGetCatalogItemsAsync, PFAdminSetCatalogItemsAsync
+/// with the given values. See also AdminGetCatalogItemsAsync, AdminSetCatalogItemsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminUpdateCatalogItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -626,7 +667,9 @@ HRESULT PFTitleDataManagementAdminUpdateCatalogItemsAsync(
 /// <remarks>
 /// This operation is additive. Tables with TableId values not currently defined will be added, while
 /// those with TableId values matching Tables currently in the catalog will be overwritten with the given
-/// values. See also PFAdminGetRandomResultTablesAsync
+/// values. See also AdminGetRandomResultTablesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminUpdateRandomResultTablesAsync(
     _In_ PFStateHandle stateHandle,
@@ -655,7 +698,9 @@ HRESULT PFTitleDataManagementAdminUpdateRandomResultTablesAsync(
 /// prices. Note that all prices defined in the catalog and store definitions for the item are considered
 /// valid, and that a compromised client can be made to send a request for an item based upon any of these
 /// definitions. If no price is specified in the store for an item, the price set in the catalog should
-/// be displayed to the user. See also PFAdminDeleteStoreAsync, PFAdminGetStoreItemsAsync, PFAdminSetStoreItemsAsync
+/// be displayed to the user. See also AdminDeleteStoreAsync, AdminGetStoreItemsAsync, AdminSetStoreItemsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementAdminUpdateStoreItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -672,7 +717,10 @@ HRESULT PFTitleDataManagementAdminUpdateStoreItemsAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetStoreItemsAsync, PFClientGetUserInventoryAsync
+/// See also ClientGetStoreItemsAsync, ClientGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementClientGetCatalogItemsGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetCatalogItemsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -710,6 +758,9 @@ HRESULT PFTitleDataManagementClientGetCatalogItemsGetResult(
 /// for cross-game coordination. Only titles assigned to a publisher can use this API. For more information
 /// email helloplayfab@microsoft.com. Note that there may up to a minute delay in between updating title
 /// data and this API call returning the newest value.
+///
+/// If successful, call <see cref="PFTitleDataManagementClientGetPublisherDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetPublisherDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -751,7 +802,9 @@ HRESULT PFTitleDataManagementClientGetPublisherDataGetResult(
 /// unique prices. Note that all prices defined in the catalog and store definitions for the item are
 /// considered valid, and that a compromised client can be made to send a request for an item based upon
 /// any of these definitions. If no price is specified in the store for an item, the price set in the
-/// catalog should be displayed to the user. See also PFClientGetCatalogItemsAsync
+/// catalog should be displayed to the user. See also ClientGetCatalogItemsAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementClientGetStoreItemsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetStoreItemsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -785,6 +838,8 @@ HRESULT PFTitleDataManagementClientGetStoreItemsGetResult(
 /// <remarks>
 /// This query retrieves the current time from one of the servers in PlayFab. Please note that due to
 /// clock drift between servers, there is a potential variance of up to 5 seconds.
+///
+/// If successful, call <see cref="PFTitleDataManagementClientGetTimeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetTimeAsync(
     _In_ PFEntityHandle entityHandle,
@@ -817,6 +872,8 @@ HRESULT PFTitleDataManagementClientGetTimeGetResult(
 /// variant that uses title data overrides, the overrides are applied automatically and returned with
 /// the title data. Note that there may up to a minute delay in between updating title data and this API
 /// call returning the newest value.
+///
+/// If successful, call <see cref="PFTitleDataManagementClientGetTitleDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetTitleDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -882,7 +939,8 @@ HRESULT PFTitleDataManagementClientGetTitleNewsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFTitleDataManagementServerGetCatalogItemsGetResult"/> to get the result.
+/// If successful, call <see cref="PFTitleDataManagementServerGetCatalogItemsGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFTitleDataManagementServerGetCatalogItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -919,7 +977,10 @@ HRESULT PFTitleDataManagementServerGetCatalogItemsGetResult(
 /// the client. This data is shared across all titles assigned to a particular publisher, and can be used
 /// for cross-game coordination. Only titles assigned to a publisher can use this API. For more information
 /// email helloplayfab@microsoft.com. Note that there may up to a minute delay in between updating title
-/// data and this API call returning the newest value. See also PFServerSetPublisherDataAsync
+/// data and this API call returning the newest value. See also ServerSetPublisherDataAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementServerGetPublisherDataGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFTitleDataManagementServerGetPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -962,7 +1023,9 @@ HRESULT PFTitleDataManagementServerGetPublisherDataGetResult(
 /// unique prices. Note that all prices defined in the catalog and store definitions for the item are
 /// considered valid, and that a compromised client can be made to send a request for an item based upon
 /// any of these definitions. If no price is specified in the store for an item, the price set in the
-/// catalog should be displayed to the user. See also PFServerGetCatalogItemsAsync
+/// catalog should be displayed to the user. See also ServerGetCatalogItemsAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementServerGetStoreItemsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementServerGetStoreItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -996,6 +1059,8 @@ HRESULT PFTitleDataManagementServerGetStoreItemsGetResult(
 /// <remarks>
 /// This query retrieves the current time from one of the servers in PlayFab. Please note that due to
 /// clock drift between servers, there is a potential variance of up to 5 seconds.
+///
+/// If successful, call <see cref="PFTitleDataManagementServerGetTimeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementServerGetTimeAsync(
     _In_ PFStateHandle stateHandle,
@@ -1027,7 +1092,9 @@ HRESULT PFTitleDataManagementServerGetTimeGetResult(
 /// title without the need to create, test, and ship a new build. If an override label is specified in
 /// the request, the overrides are applied automatically and returned with the title data. Note that there
 /// may up to a minute delay in between updating title data and this API call returning the newest value.
-/// See also PFServerSetTitleDataAsync
+/// See also ServerSetTitleDataAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementServerGetTitleDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementServerGetTitleDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1063,7 +1130,10 @@ HRESULT PFTitleDataManagementServerGetTitleDataGetResult(
 /// This API is designed to return title specific values which are accessible only to the server. This
 /// can be used to tweak settings on game servers and Cloud Scripts without needed to update and re-deploy
 /// them. Note that there may up to a minute delay in between updating title data and this API call returning
-/// the newest value. See also PFServerSetTitleInternalDataAsync
+/// the newest value. See also ServerSetTitleInternalDataAsync.
+///
+/// If successful, call <see cref="PFTitleDataManagementServerGetTitleInternalDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFTitleDataManagementServerGetTitleInternalDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1134,7 +1204,9 @@ HRESULT PFTitleDataManagementServerGetTitleNewsGetResult(
 /// for cross-game coordination. Only titles assigned to a publisher can use this API. This operation
 /// is additive. If a Key does not exist in the current dataset, it will be added with the specified Value.
 /// If it already exists, the Value for that key will be overwritten with the new Value. For more information
-/// email helloplayfab@microsoft.com See also PFServerGetPublisherDataAsync
+/// email helloplayfab@microsoft.com See also ServerGetPublisherDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementServerSetPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1155,7 +1227,9 @@ HRESULT PFTitleDataManagementServerSetPublisherDataAsync(
 /// as enemy spawn rates, weapon strengths, movement speeds, etc. This allows a developer to update the
 /// title without the need to create, test, and ship a new build. This operation is additive. If a Key
 /// does not exist in the current dataset, it will be added with the specified Value. If it already exists,
-/// the Value for that key will be overwritten with the new Value. See also PFServerGetTitleDataAsync
+/// the Value for that key will be overwritten with the new Value. See also ServerGetTitleDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementServerSetTitleDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -1175,7 +1249,9 @@ HRESULT PFTitleDataManagementServerSetTitleDataAsync(
 /// can be used to tweak settings on game servers and Cloud Scripts without needed to update and re-deploy
 /// them. This operation is additive. If a Key does not exist in the current dataset, it will be added
 /// with the specified Value. If it already exists, the Value for that key will be overwritten with the
-/// new Value. See also PFServerGetTitleInternalDataAsync
+/// new Value. See also ServerGetTitleInternalDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFTitleDataManagementServerSetTitleInternalDataAsync(
     _In_ PFStateHandle stateHandle,

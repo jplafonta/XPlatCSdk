@@ -24,8 +24,10 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminGetServerBuildInfoAsync, PFAdminListServerBuildsAsync, PFClientMatchmakeAsync, PFAdminModifyServerBuildAsync,
-/// PFAdminRemoveServerBuildAsync, PFMatchmakerStartGameAsync
+/// See also AdminGetServerBuildInfoAsync, AdminListServerBuildsAsync, ClientMatchmakeAsync, AdminModifyServerBuildAsync,
+/// AdminRemoveServerBuildAsync, MatchmakerStartGameAsync.
+///
+/// If successful, call <see cref="PFGameServerAdminAddServerBuildGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGameServerAdminAddServerBuildAsync(
     _In_ PFStateHandle stateHandle,
@@ -60,8 +62,9 @@ HRESULT PFGameServerAdminAddServerBuildGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFAdminListServerBuildsAsync, PFAdminModifyServerBuildAsync,
-/// PFAdminRemoveServerBuildAsync
+/// See also AdminAddServerBuildAsync, AdminListServerBuildsAsync, AdminModifyServerBuildAsync, AdminRemoveServerBuildAsync.
+///
+/// If successful, call <see cref="PFGameServerAdminGetServerBuildInfoGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGameServerAdminGetServerBuildInfoAsync(
     _In_ PFStateHandle stateHandle,
@@ -97,8 +100,9 @@ HRESULT PFGameServerAdminGetServerBuildInfoGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFAdminListServerBuildsAsync, PFAdminModifyServerBuildAsync,
-/// PFAdminRemoveServerBuildAsync
+/// See also AdminAddServerBuildAsync, AdminListServerBuildsAsync, AdminModifyServerBuildAsync, AdminRemoveServerBuildAsync.
+///
+/// If successful, call <see cref="PFGameServerAdminGetServerBuildUploadUrlGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGameServerAdminGetServerBuildUploadUrlAsync(
     _In_ PFStateHandle stateHandle,
@@ -146,8 +150,10 @@ HRESULT PFGameServerAdminGetServerBuildUploadUrlGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFAdminGetServerBuildInfoAsync, PFClientMatchmakeAsync, PFAdminModifyServerBuildAsync,
-/// PFAdminRemoveServerBuildAsync, PFMatchmakerStartGameAsync
+/// See also AdminAddServerBuildAsync, AdminGetServerBuildInfoAsync, ClientMatchmakeAsync, AdminModifyServerBuildAsync,
+/// AdminRemoveServerBuildAsync, MatchmakerStartGameAsync.
+///
+/// If successful, call <see cref="PFGameServerAdminListServerBuildsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGameServerAdminListServerBuildsAsync(
     _In_ PFStateHandle stateHandle,
@@ -181,8 +187,9 @@ HRESULT PFGameServerAdminListServerBuildsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFAdminGetServerBuildInfoAsync, PFAdminListServerBuildsAsync,
-/// PFAdminRemoveServerBuildAsync
+/// See also AdminAddServerBuildAsync, AdminGetServerBuildInfoAsync, AdminListServerBuildsAsync, AdminRemoveServerBuildAsync.
+///
+/// If successful, call <see cref="PFGameServerAdminModifyServerBuildGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGameServerAdminModifyServerBuildAsync(
     _In_ PFStateHandle stateHandle,
@@ -218,8 +225,10 @@ HRESULT PFGameServerAdminModifyServerBuildGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFAdminGetServerBuildInfoAsync, PFAdminListServerBuildsAsync,
-/// PFClientMatchmakeAsync, PFAdminModifyServerBuildAsync, PFMatchmakerStartGameAsync
+/// See also AdminAddServerBuildAsync, AdminGetServerBuildInfoAsync, AdminListServerBuildsAsync, ClientMatchmakeAsync,
+/// AdminModifyServerBuildAsync, MatchmakerStartGameAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGameServerAdminRemoveServerBuildAsync(
     _In_ PFStateHandle stateHandle,

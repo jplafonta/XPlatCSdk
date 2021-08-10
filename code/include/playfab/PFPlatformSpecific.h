@@ -26,6 +26,8 @@ extern "C"
 /// More information can be found on configuring your game for the Google Cloud Messaging service in
 /// the Google developer documentation, here: http://developer.android.com/google/gcm/client.html. The
 /// steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
     _In_ PFEntityHandle entityHandle,
@@ -42,7 +44,8 @@ HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -77,7 +80,8 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlatformSpecificClientConsumePS5EntitlementsGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlatformSpecificClientConsumePS5EntitlementsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumePS5EntitlementsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -113,7 +117,8 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlatformSpecificClientConsumePSNEntitlementsGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlatformSpecificClientConsumePSNEntitlementsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumePSNEntitlementsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -149,7 +154,10 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithXboxAsync
+/// See also ClientLoginWithXboxAsync.
+///
+/// If successful, call <see cref="PFPlatformSpecificClientConsumeXboxEntitlementsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -201,7 +209,9 @@ HRESULT PFPlatformSpecificClientRefreshPSNAuthTokenAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart
+/// The steps to configure and send Push Notifications is described in the PlayFab tutorials, here: https://docs.microsoft.com/gaming/playfab/features/engagement/push-notifications/quickstart.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
     _In_ PFEntityHandle entityHandle,
@@ -223,6 +233,9 @@ HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
 /// of the Apple StoreKit and pass that in to this call. The resultant receipt contains new receipt instances
 /// for all non-consumable goods previously purchased by the user. This API call iterates through every
 /// purchase in the receipt and restores the items if they still exist in the catalog and can be validated.
+///
+/// If successful, call <see cref="PFPlatformSpecificClientRestoreIOSPurchasesGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientRestoreIOSPurchasesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -258,7 +271,8 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(
     _In_ PFEntityHandle entityHandle,
@@ -299,6 +313,9 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(
 /// as being for more expensive items (passing a receipt for a 99-cent purchase as being for a $19.99
 /// purchase, for example). Each receipt may be validated only once to avoid granting the same item over
 /// and over from a single purchase.
+///
+/// If successful, call <see cref="PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(
     _In_ PFEntityHandle entityHandle,
@@ -339,6 +356,9 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(
 /// it was set up in the Apple store. This enables the PlayFab service to securely validate that the purchase
 /// is for the correct item, in order to prevent uses from passing valid receipts as being for more expensive
 /// items (passing a receipt for a 99-cent purchase as being for a $19.99 purchase, for example).
+///
+/// If successful, call <see cref="PFPlatformSpecificClientValidateIOSReceiptGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateIOSReceiptAsync(
     _In_ PFEntityHandle entityHandle,
@@ -373,7 +393,8 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(
     _In_ PFEntityHandle entityHandle,
@@ -407,7 +428,8 @@ HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlatformSpecificServerAwardSteamAchievementGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlatformSpecificServerAwardSteamAchievementGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlatformSpecificServerAwardSteamAchievementAsync(
     _In_ PFStateHandle stateHandle,

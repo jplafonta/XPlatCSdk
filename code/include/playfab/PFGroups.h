@@ -28,7 +28,9 @@ extern "C"
 /// for cross-game coordination. Only titles assigned to a publisher can use this API. This operation
 /// is additive. If a Key does not exist in the current dataset, it will be added with the specified Value.
 /// If it already exists, the Value for that key will be overwritten with the new Value. For more information
-/// email helloplayfab@microsoft.com See also PFAdminGetPublisherDataAsync
+/// email helloplayfab@microsoft.com See also AdminGetPublisherDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsAdminSetPublisherDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -69,6 +71,8 @@ HRESULT PFGroupsClientAddSharedGroupMembersAsync(
 /// If SharedGroupId is specified, the service will attempt to create a group with that identifier, and
 /// will return an error if it is already in use. If no SharedGroupId is specified, a random identifier
 /// will be assigned.
+///
+/// If successful, call <see cref="PFGroupsClientCreateSharedGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsClientCreateSharedGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -178,6 +182,8 @@ HRESULT PFGroupsClientRemoveSharedGroupMembersAsync(
 /// received by the PlayFab service will determine the value available to subsequent read operations.
 /// For scenarios requiring coordination of data updates, it is recommended that titles make use of user
 /// data with read permission set to public, or a combination of user data and shared group data.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsClientUpdateSharedGroupDataAsync(
     _In_ PFEntityHandle entityHandle,
@@ -217,6 +223,8 @@ HRESULT PFGroupsServerAddSharedGroupMembersAsync(
 /// If SharedGroupId is specified, the service will attempt to create a group with that identifier, and
 /// will return an error if it is already in use. If no SharedGroupId is specified, a random identifier
 /// will be assigned.
+///
+/// If successful, call <see cref="PFGroupsServerCreateSharedGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsServerCreateSharedGroupAsync(
     _In_ PFStateHandle stateHandle,
@@ -342,6 +350,8 @@ HRESULT PFGroupsServerRemoveSharedGroupMembersAsync(
 /// received by the PlayFab service will determine the value available to subsequent read operations.
 /// For scenarios requiring coordination of data updates, it is recommended that titles make use of user
 /// data with read permission set to public, or a combination of user data and shared group data.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsServerUpdateSharedGroupDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -358,8 +368,10 @@ HRESULT PFGroupsServerUpdateSharedGroupDataAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Accepts an outstanding invitation to to join a group if the invited entity is not blocked by the
-/// group. Nothing is returned in the case of success. See also PFGroupApplyToGroupAsync, PFGroupListGroupApplicationsAsync,
-/// PFGroupRemoveGroupApplicationAsync
+/// group. Nothing is returned in the case of success. See also GroupApplyToGroupAsync, GroupListGroupApplicationsAsync,
+/// GroupRemoveGroupApplicationAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsAcceptGroupApplicationAsync(
     _In_ PFEntityHandle entityHandle,
@@ -377,8 +389,10 @@ HRESULT PFGroupsAcceptGroupApplicationAsync(
 /// <remarks>
 /// Accepts an outstanding invitation to join the group if the invited entity is not blocked by the group.
 /// Only the invited entity or a parent in its chain (e.g. title) may accept the invitation on the invited
-/// entity's behalf. Nothing is returned in the case of success. See also PFGroupInviteToGroupAsync, PFGroupListGroupInvitationsAsync,
-/// PFGroupListMembershipOpportunitiesAsync, PFGroupRemoveGroupInvitationAsync
+/// entity's behalf. Nothing is returned in the case of success. See also GroupInviteToGroupAsync, GroupListGroupInvitationsAsync,
+/// GroupListMembershipOpportunitiesAsync, GroupRemoveGroupInvitationAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsAcceptGroupInvitationAsync(
     _In_ PFEntityHandle entityHandle,
@@ -397,8 +411,10 @@ HRESULT PFGroupsAcceptGroupInvitationAsync(
 /// Adds members to a group or role. Existing members of the group will added to roles within the group,
 /// but if the user is not already a member of the group, only title claimants may add them to the group,
 /// and others must use the group application or invite system to add new members to a group. Returns
-/// nothing if successful. See also PFGroupApplyToGroupAsync, PFGroupInviteToGroupAsync, PFGroupListGroupMembersAsync,
-/// PFGroupRemoveMembersAsync
+/// nothing if successful. See also GroupApplyToGroupAsync, GroupInviteToGroupAsync, GroupListGroupMembersAsync,
+/// GroupRemoveMembersAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsAddMembersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -419,8 +435,10 @@ HRESULT PFGroupsAddMembersAsync(
 /// expires. By default, if the entity has an invitation to join the group outstanding, this will accept
 /// the invitation to join the group instead and return an error indicating such, rather than creating
 /// a duplicate application to join that will need to be cleaned up later. Returns information about the
-/// application or an error indicating an invitation was accepted instead. See also PFGroupAcceptGroupApplicationAsync,
-/// PFGroupListGroupApplicationsAsync, PFGroupRemoveGroupApplicationAsync
+/// application or an error indicating an invitation was accepted instead. See also GroupAcceptGroupApplicationAsync,
+/// GroupListGroupApplicationsAsync, GroupRemoveGroupApplicationAsync.
+///
+/// If successful, call <see cref="PFGroupsApplyToGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsApplyToGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -456,7 +474,9 @@ HRESULT PFGroupsApplyToGroupGetResult(
 /// Blocks a list of entities from joining a group. Blocked entities may not create new applications
 /// to join, be invited to join, accept an invitation, or have an application accepted. Failure due to
 /// being blocked does not clean up existing applications or invitations to the group. No data is returned
-/// in the case of success. See also PFGroupListGroupBlocksAsync, PFGroupUnblockEntityAsync
+/// in the case of success. See also GroupListGroupBlocksAsync, GroupUnblockEntityAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsBlockEntityAsync(
     _In_ PFEntityHandle entityHandle,
@@ -474,8 +494,10 @@ HRESULT PFGroupsBlockEntityAsync(
 /// <remarks>
 /// Changes the role membership of a list of entities from one role to another in in a single operation.
 /// The destination role must already exist. This is equivalent to adding the entities to the destination
-/// role and removing from the origin role. Returns nothing if successful. See also PFGroupAddMembersAsync,
-/// PFGroupCreateRoleAsync, PFGroupRemoveMembersAsync
+/// role and removing from the origin role. Returns nothing if successful. See also GroupAddMembersAsync,
+/// GroupCreateRoleAsync, GroupRemoveMembersAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsChangeMemberRoleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -492,8 +514,10 @@ HRESULT PFGroupsChangeMemberRoleAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Creates a new group, as well as administration and member roles, based off of a title's group template.
-/// Returns information about the group that was created. See also PFGroupAddMembersAsync, PFGroupApplyToGroupAsync,
-/// PFGroupDeleteGroupAsync, PFGroupInviteToGroupAsync, PFGroupListGroupMembersAsync, PFGroupRemoveMembersAsync
+/// Returns information about the group that was created. See also GroupAddMembersAsync, GroupApplyToGroupAsync,
+/// GroupDeleteGroupAsync, GroupInviteToGroupAsync, GroupListGroupMembersAsync, GroupRemoveMembersAsync.
+///
+/// If successful, call <see cref="PFGroupsCreateGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsCreateGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -528,7 +552,9 @@ HRESULT PFGroupsCreateGroupGetResult(
 /// <remarks>
 /// Creates a new role within an existing group, with no members. Both the role ID and role name must
 /// be unique within the group, but the name can be the same as the ID. The role ID is set at creation
-/// and cannot be changed. Returns information about the role that was created. See also PFGroupDeleteRoleAsync
+/// and cannot be changed. Returns information about the role that was created. See also GroupDeleteRoleAsync.
+///
+/// If successful, call <see cref="PFGroupsCreateRoleGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsCreateRoleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -578,7 +604,9 @@ HRESULT PFGroupsCreateRoleGetResult(
 /// Deletes a group and all roles, invitations, join requests, and blocks associated with it. Permission
 /// to delete is only required the group itself to execute this action. The group and data cannot be cannot
 /// be recovered once removed, but any abuse reports about the group will remain. No data is returned
-/// in the case of success. See also PFGroupCreateGroupAsync
+/// in the case of success. See also GroupCreateGroupAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsDeleteGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -594,7 +622,9 @@ HRESULT PFGroupsDeleteGroupAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns information about the role See also PFGroupCreateRoleAsync
+/// Returns information about the role See also GroupCreateRoleAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsDeleteRoleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -611,7 +641,9 @@ HRESULT PFGroupsDeleteRoleAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns the ID, name, role list and other non-membership related information about a group. See also
-/// PFGroupUpdateGroupAsync
+/// GroupUpdateGroupAsync.
+///
+/// If successful, call <see cref="PFGroupsGetGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsGetGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -649,8 +681,10 @@ HRESULT PFGroupsGetGroupGetResult(
 /// has an application to the group outstanding, this will accept the application instead and return an
 /// error indicating such, rather than creating a duplicate invitation to join that will need to be cleaned
 /// up later. Returns information about the new invitation or an error indicating an existing application
-/// to join was accepted. See also PFGroupAcceptGroupInvitationAsync, PFGroupListGroupInvitationsAsync,
-/// PFGroupListMembershipOpportunitiesAsync, PFGroupRemoveGroupInvitationAsync
+/// to join was accepted. See also GroupAcceptGroupInvitationAsync, GroupListGroupInvitationsAsync, GroupListMembershipOpportunitiesAsync,
+/// GroupRemoveGroupInvitationAsync.
+///
+/// If successful, call <see cref="PFGroupsInviteToGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsInviteToGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -685,7 +719,9 @@ HRESULT PFGroupsInviteToGroupGetResult(
 /// <remarks>
 /// Checks to see if an entity is a member of a group or role within the group. A result indicating if
 /// the entity is a member of the group is returned, or a permission error if the caller does not have
-/// permission to read the group's member list. See also PFGroupGetGroupAsync
+/// permission to read the group's member list. See also GroupGetGroupAsync.
+///
+/// If successful, call <see cref="PFGroupsIsMemberGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsIsMemberAsync(
     _In_ PFEntityHandle entityHandle,
@@ -714,7 +750,9 @@ HRESULT PFGroupsIsMemberGetResult(
 /// <remarks>
 /// Lists all outstanding requests to join a group. Returns a list of all requests to join, as well as
 /// when the request will expire. To get the group applications for a specific entity, use ListMembershipOpportunities.
-/// See also PFGroupAcceptGroupApplicationAsync, PFGroupApplyToGroupAsync, PFGroupRemoveGroupApplicationAsync
+/// See also GroupAcceptGroupApplicationAsync, GroupApplyToGroupAsync, GroupRemoveGroupApplicationAsync.
+///
+/// If successful, call <see cref="PFGroupsListGroupApplicationsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsListGroupApplicationsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -748,7 +786,9 @@ HRESULT PFGroupsListGroupApplicationsGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Lists all entities blocked from joining a group. A list of blocked entities is returned See also
-/// PFGroupBlockEntityAsync, PFGroupUnblockEntityAsync
+/// GroupBlockEntityAsync, GroupUnblockEntityAsync.
+///
+/// If successful, call <see cref="PFGroupsListGroupBlocksGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsListGroupBlocksAsync(
     _In_ PFEntityHandle entityHandle,
@@ -783,8 +823,10 @@ HRESULT PFGroupsListGroupBlocksGetResult(
 /// <remarks>
 /// Lists all outstanding invitations for a group. Returns a list of entities that have been invited,
 /// as well as when the invitation will expire. To get the group invitations for a specific entity, use
-/// ListMembershipOpportunities. See also PFGroupAcceptGroupInvitationAsync, PFGroupInviteToGroupAsync,
-/// PFGroupListMembershipOpportunitiesAsync, PFGroupRemoveGroupInvitationAsync
+/// ListMembershipOpportunities. See also GroupAcceptGroupInvitationAsync, GroupInviteToGroupAsync, GroupListMembershipOpportunitiesAsync,
+/// GroupRemoveGroupInvitationAsync.
+///
+/// If successful, call <see cref="PFGroupsListGroupInvitationsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsListGroupInvitationsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -819,7 +861,9 @@ HRESULT PFGroupsListGroupInvitationsGetResult(
 /// <remarks>
 /// Gets a list of members and the roles they belong to within the group. If the caller does not have
 /// permission to view the role, and the member is in no other role, the member is not displayed. Returns
-/// a list of entities that are members of the group. See also PFGroupListMembershipAsync
+/// a list of entities that are members of the group. See also GroupListMembershipAsync.
+///
+/// If successful, call <see cref="PFGroupsListGroupMembersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsListGroupMembersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -855,7 +899,9 @@ HRESULT PFGroupsListGroupMembersGetResult(
 /// Lists the groups and roles that an entity is a part of, checking to see if group and role metadata
 /// and memberships should be visible to the caller. If the entity is not in any roles that are visible
 /// to the caller, the group is not returned in the results, even if the caller otherwise has permission
-/// to see that the entity is a member of that group. See also PFGroupListGroupMembersAsync, PFGroupListMembershipOpportunitiesAsync
+/// to see that the entity is a member of that group. See also GroupListGroupMembersAsync, GroupListMembershipOpportunitiesAsync.
+///
+/// If successful, call <see cref="PFGroupsListMembershipGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsListMembershipAsync(
     _In_ PFEntityHandle entityHandle,
@@ -891,7 +937,9 @@ HRESULT PFGroupsListMembershipGetResult(
 /// Lists all outstanding group applications and invitations for an entity. Anyone may call this for
 /// any entity, but data will only be returned for the entity or a parent of that entity. To list invitations
 /// or applications for a group to check if a player is trying to join, use ListGroupInvitations and ListGroupApplications.
-/// See also PFGroupListGroupApplicationsAsync, PFGroupListGroupInvitationsAsync
+/// See also GroupListGroupApplicationsAsync, GroupListGroupInvitationsAsync.
+///
+/// If successful, call <see cref="PFGroupsListMembershipOpportunitiesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsListMembershipOpportunitiesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -927,8 +975,10 @@ HRESULT PFGroupsListMembershipOpportunitiesGetResult(
 /// Removes an existing application to join the group. This is used for both rejection of an application
 /// as well as withdrawing an application. The applying entity or a parent in its chain (e.g. title) may
 /// withdraw the application, and any caller with appropriate access in the group may reject an application.
-/// No data is returned in the case of success. See also PFGroupAcceptGroupApplicationAsync, PFGroupApplyToGroupAsync,
-/// PFGroupListGroupApplicationsAsync
+/// No data is returned in the case of success. See also GroupAcceptGroupApplicationAsync, GroupApplyToGroupAsync,
+/// GroupListGroupApplicationsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsRemoveGroupApplicationAsync(
     _In_ PFEntityHandle entityHandle,
@@ -947,8 +997,10 @@ HRESULT PFGroupsRemoveGroupApplicationAsync(
 /// Removes an existing invitation to join the group. This is used for both rejection of an invitation
 /// as well as rescinding an invitation. The invited entity or a parent in its chain (e.g. title) may
 /// reject the invitation by calling this method, and any caller with appropriate access in the group
-/// may rescind an invitation. No data is returned in the case of success. See also PFGroupAcceptGroupInvitationAsync,
-/// PFGroupInviteToGroupAsync, PFGroupListGroupInvitationsAsync, PFGroupListMembershipOpportunitiesAsync
+/// may rescind an invitation. No data is returned in the case of success. See also GroupAcceptGroupInvitationAsync,
+/// GroupInviteToGroupAsync, GroupListGroupInvitationsAsync, GroupListMembershipOpportunitiesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsRemoveGroupInvitationAsync(
     _In_ PFEntityHandle entityHandle,
@@ -965,7 +1017,9 @@ HRESULT PFGroupsRemoveGroupInvitationAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Removes members from a group. A member can always remove themselves from a group, regardless of permissions.
-/// Returns nothing if successful. See also PFGroupAddMembersAsync, PFGroupListGroupMembersAsync
+/// Returns nothing if successful. See also GroupAddMembersAsync, GroupListGroupMembersAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsRemoveMembersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -982,7 +1036,9 @@ HRESULT PFGroupsRemoveMembersAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Unblocks a list of entities from joining a group. No data is returned in the case of success. See
-/// also PFGroupBlockEntityAsync, PFGroupListGroupBlocksAsync
+/// also GroupBlockEntityAsync, GroupListGroupBlocksAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFGroupsUnblockEntityAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1000,7 +1056,9 @@ HRESULT PFGroupsUnblockEntityAsync(
 /// <remarks>
 /// Updates data about a group, such as the name or default member role. Returns information about whether
 /// the update was successful. Only title claimants may modify the administration role for a group. See
-/// also PFGroupCreateGroupAsync, PFGroupDeleteGroupAsync, PFGroupGetGroupAsync
+/// also GroupCreateGroupAsync, GroupDeleteGroupAsync, GroupGetGroupAsync.
+///
+/// If successful, call <see cref="PFGroupsUpdateGroupGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsUpdateGroupAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1033,8 +1091,10 @@ HRESULT PFGroupsUpdateGroupGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Updates the role name. Returns information about whether the update was successful. See also PFGroupCreateRoleAsync,
-/// PFGroupDeleteRoleAsync
+/// Updates the role name. Returns information about whether the update was successful. See also GroupCreateRoleAsync,
+/// GroupDeleteRoleAsync.
+///
+/// If successful, call <see cref="PFGroupsUpdateRoleGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFGroupsUpdateRoleAsync(
     _In_ PFEntityHandle entityHandle,

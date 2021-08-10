@@ -23,7 +23,9 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminDeleteOpenIdConnectionAsync, PFAdminListOpenIdConnectionAsync, PFAdminUpdateOpenIdConnectionAsync
+/// See also AdminDeleteOpenIdConnectionAsync, AdminListOpenIdConnectionAsync, AdminUpdateOpenIdConnectionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationAdminCreateOpenIdConnectionAsync(
     _In_ PFStateHandle stateHandle,
@@ -44,7 +46,10 @@ HRESULT PFAuthenticationAdminCreateOpenIdConnectionAsync(
 /// <remarks>
 /// Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the
 /// shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when
-/// that API requires a signature header. See also PFAdminGetPlayerSharedSecretsAsync, PFAdminUpdatePlayerSharedSecretAsync
+/// that API requires a signature header. See also AdminGetPlayerSharedSecretsAsync, AdminUpdatePlayerSharedSecretAsync.
+///
+/// If successful, call <see cref="PFAuthenticationAdminCreatePlayerSharedSecretGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAuthenticationAdminCreatePlayerSharedSecretAsync(
     _In_ PFStateHandle stateHandle,
@@ -93,7 +98,9 @@ HRESULT PFAuthenticationAdminCreatePlayerSharedSecretGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreateOpenIdConnectionAsync, PFAdminListOpenIdConnectionAsync, PFAdminUpdateOpenIdConnectionAsync
+/// See also AdminCreateOpenIdConnectionAsync, AdminListOpenIdConnectionAsync, AdminUpdateOpenIdConnectionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationAdminDeleteOpenIdConnectionAsync(
     _In_ PFStateHandle stateHandle,
@@ -114,8 +121,10 @@ HRESULT PFAuthenticationAdminDeleteOpenIdConnectionAsync(
 /// <remarks>
 /// Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the
 /// shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when
-/// that API requires a signature header. See also PFAdminCreatePlayerSharedSecretAsync, PFAdminGetPlayerSharedSecretsAsync,
-/// PFAdminUpdatePlayerSharedSecretAsync
+/// that API requires a signature header. See also AdminCreatePlayerSharedSecretAsync, AdminGetPlayerSharedSecretsAsync,
+/// AdminUpdatePlayerSharedSecretAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationAdminDeletePlayerSharedSecretAsync(
     _In_ PFStateHandle stateHandle,
@@ -134,7 +143,10 @@ HRESULT PFAuthenticationAdminDeletePlayerSharedSecretAsync(
 /// <remarks>
 /// Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the
 /// shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when
-/// that API requires a signature header. See also PFAdminCreatePlayerSharedSecretAsync, PFAdminUpdatePlayerSharedSecretAsync
+/// that API requires a signature header. See also AdminCreatePlayerSharedSecretAsync, AdminUpdatePlayerSharedSecretAsync.
+///
+/// If successful, call <see cref="PFAuthenticationAdminGetPlayerSharedSecretsGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAuthenticationAdminGetPlayerSharedSecretsAsync(
     _In_ PFStateHandle stateHandle,
@@ -168,7 +180,9 @@ HRESULT PFAuthenticationAdminGetPlayerSharedSecretsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Views the requested policy. Today, the only supported policy is 'ApiPolicy'. See also PFAdminUpdatePolicyAsync
+/// Views the requested policy. Today, the only supported policy is 'ApiPolicy'. See also AdminUpdatePolicyAsync.
+///
+/// If successful, call <see cref="PFAuthenticationAdminGetPolicyGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationAdminGetPolicyAsync(
     _In_ PFStateHandle stateHandle,
@@ -202,7 +216,9 @@ HRESULT PFAuthenticationAdminGetPolicyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreateOpenIdConnectionAsync, PFAdminDeleteOpenIdConnectionAsync, PFAdminUpdateOpenIdConnectionAsync
+/// See also AdminCreateOpenIdConnectionAsync, AdminDeleteOpenIdConnectionAsync, AdminUpdateOpenIdConnectionAsync.
+///
+/// If successful, call <see cref="PFAuthenticationAdminListOpenIdConnectionGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationAdminListOpenIdConnectionAsync(
     _In_ PFStateHandle stateHandle,
@@ -242,6 +258,8 @@ HRESULT PFAuthenticationAdminListOpenIdConnectionGetResult(
 /// JSON body as it will be sent to the server, the current time in UTC formatted to ISO 8601, and the
 /// players secret formatted as 'body.date.secret'. Place the resulting hash into the header X-PlayFab-Signature,
 /// along with a header X-PlayFab-Timestamp of the same UTC timestamp used in the signature.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationAdminSetPlayerSecretAsync(
     _In_ PFStateHandle stateHandle,
@@ -260,7 +278,9 @@ HRESULT PFAuthenticationAdminSetPlayerSecretAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreateOpenIdConnectionAsync, PFAdminDeleteOpenIdConnectionAsync, PFAdminListOpenIdConnectionAsync
+/// See also AdminCreateOpenIdConnectionAsync, AdminDeleteOpenIdConnectionAsync, AdminListOpenIdConnectionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationAdminUpdateOpenIdConnectionAsync(
     _In_ PFStateHandle stateHandle,
@@ -281,7 +301,9 @@ HRESULT PFAuthenticationAdminUpdateOpenIdConnectionAsync(
 /// <remarks>
 /// Player Shared Secret Keys are used for the call to Client/GetTitlePublicKey, which exchanges the
 /// shared secret for an RSA CSP blob to be used to encrypt the payload of account creation requests when
-/// that API requires a signature header. See also PFAdminCreatePlayerSharedSecretAsync, PFAdminGetPlayerSharedSecretsAsync
+/// that API requires a signature header. See also AdminCreatePlayerSharedSecretAsync, AdminGetPlayerSharedSecretsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationAdminUpdatePlayerSharedSecretAsync(
     _In_ PFStateHandle stateHandle,
@@ -305,7 +327,9 @@ HRESULT PFAuthenticationAdminUpdatePlayerSharedSecretAsync(
 /// that you have the latest version always download the current policy from GetPolicy before uploading
 /// a new policy. PlayFab updates the base policy periodically and will automatically apply it to the
 /// uploaded policy. Overwriting the combined policy blindly may result in unexpected API errors. See
-/// also PFAdminGetPolicyAsync
+/// also AdminGetPolicyAsync.
+///
+/// If successful, call <see cref="PFAuthenticationAdminUpdatePolicyGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationAdminUpdatePolicyAsync(
     _In_ PFStateHandle stateHandle,
@@ -341,7 +365,8 @@ HRESULT PFAuthenticationAdminUpdatePolicyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAuthenticationClientGetPhotonAuthenticationTokenGetResult"/> to get the result.
+/// If successful, call <see cref="PFAuthenticationClientGetPhotonAuthenticationTokenGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientGetPhotonAuthenticationTokenAsync(
     _In_ PFEntityHandle entityHandle,
@@ -396,6 +421,8 @@ HRESULT PFAuthenticationClientGetPhotonAuthenticationTokenGetResult(
 /// result into the EncryptedRequest and with the TitleId field, all other fields can be left empty when
 /// performing the API request. 4) Client receives authentication token as normal. Future requests to
 /// LoginWithCustomId will require the X-PlayFab-Signature header.
+///
+/// If successful, call <see cref="PFAuthenticationClientGetTitlePublicKeyGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientGetTitlePublicKeyAsync(
     _In_ PFStateHandle stateHandle,
@@ -453,13 +480,30 @@ HRESULT PFAuthenticationClientGetTitlePublicKeyGetResult(
 /// the user through creation of a PlayFab account. Please note that while multiple devices of this type
 /// can be linked to a single user account, only the one most recently used to login (or most recently
 /// linked) will be reflected in the user's account information. We will be updating to show all linked
-/// devices in a future release. See also PFClientLinkAndroidDeviceIDAsync, PFClientLoginWithIOSDeviceIDAsync,
-/// PFClientUnlinkAndroidDeviceIDAsync
+/// devices in a future release. See also ClientLinkAndroidDeviceIDAsync, ClientLoginWithIOSDeviceIDAsync,
+/// ClientUnlinkAndroidDeviceIDAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithAndroidDeviceIDAsync(
     _In_ PFStateHandle stateHandle,
     _In_ const PFAuthenticationLoginWithAndroidDeviceIDRequest* request,
     _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <symmary>
+/// Get the result from a PFAuthenticationClientLogin* call.
+/// </symmary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If the login attempt fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// when it is no longer needed.
+/// </remarks>
+HRESULT PFAuthenticationClientLoginGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
 ) noexcept;
 
 /// <summary>
@@ -470,7 +514,9 @@ HRESULT PFAuthenticationClientLoginWithAndroidDeviceIDAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkAppleAsync, PFClientUnlinkAppleAsync
+/// See also ClientLinkAppleAsync, ClientUnlinkAppleAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithAppleAsync(
     _In_ PFStateHandle stateHandle,
@@ -492,8 +538,10 @@ HRESULT PFAuthenticationClientLoginWithAppleAsync(
 /// in with the Custom ID and CreateAccount is set to true, a new PlayFab account will be created and
 /// linked to the Custom ID. In this case, no email or username will be associated with the PlayFab account.
 /// Otherwise, if no PlayFab account is linked to the Custom ID, an error indicating this will be returned,
-/// so that the title can guide the user through creation of a PlayFab account. See also PFClientLinkCustomIDAsync,
-/// PFClientUnlinkCustomIDAsync
+/// so that the title can guide the user through creation of a PlayFab account. See also ClientLinkCustomIDAsync,
+/// ClientUnlinkCustomIDAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithCustomIDAsync(
     _In_ PFStateHandle stateHandle,
@@ -515,7 +563,9 @@ HRESULT PFAuthenticationClientLoginWithCustomIDAsync(
 /// Email address and password lengths are provided for information purposes. The server will validate
 /// that data passed in conforms to the field definition and report errors appropriately. It is recommended
 /// that developers not perform this validation locally, so that future updates do not require client
-/// updates. See also PFClientLoginWithPlayFabAsync, PFClientRegisterPlayFabUserAsync
+/// updates. See also ClientLoginWithPlayFabAsync, ClientRegisterPlayFabUserAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithEmailAddressAsync(
     _In_ PFStateHandle stateHandle,
@@ -543,8 +593,10 @@ HRESULT PFAuthenticationClientLoginWithEmailAddressAsync(
 /// the same Facebook applications between PlayFab Title IDs, as Facebook provides unique user IDs per
 /// application and doing so can result in issues with the Facebook ID for the user in their PlayFab account
 /// information. If you must re-use an application in a new PlayFab Title ID, please be sure to first
-/// unlink all accounts from Facebook, or delete all users in the first Title ID. See also PFClientLinkFacebookAccountAsync,
-/// PFClientUnlinkFacebookAccountAsync
+/// unlink all accounts from Facebook, or delete all users in the first Title ID. See also ClientLinkFacebookAccountAsync,
+/// ClientUnlinkFacebookAccountAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithFacebookAsync(
     _In_ PFStateHandle stateHandle,
@@ -561,7 +613,9 @@ HRESULT PFAuthenticationClientLoginWithFacebookAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkFacebookInstantGamesIdAsync, PFClientUnlinkFacebookInstantGamesIdAsync
+/// See also ClientLinkFacebookInstantGamesIdAsync, ClientUnlinkFacebookInstantGamesIdAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithFacebookInstantGamesIdAsync(
     _In_ PFStateHandle stateHandle,
@@ -589,7 +643,9 @@ HRESULT PFAuthenticationClientLoginWithFacebookInstantGamesIdAsync(
 /// is set to true, a new PlayFab account will be created and linked to the Game Center identifier. In
 /// this case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab
 /// account is linked to the Game Center account, an error indicating this will be returned, so that the
-/// title can guide the user through creation of a PlayFab account. See also PFClientLoginWithIOSDeviceIDAsync
+/// title can guide the user through creation of a PlayFab account. See also ClientLoginWithIOSDeviceIDAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithGameCenterAsync(
     _In_ PFStateHandle stateHandle,
@@ -621,6 +677,8 @@ HRESULT PFAuthenticationClientLoginWithGameCenterAsync(
 /// the client and passing it as the AccessToken parameter to this API. for the with the Google OAuth
 /// 2.0 Access Token. More information on this change can be found in the Google developer documentation
 /// (https://android-developers.googleblog.com/2016/01/play-games-permissions-are-changing-in.html).
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithGoogleAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -647,7 +705,9 @@ HRESULT PFAuthenticationClientLoginWithGoogleAccountAsync(
 /// can guide the user through creation of a PlayFab account. Please note that while multiple devices
 /// of this type can be linked to a single user account, only the one most recently used to login (or
 /// most recently linked) will be reflected in the user's account information. We will be updating to
-/// show all linked devices in a future release. See also PFClientLinkIOSDeviceIDAsync, PFClientUnlinkIOSDeviceIDAsync
+/// show all linked devices in a future release. See also ClientLinkIOSDeviceIDAsync, ClientUnlinkIOSDeviceIDAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithIOSDeviceIDAsync(
     _In_ PFStateHandle stateHandle,
@@ -670,7 +730,9 @@ HRESULT PFAuthenticationClientLoginWithIOSDeviceIDAsync(
 /// a user matched to this Kongregate ID, then PlayFab will create a new account for this user and link
 /// the ID. In this case, no email or username will be associated with the PlayFab account. If there is
 /// already a different PlayFab user linked with this account, then an error will be returned. See also
-/// PFClientLinkKongregateAsync, PFClientUnlinkKongregateAsync
+/// ClientLinkKongregateAsync, ClientUnlinkKongregateAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithKongregateAsync(
     _In_ PFStateHandle stateHandle,
@@ -686,7 +748,9 @@ HRESULT PFAuthenticationClientLoginWithKongregateAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkNintendoServiceAccountAsync, PFClientUnlinkNintendoServiceAccountAsync
+/// See also ClientLinkNintendoServiceAccountAsync, ClientUnlinkNintendoServiceAccountAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithNintendoServiceAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -703,7 +767,9 @@ HRESULT PFAuthenticationClientLoginWithNintendoServiceAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkNintendoSwitchDeviceIdAsync, PFClientUnlinkNintendoSwitchDeviceIdAsync
+/// See also ClientLinkNintendoSwitchDeviceIdAsync, ClientUnlinkNintendoSwitchDeviceIdAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithNintendoSwitchDeviceIdAsync(
     _In_ PFStateHandle stateHandle,
@@ -720,7 +786,9 @@ HRESULT PFAuthenticationClientLoginWithNintendoSwitchDeviceIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkOpenIdConnectAsync, PFClientUnlinkOpenIdConnectAsync
+/// See also ClientLinkOpenIdConnectAsync, ClientUnlinkOpenIdConnectAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithOpenIdConnectAsync(
     _In_ PFStateHandle stateHandle,
@@ -742,8 +810,10 @@ HRESULT PFAuthenticationClientLoginWithOpenIdConnectAsync(
 /// Username and password lengths are provided for information purposes. The server will validate that
 /// data passed in conforms to the field definition and report errors appropriately. It is recommended
 /// that developers not perform this validation locally, so that future updates to the username or password
-/// do not require client updates. See also PFClientAddUsernamePasswordAsync, PFClientLoginWithEmailAddressAsync,
-/// PFClientRegisterPlayFabUserAsync
+/// do not require client updates. See also ClientAddUsernamePasswordAsync, ClientLoginWithEmailAddressAsync,
+/// ClientRegisterPlayFabUserAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithPlayFabAsync(
     _In_ PFStateHandle stateHandle,
@@ -764,7 +834,9 @@ HRESULT PFAuthenticationClientLoginWithPlayFabAsync(
 /// is set to true, a new PlayFab account will be created and linked to the PSN account. In this case,
 /// no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account
 /// is linked to the PSN account, an error indicating this will be returned, so that the title can guide
-/// the user through creation of a PlayFab account. See also PFClientLinkPSNAccountAsync, PFClientUnlinkPSNAccountAsync
+/// the user through creation of a PlayFab account. See also ClientLinkPSNAccountAsync, ClientUnlinkPSNAccountAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithPSNAsync(
     _In_ PFStateHandle stateHandle,
@@ -790,7 +862,9 @@ HRESULT PFAuthenticationClientLoginWithPSNAsync(
 /// to true, a new PlayFab account will be created and linked to the provided account's Steam ID. In this
 /// case, no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account
 /// is linked to the Steam account, an error indicating this will be returned, so that the title can guide
-/// the user through creation of a PlayFab account. See also PFClientLinkSteamAccountAsync, PFClientUnlinkSteamAccountAsync
+/// the user through creation of a PlayFab account. See also ClientLinkSteamAccountAsync, ClientUnlinkSteamAccountAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithSteamAsync(
     _In_ PFStateHandle stateHandle,
@@ -813,7 +887,9 @@ HRESULT PFAuthenticationClientLoginWithSteamAsync(
 /// Twitch username that generated the token, then PlayFab will create a new account for this user and
 /// link the ID. In this case, no email or username will be associated with the PlayFab account. If there
 /// is already a different PlayFab user linked with this account, then an error will be returned. See
-/// also PFClientLinkTwitchAsync, PFClientUnlinkTwitchAsync
+/// also ClientLinkTwitchAsync, ClientUnlinkTwitchAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithTwitchAsync(
     _In_ PFStateHandle stateHandle,
@@ -834,7 +910,9 @@ HRESULT PFAuthenticationClientLoginWithTwitchAsync(
 /// to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case,
 /// no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account
 /// is linked to the Xbox Live account, an error indicating this will be returned, so that the title can
-/// guide the user through creation of a PlayFab account. See also PFClientLinkXboxAccountAsync, PFClientUnlinkXboxAccountAsync
+/// guide the user through creation of a PlayFab account. See also ClientLinkXboxAccountAsync, ClientUnlinkXboxAccountAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginWithXboxAsync(
     _In_ PFStateHandle stateHandle,
@@ -872,13 +950,30 @@ HRESULT PFAuthenticationLoginWithXUserAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithEmailAddressAsync, PFClientLoginWithPlayFabAsync
+/// See also ClientLoginWithEmailAddressAsync, ClientLoginWithPlayFabAsync.
+///
+/// If successful, call <see cref="PFAuthenticationClientRegisterPlayFabUserGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientRegisterPlayFabUserAsync(
     _In_ PFStateHandle stateHandle,
     _In_ const PFAuthenticationRegisterPlayFabUserRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
+
+/// <symmary>
+/// Get the result from a PFAuthenticationClientRegisterPlayFabUserAsync call.
+/// </symmary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If the PFAuthenticationClientRegisterPlayFabUserAsync call fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// when it is no longer needed.
+/// </remarks>
+HRESULT PFAuthenticationClientRegisterPlayFabUserGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
+) noexcept;   
 
 /// <summary>
 /// Sets the player's secret if it is not already set. Player secrets are used to sign API requests.
@@ -895,6 +990,8 @@ HRESULT PFAuthenticationClientRegisterPlayFabUserAsync(
 /// JSON body as it will be sent to the server, the current time in UTC formatted to ISO 8601, and the
 /// players secret formatted as 'body.date.secret'. Place the resulting hash into the header X-PlayFab-Signature,
 /// along with a header X-PlayFab-Timestamp of the same UTC timestamp used in the signature.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationClientSetPlayerSecretAsync(
     _In_ PFEntityHandle entityHandle,
@@ -914,6 +1011,9 @@ HRESULT PFAuthenticationClientSetPlayerSecretAsync(
 /// so care should be taken in how this data is stored and managed. Since this call will always return
 /// the relevant information for users who have accessed the title, the recommendation is to not store
 /// this data locally.
+///
+/// If successful, call <see cref="PFAuthenticationServerAuthenticateSessionTicketGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFAuthenticationServerAuthenticateSessionTicketAsync(
     _In_ PFStateHandle stateHandle,
@@ -948,12 +1048,27 @@ HRESULT PFAuthenticationServerAuthenticateSessionTicketGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAuthenticationServerLoginWithServerCustomIdGetResult"/> to get the result.
+/// If successful, call <see cref="PFAuthenticationServerLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationServerLoginWithServerCustomIdAsync(
     _In_ PFStateHandle stateHandle,
     _In_ const PFAuthenticationLoginWithServerCustomIdRequest* request,
     _Inout_ XAsyncBlock* async
+) noexcept;
+
+/// <symmary>
+/// Get the result from a PFAuthenticationServerLogin* call.
+/// </symmary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If the login attempt fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// when it is no longer needed.
+/// </remarks>
+HRESULT PFAuthenticationServerLoginGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
 ) noexcept;
 
 /// <summary>
@@ -972,6 +1087,8 @@ HRESULT PFAuthenticationServerLoginWithServerCustomIdAsync(
 /// of a PlayFab account. Steam users that are not logged into the Steam Client app will only have their
 /// Steam username synced, other data, such as currency and country will not be available until they login
 /// while the Client is open.
+///
+/// If successful, call <see cref="PFAuthenticationServerLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationServerLoginWithSteamIdAsync(
     _In_ PFStateHandle stateHandle,
@@ -992,7 +1109,9 @@ HRESULT PFAuthenticationServerLoginWithSteamIdAsync(
 /// to true, a new PlayFab account will be created and linked to the Xbox Live account. In this case,
 /// no email or username will be associated with the PlayFab account. Otherwise, if no PlayFab account
 /// is linked to the Xbox Live account, an error indicating this will be returned, so that the title can
-/// guide the user through creation of a PlayFab account. See also PFServerLinkXboxAccountAsync, PFServerUnlinkXboxAccountAsync
+/// guide the user through creation of a PlayFab account. See also ServerLinkXboxAccountAsync, ServerUnlinkXboxAccountAsync.
+///
+/// If successful, call <see cref="PFAuthenticationServerLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationServerLoginWithXboxAsync(
     _In_ PFStateHandle stateHandle,
@@ -1014,6 +1133,8 @@ HRESULT PFAuthenticationServerLoginWithXboxAsync(
 /// or username will be associated with the PlayFab account. Otherwise, if no PlayFab account is linked
 /// to the Xbox Live account, an error indicating this will be returned, so that the title can guide the
 /// user through creation of a PlayFab account.
+///
+/// If successful, call <see cref="PFAuthenticationServerLoginGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationServerLoginWithXboxIdAsync(
     _In_ PFStateHandle stateHandle,
@@ -1036,6 +1157,8 @@ HRESULT PFAuthenticationServerLoginWithXboxIdAsync(
 /// JSON body as it will be sent to the server, the current time in UTC formatted to ISO 8601, and the
 /// players secret formatted as 'body.date.secret'. Place the resulting hash into the header X-PlayFab-Signature,
 /// along with a header X-PlayFab-Timestamp of the same UTC timestamp used in the signature.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationServerSetPlayerSecretAsync(
     _In_ PFStateHandle stateHandle,
@@ -1044,26 +1167,35 @@ HRESULT PFAuthenticationServerSetPlayerSecretAsync(
 ) noexcept;
 
 /// <summary>
-/// Method to exchange a legacy AuthenticationTicket or title SecretKey for an Entity Token or to refresh
-/// a still valid Entity Token.
+/// Method to exchange a title SecretKey for an Entity Token.
 /// </summary>
 /// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// This API must be called with X-SecretKey, X-Authentication or X-EntityToken headers. An optional
-/// EntityKey may be included to attempt to set the resulting EntityToken to a specific entity, however
-/// the entity must be a relation of the caller, such as the master_player_account of a character. If
-/// sending X-EntityToken the account will be marked as freshly logged in and will issue a new token.
-/// If using X-Authentication or X-EntityToken the header must still be valid and cannot be expired or
-/// revoked.
+/// If successful, call <see cref="PFAuthenticationGetEntityTokenGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationGetEntityTokenAsync(
     _In_ PFStateHandle stateHandle,
     _In_ const PFAuthenticationGetEntityTokenRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
+
+/// <symmary>
+/// Get the result from a PFAuthenticationGetEntityTokenAsync call.
+/// </symmary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <returns>Result code for this API operation.</returns>
+/// <remarks>
+/// If the PFAuthenticationGetEntityTokenAsync call fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// when it is no longer needed.
+/// </remarks>
+HRESULT PFAuthenticationGetEntityTokenGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
+) noexcept;   
 
 /// <summary>
 /// Method for a server to validate a client provided EntityToken. Only callable by the title entity.
@@ -1075,6 +1207,8 @@ HRESULT PFAuthenticationGetEntityTokenAsync(
 /// <remarks>
 /// Given an entity token, validates that it hasn't expired or been revoked and will return details of
 /// the owner.
+///
+/// If successful, call <see cref="PFAuthenticationValidateEntityTokenGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAuthenticationValidateEntityTokenAsync(
     _In_ PFEntityHandle entityHandle,

@@ -23,8 +23,10 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Creates a multiplayer server build alias and returns the created alias. See also PFMultiplayerServerDeleteBuildAliasAsync,
-/// PFMultiplayerServerGetBuildAliasAsync, PFMultiplayerServerUpdateBuildAliasAsync
+/// Creates a multiplayer server build alias and returns the created alias. See also MultiplayerServerDeleteBuildAliasAsync,
+/// MultiplayerServerGetBuildAliasAsync, MultiplayerServerUpdateBuildAliasAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerCreateBuildAliasGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerCreateBuildAliasAsync(
     _In_ PFEntityHandle entityHandle,
@@ -60,8 +62,11 @@ HRESULT PFMultiplayerServerCreateBuildAliasGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Creates a multiplayer server build with a custom container and returns information about the build
-/// creation request. See also PFMultiplayerServerCreateBuildWithManagedContainerAsync, PFMultiplayerServerDeleteBuildAsync,
-/// PFMultiplayerServerGetBuildAsync, PFMultiplayerServerListBuildSummariesV2Async
+/// creation request. See also MultiplayerServerCreateBuildWithManagedContainerAsync, MultiplayerServerDeleteBuildAsync,
+/// MultiplayerServerGetBuildAsync, MultiplayerServerListBuildSummariesV2Async.
+///
+/// If successful, call <see cref="PFMultiplayerServerCreateBuildWithCustomContainerGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFMultiplayerServerCreateBuildWithCustomContainerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -97,8 +102,10 @@ HRESULT PFMultiplayerServerCreateBuildWithCustomContainerGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Creates a multiplayer server build with a managed container and returns information about the build
-/// creation request. See also PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerGetBuildAsync,
-/// PFMultiplayerServerListBuildSummariesV2Async
+/// creation request. See also MultiplayerServerDeleteBuildAsync, MultiplayerServerGetBuildAsync, MultiplayerServerListBuildSummariesV2Async.
+///
+/// If successful, call <see cref="PFMultiplayerServerCreateBuildWithManagedContainerGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerCreateBuildWithManagedContainerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -134,8 +141,11 @@ HRESULT PFMultiplayerServerCreateBuildWithManagedContainerGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Creates a multiplayer server build with the game server running as a process and returns information
-/// about the build creation request. See also PFMultiplayerServerCreateBuildWithManagedContainerAsync,
-/// PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerGetBuildAsync, PFMultiplayerServerListBuildSummariesV2Async
+/// about the build creation request. See also MultiplayerServerCreateBuildWithManagedContainerAsync,
+/// MultiplayerServerDeleteBuildAsync, MultiplayerServerGetBuildAsync, MultiplayerServerListBuildSummariesV2Async.
+///
+/// If successful, call <see cref="PFMultiplayerServerCreateBuildWithProcessBasedServerGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -171,8 +181,10 @@ HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Creates a remote user to log on to a VM for a multiplayer server build in a specific region. Returns
-/// user credential information necessary to log on. See also PFMultiplayerServerDeleteRemoteUserAsync,
-/// PFMultiplayerServerGetRemoteLoginEndpointAsync
+/// user credential information necessary to log on. See also MultiplayerServerDeleteRemoteUserAsync,
+/// MultiplayerServerGetRemoteLoginEndpointAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerCreateRemoteUserGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerCreateRemoteUserAsync(
     _In_ PFEntityHandle entityHandle,
@@ -207,8 +219,11 @@ HRESULT PFMultiplayerServerCreateRemoteUserGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Creates a request to change a title's multiplayer server quotas. See also PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync,
-/// PFMultiplayerServerListTitleMultiplayerServersQuotaChangesAsync
+/// Creates a request to change a title's multiplayer server quotas. See also MultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync,
+/// MultiplayerServerListTitleMultiplayerServersQuotaChangesAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeAsync(
     _In_ PFEntityHandle entityHandle,
@@ -257,8 +272,10 @@ HRESULT PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Deletes a multiplayer server game asset for a title. See also PFMultiplayerServerGetAssetUploadUrlAsync,
-/// PFMultiplayerServerListAssetSummariesAsync
+/// Deletes a multiplayer server game asset for a title. See also MultiplayerServerGetAssetUploadUrlAsync,
+/// MultiplayerServerListAssetSummariesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteAssetAsync(
     _In_ PFEntityHandle entityHandle,
@@ -276,8 +293,10 @@ HRESULT PFMultiplayerServerDeleteAssetAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Deletes a multiplayer server build. See also PFMultiplayerServerCreateBuildWithManagedContainerAsync,
-/// PFMultiplayerServerGetBuildAsync, PFMultiplayerServerListBuildSummariesV2Async
+/// Deletes a multiplayer server build. See also MultiplayerServerCreateBuildWithManagedContainerAsync,
+/// MultiplayerServerGetBuildAsync, MultiplayerServerListBuildSummariesV2Async.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteBuildAsync(
     _In_ PFEntityHandle entityHandle,
@@ -295,8 +314,10 @@ HRESULT PFMultiplayerServerDeleteBuildAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Deletes a multiplayer server build alias. See also PFMultiplayerServerCreateBuildAliasAsync, PFMultiplayerServerGetBuildAliasAsync,
-/// PFMultiplayerServerUpdateBuildAliasAsync
+/// Deletes a multiplayer server build alias. See also MultiplayerServerCreateBuildAliasAsync, MultiplayerServerGetBuildAliasAsync,
+/// MultiplayerServerUpdateBuildAliasAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteBuildAliasAsync(
     _In_ PFEntityHandle entityHandle,
@@ -314,8 +335,10 @@ HRESULT PFMultiplayerServerDeleteBuildAliasAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Removes a multiplayer server build's region. See also PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerGetBuildAsync,
-/// PFMultiplayerServerListBuildSummariesV2Async, PFMultiplayerServerUpdateBuildRegionAsync, PFMultiplayerServerUpdateBuildRegionsAsync
+/// Removes a multiplayer server build's region. See also MultiplayerServerDeleteBuildAsync, MultiplayerServerGetBuildAsync,
+/// MultiplayerServerListBuildSummariesV2Async, MultiplayerServerUpdateBuildRegionAsync, MultiplayerServerUpdateBuildRegionsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteBuildRegionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -333,8 +356,10 @@ HRESULT PFMultiplayerServerDeleteBuildRegionAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Deletes a multiplayer server game certificate. See also PFMultiplayerServerListCertificateSummariesAsync,
-/// PFMultiplayerServerUploadCertificateAsync
+/// Deletes a multiplayer server game certificate. See also MultiplayerServerListCertificateSummariesAsync,
+/// MultiplayerServerUploadCertificateAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteCertificateAsync(
     _In_ PFEntityHandle entityHandle,
@@ -354,7 +379,9 @@ HRESULT PFMultiplayerServerDeleteCertificateAsync(
 /// <remarks>
 /// Removes the specified container image repository. After this operation, a 'docker pull' will fail
 /// for all the tags of the specified image. Morever, ListContainerImages will not return the specified
-/// image. See also PFMultiplayerServerListContainerImageTagsAsync
+/// image. See also MultiplayerServerListContainerImageTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteContainerImageRepositoryAsync(
     _In_ PFEntityHandle entityHandle,
@@ -373,8 +400,10 @@ HRESULT PFMultiplayerServerDeleteContainerImageRepositoryAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Deletes a remote user to log on to a VM for a multiplayer server build in a specific region. Returns
-/// user credential information necessary to log on. See also PFMultiplayerServerCreateRemoteUserAsync,
-/// PFMultiplayerServerGetRemoteLoginEndpointAsync
+/// user credential information necessary to log on. See also MultiplayerServerCreateRemoteUserAsync,
+/// MultiplayerServerGetRemoteLoginEndpointAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerDeleteRemoteUserAsync(
     _In_ PFEntityHandle entityHandle,
@@ -395,7 +424,10 @@ HRESULT PFMultiplayerServerDeleteRemoteUserAsync(
 /// Enables the multiplayer server feature for a title and returns the enabled status. The enabled status
 /// can be Initializing, Enabled, and Disabled. It can up to 20 minutes or more for the title to be enabled
 /// for the feature. On average, it can take up to 20 minutes for the title to be enabled for the feature.
-/// See also PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusAsync
+/// See also MultiplayerServerGetTitleEnabledForMultiplayerServersStatusAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerEnableMultiplayerServersForTitleGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -429,8 +461,10 @@ HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Gets a URL that can be used to download the specified asset. See also PFMultiplayerServerGetAssetUploadUrlAsync,
-/// PFMultiplayerServerListAssetSummariesAsync
+/// Gets a URL that can be used to download the specified asset. See also MultiplayerServerGetAssetUploadUrlAsync,
+/// MultiplayerServerListAssetSummariesAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetAssetDownloadUrlGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetAssetDownloadUrlAsync(
     _In_ PFEntityHandle entityHandle,
@@ -478,8 +512,10 @@ HRESULT PFMultiplayerServerGetAssetDownloadUrlGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Gets the URL to upload assets to. See also PFMultiplayerServerListAssetSummariesAsync, PFMultiplayerServerListCertificateSummariesAsync,
-/// PFMultiplayerServerUploadCertificateAsync
+/// Gets the URL to upload assets to. See also MultiplayerServerListAssetSummariesAsync, MultiplayerServerListCertificateSummariesAsync,
+/// MultiplayerServerUploadCertificateAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetAssetUploadUrlGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetAssetUploadUrlAsync(
     _In_ PFEntityHandle entityHandle,
@@ -528,8 +564,10 @@ HRESULT PFMultiplayerServerGetAssetUploadUrlGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns the details about a multiplayer server build. See also PFMultiplayerServerCreateBuildWithManagedContainerAsync,
-/// PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerListBuildSummariesV2Async
+/// Returns the details about a multiplayer server build. See also MultiplayerServerCreateBuildWithManagedContainerAsync,
+/// MultiplayerServerDeleteBuildAsync, MultiplayerServerListBuildSummariesV2Async.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetBuildGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetBuildAsync(
     _In_ PFEntityHandle entityHandle,
@@ -564,8 +602,10 @@ HRESULT PFMultiplayerServerGetBuildGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns the details about a multiplayer server build alias. See also PFMultiplayerServerCreateBuildAliasAsync,
-/// PFMultiplayerServerDeleteBuildAliasAsync, PFMultiplayerServerUpdateBuildAliasAsync
+/// Returns the details about a multiplayer server build alias. See also MultiplayerServerCreateBuildAliasAsync,
+/// MultiplayerServerDeleteBuildAliasAsync, MultiplayerServerUpdateBuildAliasAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetBuildAliasGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetBuildAliasAsync(
     _In_ PFEntityHandle entityHandle,
@@ -601,7 +641,10 @@ HRESULT PFMultiplayerServerGetBuildAliasGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets credentials to the container registry where game developers can upload custom container images
-/// to before creating a new build. See also PFMultiplayerServerCreateBuildWithCustomContainerAsync, PFMultiplayerServerRolloverContainerRegistryCredentialsAsync
+/// to before creating a new build. See also MultiplayerServerCreateBuildWithCustomContainerAsync, MultiplayerServerRolloverContainerRegistryCredentialsAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetContainerRegistryCredentialsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetContainerRegistryCredentialsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -650,7 +693,10 @@ HRESULT PFMultiplayerServerGetContainerRegistryCredentialsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Gets multiplayer server session details for a build in a specific region. See also PFMultiplayerServerRequestMultiplayerServerAsync
+/// Gets multiplayer server session details for a build in a specific region. See also MultiplayerServerRequestMultiplayerServerAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetMultiplayerServerDetailsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetMultiplayerServerDetailsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -686,7 +732,10 @@ HRESULT PFMultiplayerServerGetMultiplayerServerDetailsGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets multiplayer server logs for a specific server id in a region. The logs are available only after
-/// a server has terminated. See also PFMultiplayerServerGetMultiplayerServerDetailsAsync, PFMultiplayerServerRequestMultiplayerServerAsync
+/// a server has terminated. See also MultiplayerServerGetMultiplayerServerDetailsAsync, MultiplayerServerRequestMultiplayerServerAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetMultiplayerServerLogsGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetMultiplayerServerLogsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -736,7 +785,10 @@ HRESULT PFMultiplayerServerGetMultiplayerServerLogsGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets multiplayer server logs for a specific server id in a region. The logs are available only after
-/// a server has terminated. See also PFMultiplayerServerGetMultiplayerServerDetailsAsync, PFMultiplayerServerRequestMultiplayerServerAsync
+/// a server has terminated. See also MultiplayerServerGetMultiplayerServerDetailsAsync, MultiplayerServerRequestMultiplayerServerAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetMultiplayerSessionLogsBySessionIdGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetMultiplayerSessionLogsBySessionIdAsync(
     _In_ PFEntityHandle entityHandle,
@@ -786,7 +838,9 @@ HRESULT PFMultiplayerServerGetMultiplayerSessionLogsBySessionIdGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets a remote login endpoint to a VM that is hosting a multiplayer server build in a specific region.
-/// See also PFMultiplayerServerCreateRemoteUserAsync
+/// See also MultiplayerServerCreateRemoteUserAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetRemoteLoginEndpointGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetRemoteLoginEndpointAsync(
     _In_ PFEntityHandle entityHandle,
@@ -836,7 +890,10 @@ HRESULT PFMultiplayerServerGetRemoteLoginEndpointGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets the status of whether a title is enabled for the multiplayer server feature. The enabled status
-/// can be Initializing, Enabled, and Disabled. See also PFMultiplayerServerEnableMultiplayerServersForTitleAsync
+/// can be Initializing, Enabled, and Disabled. See also MultiplayerServerEnableMultiplayerServersForTitleAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusAsync(
     _In_ PFEntityHandle entityHandle,
@@ -871,8 +928,11 @@ HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Gets a title's server quota change request. See also PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeAsync,
-/// PFMultiplayerServerListTitleMultiplayerServersQuotaChangesAsync
+/// Gets a title's server quota change request. See also MultiplayerServerCreateTitleMultiplayerServersQuotaChangeAsync,
+/// MultiplayerServerListTitleMultiplayerServersQuotaChangesAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync(
     _In_ PFEntityHandle entityHandle,
@@ -908,6 +968,9 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets the quotas for a title in relation to multiplayer servers.
+///
+/// If successful, call <see cref="PFMultiplayerServerGetTitleMultiplayerServersQuotasGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasAsync(
     _In_ PFEntityHandle entityHandle,
@@ -942,7 +1005,10 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of archived multiplayer servers for a build in a specific region. See also PFMultiplayerServerRequestMultiplayerServerAsync
+/// Returns a list of archived multiplayer servers for a build in a specific region. See also MultiplayerServerRequestMultiplayerServerAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListArchivedMultiplayerServersGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListArchivedMultiplayerServersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -977,8 +1043,10 @@ HRESULT PFMultiplayerServerListArchivedMultiplayerServersGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of multiplayer server game asset summaries for a title. See also PFMultiplayerServerGetAssetUploadUrlAsync,
-/// PFMultiplayerServerListCertificateSummariesAsync, PFMultiplayerServerUploadCertificateAsync
+/// Returns a list of multiplayer server game asset summaries for a title. See also MultiplayerServerGetAssetUploadUrlAsync,
+/// MultiplayerServerListCertificateSummariesAsync, MultiplayerServerUploadCertificateAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListAssetSummariesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListAssetSummariesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1014,8 +1082,10 @@ HRESULT PFMultiplayerServerListAssetSummariesGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of summarized details of all multiplayer server builds for a title. See also PFMultiplayerServerCreateBuildWithManagedContainerAsync,
-/// PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerGetBuildAsync
+/// Returns a list of summarized details of all multiplayer server builds for a title. See also MultiplayerServerCreateBuildWithManagedContainerAsync,
+/// MultiplayerServerDeleteBuildAsync, MultiplayerServerGetBuildAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListBuildAliasesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListBuildAliasesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1052,8 +1122,10 @@ HRESULT PFMultiplayerServerListBuildAliasesGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of summarized details of all multiplayer server builds for a title. See also PFMultiplayerServerCreateBuildWithManagedContainerAsync,
-/// PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerGetBuildAsync
+/// Returns a list of summarized details of all multiplayer server builds for a title. See also MultiplayerServerCreateBuildWithManagedContainerAsync,
+/// MultiplayerServerDeleteBuildAsync, MultiplayerServerGetBuildAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListBuildSummariesV2GetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListBuildSummariesV2Async(
     _In_ PFEntityHandle entityHandle,
@@ -1088,8 +1160,11 @@ HRESULT PFMultiplayerServerListBuildSummariesV2GetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of multiplayer server game certificates for a title. See also PFMultiplayerServerDeleteCertificateAsync,
-/// PFMultiplayerServerUploadCertificateAsync
+/// Returns a list of multiplayer server game certificates for a title. See also MultiplayerServerDeleteCertificateAsync,
+/// MultiplayerServerUploadCertificateAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListCertificateSummariesGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFMultiplayerServerListCertificateSummariesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1125,7 +1200,9 @@ HRESULT PFMultiplayerServerListCertificateSummariesGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns a list of the container images that have been uploaded to the container registry for a title.
-/// See also PFMultiplayerServerGetContainerRegistryCredentialsAsync, PFMultiplayerServerListContainerImageTagsAsync
+/// See also MultiplayerServerGetContainerRegistryCredentialsAsync, MultiplayerServerListContainerImageTagsAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListContainerImagesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListContainerImagesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1161,7 +1238,9 @@ HRESULT PFMultiplayerServerListContainerImagesGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns a list of the tags for a particular container image that exists in the container registry
-/// for a title. See also PFMultiplayerServerListContainerImagesAsync
+/// for a title. See also MultiplayerServerListContainerImagesAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListContainerImageTagsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListContainerImageTagsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1196,7 +1275,9 @@ HRESULT PFMultiplayerServerListContainerImageTagsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Returns a list of multiplayer servers for a build in a specific region. See also PFMultiplayerServerRequestMultiplayerServerAsync
+/// Returns a list of multiplayer servers for a build in a specific region. See also MultiplayerServerRequestMultiplayerServerAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListMultiplayerServersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListMultiplayerServersAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1231,6 +1312,8 @@ HRESULT PFMultiplayerServerListMultiplayerServersGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns a list of quality of service servers for party.
+///
+/// If successful, call <see cref="PFMultiplayerServerListPartyQosServersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListPartyQosServersAsync(
     _In_ PFStateHandle stateHandle,
@@ -1265,6 +1348,8 @@ HRESULT PFMultiplayerServerListPartyQosServersGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns a list of quality of service servers for a title.
+///
+/// If successful, call <see cref="PFMultiplayerServerListQosServersForTitleGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListQosServersForTitleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1298,8 +1383,11 @@ HRESULT PFMultiplayerServerListQosServersForTitleGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// List all server quota change requests for a title. See also PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeAsync,
-/// PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync
+/// List all server quota change requests for a title. See also MultiplayerServerCreateTitleMultiplayerServersQuotaChangeAsync,
+/// MultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerListTitleMultiplayerServersQuotaChangesGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1335,6 +1423,9 @@ HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Returns a list of virtual machines for a title.
+///
+/// If successful, call <see cref="PFMultiplayerServerListVirtualMachineSummariesGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFMultiplayerServerListVirtualMachineSummariesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1370,7 +1461,10 @@ HRESULT PFMultiplayerServerListVirtualMachineSummariesGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Requests a multiplayer server session from a particular build in any of the given preferred regions.
-/// See also PFMultiplayerServerGetMultiplayerServerDetailsAsync
+/// See also MultiplayerServerGetMultiplayerServerDetailsAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerRequestMultiplayerServerGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFMultiplayerServerRequestMultiplayerServerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1405,7 +1499,10 @@ HRESULT PFMultiplayerServerRequestMultiplayerServerGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Gets new credentials to the container registry where game developers can upload custom container
-/// images to before creating a new build. See also PFMultiplayerServerGetContainerRegistryCredentialsAsync
+/// images to before creating a new build. See also MultiplayerServerGetContainerRegistryCredentialsAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerRolloverContainerRegistryCredentialsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerRolloverContainerRegistryCredentialsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1456,7 +1553,9 @@ HRESULT PFMultiplayerServerRolloverContainerRegistryCredentialsGetResult(
 /// Executes the shutdown callback from the GSDK and terminates the multiplayer server session. The callback
 /// in the GSDK will allow for graceful shutdown with a 15 minute timeoutIf graceful shutdown has not
 /// been completed before 15 minutes have elapsed, the multiplayer server session will be forcefully terminated
-/// on it's own. See also PFMultiplayerServerGetMultiplayerServerDetailsAsync, PFMultiplayerServerRequestMultiplayerServerAsync
+/// on it's own. See also MultiplayerServerGetMultiplayerServerDetailsAsync, MultiplayerServerRequestMultiplayerServerAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerShutdownMultiplayerServerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1475,7 +1574,9 @@ HRESULT PFMultiplayerServerShutdownMultiplayerServerAsync(
 /// <remarks>
 /// Removes the specified tag from the image. After this operation, a 'docker pull' will fail for the
 /// specified image and tag combination. Morever, ListContainerImageTags will not return the specified
-/// tag. See also PFMultiplayerServerListContainerImageTagsAsync
+/// tag. See also MultiplayerServerListContainerImageTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerUntagContainerImageAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1493,8 +1594,10 @@ HRESULT PFMultiplayerServerUntagContainerImageAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Creates a multiplayer server build alias and returns the created alias. See also PFMultiplayerServerCreateBuildAliasAsync,
-/// PFMultiplayerServerDeleteBuildAliasAsync, PFMultiplayerServerGetBuildAliasAsync
+/// Creates a multiplayer server build alias and returns the created alias. See also MultiplayerServerCreateBuildAliasAsync,
+/// MultiplayerServerDeleteBuildAliasAsync, MultiplayerServerGetBuildAliasAsync.
+///
+/// If successful, call <see cref="PFMultiplayerServerUpdateBuildAliasGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMultiplayerServerUpdateBuildAliasAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1529,8 +1632,10 @@ HRESULT PFMultiplayerServerUpdateBuildAliasGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Updates a multiplayer server build's name. See also PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerGetBuildAsync,
-/// PFMultiplayerServerListBuildSummariesV2Async, PFMultiplayerServerUpdateBuildRegionAsync, PFMultiplayerServerUpdateBuildRegionsAsync
+/// Updates a multiplayer server build's name. See also MultiplayerServerDeleteBuildAsync, MultiplayerServerGetBuildAsync,
+/// MultiplayerServerListBuildSummariesV2Async, MultiplayerServerUpdateBuildRegionAsync, MultiplayerServerUpdateBuildRegionsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerUpdateBuildNameAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1548,8 +1653,10 @@ HRESULT PFMultiplayerServerUpdateBuildNameAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Updates a multiplayer server build's region. See also PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerDeleteBuildRegionAsync,
-/// PFMultiplayerServerGetBuildAsync, PFMultiplayerServerListBuildSummariesV2Async, PFMultiplayerServerUpdateBuildRegionsAsync
+/// Updates a multiplayer server build's region. See also MultiplayerServerDeleteBuildAsync, MultiplayerServerDeleteBuildRegionAsync,
+/// MultiplayerServerGetBuildAsync, MultiplayerServerListBuildSummariesV2Async, MultiplayerServerUpdateBuildRegionsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerUpdateBuildRegionAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1567,8 +1674,10 @@ HRESULT PFMultiplayerServerUpdateBuildRegionAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Updates a multiplayer server build's regions. See also PFMultiplayerServerDeleteBuildAsync, PFMultiplayerServerDeleteBuildRegionAsync,
-/// PFMultiplayerServerGetBuildAsync, PFMultiplayerServerListBuildSummariesV2Async, PFMultiplayerServerUpdateBuildRegionAsync
+/// Updates a multiplayer server build's regions. See also MultiplayerServerDeleteBuildAsync, MultiplayerServerDeleteBuildRegionAsync,
+/// MultiplayerServerGetBuildAsync, MultiplayerServerListBuildSummariesV2Async, MultiplayerServerUpdateBuildRegionAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerUpdateBuildRegionsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1586,8 +1695,10 @@ HRESULT PFMultiplayerServerUpdateBuildRegionsAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Uploads a multiplayer server game certificate. See also PFMultiplayerServerDeleteCertificateAsync,
-/// PFMultiplayerServerListCertificateSummariesAsync
+/// Uploads a multiplayer server game certificate. See also MultiplayerServerDeleteCertificateAsync,
+/// MultiplayerServerListCertificateSummariesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMultiplayerServerUploadCertificateAsync(
     _In_ PFEntityHandle entityHandle,

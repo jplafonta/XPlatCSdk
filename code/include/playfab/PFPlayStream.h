@@ -26,8 +26,10 @@ extern "C"
 /// <remarks>
 /// This API will trigger a player_tag_added event and add a tag with the given TagName and PlayFabID
 /// to the corresponding player profile. TagName can be used for segmentation and it is limited to 256
-/// characters. Also there is a limit on the number of tags a title can have. See also PFAdminGetPlayerTagsAsync,
-/// PFAdminRemovePlayerTagAsync
+/// characters. Also there is a limit on the number of tags a title can have. See also AdminGetPlayerTagsAsync,
+/// AdminRemovePlayerTagAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayStreamAdminAddPlayerTagAsync(
     _In_ PFStateHandle stateHandle,
@@ -46,7 +48,9 @@ HRESULT PFPlayStreamAdminAddPlayerTagAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Request has no paramaters. See also PFAdminGetPlayersInSegmentAsync
+/// Request has no paramaters. See also AdminGetPlayersInSegmentAsync.
+///
+/// If successful, call <see cref="PFPlayStreamAdminGetAllSegmentsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamAdminGetAllSegmentsAsync(
     _In_ PFStateHandle stateHandle,
@@ -80,7 +84,9 @@ HRESULT PFPlayStreamAdminGetAllSegmentsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminGetAllSegmentsAsync
+/// See also AdminGetAllSegmentsAsync.
+///
+/// If successful, call <see cref="PFPlayStreamAdminGetPlayerSegmentsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamAdminGetPlayerSegmentsAsync(
     _In_ PFStateHandle stateHandle,
@@ -127,7 +133,9 @@ HRESULT PFPlayStreamAdminGetPlayerSegmentsGetResult(
 /// request is past the Total Seconds to Live an error will be returned and paging will be terminated.
 /// This API is resource intensive and should not be used in scenarios which might generate high request
 /// volumes. Only one request to this API at a time should be made per title. Concurrent requests to the
-/// API may be rejected with the APIConcurrentRequestLimitExceeded error. See also PFAdminGetAllSegmentsAsync
+/// API may be rejected with the APIConcurrentRequestLimitExceeded error. See also AdminGetAllSegmentsAsync.
+///
+/// If successful, call <see cref="PFPlayStreamAdminGetPlayersInSegmentGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamAdminGetPlayersInSegmentAsync(
     _In_ PFStateHandle stateHandle,
@@ -164,7 +172,9 @@ HRESULT PFPlayStreamAdminGetPlayersInSegmentGetResult(
 /// <remarks>
 /// This API will return a list of canonical tags which includes both namespace and tag's name. If namespace
 /// is not provided, the result is a list of all canonical tags. TagName can be used for segmentation
-/// and Namespace is limited to 128 characters. See also PFAdminAddPlayerTagAsync, PFAdminRemovePlayerTagAsync
+/// and Namespace is limited to 128 characters. See also AdminAddPlayerTagAsync, AdminRemovePlayerTagAsync.
+///
+/// If successful, call <see cref="PFPlayStreamAdminGetPlayerTagsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamAdminGetPlayerTagsAsync(
     _In_ PFStateHandle stateHandle,
@@ -202,7 +212,9 @@ HRESULT PFPlayStreamAdminGetPlayerTagsGetResult(
 /// <remarks>
 /// This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID
 /// from the corresponding player profile. TagName can be used for segmentation and it is limited to 256
-/// characters See also PFAdminAddPlayerTagAsync, PFAdminGetPlayerTagsAsync
+/// characters See also AdminAddPlayerTagAsync, AdminGetPlayerTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayStreamAdminRemovePlayerTagAsync(
     _In_ PFStateHandle stateHandle,
@@ -253,6 +265,8 @@ HRESULT PFPlayStreamClientGetPlayerSegmentsGetResult(
 /// This API will return a list of canonical tags which includes both namespace and tag's name. If namespace
 /// is not provided, the result is a list of all canonical tags. TagName can be used for segmentation
 /// and Namespace is limited to 128 characters.
+///
+/// If successful, call <see cref="PFPlayStreamClientGetPlayerTagsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamClientGetPlayerTagsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -288,8 +302,10 @@ HRESULT PFPlayStreamClientGetPlayerTagsGetResult(
 /// <remarks>
 /// This API will trigger a player_tag_added event and add a tag with the given TagName and PlayFabID
 /// to the corresponding player profile. TagName can be used for segmentation and it is limited to 256
-/// characters. Also there is a limit on the number of tags a title can have. See also PFServerGetPlayerTagsAsync,
-/// PFServerRemovePlayerTagAsync
+/// characters. Also there is a limit on the number of tags a title can have. See also ServerGetPlayerTagsAsync,
+/// ServerRemovePlayerTagAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayStreamServerAddPlayerTagAsync(
     _In_ PFStateHandle stateHandle,
@@ -306,7 +322,9 @@ HRESULT PFPlayStreamServerAddPlayerTagAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Request has no paramaters. See also PFServerGetPlayersInSegmentAsync
+/// Request has no paramaters. See also ServerGetPlayersInSegmentAsync.
+///
+/// If successful, call <see cref="PFPlayStreamServerGetAllSegmentsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamServerGetAllSegmentsAsync(
     _In_ PFStateHandle stateHandle,
@@ -338,7 +356,9 @@ HRESULT PFPlayStreamServerGetAllSegmentsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetAllSegmentsAsync
+/// See also ServerGetAllSegmentsAsync.
+///
+/// If successful, call <see cref="PFPlayStreamServerGetPlayerSegmentsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamServerGetPlayerSegmentsAsync(
     _In_ PFStateHandle stateHandle,
@@ -383,7 +403,9 @@ HRESULT PFPlayStreamServerGetPlayerSegmentsGetResult(
 /// request is past the Total Seconds to Live an error will be returned and paging will be terminated.
 /// This API is resource intensive and should not be used in scenarios which might generate high request
 /// volumes. Only one request to this API at a time should be made per title. Concurrent requests to the
-/// API may be rejected with the APIConcurrentRequestLimitExceeded error. See also PFServerGetAllSegmentsAsync
+/// API may be rejected with the APIConcurrentRequestLimitExceeded error. See also ServerGetAllSegmentsAsync.
+///
+/// If successful, call <see cref="PFPlayStreamServerGetPlayersInSegmentGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamServerGetPlayersInSegmentAsync(
     _In_ PFStateHandle stateHandle,
@@ -418,7 +440,9 @@ HRESULT PFPlayStreamServerGetPlayersInSegmentGetResult(
 /// <remarks>
 /// This API will return a list of canonical tags which includes both namespace and tag's name. If namespace
 /// is not provided, the result is a list of all canonical tags. TagName can be used for segmentation
-/// and Namespace is limited to 128 characters. See also PFServerAddPlayerTagAsync, PFServerRemovePlayerTagAsync
+/// and Namespace is limited to 128 characters. See also ServerAddPlayerTagAsync, ServerRemovePlayerTagAsync.
+///
+/// If successful, call <see cref="PFPlayStreamServerGetPlayerTagsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamServerGetPlayerTagsAsync(
     _In_ PFStateHandle stateHandle,
@@ -454,7 +478,9 @@ HRESULT PFPlayStreamServerGetPlayerTagsGetResult(
 /// <remarks>
 /// This API will trigger a player_tag_removed event and remove a tag with the given TagName and PlayFabID
 /// from the corresponding player profile. TagName can be used for segmentation and it is limited to 256
-/// characters See also PFServerAddPlayerTagAsync, PFServerGetPlayerTagsAsync
+/// characters See also ServerAddPlayerTagAsync, ServerGetPlayerTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayStreamServerRemovePlayerTagAsync(
     _In_ PFStateHandle stateHandle,

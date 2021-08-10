@@ -38,22 +38,6 @@ typedef struct PFEntityToken
 
 } PFEntityToken;
 
-/// TODO move to PlayFabAuthentication.h maybe?
-/// <summary>
-/// Get the result from a PlayFab authentication API. See PlayFabAuthentication.h for the various authentication options.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// If the auth call fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
-/// when it is no longer needed.
-/// </remarks>
-HRESULT PFGetAuthResult(
-    _Inout_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
-) noexcept;
-
 /// <summary>
 /// Duplicates a PFEntityHandle.
 /// </summary>
@@ -92,7 +76,7 @@ typedef void CALLBACK PFEntityTokenRefreshedCallback(
 /// </summary>
 /// <param name="entityHandle">Entity handle for the entity.</param>
 /// <param name="callback">The callback, <see cref="PFEntityTokenRefreshedCallback"/>.</param>
-/// <param name="context">Optional pointer to data used by the event handler.</param>
+/// <param name="context">Optional pointer to data used by the callback.</param>
 /// <param name="token">The token for unregistering the callback.</param>
 /// <returns>Result code for this API operation.</returns>
 HRESULT PFEntityRegisterTokenRefreshedCallback(

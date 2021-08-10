@@ -105,7 +105,7 @@ void AutoGenTitleDataManagementTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFGetAuthResult(&async, &entityHandle);
+                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
                 assert(SUCCEEDED(hr) && entityHandle != nullptr);
 
                 hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);

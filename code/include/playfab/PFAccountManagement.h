@@ -25,7 +25,9 @@ extern "C"
 /// <remarks>
 /// The existence of each user will not be verified. When banning by IP or MAC address, multiple players
 /// may be affected, so use this feature with caution. Returns information about the new bans. See also
-/// PFAdminGetUserBansAsync, PFAdminRevokeAllBansForUserAsync, PFAdminRevokeBansAsync, PFAdminUpdateBansAsync
+/// AdminGetUserBansAsync, AdminRevokeAllBansForUserAsync, AdminRevokeBansAsync, AdminUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminBanUsersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminBanUsersAsync(
     _In_ PFStateHandle stateHandle,
@@ -69,7 +71,10 @@ HRESULT PFAccountManagementAdminBanUsersGetResult(
 /// an email will be sent to the notification email address configured for the title confirming the deletion.
 /// Until the player data is fully deleted, attempts to recreate the player with the same user account
 /// in the same title will fail with the 'AccountDeleted' error. It is highly recommended to know the
-/// impact of the deletion by calling GetPlayedTitleList, before calling this API. See also PFAdminGetPlayedTitleListAsync
+/// impact of the deletion by calling GetPlayedTitleList, before calling this API. See also AdminGetPlayedTitleListAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminDeleteMasterPlayerAccountGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminDeleteMasterPlayerAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -112,6 +117,8 @@ HRESULT PFAccountManagementAdminDeleteMasterPlayerAccountGetResult(
 /// player for deletion and returns immediately. It may take several minutes or more before all player
 /// data is fully deleted. Until the player data is fully deleted, attempts to recreate the player with
 /// the same user account in the same title will fail with the 'AccountDeleted' error.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementAdminDeletePlayerAsync(
     _In_ PFStateHandle stateHandle,
@@ -136,7 +143,9 @@ HRESULT PFAccountManagementAdminDeletePlayerAsync(
 /// all title data is fully deleted. All player accounts in the title must be deleted before deleting
 /// the title. If any player accounts exist, the API will return a 'TitleContainsUserAccounts' error.
 /// Until the title data is fully deleted, attempts to call APIs with the title will fail with the 'TitleDeleted'
-/// error. See also PFAdminDeletePlayerAsync
+/// error. See also AdminDeletePlayerAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementAdminDeleteTitleAsync(
     _In_ PFStateHandle stateHandle,
@@ -160,6 +169,9 @@ HRESULT PFAccountManagementAdminDeleteTitleAsync(
 /// the receipt ID for future reference. It may take some time before the export is available for download.
 /// Upon completion of the export, an email containing the URL to download the export dump will be sent
 /// to the notification email address configured for the title.
+///
+/// If successful, call <see cref="PFAccountManagementAdminExportMasterPlayerDataGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminExportMasterPlayerDataAsync(
     _In_ PFStateHandle stateHandle,
@@ -209,7 +221,10 @@ HRESULT PFAccountManagementAdminExportMasterPlayerDataGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Useful for identifying titles of which the player's data will be deleted by DeleteMasterPlayer. See
-/// also PFAdminDeleteMasterPlayerAccountAsync
+/// also AdminDeleteMasterPlayerAccountAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminGetPlayedTitleListGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAccountManagementAdminGetPlayedTitleListAsync(
     _In_ PFStateHandle stateHandle,
@@ -246,6 +261,9 @@ HRESULT PFAccountManagementAdminGetPlayedTitleListGetResult(
 /// <remarks>
 /// Gets a player ID from an auth token. The token expires after 30 minutes and cannot be used to look
 /// up a player when expired.
+///
+/// If successful, call <see cref="PFAccountManagementAdminGetPlayerIdFromAuthTokenGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminGetPlayerIdFromAuthTokenAsync(
     _In_ PFStateHandle stateHandle,
@@ -299,6 +317,8 @@ HRESULT PFAccountManagementAdminGetPlayerIdFromAuthTokenGetResult(
 /// as email address, and so care should be taken in how this data is stored and managed. Since this call
 /// will always return the relevant information for users who have accessed the title, the recommendation
 /// is to not store this data locally.
+///
+/// If successful, call <see cref="PFAccountManagementAdminGetPlayerProfileGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminGetPlayerProfileAsync(
     _In_ PFStateHandle stateHandle,
@@ -338,7 +358,10 @@ HRESULT PFAccountManagementAdminGetPlayerProfileGetResult(
 /// of customer support. Note that data returned may be Personally Identifying Information (PII), such
 /// as email address, and so care should be taken in how this data is stored and managed. Since this call
 /// will always return the relevant information for users who have accessed the title, the recommendation
-/// is to not store this data locally. See also PFAdminGetUserInventoryAsync
+/// is to not store this data locally. See also AdminGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminGetUserAccountInfoGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAccountManagementAdminGetUserAccountInfoAsync(
     _In_ PFStateHandle stateHandle,
@@ -373,8 +396,10 @@ HRESULT PFAccountManagementAdminGetUserAccountInfoGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Get all bans for a user, including inactive and expired bans.  See also PFAdminBanUsersAsync, PFAdminRevokeAllBansForUserAsync,
-/// PFAdminRevokeBansAsync, PFAdminUpdateBansAsync
+/// Get all bans for a user, including inactive and expired bans.  See also AdminBanUsersAsync, AdminRevokeAllBansForUserAsync,
+/// AdminRevokeBansAsync, AdminUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminGetUserBansGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminGetUserBansAsync(
     _In_ PFStateHandle stateHandle,
@@ -411,6 +436,8 @@ HRESULT PFAccountManagementAdminGetUserBansGetResult(
 /// <remarks>
 /// Resets a player's password taking in a new password based and validating the user based off of a
 /// token sent to the playerto their email. The token expires after 30 minutes.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementAdminResetPasswordAsync(
     _In_ PFStateHandle stateHandle,
@@ -429,8 +456,11 @@ HRESULT PFAccountManagementAdminResetPasswordAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Setting the active state of all non-expired bans for a user to Inactive. Expired bans with an Active
-/// state will be ignored, however. Returns information about applied updates only. See also PFAdminBanUsersAsync,
-/// PFAdminGetUserBansAsync, PFAdminRevokeBansAsync, PFAdminUpdateBansAsync
+/// state will be ignored, however. Returns information about applied updates only. See also AdminBanUsersAsync,
+/// AdminGetUserBansAsync, AdminRevokeBansAsync, AdminUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminRevokeAllBansForUserGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAccountManagementAdminRevokeAllBansForUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -467,7 +497,9 @@ HRESULT PFAccountManagementAdminRevokeAllBansForUserGetResult(
 /// <remarks>
 /// Setting the active state of all bans requested to Inactive regardless of whether that ban has already
 /// expired. BanIds that do not exist will be skipped. Returns information about applied updates only.
-///  See also PFAdminBanUsersAsync, PFAdminGetUserBansAsync, PFAdminRevokeAllBansForUserAsync, PFAdminUpdateBansAsync
+///  See also AdminBanUsersAsync, AdminGetUserBansAsync, AdminRevokeAllBansForUserAsync, AdminUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminRevokeBansGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminRevokeBansAsync(
     _In_ PFStateHandle stateHandle,
@@ -507,6 +539,8 @@ HRESULT PFAccountManagementAdminRevokeBansGetResult(
 /// If the account in question is a 'temporary' account (for example, one that was created via a call
 /// to LoginFromIOSDeviceID), thisfunction will have no effect. Only PlayFab accounts which have valid
 /// email addresses will be able to receive a password reset email using this API.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementAdminSendAccountRecoveryEmailAsync(
     _In_ PFStateHandle stateHandle,
@@ -526,7 +560,9 @@ HRESULT PFAccountManagementAdminSendAccountRecoveryEmailAsync(
 /// <remarks>
 /// For each ban, only updates the values that are set. Leave any value to null for no change. If a ban
 /// could not be found, the rest are still applied. Returns information about applied updates only. See
-/// also PFAdminBanUsersAsync, PFAdminGetUserBansAsync, PFAdminRevokeAllBansForUserAsync, PFAdminRevokeBansAsync
+/// also AdminBanUsersAsync, AdminGetUserBansAsync, AdminRevokeAllBansForUserAsync, AdminRevokeBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementAdminUpdateBansGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminUpdateBansAsync(
     _In_ PFStateHandle stateHandle,
@@ -565,6 +601,9 @@ HRESULT PFAccountManagementAdminUpdateBansGetResult(
 /// identifier, but specific to the title. This allows for unique names which more closely match the theme
 /// or genre of a title, for example. This API enables changing that name, whether due to a customer request,
 /// an offensive name choice, etc.
+///
+/// If successful, call <see cref="PFAccountManagementAdminUpdateUserTitleDisplayNameGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameAsync(
     _In_ PFStateHandle stateHandle,
@@ -615,7 +654,9 @@ HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetPlayFabIDsFromGenericIDsAsync, PFClientRemoveGenericIDAsync
+/// See also ClientGetPlayFabIDsFromGenericIDsAsync, ClientRemoveGenericIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientAddGenericIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -633,6 +674,8 @@ HRESULT PFAccountManagementClientAddGenericIDAsync(
 /// <remarks>
 /// This API adds a contact email to the player's profile. If the player's profile already contains a
 /// contact email, it will update the contact email to the email address specified.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
     _In_ PFEntityHandle entityHandle,
@@ -649,7 +692,10 @@ HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithEmailAddressAsync, PFClientLoginWithPlayFabAsync
+/// See also ClientLoginWithEmailAddressAsync, ClientLoginWithPlayFabAsync.
+///
+/// If successful, call <see cref="PFAccountManagementClientAddUsernamePasswordGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAccountManagementClientAddUsernamePasswordAsync(
     _In_ PFEntityHandle entityHandle,
@@ -729,7 +775,8 @@ HRESULT PFAccountManagementClientGetAccountInfoGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayerCombinedInfoGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayerCombinedInfoGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayerCombinedInfoAsync(
     _In_ PFEntityHandle entityHandle,
@@ -767,6 +814,8 @@ HRESULT PFAccountManagementClientGetPlayerCombinedInfoGetResult(
 /// as email address, and so care should be taken in how this data is stored and managed. Since this call
 /// will always return the relevant information for users who have accessed the title, the recommendation
 /// is to not store this data locally.
+///
+/// If successful, call <see cref="PFAccountManagementClientGetPlayerProfileGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayerProfileAsync(
     _In_ PFEntityHandle entityHandle,
@@ -799,7 +848,8 @@ HRESULT PFAccountManagementClientGetPlayerProfileGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -832,7 +882,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -866,7 +917,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResu
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -901,7 +953,10 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAddGenericIDAsync, PFClientRemoveGenericIDAsync
+/// See also ClientAddGenericIDAsync, ClientRemoveGenericIDAsync.
+///
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -935,7 +990,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -970,7 +1026,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1003,7 +1060,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1036,7 +1094,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResu
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1070,7 +1129,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1104,7 +1164,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1137,7 +1198,8 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1171,7 +1233,9 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithAndroidDeviceIDAsync, PFClientUnlinkAndroidDeviceIDAsync
+/// See also ClientLoginWithAndroidDeviceIDAsync, ClientUnlinkAndroidDeviceIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1189,7 +1253,9 @@ HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithAppleAsync, PFClientUnlinkAppleAsync
+/// See also ClientLoginWithAppleAsync, ClientUnlinkAppleAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkAppleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1206,7 +1272,9 @@ HRESULT PFAccountManagementClientLinkAppleAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithCustomIDAsync, PFClientUnlinkCustomIDAsync
+/// See also ClientLoginWithCustomIDAsync, ClientUnlinkCustomIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkCustomIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1231,7 +1299,9 @@ HRESULT PFAccountManagementClientLinkCustomIDAsync(
 /// as Facebook provides unique user IDs per application and doing so can result in issues with the Facebook
 /// ID for the user in their PlayFab account information. If you must re-use an application in a new PlayFab
 /// Title ID, please be sure to first unlink all accounts from Facebook, or delete all users in the first
-/// Title ID. See also PFClientLoginWithFacebookAsync, PFClientUnlinkFacebookAccountAsync
+/// Title ID. See also ClientLoginWithFacebookAsync, ClientUnlinkFacebookAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1249,7 +1319,9 @@ HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithFacebookInstantGamesIdAsync, PFClientUnlinkFacebookInstantGamesIdAsync
+/// See also ClientLoginWithFacebookInstantGamesIdAsync, ClientUnlinkFacebookInstantGamesIdAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1271,7 +1343,9 @@ HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientUnlinkGameCenterAccountAsync
+/// See also ClientUnlinkGameCenterAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1290,8 +1364,10 @@ HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Google sign-in is accomplished by obtaining a Google OAuth 2.0 credential using the Google sign-in
-/// for Android APIs on the device and passing it to this API. See also PFClientLoginWithGoogleAccountAsync,
-/// PFClientUnlinkGoogleAccountAsync
+/// for Android APIs on the device and passing it to this API. See also ClientLoginWithGoogleAccountAsync,
+/// ClientUnlinkGoogleAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1309,7 +1385,9 @@ HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithIOSDeviceIDAsync, PFClientUnlinkIOSDeviceIDAsync
+/// See also ClientLoginWithIOSDeviceIDAsync, ClientUnlinkIOSDeviceIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1327,7 +1405,9 @@ HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithKongregateAsync, PFClientUnlinkKongregateAsync
+/// See also ClientLoginWithKongregateAsync, ClientUnlinkKongregateAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkKongregateAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1345,7 +1425,9 @@ HRESULT PFAccountManagementClientLinkKongregateAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithNintendoServiceAccountAsync, PFClientUnlinkNintendoServiceAccountAsync
+/// See also ClientLoginWithNintendoServiceAccountAsync, ClientUnlinkNintendoServiceAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1363,7 +1445,9 @@ HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithNintendoSwitchDeviceIdAsync, PFClientUnlinkNintendoSwitchDeviceIdAsync
+/// See also ClientLoginWithNintendoSwitchDeviceIdAsync, ClientUnlinkNintendoSwitchDeviceIdAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1381,7 +1465,9 @@ HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithOpenIdConnectAsync, PFClientUnlinkOpenIdConnectAsync
+/// See also ClientLoginWithOpenIdConnectAsync, ClientUnlinkOpenIdConnectAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1399,7 +1485,9 @@ HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithPSNAsync, PFClientUnlinkPSNAccountAsync
+/// See also ClientLoginWithPSNAsync, ClientUnlinkPSNAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkPSNAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1423,7 +1511,9 @@ HRESULT PFAccountManagementClientLinkPSNAccountAsync(
 /// sign-in). NOTE: For Steam authentication to work, the title must be configured with the Steam Application
 /// ID and Publisher Key in the PlayFab Game Manager (under Properties). Information on creating a Publisher
 /// Key (referred to as the Secret Key in PlayFab) for your title can be found here: https://partner.steamgames.com/documentation/webapi#publisherkey.
-/// See also PFClientLoginWithSteamAsync, PFClientUnlinkSteamAccountAsync
+/// See also ClientLoginWithSteamAsync, ClientUnlinkSteamAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkSteamAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1441,7 +1531,9 @@ HRESULT PFAccountManagementClientLinkSteamAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithTwitchAsync, PFClientUnlinkTwitchAsync
+/// See also ClientLoginWithTwitchAsync, ClientUnlinkTwitchAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkTwitchAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1458,7 +1550,9 @@ HRESULT PFAccountManagementClientLinkTwitchAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLoginWithXboxAsync, PFClientUnlinkXboxAccountAsync
+/// See also ClientLoginWithXboxAsync, ClientUnlinkXboxAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkXboxAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1475,6 +1569,8 @@ HRESULT PFAccountManagementClientLinkXboxAccountAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This API removes an existing contact email from the player's profile.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientRemoveContactEmailAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1490,7 +1586,9 @@ HRESULT PFAccountManagementClientRemoveContactEmailAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAddGenericIDAsync, PFClientGetPlayFabIDsFromGenericIDsAsync
+/// See also ClientAddGenericIDAsync, ClientGetPlayFabIDsFromGenericIDsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientRemoveGenericIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1539,6 +1637,8 @@ HRESULT PFAccountManagementClientReportPlayerGetResult(
 /// If the account in question is a 'temporary' account (for example, one that was created via a call
 /// to LoginFromIOSDeviceID), thisfunction will have no effect. Only PlayFab accounts which have valid
 /// email addresses will be able to receive a password reset email using this API.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientSendAccountRecoveryEmailAsync(
     _In_ PFStateHandle stateHandle,
@@ -1555,7 +1655,9 @@ HRESULT PFAccountManagementClientSendAccountRecoveryEmailAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkAndroidDeviceIDAsync, PFClientLoginWithAndroidDeviceIDAsync
+/// See also ClientLinkAndroidDeviceIDAsync, ClientLoginWithAndroidDeviceIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1573,7 +1675,9 @@ HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkAppleAsync, PFClientLoginWithAppleAsync
+/// See also ClientLinkAppleAsync, ClientLoginWithAppleAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkAppleAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1590,7 +1694,9 @@ HRESULT PFAccountManagementClientUnlinkAppleAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkCustomIDAsync, PFClientLoginWithCustomIDAsync
+/// See also ClientLinkCustomIDAsync, ClientLoginWithCustomIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1607,7 +1713,9 @@ HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkFacebookAccountAsync
+/// See also ClientLinkFacebookAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1625,7 +1733,9 @@ HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkFacebookInstantGamesIdAsync, PFClientLoginWithFacebookInstantGamesIdAsync
+/// See also ClientLinkFacebookInstantGamesIdAsync, ClientLoginWithFacebookInstantGamesIdAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1643,7 +1753,9 @@ HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkGameCenterAccountAsync
+/// See also ClientLinkGameCenterAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1661,7 +1773,9 @@ HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkGoogleAccountAsync, PFClientLoginWithGoogleAccountAsync
+/// See also ClientLinkGoogleAccountAsync, ClientLoginWithGoogleAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1679,7 +1793,9 @@ HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkIOSDeviceIDAsync, PFClientLoginWithIOSDeviceIDAsync
+/// See also ClientLinkIOSDeviceIDAsync, ClientLoginWithIOSDeviceIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1697,7 +1813,9 @@ HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkKongregateAsync, PFClientLoginWithKongregateAsync
+/// See also ClientLinkKongregateAsync, ClientLoginWithKongregateAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkKongregateAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1715,7 +1833,9 @@ HRESULT PFAccountManagementClientUnlinkKongregateAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkNintendoServiceAccountAsync, PFClientLoginWithNintendoServiceAccountAsync
+/// See also ClientLinkNintendoServiceAccountAsync, ClientLoginWithNintendoServiceAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1733,7 +1853,9 @@ HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkNintendoSwitchDeviceIdAsync, PFClientLoginWithNintendoSwitchDeviceIdAsync
+/// See also ClientLinkNintendoSwitchDeviceIdAsync, ClientLoginWithNintendoSwitchDeviceIdAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1751,7 +1873,9 @@ HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkOpenIdConnectAsync
+/// See also ClientLinkOpenIdConnectAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1768,7 +1892,9 @@ HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkPSNAccountAsync
+/// See also ClientLinkPSNAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1786,7 +1912,9 @@ HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkSteamAccountAsync
+/// See also ClientLinkSteamAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1804,7 +1932,9 @@ HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkTwitchAsync, PFClientLoginWithTwitchAsync
+/// See also ClientLinkTwitchAsync, ClientLoginWithTwitchAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkTwitchAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1821,7 +1951,9 @@ HRESULT PFAccountManagementClientUnlinkTwitchAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientLinkXboxAccountAsync
+/// See also ClientLinkXboxAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1856,6 +1988,9 @@ HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
 /// In addition to the PlayFab username, titles can make use of a DisplayName which is also a unique
 /// identifier, but specific to the title. This allows for unique names which more closely match the theme
 /// or genre of a title, for example.
+///
+/// If successful, call <see cref="PFAccountManagementClientUpdateUserTitleDisplayNameGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1905,7 +2040,9 @@ HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetPlayFabIDsFromGenericIDsAsync, PFServerRemoveGenericIDAsync
+/// See also ServerGetPlayFabIDsFromGenericIDsAsync, ServerRemoveGenericIDAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerAddGenericIDAsync(
     _In_ PFStateHandle stateHandle,
@@ -1923,7 +2060,9 @@ HRESULT PFAccountManagementServerAddGenericIDAsync(
 /// <remarks>
 /// The existence of each user will not be verified. When banning by IP or MAC address, multiple players
 /// may be affected, so use this feature with caution. Returns information about the new bans. See also
-/// PFServerGetUserBansAsync, PFServerRevokeAllBansForUserAsync, PFServerRevokeBansAsync, PFServerUpdateBansAsync
+/// ServerGetUserBansAsync, ServerRevokeAllBansForUserAsync, ServerRevokeBansAsync, ServerUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerBanUsersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerBanUsersAsync(
     _In_ PFStateHandle stateHandle,
@@ -1965,6 +2104,8 @@ HRESULT PFAccountManagementServerBanUsersGetResult(
 /// data is fully deleted. Until the player data is fully deleted, attempts to recreate the player with
 /// the same user account in the same title will fail with the 'AccountDeleted' error. This API must be
 /// enabled for use as an option in the game manager website. It is disabled by default.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerDeletePlayerAsync(
     _In_ PFStateHandle stateHandle,
@@ -2001,6 +2142,8 @@ HRESULT PFAccountManagementServerDeletePushNotificationTemplateAsync(
 /// as email address, and so care should be taken in how this data is stored and managed. Since this call
 /// will always return the relevant information for users who have accessed the title, the recommendation
 /// is to not store this data locally.
+///
+/// If successful, call <see cref="PFAccountManagementServerGetPlayerProfileGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayerProfileAsync(
     _In_ PFStateHandle stateHandle,
@@ -2033,7 +2176,8 @@ HRESULT PFAccountManagementServerGetPlayerProfileGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookIDsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2066,7 +2210,8 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2101,7 +2246,10 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResu
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddGenericIDAsync, PFServerRemoveGenericIDAsync
+/// See also ServerAddGenericIDAsync, ServerRemoveGenericIDAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromGenericIDsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromGenericIDsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2134,7 +2282,8 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromGenericIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2167,7 +2316,8 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResu
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2201,7 +2351,8 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromSteamIDsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2234,7 +2385,8 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2267,7 +2419,8 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsAsync(
     _In_ PFStateHandle stateHandle,
@@ -2304,7 +2457,10 @@ HRESULT PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult(
 /// of customer support. Note that data returned may be Personally Identifying Information (PII), such
 /// as email address, and so care should be taken in how this data is stored and managed. Since this call
 /// will always return the relevant information for users who have accessed the title, the recommendation
-/// is to not store this data locally. See also PFServerGetUserInventoryAsync
+/// is to not store this data locally. See also ServerGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerGetUserAccountInfoGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetUserAccountInfoAsync(
     _In_ PFStateHandle stateHandle,
@@ -2337,8 +2493,10 @@ HRESULT PFAccountManagementServerGetUserAccountInfoGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Get all bans for a user, including inactive and expired bans.  See also PFServerBanUsersAsync, PFServerRevokeAllBansForUserAsync,
-/// PFServerRevokeBansAsync, PFServerUpdateBansAsync
+/// Get all bans for a user, including inactive and expired bans.  See also ServerBanUsersAsync, ServerRevokeAllBansForUserAsync,
+/// ServerRevokeBansAsync, ServerUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerGetUserBansGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerGetUserBansAsync(
     _In_ PFStateHandle stateHandle,
@@ -2373,7 +2531,9 @@ HRESULT PFAccountManagementServerGetUserBansGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerUnlinkPSNAccountAsync
+/// See also ServerUnlinkPSNAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerLinkPSNAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -2406,7 +2566,9 @@ HRESULT PFAccountManagementServerLinkServerCustomIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerLoginWithXboxAsync, PFServerUnlinkXboxAccountAsync
+/// See also ServerLoginWithXboxAsync, ServerUnlinkXboxAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerLinkXboxAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -2422,7 +2584,9 @@ HRESULT PFAccountManagementServerLinkXboxAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddGenericIDAsync, PFServerGetPlayFabIDsFromGenericIDsAsync
+/// See also ServerAddGenericIDAsync, ServerGetPlayFabIDsFromGenericIDsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerRemoveGenericIDAsync(
     _In_ PFStateHandle stateHandle,
@@ -2439,8 +2603,11 @@ HRESULT PFAccountManagementServerRemoveGenericIDAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Setting the active state of all non-expired bans for a user to Inactive. Expired bans with an Active
-/// state will be ignored, however. Returns information about applied updates only. See also PFServerBanUsersAsync,
-/// PFServerGetUserBansAsync, PFServerRevokeBansAsync, PFServerUpdateBansAsync
+/// state will be ignored, however. Returns information about applied updates only. See also ServerBanUsersAsync,
+/// ServerGetUserBansAsync, ServerRevokeBansAsync, ServerUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerRevokeAllBansForUserGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFAccountManagementServerRevokeAllBansForUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -2475,7 +2642,9 @@ HRESULT PFAccountManagementServerRevokeAllBansForUserGetResult(
 /// <remarks>
 /// Setting the active state of all bans requested to Inactive regardless of whether that ban has already
 /// expired. BanIds that do not exist will be skipped. Returns information about applied updates only.
-///  See also PFServerBanUsersAsync, PFServerGetUserBansAsync, PFServerRevokeAllBansForUserAsync, PFServerUpdateBansAsync
+///  See also ServerBanUsersAsync, ServerGetUserBansAsync, ServerRevokeAllBansForUserAsync, ServerUpdateBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerRevokeBansGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerRevokeBansAsync(
     _In_ PFStateHandle stateHandle,
@@ -2508,7 +2677,8 @@ HRESULT PFAccountManagementServerRevokeBansGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFAccountManagementServerSavePushNotificationTemplateGetResult"/> to get the result.
+/// If successful, call <see cref="PFAccountManagementServerSavePushNotificationTemplateGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerSavePushNotificationTemplateAsync(
     _In_ PFStateHandle stateHandle,
@@ -2558,7 +2728,9 @@ HRESULT PFAccountManagementServerSavePushNotificationTemplateGetResult(
 /// <remarks>
 /// PlayFab accounts which have valid email address or username will be able to receive a password reset
 /// email using this API.The email sent must be an account recovery email template. The username or email
-/// can be passed in to send the email
+/// can be passed in to send the email.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerSendCustomAccountRecoveryEmailAsync(
     _In_ PFStateHandle stateHandle,
@@ -2576,6 +2748,8 @@ HRESULT PFAccountManagementServerSendCustomAccountRecoveryEmailAsync(
 /// <remarks>
 /// Sends an email for only players that have contact emails associated with them. Takes in an email
 /// template ID specifyingthe email template to send.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerSendEmailFromTemplateAsync(
     _In_ PFStateHandle stateHandle,
@@ -2627,7 +2801,9 @@ HRESULT PFAccountManagementServerSendPushNotificationFromTemplateAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerLinkPSNAccountAsync
+/// See also ServerLinkPSNAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerUnlinkPSNAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -2643,7 +2819,9 @@ HRESULT PFAccountManagementServerUnlinkPSNAccountAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerLinkServerCustomIdAsync, PFServerLoginWithServerCustomIdAsync
+/// See also ServerLinkServerCustomIdAsync, ServerLoginWithServerCustomIdAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerUnlinkServerCustomIdAsync(
     _In_ PFStateHandle stateHandle,
@@ -2659,7 +2837,9 @@ HRESULT PFAccountManagementServerUnlinkServerCustomIdAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerLinkXboxAccountAsync
+/// See also ServerLinkXboxAccountAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementServerUnlinkXboxAccountAsync(
     _In_ PFStateHandle stateHandle,
@@ -2693,7 +2873,9 @@ HRESULT PFAccountManagementServerUpdateAvatarUrlAsync(
 /// <remarks>
 /// For each ban, only updates the values that are set. Leave any value to null for no change. If a ban
 /// could not be found, the rest are still applied. Returns information about applied updates only. See
-/// also PFServerBanUsersAsync, PFServerGetUserBansAsync, PFServerRevokeAllBansForUserAsync, PFServerRevokeBansAsync
+/// also ServerBanUsersAsync, ServerGetUserBansAsync, ServerRevokeAllBansForUserAsync, ServerRevokeBansAsync.
+///
+/// If successful, call <see cref="PFAccountManagementServerUpdateBansGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementServerUpdateBansAsync(
     _In_ PFStateHandle stateHandle,
@@ -2728,7 +2910,9 @@ HRESULT PFAccountManagementServerUpdateBansGetResult(
 /// <remarks>
 /// Retrieves the title access policy that is used before the profile's policy is inspected during a
 /// request. If never customized this will return the default starter policy built by PlayFab. See also
-/// PFProfileGetProfileAsync
+/// ProfileGetProfileAsync.
+///
+/// If successful, call <see cref="PFAccountManagementGetGlobalPolicyGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementGetGlobalPolicyAsync(
     _In_ PFEntityHandle entityHandle,
@@ -2766,6 +2950,8 @@ HRESULT PFAccountManagementGetGlobalPolicyGetResult(
 /// read. An inconsistent read means that we do not guarantee all committed writes have occurred before
 /// reading the profile, allowing for a stale read. If consistency is important the Version Number on
 /// the result can be used to compare which version of the profile any reader has.
+///
+/// If successful, call <see cref="PFAccountManagementGetProfileGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementGetProfileAsync(
     _In_ PFEntityHandle entityHandle,
@@ -2801,6 +2987,8 @@ HRESULT PFAccountManagementGetProfileGetResult(
 /// Given a set of entity types and entity identifiers will retrieve all readable profiles properties
 /// for the caller. Profiles that the caller is not allowed to read will silently not be included in the
 /// results.
+///
+/// If successful, call <see cref="PFAccountManagementGetProfilesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementGetProfilesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -2835,6 +3023,9 @@ HRESULT PFAccountManagementGetProfilesGetResult(
 /// <remarks>
 /// Given a master player account id (PlayFab ID), returns all title player accounts associated with
 /// it.
+///
+/// If successful, call <see cref="PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -2869,7 +3060,9 @@ HRESULT PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResult(
 /// <remarks>
 /// Updates the title access policy that is used before the profile's policy is inspected during a request.
 /// Policies are compiled and cached for several minutes so an update here may not be reflected in behavior
-/// for a short time. See also PFProfileGetProfileAsync
+/// for a short time. See also ProfileGetProfileAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementSetGlobalPolicyAsync(
     _In_ PFEntityHandle entityHandle,
@@ -2889,6 +3082,8 @@ HRESULT PFAccountManagementSetGlobalPolicyAsync(
 /// <remarks>
 /// Given an entity profile, will update its language to the one passed in if the profile's version is
 /// equal to the one passed in.
+///
+/// If successful, call <see cref="PFAccountManagementSetProfileLanguageGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementSetProfileLanguageAsync(
     _In_ PFEntityHandle entityHandle,
@@ -2922,7 +3117,9 @@ HRESULT PFAccountManagementSetProfileLanguageGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This will set the access policy statements on the given entity profile. This is not additive, any
-/// existing statements will be replaced with the statements in this request. See also PFProfileGetProfileAsync
+/// existing statements will be replaced with the statements in this request. See also ProfileGetProfileAsync.
+///
+/// If successful, call <see cref="PFAccountManagementSetProfilePolicyGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementSetProfilePolicyAsync(
     _In_ PFEntityHandle entityHandle,

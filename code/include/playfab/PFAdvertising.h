@@ -25,6 +25,8 @@ extern "C"
 /// <remarks>
 /// If you have an ad attribution partner enabled, this will post an install to their service to track
 /// the device. It uses the given device id to match based on clicks on ads.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAdvertisingClientAttributeInstallAsync(
     _In_ PFEntityHandle entityHandle,
@@ -45,6 +47,8 @@ HRESULT PFAdvertisingClientAttributeInstallAsync(
 /// Returns a list of ad placements for the calling player. Each ad placement may include a reward if
 /// there was at least one valid reward for the player as well as the number of plays remaining and when
 /// the play count resets.
+///
+/// If successful, call <see cref="PFAdvertisingClientGetAdPlacementsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAdvertisingClientGetAdPlacementsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -80,6 +84,8 @@ HRESULT PFAdvertisingClientGetAdPlacementsGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// Given a Placement ID and a Reward ID from the GetAdPlacements API call records a player's ad activity.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAdvertisingClientReportAdActivityAsync(
     _In_ PFEntityHandle entityHandle,
@@ -100,6 +106,8 @@ HRESULT PFAdvertisingClientReportAdActivityAsync(
 /// Given a Placement ID and a Reward ID from the GetAdPlacements API call will grant the reward to the
 /// player. This API call does not require that ReportAdActivity is called. The grant is performed in
 /// real-time, at the end of the call all items will have been granted.
+///
+/// If successful, call <see cref="PFAdvertisingClientRewardAdActivityGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAdvertisingClientRewardAdActivityAsync(
     _In_ PFEntityHandle entityHandle,

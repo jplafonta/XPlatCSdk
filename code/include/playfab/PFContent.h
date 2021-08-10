@@ -23,8 +23,10 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetContentDownloadUrlAsync, PFServerGetContentDownloadUrlAsync, PFAdminGetContentListAsync,
-/// PFAdminGetContentUploadUrlAsync
+/// See also ClientGetContentDownloadUrlAsync, ServerGetContentDownloadUrlAsync, AdminGetContentListAsync,
+/// AdminGetContentUploadUrlAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFContentAdminDeleteContentAsync(
     _In_ PFStateHandle stateHandle,
@@ -42,8 +44,10 @@ HRESULT PFContentAdminDeleteContentAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminDeleteContentAsync, PFClientGetContentDownloadUrlAsync, PFServerGetContentDownloadUrlAsync,
-/// PFAdminGetContentUploadUrlAsync
+/// See also AdminDeleteContentAsync, ClientGetContentDownloadUrlAsync, ServerGetContentDownloadUrlAsync,
+/// AdminGetContentUploadUrlAsync.
+///
+/// If successful, call <see cref="PFContentAdminGetContentListGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFContentAdminGetContentListAsync(
     _In_ PFStateHandle stateHandle,
@@ -80,8 +84,10 @@ HRESULT PFContentAdminGetContentListGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminDeleteContentAsync, PFClientGetContentDownloadUrlAsync, PFServerGetContentDownloadUrlAsync,
-/// PFAdminGetContentListAsync
+/// See also AdminDeleteContentAsync, ClientGetContentDownloadUrlAsync, ServerGetContentDownloadUrlAsync,
+/// AdminGetContentListAsync.
+///
+/// If successful, call <see cref="PFContentAdminGetContentUploadUrlGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFContentAdminGetContentUploadUrlAsync(
     _In_ PFStateHandle stateHandle,
@@ -136,8 +142,9 @@ HRESULT PFContentAdminGetContentUploadUrlGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminDeleteContentAsync, PFServerGetContentDownloadUrlAsync, PFAdminGetContentListAsync,
-/// PFAdminGetContentUploadUrlAsync
+/// See also AdminDeleteContentAsync, ServerGetContentDownloadUrlAsync, AdminGetContentListAsync, AdminGetContentUploadUrlAsync.
+///
+/// If successful, call <see cref="PFContentClientGetContentDownloadUrlGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFContentClientGetContentDownloadUrlAsync(
     _In_ PFEntityHandle entityHandle,
@@ -192,8 +199,9 @@ HRESULT PFContentClientGetContentDownloadUrlGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminDeleteContentAsync, PFClientGetContentDownloadUrlAsync, PFAdminGetContentListAsync,
-/// PFAdminGetContentUploadUrlAsync
+/// See also AdminDeleteContentAsync, ClientGetContentDownloadUrlAsync, AdminGetContentListAsync, AdminGetContentUploadUrlAsync.
+///
+/// If successful, call <see cref="PFContentServerGetContentDownloadUrlGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFContentServerGetContentDownloadUrlAsync(
     _In_ PFStateHandle stateHandle,

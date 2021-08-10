@@ -24,7 +24,9 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminGetMatchmakerGameModesAsync, PFAdminModifyMatchmakerGameModesAsync
+/// See also AdminGetMatchmakerGameModesAsync, AdminModifyMatchmakerGameModesAsync.
+///
+/// If successful, call <see cref="PFMatchmakingAdminGetMatchmakerGameInfoGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingAdminGetMatchmakerGameInfoAsync(
     _In_ PFStateHandle stateHandle,
@@ -62,7 +64,9 @@ HRESULT PFMatchmakingAdminGetMatchmakerGameInfoGetResult(
 /// These details are used by the PlayFab matchmaking service to determine if an existing Game Server
 /// Instance has room for additional users, and by the PlayFab game server management service to determine
 /// when a new Game Server Host should be created in order to prevent excess load on existing Hosts. See
-/// also PFAdminGetMatchmakerGameInfoAsync, PFAdminModifyMatchmakerGameModesAsync
+/// also AdminGetMatchmakerGameInfoAsync, AdminModifyMatchmakerGameModesAsync.
+///
+/// If successful, call <see cref="PFMatchmakingAdminGetMatchmakerGameModesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingAdminGetMatchmakerGameModesAsync(
     _In_ PFStateHandle stateHandle,
@@ -103,7 +107,9 @@ HRESULT PFMatchmakingAdminGetMatchmakerGameModesGetResult(
 /// operation is not additive. Using it will cause the game mode definition for the game server executable
 /// in question to be created from scratch. If there is an existing game server mode definition for the
 /// given BuildVersion, it will be deleted and replaced with the data specified in this call. See also
-/// PFAdminGetMatchmakerGameInfoAsync, PFAdminGetMatchmakerGameModesAsync
+/// AdminGetMatchmakerGameInfoAsync, AdminGetMatchmakerGameModesAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingAdminModifyMatchmakerGameModesAsync(
     _In_ PFStateHandle stateHandle,
@@ -121,8 +127,10 @@ HRESULT PFMatchmakingAdminModifyMatchmakerGameModesAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFClientGetGameServerRegionsAsync, PFClientMatchmakeAsync, PFAdminRemoveServerBuildAsync,
-/// PFClientStartGameAsync
+/// See also AdminAddServerBuildAsync, ClientGetGameServerRegionsAsync, ClientMatchmakeAsync, AdminRemoveServerBuildAsync,
+/// ClientStartGameAsync.
+///
+/// If successful, call <see cref="PFMatchmakingClientGetCurrentGamesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientGetCurrentGamesAsync(
     _In_ PFEntityHandle entityHandle,
@@ -157,8 +165,10 @@ HRESULT PFMatchmakingClientGetCurrentGamesGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFClientGetCurrentGamesAsync, PFClientMatchmakeAsync, PFAdminRemoveServerBuildAsync,
-/// PFClientStartGameAsync
+/// See also AdminAddServerBuildAsync, ClientGetCurrentGamesAsync, ClientMatchmakeAsync, AdminRemoveServerBuildAsync,
+/// ClientStartGameAsync.
+///
+/// If successful, call <see cref="PFMatchmakingClientGetGameServerRegionsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientGetGameServerRegionsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -198,8 +208,10 @@ HRESULT PFMatchmakingClientGetGameServerRegionsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddServerBuildAsync, PFClientGetCurrentGamesAsync, PFClientGetGameServerRegionsAsync,
-/// PFAdminRemoveServerBuildAsync, PFClientStartGameAsync
+/// See also AdminAddServerBuildAsync, ClientGetCurrentGamesAsync, ClientGetGameServerRegionsAsync, AdminRemoveServerBuildAsync,
+/// ClientStartGameAsync.
+///
+/// If successful, call <see cref="PFMatchmakingClientMatchmakeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientMatchmakeAsync(
     _In_ PFEntityHandle entityHandle,
@@ -236,8 +248,10 @@ HRESULT PFMatchmakingClientMatchmakeGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This API must be enabled for use as an option in the game manager website. It is disabled by default.
-/// See also PFAdminAddServerBuildAsync, PFClientGetCurrentGamesAsync, PFClientGetGameServerRegionsAsync,
-/// PFClientMatchmakeAsync, PFAdminRemoveServerBuildAsync
+/// See also AdminAddServerBuildAsync, ClientGetCurrentGamesAsync, ClientGetGameServerRegionsAsync, ClientMatchmakeAsync,
+/// AdminRemoveServerBuildAsync.
+///
+/// If successful, call <see cref="PFMatchmakingClientStartGameGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientStartGameAsync(
     _In_ PFEntityHandle entityHandle,
@@ -275,8 +289,10 @@ HRESULT PFMatchmakingClientStartGameGetResult(
 /// This API allows the external match-making service to confirm that the user has a valid Session Ticket
 /// for the title, in order to securely enable match-making. The client passes the user's Session Ticket
 /// to the external match-making service, which then passes the Session Ticket in as the AuthorizationTicket
-/// in this call. See also PFMatchmakerPlayerJoinedAsync, PFMatchmakerPlayerLeftAsync, PFMatchmakerStartGameAsync,
-/// PFMatchmakerUserInfoAsync
+/// in this call. See also MatchmakerPlayerJoinedAsync, MatchmakerPlayerLeftAsync, MatchmakerStartGameAsync,
+/// MatchmakerUserInfoAsync.
+///
+/// If successful, call <see cref="PFMatchmakingAuthUserGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingAuthUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -326,7 +342,9 @@ HRESULT PFMatchmakingAuthUserGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFMatchmakerAuthUserAsync, PFMatchmakerPlayerLeftAsync, PFMatchmakerStartGameAsync, PFMatchmakerUserInfoAsync
+/// See also MatchmakerAuthUserAsync, MatchmakerPlayerLeftAsync, MatchmakerStartGameAsync, MatchmakerUserInfoAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingPlayerJoinedAsync(
     _In_ PFStateHandle stateHandle,
@@ -345,7 +363,9 @@ HRESULT PFMatchmakingPlayerJoinedAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFMatchmakerAuthUserAsync, PFMatchmakerPlayerJoinedAsync, PFMatchmakerStartGameAsync, PFMatchmakerUserInfoAsync
+/// See also MatchmakerAuthUserAsync, MatchmakerPlayerJoinedAsync, MatchmakerStartGameAsync, MatchmakerUserInfoAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingPlayerLeftAsync(
     _In_ PFStateHandle stateHandle,
@@ -363,7 +383,9 @@ HRESULT PFMatchmakingPlayerLeftAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFMatchmakerAuthUserAsync, PFMatchmakerPlayerJoinedAsync, PFMatchmakerPlayerLeftAsync, PFMatchmakerUserInfoAsync
+/// See also MatchmakerAuthUserAsync, MatchmakerPlayerJoinedAsync, MatchmakerPlayerLeftAsync, MatchmakerUserInfoAsync.
+///
+/// If successful, call <see cref="PFMatchmakingStartGameGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingStartGameAsync(
     _In_ PFStateHandle stateHandle,
@@ -413,7 +435,9 @@ HRESULT PFMatchmakingStartGameGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFMatchmakerAuthUserAsync, PFMatchmakerPlayerJoinedAsync, PFMatchmakerPlayerLeftAsync, PFMatchmakerStartGameAsync
+/// See also MatchmakerAuthUserAsync, MatchmakerPlayerJoinedAsync, MatchmakerPlayerLeftAsync, MatchmakerStartGameAsync.
+///
+/// If successful, call <see cref="PFMatchmakingUserInfoGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingUserInfoAsync(
     _In_ PFStateHandle stateHandle,
@@ -448,7 +472,9 @@ HRESULT PFMatchmakingUserInfoGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerRegisterGameAsync
+/// See also ServerRegisterGameAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingServerDeregisterGameAsync(
     _In_ PFStateHandle stateHandle,
@@ -466,7 +492,8 @@ HRESULT PFMatchmakingServerDeregisterGameAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFMatchmakingServerNotifyMatchmakerPlayerLeftGetResult"/> to get the result.
+/// If successful, call <see cref="PFMatchmakingServerNotifyMatchmakerPlayerLeftGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFMatchmakingServerNotifyMatchmakerPlayerLeftAsync(
     _In_ PFStateHandle stateHandle,
@@ -509,6 +536,8 @@ HRESULT PFMatchmakingServerNotifyMatchmakerPlayerLeftGetResult(
 /// (PII), such as email address, and so care should be taken in how this data is stored and managed.
 /// Since this call will always return the relevant information for users who have accessed the title,
 /// the recommendation is to not store this data locally.
+///
+/// If successful, call <see cref="PFMatchmakingServerRedeemMatchmakerTicketGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingServerRedeemMatchmakerTicketAsync(
     _In_ PFStateHandle stateHandle,
@@ -561,7 +590,9 @@ HRESULT PFMatchmakingServerRefreshGameServerInstanceHeartbeatAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerDeregisterGameAsync
+/// See also ServerDeregisterGameAsync.
+///
+/// If successful, call <see cref="PFMatchmakingServerRegisterGameGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingServerRegisterGameAsync(
     _In_ PFStateHandle stateHandle,
@@ -669,6 +700,8 @@ HRESULT PFMatchmakingServerSetGameServerInstanceTagsAsync(
 /// for instance) and want to 'reset'. The Entity field is optional if the caller is a player and defaults
 /// to that player. Players may not cancel tickets for other people. The Entity field is required if the
 /// caller is a server (authenticated as the title).
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingCancelAllMatchmakingTicketsForPlayerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -689,6 +722,8 @@ HRESULT PFMatchmakingCancelAllMatchmakingTicketsForPlayerAsync(
 /// Cancels all backfill tickets of which the player is a member in a given queue that are not cancelled
 /// or matched. This API is useful if you lose track of what tickets the player is a member of (if the
 /// server crashes for instance) and want to 'reset'.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingCancelAllServerBackfillTicketsForPlayerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -717,6 +752,8 @@ HRESULT PFMatchmakingCancelAllServerBackfillTicketsForPlayerAsync(
 /// possibility that the cancel request fails if a match is found before the cancellation request is processed.
 /// We do not allow resubmitting a cancelled ticket because players must consent to enter matchmaking
 /// again. Create a new ticket instead.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingCancelMatchmakingTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -741,6 +778,8 @@ HRESULT PFMatchmakingCancelMatchmakingTicketAsync(
 /// request. The server must handle the possibility that the cancel request fails if a match is found
 /// before the cancellation request is processed. We do not allow resubmitting a cancelled ticket. Create
 /// a new ticket instead.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingCancelServerBackfillTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -759,6 +798,8 @@ HRESULT PFMatchmakingCancelServerBackfillTicketAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// The client specifies the creator's attributes and optionally a list of other users to match with.
+///
+/// If successful, call <see cref="PFMatchmakingCreateMatchmakingTicketGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingCreateMatchmakingTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -811,6 +852,8 @@ HRESULT PFMatchmakingCreateMatchmakingTicketGetResult(
 /// <remarks>
 /// The server specifies all the members, their teams and their attributes, and the server details if
 /// applicable.
+///
+/// If successful, call <see cref="PFMatchmakingCreateServerBackfillTicketGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingCreateServerBackfillTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -861,6 +904,9 @@ HRESULT PFMatchmakingCreateServerBackfillTicketGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// The server specifies all the members and their attributes.
+///
+/// If successful, call <see cref="PFMatchmakingCreateServerMatchmakingTicketGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFMatchmakingCreateServerMatchmakingTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -912,6 +958,8 @@ HRESULT PFMatchmakingCreateServerMatchmakingTicketGetResult(
 /// When matchmaking has successfully matched together a collection of tickets, it produces a 'match'
 /// with an Id. The match contains all of the players that were matched together, and their team assigments.
 /// Only servers and ticket members can get the match.
+///
+/// If successful, call <see cref="PFMatchmakingGetMatchGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingGetMatchAsync(
     _In_ PFEntityHandle entityHandle,
@@ -949,6 +997,8 @@ HRESULT PFMatchmakingGetMatchGetResult(
 /// The ticket includes the invited players, their attributes if they have joined, the ticket status,
 /// the match Id when applicable, etc. Only servers, the ticket creator and the invited players can get
 /// the ticket.
+///
+/// If successful, call <see cref="PFMatchmakingGetMatchmakingTicketGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingGetMatchmakingTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -988,6 +1038,8 @@ HRESULT PFMatchmakingGetMatchmakingTicketGetResult(
 /// are refreshed once every 5 minutes. Servers can access all statistics no matter what the ClientStatisticsVisibility
 /// is configured to. Clients can access statistics according to the ClientStatisticsVisibility. Client
 /// requests are forbidden if all visibility fields are false.
+///
+/// If successful, call <see cref="PFMatchmakingGetQueueStatisticsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingGetQueueStatisticsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1024,6 +1076,8 @@ HRESULT PFMatchmakingGetQueueStatisticsGetResult(
 /// <remarks>
 /// The ticket includes the players, their attributes, their teams, the ticket status, the match Id and
 /// the server details when applicable, etc. Only servers can get the ticket.
+///
+/// If successful, call <see cref="PFMatchmakingGetServerBackfillTicketGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingGetServerBackfillTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1062,6 +1116,8 @@ HRESULT PFMatchmakingGetServerBackfillTicketGetResult(
 /// join a ticket if and only if their EntityKeys are already listed in the ticket's Members list. The
 /// matchmaking service automatically starts matching the ticket against other matchmaking tickets once
 /// all players have joined the ticket. It is not possible to join a ticket once it has started matching.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFMatchmakingJoinMatchmakingTicketAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1081,6 +1137,9 @@ HRESULT PFMatchmakingJoinMatchmakingTicketAsync(
 /// <remarks>
 /// If the caller is a title, the EntityKey in the request is required. If the caller is a player, then
 /// it is optional. If it is provided it must match the caller's entity.
+///
+/// If successful, call <see cref="PFMatchmakingListMatchmakingTicketsForPlayerGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFMatchmakingListMatchmakingTicketsForPlayerAsync(
     _In_ PFEntityHandle entityHandle,
@@ -1116,6 +1175,9 @@ HRESULT PFMatchmakingListMatchmakingTicketsForPlayerGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// List all server backfill ticket Ids the user is a member of.
+///
+/// If successful, call <see cref="PFMatchmakingListServerBackfillTicketsForPlayerGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFMatchmakingListServerBackfillTicketsForPlayerAsync(
     _In_ PFEntityHandle entityHandle,

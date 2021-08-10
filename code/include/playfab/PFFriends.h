@@ -24,7 +24,9 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetFriendsListAsync, PFClientSetFriendTagsAsync
+/// See also ClientGetFriendsListAsync, ClientSetFriendTagsAsync.
+///
+/// If successful, call <see cref="PFFriendsClientAddFriendGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFFriendsClientAddFriendAsync(
     _In_ PFEntityHandle entityHandle,
@@ -53,7 +55,9 @@ HRESULT PFFriendsClientAddFriendGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAddFriendAsync, PFClientGetPlayerProfileAsync, PFClientRemoveFriendAsync
+/// See also ClientAddFriendAsync, ClientGetPlayerProfileAsync, ClientRemoveFriendAsync.
+///
+/// If successful, call <see cref="PFFriendsClientGetFriendsListGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFFriendsClientGetFriendsListAsync(
     _In_ PFEntityHandle entityHandle,
@@ -86,7 +90,9 @@ HRESULT PFFriendsClientGetFriendsListGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientAddFriendAsync, PFClientSetFriendTagsAsync
+/// See also ClientAddFriendAsync, ClientSetFriendTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsClientRemoveFriendAsync(
     _In_ PFEntityHandle entityHandle,
@@ -105,7 +111,9 @@ HRESULT PFFriendsClientRemoveFriendAsync(
 /// This operation is not additive. It will completely replace the tag list for the specified user. Please
 /// note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on
 /// a friend only included in the friends list from a social site integration (such as Facebook or Steam)
-/// will return the AccountNotFound error. See also PFClientAddFriendAsync, PFClientRemoveFriendAsync
+/// will return the AccountNotFound error. See also ClientAddFriendAsync, ClientRemoveFriendAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsClientSetFriendTagsAsync(
     _In_ PFEntityHandle entityHandle,
@@ -122,7 +130,9 @@ HRESULT PFFriendsClientSetFriendTagsAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerGetFriendsListAsync, PFServerRemoveFriendAsync, PFServerSetFriendTagsAsync
+/// See also ServerGetFriendsListAsync, ServerRemoveFriendAsync, ServerSetFriendTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsServerAddFriendAsync(
     _In_ PFStateHandle stateHandle,
@@ -140,7 +150,9 @@ HRESULT PFFriendsServerAddFriendAsync(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddFriendAsync, PFServerGetPlayerProfileAsync, PFServerRemoveFriendAsync, PFServerSetFriendTagsAsync
+/// See also ServerAddFriendAsync, ServerGetPlayerProfileAsync, ServerRemoveFriendAsync, ServerSetFriendTagsAsync.
+///
+/// If successful, call <see cref="PFFriendsServerGetFriendsListGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFFriendsServerGetFriendsListAsync(
     _In_ PFStateHandle stateHandle,
@@ -173,7 +185,9 @@ HRESULT PFFriendsServerGetFriendsListGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddFriendAsync, PFServerSetFriendTagsAsync
+/// See also ServerAddFriendAsync, ServerSetFriendTagsAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsServerRemoveFriendAsync(
     _In_ PFStateHandle stateHandle,
@@ -192,8 +206,9 @@ HRESULT PFFriendsServerRemoveFriendAsync(
 /// This operation is not additive. It will completely replace the tag list for the specified user. Please
 /// note that only users in the PlayFab friends list can be assigned tags. Attempting to set a tag on
 /// a friend only included in the friends list from a social site integration (such as Facebook or Steam)
-/// will return the AccountNotFound error. See also PFServerAddFriendAsync, PFServerGetFriendsListAsync,
-/// PFServerRemoveFriendAsync
+/// will return the AccountNotFound error. See also ServerAddFriendAsync, ServerGetFriendsListAsync, ServerRemoveFriendAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsServerSetFriendTagsAsync(
     _In_ PFStateHandle stateHandle,

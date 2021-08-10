@@ -23,8 +23,10 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If the task instance has already completed, there will be no-op. See also PFAdminGetActionsOnPlayersInSegmentTaskInstanceAsync,
-/// PFAdminGetCloudScriptTaskInstanceAsync, PFAdminGetTaskInstancesAsync, PFAdminRunTaskAsync
+/// If the task instance has already completed, there will be no-op. See also AdminGetActionsOnPlayersInSegmentTaskInstanceAsync,
+/// AdminGetCloudScriptTaskInstanceAsync, AdminGetTaskInstancesAsync, AdminRunTaskAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFScheduledTaskAdminAbortTaskInstanceAsync(
     _In_ PFStateHandle stateHandle,
@@ -45,8 +47,10 @@ HRESULT PFScheduledTaskAdminAbortTaskInstanceAsync(
 /// <remarks>
 /// Task name is unique within a title. Using a task name that's already taken will cause a name conflict
 /// error. Too many create-task requests within a short time will cause a create conflict error. See also
-/// PFAdminCreateCloudScriptTaskAsync, PFAdminDeleteTaskAsync, PFAdminGetTasksAsync, PFAdminRunTaskAsync,
-/// PFAdminUpdateTaskAsync
+/// AdminCreateCloudScriptTaskAsync, AdminDeleteTaskAsync, AdminGetTasksAsync, AdminRunTaskAsync, AdminUpdateTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminCreateActionsOnPlayersInSegmentTaskGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminCreateActionsOnPlayersInSegmentTaskAsync(
     _In_ PFStateHandle stateHandle,
@@ -97,8 +101,10 @@ HRESULT PFScheduledTaskAdminCreateActionsOnPlayersInSegmentTaskGetResult(
 /// <remarks>
 /// Task name is unique within a title. Using a task name that's already taken will cause a name conflict
 /// error. Too many create-task requests within a short time will cause a create conflict error. See also
-/// PFAdminCreateActionsOnPlayersInSegmentTaskAsync, PFAdminDeleteTaskAsync, PFAdminGetTasksAsync, PFAdminRunTaskAsync,
-/// PFAdminUpdateTaskAsync
+/// AdminCreateActionsOnPlayersInSegmentTaskAsync, AdminDeleteTaskAsync, AdminGetTasksAsync, AdminRunTaskAsync,
+/// AdminUpdateTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminCreateCloudScriptTaskGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminCreateCloudScriptTaskAsync(
     _In_ PFStateHandle stateHandle,
@@ -149,8 +155,11 @@ HRESULT PFScheduledTaskAdminCreateCloudScriptTaskGetResult(
 /// <remarks>
 /// Task name is unique within a title. Using a task name that's already taken will cause a name conflict
 /// error. Too many create-task requests within a short time will cause a create conflict error. See also
-/// PFAdminCreateActionsOnPlayersInSegmentTaskAsync, PFAdminDeleteTaskAsync, PFAdminGetTasksAsync, PFAdminRunTaskAsync,
-/// PFAdminUpdateTaskAsync
+/// AdminCreateActionsOnPlayersInSegmentTaskAsync, AdminDeleteTaskAsync, AdminGetTasksAsync, AdminRunTaskAsync,
+/// AdminUpdateTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminCreateInsightsScheduledScalingTaskGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminCreateInsightsScheduledScalingTaskAsync(
     _In_ PFStateHandle stateHandle,
@@ -202,8 +211,10 @@ HRESULT PFScheduledTaskAdminCreateInsightsScheduledScalingTaskGetResult(
 /// After a task is deleted, for tracking purposes, the task instances belonging to this task will still
 /// remain. They will become orphaned and does not belongs to any task. Executions of any in-progress
 /// task instances will continue. If the task specified does not exist, the deletion is considered a success.
-/// See also PFAdminCreateActionsOnPlayersInSegmentTaskAsync, PFAdminCreateCloudScriptAzureFunctionsTaskAsync,
-/// PFAdminCreateCloudScriptTaskAsync, PFAdminGetTasksAsync, PFAdminRunTaskAsync, PFAdminUpdateTaskAsync
+/// See also AdminCreateActionsOnPlayersInSegmentTaskAsync, AdminCreateCloudScriptAzureFunctionsTaskAsync,
+/// AdminCreateCloudScriptTaskAsync, AdminGetTasksAsync, AdminRunTaskAsync, AdminUpdateTaskAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFScheduledTaskAdminDeleteTaskAsync(
     _In_ PFStateHandle stateHandle,
@@ -222,9 +233,12 @@ HRESULT PFScheduledTaskAdminDeleteTaskAsync(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// The result includes detail information that's specific to an ActionsOnPlayersInSegment task. To get
-/// a list of task instances with generic basic information, use GetTaskInstances. See also PFAdminAbortTaskInstanceAsync,
-/// PFAdminGetCloudScriptAzureFunctionsTaskInstanceAsync, PFAdminGetCloudScriptTaskInstanceAsync, PFAdminGetTaskInstancesAsync,
-/// PFAdminRunTaskAsync
+/// a list of task instances with generic basic information, use GetTaskInstances. See also AdminAbortTaskInstanceAsync,
+/// AdminGetCloudScriptAzureFunctionsTaskInstanceAsync, AdminGetCloudScriptTaskInstanceAsync, AdminGetTaskInstancesAsync,
+/// AdminRunTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceAsync(
     _In_ PFStateHandle stateHandle,
@@ -261,8 +275,11 @@ HRESULT PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResult(
 /// <remarks>
 /// The result includes detail information that's specific to a CloudScript task. Only CloudScript tasks
 /// configured as 'Run Cloud Script function once' will be retrieved. To get a list of task instances
-/// by task, status, or time range, use GetTaskInstances. See also PFAdminAbortTaskInstanceAsync, PFAdminGetActionsOnPlayersInSegmentTaskInstanceAsync,
-/// PFAdminGetCloudScriptAzureFunctionsTaskInstanceAsync, PFAdminGetTaskInstancesAsync, PFAdminRunTaskAsync
+/// by task, status, or time range, use GetTaskInstances. See also AdminAbortTaskInstanceAsync, AdminGetActionsOnPlayersInSegmentTaskInstanceAsync,
+/// AdminGetCloudScriptAzureFunctionsTaskInstanceAsync, AdminGetTaskInstancesAsync, AdminRunTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminGetCloudScriptTaskInstanceAsync(
     _In_ PFStateHandle stateHandle,
@@ -299,9 +316,11 @@ HRESULT PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResult(
 /// <remarks>
 /// Only the most recent 100 task instances are returned, ordered by start time descending. The results
 /// are generic basic information for task instances. To get detail information specific to each task
-/// type, use Get*TaskInstance based on its corresponding task type. See also PFAdminAbortTaskInstanceAsync,
-/// PFAdminGetActionsOnPlayersInSegmentTaskInstanceAsync, PFAdminGetCloudScriptAzureFunctionsTaskInstanceAsync,
-/// PFAdminGetCloudScriptTaskInstanceAsync, PFAdminRunTaskAsync
+/// type, use Get*TaskInstance based on its corresponding task type. See also AdminAbortTaskInstanceAsync,
+/// AdminGetActionsOnPlayersInSegmentTaskInstanceAsync, AdminGetCloudScriptAzureFunctionsTaskInstanceAsync,
+/// AdminGetCloudScriptTaskInstanceAsync, AdminRunTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminGetTaskInstancesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminGetTaskInstancesAsync(
     _In_ PFStateHandle stateHandle,
@@ -336,8 +355,10 @@ HRESULT PFScheduledTaskAdminGetTaskInstancesGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminCreateCloudScriptAzureFunctionsTaskAsync, PFAdminCreateCloudScriptTaskAsync, PFAdminDeleteTaskAsync,
-/// PFAdminGetTasksAsync, PFAdminRunTaskAsync, PFAdminUpdateTaskAsync
+/// See also AdminCreateCloudScriptAzureFunctionsTaskAsync, AdminCreateCloudScriptTaskAsync, AdminDeleteTaskAsync,
+/// AdminGetTasksAsync, AdminRunTaskAsync, AdminUpdateTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminGetTasksGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminGetTasksAsync(
     _In_ PFStateHandle stateHandle,
@@ -372,9 +393,11 @@ HRESULT PFScheduledTaskAdminGetTasksGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The returned task instance ID can be used to query for task execution status. See also PFAdminCreateActionsOnPlayersInSegmentTaskAsync,
-/// PFAdminCreateCloudScriptAzureFunctionsTaskAsync, PFAdminCreateCloudScriptTaskAsync, PFAdminDeleteTaskAsync,
-/// PFAdminGetTasksAsync, PFAdminUpdateTaskAsync
+/// The returned task instance ID can be used to query for task execution status. See also AdminCreateActionsOnPlayersInSegmentTaskAsync,
+/// AdminCreateCloudScriptAzureFunctionsTaskAsync, AdminCreateCloudScriptTaskAsync, AdminDeleteTaskAsync,
+/// AdminGetTasksAsync, AdminUpdateTaskAsync.
+///
+/// If successful, call <see cref="PFScheduledTaskAdminRunTaskGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFScheduledTaskAdminRunTaskAsync(
     _In_ PFStateHandle stateHandle,
@@ -427,8 +450,10 @@ HRESULT PFScheduledTaskAdminRunTaskGetResult(
 /// that you do not want to change. Parameters not specified would be set to default value. If the task
 /// name in the update request is new, a task rename operation will be executed before updating other
 /// fields of the task. WARNING: Renaming of a task may break logics where the task name is used as an
-/// identifier. See also PFAdminCreateActionsOnPlayersInSegmentTaskAsync, PFAdminCreateCloudScriptTaskAsync,
-/// PFAdminDeleteTaskAsync, PFAdminGetTasksAsync, PFAdminRunTaskAsync
+/// identifier. See also AdminCreateActionsOnPlayersInSegmentTaskAsync, AdminCreateCloudScriptTaskAsync,
+/// AdminDeleteTaskAsync, AdminGetTasksAsync, AdminRunTaskAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFScheduledTaskAdminUpdateTaskAsync(
     _In_ PFStateHandle stateHandle,

@@ -23,7 +23,10 @@ extern "C"
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminSubtractUserVirtualCurrencyAsync
+/// See also AdminSubtractUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementAdminAddUserVirtualCurrencyGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminAddUserVirtualCurrencyAsync(
     _In_ PFStateHandle stateHandle,
@@ -72,7 +75,10 @@ HRESULT PFPlayerItemManagementAdminAddUserVirtualCurrencyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// This returns the total number of these items available. See also PFAdminIncrementLimitedEditionItemAvailabilityAsync
+/// This returns the total number of these items available. See also AdminIncrementLimitedEditionItemAvailabilityAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementAdminCheckLimitedEditionItemAvailabilityGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminCheckLimitedEditionItemAvailabilityAsync(
     _In_ PFStateHandle stateHandle,
@@ -104,7 +110,10 @@ HRESULT PFPlayerItemManagementAdminCheckLimitedEditionItemAvailabilityGetResult(
 /// All items currently in the user inventory will be returned, irrespective of how they were acquired
 /// (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer
 /// valid are not considered to be in the user's current inventory, and so will not be not included. See
-/// also PFAdminGetUserAccountInfoAsync
+/// also AdminGetUserAccountInfoAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementAdminGetUserInventoryGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminGetUserInventoryAsync(
     _In_ PFStateHandle stateHandle,
@@ -143,6 +152,9 @@ HRESULT PFPlayerItemManagementAdminGetUserInventoryGetResult(
 /// the user will not be charged any transaction fee, regardless of the inventory item catalog definition.
 /// Please note that the processing time for inventory grants and purchases increases fractionally the
 /// more items are in the inventory, and the more items are in the grant/purchase operation.
+///
+/// If successful, call <see cref="PFPlayerItemManagementAdminGrantItemsToUsersGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminGrantItemsToUsersAsync(
     _In_ PFStateHandle stateHandle,
@@ -178,7 +190,9 @@ HRESULT PFPlayerItemManagementAdminGrantItemsToUsersGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This operation will increment the global counter for the number of these items available. This number
-/// cannot be decremented, except by actual grants. See also PFAdminCheckLimitedEditionItemAvailabilityAsync
+/// cannot be decremented, except by actual grants. See also AdminCheckLimitedEditionItemAvailabilityAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminIncrementLimitedEditionItemAvailabilityAsync(
     _In_ PFStateHandle stateHandle,
@@ -198,7 +212,9 @@ HRESULT PFPlayerItemManagementAdminIncrementLimitedEditionItemAvailabilityAsync(
 /// <remarks>
 /// In cases where the inventory item in question is a 'crate', and the items it contained have already
 /// been dispensed, this will not revoke access or otherwise remove the items which were dispensed. See
-/// also PFAdminGetUserInventoryAsync
+/// also AdminGetUserInventoryAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminRevokeInventoryItemAsync(
     _In_ PFStateHandle stateHandle,
@@ -218,7 +234,10 @@ HRESULT PFPlayerItemManagementAdminRevokeInventoryItemAsync(
 /// <remarks>
 /// In cases where the inventory item in question is a 'crate', and the items it contained have already
 /// been dispensed, this will not revoke access or otherwise remove the items which were dispensed. See
-/// also PFAdminGetUserInventoryAsync
+/// also AdminGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementAdminRevokeInventoryItemsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminRevokeInventoryItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -253,7 +272,10 @@ HRESULT PFPlayerItemManagementAdminRevokeInventoryItemsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFAdminAddUserVirtualCurrencyAsync
+/// See also AdminAddUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementAdminSubtractUserVirtualCurrencyGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementAdminSubtractUserVirtualCurrencyAsync(
     _In_ PFStateHandle stateHandle,
@@ -302,7 +324,10 @@ HRESULT PFPlayerItemManagementAdminSubtractUserVirtualCurrencyGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This API must be enabled for use as an option in the game manager website. It is disabled by default.
-/// See also PFClientSubtractUserVirtualCurrencyAsync
+/// See also ClientSubtractUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientAddUserVirtualCurrencyGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyAsync(
     _In_ PFEntityHandle entityHandle,
@@ -356,7 +381,10 @@ HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyGetResult(
 /// added. Note that this is a pull operation, and should be polled regularly when a purchase is in progress.
 /// Please note that the processing time for inventory grants and purchases increases fractionally the
 /// more items are in the inventory, and the more items are in the grant/purchase operation. See also
-/// PFClientPayForPurchaseAsync, PFClientStartPurchaseAsync
+/// ClientPayForPurchaseAsync, ClientStartPurchaseAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientConfirmPurchaseGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientConfirmPurchaseAsync(
     _In_ PFEntityHandle entityHandle,
@@ -440,7 +468,10 @@ HRESULT PFPlayerItemManagementClientConsumeItemGetResult(
 /// All items currently in the character inventory will be returned, irrespective of how they were acquired
 /// (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer
 /// valid are not considered to be in the user's current inventory, and so will not be not included. Also
-/// returns their virtual currency balances. See also PFClientGetUserInventoryAsync
+/// returns their virtual currency balances. See also ClientGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientGetCharacterInventoryGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetCharacterInventoryAsync(
     _In_ PFEntityHandle entityHandle,
@@ -476,7 +507,10 @@ HRESULT PFPlayerItemManagementClientGetCharacterInventoryGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetPurchaseAsync
+/// See also ClientGetPurchaseAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientGetPaymentTokenGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetPaymentTokenAsync(
     _In_ PFEntityHandle entityHandle,
@@ -524,7 +558,9 @@ HRESULT PFPlayerItemManagementClientGetPaymentTokenGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientStartPurchaseAsync
+/// See also ClientStartPurchaseAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientGetPurchaseGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetPurchaseAsync(
     _In_ PFEntityHandle entityHandle,
@@ -571,7 +607,10 @@ HRESULT PFPlayerItemManagementClientGetPurchaseGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFClientGetCatalogItemsAsync
+/// See also ClientGetCatalogItemsAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientGetUserInventoryGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetUserInventoryAsync(
     _In_ PFEntityHandle entityHandle,
@@ -608,7 +647,10 @@ HRESULT PFPlayerItemManagementClientGetUserInventoryGetResult(
 /// provider (if applicable). For payment provider scenarios, the title should next present the user with
 /// the payment provider'sinterface for payment. Once the player has completed the payment with the provider,
 /// the title should call ConfirmPurchase tofinalize the process and add the appropriate items to the
-/// player inventory. See also PFClientConfirmPurchaseAsync, PFClientStartPurchaseAsync
+/// player inventory. See also ClientConfirmPurchaseAsync, ClientStartPurchaseAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientPayForPurchaseGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientPayForPurchaseAsync(
     _In_ PFEntityHandle entityHandle,
@@ -645,7 +687,9 @@ HRESULT PFPlayerItemManagementClientPayForPurchaseGetResult(
 /// <remarks>
 /// Please note that the processing time for inventory grants and purchases increases fractionally the
 /// more items are in the inventory, and the more items are in the grant/purchase operation (with each
-/// item in a bundle being a distinct add). See also PFClientStartPurchaseAsync
+/// item in a bundle being a distinct add). See also ClientStartPurchaseAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientPurchaseItemGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientPurchaseItemAsync(
     _In_ PFEntityHandle entityHandle,
@@ -683,6 +727,8 @@ HRESULT PFPlayerItemManagementClientPurchaseItemGetResult(
 /// causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to
 /// re-use an already consumed code, or a code which has not yet been created in the service, will result
 /// in an error.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientRedeemCouponGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientRedeemCouponAsync(
     _In_ PFEntityHandle entityHandle,
@@ -718,7 +764,9 @@ HRESULT PFPlayerItemManagementClientRedeemCouponGetResult(
 /// This is the first step in the purchasing process. For security purposes, once the order (or 'cart')
 /// has been created, additional inventory objects may no longer be added. In addition, inventory objects
 /// will be locked to the current prices, regardless of any subsequent changes at the catalog level which
-/// may occur during the next two steps. See also PFClientConfirmPurchaseAsync, PFClientPayForPurchaseAsync
+/// may occur during the next two steps. See also ClientConfirmPurchaseAsync, ClientPayForPurchaseAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientStartPurchaseGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientStartPurchaseAsync(
     _In_ PFEntityHandle entityHandle,
@@ -753,7 +801,10 @@ HRESULT PFPlayerItemManagementClientStartPurchaseGetResult(
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// This API must be enabled for use as an option in the game manager website. It is disabled by default.
-/// See also PFClientAddUserVirtualCurrencyAsync
+/// See also ClientAddUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientSubtractUserVirtualCurrencyGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyAsync(
     _In_ PFEntityHandle entityHandle,
@@ -802,7 +853,10 @@ HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Specify the container and optionally the catalogVersion for the container to open
+/// Specify the container and optionally the catalogVersion for the container to open.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientUnlockContainerInstanceGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientUnlockContainerInstanceAsync(
     _In_ PFEntityHandle entityHandle,
@@ -838,7 +892,10 @@ HRESULT PFPlayerItemManagementClientUnlockContainerInstanceGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Specify the type of container to open and optionally the catalogVersion for the container to open
+/// Specify the type of container to open and optionally the catalogVersion for the container to open.
+///
+/// If successful, call <see cref="PFPlayerItemManagementClientUnlockContainerItemGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientUnlockContainerItemAsync(
     _In_ PFEntityHandle entityHandle,
@@ -871,7 +928,10 @@ HRESULT PFPlayerItemManagementClientUnlockContainerItemGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddUserVirtualCurrencyAsync, PFServerSubtractCharacterVirtualCurrencyAsync
+/// See also ServerAddUserVirtualCurrencyAsync, ServerSubtractCharacterVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerAddCharacterVirtualCurrencyGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerAddCharacterVirtualCurrencyAsync(
     _In_ PFStateHandle stateHandle,
@@ -918,7 +978,10 @@ HRESULT PFPlayerItemManagementServerAddCharacterVirtualCurrencyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerSubtractUserVirtualCurrencyAsync
+/// See also ServerSubtractUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerAddUserVirtualCurrencyGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerAddUserVirtualCurrencyAsync(
     _In_ PFStateHandle stateHandle,
@@ -1015,7 +1078,8 @@ HRESULT PFPlayerItemManagementServerConsumeItemGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFPlayerItemManagementServerEvaluateRandomResultTableGetResult"/> to get the result.
+/// If successful, call <see cref="PFPlayerItemManagementServerEvaluateRandomResultTableGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerEvaluateRandomResultTableAsync(
     _In_ PFStateHandle stateHandle,
@@ -1065,7 +1129,10 @@ HRESULT PFPlayerItemManagementServerEvaluateRandomResultTableGetResult(
 /// All items currently in the character inventory will be returned, irrespective of how they were acquired
 /// (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer
 /// valid are not considered to be in the user's current inventory, and so will not be not included. Also
-/// returns their virtual currency balances. See also PFServerGetUserInventoryAsync
+/// returns their virtual currency balances. See also ServerGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerGetCharacterInventoryGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerGetCharacterInventoryAsync(
     _In_ PFStateHandle stateHandle,
@@ -1099,7 +1166,10 @@ HRESULT PFPlayerItemManagementServerGetCharacterInventoryGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerEvaluateRandomResultTableAsync
+/// See also ServerEvaluateRandomResultTableAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerGetRandomResultTablesGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerGetRandomResultTablesAsync(
     _In_ PFStateHandle stateHandle,
@@ -1135,7 +1205,10 @@ HRESULT PFPlayerItemManagementServerGetRandomResultTablesGetResult(
 /// All items currently in the user inventory will be returned, irrespective of how they were acquired
 /// (via purchasing, grants, coupons, etc.). Items that are expired, fully consumed, or are no longer
 /// valid are not considered to be in the user's current inventory, and so will not be not included. See
-/// also PFServerGetUserAccountInfoAsync
+/// also ServerGetUserAccountInfoAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerGetUserInventoryGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerGetUserInventoryAsync(
     _In_ PFStateHandle stateHandle,
@@ -1172,6 +1245,9 @@ HRESULT PFPlayerItemManagementServerGetUserInventoryGetResult(
 /// the user will not be charged any transaction fee, regardless of the inventory item catalog definition.
 /// Please note that the processing time for inventory grants and purchases increases fractionally the
 /// more items are in the inventory, and the more items are in the grant/purchase operation.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerGrantItemsToCharacterGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerGrantItemsToCharacterAsync(
     _In_ PFStateHandle stateHandle,
@@ -1208,6 +1284,9 @@ HRESULT PFPlayerItemManagementServerGrantItemsToCharacterGetResult(
 /// the user will not be charged any transaction fee, regardless of the inventory item catalog definition.
 /// Please note that the processing time for inventory grants and purchases increases fractionally the
 /// more items are in the inventory, and the more items are in the grant/purchase operation.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerGrantItemsToUserGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerGrantItemsToUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -1244,6 +1323,9 @@ HRESULT PFPlayerItemManagementServerGrantItemsToUserGetResult(
 /// the user will not be charged any transaction fee, regardless of the inventory item catalog definition.
 /// Please note that the processing time for inventory grants and purchases increases fractionally the
 /// more items are in the inventory, and the more items are in the grant/purchase operation.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerGrantItemsToUsersGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerGrantItemsToUsersAsync(
     _In_ PFStateHandle stateHandle,
@@ -1278,6 +1360,9 @@ HRESULT PFPlayerItemManagementServerGrantItemsToUsersGetResult(
 /// <remarks>
 /// This function can both add and remove uses of an inventory item. If the number of uses drops below
 /// zero, the item will be removed from active inventory.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerModifyItemUsesGetResult"/> to get the
+/// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerModifyItemUsesAsync(
     _In_ PFStateHandle stateHandle,
@@ -1326,8 +1411,10 @@ HRESULT PFPlayerItemManagementServerModifyItemUsesGetResult(
 /// <remarks>
 /// Transfers an item from a character to another character that is owned by the same user. This will
 /// remove the item from the character's inventory (until and unless it is moved back), and will enable
-/// the other character to make use of the item instead. See also PFServerGrantItemsToCharacterAsync,
-/// PFServerMoveItemToCharacterFromUserAsync, PFServerMoveItemToUserFromCharacterAsync
+/// the other character to make use of the item instead. See also ServerGrantItemsToCharacterAsync, ServerMoveItemToCharacterFromUserAsync,
+/// ServerMoveItemToUserFromCharacterAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerMoveItemToCharacterFromCharacterAsync(
     _In_ PFStateHandle stateHandle,
@@ -1345,7 +1432,9 @@ HRESULT PFPlayerItemManagementServerMoveItemToCharacterFromCharacterAsync(
 /// <remarks>
 /// Transfers an item from a user to a character she owns. This will remove the item from the user's
 /// inventory (until and unless it is moved back), and will enable the character to make use of the item
-/// instead. See also PFServerGrantItemsToCharacterAsync, PFServerMoveItemToUserFromCharacterAsync
+/// instead. See also ServerGrantItemsToCharacterAsync, ServerMoveItemToUserFromCharacterAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerMoveItemToCharacterFromUserAsync(
     _In_ PFStateHandle stateHandle,
@@ -1363,7 +1452,9 @@ HRESULT PFPlayerItemManagementServerMoveItemToCharacterFromUserAsync(
 /// <remarks>
 /// Transfers an item from a character to the owning user. This will remove the item from the character's
 /// inventory (until and unless it is moved back), and will enable the user to make use of the item instead.
-/// See also PFServerGrantItemsToCharacterAsync, PFServerMoveItemToCharacterFromUserAsync
+/// See also ServerGrantItemsToCharacterAsync, ServerMoveItemToCharacterFromUserAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerMoveItemToUserFromCharacterAsync(
     _In_ PFStateHandle stateHandle,
@@ -1384,6 +1475,8 @@ HRESULT PFPlayerItemManagementServerMoveItemToUserFromCharacterAsync(
 /// causes the coupon to be consumed, and the specific items to be awarded to the user. Attempting to
 /// re-use an already consumed code, or a code which has not yet been created in the service, will result
 /// in an error.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerRedeemCouponGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerRedeemCouponAsync(
     _In_ PFStateHandle stateHandle,
@@ -1446,7 +1539,9 @@ HRESULT PFPlayerItemManagementServerReportPlayerGetResult(
 /// <remarks>
 /// In cases where the inventory item in question is a 'crate', and the items it contained have already
 /// been dispensed, this will not revoke access or otherwise remove the items which were dispensed. See
-/// also PFServerGetUserInventoryAsync
+/// also ServerGetUserInventoryAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerRevokeInventoryItemAsync(
     _In_ PFStateHandle stateHandle,
@@ -1464,7 +1559,10 @@ HRESULT PFPlayerItemManagementServerRevokeInventoryItemAsync(
 /// <remarks>
 /// In cases where the inventory item in question is a 'crate', and the items it contained have already
 /// been dispensed, this will not revoke access or otherwise remove the items which were dispensed. See
-/// also PFServerGetUserInventoryAsync
+/// also ServerGetUserInventoryAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerRevokeInventoryItemsGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerRevokeInventoryItemsAsync(
     _In_ PFStateHandle stateHandle,
@@ -1498,7 +1596,10 @@ HRESULT PFPlayerItemManagementServerRevokeInventoryItemsGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddCharacterVirtualCurrencyAsync, PFServerSubtractUserVirtualCurrencyAsync
+/// See also ServerAddCharacterVirtualCurrencyAsync, ServerSubtractUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerSubtractCharacterVirtualCurrencyGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerSubtractCharacterVirtualCurrencyAsync(
     _In_ PFStateHandle stateHandle,
@@ -1546,7 +1647,10 @@ HRESULT PFPlayerItemManagementServerSubtractCharacterVirtualCurrencyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// See also PFServerAddUserVirtualCurrencyAsync
+/// See also ServerAddUserVirtualCurrencyAsync.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerSubtractUserVirtualCurrencyGetResult"/>
+/// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerSubtractUserVirtualCurrencyAsync(
     _In_ PFStateHandle stateHandle,
@@ -1596,7 +1700,10 @@ HRESULT PFPlayerItemManagementServerSubtractUserVirtualCurrencyGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Specify the container and optionally the catalogVersion for the container to open
+/// Specify the container and optionally the catalogVersion for the container to open.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerUnlockContainerInstanceGetResult"/> to
+/// get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerUnlockContainerInstanceAsync(
     _In_ PFStateHandle stateHandle,
@@ -1632,7 +1739,10 @@ HRESULT PFPlayerItemManagementServerUnlockContainerInstanceGetResult(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// Specify the type of container to open and optionally the catalogVersion for the container to open
+/// Specify the type of container to open and optionally the catalogVersion for the container to open.
+///
+/// If successful, call <see cref="PFPlayerItemManagementServerUnlockContainerItemGetResult"/> to get
+/// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerUnlockContainerItemAsync(
     _In_ PFStateHandle stateHandle,
@@ -1669,7 +1779,9 @@ HRESULT PFPlayerItemManagementServerUnlockContainerItemGetResult(
 /// for the item instance which belongs to the specified user. In updating the custom data object, keys
 /// which already exist in the object will have their values overwritten, while keys with null values
 /// will be removed. No other key-value pairs will be changed apart from those specified in the call.
-/// See also PFServerGetUserInventoryAsync, PFServerUpdateUserInternalDataAsync
+/// See also ServerGetUserInventoryAsync, ServerUpdateUserInternalDataAsync.
+///
+/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerItemManagementServerUpdateUserInventoryItemCustomDataAsync(
     _In_ PFStateHandle stateHandle,

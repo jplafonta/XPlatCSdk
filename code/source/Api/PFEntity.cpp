@@ -5,14 +5,6 @@
 
 using namespace PlayFab;
 
-HRESULT PFGetAuthResult(
-    _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
-) noexcept
-{
-    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
-}
-
 HRESULT PFEntityDuplicateHandle(
     _In_ PFEntityHandle entityHandle,
     _Out_ PFEntityHandle* duplicatedEntityHandle
