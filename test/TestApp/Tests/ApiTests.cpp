@@ -22,7 +22,7 @@ void ApiTests::TestApiStaticSizeResult(TestContext& testContext)
 
     auto async = std::make_unique<XAsyncHelper<GetTimeResult>>(testContext);
 
-    HRESULT hr = PFTitleDataManagementClientGetTimeAsync(entityHandle, &async->asyncBlock);
+    HRESULT hr = PFTitleDataManagementClientGetTimeAsync(titlePlayerHandle, &async->asyncBlock);
     if (FAILED(hr))
     {
         testContext.Fail("PlayFabClientGetTimeAsync", hr);
@@ -37,15 +37,15 @@ void ApiTests::TestApiSerializableResult(TestContext& testContext)
 
     struct CreateSharedGroupResult : public XAsyncResult
     {
-        PFGroupsCreateSharedGroupResult* result;
+        PFSharedGroupsCreateSharedGroupResult* result;
 
         HRESULT Get(XAsyncBlock* async) override
         {
             size_t requiredBufferSize;
-            RETURN_IF_FAILED(PFGroupsClientCreateSharedGroupGetResultSize(async, &requiredBufferSize));
+            RETURN_IF_FAILED(PFSharedGroupsClientCreateSharedGroupGetResultSize(async, &requiredBufferSize));
 
             resultBuffer.resize(requiredBufferSize);
-            return PFGroupsClientCreateSharedGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr);
+            return PFSharedGroupsClientCreateSharedGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr);
         }
 
         HRESULT Validate() override
@@ -64,8 +64,9 @@ void ApiTests::TestApiSerializableResult(TestContext& testContext)
     uniqueGroupId << "GroupId_" << time(nullptr);
     groupId = uniqueGroupId.str();
 
-    PFGroupsCreateSharedGroupRequest request{ groupId.data() };
-    HRESULT hr = PFGroupsClientCreateSharedGroupAsync(entityHandle, &request, &async->asyncBlock);
+    PFSharedGroupsCreateSharedGroupRequest request{ groupId.data() };
+    HRESULT hr = PFSharedGroupsClientCreateSharedGroupAsync(titlePlayerHandle, &request, &async->asyncBlock);
+
     if (FAILED(hr))
     {
         testContext.Fail("PlayFabClientCreateSharedGroupAsync", hr);
@@ -96,7 +97,7 @@ void ApiTests::TestApiResultHandle(TestContext& testContext)
     auto async = std::make_unique<XAsyncHelper<GetPlayerProfileResult>>(testContext);
 
     PFAccountManagementGetPlayerProfileRequest request{};
-    HRESULT hr = PFAccountManagementClientGetPlayerProfileAsync(entityHandle, &request, &async->asyncBlock);
+    HRESULT hr = PFAccountManagementClientGetPlayerProfileAsync(titlePlayerHandle, &request, &async->asyncBlock);
     if (FAILED(hr))
     {
         testContext.Fail("PlayFabClientGetPlayerProfileAsync", hr);
@@ -134,6 +135,7 @@ void ApiTests::TestApiEntityToken(TestContext& testContext)
     async.release();
 }
 
+#if HC_PLATFORM != HC_PLATFORM_GDK
 void ApiTests::TestApiSecretKey(TestContext& testContext)
 {
     struct GetTitleDataResult : public XAsyncResult
@@ -157,6 +159,7 @@ void ApiTests::TestApiSecretKey(TestContext& testContext)
     }
     async.release();
 }
+#endif
 
 void ApiTests::TestApiNoAuth(TestContext& testContext)
 {
@@ -261,7 +264,9 @@ void ApiTests::AddTests()
     AddTest("TestApiResultHandle", &ApiTests::TestApiResultHandle);
     //AddTest("TestApiSessionTicket", &ApiTests::TestApiSessionTicket);
     AddTest("TestApiEntityToken", &ApiTests::TestApiEntityToken);
+#if HC_PLATFORM != HC_PLATFORM_GDK
     AddTest("TestApiSecretKey", &ApiTests::TestApiSecretKey);
+#endif
     //AddTest("TestApiNoAuth", &ApiTests::TestApiNoAuth);
     AddTest("TestGetEntityTokenWithAuthContext", &ApiTests::TestGetEntityTokenWithAuthContext);
     AddTest("TestGetEntityTokenWithSecretKey", &ApiTests::TestGetEntityTokenWithSecretKey);
@@ -287,7 +292,8 @@ void ApiTests::ClassSetUp()
             hr = XAsyncGetStatus(&async, true);
             if (SUCCEEDED(hr))
             {
-                PFAuthenticationClientLoginGetResult(&async, &entityHandle);
+                PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
             }
         }
     }
@@ -295,10 +301,11 @@ void ApiTests::ClassSetUp()
 
 void ApiTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);

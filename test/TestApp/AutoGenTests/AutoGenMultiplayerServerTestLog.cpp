@@ -9,8 +9,6 @@ uint32_t g_MultiplayerServerTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenMultiplayerServerTests::LogCreateBuildAliasRequest( PlayFab::MultiplayerServerModels::CreateBuildAliasRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

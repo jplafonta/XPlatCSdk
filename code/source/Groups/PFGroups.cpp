@@ -8,238 +8,6 @@
 using namespace PlayFab;
 using namespace PlayFab::GroupsModels;
 
-HRESULT PFGroupsAdminSetPublisherDataAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFSetPublisherDataRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::AdminSetPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsClientAddSharedGroupMembersAsync(
-    _In_ PFEntityHandle contextHandle,
-    _In_ const PFGroupsAddSharedGroupMembersRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ClientAddSharedGroupMembers, &contextHandle->entity->groupsAPI, AddSharedGroupMembersRequest{ *request }, std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsClientCreateSharedGroupAsync(
-    _In_ PFEntityHandle contextHandle,
-    _In_ const PFGroupsCreateSharedGroupRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ClientCreateSharedGroup, &contextHandle->entity->groupsAPI, CreateSharedGroupRequest{ *request }, std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsClientCreateSharedGroupGetResultSize(
-    _In_ XAsyncBlock* async,
-    _Out_ size_t* bufferSize
-) noexcept
-{
-    return XAsyncGetResultSize(async, bufferSize);
-}
-
-HRESULT PFGroupsClientCreateSharedGroupGetResult(
-    _In_ XAsyncBlock* async,
-    _In_ size_t bufferSize,
-    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
-    _Outptr_ PFGroupsCreateSharedGroupResult** result,
-    _Out_opt_ size_t* bufferUsed
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(result);
-
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
-    *result = static_cast<PFGroupsCreateSharedGroupResult*>(buffer);
-
-    return S_OK;
-}
-
-HRESULT PFGroupsClientGetSharedGroupDataAsync(
-    _In_ PFEntityHandle contextHandle,
-    _In_ const PFGroupsGetSharedGroupDataRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ClientGetSharedGroupData, &contextHandle->entity->groupsAPI, GetSharedGroupDataRequest{ *request }, std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsClientGetSharedGroupDataGetResult(
-    _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsGetSharedGroupDataResult** result
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(result);
-
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFGroupsGetSharedGroupDataResult*)(std::dynamic_pointer_cast<GetSharedGroupDataResult>((*resultHandle)->result).get());
-
-    return S_OK;
-}
-
-HRESULT PFGroupsClientRemoveSharedGroupMembersAsync(
-    _In_ PFEntityHandle contextHandle,
-    _In_ const PFGroupsRemoveSharedGroupMembersRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ClientRemoveSharedGroupMembers, &contextHandle->entity->groupsAPI, RemoveSharedGroupMembersRequest{ *request }, std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsClientUpdateSharedGroupDataAsync(
-    _In_ PFEntityHandle contextHandle,
-    _In_ const PFGroupsUpdateSharedGroupDataRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ClientUpdateSharedGroupData, &contextHandle->entity->groupsAPI, UpdateSharedGroupDataRequest{ *request }, std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsServerAddSharedGroupMembersAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFGroupsAddSharedGroupMembersRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ServerAddSharedGroupMembers, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsServerCreateSharedGroupAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFGroupsCreateSharedGroupRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ServerCreateSharedGroup, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsServerCreateSharedGroupGetResultSize(
-    _In_ XAsyncBlock* async,
-    _Out_ size_t* bufferSize
-) noexcept
-{
-    return XAsyncGetResultSize(async, bufferSize);
-}
-
-HRESULT PFGroupsServerCreateSharedGroupGetResult(
-    _In_ XAsyncBlock* async,
-    _In_ size_t bufferSize,
-    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
-    _Outptr_ PFGroupsCreateSharedGroupResult** result,
-    _Out_opt_ size_t* bufferUsed
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(result);
-
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
-    *result = static_cast<PFGroupsCreateSharedGroupResult*>(buffer);
-
-    return S_OK;
-}
-
-HRESULT PFGroupsServerDeleteSharedGroupAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFGroupsDeleteSharedGroupRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ServerDeleteSharedGroup, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsServerGetSharedGroupDataAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFGroupsGetSharedGroupDataRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ServerGetSharedGroupData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsServerGetSharedGroupDataGetResult(
-    _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsGetSharedGroupDataResult** result
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(result);
-
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFGroupsGetSharedGroupDataResult*)(std::dynamic_pointer_cast<GetSharedGroupDataResult>((*resultHandle)->result).get());
-
-    return S_OK;
-}
-
-HRESULT PFGroupsServerRemoveSharedGroupMembersAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFGroupsRemoveSharedGroupMembersRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ServerRemoveSharedGroupMembers, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
-HRESULT PFGroupsServerUpdateSharedGroupDataAsync(
-    _In_ PFStateHandle contextHandle,
-    _In_ const PFGroupsUpdateSharedGroupDataRequest* request,
-    _In_ XAsyncBlock* async
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(request);
-
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ServerUpdateSharedGroupData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
-    return Provider::Run(UniquePtr<Provider>(provider.release()));
-}
-
 HRESULT PFGroupsAcceptGroupApplicationAsync(
     _In_ PFEntityHandle contextHandle,
     _In_ const PFGroupsAcceptGroupApplicationRequest* request,
@@ -249,7 +17,7 @@ HRESULT PFGroupsAcceptGroupApplicationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::AcceptGroupApplication, &contextHandle->entity->groupsAPI, AcceptGroupApplicationRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::AcceptGroupApplication, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -262,7 +30,7 @@ HRESULT PFGroupsAcceptGroupInvitationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::AcceptGroupInvitation, &contextHandle->entity->groupsAPI, AcceptGroupInvitationRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::AcceptGroupInvitation, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -275,7 +43,7 @@ HRESULT PFGroupsAddMembersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::AddMembers, &contextHandle->entity->groupsAPI, AddMembersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::AddMembers, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -288,7 +56,7 @@ HRESULT PFGroupsApplyToGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ApplyToGroup, &contextHandle->entity->groupsAPI, ApplyToGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ApplyToGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -315,7 +83,7 @@ HRESULT PFGroupsBlockEntityAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::BlockEntity, &contextHandle->entity->groupsAPI, BlockEntityRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::BlockEntity, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -328,7 +96,7 @@ HRESULT PFGroupsChangeMemberRoleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ChangeMemberRole, &contextHandle->entity->groupsAPI, ChangeMemberRoleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ChangeMemberRole, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -341,7 +109,7 @@ HRESULT PFGroupsCreateGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::CreateGroup, &contextHandle->entity->groupsAPI, CreateGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::CreateGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -368,7 +136,7 @@ HRESULT PFGroupsCreateRoleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::CreateRole, &contextHandle->entity->groupsAPI, CreateGroupRoleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::CreateRole, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -405,7 +173,7 @@ HRESULT PFGroupsDeleteGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::DeleteGroup, &contextHandle->entity->groupsAPI, DeleteGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::DeleteGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -418,7 +186,7 @@ HRESULT PFGroupsDeleteRoleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::DeleteRole, &contextHandle->entity->groupsAPI, DeleteRoleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::DeleteRole, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -431,7 +199,7 @@ HRESULT PFGroupsGetGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::GetGroup, &contextHandle->entity->groupsAPI, GetGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::GetGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -458,7 +226,7 @@ HRESULT PFGroupsInviteToGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::InviteToGroup, &contextHandle->entity->groupsAPI, InviteToGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::InviteToGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -485,7 +253,7 @@ HRESULT PFGroupsIsMemberAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::IsMember, &contextHandle->entity->groupsAPI, IsMemberRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::IsMember, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -506,7 +274,7 @@ HRESULT PFGroupsListGroupApplicationsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ListGroupApplications, &contextHandle->entity->groupsAPI, ListGroupApplicationsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ListGroupApplications, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -533,7 +301,7 @@ HRESULT PFGroupsListGroupBlocksAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ListGroupBlocks, &contextHandle->entity->groupsAPI, ListGroupBlocksRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ListGroupBlocks, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -560,7 +328,7 @@ HRESULT PFGroupsListGroupInvitationsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ListGroupInvitations, &contextHandle->entity->groupsAPI, ListGroupInvitationsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ListGroupInvitations, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -587,7 +355,7 @@ HRESULT PFGroupsListGroupMembersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ListGroupMembers, &contextHandle->entity->groupsAPI, ListGroupMembersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ListGroupMembers, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -614,7 +382,7 @@ HRESULT PFGroupsListMembershipAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ListMembership, &contextHandle->entity->groupsAPI, ListMembershipRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ListMembership, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -641,7 +409,7 @@ HRESULT PFGroupsListMembershipOpportunitiesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::ListMembershipOpportunities, &contextHandle->entity->groupsAPI, ListMembershipOpportunitiesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::ListMembershipOpportunities, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -668,7 +436,7 @@ HRESULT PFGroupsRemoveGroupApplicationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::RemoveGroupApplication, &contextHandle->entity->groupsAPI, RemoveGroupApplicationRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::RemoveGroupApplication, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -681,7 +449,7 @@ HRESULT PFGroupsRemoveGroupInvitationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::RemoveGroupInvitation, &contextHandle->entity->groupsAPI, RemoveGroupInvitationRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::RemoveGroupInvitation, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -694,7 +462,7 @@ HRESULT PFGroupsRemoveMembersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::RemoveMembers, &contextHandle->entity->groupsAPI, RemoveMembersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::RemoveMembers, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -707,7 +475,7 @@ HRESULT PFGroupsUnblockEntityAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::UnblockEntity, &contextHandle->entity->groupsAPI, UnblockEntityRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::UnblockEntity, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -720,7 +488,7 @@ HRESULT PFGroupsUpdateGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::UpdateGroup, &contextHandle->entity->groupsAPI, UpdateGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::UpdateGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -747,7 +515,7 @@ HRESULT PFGroupsUpdateRoleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&GroupsAPI::UpdateRole, &contextHandle->entity->groupsAPI, UpdateGroupRoleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&GroupsAPI::UpdateRole, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

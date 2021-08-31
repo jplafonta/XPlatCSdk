@@ -9,8 +9,6 @@ uint32_t g_TradingTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenTradingTests::LogAcceptTradeRequest( PlayFab::TradingModels::AcceptTradeRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

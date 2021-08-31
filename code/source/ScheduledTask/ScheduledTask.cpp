@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "ScheduledTask.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace ScheduledTaskModels;
 
-ScheduledTaskAPI::ScheduledTaskAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> ScheduledTaskAPI::AdminAbortTaskInstance(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskAbortTaskInstanceRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/AbortTaskInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/AbortTaskInstance" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -52,25 +49,25 @@ AsyncOp<void> ScheduledTaskAPI::AdminAbortTaskInstance(
 }
 
 AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateActionsOnPlayersInSegmentTask(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/CreateActionsOnPlayersInSegmentTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/CreateActionsOnPlayersInSegmentTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -93,25 +90,25 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateActionsOnPlayersInSegment
 }
 
 AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateCloudScriptTask(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskCreateCloudScriptTaskRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/CreateCloudScriptTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/CreateCloudScriptTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -134,25 +131,25 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateCloudScriptTask(
 }
 
 AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateInsightsScheduledScalingTask(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/CreateInsightsScheduledScalingTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/CreateInsightsScheduledScalingTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -175,25 +172,25 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateInsightsScheduledScalingT
 }
 
 AsyncOp<void> ScheduledTaskAPI::AdminDeleteTask(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskDeleteTaskRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -214,25 +211,25 @@ AsyncOp<void> ScheduledTaskAPI::AdminDeleteTask(
 }
 
 AsyncOp<GetActionsOnPlayersInSegmentTaskInstanceResult> ScheduledTaskAPI::AdminGetActionsOnPlayersInSegmentTaskInstance(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskGetTaskInstanceRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetActionsOnPlayersInSegmentTaskInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetActionsOnPlayersInSegmentTaskInstance" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -255,25 +252,25 @@ AsyncOp<GetActionsOnPlayersInSegmentTaskInstanceResult> ScheduledTaskAPI::AdminG
 }
 
 AsyncOp<GetCloudScriptTaskInstanceResult> ScheduledTaskAPI::AdminGetCloudScriptTaskInstance(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskGetTaskInstanceRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetCloudScriptTaskInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetCloudScriptTaskInstance" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -296,25 +293,25 @@ AsyncOp<GetCloudScriptTaskInstanceResult> ScheduledTaskAPI::AdminGetCloudScriptT
 }
 
 AsyncOp<GetTaskInstancesResult> ScheduledTaskAPI::AdminGetTaskInstances(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskGetTaskInstancesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetTaskInstances" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetTaskInstances" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -337,25 +334,25 @@ AsyncOp<GetTaskInstancesResult> ScheduledTaskAPI::AdminGetTaskInstances(
 }
 
 AsyncOp<GetTasksResult> ScheduledTaskAPI::AdminGetTasks(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskGetTasksRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetTasks" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetTasks" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -378,25 +375,25 @@ AsyncOp<GetTasksResult> ScheduledTaskAPI::AdminGetTasks(
 }
 
 AsyncOp<RunTaskResult> ScheduledTaskAPI::AdminRunTask(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskRunTaskRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RunTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RunTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -419,25 +416,25 @@ AsyncOp<RunTaskResult> ScheduledTaskAPI::AdminRunTask(
 }
 
 AsyncOp<void> ScheduledTaskAPI::AdminUpdateTask(
+    SharedPtr<GlobalState const> state,
     const PFScheduledTaskUpdateTaskRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

@@ -1,39 +1,35 @@
 #include "stdafx.h"
 #include "Authentication.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 #include "PlatformUser.h"
-#include "Entity.h"
 
 namespace PlayFab
 {
 
 using namespace AuthenticationModels;
 
-AuthenticationAPI::AuthenticationAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> AuthenticationAPI::AdminCreateOpenIdConnection(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationCreateOpenIdConnectionRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/CreateOpenIdConnection" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/CreateOpenIdConnection" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -54,25 +50,25 @@ AsyncOp<void> AuthenticationAPI::AdminCreateOpenIdConnection(
 }
 
 AsyncOp<CreatePlayerSharedSecretResult> AuthenticationAPI::AdminCreatePlayerSharedSecret(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationCreatePlayerSharedSecretRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/CreatePlayerSharedSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/CreatePlayerSharedSecret" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -95,25 +91,25 @@ AsyncOp<CreatePlayerSharedSecretResult> AuthenticationAPI::AdminCreatePlayerShar
 }
 
 AsyncOp<void> AuthenticationAPI::AdminDeleteOpenIdConnection(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationDeleteOpenIdConnectionRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteOpenIdConnection" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteOpenIdConnection" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -134,25 +130,25 @@ AsyncOp<void> AuthenticationAPI::AdminDeleteOpenIdConnection(
 }
 
 AsyncOp<void> AuthenticationAPI::AdminDeletePlayerSharedSecret(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationDeletePlayerSharedSecretRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeletePlayerSharedSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeletePlayerSharedSecret" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -173,24 +169,24 @@ AsyncOp<void> AuthenticationAPI::AdminDeletePlayerSharedSecret(
 }
 
 AsyncOp<GetPlayerSharedSecretsResult> AuthenticationAPI::AdminGetPlayerSharedSecrets(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayerSharedSecrets" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayerSharedSecrets" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -213,25 +209,25 @@ AsyncOp<GetPlayerSharedSecretsResult> AuthenticationAPI::AdminGetPlayerSharedSec
 }
 
 AsyncOp<GetPolicyResponse> AuthenticationAPI::AdminGetPolicy(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationGetPolicyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPolicy" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -254,24 +250,24 @@ AsyncOp<GetPolicyResponse> AuthenticationAPI::AdminGetPolicy(
 }
 
 AsyncOp<ListOpenIdConnectionResponse> AuthenticationAPI::AdminListOpenIdConnection(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/ListOpenIdConnection" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/ListOpenIdConnection" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -294,25 +290,25 @@ AsyncOp<ListOpenIdConnectionResponse> AuthenticationAPI::AdminListOpenIdConnecti
 }
 
 AsyncOp<void> AuthenticationAPI::AdminSetPlayerSecret(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationAdminSetPlayerSecretRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetPlayerSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetPlayerSecret" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -333,25 +329,25 @@ AsyncOp<void> AuthenticationAPI::AdminSetPlayerSecret(
 }
 
 AsyncOp<void> AuthenticationAPI::AdminUpdateOpenIdConnection(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationUpdateOpenIdConnectionRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateOpenIdConnection" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateOpenIdConnection" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -372,25 +368,25 @@ AsyncOp<void> AuthenticationAPI::AdminUpdateOpenIdConnection(
 }
 
 AsyncOp<void> AuthenticationAPI::AdminUpdatePlayerSharedSecret(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationUpdatePlayerSharedSecretRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdatePlayerSharedSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdatePlayerSharedSecret" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -411,25 +407,25 @@ AsyncOp<void> AuthenticationAPI::AdminUpdatePlayerSharedSecret(
 }
 
 AsyncOp<UpdatePolicyResponse> AuthenticationAPI::AdminUpdatePolicy(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationUpdatePolicyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdatePolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdatePolicy" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -452,24 +448,26 @@ AsyncOp<UpdatePolicyResponse> AuthenticationAPI::AdminUpdatePolicy(
 }
 
 AsyncOp<GetPhotonAuthenticationTokenResult> AuthenticationAPI::ClientGetPhotonAuthenticationToken(
+    SharedPtr<TitlePlayer> entity,
     const PFAuthenticationGetPhotonAuthenticationTokenRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPhotonAuthenticationToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPhotonAuthenticationToken" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -492,19 +490,19 @@ AsyncOp<GetPhotonAuthenticationTokenResult> AuthenticationAPI::ClientGetPhotonAu
 }
 
 AsyncOp<GetTitlePublicKeyResult> AuthenticationAPI::ClientGetTitlePublicKey(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationGetTitlePublicKeyRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/GetTitlePublicKey" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -526,27 +524,26 @@ AsyncOp<GetTitlePublicKeyResult> AuthenticationAPI::ClientGetTitlePublicKey(
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithAndroidDeviceID(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithAndroidDeviceID(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithAndroidDeviceIDRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithAndroidDeviceID" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -555,36 +552,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithAndroidDeviceID(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithApple(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithApple(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithAppleRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithApple" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -593,36 +589,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithApple(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithCustomID(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithCustomID(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithCustomIDRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithCustomID" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -631,36 +626,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithCustomID(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithEmailAddress(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithEmailAddress(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithEmailAddressRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithEmailAddress" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -669,36 +663,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithEmailAddress(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithFacebook(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithFacebook(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithFacebookRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithFacebook" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -707,36 +700,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithFacebook(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithFacebookInstantGamesId(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithFacebookInstantGamesId(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithFacebookInstantGamesIdRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithFacebookInstantGamesId" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -745,36 +737,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithFacebookInstantGame
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithGameCenter(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithGameCenter(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithGameCenterRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithGameCenter" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -783,36 +774,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithGameCenter(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithGoogleAccount(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithGoogleAccount(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithGoogleAccountRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithGoogleAccount" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -821,36 +811,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithGoogleAccount(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithIOSDeviceID(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithIOSDeviceID(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithIOSDeviceIDRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithIOSDeviceID" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -859,36 +848,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithIOSDeviceID(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithKongregate(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithKongregate(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithKongregateRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithKongregate" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -897,36 +885,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithKongregate(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithNintendoServiceAccount(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithNintendoServiceAccount(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithNintendoServiceAccountRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithNintendoServiceAccount" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -935,36 +922,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithNintendoServiceAcco
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithNintendoSwitchDeviceId(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithNintendoSwitchDeviceId(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithNintendoSwitchDeviceIdRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithNintendoSwitchDeviceId" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -973,36 +959,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithNintendoSwitchDevic
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithOpenIdConnect(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithOpenIdConnect(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithOpenIdConnectRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithOpenIdConnect" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1011,36 +996,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithOpenIdConnect(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithPlayFab(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithPlayFab(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithPlayFabRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithPlayFab" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1049,36 +1033,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithPlayFab(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithPSN(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithPSN(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithPSNRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithPSN" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1087,36 +1070,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithPSN(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithSteam(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithSteam(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithSteamRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithSteam" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1125,36 +1107,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithSteam(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithTwitch(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithTwitch(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithTwitchRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithTwitch" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1163,36 +1144,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithTwitch(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithXbox(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithXbox(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationClientLoginWithXboxRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithXbox" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1201,11 +1181,11 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientLoginWithXbox(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
@@ -1260,9 +1240,9 @@ AsyncOp<JsonValue> XUserLoginContext::GetRequestBody(const TaskQueue& queue) con
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::LoginWithXUser(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::LoginWithXUser(
+    SharedPtr<GlobalState> state,
     const PFAuthenticationLoginWithXUserRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
@@ -1271,7 +1251,7 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::LoginWithXUser(
 
     auto loginContext = MakeShared<XUserLoginContext>(wrapUserHandleResult.ExtractPayload(), request);
 
-    return loginContext->GetRequestBody(queue.DeriveWorkerQueue()).Then([ httpClient, queue = TaskQueue{ queue }, loginContext](Result<JsonValue> requestBodyResult) -> AsyncOp<ServiceResponse>
+    return loginContext->GetRequestBody(queue.DeriveWorkerQueue()).Then([ httpClient{ state->HttpClient() }, queue = TaskQueue{ queue }, loginContext](Result<JsonValue> requestBodyResult) -> AsyncOp<ServiceResponse>
     {
         RETURN_IF_FAILED(requestBodyResult.hr);
 
@@ -1282,7 +1262,7 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::LoginWithXUser(
             queue
         );
 
-    }).Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    }).Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1291,37 +1271,36 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::LoginWithXUser(
         {
             LoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 #endif
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientRegisterPlayFabUser(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientRegisterPlayFabUser(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationRegisterPlayFabUserRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/RegisterPlayFabUser" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1330,34 +1309,36 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ClientRegisterPlayFabUser(
         {
             RegisterPlayFabUserResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
 AsyncOp<void> AuthenticationAPI::ClientSetPlayerSecret(
+    SharedPtr<TitlePlayer> entity,
     const PFAuthenticationClientSetPlayerSecretRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/SetPlayerSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/SetPlayerSecret" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1378,25 +1359,25 @@ AsyncOp<void> AuthenticationAPI::ClientSetPlayerSecret(
 }
 
 AsyncOp<AuthenticateSessionTicketResult> AuthenticationAPI::ServerAuthenticateSessionTicket(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationAuthenticateSessionTicketRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/AuthenticateSessionTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/AuthenticateSessionTicket" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1418,33 +1399,32 @@ AsyncOp<AuthenticateSessionTicketResult> AuthenticationAPI::ServerAuthenticateSe
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithServerCustomId(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithServerCustomId(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithServerCustomIdRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
+    {
+        return E_PF_NOSECRETKEY;
+    }
+
     const char* path{ "/Server/LoginWithServerCustomId" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1453,42 +1433,41 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithServerCustomId(
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithSteamId(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithSteamId(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithSteamIdRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
+    {
+        return E_PF_NOSECRETKEY;
+    }
+
     const char* path{ "/Server/LoginWithSteamId" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1497,42 +1476,41 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithSteamId(
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithXbox(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXbox(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationServerLoginWithXboxRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
+    {
+        return E_PF_NOSECRETKEY;
+    }
+
     const char* path{ "/Server/LoginWithXbox" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1541,42 +1519,41 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithXbox(
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
-AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithXboxId(
+AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXboxId(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationLoginWithXboxIdRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/LoginWithXboxId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/LoginWithXboxId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
     // Remember LoginContext so we can refresh tokens
     auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<TitlePlayer>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1585,35 +1562,35 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::ServerLoginWithXboxId(
         {
             ServerLoginResult resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<TitlePlayer>(state->HttpClient(), state->QoSAPI(), loginContext, std::move(resultModel));
         }
         else
         {
-            return Result<SharedPtr<Entity>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
+            return Result<SharedPtr<TitlePlayer>>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
         }
     });
 }
 
 AsyncOp<void> AuthenticationAPI::ServerSetPlayerSecret(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationServerSetPlayerSecretRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SetPlayerSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SetPlayerSecret" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1634,32 +1611,29 @@ AsyncOp<void> AuthenticationAPI::ServerSetPlayerSecret(
 }
 
 AsyncOp<SharedPtr<Entity>> AuthenticationAPI::GetEntityToken(
+    SharedPtr<GlobalState const> state,
     const PFAuthenticationGetEntityTokenRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Authentication/GetEntityToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Authentication/GetEntityToken" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
-    // Remember LoginContext so we can refresh tokens
-    auto loginContext = MakeShared<LoginContext>(path, std::move(requestBody), std::move(headers));
-
-    return requestOp.Then([ httpClient, loginContext ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
+    return requestOp.Then([ state ](Result<ServiceResponse> result) -> Result<SharedPtr<Entity>>
     {
         RETURN_IF_FAILED(result.hr);
 
@@ -1668,7 +1642,7 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::GetEntityToken(
         {
             GetEntityTokenResponse resultModel;
             resultModel.FromJson(serviceResponse.Data);
-            return MakeShared<Entity>(httpClient, loginContext, std::move(resultModel));
+            return MakeShared<Entity>(state->HttpClient(), state->QoSAPI(), std::move(resultModel));
         }
         else
         {
@@ -1678,24 +1652,26 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::GetEntityToken(
 }
 
 AsyncOp<ValidateEntityTokenResponse> AuthenticationAPI::ValidateEntityToken(
+    SharedPtr<Entity> entity,
     const PFAuthenticationValidateEntityTokenRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Authentication/ValidateEntityToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Authentication/ValidateEntityToken" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

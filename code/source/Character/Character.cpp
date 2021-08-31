@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "Character.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace CharacterModels;
 
-CharacterAPI::CharacterAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> CharacterAPI::AdminResetCharacterStatistics(
+    SharedPtr<GlobalState const> state,
     const PFCharacterResetCharacterStatisticsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/ResetCharacterStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/ResetCharacterStatistics" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -52,24 +49,26 @@ AsyncOp<void> CharacterAPI::AdminResetCharacterStatistics(
 }
 
 AsyncOp<ListUsersCharactersResult> CharacterAPI::ClientGetAllUsersCharacters(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterListUsersCharactersRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetAllUsersCharacters" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetAllUsersCharacters" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -92,24 +91,26 @@ AsyncOp<ListUsersCharactersResult> CharacterAPI::ClientGetAllUsersCharacters(
 }
 
 AsyncOp<ClientGetCharacterDataResult> CharacterAPI::ClientGetCharacterData(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterGetCharacterDataRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetCharacterData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetCharacterData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -132,24 +133,26 @@ AsyncOp<ClientGetCharacterDataResult> CharacterAPI::ClientGetCharacterData(
 }
 
 AsyncOp<GetCharacterLeaderboardResult> CharacterAPI::ClientGetCharacterLeaderboard(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterGetCharacterLeaderboardRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetCharacterLeaderboard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetCharacterLeaderboard" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -172,24 +175,26 @@ AsyncOp<GetCharacterLeaderboardResult> CharacterAPI::ClientGetCharacterLeaderboa
 }
 
 AsyncOp<ClientGetCharacterDataResult> CharacterAPI::ClientGetCharacterReadOnlyData(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterGetCharacterDataRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetCharacterReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetCharacterReadOnlyData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -212,24 +217,26 @@ AsyncOp<ClientGetCharacterDataResult> CharacterAPI::ClientGetCharacterReadOnlyDa
 }
 
 AsyncOp<ClientGetCharacterStatisticsResult> CharacterAPI::ClientGetCharacterStatistics(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterClientGetCharacterStatisticsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetCharacterStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetCharacterStatistics" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -252,24 +259,26 @@ AsyncOp<ClientGetCharacterStatisticsResult> CharacterAPI::ClientGetCharacterStat
 }
 
 AsyncOp<GetLeaderboardAroundCharacterResult> CharacterAPI::ClientGetLeaderboardAroundCharacter(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterClientGetLeaderboardAroundCharacterRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetLeaderboardAroundCharacter" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetLeaderboardAroundCharacter" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -292,24 +301,26 @@ AsyncOp<GetLeaderboardAroundCharacterResult> CharacterAPI::ClientGetLeaderboardA
 }
 
 AsyncOp<GetLeaderboardForUsersCharactersResult> CharacterAPI::ClientGetLeaderboardForUserCharacters(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterClientGetLeaderboardForUsersCharactersRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetLeaderboardForUserCharacters" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetLeaderboardForUserCharacters" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -332,24 +343,26 @@ AsyncOp<GetLeaderboardForUsersCharactersResult> CharacterAPI::ClientGetLeaderboa
 }
 
 AsyncOp<ClientGrantCharacterToUserResult> CharacterAPI::ClientGrantCharacterToUser(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterClientGrantCharacterToUserRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GrantCharacterToUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GrantCharacterToUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -372,24 +385,26 @@ AsyncOp<ClientGrantCharacterToUserResult> CharacterAPI::ClientGrantCharacterToUs
 }
 
 AsyncOp<UpdateCharacterDataResult> CharacterAPI::ClientUpdateCharacterData(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterClientUpdateCharacterDataRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UpdateCharacterData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UpdateCharacterData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -412,24 +427,26 @@ AsyncOp<UpdateCharacterDataResult> CharacterAPI::ClientUpdateCharacterData(
 }
 
 AsyncOp<void> CharacterAPI::ClientUpdateCharacterStatistics(
+    SharedPtr<TitlePlayer> entity,
     const PFCharacterClientUpdateCharacterStatisticsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UpdateCharacterStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UpdateCharacterStatistics" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -450,25 +467,25 @@ AsyncOp<void> CharacterAPI::ClientUpdateCharacterStatistics(
 }
 
 AsyncOp<void> CharacterAPI::ServerDeleteCharacterFromUser(
+    SharedPtr<GlobalState const> state,
     const PFCharacterDeleteCharacterFromUserRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/DeleteCharacterFromUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/DeleteCharacterFromUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -489,25 +506,25 @@ AsyncOp<void> CharacterAPI::ServerDeleteCharacterFromUser(
 }
 
 AsyncOp<ListUsersCharactersResult> CharacterAPI::ServerGetAllUsersCharacters(
+    SharedPtr<GlobalState const> state,
     const PFCharacterListUsersCharactersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetAllUsersCharacters" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetAllUsersCharacters" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -530,25 +547,25 @@ AsyncOp<ListUsersCharactersResult> CharacterAPI::ServerGetAllUsersCharacters(
 }
 
 AsyncOp<ServerGetCharacterDataResult> CharacterAPI::ServerGetCharacterData(
+    SharedPtr<GlobalState const> state,
     const PFCharacterGetCharacterDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCharacterData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCharacterData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -571,25 +588,25 @@ AsyncOp<ServerGetCharacterDataResult> CharacterAPI::ServerGetCharacterData(
 }
 
 AsyncOp<ServerGetCharacterDataResult> CharacterAPI::ServerGetCharacterInternalData(
+    SharedPtr<GlobalState const> state,
     const PFCharacterGetCharacterDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCharacterInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCharacterInternalData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -612,25 +629,25 @@ AsyncOp<ServerGetCharacterDataResult> CharacterAPI::ServerGetCharacterInternalDa
 }
 
 AsyncOp<GetCharacterLeaderboardResult> CharacterAPI::ServerGetCharacterLeaderboard(
+    SharedPtr<GlobalState const> state,
     const PFCharacterGetCharacterLeaderboardRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCharacterLeaderboard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCharacterLeaderboard" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -653,25 +670,25 @@ AsyncOp<GetCharacterLeaderboardResult> CharacterAPI::ServerGetCharacterLeaderboa
 }
 
 AsyncOp<ServerGetCharacterDataResult> CharacterAPI::ServerGetCharacterReadOnlyData(
+    SharedPtr<GlobalState const> state,
     const PFCharacterGetCharacterDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCharacterReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCharacterReadOnlyData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -694,25 +711,25 @@ AsyncOp<ServerGetCharacterDataResult> CharacterAPI::ServerGetCharacterReadOnlyDa
 }
 
 AsyncOp<ServerGetCharacterStatisticsResult> CharacterAPI::ServerGetCharacterStatistics(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerGetCharacterStatisticsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCharacterStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCharacterStatistics" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -735,25 +752,25 @@ AsyncOp<ServerGetCharacterStatisticsResult> CharacterAPI::ServerGetCharacterStat
 }
 
 AsyncOp<GetLeaderboardAroundCharacterResult> CharacterAPI::ServerGetLeaderboardAroundCharacter(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerGetLeaderboardAroundCharacterRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetLeaderboardAroundCharacter" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetLeaderboardAroundCharacter" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -776,25 +793,25 @@ AsyncOp<GetLeaderboardAroundCharacterResult> CharacterAPI::ServerGetLeaderboardA
 }
 
 AsyncOp<GetLeaderboardForUsersCharactersResult> CharacterAPI::ServerGetLeaderboardForUserCharacters(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerGetLeaderboardForUsersCharactersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetLeaderboardForUserCharacters" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetLeaderboardForUserCharacters" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -817,25 +834,25 @@ AsyncOp<GetLeaderboardForUsersCharactersResult> CharacterAPI::ServerGetLeaderboa
 }
 
 AsyncOp<ServerGrantCharacterToUserResult> CharacterAPI::ServerGrantCharacterToUser(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerGrantCharacterToUserRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GrantCharacterToUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GrantCharacterToUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -858,25 +875,25 @@ AsyncOp<ServerGrantCharacterToUserResult> CharacterAPI::ServerGrantCharacterToUs
 }
 
 AsyncOp<UpdateCharacterDataResult> CharacterAPI::ServerUpdateCharacterData(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerUpdateCharacterDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateCharacterData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateCharacterData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -899,25 +916,25 @@ AsyncOp<UpdateCharacterDataResult> CharacterAPI::ServerUpdateCharacterData(
 }
 
 AsyncOp<UpdateCharacterDataResult> CharacterAPI::ServerUpdateCharacterInternalData(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerUpdateCharacterDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateCharacterInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateCharacterInternalData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -940,25 +957,25 @@ AsyncOp<UpdateCharacterDataResult> CharacterAPI::ServerUpdateCharacterInternalDa
 }
 
 AsyncOp<UpdateCharacterDataResult> CharacterAPI::ServerUpdateCharacterReadOnlyData(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerUpdateCharacterDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateCharacterReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateCharacterReadOnlyData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -981,25 +998,25 @@ AsyncOp<UpdateCharacterDataResult> CharacterAPI::ServerUpdateCharacterReadOnlyDa
 }
 
 AsyncOp<void> CharacterAPI::ServerUpdateCharacterStatistics(
+    SharedPtr<GlobalState const> state,
     const PFCharacterServerUpdateCharacterStatisticsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateCharacterStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateCharacterStatistics" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

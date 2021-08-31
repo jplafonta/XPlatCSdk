@@ -17,7 +17,7 @@ HRESULT PFAccountManagementAdminBanUsersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminBanUsers, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminBanUsers, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -44,7 +44,7 @@ HRESULT PFAccountManagementAdminDeleteMasterPlayerAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminDeleteMasterPlayerAccount, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminDeleteMasterPlayerAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -71,7 +71,7 @@ HRESULT PFAccountManagementAdminDeletePlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminDeletePlayer, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminDeletePlayer, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -82,7 +82,7 @@ HRESULT PFAccountManagementAdminDeleteTitleAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminDeleteTitle, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminDeleteTitle, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -95,7 +95,7 @@ HRESULT PFAccountManagementAdminExportMasterPlayerDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminExportMasterPlayerData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminExportMasterPlayerData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -132,7 +132,7 @@ HRESULT PFAccountManagementAdminGetPlayedTitleListAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetPlayedTitleList, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetPlayedTitleList, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -159,7 +159,7 @@ HRESULT PFAccountManagementAdminGetPlayerIdFromAuthTokenAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetPlayerIdFromAuthToken, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetPlayerIdFromAuthToken, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -196,7 +196,7 @@ HRESULT PFAccountManagementAdminGetPlayerProfileAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetPlayerProfile, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetPlayerProfile, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -223,7 +223,7 @@ HRESULT PFAccountManagementAdminGetUserAccountInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetUserAccountInfo, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetUserAccountInfo, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -250,7 +250,7 @@ HRESULT PFAccountManagementAdminGetUserBansAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetUserBans, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminGetUserBans, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -277,7 +277,7 @@ HRESULT PFAccountManagementAdminResetPasswordAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminResetPassword, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminResetPassword, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -290,7 +290,7 @@ HRESULT PFAccountManagementAdminRevokeAllBansForUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminRevokeAllBansForUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminRevokeAllBansForUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -317,7 +317,7 @@ HRESULT PFAccountManagementAdminRevokeBansAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminRevokeBans, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminRevokeBans, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -344,7 +344,7 @@ HRESULT PFAccountManagementAdminSendAccountRecoveryEmailAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminSendAccountRecoveryEmail, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminSendAccountRecoveryEmail, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -357,7 +357,7 @@ HRESULT PFAccountManagementAdminUpdateBansAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminUpdateBans, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminUpdateBans, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -384,7 +384,7 @@ HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminUpdateUserTitleDisplayName, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::AdminUpdateUserTitleDisplayName, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -413,7 +413,7 @@ HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameGetResult(
 }
 
 HRESULT PFAccountManagementClientAddGenericIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientAddGenericIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -421,12 +421,12 @@ HRESULT PFAccountManagementClientAddGenericIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientAddGenericID, &contextHandle->entity->accountManagementAPI, ClientAddGenericIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientAddGenericID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementAddOrUpdateContactEmailRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -434,12 +434,12 @@ HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientAddOrUpdateContactEmail, &contextHandle->entity->accountManagementAPI, AddOrUpdateContactEmailRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientAddOrUpdateContactEmail, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientAddUsernamePasswordAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementAddUsernamePasswordRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -447,7 +447,7 @@ HRESULT PFAccountManagementClientAddUsernamePasswordAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientAddUsernamePassword, &contextHandle->entity->accountManagementAPI, AddUsernamePasswordRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientAddUsernamePassword, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -476,7 +476,7 @@ HRESULT PFAccountManagementClientAddUsernamePasswordGetResult(
 }
 
 HRESULT PFAccountManagementClientGetAccountInfoAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetAccountInfoRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -484,7 +484,7 @@ HRESULT PFAccountManagementClientGetAccountInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetAccountInfo, &contextHandle->entity->accountManagementAPI, GetAccountInfoRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetAccountInfo, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -503,7 +503,7 @@ HRESULT PFAccountManagementClientGetAccountInfoGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayerCombinedInfoAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFGetPlayerCombinedInfoRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -511,7 +511,7 @@ HRESULT PFAccountManagementClientGetPlayerCombinedInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayerCombinedInfo, &contextHandle->entity->accountManagementAPI, GetPlayerCombinedInfoRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayerCombinedInfo, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -530,7 +530,7 @@ HRESULT PFAccountManagementClientGetPlayerCombinedInfoGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayerProfileAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayerProfileRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -538,7 +538,7 @@ HRESULT PFAccountManagementClientGetPlayerProfileAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayerProfile, &contextHandle->entity->accountManagementAPI, GetPlayerProfileRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayerProfile, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -557,7 +557,7 @@ HRESULT PFAccountManagementClientGetPlayerProfileGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -565,7 +565,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromFacebookIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromFacebookIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromFacebookIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -584,7 +584,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -592,7 +592,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromFacebookInstantGamesIds, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromFacebookInstantGamesIdsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromFacebookInstantGamesIds, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -611,7 +611,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResu
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -619,7 +619,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromGameCenterIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromGameCenterIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromGameCenterIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -638,7 +638,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -646,7 +646,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromGenericIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromGenericIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromGenericIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -665,7 +665,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -673,7 +673,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromGoogleIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromGoogleIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromGoogleIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -692,7 +692,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -700,7 +700,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromKongregateIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromKongregateIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromKongregateIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -719,7 +719,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -727,7 +727,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromNintendoSwitchDeviceIds, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromNintendoSwitchDeviceIds, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -746,7 +746,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResu
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -754,7 +754,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromPSNAccountIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromPSNAccountIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromPSNAccountIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -773,7 +773,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -781,7 +781,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromSteamIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromSteamIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromSteamIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -800,7 +800,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -808,7 +808,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromTwitchIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromTwitchIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromTwitchIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -827,7 +827,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -835,7 +835,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromXboxLiveIDs, &contextHandle->entity->accountManagementAPI, GetPlayFabIDsFromXboxLiveIDsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientGetPlayFabIDsFromXboxLiveIDs, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -854,7 +854,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(
 }
 
 HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkAndroidDeviceIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -862,12 +862,12 @@ HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkAndroidDeviceID, &contextHandle->entity->accountManagementAPI, LinkAndroidDeviceIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkAndroidDeviceID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkAppleAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkAppleRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -875,12 +875,12 @@ HRESULT PFAccountManagementClientLinkAppleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkApple, &contextHandle->entity->accountManagementAPI, LinkAppleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkApple, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkCustomIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkCustomIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -888,12 +888,12 @@ HRESULT PFAccountManagementClientLinkCustomIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkCustomID, &contextHandle->entity->accountManagementAPI, LinkCustomIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkCustomID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkFacebookAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -901,12 +901,12 @@ HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkFacebookAccount, &contextHandle->entity->accountManagementAPI, LinkFacebookAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkFacebookAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkFacebookInstantGamesIdRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -914,12 +914,12 @@ HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkFacebookInstantGamesId, &contextHandle->entity->accountManagementAPI, LinkFacebookInstantGamesIdRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkFacebookInstantGamesId, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkGameCenterAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -927,12 +927,12 @@ HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkGameCenterAccount, &contextHandle->entity->accountManagementAPI, LinkGameCenterAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkGameCenterAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkGoogleAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -940,12 +940,12 @@ HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkGoogleAccount, &contextHandle->entity->accountManagementAPI, LinkGoogleAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkGoogleAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkIOSDeviceIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -953,12 +953,12 @@ HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkIOSDeviceID, &contextHandle->entity->accountManagementAPI, LinkIOSDeviceIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkIOSDeviceID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkKongregateAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkKongregateAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -966,12 +966,12 @@ HRESULT PFAccountManagementClientLinkKongregateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkKongregate, &contextHandle->entity->accountManagementAPI, LinkKongregateAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkKongregate, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkNintendoServiceAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -979,12 +979,12 @@ HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkNintendoServiceAccount, &contextHandle->entity->accountManagementAPI, LinkNintendoServiceAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkNintendoServiceAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkNintendoSwitchDeviceIdRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -992,12 +992,12 @@ HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkNintendoSwitchDeviceId, &contextHandle->entity->accountManagementAPI, LinkNintendoSwitchDeviceIdRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkNintendoSwitchDeviceId, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkOpenIdConnectRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1005,12 +1005,12 @@ HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkOpenIdConnect, &contextHandle->entity->accountManagementAPI, LinkOpenIdConnectRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkOpenIdConnect, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkPSNAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientLinkPSNAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1018,12 +1018,12 @@ HRESULT PFAccountManagementClientLinkPSNAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkPSNAccount, &contextHandle->entity->accountManagementAPI, ClientLinkPSNAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkPSNAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkSteamAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkSteamAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1031,12 +1031,12 @@ HRESULT PFAccountManagementClientLinkSteamAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkSteamAccount, &contextHandle->entity->accountManagementAPI, LinkSteamAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkSteamAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkTwitchAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementLinkTwitchAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1044,12 +1044,12 @@ HRESULT PFAccountManagementClientLinkTwitchAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkTwitch, &contextHandle->entity->accountManagementAPI, LinkTwitchAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkTwitch, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientLinkXboxAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientLinkXboxAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1057,12 +1057,12 @@ HRESULT PFAccountManagementClientLinkXboxAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientLinkXboxAccount, &contextHandle->entity->accountManagementAPI, ClientLinkXboxAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientLinkXboxAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientRemoveContactEmailAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementRemoveContactEmailRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1070,12 +1070,12 @@ HRESULT PFAccountManagementClientRemoveContactEmailAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientRemoveContactEmail, &contextHandle->entity->accountManagementAPI, RemoveContactEmailRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientRemoveContactEmail, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientRemoveGenericIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientRemoveGenericIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1083,12 +1083,12 @@ HRESULT PFAccountManagementClientRemoveGenericIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientRemoveGenericID, &contextHandle->entity->accountManagementAPI, ClientRemoveGenericIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientRemoveGenericID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientReportPlayerAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementReportPlayerClientRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1096,7 +1096,7 @@ HRESULT PFAccountManagementClientReportPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientReportPlayer, &contextHandle->entity->accountManagementAPI, ReportPlayerClientRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientReportPlayer, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1117,12 +1117,12 @@ HRESULT PFAccountManagementClientSendAccountRecoveryEmailAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientSendAccountRecoveryEmail, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientSendAccountRecoveryEmail, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkAndroidDeviceIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1130,12 +1130,12 @@ HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkAndroidDeviceID, &contextHandle->entity->accountManagementAPI, UnlinkAndroidDeviceIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkAndroidDeviceID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkAppleAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkAppleRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1143,12 +1143,12 @@ HRESULT PFAccountManagementClientUnlinkAppleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkApple, &contextHandle->entity->accountManagementAPI, UnlinkAppleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkApple, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkCustomIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1156,12 +1156,12 @@ HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkCustomID, &contextHandle->entity->accountManagementAPI, UnlinkCustomIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkCustomID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkFacebookAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1169,12 +1169,12 @@ HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkFacebookAccount, &contextHandle->entity->accountManagementAPI, UnlinkFacebookAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkFacebookAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkFacebookInstantGamesIdRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1182,12 +1182,12 @@ HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkFacebookInstantGamesId, &contextHandle->entity->accountManagementAPI, UnlinkFacebookInstantGamesIdRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkFacebookInstantGamesId, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkGameCenterAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1195,12 +1195,12 @@ HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkGameCenterAccount, &contextHandle->entity->accountManagementAPI, UnlinkGameCenterAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkGameCenterAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkGoogleAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1208,12 +1208,12 @@ HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkGoogleAccount, &contextHandle->entity->accountManagementAPI, UnlinkGoogleAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkGoogleAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkIOSDeviceIDRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1221,12 +1221,12 @@ HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkIOSDeviceID, &contextHandle->entity->accountManagementAPI, UnlinkIOSDeviceIDRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkIOSDeviceID, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkKongregateAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkKongregateAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1234,12 +1234,12 @@ HRESULT PFAccountManagementClientUnlinkKongregateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkKongregate, &contextHandle->entity->accountManagementAPI, UnlinkKongregateAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkKongregate, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkNintendoServiceAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1247,12 +1247,12 @@ HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkNintendoServiceAccount, &contextHandle->entity->accountManagementAPI, UnlinkNintendoServiceAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkNintendoServiceAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1260,12 +1260,12 @@ HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId, &contextHandle->entity->accountManagementAPI, UnlinkNintendoSwitchDeviceIdRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkOpenIdConnectRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1273,12 +1273,12 @@ HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkOpenIdConnect, &contextHandle->entity->accountManagementAPI, UnlinkOpenIdConnectRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkOpenIdConnect, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientUnlinkPSNAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1286,12 +1286,12 @@ HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkPSNAccount, &contextHandle->entity->accountManagementAPI, ClientUnlinkPSNAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkPSNAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkSteamAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1299,12 +1299,12 @@ HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkSteamAccount, &contextHandle->entity->accountManagementAPI, UnlinkSteamAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkSteamAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkTwitchAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementUnlinkTwitchAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1312,12 +1312,12 @@ HRESULT PFAccountManagementClientUnlinkTwitchAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkTwitch, &contextHandle->entity->accountManagementAPI, UnlinkTwitchAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkTwitch, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientUnlinkXboxAccountRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1325,12 +1325,12 @@ HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUnlinkXboxAccount, &contextHandle->entity->accountManagementAPI, ClientUnlinkXboxAccountRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUnlinkXboxAccount, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientUpdateAvatarUrlRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1338,12 +1338,12 @@ HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUpdateAvatarUrl, &contextHandle->entity->accountManagementAPI, ClientUpdateAvatarUrlRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUpdateAvatarUrl, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAccountManagementClientUpdateUserTitleDisplayNameRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -1351,7 +1351,7 @@ HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::ClientUpdateUserTitleDisplayName, &contextHandle->entity->accountManagementAPI, ClientUpdateUserTitleDisplayNameRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ClientUpdateUserTitleDisplayName, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1388,7 +1388,7 @@ HRESULT PFAccountManagementServerAddGenericIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerAddGenericID, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerAddGenericID, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1401,7 +1401,7 @@ HRESULT PFAccountManagementServerBanUsersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerBanUsers, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerBanUsers, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1428,7 +1428,7 @@ HRESULT PFAccountManagementServerDeletePlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerDeletePlayer, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerDeletePlayer, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1441,7 +1441,7 @@ HRESULT PFAccountManagementServerDeletePushNotificationTemplateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerDeletePushNotificationTemplate, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerDeletePushNotificationTemplate, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1454,7 +1454,7 @@ HRESULT PFAccountManagementServerGetPlayerProfileAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayerProfile, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayerProfile, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1481,7 +1481,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromFacebookIDs, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromFacebookIDs, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1508,7 +1508,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromFacebookInstantGamesIds, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromFacebookInstantGamesIds, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1535,7 +1535,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromGenericIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromGenericIDs, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromGenericIDs, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1562,7 +1562,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromNintendoSwitchDeviceIds, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromNintendoSwitchDeviceIds, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1589,7 +1589,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromPSNAccountIDs, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromPSNAccountIDs, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1616,7 +1616,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromSteamIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromSteamIDs, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromSteamIDs, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1643,7 +1643,7 @@ HRESULT PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromXboxLiveIDs, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetPlayFabIDsFromXboxLiveIDs, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1670,7 +1670,7 @@ HRESULT PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetServerCustomIDsFromPlayFabIDs, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetServerCustomIDsFromPlayFabIDs, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1697,7 +1697,7 @@ HRESULT PFAccountManagementServerGetUserAccountInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetUserAccountInfo, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetUserAccountInfo, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1724,7 +1724,7 @@ HRESULT PFAccountManagementServerGetUserBansAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetUserBans, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerGetUserBans, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1751,7 +1751,7 @@ HRESULT PFAccountManagementServerLinkPSNAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerLinkPSNAccount, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerLinkPSNAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1764,7 +1764,7 @@ HRESULT PFAccountManagementServerLinkServerCustomIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerLinkServerCustomId, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerLinkServerCustomId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1777,7 +1777,7 @@ HRESULT PFAccountManagementServerLinkXboxAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerLinkXboxAccount, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerLinkXboxAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1790,7 +1790,7 @@ HRESULT PFAccountManagementServerRemoveGenericIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerRemoveGenericID, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerRemoveGenericID, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1803,7 +1803,7 @@ HRESULT PFAccountManagementServerRevokeAllBansForUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerRevokeAllBansForUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerRevokeAllBansForUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1830,7 +1830,7 @@ HRESULT PFAccountManagementServerRevokeBansAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerRevokeBans, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerRevokeBans, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1857,7 +1857,7 @@ HRESULT PFAccountManagementServerSavePushNotificationTemplateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSavePushNotificationTemplate, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSavePushNotificationTemplate, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1894,7 +1894,7 @@ HRESULT PFAccountManagementServerSendCustomAccountRecoveryEmailAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendCustomAccountRecoveryEmail, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendCustomAccountRecoveryEmail, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1907,7 +1907,7 @@ HRESULT PFAccountManagementServerSendEmailFromTemplateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendEmailFromTemplate, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendEmailFromTemplate, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1920,7 +1920,7 @@ HRESULT PFAccountManagementServerSendPushNotificationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendPushNotification, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendPushNotification, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1933,7 +1933,7 @@ HRESULT PFAccountManagementServerSendPushNotificationFromTemplateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendPushNotificationFromTemplate, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerSendPushNotificationFromTemplate, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1946,7 +1946,7 @@ HRESULT PFAccountManagementServerUnlinkPSNAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUnlinkPSNAccount, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUnlinkPSNAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1959,7 +1959,7 @@ HRESULT PFAccountManagementServerUnlinkServerCustomIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUnlinkServerCustomId, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUnlinkServerCustomId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1972,7 +1972,7 @@ HRESULT PFAccountManagementServerUnlinkXboxAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUnlinkXboxAccount, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUnlinkXboxAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1985,7 +1985,7 @@ HRESULT PFAccountManagementServerUpdateAvatarUrlAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUpdateAvatarUrl, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUpdateAvatarUrl, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1998,7 +1998,7 @@ HRESULT PFAccountManagementServerUpdateBansAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUpdateBans, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::ServerUpdateBans, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2025,7 +2025,7 @@ HRESULT PFAccountManagementGetGlobalPolicyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::GetGlobalPolicy, &contextHandle->entity->accountManagementAPI, GetGlobalPolicyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::GetGlobalPolicy, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2052,7 +2052,7 @@ HRESULT PFAccountManagementGetProfileAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::GetProfile, &contextHandle->entity->accountManagementAPI, GetEntityProfileRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::GetProfile, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2079,7 +2079,7 @@ HRESULT PFAccountManagementGetProfilesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::GetProfiles, &contextHandle->entity->accountManagementAPI, GetEntityProfilesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::GetProfiles, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2106,7 +2106,7 @@ HRESULT PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::GetTitlePlayersFromMasterPlayerAccountIds, &contextHandle->entity->accountManagementAPI, GetTitlePlayersFromMasterPlayerAccountIdsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::GetTitlePlayersFromMasterPlayerAccountIds, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2133,7 +2133,7 @@ HRESULT PFAccountManagementSetGlobalPolicyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::SetGlobalPolicy, &contextHandle->entity->accountManagementAPI, SetGlobalPolicyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::SetGlobalPolicy, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2146,7 +2146,7 @@ HRESULT PFAccountManagementSetProfileLanguageAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::SetProfileLanguage, &contextHandle->entity->accountManagementAPI, SetProfileLanguageRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::SetProfileLanguage, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -2173,7 +2173,7 @@ HRESULT PFAccountManagementSetProfilePolicyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AccountManagementAPI::SetProfilePolicy, &contextHandle->entity->accountManagementAPI, SetEntityProfilePolicyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AccountManagementAPI::SetProfilePolicy, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

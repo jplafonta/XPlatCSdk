@@ -9,7 +9,7 @@
 
 #include <playfab/PFCharacterDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -39,7 +39,7 @@ HRESULT PFCharacterAdminResetCharacterStatisticsAsync(
 /// Lists all of the characters that belong to a specific user. CharacterIds are not globally unique;
 /// characterId must be evaluated with the parent PlayFabId to guarantee uniqueness.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -49,7 +49,7 @@ HRESULT PFCharacterAdminResetCharacterStatisticsAsync(
 /// If successful, call <see cref="PFCharacterClientGetAllUsersCharactersGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetAllUsersCharactersAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterListUsersCharactersRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -75,7 +75,7 @@ HRESULT PFCharacterClientGetAllUsersCharactersGetResult(
 /// Retrieves the title-specific custom data for the character which is readable and writable by the
 /// client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -87,7 +87,7 @@ HRESULT PFCharacterClientGetAllUsersCharactersGetResult(
 /// If successful, call <see cref="PFCharacterClientGetCharacterDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterGetCharacterDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -113,7 +113,7 @@ HRESULT PFCharacterClientGetCharacterDataGetResult(
 /// Retrieves a list of ranked characters for the given statistic, starting from the indicated point
 /// in the leaderboard
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -123,7 +123,7 @@ HRESULT PFCharacterClientGetCharacterDataGetResult(
 /// If successful, call <see cref="PFCharacterClientGetCharacterLeaderboardGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterLeaderboardAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterGetCharacterLeaderboardRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -148,7 +148,7 @@ HRESULT PFCharacterClientGetCharacterLeaderboardGetResult(
 /// <summary>
 /// Retrieves the title-specific custom data for the character which can only be read by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -160,7 +160,7 @@ HRESULT PFCharacterClientGetCharacterLeaderboardGetResult(
 /// If successful, call <see cref="PFCharacterClientGetCharacterReadOnlyDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterReadOnlyDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterGetCharacterDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -185,7 +185,7 @@ HRESULT PFCharacterClientGetCharacterReadOnlyDataGetResult(
 /// <summary>
 /// Retrieves the details of all title-specific statistics for the user
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -196,7 +196,7 @@ HRESULT PFCharacterClientGetCharacterReadOnlyDataGetResult(
 /// If successful, call <see cref="PFCharacterClientGetCharacterStatisticsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGetCharacterStatisticsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterClientGetCharacterStatisticsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -222,7 +222,7 @@ HRESULT PFCharacterClientGetCharacterStatisticsGetResult(
 /// Retrieves a list of ranked characters for the given statistic, centered on the requested Character
 /// ID
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -233,7 +233,7 @@ HRESULT PFCharacterClientGetCharacterStatisticsGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFCharacterClientGetLeaderboardAroundCharacterAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterClientGetLeaderboardAroundCharacterRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -258,7 +258,7 @@ HRESULT PFCharacterClientGetLeaderboardAroundCharacterGetResult(
 /// <summary>
 /// Retrieves a list of all of the user's characters for the given statistic.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -269,7 +269,7 @@ HRESULT PFCharacterClientGetLeaderboardAroundCharacterGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFCharacterClientGetLeaderboardForUserCharactersAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterClientGetLeaderboardForUsersCharactersRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -295,7 +295,7 @@ HRESULT PFCharacterClientGetLeaderboardForUserCharactersGetResult(
 /// Grants the specified character type to the user. CharacterIds are not globally unique; characterId
 /// must be evaluated with the parent PlayFabId to guarantee uniqueness.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -307,7 +307,7 @@ HRESULT PFCharacterClientGetLeaderboardForUserCharactersGetResult(
 /// If successful, call <see cref="PFCharacterClientGrantCharacterToUserGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientGrantCharacterToUserAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterClientGrantCharacterToUserRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -347,7 +347,7 @@ HRESULT PFCharacterClientGrantCharacterToUserGetResult(
 /// Creates and updates the title-specific custom data for the user's character which is readable and
 /// writable by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -361,7 +361,7 @@ HRESULT PFCharacterClientGrantCharacterToUserGetResult(
 /// If successful, call <see cref="PFCharacterClientUpdateCharacterDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCharacterClientUpdateCharacterDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterClientUpdateCharacterDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -382,7 +382,7 @@ HRESULT PFCharacterClientUpdateCharacterDataGetResult(
 /// clients are not permitted to update statistics. Developers may override this setting in the Game Manager
 /// > Settings > API Features.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -398,7 +398,7 @@ HRESULT PFCharacterClientUpdateCharacterDataGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFCharacterClientUpdateCharacterStatisticsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCharacterClientUpdateCharacterStatisticsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

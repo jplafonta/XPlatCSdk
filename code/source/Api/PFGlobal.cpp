@@ -65,7 +65,7 @@ HRESULT PFAdminInitialize(
     return PFGlobalState::Create(titleId, secretKey, backgroundQueue, stateHandle);
 }
 
-HRESULT PFCleanupAsync(
+HRESULT PFUninitializeAsync(
     _In_ PFStateHandle stateHandle,
     _In_ XAsyncBlock* async
 ) noexcept

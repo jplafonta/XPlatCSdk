@@ -9,8 +9,6 @@ uint32_t g_FriendsTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenFriendsTests::LogClientAddFriendRequest( PlayFab::FriendsModels::ClientAddFriendRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

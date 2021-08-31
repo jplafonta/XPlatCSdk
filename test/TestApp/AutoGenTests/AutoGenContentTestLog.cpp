@@ -9,8 +9,6 @@ uint32_t g_ContentTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenContentTests::LogDeleteContentRequest( PlayFab::ContentModels::DeleteContentRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

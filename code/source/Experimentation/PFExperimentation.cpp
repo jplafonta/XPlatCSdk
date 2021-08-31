@@ -17,7 +17,7 @@ HRESULT PFExperimentationCreateExclusionGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::CreateExclusionGroup, &contextHandle->entity->experimentationAPI, CreateExclusionGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::CreateExclusionGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -54,7 +54,7 @@ HRESULT PFExperimentationCreateExperimentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::CreateExperiment, &contextHandle->entity->experimentationAPI, CreateExperimentRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::CreateExperiment, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -91,7 +91,7 @@ HRESULT PFExperimentationDeleteExclusionGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::DeleteExclusionGroup, &contextHandle->entity->experimentationAPI, DeleteExclusionGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::DeleteExclusionGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -104,7 +104,7 @@ HRESULT PFExperimentationDeleteExperimentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::DeleteExperiment, &contextHandle->entity->experimentationAPI, DeleteExperimentRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::DeleteExperiment, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -117,7 +117,7 @@ HRESULT PFExperimentationGetExclusionGroupsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::GetExclusionGroups, &contextHandle->entity->experimentationAPI, GetExclusionGroupsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::GetExclusionGroups, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -144,7 +144,7 @@ HRESULT PFExperimentationGetExclusionGroupTrafficAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::GetExclusionGroupTraffic, &contextHandle->entity->experimentationAPI, GetExclusionGroupTrafficRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::GetExclusionGroupTraffic, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -171,7 +171,7 @@ HRESULT PFExperimentationGetExperimentsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::GetExperiments, &contextHandle->entity->experimentationAPI, GetExperimentsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::GetExperiments, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -198,7 +198,7 @@ HRESULT PFExperimentationGetLatestScorecardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::GetLatestScorecard, &contextHandle->entity->experimentationAPI, GetLatestScorecardRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::GetLatestScorecard, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -225,7 +225,7 @@ HRESULT PFExperimentationGetTreatmentAssignmentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::GetTreatmentAssignment, &contextHandle->entity->experimentationAPI, GetTreatmentAssignmentRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::GetTreatmentAssignment, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -252,7 +252,7 @@ HRESULT PFExperimentationStartExperimentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::StartExperiment, &contextHandle->entity->experimentationAPI, StartExperimentRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::StartExperiment, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -265,7 +265,7 @@ HRESULT PFExperimentationStopExperimentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::StopExperiment, &contextHandle->entity->experimentationAPI, StopExperimentRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::StopExperiment, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -278,7 +278,7 @@ HRESULT PFExperimentationUpdateExclusionGroupAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::UpdateExclusionGroup, &contextHandle->entity->experimentationAPI, UpdateExclusionGroupRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::UpdateExclusionGroup, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -291,7 +291,7 @@ HRESULT PFExperimentationUpdateExperimentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&ExperimentationAPI::UpdateExperiment, &contextHandle->entity->experimentationAPI, UpdateExperimentRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&ExperimentationAPI::UpdateExperiment, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

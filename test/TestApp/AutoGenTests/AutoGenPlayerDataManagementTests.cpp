@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenPlayerDataManagementTests::PlayerDataManagementTestData AutoGenPlayerDataManagementTests::testData;
+
 void AutoGenPlayerDataManagementTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,61 +29,111 @@ HRESULT AutoGenPlayerDataManagementTests::LogHR(HRESULT hr)
 
 void AutoGenPlayerDataManagementTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestPlayerDataManagementAdminCreatePlayerStatisticDefinition", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminCreatePlayerStatisticDefinition);
+
     AddTest("TestPlayerDataManagementAdminGetDataReport", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetDataReport);
+
     AddTest("TestPlayerDataManagementAdminGetPlayerStatisticDefinitions", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerStatisticDefinitions);
+
     AddTest("TestPlayerDataManagementAdminGetPlayerStatisticVersions", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerStatisticVersions);
+
     AddTest("TestPlayerDataManagementAdminGetUserData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserData);
+
     AddTest("TestPlayerDataManagementAdminGetUserInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserInternalData);
+
     AddTest("TestPlayerDataManagementAdminGetUserPublisherData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPublisherData);
+
     AddTest("TestPlayerDataManagementAdminGetUserPublisherInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPublisherInternalData);
+
     AddTest("TestPlayerDataManagementAdminGetUserPublisherReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPublisherReadOnlyData);
+
     AddTest("TestPlayerDataManagementAdminGetUserReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserReadOnlyData);
+
     AddTest("TestPlayerDataManagementAdminIncrementPlayerStatisticVersion", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminIncrementPlayerStatisticVersion);
+
     AddTest("TestPlayerDataManagementAdminRefundPurchase", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminRefundPurchase);
+
     AddTest("TestPlayerDataManagementAdminResetUserStatistics", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminResetUserStatistics);
+
     AddTest("TestPlayerDataManagementAdminResolvePurchaseDispute", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminResolvePurchaseDispute);
+
     AddTest("TestPlayerDataManagementAdminUpdatePlayerStatisticDefinition", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdatePlayerStatisticDefinition);
+
     AddTest("TestPlayerDataManagementAdminUpdateUserData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserData);
+
     AddTest("TestPlayerDataManagementAdminUpdateUserInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserInternalData);
+
     AddTest("TestPlayerDataManagementAdminUpdateUserPublisherData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPublisherData);
+
     AddTest("TestPlayerDataManagementAdminUpdateUserPublisherInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPublisherInternalData);
+
     AddTest("TestPlayerDataManagementAdminUpdateUserPublisherReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPublisherReadOnlyData);
+
     AddTest("TestPlayerDataManagementAdminUpdateUserReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserReadOnlyData);
+
     AddTest("TestPlayerDataManagementClientGetFriendLeaderboard", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLeaderboard);
+
     AddTest("TestPlayerDataManagementClientGetFriendLeaderboardAroundPlayer", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLeaderboardAroundPlayer);
+
     AddTest("TestPlayerDataManagementClientGetLeaderboard", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderboard);
+
     AddTest("TestPlayerDataManagementClientGetLeaderboardAroundPlayer", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderboardAroundPlayer);
+
     AddTest("TestPlayerDataManagementClientGetPlayerStatistics", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerStatistics);
+
     AddTest("TestPlayerDataManagementClientGetPlayerStatisticVersions", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerStatisticVersions);
+
     AddTest("TestPlayerDataManagementClientGetUserData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserData);
+
     AddTest("TestPlayerDataManagementClientGetUserPublisherData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPublisherData);
+
     AddTest("TestPlayerDataManagementClientGetUserPublisherReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPublisherReadOnlyData);
+
     AddTest("TestPlayerDataManagementClientGetUserReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserReadOnlyData);
+
     AddTest("TestPlayerDataManagementClientUpdatePlayerStatistics", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdatePlayerStatistics);
+
     AddTest("TestPlayerDataManagementClientUpdateUserData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdateUserData);
+
     AddTest("TestPlayerDataManagementClientUpdateUserPublisherData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdateUserPublisherData);
+
     AddTest("TestPlayerDataManagementServerGetFriendLeaderboard", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetFriendLeaderboard);
+
     AddTest("TestPlayerDataManagementServerGetLeaderboard", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderboard);
+
     AddTest("TestPlayerDataManagementServerGetLeaderboardAroundUser", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderboardAroundUser);
+
     AddTest("TestPlayerDataManagementServerGetPlayerCombinedInfo", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerCombinedInfo);
+
     AddTest("TestPlayerDataManagementServerGetPlayerStatistics", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerStatistics);
+
     AddTest("TestPlayerDataManagementServerGetPlayerStatisticVersions", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerStatisticVersions);
+
     AddTest("TestPlayerDataManagementServerGetUserData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserData);
+
     AddTest("TestPlayerDataManagementServerGetUserInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserInternalData);
+
     AddTest("TestPlayerDataManagementServerGetUserPublisherData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPublisherData);
+
     AddTest("TestPlayerDataManagementServerGetUserPublisherInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPublisherInternalData);
+
     AddTest("TestPlayerDataManagementServerGetUserPublisherReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPublisherReadOnlyData);
+
     AddTest("TestPlayerDataManagementServerGetUserReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserReadOnlyData);
+
     AddTest("TestPlayerDataManagementServerUpdatePlayerStatistics", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdatePlayerStatistics);
+
     AddTest("TestPlayerDataManagementServerUpdateUserData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserData);
+
     AddTest("TestPlayerDataManagementServerUpdateUserInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserInternalData);
+
     AddTest("TestPlayerDataManagementServerUpdateUserPublisherData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserPublisherData);
+
     AddTest("TestPlayerDataManagementServerUpdateUserPublisherInternalData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserPublisherInternalData);
+
     AddTest("TestPlayerDataManagementServerUpdateUserPublisherReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserPublisherReadOnlyData);
+
     AddTest("TestPlayerDataManagementServerUpdateUserReadOnlyData", &AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserReadOnlyData);
 }
 
@@ -120,10 +172,52 @@ void AutoGenPlayerDataManagementTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -132,10 +226,12 @@ void AutoGenPlayerDataManagementTests::ClassSetUp()
 
 void AutoGenPlayerDataManagementTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -154,6 +250,8 @@ void AutoGenPlayerDataManagementTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminCreatePlayerStatisticDefinition
 
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminCreatePlayerStatisticDefinition(TestContext& testContext)
 {
@@ -184,7 +282,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminCreatePlayer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetDataReport
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetDataReport(TestContext& testContext)
 {
     struct AdminGetDataReportResult : public XAsyncResult
@@ -218,7 +321,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetDataRepor
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerStatisticDefinitions
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerStatisticDefinitions(TestContext& testContext)
 {
     struct AdminGetPlayerStatisticDefinitionsResult : public XAsyncResult
@@ -245,7 +353,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerSta
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerStatisticVersions
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerStatisticVersions(TestContext& testContext)
 {
     struct AdminGetPlayerStatisticVersionsResult : public XAsyncResult
@@ -275,7 +388,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerSta
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserData(TestContext& testContext)
 {
     struct AdminGetUserDataResult : public XAsyncResult
@@ -305,7 +423,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserData(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserInternalData(TestContext& testContext)
 {
     struct AdminGetUserInternalDataResult : public XAsyncResult
@@ -335,7 +458,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserInter
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserPublisherData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPublisherData(TestContext& testContext)
 {
     struct AdminGetUserPublisherDataResult : public XAsyncResult
@@ -365,7 +493,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPubli
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserPublisherInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPublisherInternalData(TestContext& testContext)
 {
     struct AdminGetUserPublisherInternalDataResult : public XAsyncResult
@@ -395,7 +528,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPubli
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserPublisherReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPublisherReadOnlyData(TestContext& testContext)
 {
     struct AdminGetUserPublisherReadOnlyDataResult : public XAsyncResult
@@ -425,7 +563,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPubli
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserReadOnlyData(TestContext& testContext)
 {
     struct AdminGetUserReadOnlyDataResult : public XAsyncResult
@@ -455,7 +598,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserReadO
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminIncrementPlayerStatisticVersion
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminIncrementPlayerStatisticVersion(TestContext& testContext)
 {
     struct AdminIncrementPlayerStatisticVersionResult : public XAsyncResult
@@ -485,7 +633,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminIncrementPla
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRefundPurchase
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminRefundPurchase(TestContext& testContext)
 {
     struct AdminRefundPurchaseResult : public XAsyncResult
@@ -519,7 +672,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminRefundPurcha
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminResetUserStatistics
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminResetUserStatistics(TestContext& testContext)
 {
     struct AdminResetUserStatisticsResult : public XAsyncResult
@@ -548,7 +706,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminResetUserSta
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminResolvePurchaseDispute
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminResolvePurchaseDispute(TestContext& testContext)
 {
     struct AdminResolvePurchaseDisputeResult : public XAsyncResult
@@ -582,7 +745,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminResolvePurch
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdatePlayerStatisticDefinition
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdatePlayerStatisticDefinition(TestContext& testContext)
 {
     struct AdminUpdatePlayerStatisticDefinitionResult : public XAsyncResult
@@ -612,7 +780,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdatePlayer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserData(TestContext& testContext)
 {
     struct AdminUpdateUserDataResult : public XAsyncResult
@@ -642,7 +815,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserDa
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserInternalData(TestContext& testContext)
 {
     struct AdminUpdateUserInternalDataResult : public XAsyncResult
@@ -672,7 +850,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserIn
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserPublisherData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPublisherData(TestContext& testContext)
 {
     struct AdminUpdateUserPublisherDataResult : public XAsyncResult
@@ -702,7 +885,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPu
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserPublisherInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPublisherInternalData(TestContext& testContext)
 {
     struct AdminUpdateUserPublisherInternalDataResult : public XAsyncResult
@@ -732,7 +920,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPu
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserPublisherReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPublisherReadOnlyData(TestContext& testContext)
 {
     struct AdminUpdateUserPublisherReadOnlyDataResult : public XAsyncResult
@@ -762,7 +955,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserPu
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserReadOnlyData(TestContext& testContext)
 {
     struct AdminUpdateUserReadOnlyDataResult : public XAsyncResult
@@ -792,7 +990,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdateUserRe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetFriendLeaderboard
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLeaderboard(TestContext& testContext)
 {
     struct ClientGetFriendLeaderboardResult : public XAsyncResult
@@ -815,14 +1018,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLe
     PlayFab::PlayerDataManagementModels::ClientGetFriendLeaderboardRequest request;
     FillClientGetFriendLeaderboardRequest( &request );
     LogClientGetFriendLeaderboardRequest( &request, "TestPlayerDataManagementClientGetFriendLeaderboard" );
-    HRESULT hr = PFPlayerDataManagementClientGetFriendLeaderboardAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetFriendLeaderboardAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetFriendLeaderboardAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetFriendLeaderboardAroundPlayer
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLeaderboardAroundPlayer(TestContext& testContext)
 {
     struct ClientGetFriendLeaderboardAroundPlayerResult : public XAsyncResult
@@ -845,14 +1053,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLe
     PlayFab::PlayerDataManagementModels::GetFriendLeaderboardAroundPlayerRequest request;
     FillGetFriendLeaderboardAroundPlayerRequest( &request );
     LogGetFriendLeaderboardAroundPlayerRequest( &request, "TestPlayerDataManagementClientGetFriendLeaderboardAroundPlayer" );
-    HRESULT hr = PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetLeaderboard
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderboard(TestContext& testContext)
 {
     struct ClientGetLeaderboardResult : public XAsyncResult
@@ -875,14 +1088,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderbo
     PlayFab::PlayerDataManagementModels::GetLeaderboardRequest request;
     FillGetLeaderboardRequest( &request );
     LogGetLeaderboardRequest( &request, "TestPlayerDataManagementClientGetLeaderboard" );
-    HRESULT hr = PFPlayerDataManagementClientGetLeaderboardAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetLeaderboardAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetLeaderboardAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetLeaderboardAroundPlayer
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderboardAroundPlayer(TestContext& testContext)
 {
     struct ClientGetLeaderboardAroundPlayerResult : public XAsyncResult
@@ -905,14 +1123,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderbo
     PlayFab::PlayerDataManagementModels::GetLeaderboardAroundPlayerRequest request;
     FillGetLeaderboardAroundPlayerRequest( &request );
     LogGetLeaderboardAroundPlayerRequest( &request, "TestPlayerDataManagementClientGetLeaderboardAroundPlayer" );
-    HRESULT hr = PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetLeaderboardAroundPlayerAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerStatistics
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerStatistics(TestContext& testContext)
 {
     struct ClientGetPlayerStatisticsResult : public XAsyncResult
@@ -935,14 +1158,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerSt
     PlayFab::PlayerDataManagementModels::ClientGetPlayerStatisticsRequest request;
     FillClientGetPlayerStatisticsRequest( &request );
     LogClientGetPlayerStatisticsRequest( &request, "TestPlayerDataManagementClientGetPlayerStatistics" );
-    HRESULT hr = PFPlayerDataManagementClientGetPlayerStatisticsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetPlayerStatisticsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetPlayerStatisticsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerStatisticVersions
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerStatisticVersions(TestContext& testContext)
 {
     struct ClientGetPlayerStatisticVersionsResult : public XAsyncResult
@@ -965,14 +1193,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerSt
     PlayFab::PlayerDataManagementModels::GetPlayerStatisticVersionsRequest request;
     FillGetPlayerStatisticVersionsRequest( &request );
     LogGetPlayerStatisticVersionsRequest( &request, "TestPlayerDataManagementClientGetPlayerStatisticVersions" );
-    HRESULT hr = PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetPlayerStatisticVersionsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetUserData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserData(TestContext& testContext)
 {
     struct ClientGetUserDataResult : public XAsyncResult
@@ -995,14 +1228,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserData
     PlayFab::PlayerDataManagementModels::GetUserDataRequest request;
     FillGetUserDataRequest( &request );
     LogGetUserDataRequest( &request, "TestPlayerDataManagementClientGetUserData" );
-    HRESULT hr = PFPlayerDataManagementClientGetUserDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetUserDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetUserDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetUserPublisherData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPublisherData(TestContext& testContext)
 {
     struct ClientGetUserPublisherDataResult : public XAsyncResult
@@ -1025,14 +1263,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPubl
     PlayFab::PlayerDataManagementModels::GetUserDataRequest request;
     FillGetUserDataRequest( &request );
     LogGetUserDataRequest( &request, "TestPlayerDataManagementClientGetUserPublisherData" );
-    HRESULT hr = PFPlayerDataManagementClientGetUserPublisherDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetUserPublisherDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetUserPublisherDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetUserPublisherReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPublisherReadOnlyData(TestContext& testContext)
 {
     struct ClientGetUserPublisherReadOnlyDataResult : public XAsyncResult
@@ -1055,14 +1298,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPubl
     PlayFab::PlayerDataManagementModels::GetUserDataRequest request;
     FillGetUserDataRequest( &request );
     LogGetUserDataRequest( &request, "TestPlayerDataManagementClientGetUserPublisherReadOnlyData" );
-    HRESULT hr = PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetUserReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserReadOnlyData(TestContext& testContext)
 {
     struct ClientGetUserReadOnlyDataResult : public XAsyncResult
@@ -1085,14 +1333,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserRead
     PlayFab::PlayerDataManagementModels::GetUserDataRequest request;
     FillGetUserDataRequest( &request );
     LogGetUserDataRequest( &request, "TestPlayerDataManagementClientGetUserReadOnlyData" );
-    HRESULT hr = PFPlayerDataManagementClientGetUserReadOnlyDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientGetUserReadOnlyDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientGetUserReadOnlyDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdatePlayerStatistics
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdatePlayerStatistics(TestContext& testContext)
 {
     struct ClientUpdatePlayerStatisticsResult : public XAsyncResult
@@ -1114,14 +1367,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdatePlaye
     PlayFab::PlayerDataManagementModels::ClientUpdatePlayerStatisticsRequest request;
     FillClientUpdatePlayerStatisticsRequest( &request );
     LogClientUpdatePlayerStatisticsRequest( &request, "TestPlayerDataManagementClientUpdatePlayerStatistics" );
-    HRESULT hr = PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientUpdatePlayerStatisticsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdateUserData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdateUserData(TestContext& testContext)
 {
     struct ClientUpdateUserDataResult : public XAsyncResult
@@ -1144,14 +1402,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdateUserD
     PlayFab::PlayerDataManagementModels::ClientUpdateUserDataRequest request;
     FillClientUpdateUserDataRequest( &request );
     LogClientUpdateUserDataRequest( &request, "TestPlayerDataManagementClientUpdateUserData" );
-    HRESULT hr = PFPlayerDataManagementClientUpdateUserDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientUpdateUserDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientUpdateUserDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdateUserPublisherData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdateUserPublisherData(TestContext& testContext)
 {
     struct ClientUpdateUserPublisherDataResult : public XAsyncResult
@@ -1174,14 +1437,19 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientUpdateUserP
     PlayFab::PlayerDataManagementModels::ClientUpdateUserDataRequest request;
     FillClientUpdateUserDataRequest( &request );
     LogClientUpdateUserDataRequest( &request, "TestPlayerDataManagementClientUpdateUserPublisherData" );
-    HRESULT hr = PFPlayerDataManagementClientUpdateUserPublisherDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerDataManagementClientUpdateUserPublisherDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerDataManagementPlayerDataManagementClientUpdateUserPublisherDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetFriendLeaderboard
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetFriendLeaderboard(TestContext& testContext)
 {
     struct ServerGetFriendLeaderboardResult : public XAsyncResult
@@ -1211,7 +1479,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetFriendLe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetLeaderboard
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderboard(TestContext& testContext)
 {
     struct ServerGetLeaderboardResult : public XAsyncResult
@@ -1241,7 +1514,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderbo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetLeaderboardAroundUser
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderboardAroundUser(TestContext& testContext)
 {
     struct ServerGetLeaderboardAroundUserResult : public XAsyncResult
@@ -1271,7 +1549,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderbo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayerCombinedInfo
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerCombinedInfo(TestContext& testContext)
 {
     struct ServerGetPlayerCombinedInfoResult : public XAsyncResult
@@ -1301,7 +1584,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayerStatistics
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerStatistics(TestContext& testContext)
 {
     struct ServerGetPlayerStatisticsResult : public XAsyncResult
@@ -1331,7 +1619,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerSt
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayerStatisticVersions
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerStatisticVersions(TestContext& testContext)
 {
     struct ServerGetPlayerStatisticVersionsResult : public XAsyncResult
@@ -1361,7 +1654,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerSt
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserData(TestContext& testContext)
 {
     struct ServerGetUserDataResult : public XAsyncResult
@@ -1391,7 +1689,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserData
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserInternalData(TestContext& testContext)
 {
     struct ServerGetUserInternalDataResult : public XAsyncResult
@@ -1421,7 +1724,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserInte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserPublisherData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPublisherData(TestContext& testContext)
 {
     struct ServerGetUserPublisherDataResult : public XAsyncResult
@@ -1451,7 +1759,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPubl
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserPublisherInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPublisherInternalData(TestContext& testContext)
 {
     struct ServerGetUserPublisherInternalDataResult : public XAsyncResult
@@ -1481,7 +1794,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPubl
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserPublisherReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPublisherReadOnlyData(TestContext& testContext)
 {
     struct ServerGetUserPublisherReadOnlyDataResult : public XAsyncResult
@@ -1511,7 +1829,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPubl
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserReadOnlyData(TestContext& testContext)
 {
     struct ServerGetUserReadOnlyDataResult : public XAsyncResult
@@ -1541,7 +1864,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserRead
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdatePlayerStatistics
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdatePlayerStatistics(TestContext& testContext)
 {
     struct ServerUpdatePlayerStatisticsResult : public XAsyncResult
@@ -1570,7 +1898,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdatePlaye
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserData(TestContext& testContext)
 {
     struct ServerUpdateUserDataResult : public XAsyncResult
@@ -1600,7 +1933,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserD
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserInternalData(TestContext& testContext)
 {
     struct ServerUpdateUserInternalDataResult : public XAsyncResult
@@ -1630,7 +1968,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserI
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserPublisherData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserPublisherData(TestContext& testContext)
 {
     struct ServerUpdateUserPublisherDataResult : public XAsyncResult
@@ -1660,7 +2003,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserP
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserPublisherInternalData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserPublisherInternalData(TestContext& testContext)
 {
     struct ServerUpdateUserPublisherInternalDataResult : public XAsyncResult
@@ -1690,7 +2038,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserP
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserPublisherReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserPublisherReadOnlyData(TestContext& testContext)
 {
     struct ServerUpdateUserPublisherReadOnlyDataResult : public XAsyncResult
@@ -1720,7 +2073,12 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserP
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserReadOnlyData
+
 void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserReadOnlyData(TestContext& testContext)
 {
     struct ServerUpdateUserReadOnlyDataResult : public XAsyncResult
@@ -1750,6 +2108,9 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerUpdateUserR
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

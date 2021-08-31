@@ -15,6 +15,7 @@
 #include "ApiTests.h" 
 #include "EntityTests.h"
 
+#include "AutoGenTests/AutoGenDataTests.h" 
 #include "AutoGenTests/AutoGenGroupsTests.h" 
 
 using namespace PlayFab;
@@ -48,8 +49,6 @@ PFTestTraceLevel TestApp::traceLevel = PFTestTraceLevel::Important;
         LogPut(message);
     }
 #endif
-    
-    std::unique_ptr<PFTestData> g_data;
 
     int TestApp::Main()
     {
@@ -57,7 +56,6 @@ PFTestTraceLevel TestApp::traceLevel = PFTestTraceLevel::Important;
         assert(SUCCEEDED(hr));
         HCSettingsSetTraceLevel(HCTraceLevel::Verbose);
         HCTraceSetTraceToDebugger(true);
-        g_data = std::make_unique<PFTestData>();
 
         // Load the TestTitleData
         TestTitleData testTitleData;
@@ -88,9 +86,13 @@ PFTestTraceLevel TestApp::traceLevel = PFTestTraceLevel::Important;
         testRunner.Add(apiTests);
 
 
-        AutoGenGroupsTests apiTests15;
-        apiTests15.SetTitleInfo(testTitleData);
-        testRunner.Add(apiTests15);
+        AutoGenDataTests apiTests21;
+        apiTests21.SetTitleInfo(testTitleData);
+        testRunner.Add(apiTests21);
+
+        AutoGenGroupsTests apiTests23;
+        apiTests23.SetTitleInfo(testTitleData);
+        testRunner.Add(apiTests23);
 
 
         // Run the tests (blocks until all tests have finished).
@@ -156,11 +158,6 @@ PFTestTraceLevel TestApp::traceLevel = PFTestTraceLevel::Important;
         }
 
         return !titleDataJson.HasParseError();
-    }
-
-    PFTestData* Data()
-    {
-        return g_data.get();
     }
 
 #if !defined(DISABLE_PLAYFABCLIENT_API)

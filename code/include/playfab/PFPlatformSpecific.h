@@ -9,7 +9,7 @@
 
 #include <playfab/PFPlatformSpecificDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -18,7 +18,7 @@ extern "C"
 /// <summary>
 /// Registers the Android device to receive push notifications
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -30,7 +30,7 @@ extern "C"
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -39,7 +39,7 @@ HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
 /// <summary>
 /// Grants the player's current entitlements from Microsoft Store's Collection API
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -48,7 +48,7 @@ HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
 /// to get the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -75,7 +75,7 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(
 /// Checks for any new PS5 entitlements. If any are found, they are consumed (if they're consumables)
 /// and added as PlayFab items
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -84,7 +84,7 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumePS5EntitlementsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificConsumePS5EntitlementsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -112,7 +112,7 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResult(
 /// Checks for any new consumable entitlements. If any are found, they are consumed and added as PlayFab
 /// items
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -121,7 +121,7 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumePSNEntitlementsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificConsumePSNEntitlementsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -149,7 +149,7 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResult(
 /// granting them to the player's PlayFab inventory. This call is idempotent and will not grant previously
 /// granted items to the player.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -160,7 +160,7 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificConsumeXboxEntitlementsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -186,7 +186,7 @@ HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(
 /// <summary>
 /// Uses the supplied OAuth code to refresh the internally cached player PSN auth token
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -194,7 +194,7 @@ HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlatformSpecificClientRefreshPSNAuthTokenAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificRefreshPSNAuthTokenRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -204,7 +204,7 @@ HRESULT PFPlatformSpecificClientRefreshPSNAuthTokenAsync(
 /// <summary>
 /// Registers the iOS device to receive push notifications
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -214,7 +214,7 @@ HRESULT PFPlatformSpecificClientRefreshPSNAuthTokenAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificRegisterForIOSPushNotificationRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -224,7 +224,7 @@ HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
 /// <summary>
 /// Restores all in-app purchases based on the given restore receipt
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -238,7 +238,7 @@ HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
 /// result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientRestoreIOSPurchasesAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificRestoreIOSPurchasesRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -266,7 +266,7 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResult(
 /// Validates with Amazon that the receipt for an Amazon App Store in-app purchase is valid and that
 /// it matches the purchased catalog item
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -275,7 +275,7 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificValidateAmazonReceiptRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -302,7 +302,7 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(
 /// <summary>
 /// Validates a Google Play purchase and gives the corresponding item to the player.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -318,7 +318,7 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificValidateGooglePlayPurchaseRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -346,7 +346,7 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(
 /// Validates with the Apple store that the receipt for an iOS in-app purchase is valid and that it matches
 /// the purchased catalog item
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -361,7 +361,7 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(
 /// result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateIOSReceiptAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificValidateIOSReceiptRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -388,7 +388,7 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResult(
 /// Validates with Windows that the receipt for an Windows App Store in-app purchase is valid and that
 /// it matches the purchased catalog item
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -397,7 +397,7 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlatformSpecificValidateWindowsReceiptRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

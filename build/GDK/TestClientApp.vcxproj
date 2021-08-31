@@ -181,6 +181,10 @@
     <ClCompile Include="$(PlayFabTestDir)\TestApp\GDK\ATGTK\TextConsole.cpp" />
     <ClCompile Include="$(PlayFabTestDir)\TestApp\GDK\DeviceResources.cpp" />
     <ClCompile Include="$(PlayFabTestDir)\TestApp\GDK\TestAppGDK.cpp" />
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTests.h" />
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTestData.cpp" />
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTestLog.cpp" />
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTests.cpp" /> 
     <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.h" />
     <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestData.cpp" />
     <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestLog.cpp" />

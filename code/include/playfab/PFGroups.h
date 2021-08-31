@@ -9,360 +9,15 @@
 
 #include <playfab/PFGroupsDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
 
-#if HC_PLATFORM != HC_PLATFORM_GDK
-/// <summary>
-/// Updates the key-value store of custom publisher settings
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// This API is designed to store publisher-specific values which can be read, but not written to, by
-/// the client. This data is shared across all titles assigned to a particular publisher, and can be used
-/// for cross-game coordination. Only titles assigned to a publisher can use this API. This operation
-/// is additive. If a Key does not exist in the current dataset, it will be added with the specified Value.
-/// If it already exists, the Value for that key will be overwritten with the new Value. For more information
-/// email helloplayfab@microsoft.com See also AdminGetPublisherDataAsync.
-///
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsAdminSetPublisherDataAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFSetPublisherDataRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-#endif
-
-/// <summary>
-/// Adds users to the set of those able to update both the shared data, as well as the set of users in
-/// the group. Only users in the group can add new members. Shared Groups are designed for sharing data
-/// between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsClientAddSharedGroupMembersAsync(
-    _In_ PFEntityHandle entityHandle,
-    _In_ const PFGroupsAddSharedGroupMembersRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Requests the creation of a shared group object, containing key/value pairs which may be updated by
-/// all members of the group. Upon creation, the current user will be the only member of the group. Shared
-/// Groups are designed for sharing data between a very small number of players, please see our guide:
-/// https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// If SharedGroupId is specified, the service will attempt to create a group with that identifier, and
-/// will return an error if it is already in use. If no SharedGroupId is specified, a random identifier
-/// will be assigned.
-///
-/// If successful, call <see cref="PFGroupsClientCreateSharedGroupGetResult"/> to get the result.
-/// </remarks>
-HRESULT PFGroupsClientCreateSharedGroupAsync(
-    _In_ PFEntityHandle entityHandle,
-    _In_ const PFGroupsCreateSharedGroupRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Get the size in bytes needed to store the result of a ClientCreateSharedGroup call.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
-/// <returns>Result code for this API operation.</returns>
-HRESULT PFGroupsClientCreateSharedGroupGetResultSize(
-    _Inout_ XAsyncBlock* async,
-    _Out_ size_t* bufferSize
-) noexcept;
-
-/// <summary>
-/// Gets the result of a successful PFGroupsClientCreateSharedGroupAsync call.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="bufferSize">The size of the buffer for the result object.</param>
-/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
-/// <param name="result">Pointer to the result object.</param>
-/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// result is a pointer within buffer and does not need to be freed separately.
-/// </remarks>
-HRESULT PFGroupsClientCreateSharedGroupGetResult(
-    _Inout_ XAsyncBlock* async,
-    _In_ size_t bufferSize,
-    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
-    _Outptr_ PFGroupsCreateSharedGroupResult** result,
-    _Out_opt_ size_t* bufferUsed
-) noexcept;
-
-/// <summary>
-/// Retrieves data stored in a shared group object, as well as the list of members in the group. Non-members
-/// of the group may use this to retrieve group data, including membership, but they will not receive
-/// data for keys marked as private. Shared Groups are designed for sharing data between a very small
-/// number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// If successful, call <see cref="PFGroupsClientGetSharedGroupDataGetResult"/> to get the result.
-/// </remarks>
-HRESULT PFGroupsClientGetSharedGroupDataAsync(
-    _In_ PFEntityHandle entityHandle,
-    _In_ const PFGroupsGetSharedGroupDataRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Gets the result of a successful PFGroupsClientGetSharedGroupDataAsync call.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
-/// <param name="result">Pointer to the result object.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
-/// </remarks>
-HRESULT PFGroupsClientGetSharedGroupDataGetResult(
-    _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsGetSharedGroupDataResult** result
-) noexcept;
-
-/// <summary>
-/// Removes users from the set of those able to update the shared data and the set of users in the group.
-/// Only users in the group can remove members. If as a result of the call, zero users remain with access,
-/// the group and its associated data will be deleted. Shared Groups are designed for sharing data between
-/// a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsClientRemoveSharedGroupMembersAsync(
-    _In_ PFEntityHandle entityHandle,
-    _In_ const PFGroupsRemoveSharedGroupMembersRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Adds, updates, and removes data keys for a shared group object. If the permission is set to Public,
-/// all fields updated or added in this call will be readable by users not in the group. By default, data
-/// permissions are set to Private. Regardless of the permission setting, only members of the group can
-/// update the data. Shared Groups are designed for sharing data between a very small number of players,
-/// please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Note that in the case of multiple calls to write to the same shared group data keys, the last write
-/// received by the PlayFab service will determine the value available to subsequent read operations.
-/// For scenarios requiring coordination of data updates, it is recommended that titles make use of user
-/// data with read permission set to public, or a combination of user data and shared group data.
-///
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsClientUpdateSharedGroupDataAsync(
-    _In_ PFEntityHandle entityHandle,
-    _In_ const PFGroupsUpdateSharedGroupDataRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Adds users to the set of those able to update both the shared data, as well as the set of users in
-/// the group. Only users in the group (and the server) can add new members. Shared Groups are designed
-/// for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsServerAddSharedGroupMembersAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFGroupsAddSharedGroupMembersRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Requests the creation of a shared group object, containing key/value pairs which may be updated by
-/// all members of the group. When created by a server, the group will initially have no members. Shared
-/// Groups are designed for sharing data between a very small number of players, please see our guide:
-/// https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// If SharedGroupId is specified, the service will attempt to create a group with that identifier, and
-/// will return an error if it is already in use. If no SharedGroupId is specified, a random identifier
-/// will be assigned.
-///
-/// If successful, call <see cref="PFGroupsServerCreateSharedGroupGetResult"/> to get the result.
-/// </remarks>
-HRESULT PFGroupsServerCreateSharedGroupAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFGroupsCreateSharedGroupRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Get the size in bytes needed to store the result of a ServerCreateSharedGroup call.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
-/// <returns>Result code for this API operation.</returns>
-HRESULT PFGroupsServerCreateSharedGroupGetResultSize(
-    _Inout_ XAsyncBlock* async,
-    _Out_ size_t* bufferSize
-) noexcept;
-
-/// <summary>
-/// Gets the result of a successful PFGroupsServerCreateSharedGroupAsync call.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="bufferSize">The size of the buffer for the result object.</param>
-/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
-/// <param name="result">Pointer to the result object.</param>
-/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// result is a pointer within buffer and does not need to be freed separately.
-/// </remarks>
-HRESULT PFGroupsServerCreateSharedGroupGetResult(
-    _Inout_ XAsyncBlock* async,
-    _In_ size_t bufferSize,
-    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
-    _Outptr_ PFGroupsCreateSharedGroupResult** result,
-    _Out_opt_ size_t* bufferUsed
-) noexcept;
-
-/// <summary>
-/// Deletes a shared group, freeing up the shared group ID to be reused for a new group. Shared Groups
-/// are designed for sharing data between a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsServerDeleteSharedGroupAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFGroupsDeleteSharedGroupRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Retrieves data stored in a shared group object, as well as the list of members in the group. The
-/// server can access all public and private group data. Shared Groups are designed for sharing data between
-/// a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// If successful, call <see cref="PFGroupsServerGetSharedGroupDataGetResult"/> to get the result.
-/// </remarks>
-HRESULT PFGroupsServerGetSharedGroupDataAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFGroupsGetSharedGroupDataRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Gets the result of a successful PFGroupsServerGetSharedGroupDataAsync call.
-/// </summary>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
-/// <param name="result">Pointer to the result object.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
-/// </remarks>
-HRESULT PFGroupsServerGetSharedGroupDataGetResult(
-    _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsGetSharedGroupDataResult** result
-) noexcept;
-
-/// <summary>
-/// Removes users from the set of those able to update the shared data and the set of users in the group.
-/// Only users in the group can remove members. If as a result of the call, zero users remain with access,
-/// the group and its associated data will be deleted. Shared Groups are designed for sharing data between
-/// a very small number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsServerRemoveSharedGroupMembersAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFGroupsRemoveSharedGroupMembersRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
-/// <summary>
-/// Adds, updates, and removes data keys for a shared group object. If the permission is set to Public,
-/// all fields updated or added in this call will be readable by users not in the group. By default, data
-/// permissions are set to Private. Regardless of the permission setting, only members of the group (and
-/// the server) can update the data. Shared Groups are designed for sharing data between a very small
-/// number of players, please see our guide: https://docs.microsoft.com/gaming/playfab/features/social/groups/using-shared-group-data
-/// </summary>
-/// <param name="stateHandle">PFStateHandle returned from PFInitialize call.</param>
-/// <param name="request">Populated request object.</param>
-/// <param name="async">XAsyncBlock for the async operation.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Note that in the case of multiple calls to write to the same shared group data keys, the last write
-/// received by the PlayFab service will determine the value available to subsequent read operations.
-/// For scenarios requiring coordination of data updates, it is recommended that titles make use of user
-/// data with read permission set to public, or a combination of user data and shared group data.
-///
-/// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
-/// </remarks>
-HRESULT PFGroupsServerUpdateSharedGroupDataAsync(
-    _In_ PFStateHandle stateHandle,
-    _In_ const PFGroupsUpdateSharedGroupDataRequest* request,
-    _Inout_ XAsyncBlock* async
-) noexcept;
-
 /// <summary>
 /// Accepts an outstanding invitation to to join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -382,7 +37,7 @@ HRESULT PFGroupsAcceptGroupApplicationAsync(
 /// <summary>
 /// Accepts an invitation to join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -403,7 +58,7 @@ HRESULT PFGroupsAcceptGroupInvitationAsync(
 /// <summary>
 /// Adds members to a group or role.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -425,7 +80,7 @@ HRESULT PFGroupsAddMembersAsync(
 /// <summary>
 /// Applies to join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -466,7 +121,7 @@ HRESULT PFGroupsApplyToGroupGetResult(
 /// <summary>
 /// Blocks a list of entities from joining a group.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -487,7 +142,7 @@ HRESULT PFGroupsBlockEntityAsync(
 /// <summary>
 /// Changes the role membership of a list of entities from one role to another.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -508,7 +163,7 @@ HRESULT PFGroupsChangeMemberRoleAsync(
 /// <summary>
 /// Creates a new group.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -545,7 +200,7 @@ HRESULT PFGroupsCreateGroupGetResult(
 /// <summary>
 /// Creates a new group role.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -596,7 +251,7 @@ HRESULT PFGroupsCreateRoleGetResult(
 /// <summary>
 /// Deletes a group and all roles, invitations, join requests, and blocks associated with it.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -617,7 +272,7 @@ HRESULT PFGroupsDeleteGroupAsync(
 /// <summary>
 /// Deletes an existing role in a group.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -635,7 +290,7 @@ HRESULT PFGroupsDeleteRoleAsync(
 /// <summary>
 /// Gets information about a group and its roles
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -671,7 +326,7 @@ HRESULT PFGroupsGetGroupGetResult(
 /// <summary>
 /// Invites a player to join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -712,7 +367,7 @@ HRESULT PFGroupsInviteToGroupGetResult(
 /// <summary>
 /// Checks to see if an entity is a member of a group or role within the group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -743,7 +398,7 @@ HRESULT PFGroupsIsMemberGetResult(
 /// <summary>
 /// Lists all outstanding requests to join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -780,7 +435,7 @@ HRESULT PFGroupsListGroupApplicationsGetResult(
 /// <summary>
 /// Lists all entities blocked from joining a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -816,7 +471,7 @@ HRESULT PFGroupsListGroupBlocksGetResult(
 /// <summary>
 /// Lists all outstanding invitations for a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -854,7 +509,7 @@ HRESULT PFGroupsListGroupInvitationsGetResult(
 /// <summary>
 /// Lists all members for a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -891,7 +546,7 @@ HRESULT PFGroupsListGroupMembersGetResult(
 /// <summary>
 /// Lists all groups and roles for an entity
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -929,7 +584,7 @@ HRESULT PFGroupsListMembershipGetResult(
 /// <summary>
 /// Lists all outstanding invitations and group applications for an entity
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -967,7 +622,7 @@ HRESULT PFGroupsListMembershipOpportunitiesGetResult(
 /// <summary>
 /// Removes an application to join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -989,7 +644,7 @@ HRESULT PFGroupsRemoveGroupApplicationAsync(
 /// <summary>
 /// Removes an invitation join a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1011,7 +666,7 @@ HRESULT PFGroupsRemoveGroupInvitationAsync(
 /// <summary>
 /// Removes members from a group.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1030,7 +685,7 @@ HRESULT PFGroupsRemoveMembersAsync(
 /// <summary>
 /// Unblocks a list of entities from joining a group
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1049,7 +704,7 @@ HRESULT PFGroupsUnblockEntityAsync(
 /// <summary>
 /// Updates non-membership data about a group.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1086,7 +741,7 @@ HRESULT PFGroupsUpdateGroupGetResult(
 /// <summary>
 /// Updates metadata about a role.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

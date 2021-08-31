@@ -9,7 +9,7 @@
 
 #include <playfab/PFPlayerDataManagementDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -890,7 +890,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserReadOnlyDataGetResult(
 /// Retrieves a list of ranked friends of the current player for the given statistic, starting from the
 /// indicated point in the leaderboard
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -902,7 +902,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserReadOnlyDataGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementClientGetFriendLeaderboardRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -928,7 +928,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResult(
 /// Retrieves a list of ranked friends of the current player for the given statistic, centered on the
 /// requested PlayFab user. If PlayFabId is empty or null will return currently logged in user.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -940,7 +940,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -966,7 +966,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(
 /// Retrieves a list of ranked users for the given statistic, starting from the indicated point in the
 /// leaderboard
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -977,7 +977,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(
 /// result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetLeaderboardAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetLeaderboardRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1003,7 +1003,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardGetResult(
 /// Retrieves a list of ranked users for the given statistic, centered on the requested player. If PlayFabId
 /// is empty or null will return currently logged in user.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1014,7 +1014,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1040,7 +1040,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(
 /// Retrieves the indicated statistics (current version and values for all statistics, if none are specified),
 /// for the local player.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1052,7 +1052,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementClientGetPlayerStatisticsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1077,7 +1077,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResult(
 /// <summary>
 /// Retrieves the information on the available versions of the specified statistic.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1089,7 +1089,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetPlayerStatisticVersionsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1114,7 +1114,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(
 /// <summary>
 /// Retrieves the title-specific custom data for the user which is readable and writable by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1128,7 +1128,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(
 /// If successful, call <see cref="PFPlayerDataManagementClientGetUserDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1153,7 +1153,7 @@ HRESULT PFPlayerDataManagementClientGetUserDataGetResult(
 /// <summary>
 /// Retrieves the publisher-specific custom data for the user which is readable and writable by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1166,7 +1166,7 @@ HRESULT PFPlayerDataManagementClientGetUserDataGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserPublisherDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1191,7 +1191,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResult(
 /// <summary>
 /// Retrieves the publisher-specific custom data for the user which can only be read by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1204,7 +1204,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1229,7 +1229,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(
 /// <summary>
 /// Retrieves the title-specific custom data for the user which can only be read by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1244,7 +1244,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1271,7 +1271,7 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(
 /// not permitted to update statistics. Developers may override this setting in the Game Manager > Settings
 /// > API Features.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1289,7 +1289,7 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1298,7 +1298,7 @@ HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
 /// Creates and updates the title-specific custom data for the user which is readable and writable by
 /// the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1313,7 +1313,7 @@ HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
 /// result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientUpdateUserDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementClientUpdateUserDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1333,7 +1333,7 @@ HRESULT PFPlayerDataManagementClientUpdateUserDataGetResult(
 /// Creates and updates the publisher-specific custom data for the user which is readable and writable
 /// by the client
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1348,7 +1348,7 @@ HRESULT PFPlayerDataManagementClientUpdateUserDataGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientUpdateUserPublisherDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerDataManagementClientUpdateUserDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

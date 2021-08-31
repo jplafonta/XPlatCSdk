@@ -9,8 +9,6 @@ uint32_t g_MatchmakingTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenMatchmakingTests::LogGetMatchmakerGameInfoRequest( PlayFab::MatchmakingModels::GetMatchmakerGameInfoRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

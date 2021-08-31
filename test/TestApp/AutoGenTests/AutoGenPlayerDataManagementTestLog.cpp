@@ -9,8 +9,6 @@ uint32_t g_PlayerDataManagementTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenPlayerDataManagementTests::LogCreatePlayerStatisticDefinitionRequest( PlayFab::PlayerDataManagementModels::CreatePlayerStatisticDefinitionRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

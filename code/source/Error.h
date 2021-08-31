@@ -514,6 +514,10 @@ enum class ServiceErrorCode
     SteamUserNotFound = 1513,
     ElasticSearchOperationFailed = 1514,
     NotImplemented = 1515,
+    PublisherNotFound = 1516,
+    PublisherDeleted = 1517,
+    ApiDisabledForMigration = 1518,
+    ResourceNameUpdateNotAllowed = 1519,
     MatchmakingEntityInvalid = 2001,
     MatchmakingPlayerAttributesInvalid = 2002,
     MatchmakingQueueNotFound = 2016,
@@ -535,6 +539,8 @@ enum class ServiceErrorCode
     MatchmakingQueueLimitExceeded = 2057,
     MatchmakingRequestTypeMismatch = 2058,
     MatchmakingBadRequest = 2059,
+    PubSubFeatureNotEnabledForTitle = 2500,
+    PubSubTooManyRequests = 2501,
     TitleConfigNotFound = 3001,
     TitleConfigUpdateConflict = 3002,
     TitleConfigSerializationError = 3003,
@@ -650,8 +656,9 @@ enum class ServiceErrorCode
     LobbyCurrentOwnerStillConnected = 13010,
     LobbyMemberIsNotOwner = 13011,
     EventSamplingInvalidRatio = 14000,
-    EventSamplingInvalidEventName = 14001,
-    EventSamplingRatioNotFound = 14002,
+    EventSamplingInvalidEventNamespace = 14001,
+    EventSamplingInvalidEventName = 14002,
+    EventSamplingRatioNotFound = 14003,
 };
 
 HRESULT ServiceErrorToHR(ServiceErrorCode errorCode);

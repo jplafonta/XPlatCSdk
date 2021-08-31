@@ -17,7 +17,7 @@ HRESULT PFAuthenticationAdminCreateOpenIdConnectionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminCreateOpenIdConnection, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminCreateOpenIdConnection, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -30,7 +30,7 @@ HRESULT PFAuthenticationAdminCreatePlayerSharedSecretAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminCreatePlayerSharedSecret, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminCreatePlayerSharedSecret, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -67,7 +67,7 @@ HRESULT PFAuthenticationAdminDeleteOpenIdConnectionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminDeleteOpenIdConnection, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminDeleteOpenIdConnection, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -80,7 +80,7 @@ HRESULT PFAuthenticationAdminDeletePlayerSharedSecretAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminDeletePlayerSharedSecret, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminDeletePlayerSharedSecret, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -91,7 +91,7 @@ HRESULT PFAuthenticationAdminGetPlayerSharedSecretsAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminGetPlayerSharedSecrets, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminGetPlayerSharedSecrets, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -118,7 +118,7 @@ HRESULT PFAuthenticationAdminGetPolicyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminGetPolicy, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminGetPolicy, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -143,7 +143,7 @@ HRESULT PFAuthenticationAdminListOpenIdConnectionAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminListOpenIdConnection, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminListOpenIdConnection, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -170,7 +170,7 @@ HRESULT PFAuthenticationAdminSetPlayerSecretAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminSetPlayerSecret, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminSetPlayerSecret, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -183,7 +183,7 @@ HRESULT PFAuthenticationAdminUpdateOpenIdConnectionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminUpdateOpenIdConnection, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminUpdateOpenIdConnection, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -196,7 +196,7 @@ HRESULT PFAuthenticationAdminUpdatePlayerSharedSecretAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminUpdatePlayerSharedSecret, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminUpdatePlayerSharedSecret, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -209,7 +209,7 @@ HRESULT PFAuthenticationAdminUpdatePolicyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminUpdatePolicy, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::AdminUpdatePolicy, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -228,7 +228,7 @@ HRESULT PFAuthenticationAdminUpdatePolicyGetResult(
 }
 
 HRESULT PFAuthenticationClientGetPhotonAuthenticationTokenAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAuthenticationGetPhotonAuthenticationTokenRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -236,7 +236,7 @@ HRESULT PFAuthenticationClientGetPhotonAuthenticationTokenAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AuthenticationAPI::ClientGetPhotonAuthenticationToken, &contextHandle->entity->authenticationAPI, GetPhotonAuthenticationTokenRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientGetPhotonAuthenticationToken, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -273,7 +273,7 @@ HRESULT PFAuthenticationClientGetTitlePublicKeyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientGetTitlePublicKey, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientGetTitlePublicKey, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -310,16 +310,16 @@ HRESULT PFAuthenticationClientLoginWithAndroidDeviceIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithAndroidDeviceID, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithAndroidDeviceID, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAuthenticationClientLoginGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
+    _Out_ PFTitlePlayerHandle* titlePlayerHandle
 ) noexcept
 {
-    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
+    return XAsyncGetResult(async, nullptr, sizeof(PFTitlePlayerHandle), titlePlayerHandle, nullptr);
 }
 
 HRESULT PFAuthenticationClientLoginWithAppleAsync(
@@ -331,7 +331,7 @@ HRESULT PFAuthenticationClientLoginWithAppleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithApple, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithApple, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -344,7 +344,7 @@ HRESULT PFAuthenticationClientLoginWithCustomIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithCustomID, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithCustomID, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -357,7 +357,7 @@ HRESULT PFAuthenticationClientLoginWithEmailAddressAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithEmailAddress, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithEmailAddress, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -370,7 +370,7 @@ HRESULT PFAuthenticationClientLoginWithFacebookAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithFacebook, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithFacebook, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -383,7 +383,7 @@ HRESULT PFAuthenticationClientLoginWithFacebookInstantGamesIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithFacebookInstantGamesId, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithFacebookInstantGamesId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -396,7 +396,7 @@ HRESULT PFAuthenticationClientLoginWithGameCenterAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithGameCenter, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithGameCenter, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -409,7 +409,7 @@ HRESULT PFAuthenticationClientLoginWithGoogleAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithGoogleAccount, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithGoogleAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -422,7 +422,7 @@ HRESULT PFAuthenticationClientLoginWithIOSDeviceIDAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithIOSDeviceID, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithIOSDeviceID, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -435,7 +435,7 @@ HRESULT PFAuthenticationClientLoginWithKongregateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithKongregate, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithKongregate, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -448,7 +448,7 @@ HRESULT PFAuthenticationClientLoginWithNintendoServiceAccountAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithNintendoServiceAccount, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithNintendoServiceAccount, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -461,7 +461,7 @@ HRESULT PFAuthenticationClientLoginWithNintendoSwitchDeviceIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithNintendoSwitchDeviceId, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithNintendoSwitchDeviceId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -474,7 +474,7 @@ HRESULT PFAuthenticationClientLoginWithOpenIdConnectAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithOpenIdConnect, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithOpenIdConnect, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -487,7 +487,7 @@ HRESULT PFAuthenticationClientLoginWithPlayFabAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithPlayFab, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithPlayFab, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -500,7 +500,7 @@ HRESULT PFAuthenticationClientLoginWithPSNAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithPSN, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithPSN, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -513,7 +513,7 @@ HRESULT PFAuthenticationClientLoginWithSteamAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithSteam, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithSteam, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -526,7 +526,7 @@ HRESULT PFAuthenticationClientLoginWithTwitchAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithTwitch, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithTwitch, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -539,21 +539,21 @@ HRESULT PFAuthenticationClientLoginWithXboxAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithXbox, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientLoginWithXbox, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 #if HC_PLATFORM == HC_PLATFORM_GDK
 HRESULT PFAuthenticationLoginWithXUserAsync(
-    _In_ PFStateHandle stateHandle,
+    _In_ PFStateHandle contextHandle,
     _In_ const PFAuthenticationLoginWithXUserRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept
 {
-    RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
+    RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::LoginWithXUser, *request, stateHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::LoginWithXUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 #endif
@@ -567,20 +567,20 @@ HRESULT PFAuthenticationClientRegisterPlayFabUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientRegisterPlayFabUser, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientRegisterPlayFabUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAuthenticationClientRegisterPlayFabUserGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
+    _Out_ PFTitlePlayerHandle* entityHandle
 ) noexcept
 {
-    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
+    return XAsyncGetResult(async, nullptr, sizeof(PFTitlePlayerHandle), entityHandle, nullptr);
 }
 
 HRESULT PFAuthenticationClientSetPlayerSecretAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAuthenticationClientSetPlayerSecretRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -588,7 +588,7 @@ HRESULT PFAuthenticationClientSetPlayerSecretAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AuthenticationAPI::ClientSetPlayerSecret, &contextHandle->entity->authenticationAPI, ClientSetPlayerSecretRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ClientSetPlayerSecret, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -601,7 +601,7 @@ HRESULT PFAuthenticationServerAuthenticateSessionTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerAuthenticateSessionTicket, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerAuthenticateSessionTicket, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -628,16 +628,16 @@ HRESULT PFAuthenticationServerLoginWithServerCustomIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithServerCustomId, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithServerCustomId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAuthenticationServerLoginGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
+    _Out_ PFTitlePlayerHandle* titlePlayerHandle
 ) noexcept
 {
-    return XAsyncGetResult(async, nullptr, sizeof(PFEntityHandle), entityHandle, nullptr);
+    return XAsyncGetResult(async, nullptr, sizeof(PFTitlePlayerHandle), titlePlayerHandle, nullptr);
 }            
 
 HRESULT PFAuthenticationServerLoginWithSteamIdAsync(
@@ -649,7 +649,7 @@ HRESULT PFAuthenticationServerLoginWithSteamIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithSteamId, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithSteamId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -662,7 +662,7 @@ HRESULT PFAuthenticationServerLoginWithXboxAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithXbox, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithXbox, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -675,7 +675,7 @@ HRESULT PFAuthenticationServerLoginWithXboxIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithXboxId, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerLoginWithXboxId, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -688,7 +688,7 @@ HRESULT PFAuthenticationServerSetPlayerSecretAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerSetPlayerSecret, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ServerSetPlayerSecret, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -701,7 +701,7 @@ HRESULT PFAuthenticationGetEntityTokenAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::GetEntityToken, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeAuthProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::GetEntityToken, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -722,7 +722,7 @@ HRESULT PFAuthenticationValidateEntityTokenAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AuthenticationAPI::ValidateEntityToken, &contextHandle->entity->authenticationAPI, ValidateEntityTokenRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AuthenticationAPI::ValidateEntityToken, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

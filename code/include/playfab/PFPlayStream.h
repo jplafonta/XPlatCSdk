@@ -9,7 +9,7 @@
 
 #include <playfab/PFPlayStreamDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -226,14 +226,14 @@ HRESULT PFPlayStreamAdminRemovePlayerTagAsync(
 /// <summary>
 /// List all segments that a player currently belongs to at this moment in time.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// If successful, call <see cref="PFPlayStreamClientGetPlayerSegmentsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamClientGetPlayerSegmentsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _Inout_ XAsyncBlock* async
 ) noexcept;
 
@@ -257,7 +257,7 @@ HRESULT PFPlayStreamClientGetPlayerSegmentsGetResult(
 /// <summary>
 /// Get all tags with a given Namespace (optional) from a player profile.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -269,7 +269,7 @@ HRESULT PFPlayStreamClientGetPlayerSegmentsGetResult(
 /// If successful, call <see cref="PFPlayStreamClientGetPlayerTagsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayStreamClientGetPlayerTagsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayStreamGetPlayerTagsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -492,7 +492,7 @@ HRESULT PFPlayStreamServerRemovePlayerTagAsync(
 /// Write batches of entity based events to PlayStream. The namespace of the Event must be 'custom' or
 /// start with 'custom.'.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -526,7 +526,7 @@ HRESULT PFPlayStreamWriteEventsGetResult(
 /// Write batches of entity based events to as Telemetry events (bypass PlayStream). The namespace must
 /// be 'custom' or start with 'custom.'
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

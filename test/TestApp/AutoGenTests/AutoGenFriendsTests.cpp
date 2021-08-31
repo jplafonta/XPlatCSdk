@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenFriendsTests::FriendsTestData AutoGenFriendsTests::testData;
+
 void AutoGenFriendsTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,16 +29,21 @@ HRESULT AutoGenFriendsTests::LogHR(HRESULT hr)
 
 void AutoGenFriendsTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestFriendsClientAddFriend", &AutoGenFriendsTests::TestFriendsClientAddFriend);
+
     AddTest("TestFriendsClientGetFriendsList", &AutoGenFriendsTests::TestFriendsClientGetFriendsList);
+
     AddTest("TestFriendsClientRemoveFriend", &AutoGenFriendsTests::TestFriendsClientRemoveFriend);
+
     AddTest("TestFriendsClientSetFriendTags", &AutoGenFriendsTests::TestFriendsClientSetFriendTags);
+
     AddTest("TestFriendsServerAddFriend", &AutoGenFriendsTests::TestFriendsServerAddFriend);
+
     AddTest("TestFriendsServerGetFriendsList", &AutoGenFriendsTests::TestFriendsServerGetFriendsList);
+
     AddTest("TestFriendsServerRemoveFriend", &AutoGenFriendsTests::TestFriendsServerRemoveFriend);
+
     AddTest("TestFriendsServerSetFriendTags", &AutoGenFriendsTests::TestFriendsServerSetFriendTags);
 }
 
@@ -75,10 +82,52 @@ void AutoGenFriendsTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -87,10 +136,12 @@ void AutoGenFriendsTests::ClassSetUp()
 
 void AutoGenFriendsTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -109,6 +160,8 @@ void AutoGenFriendsTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region ClientAddFriend
 
 void AutoGenFriendsTests::TestFriendsClientAddFriend(TestContext& testContext)
 {
@@ -132,14 +185,19 @@ void AutoGenFriendsTests::TestFriendsClientAddFriend(TestContext& testContext)
     PlayFab::FriendsModels::ClientAddFriendRequest request;
     FillClientAddFriendRequest( &request );
     LogClientAddFriendRequest( &request, "TestFriendsClientAddFriend" );
-    HRESULT hr = PFFriendsClientAddFriendAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFFriendsClientAddFriendAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFFriendsFriendsClientAddFriendAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetFriendsList
+
 void AutoGenFriendsTests::TestFriendsClientGetFriendsList(TestContext& testContext)
 {
     struct ClientGetFriendsListResult : public XAsyncResult
@@ -162,14 +220,19 @@ void AutoGenFriendsTests::TestFriendsClientGetFriendsList(TestContext& testConte
     PlayFab::FriendsModels::ClientGetFriendsListRequest request;
     FillClientGetFriendsListRequest( &request );
     LogClientGetFriendsListRequest( &request, "TestFriendsClientGetFriendsList" );
-    HRESULT hr = PFFriendsClientGetFriendsListAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFFriendsClientGetFriendsListAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFFriendsFriendsClientGetFriendsListAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRemoveFriend
+
 void AutoGenFriendsTests::TestFriendsClientRemoveFriend(TestContext& testContext)
 {
     struct ClientRemoveFriendResult : public XAsyncResult
@@ -191,14 +254,19 @@ void AutoGenFriendsTests::TestFriendsClientRemoveFriend(TestContext& testContext
     PlayFab::FriendsModels::ClientRemoveFriendRequest request;
     FillClientRemoveFriendRequest( &request );
     LogClientRemoveFriendRequest( &request, "TestFriendsClientRemoveFriend" );
-    HRESULT hr = PFFriendsClientRemoveFriendAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFFriendsClientRemoveFriendAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFFriendsFriendsClientRemoveFriendAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientSetFriendTags
+
 void AutoGenFriendsTests::TestFriendsClientSetFriendTags(TestContext& testContext)
 {
     struct ClientSetFriendTagsResult : public XAsyncResult
@@ -220,14 +288,19 @@ void AutoGenFriendsTests::TestFriendsClientSetFriendTags(TestContext& testContex
     PlayFab::FriendsModels::ClientSetFriendTagsRequest request;
     FillClientSetFriendTagsRequest( &request );
     LogClientSetFriendTagsRequest( &request, "TestFriendsClientSetFriendTags" );
-    HRESULT hr = PFFriendsClientSetFriendTagsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFFriendsClientSetFriendTagsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFFriendsFriendsClientSetFriendTagsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAddFriend
+
 void AutoGenFriendsTests::TestFriendsServerAddFriend(TestContext& testContext)
 {
     struct ServerAddFriendResult : public XAsyncResult
@@ -256,7 +329,12 @@ void AutoGenFriendsTests::TestFriendsServerAddFriend(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetFriendsList
+
 void AutoGenFriendsTests::TestFriendsServerGetFriendsList(TestContext& testContext)
 {
     struct ServerGetFriendsListResult : public XAsyncResult
@@ -286,7 +364,12 @@ void AutoGenFriendsTests::TestFriendsServerGetFriendsList(TestContext& testConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRemoveFriend
+
 void AutoGenFriendsTests::TestFriendsServerRemoveFriend(TestContext& testContext)
 {
     struct ServerRemoveFriendResult : public XAsyncResult
@@ -315,7 +398,12 @@ void AutoGenFriendsTests::TestFriendsServerRemoveFriend(TestContext& testContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetFriendTags
+
 void AutoGenFriendsTests::TestFriendsServerSetFriendTags(TestContext& testContext)
 {
     struct ServerSetFriendTagsResult : public XAsyncResult
@@ -344,6 +432,9 @@ void AutoGenFriendsTests::TestFriendsServerSetFriendTags(TestContext& testContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

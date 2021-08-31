@@ -17,7 +17,7 @@ HRESULT PFPlayStreamAdminAddPlayerTagAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminAddPlayerTag, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminAddPlayerTag, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -28,7 +28,7 @@ HRESULT PFPlayStreamAdminGetAllSegmentsAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetAllSegments, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetAllSegments, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -55,7 +55,7 @@ HRESULT PFPlayStreamAdminGetPlayerSegmentsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetPlayerSegments, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetPlayerSegments, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -82,7 +82,7 @@ HRESULT PFPlayStreamAdminGetPlayersInSegmentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetPlayersInSegment, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetPlayersInSegment, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -109,7 +109,7 @@ HRESULT PFPlayStreamAdminGetPlayerTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetPlayerTags, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminGetPlayerTags, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -136,18 +136,18 @@ HRESULT PFPlayStreamAdminRemovePlayerTagAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminRemovePlayerTag, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::AdminRemovePlayerTag, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFPlayStreamClientGetPlayerSegmentsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ XAsyncBlock* async
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayStreamAPI::ClientGetPlayerSegments, &contextHandle->entity->playStreamAPI, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ClientGetPlayerSegments, contextHandle->titlePlayer, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -166,7 +166,7 @@ HRESULT PFPlayStreamClientGetPlayerSegmentsGetResult(
 }
 
 HRESULT PFPlayStreamClientGetPlayerTagsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayStreamGetPlayerTagsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -174,7 +174,7 @@ HRESULT PFPlayStreamClientGetPlayerTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayStreamAPI::ClientGetPlayerTags, &contextHandle->entity->playStreamAPI, GetPlayerTagsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ClientGetPlayerTags, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -201,7 +201,7 @@ HRESULT PFPlayStreamServerAddPlayerTagAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerAddPlayerTag, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerAddPlayerTag, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -212,7 +212,7 @@ HRESULT PFPlayStreamServerGetAllSegmentsAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetAllSegments, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetAllSegments, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -239,7 +239,7 @@ HRESULT PFPlayStreamServerGetPlayerSegmentsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetPlayerSegments, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetPlayerSegments, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -266,7 +266,7 @@ HRESULT PFPlayStreamServerGetPlayersInSegmentAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetPlayersInSegment, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetPlayersInSegment, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -293,7 +293,7 @@ HRESULT PFPlayStreamServerGetPlayerTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetPlayerTags, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerGetPlayerTags, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -320,7 +320,7 @@ HRESULT PFPlayStreamServerRemovePlayerTagAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerRemovePlayerTag, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::ServerRemovePlayerTag, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -333,7 +333,7 @@ HRESULT PFPlayStreamWriteEventsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayStreamAPI::WriteEvents, &contextHandle->entity->playStreamAPI, WriteEventsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::WriteEvents, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -360,7 +360,7 @@ HRESULT PFPlayStreamWriteTelemetryEventsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayStreamAPI::WriteTelemetryEvents, &contextHandle->entity->playStreamAPI, WriteEventsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayStreamAPI::WriteTelemetryEvents, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

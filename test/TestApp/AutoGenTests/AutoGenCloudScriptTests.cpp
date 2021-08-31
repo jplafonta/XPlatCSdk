@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenCloudScriptTests::CloudScriptTestData AutoGenCloudScriptTests::testData;
+
 void AutoGenCloudScriptTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,26 +29,41 @@ HRESULT AutoGenCloudScriptTests::LogHR(HRESULT hr)
 
 void AutoGenCloudScriptTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestCloudScriptAdminGetCloudScriptRevision", &AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptRevision);
+
     AddTest("TestCloudScriptAdminGetCloudScriptVersions", &AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptVersions);
+
     AddTest("TestCloudScriptAdminSetPublishedRevision", &AutoGenCloudScriptTests::TestCloudScriptAdminSetPublishedRevision);
+
     AddTest("TestCloudScriptAdminUpdateCloudScript", &AutoGenCloudScriptTests::TestCloudScriptAdminUpdateCloudScript);
+
     AddTest("TestCloudScriptClientExecuteCloudScript", &AutoGenCloudScriptTests::TestCloudScriptClientExecuteCloudScript);
+
     AddTest("TestCloudScriptServerExecuteCloudScript", &AutoGenCloudScriptTests::TestCloudScriptServerExecuteCloudScript);
+
     AddTest("TestCloudScriptExecuteEntityCloudScript", &AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript);
+
     AddTest("TestCloudScriptExecuteFunction", &AutoGenCloudScriptTests::TestCloudScriptExecuteFunction);
+
     AddTest("TestCloudScriptListFunctions", &AutoGenCloudScriptTests::TestCloudScriptListFunctions);
+
     AddTest("TestCloudScriptListHttpFunctions", &AutoGenCloudScriptTests::TestCloudScriptListHttpFunctions);
+
     AddTest("TestCloudScriptListQueuedFunctions", &AutoGenCloudScriptTests::TestCloudScriptListQueuedFunctions);
+
     AddTest("TestCloudScriptPostFunctionResultForEntityTriggeredAction", &AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForEntityTriggeredAction);
+
     AddTest("TestCloudScriptPostFunctionResultForFunctionExecution", &AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForFunctionExecution);
+
     AddTest("TestCloudScriptPostFunctionResultForPlayerTriggeredAction", &AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForPlayerTriggeredAction);
+
     AddTest("TestCloudScriptPostFunctionResultForScheduledTask", &AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForScheduledTask);
+
     AddTest("TestCloudScriptRegisterHttpFunction", &AutoGenCloudScriptTests::TestCloudScriptRegisterHttpFunction);
+
     AddTest("TestCloudScriptRegisterQueuedFunction", &AutoGenCloudScriptTests::TestCloudScriptRegisterQueuedFunction);
+
     AddTest("TestCloudScriptUnregisterFunction", &AutoGenCloudScriptTests::TestCloudScriptUnregisterFunction);
 }
 
@@ -85,10 +102,52 @@ void AutoGenCloudScriptTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -97,10 +156,12 @@ void AutoGenCloudScriptTests::ClassSetUp()
 
 void AutoGenCloudScriptTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -119,6 +180,8 @@ void AutoGenCloudScriptTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminGetCloudScriptRevision
 
 void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptRevision(TestContext& testContext)
 {
@@ -149,7 +212,12 @@ void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptRevision(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetCloudScriptVersions
+
 void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptVersions(TestContext& testContext)
 {
     struct AdminGetCloudScriptVersionsResult : public XAsyncResult
@@ -176,7 +244,12 @@ void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptVersions(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetPublishedRevision
+
 void AutoGenCloudScriptTests::TestCloudScriptAdminSetPublishedRevision(TestContext& testContext)
 {
     struct AdminSetPublishedRevisionResult : public XAsyncResult
@@ -205,7 +278,12 @@ void AutoGenCloudScriptTests::TestCloudScriptAdminSetPublishedRevision(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateCloudScript
+
 void AutoGenCloudScriptTests::TestCloudScriptAdminUpdateCloudScript(TestContext& testContext)
 {
     struct AdminUpdateCloudScriptResult : public XAsyncResult
@@ -235,7 +313,12 @@ void AutoGenCloudScriptTests::TestCloudScriptAdminUpdateCloudScript(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientExecuteCloudScript
+
 void AutoGenCloudScriptTests::TestCloudScriptClientExecuteCloudScript(TestContext& testContext)
 {
     struct ClientExecuteCloudScriptResult : public XAsyncResult
@@ -258,14 +341,19 @@ void AutoGenCloudScriptTests::TestCloudScriptClientExecuteCloudScript(TestContex
     PlayFab::CloudScriptModels::ExecuteCloudScriptRequest request;
     FillExecuteCloudScriptRequest( &request );
     LogExecuteCloudScriptRequest( &request, "TestCloudScriptClientExecuteCloudScript" );
-    HRESULT hr = PFCloudScriptClientExecuteCloudScriptAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCloudScriptClientExecuteCloudScriptAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCloudScriptCloudScriptClientExecuteCloudScriptAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerExecuteCloudScript
+
 void AutoGenCloudScriptTests::TestCloudScriptServerExecuteCloudScript(TestContext& testContext)
 {
     struct ServerExecuteCloudScriptResult : public XAsyncResult
@@ -295,7 +383,12 @@ void AutoGenCloudScriptTests::TestCloudScriptServerExecuteCloudScript(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ExecuteEntityCloudScript
+
 void AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript(TestContext& testContext)
 {
     struct ExecuteEntityCloudScriptResult : public XAsyncResult
@@ -325,7 +418,12 @@ void AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ExecuteFunction
+
 void AutoGenCloudScriptTests::TestCloudScriptExecuteFunction(TestContext& testContext)
 {
     struct ExecuteFunctionResult : public XAsyncResult
@@ -355,7 +453,12 @@ void AutoGenCloudScriptTests::TestCloudScriptExecuteFunction(TestContext& testCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListFunctions
+
 void AutoGenCloudScriptTests::TestCloudScriptListFunctions(TestContext& testContext)
 {
     struct ListFunctionsResult : public XAsyncResult
@@ -385,7 +488,12 @@ void AutoGenCloudScriptTests::TestCloudScriptListFunctions(TestContext& testCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListHttpFunctions
+
 void AutoGenCloudScriptTests::TestCloudScriptListHttpFunctions(TestContext& testContext)
 {
     struct ListHttpFunctionsResult : public XAsyncResult
@@ -415,7 +523,12 @@ void AutoGenCloudScriptTests::TestCloudScriptListHttpFunctions(TestContext& test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListQueuedFunctions
+
 void AutoGenCloudScriptTests::TestCloudScriptListQueuedFunctions(TestContext& testContext)
 {
     struct ListQueuedFunctionsResult : public XAsyncResult
@@ -445,7 +558,12 @@ void AutoGenCloudScriptTests::TestCloudScriptListQueuedFunctions(TestContext& te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region PostFunctionResultForEntityTriggeredAction
+
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForEntityTriggeredAction(TestContext& testContext)
 {
     struct PostFunctionResultForEntityTriggeredActionResult : public XAsyncResult
@@ -474,7 +592,12 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForEntityTriggere
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region PostFunctionResultForFunctionExecution
+
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForFunctionExecution(TestContext& testContext)
 {
     struct PostFunctionResultForFunctionExecutionResult : public XAsyncResult
@@ -503,7 +626,12 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForFunctionExecut
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region PostFunctionResultForPlayerTriggeredAction
+
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForPlayerTriggeredAction(TestContext& testContext)
 {
     struct PostFunctionResultForPlayerTriggeredActionResult : public XAsyncResult
@@ -532,7 +660,12 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForPlayerTriggere
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region PostFunctionResultForScheduledTask
+
 void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForScheduledTask(TestContext& testContext)
 {
     struct PostFunctionResultForScheduledTaskResult : public XAsyncResult
@@ -561,7 +694,12 @@ void AutoGenCloudScriptTests::TestCloudScriptPostFunctionResultForScheduledTask(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region RegisterHttpFunction
+
 void AutoGenCloudScriptTests::TestCloudScriptRegisterHttpFunction(TestContext& testContext)
 {
     struct RegisterHttpFunctionResult : public XAsyncResult
@@ -590,7 +728,12 @@ void AutoGenCloudScriptTests::TestCloudScriptRegisterHttpFunction(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region RegisterQueuedFunction
+
 void AutoGenCloudScriptTests::TestCloudScriptRegisterQueuedFunction(TestContext& testContext)
 {
     struct RegisterQueuedFunctionResult : public XAsyncResult
@@ -619,7 +762,12 @@ void AutoGenCloudScriptTests::TestCloudScriptRegisterQueuedFunction(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UnregisterFunction
+
 void AutoGenCloudScriptTests::TestCloudScriptUnregisterFunction(TestContext& testContext)
 {
     struct UnregisterFunctionResult : public XAsyncResult
@@ -648,6 +796,9 @@ void AutoGenCloudScriptTests::TestCloudScriptUnregisterFunction(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

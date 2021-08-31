@@ -1,6 +1,7 @@
 #pragma once
 
 #include <playfab/PFGlobal.h>
+#include "TaskQueue.h"
 
 namespace PlayFab
 {
@@ -15,7 +16,7 @@ public:
     CallbackManager& operator=(const CallbackManager&) = delete;
     ~CallbackManager() = default;
 
-    PFRegistrationToken Register(CallbackT&& callback);
+    PFRegistrationToken Register(TaskQueue&& queue, CallbackT&& callback);
     void Unregister(PFRegistrationToken token);
 
     template<typename... Args>
@@ -24,7 +25,13 @@ public:
 private:
     mutable std::recursive_mutex m_mutex; // recursive to allow unregistration within callback
 
-    Map<PFRegistrationToken, CallbackT> m_callbacks;
+    struct CallbackContext
+    {
+        TaskQueue queue;
+        CallbackT callback;
+    };
+
+    Map<PFRegistrationToken, CallbackContext> m_callbacks;
     PFRegistrationToken m_nextToken;
 };
 
@@ -45,7 +52,7 @@ CallbackManager<CallbackT>::CallbackManager() : m_nextToken{ Detail::kFirstCallb
 }
 
 template<typename CallbackT>
-PFRegistrationToken CallbackManager<CallbackT>::Register(CallbackT&& callback)
+PFRegistrationToken CallbackManager<CallbackT>::Register(TaskQueue&& queue, CallbackT&& callback)
 {
     std::unique_lock<std::recursive_mutex> lock{ m_mutex };
 
@@ -53,7 +60,7 @@ PFRegistrationToken CallbackManager<CallbackT>::Register(CallbackT&& callback)
 
     PFRegistrationToken token{ m_nextToken++ };
 
-    auto res = m_callbacks.emplace(token, std::move(callback));
+    auto res = m_callbacks.emplace(token, CallbackContext{ std::move(queue), std::move(callback) });
     assert(res.second);
     UNREFERENCED_PARAMETER(res.second);
 
@@ -81,7 +88,11 @@ typename std::enable_if_t<std::is_void_v<std::result_of_t<CallbackT(Args...)>>> 
 
     for (auto& pair : callbacks)
     {
-        pair.second(args...);
+        auto& callbackContext{ pair.second };
+        callbackContext.queue.RunCompletion([callbackBinder{ std::bind(callbackContext.callback, args...) }]
+        {
+            callbackBinder();
+        });
     }
 }
 

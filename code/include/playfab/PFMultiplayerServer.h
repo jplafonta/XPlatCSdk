@@ -9,7 +9,7 @@
 
 #include <playfab/PFMultiplayerServerDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -18,7 +18,7 @@ extern "C"
 /// <summary>
 /// Creates a multiplayer server build alias.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -56,7 +56,7 @@ HRESULT PFMultiplayerServerCreateBuildAliasGetResult(
 /// <summary>
 /// Creates a multiplayer server build with a custom container.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -96,7 +96,7 @@ HRESULT PFMultiplayerServerCreateBuildWithCustomContainerGetResult(
 /// <summary>
 /// Creates a multiplayer server build with a managed container.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -135,7 +135,7 @@ HRESULT PFMultiplayerServerCreateBuildWithManagedContainerGetResult(
 /// <summary>
 /// Creates a multiplayer server build with the server running as a process.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -175,7 +175,7 @@ HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerGetResult(
 /// <summary>
 /// Creates a remote user to log on to a VM for a multiplayer server build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -214,7 +214,7 @@ HRESULT PFMultiplayerServerCreateRemoteUserGetResult(
 /// <summary>
 /// Creates a request to change a title's multiplayer server quotas.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -267,7 +267,7 @@ HRESULT PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeGetResult(
 /// <summary>
 /// Deletes a multiplayer server game asset for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -288,7 +288,7 @@ HRESULT PFMultiplayerServerDeleteAssetAsync(
 /// <summary>
 /// Deletes a multiplayer server build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -309,7 +309,7 @@ HRESULT PFMultiplayerServerDeleteBuildAsync(
 /// <summary>
 /// Deletes a multiplayer server build alias.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -330,7 +330,7 @@ HRESULT PFMultiplayerServerDeleteBuildAliasAsync(
 /// <summary>
 /// Removes a multiplayer server build's region.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -351,7 +351,7 @@ HRESULT PFMultiplayerServerDeleteBuildRegionAsync(
 /// <summary>
 /// Deletes a multiplayer server game certificate.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -372,7 +372,7 @@ HRESULT PFMultiplayerServerDeleteCertificateAsync(
 /// <summary>
 /// Deletes a container image repository.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -394,7 +394,7 @@ HRESULT PFMultiplayerServerDeleteContainerImageRepositoryAsync(
 /// <summary>
 /// Deletes a remote user to log on to a VM for a multiplayer server build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -416,7 +416,7 @@ HRESULT PFMultiplayerServerDeleteRemoteUserAsync(
 /// <summary>
 /// Enables the multiplayer server feature for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -454,9 +454,9 @@ HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleGetResult(
 #endif
 
 /// <summary>
-/// Gets a URL that can be used to download the specified asset. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
+/// Gets a URL that can be used to download the specified asset. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=startDate&se=endDate&spr=https&sig=sampleSig&api-version=2017-07-29
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -505,9 +505,9 @@ HRESULT PFMultiplayerServerGetAssetDownloadUrlGetResult(
 
 #if HC_PLATFORM != HC_PLATFORM_GDK
 /// <summary>
-/// Gets the URL to upload assets to. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=<startDate>&se=<endDate>&spr=https&sig=<sampleSig>&api-version=2017-07-29
+/// Gets the URL to upload assets to. A sample pre-authenticated url - https://sampleStorageAccount.blob.core.windows.net/gameassets/gameserver.zip?sv=2015-04-05&ss=b&srt=sco&sp=rw&st=startDate&se=endDate&spr=https&sig=sampleSig&api-version=2017-07-29
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -559,7 +559,7 @@ HRESULT PFMultiplayerServerGetAssetUploadUrlGetResult(
 /// <summary>
 /// Gets a multiplayer server build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -597,7 +597,7 @@ HRESULT PFMultiplayerServerGetBuildGetResult(
 /// <summary>
 /// Gets a multiplayer server build alias.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -635,7 +635,7 @@ HRESULT PFMultiplayerServerGetBuildAliasGetResult(
 /// <summary>
 /// Gets the credentials to the container registry.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -688,7 +688,7 @@ HRESULT PFMultiplayerServerGetContainerRegistryCredentialsGetResult(
 /// <summary>
 /// Gets multiplayer server session details for a build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -726,7 +726,7 @@ HRESULT PFMultiplayerServerGetMultiplayerServerDetailsGetResult(
 /// <summary>
 /// Gets multiplayer server logs after a server has terminated.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -779,7 +779,7 @@ HRESULT PFMultiplayerServerGetMultiplayerServerLogsGetResult(
 /// <summary>
 /// Gets multiplayer server logs after a server has terminated.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -832,7 +832,7 @@ HRESULT PFMultiplayerServerGetMultiplayerSessionLogsBySessionIdGetResult(
 /// <summary>
 /// Gets a remote login endpoint to a VM that is hosting a multiplayer server build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -884,7 +884,7 @@ HRESULT PFMultiplayerServerGetRemoteLoginEndpointGetResult(
 /// <summary>
 /// Gets the status of whether a title is enabled for the multiplayer server feature.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -923,7 +923,7 @@ HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusGetResult(
 /// <summary>
 /// Gets a title's server quota change request.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -962,7 +962,7 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeGetResult(
 /// <summary>
 /// Gets the quotas for a title in relation to multiplayer servers.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1000,7 +1000,7 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasGetResult(
 /// <summary>
 /// Lists archived multiplayer server sessions for a build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1038,7 +1038,7 @@ HRESULT PFMultiplayerServerListArchivedMultiplayerServersGetResult(
 /// <summary>
 /// Lists multiplayer server game assets for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1077,7 +1077,7 @@ HRESULT PFMultiplayerServerListAssetSummariesGetResult(
 /// Lists details of all build aliases for a title. Accepts tokens for title and if game client access
 /// is enabled, allows game client to request list of builds with player entity token.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1117,7 +1117,7 @@ HRESULT PFMultiplayerServerListBuildAliasesGetResult(
 /// if game client access is enabled, allows game client to request list of builds with player entity
 /// token.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1155,7 +1155,7 @@ HRESULT PFMultiplayerServerListBuildSummariesV2GetResult(
 /// <summary>
 /// Lists multiplayer server game certificates for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1194,7 +1194,7 @@ HRESULT PFMultiplayerServerListCertificateSummariesGetResult(
 /// <summary>
 /// Lists custom container images for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1232,7 +1232,7 @@ HRESULT PFMultiplayerServerListContainerImagesGetResult(
 /// <summary>
 /// Lists the tags for a custom container image.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1270,7 +1270,7 @@ HRESULT PFMultiplayerServerListContainerImageTagsGetResult(
 /// <summary>
 /// Lists multiplayer server sessions for a build.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1342,7 +1342,7 @@ HRESULT PFMultiplayerServerListPartyQosServersGetResult(
 /// Lists quality of service servers for the title. By default, servers are only returned for regions
 /// where a Multiplayer Servers build has been deployed.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1378,7 +1378,7 @@ HRESULT PFMultiplayerServerListQosServersForTitleGetResult(
 /// <summary>
 /// List all server quota change requests for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1417,7 +1417,7 @@ HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesGetResult(
 /// <summary>
 /// Lists virtual machines for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1455,7 +1455,7 @@ HRESULT PFMultiplayerServerListVirtualMachineSummariesGetResult(
 /// Request a multiplayer server session. Accepts tokens for title and if game client access is enabled,
 /// allows game client to request a server with player entity token.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1493,7 +1493,7 @@ HRESULT PFMultiplayerServerRequestMultiplayerServerGetResult(
 /// <summary>
 /// Rolls over the credentials to the container registry.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1545,7 +1545,7 @@ HRESULT PFMultiplayerServerRolloverContainerRegistryCredentialsGetResult(
 /// <summary>
 /// Shuts down a multiplayer server session.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1567,7 +1567,7 @@ HRESULT PFMultiplayerServerShutdownMultiplayerServerAsync(
 /// <summary>
 /// Untags a container image.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1589,7 +1589,7 @@ HRESULT PFMultiplayerServerUntagContainerImageAsync(
 /// <summary>
 /// Creates a multiplayer server build alias.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1627,7 +1627,7 @@ HRESULT PFMultiplayerServerUpdateBuildAliasGetResult(
 /// <summary>
 /// Updates a multiplayer server build's name.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1648,7 +1648,7 @@ HRESULT PFMultiplayerServerUpdateBuildNameAsync(
 /// <summary>
 /// Updates a multiplayer server build's region. If the region is not yet created, it will be created
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1669,7 +1669,7 @@ HRESULT PFMultiplayerServerUpdateBuildRegionAsync(
 /// <summary>
 /// Updates a multiplayer server build's regions.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1690,7 +1690,7 @@ HRESULT PFMultiplayerServerUpdateBuildRegionsAsync(
 /// <summary>
 /// Uploads a multiplayer server game certificate.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

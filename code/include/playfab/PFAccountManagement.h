@@ -9,7 +9,7 @@
 
 #include <playfab/PFAccountManagementDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -649,7 +649,7 @@ HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameGetResult(
 /// should never be used as authentication credentials, as the intent is that it is easily accessible
 /// by other players.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -659,7 +659,7 @@ HRESULT PFAccountManagementAdminUpdateUserTitleDisplayNameGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientAddGenericIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientAddGenericIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -667,7 +667,7 @@ HRESULT PFAccountManagementClientAddGenericIDAsync(
 /// <summary>
 /// Adds or updates a contact email to the player's profile.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -678,7 +678,7 @@ HRESULT PFAccountManagementClientAddGenericIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementAddOrUpdateContactEmailRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -687,7 +687,7 @@ HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
 /// Adds playfab username/password auth to an existing account created via an anonymous auth method,
 /// e.g. automatic device ID login.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -698,7 +698,7 @@ HRESULT PFAccountManagementClientAddOrUpdateContactEmailAsync(
 /// result.
 /// </remarks>
 HRESULT PFAccountManagementClientAddUsernamePasswordAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementAddUsernamePasswordRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -737,7 +737,7 @@ HRESULT PFAccountManagementClientAddUsernamePasswordGetResult(
 /// <summary>
 /// Retrieves the user's PlayFab account details
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -745,7 +745,7 @@ HRESULT PFAccountManagementClientAddUsernamePasswordGetResult(
 /// If successful, call <see cref="PFAccountManagementClientGetAccountInfoGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetAccountInfoAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetAccountInfoRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -770,7 +770,7 @@ HRESULT PFAccountManagementClientGetAccountInfoGetResult(
 /// <summary>
 /// Retrieves all of the user's different kinds of info.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -779,7 +779,7 @@ HRESULT PFAccountManagementClientGetAccountInfoGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayerCombinedInfoAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFGetPlayerCombinedInfoRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -804,7 +804,7 @@ HRESULT PFAccountManagementClientGetPlayerCombinedInfoGetResult(
 /// <summary>
 /// Retrieves the player's profile
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -818,7 +818,7 @@ HRESULT PFAccountManagementClientGetPlayerCombinedInfoGetResult(
 /// If successful, call <see cref="PFAccountManagementClientGetPlayerProfileGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayerProfileAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayerProfileRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -843,7 +843,7 @@ HRESULT PFAccountManagementClientGetPlayerProfileGetResult(
 /// <summary>
 /// Retrieves the unique PlayFab identifiers for the given set of Facebook identifiers.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -852,7 +852,7 @@ HRESULT PFAccountManagementClientGetPlayerProfileGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -877,7 +877,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(
 /// <summary>
 /// Retrieves the unique PlayFab identifiers for the given set of Facebook Instant Game identifiers.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -886,7 +886,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -912,7 +912,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResu
 /// Retrieves the unique PlayFab identifiers for the given set of Game Center identifiers (referenced
 /// in the Game Center Programming Guide as the Player Identifier).
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -921,7 +921,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResu
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -948,7 +948,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(
 /// identifier is the service name plus the service-specific ID for the player, as specified by the title
 /// when the generic identifier was added to the player account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -959,7 +959,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -985,7 +985,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(
 /// Retrieves the unique PlayFab identifiers for the given set of Google identifiers. The Google identifiers
 /// are the IDs for the user accounts, available as 'id' in the Google+ People API calls.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -994,7 +994,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1021,7 +1021,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(
 /// identifiers are the IDs for the user accounts, available as 'user_id' from the Kongregate API methods(ex:
 /// http://developers.kongregate.com/docs/client/getUserId).
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1030,7 +1030,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1055,7 +1055,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(
 /// <summary>
 /// Retrieves the unique PlayFab identifiers for the given set of Nintendo Switch identifiers.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1064,7 +1064,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1089,7 +1089,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResu
 /// <summary>
 /// Retrieves the unique PlayFab identifiers for the given set of PlayStation Network identifiers.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1098,7 +1098,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResu
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1124,7 +1124,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(
 /// Retrieves the unique PlayFab identifiers for the given set of Steam identifiers. The Steam identifiers
 /// are the profile IDs for the user accounts, available as SteamId in the Steamworks Community API calls.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1133,7 +1133,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1159,7 +1159,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(
 /// Retrieves the unique PlayFab identifiers for the given set of Twitch identifiers. The Twitch identifiers
 /// are the IDs for the user accounts, available as '_id' from the Twitch API methods (ex: https://github.com/justintv/Twitch-API/blob/master/v3_resources/users.md#get-usersuser).
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1168,7 +1168,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1193,7 +1193,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(
 /// <summary>
 /// Retrieves the unique PlayFab identifiers for the given set of XboxLive identifiers.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1202,7 +1202,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1228,7 +1228,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(
 /// <summary>
 /// Links the Android device identifier to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1238,7 +1238,7 @@ HRESULT PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkAndroidDeviceIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1248,7 +1248,7 @@ HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
 /// <summary>
 /// Links the Apple account associated with the token to the user's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1258,7 +1258,7 @@ HRESULT PFAccountManagementClientLinkAndroidDeviceIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkAppleAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkAppleRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1267,7 +1267,7 @@ HRESULT PFAccountManagementClientLinkAppleAsync(
 /// <summary>
 /// Links the custom identifier, generated by the title, to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1277,7 +1277,7 @@ HRESULT PFAccountManagementClientLinkAppleAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkCustomIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkCustomIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1287,7 +1287,7 @@ HRESULT PFAccountManagementClientLinkCustomIDAsync(
 /// Links the Facebook account associated with the provided Facebook access token to the user's PlayFab
 /// account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1304,7 +1304,7 @@ HRESULT PFAccountManagementClientLinkCustomIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkFacebookAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1314,7 +1314,7 @@ HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
 /// <summary>
 /// Links the Facebook Instant Games Id to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1324,7 +1324,7 @@ HRESULT PFAccountManagementClientLinkFacebookAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkFacebookInstantGamesIdRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1338,7 +1338,7 @@ HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
 /// on all Game Center calls by going to the Apple Add-ons page in the PlayFab Game Manager and enabling
 /// the 'Require secure authentication only for this app' option.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1348,7 +1348,7 @@ HRESULT PFAccountManagementClientLinkFacebookInstantGamesIdAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkGameCenterAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1358,7 +1358,7 @@ HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
 /// <summary>
 /// Links the currently signed-in user account to their Google account, using their Google account credentials
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1370,7 +1370,7 @@ HRESULT PFAccountManagementClientLinkGameCenterAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkGoogleAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1380,7 +1380,7 @@ HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
 /// <summary>
 /// Links the vendor-specific iOS device identifier to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1390,7 +1390,7 @@ HRESULT PFAccountManagementClientLinkGoogleAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkIOSDeviceIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1400,7 +1400,7 @@ HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
 /// <summary>
 /// Links the Kongregate identifier to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1410,7 +1410,7 @@ HRESULT PFAccountManagementClientLinkIOSDeviceIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkKongregateAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkKongregateAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1420,7 +1420,7 @@ HRESULT PFAccountManagementClientLinkKongregateAsync(
 /// <summary>
 /// Links the Nintendo account associated with the token to the user's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1430,7 +1430,7 @@ HRESULT PFAccountManagementClientLinkKongregateAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkNintendoServiceAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1440,7 +1440,7 @@ HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
 /// <summary>
 /// Links the NintendoSwitchDeviceId to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1450,7 +1450,7 @@ HRESULT PFAccountManagementClientLinkNintendoServiceAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkNintendoSwitchDeviceIdRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1460,7 +1460,7 @@ HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
 /// Links an OpenID Connect account to a user's PlayFab account, based on an existing relationship between
 /// a title and an Open ID Connect provider and the OpenId Connect JWT from that provider.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1470,7 +1470,7 @@ HRESULT PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkOpenIdConnectRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1480,7 +1480,7 @@ HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
 /// Links the PlayStation Network account associated with the provided access code to the user's PlayFab
 /// account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1490,7 +1490,7 @@ HRESULT PFAccountManagementClientLinkOpenIdConnectAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkPSNAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientLinkPSNAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1501,7 +1501,7 @@ HRESULT PFAccountManagementClientLinkPSNAccountAsync(
 /// Links the Steam account associated with the provided Steam authentication ticket to the user's PlayFab
 /// account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1516,7 +1516,7 @@ HRESULT PFAccountManagementClientLinkPSNAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkSteamAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkSteamAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1526,7 +1526,7 @@ HRESULT PFAccountManagementClientLinkSteamAccountAsync(
 /// <summary>
 /// Links the Twitch account associated with the token to the user's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1536,7 +1536,7 @@ HRESULT PFAccountManagementClientLinkSteamAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkTwitchAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementLinkTwitchAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1545,7 +1545,7 @@ HRESULT PFAccountManagementClientLinkTwitchAsync(
 /// <summary>
 /// Links the Xbox Live account associated with the provided access code to the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1555,7 +1555,7 @@ HRESULT PFAccountManagementClientLinkTwitchAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientLinkXboxAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientLinkXboxAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1563,7 +1563,7 @@ HRESULT PFAccountManagementClientLinkXboxAccountAsync(
 /// <summary>
 /// Removes a contact email from the player's profile.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1573,7 +1573,7 @@ HRESULT PFAccountManagementClientLinkXboxAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientRemoveContactEmailAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementRemoveContactEmailRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1581,7 +1581,7 @@ HRESULT PFAccountManagementClientRemoveContactEmailAsync(
 /// <summary>
 /// Removes the specified generic service identifier from the player's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1591,7 +1591,7 @@ HRESULT PFAccountManagementClientRemoveContactEmailAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientRemoveGenericIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientRemoveGenericIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1600,7 +1600,7 @@ HRESULT PFAccountManagementClientRemoveGenericIDAsync(
 /// Submit a report for another player (due to bad bahavior, etc.), so that customer service representatives
 /// for the title can take action concerning potentially toxic players.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1608,7 +1608,7 @@ HRESULT PFAccountManagementClientRemoveGenericIDAsync(
 /// If successful, call <see cref="PFAccountManagementClientReportPlayerGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientReportPlayerAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementReportPlayerClientRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1650,7 +1650,7 @@ HRESULT PFAccountManagementClientSendAccountRecoveryEmailAsync(
 /// <summary>
 /// Unlinks the related Android device identifier from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1660,7 +1660,7 @@ HRESULT PFAccountManagementClientSendAccountRecoveryEmailAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkAndroidDeviceIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1670,7 +1670,7 @@ HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
 /// <summary>
 /// Unlinks the related Apple account from the user's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1680,7 +1680,7 @@ HRESULT PFAccountManagementClientUnlinkAndroidDeviceIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkAppleAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkAppleRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1689,7 +1689,7 @@ HRESULT PFAccountManagementClientUnlinkAppleAsync(
 /// <summary>
 /// Unlinks the related custom identifier from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1699,7 +1699,7 @@ HRESULT PFAccountManagementClientUnlinkAppleAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkCustomIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1708,7 +1708,7 @@ HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
 /// <summary>
 /// Unlinks the related Facebook account from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1718,7 +1718,7 @@ HRESULT PFAccountManagementClientUnlinkCustomIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkFacebookAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1728,7 +1728,7 @@ HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
 /// <summary>
 /// Unlinks the related Facebook Instant Game Ids from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1738,7 +1738,7 @@ HRESULT PFAccountManagementClientUnlinkFacebookAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkFacebookInstantGamesIdRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1748,7 +1748,7 @@ HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
 /// <summary>
 /// Unlinks the related Game Center account from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1758,7 +1758,7 @@ HRESULT PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkGameCenterAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1768,7 +1768,7 @@ HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
 /// <summary>
 /// Unlinks the related Google account from the user's PlayFab account (https://developers.google.com/android/reference/com/google/android/gms/auth/GoogleAuthUtil#public-methods).
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1778,7 +1778,7 @@ HRESULT PFAccountManagementClientUnlinkGameCenterAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkGoogleAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1788,7 +1788,7 @@ HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
 /// <summary>
 /// Unlinks the related iOS device identifier from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1798,7 +1798,7 @@ HRESULT PFAccountManagementClientUnlinkGoogleAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkIOSDeviceIDRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1808,7 +1808,7 @@ HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
 /// <summary>
 /// Unlinks the related Kongregate identifier from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1818,7 +1818,7 @@ HRESULT PFAccountManagementClientUnlinkIOSDeviceIDAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkKongregateAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkKongregateAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1828,7 +1828,7 @@ HRESULT PFAccountManagementClientUnlinkKongregateAsync(
 /// <summary>
 /// Unlinks the related Nintendo account from the user's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1838,7 +1838,7 @@ HRESULT PFAccountManagementClientUnlinkKongregateAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkNintendoServiceAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1848,7 +1848,7 @@ HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
 /// <summary>
 /// Unlinks the related NintendoSwitchDeviceId from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1858,7 +1858,7 @@ HRESULT PFAccountManagementClientUnlinkNintendoServiceAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1868,7 +1868,7 @@ HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
 /// Unlinks an OpenID Connect account from a user's PlayFab account, based on the connection ID of an
 /// existing relationship between a title and an Open ID Connect provider.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1878,7 +1878,7 @@ HRESULT PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkOpenIdConnectRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1887,7 +1887,7 @@ HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
 /// <summary>
 /// Unlinks the related PSN account from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1897,7 +1897,7 @@ HRESULT PFAccountManagementClientUnlinkOpenIdConnectAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientUnlinkPSNAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1907,7 +1907,7 @@ HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
 /// <summary>
 /// Unlinks the related Steam account from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1917,7 +1917,7 @@ HRESULT PFAccountManagementClientUnlinkPSNAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkSteamAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1927,7 +1927,7 @@ HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
 /// <summary>
 /// Unlinks the related Twitch account from the user's PlayFab account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1937,7 +1937,7 @@ HRESULT PFAccountManagementClientUnlinkSteamAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkTwitchAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementUnlinkTwitchAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1946,7 +1946,7 @@ HRESULT PFAccountManagementClientUnlinkTwitchAsync(
 /// <summary>
 /// Unlinks the related Xbox Live account from the user's PlayFab account
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1956,7 +1956,7 @@ HRESULT PFAccountManagementClientUnlinkTwitchAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientUnlinkXboxAccountRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1964,7 +1964,7 @@ HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
 /// <summary>
 /// Update the avatar URL of the player
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1972,7 +1972,7 @@ HRESULT PFAccountManagementClientUnlinkXboxAccountAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientUpdateAvatarUrlRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1980,7 +1980,7 @@ HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
 /// <summary>
 /// Updates the title specific display name for the user
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1993,7 +1993,7 @@ HRESULT PFAccountManagementClientUpdateAvatarUrlAsync(
 /// get the result.
 /// </remarks>
 HRESULT PFAccountManagementClientUpdateUserTitleDisplayNameAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAccountManagementClientUpdateUserTitleDisplayNameRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -2903,7 +2903,7 @@ HRESULT PFAccountManagementServerUpdateBansGetResult(
 /// <summary>
 /// Gets the global title access policy 
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -2940,7 +2940,7 @@ HRESULT PFAccountManagementGetGlobalPolicyGetResult(
 /// <summary>
 /// Retrieves the entity's profile.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -2979,7 +2979,7 @@ HRESULT PFAccountManagementGetProfileGetResult(
 /// <summary>
 /// Retrieves the entity's profile.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -3016,7 +3016,7 @@ HRESULT PFAccountManagementGetProfilesGetResult(
 /// <summary>
 /// Retrieves the title player accounts associated with the given master player account.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -3053,7 +3053,7 @@ HRESULT PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResult(
 /// <summary>
 /// Sets the global title access policy 
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -3075,7 +3075,7 @@ HRESULT PFAccountManagementSetGlobalPolicyAsync(
 /// Player Account language, Master Player Account language, and then title default language if the first
 /// two aren't set or supported.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -3111,7 +3111,7 @@ HRESULT PFAccountManagementSetProfileLanguageGetResult(
 /// <summary>
 /// Sets the profiles access policy
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

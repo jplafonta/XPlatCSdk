@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenCharacterTests::CharacterTestData AutoGenCharacterTests::testData;
+
 void AutoGenCharacterTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,33 +29,55 @@ HRESULT AutoGenCharacterTests::LogHR(HRESULT hr)
 
 void AutoGenCharacterTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestCharacterAdminResetCharacterStatistics", &AutoGenCharacterTests::TestCharacterAdminResetCharacterStatistics);
+
     AddTest("TestCharacterClientGetAllUsersCharacters", &AutoGenCharacterTests::TestCharacterClientGetAllUsersCharacters);
+
     AddTest("TestCharacterClientGetCharacterData", &AutoGenCharacterTests::TestCharacterClientGetCharacterData);
+
     AddTest("TestCharacterClientGetCharacterLeaderboard", &AutoGenCharacterTests::TestCharacterClientGetCharacterLeaderboard);
+
     AddTest("TestCharacterClientGetCharacterReadOnlyData", &AutoGenCharacterTests::TestCharacterClientGetCharacterReadOnlyData);
+
     AddTest("TestCharacterClientGetCharacterStatistics", &AutoGenCharacterTests::TestCharacterClientGetCharacterStatistics);
+
     AddTest("TestCharacterClientGetLeaderboardAroundCharacter", &AutoGenCharacterTests::TestCharacterClientGetLeaderboardAroundCharacter);
+
     AddTest("TestCharacterClientGetLeaderboardForUserCharacters", &AutoGenCharacterTests::TestCharacterClientGetLeaderboardForUserCharacters);
+
     AddTest("TestCharacterClientGrantCharacterToUser", &AutoGenCharacterTests::TestCharacterClientGrantCharacterToUser);
+
     AddTest("TestCharacterClientUpdateCharacterData", &AutoGenCharacterTests::TestCharacterClientUpdateCharacterData);
+
     AddTest("TestCharacterClientUpdateCharacterStatistics", &AutoGenCharacterTests::TestCharacterClientUpdateCharacterStatistics);
+
     AddTest("TestCharacterServerDeleteCharacterFromUser", &AutoGenCharacterTests::TestCharacterServerDeleteCharacterFromUser);
+
     AddTest("TestCharacterServerGetAllUsersCharacters", &AutoGenCharacterTests::TestCharacterServerGetAllUsersCharacters);
+
     AddTest("TestCharacterServerGetCharacterData", &AutoGenCharacterTests::TestCharacterServerGetCharacterData);
+
     AddTest("TestCharacterServerGetCharacterInternalData", &AutoGenCharacterTests::TestCharacterServerGetCharacterInternalData);
+
     AddTest("TestCharacterServerGetCharacterLeaderboard", &AutoGenCharacterTests::TestCharacterServerGetCharacterLeaderboard);
+
     AddTest("TestCharacterServerGetCharacterReadOnlyData", &AutoGenCharacterTests::TestCharacterServerGetCharacterReadOnlyData);
+
     AddTest("TestCharacterServerGetCharacterStatistics", &AutoGenCharacterTests::TestCharacterServerGetCharacterStatistics);
+
     AddTest("TestCharacterServerGetLeaderboardAroundCharacter", &AutoGenCharacterTests::TestCharacterServerGetLeaderboardAroundCharacter);
+
     AddTest("TestCharacterServerGetLeaderboardForUserCharacters", &AutoGenCharacterTests::TestCharacterServerGetLeaderboardForUserCharacters);
+
     AddTest("TestCharacterServerGrantCharacterToUser", &AutoGenCharacterTests::TestCharacterServerGrantCharacterToUser);
+
     AddTest("TestCharacterServerUpdateCharacterData", &AutoGenCharacterTests::TestCharacterServerUpdateCharacterData);
+
     AddTest("TestCharacterServerUpdateCharacterInternalData", &AutoGenCharacterTests::TestCharacterServerUpdateCharacterInternalData);
+
     AddTest("TestCharacterServerUpdateCharacterReadOnlyData", &AutoGenCharacterTests::TestCharacterServerUpdateCharacterReadOnlyData);
+
     AddTest("TestCharacterServerUpdateCharacterStatistics", &AutoGenCharacterTests::TestCharacterServerUpdateCharacterStatistics);
 }
 
@@ -92,10 +116,52 @@ void AutoGenCharacterTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -104,10 +170,12 @@ void AutoGenCharacterTests::ClassSetUp()
 
 void AutoGenCharacterTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -126,6 +194,8 @@ void AutoGenCharacterTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminResetCharacterStatistics
 
 void AutoGenCharacterTests::TestCharacterAdminResetCharacterStatistics(TestContext& testContext)
 {
@@ -155,7 +225,12 @@ void AutoGenCharacterTests::TestCharacterAdminResetCharacterStatistics(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetAllUsersCharacters
+
 void AutoGenCharacterTests::TestCharacterClientGetAllUsersCharacters(TestContext& testContext)
 {
     struct ClientGetAllUsersCharactersResult : public XAsyncResult
@@ -178,14 +253,19 @@ void AutoGenCharacterTests::TestCharacterClientGetAllUsersCharacters(TestContext
     PlayFab::CharacterModels::ListUsersCharactersRequest request;
     FillListUsersCharactersRequest( &request );
     LogListUsersCharactersRequest( &request, "TestCharacterClientGetAllUsersCharacters" );
-    HRESULT hr = PFCharacterClientGetAllUsersCharactersAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetAllUsersCharactersAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetAllUsersCharactersAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCharacterData
+
 void AutoGenCharacterTests::TestCharacterClientGetCharacterData(TestContext& testContext)
 {
     struct ClientGetCharacterDataResult : public XAsyncResult
@@ -208,14 +288,19 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterData(TestContext& tes
     PlayFab::CharacterModels::GetCharacterDataRequest request;
     FillGetCharacterDataRequest( &request );
     LogGetCharacterDataRequest( &request, "TestCharacterClientGetCharacterData" );
-    HRESULT hr = PFCharacterClientGetCharacterDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetCharacterDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetCharacterDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCharacterLeaderboard
+
 void AutoGenCharacterTests::TestCharacterClientGetCharacterLeaderboard(TestContext& testContext)
 {
     struct ClientGetCharacterLeaderboardResult : public XAsyncResult
@@ -238,14 +323,19 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterLeaderboard(TestConte
     PlayFab::CharacterModels::GetCharacterLeaderboardRequest request;
     FillGetCharacterLeaderboardRequest( &request );
     LogGetCharacterLeaderboardRequest( &request, "TestCharacterClientGetCharacterLeaderboard" );
-    HRESULT hr = PFCharacterClientGetCharacterLeaderboardAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetCharacterLeaderboardAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetCharacterLeaderboardAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCharacterReadOnlyData
+
 void AutoGenCharacterTests::TestCharacterClientGetCharacterReadOnlyData(TestContext& testContext)
 {
     struct ClientGetCharacterReadOnlyDataResult : public XAsyncResult
@@ -268,14 +358,19 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterReadOnlyData(TestCont
     PlayFab::CharacterModels::GetCharacterDataRequest request;
     FillGetCharacterDataRequest( &request );
     LogGetCharacterDataRequest( &request, "TestCharacterClientGetCharacterReadOnlyData" );
-    HRESULT hr = PFCharacterClientGetCharacterReadOnlyDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetCharacterReadOnlyDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetCharacterReadOnlyDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCharacterStatistics
+
 void AutoGenCharacterTests::TestCharacterClientGetCharacterStatistics(TestContext& testContext)
 {
     struct ClientGetCharacterStatisticsResult : public XAsyncResult
@@ -298,14 +393,19 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterStatistics(TestContex
     PlayFab::CharacterModels::ClientGetCharacterStatisticsRequest request;
     FillClientGetCharacterStatisticsRequest( &request );
     LogClientGetCharacterStatisticsRequest( &request, "TestCharacterClientGetCharacterStatistics" );
-    HRESULT hr = PFCharacterClientGetCharacterStatisticsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetCharacterStatisticsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetCharacterStatisticsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetLeaderboardAroundCharacter
+
 void AutoGenCharacterTests::TestCharacterClientGetLeaderboardAroundCharacter(TestContext& testContext)
 {
     struct ClientGetLeaderboardAroundCharacterResult : public XAsyncResult
@@ -328,14 +428,19 @@ void AutoGenCharacterTests::TestCharacterClientGetLeaderboardAroundCharacter(Tes
     PlayFab::CharacterModels::ClientGetLeaderboardAroundCharacterRequest request;
     FillClientGetLeaderboardAroundCharacterRequest( &request );
     LogClientGetLeaderboardAroundCharacterRequest( &request, "TestCharacterClientGetLeaderboardAroundCharacter" );
-    HRESULT hr = PFCharacterClientGetLeaderboardAroundCharacterAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetLeaderboardAroundCharacterAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetLeaderboardAroundCharacterAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetLeaderboardForUserCharacters
+
 void AutoGenCharacterTests::TestCharacterClientGetLeaderboardForUserCharacters(TestContext& testContext)
 {
     struct ClientGetLeaderboardForUserCharactersResult : public XAsyncResult
@@ -358,14 +463,19 @@ void AutoGenCharacterTests::TestCharacterClientGetLeaderboardForUserCharacters(T
     PlayFab::CharacterModels::ClientGetLeaderboardForUsersCharactersRequest request;
     FillClientGetLeaderboardForUsersCharactersRequest( &request );
     LogClientGetLeaderboardForUsersCharactersRequest( &request, "TestCharacterClientGetLeaderboardForUserCharacters" );
-    HRESULT hr = PFCharacterClientGetLeaderboardForUserCharactersAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGetLeaderboardForUserCharactersAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGetLeaderboardForUserCharactersAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGrantCharacterToUser
+
 void AutoGenCharacterTests::TestCharacterClientGrantCharacterToUser(TestContext& testContext)
 {
     struct ClientGrantCharacterToUserResult : public XAsyncResult
@@ -392,14 +502,19 @@ void AutoGenCharacterTests::TestCharacterClientGrantCharacterToUser(TestContext&
     PlayFab::CharacterModels::ClientGrantCharacterToUserRequest request;
     FillClientGrantCharacterToUserRequest( &request );
     LogClientGrantCharacterToUserRequest( &request, "TestCharacterClientGrantCharacterToUser" );
-    HRESULT hr = PFCharacterClientGrantCharacterToUserAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientGrantCharacterToUserAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientGrantCharacterToUserAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdateCharacterData
+
 void AutoGenCharacterTests::TestCharacterClientUpdateCharacterData(TestContext& testContext)
 {
     struct ClientUpdateCharacterDataResult : public XAsyncResult
@@ -422,14 +537,19 @@ void AutoGenCharacterTests::TestCharacterClientUpdateCharacterData(TestContext& 
     PlayFab::CharacterModels::ClientUpdateCharacterDataRequest request;
     FillClientUpdateCharacterDataRequest( &request );
     LogClientUpdateCharacterDataRequest( &request, "TestCharacterClientUpdateCharacterData" );
-    HRESULT hr = PFCharacterClientUpdateCharacterDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientUpdateCharacterDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientUpdateCharacterDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdateCharacterStatistics
+
 void AutoGenCharacterTests::TestCharacterClientUpdateCharacterStatistics(TestContext& testContext)
 {
     struct ClientUpdateCharacterStatisticsResult : public XAsyncResult
@@ -451,14 +571,19 @@ void AutoGenCharacterTests::TestCharacterClientUpdateCharacterStatistics(TestCon
     PlayFab::CharacterModels::ClientUpdateCharacterStatisticsRequest request;
     FillClientUpdateCharacterStatisticsRequest( &request );
     LogClientUpdateCharacterStatisticsRequest( &request, "TestCharacterClientUpdateCharacterStatistics" );
-    HRESULT hr = PFCharacterClientUpdateCharacterStatisticsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFCharacterClientUpdateCharacterStatisticsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFCharacterCharacterClientUpdateCharacterStatisticsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerDeleteCharacterFromUser
+
 void AutoGenCharacterTests::TestCharacterServerDeleteCharacterFromUser(TestContext& testContext)
 {
     struct ServerDeleteCharacterFromUserResult : public XAsyncResult
@@ -487,7 +612,12 @@ void AutoGenCharacterTests::TestCharacterServerDeleteCharacterFromUser(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetAllUsersCharacters
+
 void AutoGenCharacterTests::TestCharacterServerGetAllUsersCharacters(TestContext& testContext)
 {
     struct ServerGetAllUsersCharactersResult : public XAsyncResult
@@ -517,7 +647,12 @@ void AutoGenCharacterTests::TestCharacterServerGetAllUsersCharacters(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCharacterData
+
 void AutoGenCharacterTests::TestCharacterServerGetCharacterData(TestContext& testContext)
 {
     struct ServerGetCharacterDataResult : public XAsyncResult
@@ -547,7 +682,12 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterData(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCharacterInternalData
+
 void AutoGenCharacterTests::TestCharacterServerGetCharacterInternalData(TestContext& testContext)
 {
     struct ServerGetCharacterInternalDataResult : public XAsyncResult
@@ -577,7 +717,12 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterInternalData(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCharacterLeaderboard
+
 void AutoGenCharacterTests::TestCharacterServerGetCharacterLeaderboard(TestContext& testContext)
 {
     struct ServerGetCharacterLeaderboardResult : public XAsyncResult
@@ -607,7 +752,12 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterLeaderboard(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCharacterReadOnlyData
+
 void AutoGenCharacterTests::TestCharacterServerGetCharacterReadOnlyData(TestContext& testContext)
 {
     struct ServerGetCharacterReadOnlyDataResult : public XAsyncResult
@@ -637,7 +787,12 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterReadOnlyData(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCharacterStatistics
+
 void AutoGenCharacterTests::TestCharacterServerGetCharacterStatistics(TestContext& testContext)
 {
     struct ServerGetCharacterStatisticsResult : public XAsyncResult
@@ -667,7 +822,12 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterStatistics(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetLeaderboardAroundCharacter
+
 void AutoGenCharacterTests::TestCharacterServerGetLeaderboardAroundCharacter(TestContext& testContext)
 {
     struct ServerGetLeaderboardAroundCharacterResult : public XAsyncResult
@@ -697,7 +857,12 @@ void AutoGenCharacterTests::TestCharacterServerGetLeaderboardAroundCharacter(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetLeaderboardForUserCharacters
+
 void AutoGenCharacterTests::TestCharacterServerGetLeaderboardForUserCharacters(TestContext& testContext)
 {
     struct ServerGetLeaderboardForUserCharactersResult : public XAsyncResult
@@ -727,7 +892,12 @@ void AutoGenCharacterTests::TestCharacterServerGetLeaderboardForUserCharacters(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGrantCharacterToUser
+
 void AutoGenCharacterTests::TestCharacterServerGrantCharacterToUser(TestContext& testContext)
 {
     struct ServerGrantCharacterToUserResult : public XAsyncResult
@@ -761,7 +931,12 @@ void AutoGenCharacterTests::TestCharacterServerGrantCharacterToUser(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateCharacterData
+
 void AutoGenCharacterTests::TestCharacterServerUpdateCharacterData(TestContext& testContext)
 {
     struct ServerUpdateCharacterDataResult : public XAsyncResult
@@ -791,7 +966,12 @@ void AutoGenCharacterTests::TestCharacterServerUpdateCharacterData(TestContext& 
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateCharacterInternalData
+
 void AutoGenCharacterTests::TestCharacterServerUpdateCharacterInternalData(TestContext& testContext)
 {
     struct ServerUpdateCharacterInternalDataResult : public XAsyncResult
@@ -821,7 +1001,12 @@ void AutoGenCharacterTests::TestCharacterServerUpdateCharacterInternalData(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateCharacterReadOnlyData
+
 void AutoGenCharacterTests::TestCharacterServerUpdateCharacterReadOnlyData(TestContext& testContext)
 {
     struct ServerUpdateCharacterReadOnlyDataResult : public XAsyncResult
@@ -851,7 +1036,12 @@ void AutoGenCharacterTests::TestCharacterServerUpdateCharacterReadOnlyData(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateCharacterStatistics
+
 void AutoGenCharacterTests::TestCharacterServerUpdateCharacterStatistics(TestContext& testContext)
 {
     struct ServerUpdateCharacterStatisticsResult : public XAsyncResult
@@ -880,6 +1070,9 @@ void AutoGenCharacterTests::TestCharacterServerUpdateCharacterStatistics(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

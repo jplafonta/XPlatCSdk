@@ -17,7 +17,7 @@ HRESULT PFMultiplayerServerCreateBuildAliasAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::CreateBuildAlias, &contextHandle->entity->multiplayerServerAPI, CreateBuildAliasRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::CreateBuildAlias, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -44,7 +44,7 @@ HRESULT PFMultiplayerServerCreateBuildWithCustomContainerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::CreateBuildWithCustomContainer, &contextHandle->entity->multiplayerServerAPI, CreateBuildWithCustomContainerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::CreateBuildWithCustomContainer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -71,7 +71,7 @@ HRESULT PFMultiplayerServerCreateBuildWithManagedContainerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::CreateBuildWithManagedContainer, &contextHandle->entity->multiplayerServerAPI, CreateBuildWithManagedContainerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::CreateBuildWithManagedContainer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -98,7 +98,7 @@ HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::CreateBuildWithProcessBasedServer, &contextHandle->entity->multiplayerServerAPI, CreateBuildWithProcessBasedServerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::CreateBuildWithProcessBasedServer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -125,7 +125,7 @@ HRESULT PFMultiplayerServerCreateRemoteUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::CreateRemoteUser, &contextHandle->entity->multiplayerServerAPI, CreateRemoteUserRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::CreateRemoteUser, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -152,7 +152,7 @@ HRESULT PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::CreateTitleMultiplayerServersQuotaChange, &contextHandle->entity->multiplayerServerAPI, CreateTitleMultiplayerServersQuotaChangeRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::CreateTitleMultiplayerServersQuotaChange, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -189,7 +189,7 @@ HRESULT PFMultiplayerServerDeleteAssetAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteAsset, &contextHandle->entity->multiplayerServerAPI, DeleteAssetRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteAsset, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -202,7 +202,7 @@ HRESULT PFMultiplayerServerDeleteBuildAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteBuild, &contextHandle->entity->multiplayerServerAPI, DeleteBuildRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteBuild, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -215,7 +215,7 @@ HRESULT PFMultiplayerServerDeleteBuildAliasAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteBuildAlias, &contextHandle->entity->multiplayerServerAPI, DeleteBuildAliasRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteBuildAlias, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -228,7 +228,7 @@ HRESULT PFMultiplayerServerDeleteBuildRegionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteBuildRegion, &contextHandle->entity->multiplayerServerAPI, DeleteBuildRegionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteBuildRegion, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -241,7 +241,7 @@ HRESULT PFMultiplayerServerDeleteCertificateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteCertificate, &contextHandle->entity->multiplayerServerAPI, DeleteCertificateRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteCertificate, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -254,7 +254,7 @@ HRESULT PFMultiplayerServerDeleteContainerImageRepositoryAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteContainerImageRepository, &contextHandle->entity->multiplayerServerAPI, DeleteContainerImageRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteContainerImageRepository, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -267,7 +267,7 @@ HRESULT PFMultiplayerServerDeleteRemoteUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::DeleteRemoteUser, &contextHandle->entity->multiplayerServerAPI, DeleteRemoteUserRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::DeleteRemoteUser, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -280,7 +280,7 @@ HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::EnableMultiplayerServersForTitle, &contextHandle->entity->multiplayerServerAPI, EnableMultiplayerServersForTitleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::EnableMultiplayerServersForTitle, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -307,7 +307,7 @@ HRESULT PFMultiplayerServerGetAssetDownloadUrlAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetAssetDownloadUrl, &contextHandle->entity->multiplayerServerAPI, GetAssetDownloadUrlRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetAssetDownloadUrl, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -344,7 +344,7 @@ HRESULT PFMultiplayerServerGetAssetUploadUrlAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetAssetUploadUrl, &contextHandle->entity->multiplayerServerAPI, GetAssetUploadUrlRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetAssetUploadUrl, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -381,7 +381,7 @@ HRESULT PFMultiplayerServerGetBuildAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetBuild, &contextHandle->entity->multiplayerServerAPI, GetBuildRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetBuild, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -408,7 +408,7 @@ HRESULT PFMultiplayerServerGetBuildAliasAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetBuildAlias, &contextHandle->entity->multiplayerServerAPI, GetBuildAliasRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetBuildAlias, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -435,7 +435,7 @@ HRESULT PFMultiplayerServerGetContainerRegistryCredentialsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetContainerRegistryCredentials, &contextHandle->entity->multiplayerServerAPI, GetContainerRegistryCredentialsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetContainerRegistryCredentials, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -472,7 +472,7 @@ HRESULT PFMultiplayerServerGetMultiplayerServerDetailsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetMultiplayerServerDetails, &contextHandle->entity->multiplayerServerAPI, GetMultiplayerServerDetailsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetMultiplayerServerDetails, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -499,7 +499,7 @@ HRESULT PFMultiplayerServerGetMultiplayerServerLogsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetMultiplayerServerLogs, &contextHandle->entity->multiplayerServerAPI, GetMultiplayerServerLogsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetMultiplayerServerLogs, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -536,7 +536,7 @@ HRESULT PFMultiplayerServerGetMultiplayerSessionLogsBySessionIdAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetMultiplayerSessionLogsBySessionId, &contextHandle->entity->multiplayerServerAPI, GetMultiplayerSessionLogsBySessionIdRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetMultiplayerSessionLogsBySessionId, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -573,7 +573,7 @@ HRESULT PFMultiplayerServerGetRemoteLoginEndpointAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetRemoteLoginEndpoint, &contextHandle->entity->multiplayerServerAPI, GetRemoteLoginEndpointRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetRemoteLoginEndpoint, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -610,7 +610,7 @@ HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetTitleEnabledForMultiplayerServersStatus, &contextHandle->entity->multiplayerServerAPI, GetTitleEnabledForMultiplayerServersStatusRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetTitleEnabledForMultiplayerServersStatus, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -637,7 +637,7 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetTitleMultiplayerServersQuotaChange, &contextHandle->entity->multiplayerServerAPI, GetTitleMultiplayerServersQuotaChangeRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetTitleMultiplayerServersQuotaChange, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -664,7 +664,7 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::GetTitleMultiplayerServersQuotas, &contextHandle->entity->multiplayerServerAPI, GetTitleMultiplayerServersQuotasRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::GetTitleMultiplayerServersQuotas, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -691,7 +691,7 @@ HRESULT PFMultiplayerServerListArchivedMultiplayerServersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListArchivedMultiplayerServers, &contextHandle->entity->multiplayerServerAPI, ListMultiplayerServersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListArchivedMultiplayerServers, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -718,7 +718,7 @@ HRESULT PFMultiplayerServerListAssetSummariesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListAssetSummaries, &contextHandle->entity->multiplayerServerAPI, ListAssetSummariesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListAssetSummaries, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -745,7 +745,7 @@ HRESULT PFMultiplayerServerListBuildAliasesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListBuildAliases, &contextHandle->entity->multiplayerServerAPI, ListBuildAliasesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListBuildAliases, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -772,7 +772,7 @@ HRESULT PFMultiplayerServerListBuildSummariesV2Async(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListBuildSummariesV2, &contextHandle->entity->multiplayerServerAPI, ListBuildSummariesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListBuildSummariesV2, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -799,7 +799,7 @@ HRESULT PFMultiplayerServerListCertificateSummariesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListCertificateSummaries, &contextHandle->entity->multiplayerServerAPI, ListCertificateSummariesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListCertificateSummaries, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -826,7 +826,7 @@ HRESULT PFMultiplayerServerListContainerImagesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListContainerImages, &contextHandle->entity->multiplayerServerAPI, ListContainerImagesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListContainerImages, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -853,7 +853,7 @@ HRESULT PFMultiplayerServerListContainerImageTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListContainerImageTags, &contextHandle->entity->multiplayerServerAPI, ListContainerImageTagsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListContainerImageTags, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -880,7 +880,7 @@ HRESULT PFMultiplayerServerListMultiplayerServersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListMultiplayerServers, &contextHandle->entity->multiplayerServerAPI, ListMultiplayerServersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListMultiplayerServers, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -907,7 +907,7 @@ HRESULT PFMultiplayerServerListPartyQosServersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListPartyQosServers, *request, contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListPartyQosServers, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -934,7 +934,7 @@ HRESULT PFMultiplayerServerListQosServersForTitleAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListQosServersForTitle, &contextHandle->entity->multiplayerServerAPI, ListQosServersForTitleRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListQosServersForTitle, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -961,7 +961,7 @@ HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListTitleMultiplayerServersQuotaChanges, &contextHandle->entity->multiplayerServerAPI, ListTitleMultiplayerServersQuotaChangesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListTitleMultiplayerServersQuotaChanges, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -988,7 +988,7 @@ HRESULT PFMultiplayerServerListVirtualMachineSummariesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ListVirtualMachineSummaries, &contextHandle->entity->multiplayerServerAPI, ListVirtualMachineSummariesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ListVirtualMachineSummaries, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1015,7 +1015,7 @@ HRESULT PFMultiplayerServerRequestMultiplayerServerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::RequestMultiplayerServer, &contextHandle->entity->multiplayerServerAPI, RequestMultiplayerServerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::RequestMultiplayerServer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1042,7 +1042,7 @@ HRESULT PFMultiplayerServerRolloverContainerRegistryCredentialsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::RolloverContainerRegistryCredentials, &contextHandle->entity->multiplayerServerAPI, RolloverContainerRegistryCredentialsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::RolloverContainerRegistryCredentials, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1079,7 +1079,7 @@ HRESULT PFMultiplayerServerShutdownMultiplayerServerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::ShutdownMultiplayerServer, &contextHandle->entity->multiplayerServerAPI, ShutdownMultiplayerServerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::ShutdownMultiplayerServer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1092,7 +1092,7 @@ HRESULT PFMultiplayerServerUntagContainerImageAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::UntagContainerImage, &contextHandle->entity->multiplayerServerAPI, UntagContainerImageRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::UntagContainerImage, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1105,7 +1105,7 @@ HRESULT PFMultiplayerServerUpdateBuildAliasAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::UpdateBuildAlias, &contextHandle->entity->multiplayerServerAPI, UpdateBuildAliasRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::UpdateBuildAlias, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1132,7 +1132,7 @@ HRESULT PFMultiplayerServerUpdateBuildNameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::UpdateBuildName, &contextHandle->entity->multiplayerServerAPI, UpdateBuildNameRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::UpdateBuildName, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1145,7 +1145,7 @@ HRESULT PFMultiplayerServerUpdateBuildRegionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::UpdateBuildRegion, &contextHandle->entity->multiplayerServerAPI, UpdateBuildRegionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::UpdateBuildRegion, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1158,7 +1158,7 @@ HRESULT PFMultiplayerServerUpdateBuildRegionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::UpdateBuildRegions, &contextHandle->entity->multiplayerServerAPI, UpdateBuildRegionsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::UpdateBuildRegions, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1171,7 +1171,7 @@ HRESULT PFMultiplayerServerUploadCertificateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MultiplayerServerAPI::UploadCertificate, &contextHandle->entity->multiplayerServerAPI, UploadCertificateRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MultiplayerServerAPI::UploadCertificate, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

@@ -9,7 +9,7 @@
 
 #include <playfab/PFFriendsDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -19,7 +19,7 @@ extern "C"
 /// of the local user. At least one of FriendPlayFabId,FriendUsername,FriendEmail, or FriendTitleDisplayName
 /// should be initialized.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -29,7 +29,7 @@ extern "C"
 /// If successful, call <see cref="PFFriendsClientAddFriendGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFFriendsClientAddFriendAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFFriendsClientAddFriendRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -50,7 +50,7 @@ HRESULT PFFriendsClientAddFriendGetResult(
 /// Friends from linked accounts (Facebook, Steam) are also included. You may optionally exclude some
 /// linked services' friends.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -60,7 +60,7 @@ HRESULT PFFriendsClientAddFriendGetResult(
 /// If successful, call <see cref="PFFriendsClientGetFriendsListGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFFriendsClientGetFriendsListAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFFriendsClientGetFriendsListRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -85,7 +85,7 @@ HRESULT PFFriendsClientGetFriendsListGetResult(
 /// <summary>
 /// Removes a specified user from the friend list of the local user
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -95,7 +95,7 @@ HRESULT PFFriendsClientGetFriendsListGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsClientRemoveFriendAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFFriendsClientRemoveFriendRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -103,7 +103,7 @@ HRESULT PFFriendsClientRemoveFriendAsync(
 /// <summary>
 /// Updates the tag list for a specified user in the friend list of the local user
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -116,7 +116,7 @@ HRESULT PFFriendsClientRemoveFriendAsync(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFFriendsClientSetFriendTagsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFFriendsClientSetFriendTagsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

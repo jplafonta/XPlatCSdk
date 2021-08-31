@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenGameServerTests::GameServerTestData AutoGenGameServerTests::testData;
+
 void AutoGenGameServerTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,14 +29,17 @@ HRESULT AutoGenGameServerTests::LogHR(HRESULT hr)
 
 void AutoGenGameServerTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestGameServerAdminAddServerBuild", &AutoGenGameServerTests::TestGameServerAdminAddServerBuild);
+
     AddTest("TestGameServerAdminGetServerBuildInfo", &AutoGenGameServerTests::TestGameServerAdminGetServerBuildInfo);
+
     AddTest("TestGameServerAdminGetServerBuildUploadUrl", &AutoGenGameServerTests::TestGameServerAdminGetServerBuildUploadUrl);
+
     AddTest("TestGameServerAdminListServerBuilds", &AutoGenGameServerTests::TestGameServerAdminListServerBuilds);
+
     AddTest("TestGameServerAdminModifyServerBuild", &AutoGenGameServerTests::TestGameServerAdminModifyServerBuild);
+
     AddTest("TestGameServerAdminRemoveServerBuild", &AutoGenGameServerTests::TestGameServerAdminRemoveServerBuild);
 }
 
@@ -73,10 +78,52 @@ void AutoGenGameServerTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -85,10 +132,12 @@ void AutoGenGameServerTests::ClassSetUp()
 
 void AutoGenGameServerTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -107,6 +156,8 @@ void AutoGenGameServerTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminAddServerBuild
 
 void AutoGenGameServerTests::TestGameServerAdminAddServerBuild(TestContext& testContext)
 {
@@ -137,7 +188,12 @@ void AutoGenGameServerTests::TestGameServerAdminAddServerBuild(TestContext& test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetServerBuildInfo
+
 void AutoGenGameServerTests::TestGameServerAdminGetServerBuildInfo(TestContext& testContext)
 {
     struct AdminGetServerBuildInfoResult : public XAsyncResult
@@ -167,7 +223,12 @@ void AutoGenGameServerTests::TestGameServerAdminGetServerBuildInfo(TestContext& 
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetServerBuildUploadUrl
+
 void AutoGenGameServerTests::TestGameServerAdminGetServerBuildUploadUrl(TestContext& testContext)
 {
     struct AdminGetServerBuildUploadUrlResult : public XAsyncResult
@@ -201,7 +262,12 @@ void AutoGenGameServerTests::TestGameServerAdminGetServerBuildUploadUrl(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminListServerBuilds
+
 void AutoGenGameServerTests::TestGameServerAdminListServerBuilds(TestContext& testContext)
 {
     struct AdminListServerBuildsResult : public XAsyncResult
@@ -228,7 +294,12 @@ void AutoGenGameServerTests::TestGameServerAdminListServerBuilds(TestContext& te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminModifyServerBuild
+
 void AutoGenGameServerTests::TestGameServerAdminModifyServerBuild(TestContext& testContext)
 {
     struct AdminModifyServerBuildResult : public XAsyncResult
@@ -258,7 +329,12 @@ void AutoGenGameServerTests::TestGameServerAdminModifyServerBuild(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRemoveServerBuild
+
 void AutoGenGameServerTests::TestGameServerAdminRemoveServerBuild(TestContext& testContext)
 {
     struct AdminRemoveServerBuildResult : public XAsyncResult
@@ -287,6 +363,9 @@ void AutoGenGameServerTests::TestGameServerAdminRemoveServerBuild(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

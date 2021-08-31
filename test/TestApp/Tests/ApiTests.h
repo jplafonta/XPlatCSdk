@@ -3,6 +3,7 @@
 #include "TestCase.h"
 #include <playfab/PFGlobal.h>
 #include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 namespace PlayFabUnit
 {
@@ -34,6 +35,7 @@ protected:
 
 public:
     PFStateHandle stateHandle{ nullptr };
+    PFTitlePlayerHandle titlePlayerHandle{ nullptr };
     PFEntityHandle entityHandle{ nullptr };
 
     void ClassSetUp() override;

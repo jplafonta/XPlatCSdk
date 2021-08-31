@@ -9,8 +9,6 @@ uint32_t g_AnalyticsTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenAnalyticsTests::LogDeviceInfoRequest( PlayFab::AnalyticsModels::DeviceInfoRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

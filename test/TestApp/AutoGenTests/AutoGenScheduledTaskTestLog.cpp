@@ -9,8 +9,6 @@ uint32_t g_ScheduledTaskTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenScheduledTaskTests::LogAbortTaskInstanceRequest( PlayFab::ScheduledTaskModels::AbortTaskInstanceRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

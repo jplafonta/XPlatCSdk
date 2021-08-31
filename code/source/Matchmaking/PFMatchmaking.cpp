@@ -17,7 +17,7 @@ HRESULT PFMatchmakingAdminGetMatchmakerGameInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AdminGetMatchmakerGameInfo, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AdminGetMatchmakerGameInfo, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -44,7 +44,7 @@ HRESULT PFMatchmakingAdminGetMatchmakerGameModesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AdminGetMatchmakerGameModes, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AdminGetMatchmakerGameModes, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -71,12 +71,12 @@ HRESULT PFMatchmakingAdminModifyMatchmakerGameModesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AdminModifyMatchmakerGameModes, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AdminModifyMatchmakerGameModes, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFMatchmakingClientGetCurrentGamesAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFMatchmakingCurrentGamesRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -84,7 +84,7 @@ HRESULT PFMatchmakingClientGetCurrentGamesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::ClientGetCurrentGames, &contextHandle->entity->matchmakingAPI, CurrentGamesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ClientGetCurrentGames, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -103,7 +103,7 @@ HRESULT PFMatchmakingClientGetCurrentGamesGetResult(
 }
 
 HRESULT PFMatchmakingClientGetGameServerRegionsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFMatchmakingGameServerRegionsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -111,7 +111,7 @@ HRESULT PFMatchmakingClientGetGameServerRegionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::ClientGetGameServerRegions, &contextHandle->entity->matchmakingAPI, GameServerRegionsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ClientGetGameServerRegions, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -130,7 +130,7 @@ HRESULT PFMatchmakingClientGetGameServerRegionsGetResult(
 }
 
 HRESULT PFMatchmakingClientMatchmakeAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFMatchmakingMatchmakeRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -138,7 +138,7 @@ HRESULT PFMatchmakingClientMatchmakeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::ClientMatchmake, &contextHandle->entity->matchmakingAPI, MatchmakeRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ClientMatchmake, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -157,7 +157,7 @@ HRESULT PFMatchmakingClientMatchmakeGetResult(
 }
 
 HRESULT PFMatchmakingClientStartGameAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFMatchmakingClientStartGameRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -165,7 +165,7 @@ HRESULT PFMatchmakingClientStartGameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::ClientStartGame, &contextHandle->entity->matchmakingAPI, ClientStartGameRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ClientStartGame, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -192,7 +192,7 @@ HRESULT PFMatchmakingAuthUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AuthUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::AuthUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -229,7 +229,7 @@ HRESULT PFMatchmakingPlayerJoinedAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::PlayerJoined, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::PlayerJoined, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -242,7 +242,7 @@ HRESULT PFMatchmakingPlayerLeftAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::PlayerLeft, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::PlayerLeft, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -255,7 +255,7 @@ HRESULT PFMatchmakingStartGameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::StartGame, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::StartGame, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -292,7 +292,7 @@ HRESULT PFMatchmakingUserInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::UserInfo, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::UserInfo, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -319,7 +319,7 @@ HRESULT PFMatchmakingServerDeregisterGameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerDeregisterGame, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerDeregisterGame, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -332,7 +332,7 @@ HRESULT PFMatchmakingServerNotifyMatchmakerPlayerLeftAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerNotifyMatchmakerPlayerLeft, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerNotifyMatchmakerPlayerLeft, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -359,7 +359,7 @@ HRESULT PFMatchmakingServerRedeemMatchmakerTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerRedeemMatchmakerTicket, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerRedeemMatchmakerTicket, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -386,7 +386,7 @@ HRESULT PFMatchmakingServerRefreshGameServerInstanceHeartbeatAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerRefreshGameServerInstanceHeartbeat, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerRefreshGameServerInstanceHeartbeat, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -399,7 +399,7 @@ HRESULT PFMatchmakingServerRegisterGameAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerRegisterGame, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerRegisterGame, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -436,7 +436,7 @@ HRESULT PFMatchmakingServerSetGameServerInstanceDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerSetGameServerInstanceData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerSetGameServerInstanceData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -449,7 +449,7 @@ HRESULT PFMatchmakingServerSetGameServerInstanceStateAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerSetGameServerInstanceState, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerSetGameServerInstanceState, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -462,7 +462,7 @@ HRESULT PFMatchmakingServerSetGameServerInstanceTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerSetGameServerInstanceTags, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ServerSetGameServerInstanceTags, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -475,7 +475,7 @@ HRESULT PFMatchmakingCancelAllMatchmakingTicketsForPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CancelAllMatchmakingTicketsForPlayer, &contextHandle->entity->matchmakingAPI, CancelAllMatchmakingTicketsForPlayerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CancelAllMatchmakingTicketsForPlayer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -488,7 +488,7 @@ HRESULT PFMatchmakingCancelAllServerBackfillTicketsForPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CancelAllServerBackfillTicketsForPlayer, &contextHandle->entity->matchmakingAPI, CancelAllServerBackfillTicketsForPlayerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CancelAllServerBackfillTicketsForPlayer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -501,7 +501,7 @@ HRESULT PFMatchmakingCancelMatchmakingTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CancelMatchmakingTicket, &contextHandle->entity->matchmakingAPI, CancelMatchmakingTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CancelMatchmakingTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -514,7 +514,7 @@ HRESULT PFMatchmakingCancelServerBackfillTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CancelServerBackfillTicket, &contextHandle->entity->matchmakingAPI, CancelServerBackfillTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CancelServerBackfillTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -527,7 +527,7 @@ HRESULT PFMatchmakingCreateMatchmakingTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CreateMatchmakingTicket, &contextHandle->entity->matchmakingAPI, CreateMatchmakingTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CreateMatchmakingTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -564,7 +564,7 @@ HRESULT PFMatchmakingCreateServerBackfillTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CreateServerBackfillTicket, &contextHandle->entity->matchmakingAPI, CreateServerBackfillTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CreateServerBackfillTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -601,7 +601,7 @@ HRESULT PFMatchmakingCreateServerMatchmakingTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::CreateServerMatchmakingTicket, &contextHandle->entity->matchmakingAPI, CreateServerMatchmakingTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::CreateServerMatchmakingTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -638,7 +638,7 @@ HRESULT PFMatchmakingGetMatchAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::GetMatch, &contextHandle->entity->matchmakingAPI, GetMatchRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::GetMatch, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -665,7 +665,7 @@ HRESULT PFMatchmakingGetMatchmakingTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::GetMatchmakingTicket, &contextHandle->entity->matchmakingAPI, GetMatchmakingTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::GetMatchmakingTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -692,7 +692,7 @@ HRESULT PFMatchmakingGetQueueStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::GetQueueStatistics, &contextHandle->entity->matchmakingAPI, GetQueueStatisticsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::GetQueueStatistics, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -719,7 +719,7 @@ HRESULT PFMatchmakingGetServerBackfillTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::GetServerBackfillTicket, &contextHandle->entity->matchmakingAPI, GetServerBackfillTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::GetServerBackfillTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -746,7 +746,7 @@ HRESULT PFMatchmakingJoinMatchmakingTicketAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::JoinMatchmakingTicket, &contextHandle->entity->matchmakingAPI, JoinMatchmakingTicketRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::JoinMatchmakingTicket, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -759,7 +759,7 @@ HRESULT PFMatchmakingListMatchmakingTicketsForPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::ListMatchmakingTicketsForPlayer, &contextHandle->entity->matchmakingAPI, ListMatchmakingTicketsForPlayerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ListMatchmakingTicketsForPlayer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -786,7 +786,7 @@ HRESULT PFMatchmakingListServerBackfillTicketsForPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&MatchmakingAPI::ListServerBackfillTicketsForPlayer, &contextHandle->entity->matchmakingAPI, ListServerBackfillTicketsForPlayerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&MatchmakingAPI::ListServerBackfillTicketsForPlayer, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

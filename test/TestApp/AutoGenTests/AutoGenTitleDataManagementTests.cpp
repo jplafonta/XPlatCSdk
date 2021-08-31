@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenTitleDataManagementTests::TitleDataManagementTestData AutoGenTitleDataManagementTests::testData;
+
 void AutoGenTitleDataManagementTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,46 +29,81 @@ HRESULT AutoGenTitleDataManagementTests::LogHR(HRESULT hr)
 
 void AutoGenTitleDataManagementTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestTitleDataManagementAdminAddLocalizedNews", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddLocalizedNews);
+
     AddTest("TestTitleDataManagementAdminAddNews", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddNews);
+
     AddTest("TestTitleDataManagementAdminAddVirtualCurrencyTypes", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddVirtualCurrencyTypes);
+
     AddTest("TestTitleDataManagementAdminDeleteStore", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminDeleteStore);
+
     AddTest("TestTitleDataManagementAdminDeleteTitleDataOverride", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminDeleteTitleDataOverride);
+
     AddTest("TestTitleDataManagementAdminGetCatalogItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetCatalogItems);
+
     AddTest("TestTitleDataManagementAdminGetPublisherData", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetPublisherData);
+
     AddTest("TestTitleDataManagementAdminGetRandomResultTables", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetRandomResultTables);
+
     AddTest("TestTitleDataManagementAdminGetStoreItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetStoreItems);
+
     AddTest("TestTitleDataManagementAdminGetTitleData", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleData);
+
     AddTest("TestTitleDataManagementAdminGetTitleInternalData", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleInternalData);
+
     AddTest("TestTitleDataManagementAdminListVirtualCurrencyTypes", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminListVirtualCurrencyTypes);
+
     AddTest("TestTitleDataManagementAdminRemoveVirtualCurrencyTypes", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminRemoveVirtualCurrencyTypes);
+
     AddTest("TestTitleDataManagementAdminSetCatalogItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetCatalogItems);
+
     AddTest("TestTitleDataManagementAdminSetStoreItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetStoreItems);
+
     AddTest("TestTitleDataManagementAdminSetTitleData", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleData);
+
     AddTest("TestTitleDataManagementAdminSetTitleDataAndOverrides", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleDataAndOverrides);
+
     AddTest("TestTitleDataManagementAdminSetTitleInternalData", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleInternalData);
+
     AddTest("TestTitleDataManagementAdminSetupPushNotification", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetupPushNotification);
+
     AddTest("TestTitleDataManagementAdminUpdateCatalogItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateCatalogItems);
+
     AddTest("TestTitleDataManagementAdminUpdateRandomResultTables", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateRandomResultTables);
+
     AddTest("TestTitleDataManagementAdminUpdateStoreItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateStoreItems);
+
     AddTest("TestTitleDataManagementClientGetCatalogItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetCatalogItems);
+
     AddTest("TestTitleDataManagementClientGetPublisherData", &AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetPublisherData);
+
     AddTest("TestTitleDataManagementClientGetStoreItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetStoreItems);
+
     AddTest("TestTitleDataManagementClientGetTime", &AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTime);
+
     AddTest("TestTitleDataManagementClientGetTitleData", &AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleData);
+
     AddTest("TestTitleDataManagementClientGetTitleNews", &AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleNews);
+
     AddTest("TestTitleDataManagementServerGetCatalogItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetCatalogItems);
+
     AddTest("TestTitleDataManagementServerGetPublisherData", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetPublisherData);
+
     AddTest("TestTitleDataManagementServerGetStoreItems", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetStoreItems);
+
     AddTest("TestTitleDataManagementServerGetTime", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTime);
+
     AddTest("TestTitleDataManagementServerGetTitleData", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleData);
+
     AddTest("TestTitleDataManagementServerGetTitleInternalData", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleInternalData);
+
     AddTest("TestTitleDataManagementServerGetTitleNews", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleNews);
+
     AddTest("TestTitleDataManagementServerSetPublisherData", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetPublisherData);
+
     AddTest("TestTitleDataManagementServerSetTitleData", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetTitleData);
+
     AddTest("TestTitleDataManagementServerSetTitleInternalData", &AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetTitleInternalData);
 }
 
@@ -105,10 +142,52 @@ void AutoGenTitleDataManagementTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -117,10 +196,12 @@ void AutoGenTitleDataManagementTests::ClassSetUp()
 
 void AutoGenTitleDataManagementTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -139,6 +220,8 @@ void AutoGenTitleDataManagementTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminAddLocalizedNews
 
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddLocalizedNews(TestContext& testContext)
 {
@@ -168,7 +251,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddLocalizedNe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminAddNews
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddNews(TestContext& testContext)
 {
     struct AdminAddNewsResult : public XAsyncResult
@@ -202,7 +290,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddNews(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminAddVirtualCurrencyTypes
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddVirtualCurrencyTypes(TestContext& testContext)
 {
     struct AdminAddVirtualCurrencyTypesResult : public XAsyncResult
@@ -231,7 +324,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminAddVirtualCurr
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteStore
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminDeleteStore(TestContext& testContext)
 {
     struct AdminDeleteStoreResult : public XAsyncResult
@@ -260,7 +358,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminDeleteStore(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteTitleDataOverride
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminDeleteTitleDataOverride(TestContext& testContext)
 {
     struct AdminDeleteTitleDataOverrideResult : public XAsyncResult
@@ -289,7 +392,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminDeleteTitleDat
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetCatalogItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetCatalogItems(TestContext& testContext)
 {
     struct AdminGetCatalogItemsResult : public XAsyncResult
@@ -319,7 +427,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetCatalogItem
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPublisherData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetPublisherData(TestContext& testContext)
 {
     struct AdminGetPublisherDataResult : public XAsyncResult
@@ -349,7 +462,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetPublisherDa
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetRandomResultTables
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetRandomResultTables(TestContext& testContext)
 {
     struct AdminGetRandomResultTablesResult : public XAsyncResult
@@ -379,7 +497,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetRandomResul
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetStoreItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetStoreItems(TestContext& testContext)
 {
     struct AdminGetStoreItemsResult : public XAsyncResult
@@ -409,7 +532,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetStoreItems(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetTitleData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleData(TestContext& testContext)
 {
     struct AdminGetTitleDataResult : public XAsyncResult
@@ -439,7 +567,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleData(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetTitleInternalData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleInternalData(TestContext& testContext)
 {
     struct AdminGetTitleInternalDataResult : public XAsyncResult
@@ -469,7 +602,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleIntern
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminListVirtualCurrencyTypes
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminListVirtualCurrencyTypes(TestContext& testContext)
 {
     struct AdminListVirtualCurrencyTypesResult : public XAsyncResult
@@ -496,7 +634,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminListVirtualCur
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRemoveVirtualCurrencyTypes
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminRemoveVirtualCurrencyTypes(TestContext& testContext)
 {
     struct AdminRemoveVirtualCurrencyTypesResult : public XAsyncResult
@@ -525,7 +668,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminRemoveVirtualC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetCatalogItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetCatalogItems(TestContext& testContext)
 {
     struct AdminSetCatalogItemsResult : public XAsyncResult
@@ -554,7 +702,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetCatalogItem
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetStoreItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetStoreItems(TestContext& testContext)
 {
     struct AdminSetStoreItemsResult : public XAsyncResult
@@ -583,7 +736,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetStoreItems(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetTitleData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleData(TestContext& testContext)
 {
     struct AdminSetTitleDataResult : public XAsyncResult
@@ -612,7 +770,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleData(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetTitleDataAndOverrides
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleDataAndOverrides(TestContext& testContext)
 {
     struct AdminSetTitleDataAndOverridesResult : public XAsyncResult
@@ -641,7 +804,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleDataAn
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetTitleInternalData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleInternalData(TestContext& testContext)
 {
     struct AdminSetTitleInternalDataResult : public XAsyncResult
@@ -670,7 +838,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetTitleIntern
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetupPushNotification
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetupPushNotification(TestContext& testContext)
 {
     struct AdminSetupPushNotificationResult : public XAsyncResult
@@ -704,7 +877,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminSetupPushNotif
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateCatalogItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateCatalogItems(TestContext& testContext)
 {
     struct AdminUpdateCatalogItemsResult : public XAsyncResult
@@ -733,7 +911,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateCatalogI
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateRandomResultTables
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateRandomResultTables(TestContext& testContext)
 {
     struct AdminUpdateRandomResultTablesResult : public XAsyncResult
@@ -762,7 +945,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateRandomRe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateStoreItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateStoreItems(TestContext& testContext)
 {
     struct AdminUpdateStoreItemsResult : public XAsyncResult
@@ -791,7 +979,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminUpdateStoreIte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCatalogItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetCatalogItems(TestContext& testContext)
 {
     struct ClientGetCatalogItemsResult : public XAsyncResult
@@ -814,14 +1007,19 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetCatalogIte
     PlayFab::TitleDataManagementModels::GetCatalogItemsRequest request;
     FillGetCatalogItemsRequest( &request );
     LogGetCatalogItemsRequest( &request, "TestTitleDataManagementClientGetCatalogItems" );
-    HRESULT hr = PFTitleDataManagementClientGetCatalogItemsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTitleDataManagementClientGetCatalogItemsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTitleDataManagementTitleDataManagementClientGetCatalogItemsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPublisherData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetPublisherData(TestContext& testContext)
 {
     struct ClientGetPublisherDataResult : public XAsyncResult
@@ -844,14 +1042,19 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetPublisherD
     PlayFab::TitleDataManagementModels::GetPublisherDataRequest request;
     FillGetPublisherDataRequest( &request );
     LogGetPublisherDataRequest( &request, "TestTitleDataManagementClientGetPublisherData" );
-    HRESULT hr = PFTitleDataManagementClientGetPublisherDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTitleDataManagementClientGetPublisherDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTitleDataManagementTitleDataManagementClientGetPublisherDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetStoreItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetStoreItems(TestContext& testContext)
 {
     struct ClientGetStoreItemsResult : public XAsyncResult
@@ -874,14 +1077,19 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetStoreItems
     PlayFab::TitleDataManagementModels::GetStoreItemsRequest request;
     FillGetStoreItemsRequest( &request );
     LogGetStoreItemsRequest( &request, "TestTitleDataManagementClientGetStoreItems" );
-    HRESULT hr = PFTitleDataManagementClientGetStoreItemsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTitleDataManagementClientGetStoreItemsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTitleDataManagementTitleDataManagementClientGetStoreItemsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetTime
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTime(TestContext& testContext)
 {
     struct ClientGetTimeResult : public XAsyncResult
@@ -901,14 +1109,19 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTime(TestC
 
     auto async = std::make_unique<XAsyncHelper<ClientGetTimeResult>>(testContext);
 
-    HRESULT hr = PFTitleDataManagementClientGetTimeAsync(entityHandle, &async->asyncBlock); 
+    HRESULT hr = PFTitleDataManagementClientGetTimeAsync(titlePlayerHandle, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTitleDataManagementTitleDataManagementClientGetTimeAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetTitleData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleData(TestContext& testContext)
 {
     struct ClientGetTitleDataResult : public XAsyncResult
@@ -931,14 +1144,19 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleData(
     PlayFab::TitleDataManagementModels::GetTitleDataRequest request;
     FillGetTitleDataRequest( &request );
     LogGetTitleDataRequest( &request, "TestTitleDataManagementClientGetTitleData" );
-    HRESULT hr = PFTitleDataManagementClientGetTitleDataAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTitleDataManagementClientGetTitleDataAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTitleDataManagementTitleDataManagementClientGetTitleDataAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetTitleNews
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleNews(TestContext& testContext)
 {
     struct ClientGetTitleNewsResult : public XAsyncResult
@@ -961,14 +1179,19 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleNews(
     PlayFab::TitleDataManagementModels::GetTitleNewsRequest request;
     FillGetTitleNewsRequest( &request );
     LogGetTitleNewsRequest( &request, "TestTitleDataManagementClientGetTitleNews" );
-    HRESULT hr = PFTitleDataManagementClientGetTitleNewsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTitleDataManagementClientGetTitleNewsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTitleDataManagementTitleDataManagementClientGetTitleNewsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCatalogItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetCatalogItems(TestContext& testContext)
 {
     struct ServerGetCatalogItemsResult : public XAsyncResult
@@ -998,7 +1221,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetCatalogIte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPublisherData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetPublisherData(TestContext& testContext)
 {
     struct ServerGetPublisherDataResult : public XAsyncResult
@@ -1028,7 +1256,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetPublisherD
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetStoreItems
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetStoreItems(TestContext& testContext)
 {
     struct ServerGetStoreItemsResult : public XAsyncResult
@@ -1058,7 +1291,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetStoreItems
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetTime
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTime(TestContext& testContext)
 {
     struct ServerGetTimeResult : public XAsyncResult
@@ -1085,7 +1323,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTime(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetTitleData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleData(TestContext& testContext)
 {
     struct ServerGetTitleDataResult : public XAsyncResult
@@ -1115,7 +1358,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleData(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetTitleInternalData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleInternalData(TestContext& testContext)
 {
     struct ServerGetTitleInternalDataResult : public XAsyncResult
@@ -1145,7 +1393,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleInter
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetTitleNews
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleNews(TestContext& testContext)
 {
     struct ServerGetTitleNewsResult : public XAsyncResult
@@ -1175,7 +1428,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleNews(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetPublisherData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetPublisherData(TestContext& testContext)
 {
     struct ServerSetPublisherDataResult : public XAsyncResult
@@ -1204,7 +1462,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetPublisherD
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetTitleData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetTitleData(TestContext& testContext)
 {
     struct ServerSetTitleDataResult : public XAsyncResult
@@ -1233,7 +1496,12 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetTitleData(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetTitleInternalData
+
 void AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetTitleInternalData(TestContext& testContext)
 {
     struct ServerSetTitleInternalDataResult : public XAsyncResult
@@ -1262,6 +1530,9 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerSetTitleInter
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

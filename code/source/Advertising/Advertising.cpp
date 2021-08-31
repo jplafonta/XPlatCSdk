@@ -1,36 +1,35 @@
 #include "stdafx.h"
 #include "Advertising.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace AdvertisingModels;
 
-AdvertisingAPI::AdvertisingAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> AdvertisingAPI::ClientAttributeInstall(
+    SharedPtr<TitlePlayer> entity,
     const PFAdvertisingAttributeInstallRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/AttributeInstall" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/AttributeInstall" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -51,24 +50,26 @@ AsyncOp<void> AdvertisingAPI::ClientAttributeInstall(
 }
 
 AsyncOp<GetAdPlacementsResult> AdvertisingAPI::ClientGetAdPlacements(
+    SharedPtr<TitlePlayer> entity,
     const PFAdvertisingGetAdPlacementsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetAdPlacements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetAdPlacements" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -91,24 +92,26 @@ AsyncOp<GetAdPlacementsResult> AdvertisingAPI::ClientGetAdPlacements(
 }
 
 AsyncOp<void> AdvertisingAPI::ClientReportAdActivity(
+    SharedPtr<TitlePlayer> entity,
     const PFAdvertisingReportAdActivityRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ReportAdActivity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ReportAdActivity" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -129,24 +132,26 @@ AsyncOp<void> AdvertisingAPI::ClientReportAdActivity(
 }
 
 AsyncOp<RewardAdActivityResult> AdvertisingAPI::ClientRewardAdActivity(
+    SharedPtr<TitlePlayer> entity,
     const PFAdvertisingRewardAdActivityRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RewardAdActivity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RewardAdActivity" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

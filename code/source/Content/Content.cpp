@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "Content.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace ContentModels;
 
-ContentAPI::ContentAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> ContentAPI::AdminDeleteContent(
+    SharedPtr<GlobalState const> state,
     const PFContentDeleteContentRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteContent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteContent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -52,25 +49,25 @@ AsyncOp<void> ContentAPI::AdminDeleteContent(
 }
 
 AsyncOp<GetContentListResult> ContentAPI::AdminGetContentList(
+    SharedPtr<GlobalState const> state,
     const PFContentGetContentListRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetContentList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetContentList" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -93,25 +90,25 @@ AsyncOp<GetContentListResult> ContentAPI::AdminGetContentList(
 }
 
 AsyncOp<GetContentUploadUrlResult> ContentAPI::AdminGetContentUploadUrl(
+    SharedPtr<GlobalState const> state,
     const PFContentGetContentUploadUrlRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetContentUploadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetContentUploadUrl" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -134,24 +131,26 @@ AsyncOp<GetContentUploadUrlResult> ContentAPI::AdminGetContentUploadUrl(
 }
 
 AsyncOp<GetContentDownloadUrlResult> ContentAPI::ClientGetContentDownloadUrl(
+    SharedPtr<TitlePlayer> entity,
     const PFContentGetContentDownloadUrlRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetContentDownloadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetContentDownloadUrl" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -174,25 +173,25 @@ AsyncOp<GetContentDownloadUrlResult> ContentAPI::ClientGetContentDownloadUrl(
 }
 
 AsyncOp<GetContentDownloadUrlResult> ContentAPI::ServerGetContentDownloadUrl(
+    SharedPtr<GlobalState const> state,
     const PFContentGetContentDownloadUrlRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetContentDownloadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetContentDownloadUrl" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

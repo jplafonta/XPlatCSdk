@@ -120,7 +120,7 @@ HRESULT PFAdminInitialize(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>Asynchronous result returned via XAsyncGetStatus.</remarks>
-HRESULT PFCleanupAsync(
+HRESULT PFUninitializeAsync(
     _In_ PFStateHandle stateHandle,
     _In_ XAsyncBlock* async
 ) noexcept;

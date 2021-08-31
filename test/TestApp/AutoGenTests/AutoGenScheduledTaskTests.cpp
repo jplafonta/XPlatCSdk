@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenScheduledTaskTests::ScheduledTaskTestData AutoGenScheduledTaskTests::testData;
+
 void AutoGenScheduledTaskTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,19 +29,27 @@ HRESULT AutoGenScheduledTaskTests::LogHR(HRESULT hr)
 
 void AutoGenScheduledTaskTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestScheduledTaskAdminAbortTaskInstance", &AutoGenScheduledTaskTests::TestScheduledTaskAdminAbortTaskInstance);
+
     AddTest("TestScheduledTaskAdminCreateActionsOnPlayersInSegmentTask", &AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateActionsOnPlayersInSegmentTask);
+
     AddTest("TestScheduledTaskAdminCreateCloudScriptTask", &AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateCloudScriptTask);
+
     AddTest("TestScheduledTaskAdminCreateInsightsScheduledScalingTask", &AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateInsightsScheduledScalingTask);
+
     AddTest("TestScheduledTaskAdminDeleteTask", &AutoGenScheduledTaskTests::TestScheduledTaskAdminDeleteTask);
+
     AddTest("TestScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstance", &AutoGenScheduledTaskTests::TestScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstance);
+
     AddTest("TestScheduledTaskAdminGetCloudScriptTaskInstance", &AutoGenScheduledTaskTests::TestScheduledTaskAdminGetCloudScriptTaskInstance);
+
     AddTest("TestScheduledTaskAdminGetTaskInstances", &AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTaskInstances);
+
     AddTest("TestScheduledTaskAdminGetTasks", &AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTasks);
+
     AddTest("TestScheduledTaskAdminRunTask", &AutoGenScheduledTaskTests::TestScheduledTaskAdminRunTask);
+
     AddTest("TestScheduledTaskAdminUpdateTask", &AutoGenScheduledTaskTests::TestScheduledTaskAdminUpdateTask);
 }
 
@@ -78,10 +88,52 @@ void AutoGenScheduledTaskTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -90,10 +142,12 @@ void AutoGenScheduledTaskTests::ClassSetUp()
 
 void AutoGenScheduledTaskTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -112,6 +166,8 @@ void AutoGenScheduledTaskTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminAbortTaskInstance
 
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminAbortTaskInstance(TestContext& testContext)
 {
@@ -141,7 +197,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminAbortTaskInstance(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminCreateActionsOnPlayersInSegmentTask
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateActionsOnPlayersInSegmentTask(TestContext& testContext)
 {
     struct AdminCreateActionsOnPlayersInSegmentTaskResult : public XAsyncResult
@@ -175,7 +236,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateActionsOnPlayersInSe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminCreateCloudScriptTask
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateCloudScriptTask(TestContext& testContext)
 {
     struct AdminCreateCloudScriptTaskResult : public XAsyncResult
@@ -209,7 +275,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateCloudScriptTask(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminCreateInsightsScheduledScalingTask
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateInsightsScheduledScalingTask(TestContext& testContext)
 {
     struct AdminCreateInsightsScheduledScalingTaskResult : public XAsyncResult
@@ -243,7 +314,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminCreateInsightsScheduledSca
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteTask
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminDeleteTask(TestContext& testContext)
 {
     struct AdminDeleteTaskResult : public XAsyncResult
@@ -272,7 +348,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminDeleteTask(TestContext& te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetActionsOnPlayersInSegmentTaskInstance
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstance(TestContext& testContext)
 {
     struct AdminGetActionsOnPlayersInSegmentTaskInstanceResult : public XAsyncResult
@@ -302,7 +383,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetActionsOnPlayersInSegme
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetCloudScriptTaskInstance
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetCloudScriptTaskInstance(TestContext& testContext)
 {
     struct AdminGetCloudScriptTaskInstanceResult : public XAsyncResult
@@ -332,7 +418,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetCloudScriptTaskInstance
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetTaskInstances
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTaskInstances(TestContext& testContext)
 {
     struct AdminGetTaskInstancesResult : public XAsyncResult
@@ -362,7 +453,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTaskInstances(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetTasks
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTasks(TestContext& testContext)
 {
     struct AdminGetTasksResult : public XAsyncResult
@@ -392,7 +488,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTasks(TestContext& test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRunTask
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminRunTask(TestContext& testContext)
 {
     struct AdminRunTaskResult : public XAsyncResult
@@ -426,7 +527,12 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminRunTask(TestContext& testC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateTask
+
 void AutoGenScheduledTaskTests::TestScheduledTaskAdminUpdateTask(TestContext& testContext)
 {
     struct AdminUpdateTaskResult : public XAsyncResult
@@ -455,6 +561,9 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminUpdateTask(TestContext& te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

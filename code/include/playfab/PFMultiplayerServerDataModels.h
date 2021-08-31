@@ -90,7 +90,12 @@ enum class PFMultiplayerServerAzureVmSize : uint32_t
     Standard_D2ds_v4,
     Standard_D4ds_v4,
     Standard_D8ds_v4,
-    Standard_D16ds_v4
+    Standard_D16ds_v4,
+    Standard_HB120_16rs_v3,
+    Standard_HB120_32rs_v3,
+    Standard_HB120_64rs_v3,
+    Standard_HB120_96rs_v3,
+    Standard_HB120rs_v3
 };
 
 /// <summary>
@@ -114,7 +119,8 @@ enum class PFMultiplayerServerAzureVmFamily : uint32_t
     Dsv2,
     NCasT4_v3,
     Ddv4,
-    Ddsv4
+    Ddsv4,
+    HBv3
 };
 
 /// <summary>

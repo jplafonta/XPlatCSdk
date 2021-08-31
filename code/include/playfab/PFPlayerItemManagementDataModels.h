@@ -525,6 +525,10 @@ enum class PFPlayerItemManagementGenericErrorCodes : uint32_t
     SteamUserNotFound,
     ElasticSearchOperationFailed,
     NotImplemented,
+    PublisherNotFound,
+    PublisherDeleted,
+    ApiDisabledForMigration,
+    ResourceNameUpdateNotAllowed,
     MatchmakingEntityInvalid,
     MatchmakingPlayerAttributesInvalid,
     MatchmakingQueueNotFound,
@@ -546,6 +550,8 @@ enum class PFPlayerItemManagementGenericErrorCodes : uint32_t
     MatchmakingQueueLimitExceeded,
     MatchmakingRequestTypeMismatch,
     MatchmakingBadRequest,
+    PubSubFeatureNotEnabledForTitle,
+    PubSubTooManyRequests,
     TitleConfigNotFound,
     TitleConfigUpdateConflict,
     TitleConfigSerializationError,
@@ -661,6 +667,7 @@ enum class PFPlayerItemManagementGenericErrorCodes : uint32_t
     LobbyCurrentOwnerStillConnected,
     LobbyMemberIsNotOwner,
     EventSamplingInvalidRatio,
+    EventSamplingInvalidEventNamespace,
     EventSamplingInvalidEventName,
     EventSamplingRatioNotFound
 };

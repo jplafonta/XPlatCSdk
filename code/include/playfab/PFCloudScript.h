@@ -9,7 +9,7 @@
 
 #include <playfab/PFCloudScriptDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -135,7 +135,7 @@ HRESULT PFCloudScriptAdminUpdateCloudScriptGetResult(
 /// Executes a CloudScript function, with the 'currentPlayerId' set to the PlayFab ID of the authenticated
 /// player.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -143,7 +143,7 @@ HRESULT PFCloudScriptAdminUpdateCloudScriptGetResult(
 /// If successful, call <see cref="PFCloudScriptClientExecuteCloudScriptGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFCloudScriptClientExecuteCloudScriptAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFCloudScriptExecuteCloudScriptRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -204,7 +204,7 @@ HRESULT PFCloudScriptServerExecuteCloudScriptGetResult(
 /// of any kind of custom server-side functionality you can implement, and it can be used in conjunction
 /// with virtually anything.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -241,7 +241,7 @@ HRESULT PFCloudScriptExecuteEntityCloudScriptGetResult(
 /// of any kind of custom server-side functionality you can implement, and it can be used in conjunction
 /// with virtually anything.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -278,7 +278,7 @@ HRESULT PFCloudScriptExecuteFunctionGetResult(
 /// <summary>
 /// Lists all currently registered Azure Functions for a given title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -316,7 +316,7 @@ HRESULT PFCloudScriptListFunctionsGetResult(
 /// <summary>
 /// Lists all currently registered HTTP triggered Azure Functions for a given title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -355,7 +355,7 @@ HRESULT PFCloudScriptListHttpFunctionsGetResult(
 /// <summary>
 /// Lists all currently registered Queue triggered Azure Functions for a given title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -392,7 +392,7 @@ HRESULT PFCloudScriptListQueuedFunctionsGetResult(
 /// <summary>
 /// Generate an entity PlayStream event for the provided function result.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -413,7 +413,7 @@ HRESULT PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync(
 /// <summary>
 /// Generate an entity PlayStream event for the provided function result.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -434,7 +434,7 @@ HRESULT PFCloudScriptPostFunctionResultForFunctionExecutionAsync(
 /// <summary>
 /// Generate a player PlayStream event for the provided function result.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -455,7 +455,7 @@ HRESULT PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync(
 /// <summary>
 /// Generate a PlayStream event for the provided function result.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -476,7 +476,7 @@ HRESULT PFCloudScriptPostFunctionResultForScheduledTaskAsync(
 /// <summary>
 /// Registers an HTTP triggered Azure function with a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -497,7 +497,7 @@ HRESULT PFCloudScriptRegisterHttpFunctionAsync(
 /// <summary>
 /// Registers a queue triggered Azure Function with a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -521,7 +521,7 @@ HRESULT PFCloudScriptRegisterQueuedFunctionAsync(
 /// <summary>
 /// Unregisters an Azure Function with a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

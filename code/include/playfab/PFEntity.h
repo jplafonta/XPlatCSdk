@@ -16,7 +16,7 @@ extern "C"
 {
 
 /// <summary>
-/// Handle to an authenticated Entity (Player, Server, etc.). Contains the auth tokens needed to make PlayFab service
+/// Handle to an authenticated Entity (TitlePlayer, Title, etc.). Contains the auth tokens needed to make PlayFab service
 /// calls. When no longer needed, the Entity handle must be closed with PFEntityCloseHandle.
 /// </summary>
 typedef struct PFEntity* PFEntityHandle;
@@ -75,12 +75,14 @@ typedef void CALLBACK PFEntityTokenRefreshedCallback(
 /// Registers a PFTokenRefreshedCallback for an Entity.
 /// </summary>
 /// <param name="entityHandle">Entity handle for the entity.</param>
+/// <param name="queue">The async queue the callback should be invoked on.</param>
 /// <param name="callback">The callback, <see cref="PFEntityTokenRefreshedCallback"/>.</param>
 /// <param name="context">Optional pointer to data used by the callback.</param>
 /// <param name="token">The token for unregistering the callback.</param>
 /// <returns>Result code for this API operation.</returns>
 HRESULT PFEntityRegisterTokenRefreshedCallback(
     _In_ PFEntityHandle entityHandle,
+    _In_ XTaskQueueHandle queue,
     _In_ PFEntityTokenRefreshedCallback* callback,
     _In_opt_ void* context,
     _Out_ PFRegistrationToken* token
@@ -108,7 +110,7 @@ HRESULT PFEntityUnregisterTokenRefreshedCallback(
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If successful, call <see cref="PFGetAuthResult"/> to get the result. If the requested token was the calling Entity, the resulting handle
+/// If successful, call <see cref="PFEntityGetEntityTokenGetResult"/> to get the result. If the requested token was the calling Entity, the resulting handle
 /// will be a new handle to the same Entity object (it still must be closed by the caller when no longer needed). 
 /// </remarks>
 HRESULT PFEntityGetEntityTokenAsync(
@@ -117,15 +119,19 @@ HRESULT PFEntityGetEntityTokenAsync(
     _Inout_ XAsyncBlock* async
 ) noexcept;
 
-/// <summary>
-/// Get the PlayFabId (master_player_account Id) for an Entity.
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="playFabId">Returned pointer to the playFabId. Valid until the Entity object is cleaned up.</param>
+/// <symmary>
+/// Get the result from a PFEntityGetEntityTokenAsync call.
+/// </symmary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="entityHandle">Entity handle which can be used to authenticate other PlayFab API calls.</param>
 /// <returns>Result code for this API operation.</returns>
-HRESULT PFEntityGetPlayFabId(
-    _In_ PFEntityHandle entityHandle,
-    _Outptr_ const char** playFabId
+/// <remarks>
+/// If the PFEntityGetEntityTokenAsync call fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// when it is no longer needed.
+/// </remarks>
+HRESULT PFEntityGetEntityTokenGetResult(
+    _In_ XAsyncBlock* async,
+    _Out_ PFEntityHandle* entityHandle
 ) noexcept;
 
 /// <summary>
@@ -151,7 +157,7 @@ HRESULT PFEntityGetEntityType(
 ) noexcept;
 
 /// <summary>
-/// Get the Entity token.
+/// Get the cached Entity token.
 /// </summary>
 /// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
 /// <param name="entityToken">Returned pointer to the entityToken. The pointer is valid until the Entity object is cleaned up, though
@@ -160,54 +166,6 @@ HRESULT PFEntityGetEntityType(
 HRESULT PFEntityGetCachedEntityToken(
     _In_ PFEntityHandle entityHandle,
     _Outptr_ const PFEntityToken** entityToken
-) noexcept;
-
-/// <summary>
-/// Get combined player info. Will be null if combined player info was not requested requested during login (see <see cref="PFGetPlayerCombinedInfoRequestParams"/>).
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="playerCombinedInfo">Returned pointer to player combined info. Valid until the Entity object is cleaned up.</param>
-/// <returns>Result code for this API operation.</returns>
-/// <remarks>
-/// Note that the returned data is only guaranteed to be up to date as of the login request - it will not be automatically refreshed.
-/// To get updated combined player data, call <see cref="PFPlayerDataManagementGetPlayerCombinedInfoAsync"/>
-/// </remarks>
-HRESULT PFEntityGetPlayerCombinedInfo(
-    _In_ PFEntityHandle entityHandle,
-    _Outptr_result_maybenull_ const PFGetPlayerCombinedInfoResultPayload** playerCombinedInfo
-) noexcept;
-
-/// <summary>
-/// Get last login time (prior to the login that resulted in this entityHandle). lastLoginTime will be set to null if entity has no previous login.
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="lastLoginTime">Returned pointer to the last login time. Valid until the Entity object is cleaned up.</param>
-/// <returns>Result code for this API operation.</returns>
-HRESULT PFEntityGetLastLoginTime(
-    _In_ PFEntityHandle entityHandle,
-    _Outptr_result_maybenull_ const time_t** lastLoginTime
-) noexcept;
-
-/// <summary>
-/// Get UserSettings, if applicable. If unavailable, userSettings will be set to null.
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="lastLoginTime">Returned pointer to the UserSettings. Valid until the Entity object is cleaned up.</param>
-/// <returns>Result code for this API operation.</returns>
-HRESULT PFEntityGetUserSettings(
-    _In_ PFEntityHandle entityHandle,
-    _Outptr_result_maybenull_ const PFAuthenticationUserSettings** userSettings
-) noexcept;
-
-/// <summary>
-/// Get experimentation treatments for a user at the time of login. If unavailable, treatmentAssignment will be set to null.
-/// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
-/// <param name="lastLoginTime">Returned pointer to TreatmentAssignment. Valid until the Entity object is cleaned up.</param>
-/// <returns>Result code for this API operation.</returns>
-HRESULT PFEntityGetTreatmentAssignment(
-    _In_ PFEntityHandle entityHandle,
-    _Outptr_result_maybenull_ const PFTreatmentAssignment** treatmentAssignment
 ) noexcept;
 
 }

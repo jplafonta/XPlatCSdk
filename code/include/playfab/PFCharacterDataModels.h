@@ -309,11 +309,6 @@ typedef struct PFCharacterGetLeaderboardAroundCharacterResult
 typedef struct PFCharacterClientGetLeaderboardForUsersCharactersRequest
 {
     /// <summary>
-    /// (Optional) Maximum number of entries to retrieve.
-    /// </summary>
-    int32_t const* maxResultsCount;
-
-    /// <summary>
     /// Unique identifier for the title-specific statistic for the leaderboard.
     /// </summary>
     const char* statisticName;
@@ -662,11 +657,6 @@ typedef struct PFCharacterServerGetLeaderboardAroundCharacterRequest
 /// </summary>
 typedef struct PFCharacterServerGetLeaderboardForUsersCharactersRequest
 {
-    /// <summary>
-    /// (Optional) Maximum number of entries to retrieve.
-    /// </summary>
-    int32_t const* maxResultsCount;
-
     /// <summary>
     /// Unique PlayFab assigned ID of the user on whom the operation will be performed.
     /// </summary>

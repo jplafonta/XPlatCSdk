@@ -1,36 +1,35 @@
 #include "stdafx.h"
 #include "Experimentation.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace ExperimentationModels;
 
-ExperimentationAPI::ExperimentationAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<CreateExclusionGroupResult> ExperimentationAPI::CreateExclusionGroup(
+    SharedPtr<Entity> entity,
     const PFExperimentationCreateExclusionGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/CreateExclusionGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/CreateExclusionGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -53,24 +52,26 @@ AsyncOp<CreateExclusionGroupResult> ExperimentationAPI::CreateExclusionGroup(
 }
 
 AsyncOp<CreateExperimentResult> ExperimentationAPI::CreateExperiment(
+    SharedPtr<Entity> entity,
     const PFExperimentationCreateExperimentRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/CreateExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/CreateExperiment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -93,24 +94,26 @@ AsyncOp<CreateExperimentResult> ExperimentationAPI::CreateExperiment(
 }
 
 AsyncOp<void> ExperimentationAPI::DeleteExclusionGroup(
+    SharedPtr<Entity> entity,
     const PFExperimentationDeleteExclusionGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/DeleteExclusionGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/DeleteExclusionGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -131,24 +134,26 @@ AsyncOp<void> ExperimentationAPI::DeleteExclusionGroup(
 }
 
 AsyncOp<void> ExperimentationAPI::DeleteExperiment(
+    SharedPtr<Entity> entity,
     const PFExperimentationDeleteExperimentRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/DeleteExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/DeleteExperiment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -169,24 +174,26 @@ AsyncOp<void> ExperimentationAPI::DeleteExperiment(
 }
 
 AsyncOp<GetExclusionGroupsResult> ExperimentationAPI::GetExclusionGroups(
+    SharedPtr<Entity> entity,
     const PFExperimentationGetExclusionGroupsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/GetExclusionGroups" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/GetExclusionGroups" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -209,24 +216,26 @@ AsyncOp<GetExclusionGroupsResult> ExperimentationAPI::GetExclusionGroups(
 }
 
 AsyncOp<GetExclusionGroupTrafficResult> ExperimentationAPI::GetExclusionGroupTraffic(
+    SharedPtr<Entity> entity,
     const PFExperimentationGetExclusionGroupTrafficRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/GetExclusionGroupTraffic" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/GetExclusionGroupTraffic" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -249,24 +258,26 @@ AsyncOp<GetExclusionGroupTrafficResult> ExperimentationAPI::GetExclusionGroupTra
 }
 
 AsyncOp<GetExperimentsResult> ExperimentationAPI::GetExperiments(
+    SharedPtr<Entity> entity,
     const PFExperimentationGetExperimentsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/GetExperiments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/GetExperiments" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -289,24 +300,26 @@ AsyncOp<GetExperimentsResult> ExperimentationAPI::GetExperiments(
 }
 
 AsyncOp<GetLatestScorecardResult> ExperimentationAPI::GetLatestScorecard(
+    SharedPtr<Entity> entity,
     const PFExperimentationGetLatestScorecardRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/GetLatestScorecard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/GetLatestScorecard" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -329,24 +342,26 @@ AsyncOp<GetLatestScorecardResult> ExperimentationAPI::GetLatestScorecard(
 }
 
 AsyncOp<GetTreatmentAssignmentResult> ExperimentationAPI::GetTreatmentAssignment(
+    SharedPtr<Entity> entity,
     const PFExperimentationGetTreatmentAssignmentRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/GetTreatmentAssignment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/GetTreatmentAssignment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -369,24 +384,26 @@ AsyncOp<GetTreatmentAssignmentResult> ExperimentationAPI::GetTreatmentAssignment
 }
 
 AsyncOp<void> ExperimentationAPI::StartExperiment(
+    SharedPtr<Entity> entity,
     const PFExperimentationStartExperimentRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/StartExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/StartExperiment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -407,24 +424,26 @@ AsyncOp<void> ExperimentationAPI::StartExperiment(
 }
 
 AsyncOp<void> ExperimentationAPI::StopExperiment(
+    SharedPtr<Entity> entity,
     const PFExperimentationStopExperimentRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/StopExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/StopExperiment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -445,24 +464,26 @@ AsyncOp<void> ExperimentationAPI::StopExperiment(
 }
 
 AsyncOp<void> ExperimentationAPI::UpdateExclusionGroup(
+    SharedPtr<Entity> entity,
     const PFExperimentationUpdateExclusionGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/UpdateExclusionGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/UpdateExclusionGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -483,24 +504,26 @@ AsyncOp<void> ExperimentationAPI::UpdateExclusionGroup(
 }
 
 AsyncOp<void> ExperimentationAPI::UpdateExperiment(
+    SharedPtr<Entity> entity,
     const PFExperimentationUpdateExperimentRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Experimentation/UpdateExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Experimentation/UpdateExperiment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

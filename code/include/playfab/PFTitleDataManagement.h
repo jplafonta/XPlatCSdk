@@ -9,7 +9,7 @@
 
 #include <playfab/PFTitleDataManagementDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -712,7 +712,7 @@ HRESULT PFTitleDataManagementAdminUpdateStoreItemsAsync(
 /// <summary>
 /// Retrieves the specified version of the title's catalog of virtual goods, including all defined properties
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -723,7 +723,7 @@ HRESULT PFTitleDataManagementAdminUpdateStoreItemsAsync(
 /// result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetCatalogItemsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTitleDataManagementGetCatalogItemsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -748,7 +748,7 @@ HRESULT PFTitleDataManagementClientGetCatalogItemsGetResult(
 /// <summary>
 /// Retrieves the key-value store of custom publisher settings
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -763,7 +763,7 @@ HRESULT PFTitleDataManagementClientGetCatalogItemsGetResult(
 /// result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetPublisherDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTitleDataManagementGetPublisherDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -788,7 +788,7 @@ HRESULT PFTitleDataManagementClientGetPublisherDataGetResult(
 /// <summary>
 /// Retrieves the set of items defined for the specified store, including all prices defined
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -807,7 +807,7 @@ HRESULT PFTitleDataManagementClientGetPublisherDataGetResult(
 /// If successful, call <see cref="PFTitleDataManagementClientGetStoreItemsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetStoreItemsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTitleDataManagementGetStoreItemsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -832,7 +832,7 @@ HRESULT PFTitleDataManagementClientGetStoreItemsGetResult(
 /// <summary>
 /// Retrieves the current server time
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
@@ -842,7 +842,7 @@ HRESULT PFTitleDataManagementClientGetStoreItemsGetResult(
 /// If successful, call <see cref="PFTitleDataManagementClientGetTimeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetTimeAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _Inout_ XAsyncBlock* async
 ) noexcept;
 
@@ -860,7 +860,7 @@ HRESULT PFTitleDataManagementClientGetTimeGetResult(
 /// <summary>
 /// Retrieves the key-value store of custom title settings
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -876,7 +876,7 @@ HRESULT PFTitleDataManagementClientGetTimeGetResult(
 /// If successful, call <see cref="PFTitleDataManagementClientGetTitleDataGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetTitleDataAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTitleDataManagementGetTitleDataRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -901,7 +901,7 @@ HRESULT PFTitleDataManagementClientGetTitleDataGetResult(
 /// <summary>
 /// Retrieves the title news feed, as configured in the developer portal
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -909,7 +909,7 @@ HRESULT PFTitleDataManagementClientGetTitleDataGetResult(
 /// If successful, call <see cref="PFTitleDataManagementClientGetTitleNewsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTitleDataManagementClientGetTitleNewsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTitleDataManagementGetTitleNewsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

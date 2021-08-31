@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "TitleDataManagement.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace TitleDataManagementModels;
 
-TitleDataManagementAPI::TitleDataManagementAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> TitleDataManagementAPI::AdminAddLocalizedNews(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementAddLocalizedNewsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/AddLocalizedNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/AddLocalizedNews" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -52,25 +49,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminAddLocalizedNews(
 }
 
 AsyncOp<AddNewsResult> TitleDataManagementAPI::AdminAddNews(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementAddNewsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/AddNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/AddNews" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -93,25 +90,25 @@ AsyncOp<AddNewsResult> TitleDataManagementAPI::AdminAddNews(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminAddVirtualCurrencyTypes(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementAddVirtualCurrencyTypesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/AddVirtualCurrencyTypes" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/AddVirtualCurrencyTypes" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -132,25 +129,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminAddVirtualCurrencyTypes(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminDeleteStore(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementDeleteStoreRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteStore" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteStore" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -171,25 +168,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminDeleteStore(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminDeleteTitleDataOverride(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementDeleteTitleDataOverrideRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteTitleDataOverride" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteTitleDataOverride" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -210,25 +207,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminDeleteTitleDataOverride(
 }
 
 AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::AdminGetCatalogItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetCatalogItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetCatalogItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -251,25 +248,25 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::AdminGetCatalogItems(
 }
 
 AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::AdminGetPublisherData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetPublisherDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPublisherData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -292,25 +289,25 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::AdminGetPublisherData(
 }
 
 AsyncOp<GetRandomResultTablesResult> TitleDataManagementAPI::AdminGetRandomResultTables(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetRandomResultTablesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetRandomResultTables" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetRandomResultTables" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -333,25 +330,25 @@ AsyncOp<GetRandomResultTablesResult> TitleDataManagementAPI::AdminGetRandomResul
 }
 
 AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::AdminGetStoreItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetStoreItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetStoreItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -374,25 +371,25 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::AdminGetStoreItems(
 }
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetTitleData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -415,25 +412,25 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleData(
 }
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleInternalData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetTitleInternalData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -456,24 +453,24 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleInternalData(
 }
 
 AsyncOp<ListVirtualCurrencyTypesResult> TitleDataManagementAPI::AdminListVirtualCurrencyTypes(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/ListVirtualCurrencyTypes" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/ListVirtualCurrencyTypes" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -496,25 +493,25 @@ AsyncOp<ListVirtualCurrencyTypesResult> TitleDataManagementAPI::AdminListVirtual
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementRemoveVirtualCurrencyTypesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RemoveVirtualCurrencyTypes" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RemoveVirtualCurrencyTypes" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -535,25 +532,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetCatalogItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementUpdateCatalogItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetCatalogItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -574,25 +571,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetCatalogItems(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetStoreItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementUpdateStoreItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetStoreItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -613,25 +610,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetStoreItems(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetTitleData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementSetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetTitleData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -652,25 +649,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleData(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetTitleDataAndOverrides(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementSetTitleDataAndOverridesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetTitleDataAndOverrides" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetTitleDataAndOverrides" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -691,25 +688,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleDataAndOverrides(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetTitleInternalData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementSetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetTitleInternalData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -730,25 +727,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleInternalData(
 }
 
 AsyncOp<SetupPushNotificationResult> TitleDataManagementAPI::AdminSetupPushNotification(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementSetupPushNotificationRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetupPushNotification" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetupPushNotification" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -771,25 +768,25 @@ AsyncOp<SetupPushNotificationResult> TitleDataManagementAPI::AdminSetupPushNotif
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminUpdateCatalogItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementUpdateCatalogItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateCatalogItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -810,25 +807,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateCatalogItems(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminUpdateRandomResultTables(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementUpdateRandomResultTablesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateRandomResultTables" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateRandomResultTables" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -849,25 +846,25 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateRandomResultTables(
 }
 
 AsyncOp<void> TitleDataManagementAPI::AdminUpdateStoreItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementUpdateStoreItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateStoreItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -888,24 +885,26 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateStoreItems(
 }
 
 AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ClientGetCatalogItems(
+    SharedPtr<TitlePlayer> entity,
     const PFTitleDataManagementGetCatalogItemsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetCatalogItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -928,24 +927,26 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ClientGetCatalogItems(
 }
 
 AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ClientGetPublisherData(
+    SharedPtr<TitlePlayer> entity,
     const PFTitleDataManagementGetPublisherDataRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPublisherData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -968,24 +969,26 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ClientGetPublisherData(
 }
 
 AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ClientGetStoreItems(
+    SharedPtr<TitlePlayer> entity,
     const PFTitleDataManagementGetStoreItemsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetStoreItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1008,23 +1011,25 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ClientGetStoreItems(
 }
 
 AsyncOp<GetTimeResult> TitleDataManagementAPI::ClientGetTime(
+    SharedPtr<TitlePlayer> entity,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetTime" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetTime" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1047,24 +1052,26 @@ AsyncOp<GetTimeResult> TitleDataManagementAPI::ClientGetTime(
 }
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ClientGetTitleData(
+    SharedPtr<TitlePlayer> entity,
     const PFTitleDataManagementGetTitleDataRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetTitleData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1087,24 +1094,26 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ClientGetTitleData(
 }
 
 AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ClientGetTitleNews(
+    SharedPtr<TitlePlayer> entity,
     const PFTitleDataManagementGetTitleNewsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetTitleNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetTitleNews" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1127,25 +1136,25 @@ AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ClientGetTitleNews(
 }
 
 AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ServerGetCatalogItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetCatalogItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCatalogItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1168,25 +1177,25 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ServerGetCatalogItems(
 }
 
 AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ServerGetPublisherData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetPublisherDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPublisherData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1209,25 +1218,25 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ServerGetPublisherData(
 }
 
 AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ServerGetStoreItems(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetStoreItemsServerRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetStoreItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1250,24 +1259,24 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ServerGetStoreItems(
 }
 
 AsyncOp<GetTimeResult> TitleDataManagementAPI::ServerGetTime(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetTime" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetTime" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1290,25 +1299,25 @@ AsyncOp<GetTimeResult> TitleDataManagementAPI::ServerGetTime(
 }
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetTitleData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1331,25 +1340,25 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleData(
 }
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleInternalData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetTitleInternalData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1372,25 +1381,25 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleInternalData(
 }
 
 AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ServerGetTitleNews(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementGetTitleNewsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetTitleNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetTitleNews" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1413,25 +1422,25 @@ AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ServerGetTitleNews(
 }
 
 AsyncOp<void> TitleDataManagementAPI::ServerSetPublisherData(
+    SharedPtr<GlobalState const> state,
     const PFSetPublisherDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SetPublisherData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1452,25 +1461,25 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetPublisherData(
 }
 
 AsyncOp<void> TitleDataManagementAPI::ServerSetTitleData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementSetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SetTitleData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1491,25 +1500,25 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetTitleData(
 }
 
 AsyncOp<void> TitleDataManagementAPI::ServerSetTitleInternalData(
+    SharedPtr<GlobalState const> state,
     const PFTitleDataManagementSetTitleDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SetTitleInternalData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

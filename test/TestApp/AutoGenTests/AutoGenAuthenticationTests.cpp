@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenAuthenticationTests::AuthenticationTestData AutoGenAuthenticationTests::testData;
+
 void AutoGenAuthenticationTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,49 +29,87 @@ HRESULT AutoGenAuthenticationTests::LogHR(HRESULT hr)
 
 void AutoGenAuthenticationTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestAuthenticationAdminCreateOpenIdConnection", &AutoGenAuthenticationTests::TestAuthenticationAdminCreateOpenIdConnection);
+
     AddTest("TestAuthenticationAdminCreatePlayerSharedSecret", &AutoGenAuthenticationTests::TestAuthenticationAdminCreatePlayerSharedSecret);
+
     AddTest("TestAuthenticationAdminDeleteOpenIdConnection", &AutoGenAuthenticationTests::TestAuthenticationAdminDeleteOpenIdConnection);
+
     AddTest("TestAuthenticationAdminDeletePlayerSharedSecret", &AutoGenAuthenticationTests::TestAuthenticationAdminDeletePlayerSharedSecret);
+
     AddTest("TestAuthenticationAdminGetPlayerSharedSecrets", &AutoGenAuthenticationTests::TestAuthenticationAdminGetPlayerSharedSecrets);
+
     AddTest("TestAuthenticationAdminGetPolicy", &AutoGenAuthenticationTests::TestAuthenticationAdminGetPolicy);
+
     AddTest("TestAuthenticationAdminListOpenIdConnection", &AutoGenAuthenticationTests::TestAuthenticationAdminListOpenIdConnection);
+
     AddTest("TestAuthenticationAdminSetPlayerSecret", &AutoGenAuthenticationTests::TestAuthenticationAdminSetPlayerSecret);
+
     AddTest("TestAuthenticationAdminUpdateOpenIdConnection", &AutoGenAuthenticationTests::TestAuthenticationAdminUpdateOpenIdConnection);
+
     AddTest("TestAuthenticationAdminUpdatePlayerSharedSecret", &AutoGenAuthenticationTests::TestAuthenticationAdminUpdatePlayerSharedSecret);
+
     AddTest("TestAuthenticationAdminUpdatePolicy", &AutoGenAuthenticationTests::TestAuthenticationAdminUpdatePolicy);
+
     AddTest("TestAuthenticationClientGetPhotonAuthenticationToken", &AutoGenAuthenticationTests::TestAuthenticationClientGetPhotonAuthenticationToken);
+
     AddTest("TestAuthenticationClientGetTitlePublicKey", &AutoGenAuthenticationTests::TestAuthenticationClientGetTitlePublicKey);
+
     AddTest("TestAuthenticationClientLoginWithAndroidDeviceID", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithAndroidDeviceID);
+
     AddTest("TestAuthenticationClientLoginWithApple", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithApple);
+
     AddTest("TestAuthenticationClientLoginWithCustomID", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithCustomID);
+
     AddTest("TestAuthenticationClientLoginWithEmailAddress", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithEmailAddress);
+
     AddTest("TestAuthenticationClientLoginWithFacebook", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithFacebook);
+
     AddTest("TestAuthenticationClientLoginWithFacebookInstantGamesId", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithFacebookInstantGamesId);
+
     AddTest("TestAuthenticationClientLoginWithGameCenter", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithGameCenter);
+
     AddTest("TestAuthenticationClientLoginWithGoogleAccount", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithGoogleAccount);
+
     AddTest("TestAuthenticationClientLoginWithIOSDeviceID", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithIOSDeviceID);
+
     AddTest("TestAuthenticationClientLoginWithKongregate", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithKongregate);
+
     AddTest("TestAuthenticationClientLoginWithNintendoServiceAccount", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithNintendoServiceAccount);
+
     AddTest("TestAuthenticationClientLoginWithNintendoSwitchDeviceId", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithNintendoSwitchDeviceId);
+
     AddTest("TestAuthenticationClientLoginWithOpenIdConnect", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithOpenIdConnect);
+
     AddTest("TestAuthenticationClientLoginWithPlayFab", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithPlayFab);
+
     AddTest("TestAuthenticationClientLoginWithPSN", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithPSN);
+
     AddTest("TestAuthenticationClientLoginWithSteam", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithSteam);
+
     AddTest("TestAuthenticationClientLoginWithTwitch", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithTwitch);
+
     AddTest("TestAuthenticationClientLoginWithXbox", &AutoGenAuthenticationTests::TestAuthenticationClientLoginWithXbox);
+
     AddTest("TestAuthenticationClientRegisterPlayFabUser", &AutoGenAuthenticationTests::TestAuthenticationClientRegisterPlayFabUser);
+
     AddTest("TestAuthenticationClientSetPlayerSecret", &AutoGenAuthenticationTests::TestAuthenticationClientSetPlayerSecret);
+
     AddTest("TestAuthenticationServerAuthenticateSessionTicket", &AutoGenAuthenticationTests::TestAuthenticationServerAuthenticateSessionTicket);
+
     AddTest("TestAuthenticationServerLoginWithServerCustomId", &AutoGenAuthenticationTests::TestAuthenticationServerLoginWithServerCustomId);
+
     AddTest("TestAuthenticationServerLoginWithSteamId", &AutoGenAuthenticationTests::TestAuthenticationServerLoginWithSteamId);
+
     AddTest("TestAuthenticationServerLoginWithXbox", &AutoGenAuthenticationTests::TestAuthenticationServerLoginWithXbox);
+
     AddTest("TestAuthenticationServerLoginWithXboxId", &AutoGenAuthenticationTests::TestAuthenticationServerLoginWithXboxId);
+
     AddTest("TestAuthenticationServerSetPlayerSecret", &AutoGenAuthenticationTests::TestAuthenticationServerSetPlayerSecret);
+
     AddTest("TestAuthenticationGetEntityToken", &AutoGenAuthenticationTests::TestAuthenticationGetEntityToken);
+
     AddTest("TestAuthenticationValidateEntityToken", &AutoGenAuthenticationTests::TestAuthenticationValidateEntityToken);
 }
 
@@ -108,10 +148,52 @@ void AutoGenAuthenticationTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -120,10 +202,12 @@ void AutoGenAuthenticationTests::ClassSetUp()
 
 void AutoGenAuthenticationTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -142,6 +226,8 @@ void AutoGenAuthenticationTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminCreateOpenIdConnection
 
 void AutoGenAuthenticationTests::TestAuthenticationAdminCreateOpenIdConnection(TestContext& testContext)
 {
@@ -171,7 +257,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminCreateOpenIdConnection(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminCreatePlayerSharedSecret
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminCreatePlayerSharedSecret(TestContext& testContext)
 {
     struct AdminCreatePlayerSharedSecretResult : public XAsyncResult
@@ -205,7 +296,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminCreatePlayerSharedSecret
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteOpenIdConnection
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminDeleteOpenIdConnection(TestContext& testContext)
 {
     struct AdminDeleteOpenIdConnectionResult : public XAsyncResult
@@ -234,7 +330,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminDeleteOpenIdConnection(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeletePlayerSharedSecret
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminDeletePlayerSharedSecret(TestContext& testContext)
 {
     struct AdminDeletePlayerSharedSecretResult : public XAsyncResult
@@ -263,7 +364,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminDeletePlayerSharedSecret
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerSharedSecrets
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminGetPlayerSharedSecrets(TestContext& testContext)
 {
     struct AdminGetPlayerSharedSecretsResult : public XAsyncResult
@@ -290,7 +396,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminGetPlayerSharedSecrets(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPolicy
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminGetPolicy(TestContext& testContext)
 {
     struct AdminGetPolicyResult : public XAsyncResult
@@ -320,7 +431,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminGetPolicy(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminListOpenIdConnection
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminListOpenIdConnection(TestContext& testContext)
 {
     struct AdminListOpenIdConnectionResult : public XAsyncResult
@@ -347,7 +463,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminListOpenIdConnection(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSetPlayerSecret
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminSetPlayerSecret(TestContext& testContext)
 {
     struct AdminSetPlayerSecretResult : public XAsyncResult
@@ -376,7 +497,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminSetPlayerSecret(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateOpenIdConnection
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminUpdateOpenIdConnection(TestContext& testContext)
 {
     struct AdminUpdateOpenIdConnectionResult : public XAsyncResult
@@ -405,7 +531,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminUpdateOpenIdConnection(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdatePlayerSharedSecret
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminUpdatePlayerSharedSecret(TestContext& testContext)
 {
     struct AdminUpdatePlayerSharedSecretResult : public XAsyncResult
@@ -434,7 +565,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminUpdatePlayerSharedSecret
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdatePolicy
+
 void AutoGenAuthenticationTests::TestAuthenticationAdminUpdatePolicy(TestContext& testContext)
 {
     struct AdminUpdatePolicyResult : public XAsyncResult
@@ -464,7 +600,12 @@ void AutoGenAuthenticationTests::TestAuthenticationAdminUpdatePolicy(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPhotonAuthenticationToken
+
 void AutoGenAuthenticationTests::TestAuthenticationClientGetPhotonAuthenticationToken(TestContext& testContext)
 {
     struct ClientGetPhotonAuthenticationTokenResult : public XAsyncResult
@@ -491,14 +632,19 @@ void AutoGenAuthenticationTests::TestAuthenticationClientGetPhotonAuthentication
     PlayFab::AuthenticationModels::GetPhotonAuthenticationTokenRequest request;
     FillGetPhotonAuthenticationTokenRequest( &request );
     LogGetPhotonAuthenticationTokenRequest( &request, "TestAuthenticationClientGetPhotonAuthenticationToken" );
-    HRESULT hr = PFAuthenticationClientGetPhotonAuthenticationTokenAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAuthenticationClientGetPhotonAuthenticationTokenAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAuthenticationAuthenticationClientGetPhotonAuthenticationTokenAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetTitlePublicKey
+
 void AutoGenAuthenticationTests::TestAuthenticationClientGetTitlePublicKey(TestContext& testContext)
 {
     struct ClientGetTitlePublicKeyResult : public XAsyncResult
@@ -532,7 +678,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientGetTitlePublicKey(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithAndroidDeviceID
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithAndroidDeviceID(TestContext& testContext)
 {
     struct ClientLoginWithAndroidDeviceIDResult : public XAsyncResult
@@ -562,7 +713,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithAndroidDeviceI
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithApple
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithApple(TestContext& testContext)
 {
     struct ClientLoginWithAppleResult : public XAsyncResult
@@ -592,7 +748,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithApple(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithCustomID
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithCustomID(TestContext& testContext)
 {
     struct ClientLoginWithCustomIDResult : public XAsyncResult
@@ -622,7 +783,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithCustomID(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithEmailAddress
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithEmailAddress(TestContext& testContext)
 {
     struct ClientLoginWithEmailAddressResult : public XAsyncResult
@@ -652,7 +818,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithEmailAddress(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithFacebook
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithFacebook(TestContext& testContext)
 {
     struct ClientLoginWithFacebookResult : public XAsyncResult
@@ -682,7 +853,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithFacebook(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithFacebookInstantGamesId
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithFacebookInstantGamesId(TestContext& testContext)
 {
     struct ClientLoginWithFacebookInstantGamesIdResult : public XAsyncResult
@@ -712,7 +888,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithFacebookInstan
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithGameCenter
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithGameCenter(TestContext& testContext)
 {
     struct ClientLoginWithGameCenterResult : public XAsyncResult
@@ -742,7 +923,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithGameCenter(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithGoogleAccount
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithGoogleAccount(TestContext& testContext)
 {
     struct ClientLoginWithGoogleAccountResult : public XAsyncResult
@@ -772,7 +958,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithGoogleAccount(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithIOSDeviceID
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithIOSDeviceID(TestContext& testContext)
 {
     struct ClientLoginWithIOSDeviceIDResult : public XAsyncResult
@@ -802,7 +993,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithIOSDeviceID(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithKongregate
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithKongregate(TestContext& testContext)
 {
     struct ClientLoginWithKongregateResult : public XAsyncResult
@@ -832,7 +1028,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithKongregate(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithNintendoServiceAccount
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithNintendoServiceAccount(TestContext& testContext)
 {
     struct ClientLoginWithNintendoServiceAccountResult : public XAsyncResult
@@ -862,7 +1063,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithNintendoServic
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithNintendoSwitchDeviceId
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithNintendoSwitchDeviceId(TestContext& testContext)
 {
     struct ClientLoginWithNintendoSwitchDeviceIdResult : public XAsyncResult
@@ -892,7 +1098,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithNintendoSwitch
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithOpenIdConnect
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithOpenIdConnect(TestContext& testContext)
 {
     struct ClientLoginWithOpenIdConnectResult : public XAsyncResult
@@ -922,7 +1133,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithOpenIdConnect(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithPlayFab
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithPlayFab(TestContext& testContext)
 {
     struct ClientLoginWithPlayFabResult : public XAsyncResult
@@ -952,7 +1168,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithPlayFab(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithPSN
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithPSN(TestContext& testContext)
 {
     struct ClientLoginWithPSNResult : public XAsyncResult
@@ -982,7 +1203,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithPSN(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithSteam
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithSteam(TestContext& testContext)
 {
     struct ClientLoginWithSteamResult : public XAsyncResult
@@ -1012,7 +1238,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithSteam(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithTwitch
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithTwitch(TestContext& testContext)
 {
     struct ClientLoginWithTwitchResult : public XAsyncResult
@@ -1042,7 +1273,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithTwitch(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLoginWithXbox
+
 void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithXbox(TestContext& testContext)
 {
     struct ClientLoginWithXboxResult : public XAsyncResult
@@ -1072,7 +1308,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientLoginWithXbox(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRegisterPlayFabUser
+
 void AutoGenAuthenticationTests::TestAuthenticationClientRegisterPlayFabUser(TestContext& testContext)
 {
     struct ClientRegisterPlayFabUserResult : public XAsyncResult
@@ -1102,7 +1343,12 @@ void AutoGenAuthenticationTests::TestAuthenticationClientRegisterPlayFabUser(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientSetPlayerSecret
+
 void AutoGenAuthenticationTests::TestAuthenticationClientSetPlayerSecret(TestContext& testContext)
 {
     struct ClientSetPlayerSecretResult : public XAsyncResult
@@ -1124,14 +1370,19 @@ void AutoGenAuthenticationTests::TestAuthenticationClientSetPlayerSecret(TestCon
     PlayFab::AuthenticationModels::ClientSetPlayerSecretRequest request;
     FillClientSetPlayerSecretRequest( &request );
     LogClientSetPlayerSecretRequest( &request, "TestAuthenticationClientSetPlayerSecret" );
-    HRESULT hr = PFAuthenticationClientSetPlayerSecretAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAuthenticationClientSetPlayerSecretAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAuthenticationAuthenticationClientSetPlayerSecretAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAuthenticateSessionTicket
+
 void AutoGenAuthenticationTests::TestAuthenticationServerAuthenticateSessionTicket(TestContext& testContext)
 {
     struct ServerAuthenticateSessionTicketResult : public XAsyncResult
@@ -1161,7 +1412,12 @@ void AutoGenAuthenticationTests::TestAuthenticationServerAuthenticateSessionTick
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLoginWithServerCustomId
+
 void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithServerCustomId(TestContext& testContext)
 {
     struct ServerLoginWithServerCustomIdResult : public XAsyncResult
@@ -1191,7 +1447,12 @@ void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithServerCustomId
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLoginWithSteamId
+
 void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithSteamId(TestContext& testContext)
 {
     struct ServerLoginWithSteamIdResult : public XAsyncResult
@@ -1221,7 +1482,12 @@ void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithSteamId(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLoginWithXbox
+
 void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithXbox(TestContext& testContext)
 {
     struct ServerLoginWithXboxResult : public XAsyncResult
@@ -1251,7 +1517,12 @@ void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithXbox(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLoginWithXboxId
+
 void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithXboxId(TestContext& testContext)
 {
     struct ServerLoginWithXboxIdResult : public XAsyncResult
@@ -1281,7 +1552,12 @@ void AutoGenAuthenticationTests::TestAuthenticationServerLoginWithXboxId(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetPlayerSecret
+
 void AutoGenAuthenticationTests::TestAuthenticationServerSetPlayerSecret(TestContext& testContext)
 {
     struct ServerSetPlayerSecretResult : public XAsyncResult
@@ -1310,7 +1586,12 @@ void AutoGenAuthenticationTests::TestAuthenticationServerSetPlayerSecret(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetEntityToken
+
 void AutoGenAuthenticationTests::TestAuthenticationGetEntityToken(TestContext& testContext)
 {
     struct GetEntityTokenResult : public XAsyncResult
@@ -1340,7 +1621,12 @@ void AutoGenAuthenticationTests::TestAuthenticationGetEntityToken(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ValidateEntityToken
+
 void AutoGenAuthenticationTests::TestAuthenticationValidateEntityToken(TestContext& testContext)
 {
     struct ValidateEntityTokenResult : public XAsyncResult
@@ -1370,6 +1656,9 @@ void AutoGenAuthenticationTests::TestAuthenticationValidateEntityToken(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

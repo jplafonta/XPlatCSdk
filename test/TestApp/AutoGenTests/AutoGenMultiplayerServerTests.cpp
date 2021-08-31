@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenMultiplayerServerTests::MultiplayerServerTestData AutoGenMultiplayerServerTests::testData;
+
 void AutoGenMultiplayerServerTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,55 +29,99 @@ HRESULT AutoGenMultiplayerServerTests::LogHR(HRESULT hr)
 
 void AutoGenMultiplayerServerTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestMultiplayerServerCreateBuildAlias", &AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildAlias);
+
     AddTest("TestMultiplayerServerCreateBuildWithCustomContainer", &AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithCustomContainer);
+
     AddTest("TestMultiplayerServerCreateBuildWithManagedContainer", &AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithManagedContainer);
+
     AddTest("TestMultiplayerServerCreateBuildWithProcessBasedServer", &AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithProcessBasedServer);
+
     AddTest("TestMultiplayerServerCreateRemoteUser", &AutoGenMultiplayerServerTests::TestMultiplayerServerCreateRemoteUser);
+
     AddTest("TestMultiplayerServerCreateTitleMultiplayerServersQuotaChange", &AutoGenMultiplayerServerTests::TestMultiplayerServerCreateTitleMultiplayerServersQuotaChange);
+
     AddTest("TestMultiplayerServerDeleteAsset", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteAsset);
+
     AddTest("TestMultiplayerServerDeleteBuild", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuild);
+
     AddTest("TestMultiplayerServerDeleteBuildAlias", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuildAlias);
+
     AddTest("TestMultiplayerServerDeleteBuildRegion", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuildRegion);
+
     AddTest("TestMultiplayerServerDeleteCertificate", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteCertificate);
+
     AddTest("TestMultiplayerServerDeleteContainerImageRepository", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteContainerImageRepository);
+
     AddTest("TestMultiplayerServerDeleteRemoteUser", &AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteRemoteUser);
+
     AddTest("TestMultiplayerServerEnableMultiplayerServersForTitle", &AutoGenMultiplayerServerTests::TestMultiplayerServerEnableMultiplayerServersForTitle);
+
     AddTest("TestMultiplayerServerGetAssetDownloadUrl", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetAssetDownloadUrl);
+
     AddTest("TestMultiplayerServerGetAssetUploadUrl", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetAssetUploadUrl);
+
     AddTest("TestMultiplayerServerGetBuild", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetBuild);
+
     AddTest("TestMultiplayerServerGetBuildAlias", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetBuildAlias);
+
     AddTest("TestMultiplayerServerGetContainerRegistryCredentials", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetContainerRegistryCredentials);
+
     AddTest("TestMultiplayerServerGetMultiplayerServerDetails", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerServerDetails);
+
     AddTest("TestMultiplayerServerGetMultiplayerServerLogs", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerServerLogs);
+
     AddTest("TestMultiplayerServerGetMultiplayerSessionLogsBySessionId", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerSessionLogsBySessionId);
+
     AddTest("TestMultiplayerServerGetRemoteLoginEndpoint", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetRemoteLoginEndpoint);
+
     AddTest("TestMultiplayerServerGetTitleEnabledForMultiplayerServersStatus", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleEnabledForMultiplayerServersStatus);
+
     AddTest("TestMultiplayerServerGetTitleMultiplayerServersQuotaChange", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleMultiplayerServersQuotaChange);
+
     AddTest("TestMultiplayerServerGetTitleMultiplayerServersQuotas", &AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleMultiplayerServersQuotas);
+
     AddTest("TestMultiplayerServerListArchivedMultiplayerServers", &AutoGenMultiplayerServerTests::TestMultiplayerServerListArchivedMultiplayerServers);
+
     AddTest("TestMultiplayerServerListAssetSummaries", &AutoGenMultiplayerServerTests::TestMultiplayerServerListAssetSummaries);
+
     AddTest("TestMultiplayerServerListBuildAliases", &AutoGenMultiplayerServerTests::TestMultiplayerServerListBuildAliases);
+
     AddTest("TestMultiplayerServerListBuildSummariesV2", &AutoGenMultiplayerServerTests::TestMultiplayerServerListBuildSummariesV2);
+
     AddTest("TestMultiplayerServerListCertificateSummaries", &AutoGenMultiplayerServerTests::TestMultiplayerServerListCertificateSummaries);
+
     AddTest("TestMultiplayerServerListContainerImages", &AutoGenMultiplayerServerTests::TestMultiplayerServerListContainerImages);
+
     AddTest("TestMultiplayerServerListContainerImageTags", &AutoGenMultiplayerServerTests::TestMultiplayerServerListContainerImageTags);
+
     AddTest("TestMultiplayerServerListMultiplayerServers", &AutoGenMultiplayerServerTests::TestMultiplayerServerListMultiplayerServers);
+
     AddTest("TestMultiplayerServerListPartyQosServers", &AutoGenMultiplayerServerTests::TestMultiplayerServerListPartyQosServers);
+
     AddTest("TestMultiplayerServerListQosServersForTitle", &AutoGenMultiplayerServerTests::TestMultiplayerServerListQosServersForTitle);
+
     AddTest("TestMultiplayerServerListTitleMultiplayerServersQuotaChanges", &AutoGenMultiplayerServerTests::TestMultiplayerServerListTitleMultiplayerServersQuotaChanges);
+
     AddTest("TestMultiplayerServerListVirtualMachineSummaries", &AutoGenMultiplayerServerTests::TestMultiplayerServerListVirtualMachineSummaries);
+
     AddTest("TestMultiplayerServerRequestMultiplayerServer", &AutoGenMultiplayerServerTests::TestMultiplayerServerRequestMultiplayerServer);
+
     AddTest("TestMultiplayerServerRolloverContainerRegistryCredentials", &AutoGenMultiplayerServerTests::TestMultiplayerServerRolloverContainerRegistryCredentials);
+
     AddTest("TestMultiplayerServerShutdownMultiplayerServer", &AutoGenMultiplayerServerTests::TestMultiplayerServerShutdownMultiplayerServer);
+
     AddTest("TestMultiplayerServerUntagContainerImage", &AutoGenMultiplayerServerTests::TestMultiplayerServerUntagContainerImage);
+
     AddTest("TestMultiplayerServerUpdateBuildAlias", &AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildAlias);
+
     AddTest("TestMultiplayerServerUpdateBuildName", &AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildName);
+
     AddTest("TestMultiplayerServerUpdateBuildRegion", &AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildRegion);
+
     AddTest("TestMultiplayerServerUpdateBuildRegions", &AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildRegions);
+
     AddTest("TestMultiplayerServerUploadCertificate", &AutoGenMultiplayerServerTests::TestMultiplayerServerUploadCertificate);
 }
 
@@ -114,10 +160,52 @@ void AutoGenMultiplayerServerTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -126,10 +214,12 @@ void AutoGenMultiplayerServerTests::ClassSetUp()
 
 void AutoGenMultiplayerServerTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -148,6 +238,8 @@ void AutoGenMultiplayerServerTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region CreateBuildAlias
 
 void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildAlias(TestContext& testContext)
 {
@@ -178,7 +270,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildAlias(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateBuildWithCustomContainer
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithCustomContainer(TestContext& testContext)
 {
     struct CreateBuildWithCustomContainerResult : public XAsyncResult
@@ -208,7 +305,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithCustomCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateBuildWithManagedContainer
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithManagedContainer(TestContext& testContext)
 {
     struct CreateBuildWithManagedContainerResult : public XAsyncResult
@@ -238,7 +340,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithManagedC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateBuildWithProcessBasedServer
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithProcessBasedServer(TestContext& testContext)
 {
     struct CreateBuildWithProcessBasedServerResult : public XAsyncResult
@@ -268,7 +375,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateBuildWithProcessB
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateRemoteUser
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateRemoteUser(TestContext& testContext)
 {
     struct CreateRemoteUserResult : public XAsyncResult
@@ -298,7 +410,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateRemoteUser(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateTitleMultiplayerServersQuotaChange
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateTitleMultiplayerServersQuotaChange(TestContext& testContext)
 {
     struct CreateTitleMultiplayerServersQuotaChangeResult : public XAsyncResult
@@ -332,7 +449,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerCreateTitleMultiplayerS
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteAsset
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteAsset(TestContext& testContext)
 {
     struct DeleteAssetResult : public XAsyncResult
@@ -361,7 +483,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteAsset(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteBuild
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuild(TestContext& testContext)
 {
     struct DeleteBuildResult : public XAsyncResult
@@ -390,7 +517,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuild(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteBuildAlias
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuildAlias(TestContext& testContext)
 {
     struct DeleteBuildAliasResult : public XAsyncResult
@@ -419,7 +551,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuildAlias(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteBuildRegion
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuildRegion(TestContext& testContext)
 {
     struct DeleteBuildRegionResult : public XAsyncResult
@@ -448,7 +585,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteBuildRegion(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteCertificate
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteCertificate(TestContext& testContext)
 {
     struct DeleteCertificateResult : public XAsyncResult
@@ -477,7 +619,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteCertificate(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteContainerImageRepository
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteContainerImageRepository(TestContext& testContext)
 {
     struct DeleteContainerImageRepositoryResult : public XAsyncResult
@@ -506,7 +653,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteContainerImageRep
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteRemoteUser
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteRemoteUser(TestContext& testContext)
 {
     struct DeleteRemoteUserResult : public XAsyncResult
@@ -535,7 +687,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerDeleteRemoteUser(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region EnableMultiplayerServersForTitle
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerEnableMultiplayerServersForTitle(TestContext& testContext)
 {
     struct EnableMultiplayerServersForTitleResult : public XAsyncResult
@@ -565,7 +722,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerEnableMultiplayerServer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetAssetDownloadUrl
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetAssetDownloadUrl(TestContext& testContext)
 {
     struct GetAssetDownloadUrlResult : public XAsyncResult
@@ -599,7 +761,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetAssetDownloadUrl(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetAssetUploadUrl
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetAssetUploadUrl(TestContext& testContext)
 {
     struct GetAssetUploadUrlResult : public XAsyncResult
@@ -633,7 +800,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetAssetUploadUrl(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetBuild
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetBuild(TestContext& testContext)
 {
     struct GetBuildResult : public XAsyncResult
@@ -663,7 +835,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetBuild(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetBuildAlias
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetBuildAlias(TestContext& testContext)
 {
     struct GetBuildAliasResult : public XAsyncResult
@@ -693,7 +870,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetBuildAlias(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetContainerRegistryCredentials
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetContainerRegistryCredentials(TestContext& testContext)
 {
     struct GetContainerRegistryCredentialsResult : public XAsyncResult
@@ -727,7 +909,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetContainerRegistryCre
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetMultiplayerServerDetails
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerServerDetails(TestContext& testContext)
 {
     struct GetMultiplayerServerDetailsResult : public XAsyncResult
@@ -757,7 +944,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerServerDet
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetMultiplayerServerLogs
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerServerLogs(TestContext& testContext)
 {
     struct GetMultiplayerServerLogsResult : public XAsyncResult
@@ -791,7 +983,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerServerLog
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetMultiplayerSessionLogsBySessionId
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerSessionLogsBySessionId(TestContext& testContext)
 {
     struct GetMultiplayerSessionLogsBySessionIdResult : public XAsyncResult
@@ -825,7 +1022,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetMultiplayerSessionLo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetRemoteLoginEndpoint
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetRemoteLoginEndpoint(TestContext& testContext)
 {
     struct GetRemoteLoginEndpointResult : public XAsyncResult
@@ -859,7 +1061,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetRemoteLoginEndpoint(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetTitleEnabledForMultiplayerServersStatus
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleEnabledForMultiplayerServersStatus(TestContext& testContext)
 {
     struct GetTitleEnabledForMultiplayerServersStatusResult : public XAsyncResult
@@ -889,7 +1096,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleEnabledForMulti
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetTitleMultiplayerServersQuotaChange
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleMultiplayerServersQuotaChange(TestContext& testContext)
 {
     struct GetTitleMultiplayerServersQuotaChangeResult : public XAsyncResult
@@ -919,7 +1131,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleMultiplayerServ
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetTitleMultiplayerServersQuotas
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleMultiplayerServersQuotas(TestContext& testContext)
 {
     struct GetTitleMultiplayerServersQuotasResult : public XAsyncResult
@@ -949,7 +1166,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerGetTitleMultiplayerServ
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListArchivedMultiplayerServers
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListArchivedMultiplayerServers(TestContext& testContext)
 {
     struct ListArchivedMultiplayerServersResult : public XAsyncResult
@@ -979,7 +1201,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListArchivedMultiplayer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListAssetSummaries
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListAssetSummaries(TestContext& testContext)
 {
     struct ListAssetSummariesResult : public XAsyncResult
@@ -1009,7 +1236,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListAssetSummaries(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListBuildAliases
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListBuildAliases(TestContext& testContext)
 {
     struct ListBuildAliasesResult : public XAsyncResult
@@ -1039,7 +1271,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListBuildAliases(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListBuildSummariesV2
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListBuildSummariesV2(TestContext& testContext)
 {
     struct ListBuildSummariesV2Result : public XAsyncResult
@@ -1069,7 +1306,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListBuildSummariesV2(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListCertificateSummaries
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListCertificateSummaries(TestContext& testContext)
 {
     struct ListCertificateSummariesResult : public XAsyncResult
@@ -1099,7 +1341,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListCertificateSummarie
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListContainerImages
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListContainerImages(TestContext& testContext)
 {
     struct ListContainerImagesResult : public XAsyncResult
@@ -1129,7 +1376,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListContainerImages(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListContainerImageTags
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListContainerImageTags(TestContext& testContext)
 {
     struct ListContainerImageTagsResult : public XAsyncResult
@@ -1159,7 +1411,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListContainerImageTags(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListMultiplayerServers
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListMultiplayerServers(TestContext& testContext)
 {
     struct ListMultiplayerServersResult : public XAsyncResult
@@ -1189,7 +1446,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListMultiplayerServers(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListPartyQosServers
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListPartyQosServers(TestContext& testContext)
 {
     struct ListPartyQosServersResult : public XAsyncResult
@@ -1219,7 +1481,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListPartyQosServers(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListQosServersForTitle
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListQosServersForTitle(TestContext& testContext)
 {
     struct ListQosServersForTitleResult : public XAsyncResult
@@ -1249,7 +1516,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListQosServersForTitle(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListTitleMultiplayerServersQuotaChanges
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListTitleMultiplayerServersQuotaChanges(TestContext& testContext)
 {
     struct ListTitleMultiplayerServersQuotaChangesResult : public XAsyncResult
@@ -1279,7 +1551,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListTitleMultiplayerSer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListVirtualMachineSummaries
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerListVirtualMachineSummaries(TestContext& testContext)
 {
     struct ListVirtualMachineSummariesResult : public XAsyncResult
@@ -1309,7 +1586,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerListVirtualMachineSumma
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region RequestMultiplayerServer
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerRequestMultiplayerServer(TestContext& testContext)
 {
     struct RequestMultiplayerServerResult : public XAsyncResult
@@ -1339,7 +1621,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerRequestMultiplayerServe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region RolloverContainerRegistryCredentials
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerRolloverContainerRegistryCredentials(TestContext& testContext)
 {
     struct RolloverContainerRegistryCredentialsResult : public XAsyncResult
@@ -1373,7 +1660,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerRolloverContainerRegist
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ShutdownMultiplayerServer
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerShutdownMultiplayerServer(TestContext& testContext)
 {
     struct ShutdownMultiplayerServerResult : public XAsyncResult
@@ -1402,7 +1694,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerShutdownMultiplayerServ
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UntagContainerImage
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerUntagContainerImage(TestContext& testContext)
 {
     struct UntagContainerImageResult : public XAsyncResult
@@ -1431,7 +1728,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerUntagContainerImage(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UpdateBuildAlias
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildAlias(TestContext& testContext)
 {
     struct UpdateBuildAliasResult : public XAsyncResult
@@ -1461,7 +1763,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildAlias(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UpdateBuildName
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildName(TestContext& testContext)
 {
     struct UpdateBuildNameResult : public XAsyncResult
@@ -1490,7 +1797,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildName(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UpdateBuildRegion
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildRegion(TestContext& testContext)
 {
     struct UpdateBuildRegionResult : public XAsyncResult
@@ -1519,7 +1831,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildRegion(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UpdateBuildRegions
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildRegions(TestContext& testContext)
 {
     struct UpdateBuildRegionsResult : public XAsyncResult
@@ -1548,7 +1865,12 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerUpdateBuildRegions(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UploadCertificate
+
 void AutoGenMultiplayerServerTests::TestMultiplayerServerUploadCertificate(TestContext& testContext)
 {
     struct UploadCertificateResult : public XAsyncResult
@@ -1577,6 +1899,9 @@ void AutoGenMultiplayerServerTests::TestMultiplayerServerUploadCertificate(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

@@ -9,8 +9,6 @@ uint32_t g_CharacterTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenCharacterTests::LogResetCharacterStatisticsRequest( PlayFab::CharacterModels::ResetCharacterStatisticsRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

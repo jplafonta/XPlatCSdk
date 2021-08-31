@@ -1,36 +1,35 @@
 #include "stdafx.h"
 #include "Data.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace DataModels;
 
-DataAPI::DataAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<AbortFileUploadsResponse> DataAPI::AbortFileUploads(
+    SharedPtr<Entity> entity,
     const PFDataAbortFileUploadsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/File/AbortFileUploads" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/File/AbortFileUploads" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -53,24 +52,26 @@ AsyncOp<AbortFileUploadsResponse> DataAPI::AbortFileUploads(
 }
 
 AsyncOp<DeleteFilesResponse> DataAPI::DeleteFiles(
+    SharedPtr<Entity> entity,
     const PFDataDeleteFilesRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/File/DeleteFiles" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/File/DeleteFiles" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -93,24 +94,26 @@ AsyncOp<DeleteFilesResponse> DataAPI::DeleteFiles(
 }
 
 AsyncOp<FinalizeFileUploadsResponse> DataAPI::FinalizeFileUploads(
+    SharedPtr<Entity> entity,
     const PFDataFinalizeFileUploadsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/File/FinalizeFileUploads" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/File/FinalizeFileUploads" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -133,24 +136,26 @@ AsyncOp<FinalizeFileUploadsResponse> DataAPI::FinalizeFileUploads(
 }
 
 AsyncOp<GetFilesResponse> DataAPI::GetFiles(
+    SharedPtr<Entity> entity,
     const PFDataGetFilesRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/File/GetFiles" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/File/GetFiles" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -173,24 +178,26 @@ AsyncOp<GetFilesResponse> DataAPI::GetFiles(
 }
 
 AsyncOp<GetObjectsResponse> DataAPI::GetObjects(
+    SharedPtr<Entity> entity,
     const PFDataGetObjectsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Object/GetObjects" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Object/GetObjects" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -213,24 +220,26 @@ AsyncOp<GetObjectsResponse> DataAPI::GetObjects(
 }
 
 AsyncOp<InitiateFileUploadsResponse> DataAPI::InitiateFileUploads(
+    SharedPtr<Entity> entity,
     const PFDataInitiateFileUploadsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/File/InitiateFileUploads" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/File/InitiateFileUploads" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -253,24 +262,26 @@ AsyncOp<InitiateFileUploadsResponse> DataAPI::InitiateFileUploads(
 }
 
 AsyncOp<SetObjectsResponse> DataAPI::SetObjects(
+    SharedPtr<Entity> entity,
     const PFDataSetObjectsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Object/SetObjects" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Object/SetObjects" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

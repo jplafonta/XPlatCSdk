@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenExperimentationTests::ExperimentationTestData AutoGenExperimentationTests::testData;
+
 void AutoGenExperimentationTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,21 +29,31 @@ HRESULT AutoGenExperimentationTests::LogHR(HRESULT hr)
 
 void AutoGenExperimentationTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestExperimentationCreateExclusionGroup", &AutoGenExperimentationTests::TestExperimentationCreateExclusionGroup);
+
     AddTest("TestExperimentationCreateExperiment", &AutoGenExperimentationTests::TestExperimentationCreateExperiment);
+
     AddTest("TestExperimentationDeleteExclusionGroup", &AutoGenExperimentationTests::TestExperimentationDeleteExclusionGroup);
+
     AddTest("TestExperimentationDeleteExperiment", &AutoGenExperimentationTests::TestExperimentationDeleteExperiment);
+
     AddTest("TestExperimentationGetExclusionGroups", &AutoGenExperimentationTests::TestExperimentationGetExclusionGroups);
+
     AddTest("TestExperimentationGetExclusionGroupTraffic", &AutoGenExperimentationTests::TestExperimentationGetExclusionGroupTraffic);
+
     AddTest("TestExperimentationGetExperiments", &AutoGenExperimentationTests::TestExperimentationGetExperiments);
+
     AddTest("TestExperimentationGetLatestScorecard", &AutoGenExperimentationTests::TestExperimentationGetLatestScorecard);
+
     AddTest("TestExperimentationGetTreatmentAssignment", &AutoGenExperimentationTests::TestExperimentationGetTreatmentAssignment);
+
     AddTest("TestExperimentationStartExperiment", &AutoGenExperimentationTests::TestExperimentationStartExperiment);
+
     AddTest("TestExperimentationStopExperiment", &AutoGenExperimentationTests::TestExperimentationStopExperiment);
+
     AddTest("TestExperimentationUpdateExclusionGroup", &AutoGenExperimentationTests::TestExperimentationUpdateExclusionGroup);
+
     AddTest("TestExperimentationUpdateExperiment", &AutoGenExperimentationTests::TestExperimentationUpdateExperiment);
 }
 
@@ -80,10 +92,52 @@ void AutoGenExperimentationTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -92,10 +146,12 @@ void AutoGenExperimentationTests::ClassSetUp()
 
 void AutoGenExperimentationTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -114,6 +170,8 @@ void AutoGenExperimentationTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region CreateExclusionGroup
 
 void AutoGenExperimentationTests::TestExperimentationCreateExclusionGroup(TestContext& testContext)
 {
@@ -148,7 +206,12 @@ void AutoGenExperimentationTests::TestExperimentationCreateExclusionGroup(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateExperiment
+
 void AutoGenExperimentationTests::TestExperimentationCreateExperiment(TestContext& testContext)
 {
     struct CreateExperimentResult : public XAsyncResult
@@ -182,7 +245,12 @@ void AutoGenExperimentationTests::TestExperimentationCreateExperiment(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteExclusionGroup
+
 void AutoGenExperimentationTests::TestExperimentationDeleteExclusionGroup(TestContext& testContext)
 {
     struct DeleteExclusionGroupResult : public XAsyncResult
@@ -211,7 +279,12 @@ void AutoGenExperimentationTests::TestExperimentationDeleteExclusionGroup(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region DeleteExperiment
+
 void AutoGenExperimentationTests::TestExperimentationDeleteExperiment(TestContext& testContext)
 {
     struct DeleteExperimentResult : public XAsyncResult
@@ -240,7 +313,12 @@ void AutoGenExperimentationTests::TestExperimentationDeleteExperiment(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetExclusionGroups
+
 void AutoGenExperimentationTests::TestExperimentationGetExclusionGroups(TestContext& testContext)
 {
     struct GetExclusionGroupsResult : public XAsyncResult
@@ -270,7 +348,12 @@ void AutoGenExperimentationTests::TestExperimentationGetExclusionGroups(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetExclusionGroupTraffic
+
 void AutoGenExperimentationTests::TestExperimentationGetExclusionGroupTraffic(TestContext& testContext)
 {
     struct GetExclusionGroupTrafficResult : public XAsyncResult
@@ -300,7 +383,12 @@ void AutoGenExperimentationTests::TestExperimentationGetExclusionGroupTraffic(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetExperiments
+
 void AutoGenExperimentationTests::TestExperimentationGetExperiments(TestContext& testContext)
 {
     struct GetExperimentsResult : public XAsyncResult
@@ -330,7 +418,12 @@ void AutoGenExperimentationTests::TestExperimentationGetExperiments(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetLatestScorecard
+
 void AutoGenExperimentationTests::TestExperimentationGetLatestScorecard(TestContext& testContext)
 {
     struct GetLatestScorecardResult : public XAsyncResult
@@ -360,7 +453,12 @@ void AutoGenExperimentationTests::TestExperimentationGetLatestScorecard(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetTreatmentAssignment
+
 void AutoGenExperimentationTests::TestExperimentationGetTreatmentAssignment(TestContext& testContext)
 {
     struct GetTreatmentAssignmentResult : public XAsyncResult
@@ -390,7 +488,12 @@ void AutoGenExperimentationTests::TestExperimentationGetTreatmentAssignment(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region StartExperiment
+
 void AutoGenExperimentationTests::TestExperimentationStartExperiment(TestContext& testContext)
 {
     struct StartExperimentResult : public XAsyncResult
@@ -419,7 +522,12 @@ void AutoGenExperimentationTests::TestExperimentationStartExperiment(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region StopExperiment
+
 void AutoGenExperimentationTests::TestExperimentationStopExperiment(TestContext& testContext)
 {
     struct StopExperimentResult : public XAsyncResult
@@ -448,7 +556,12 @@ void AutoGenExperimentationTests::TestExperimentationStopExperiment(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UpdateExclusionGroup
+
 void AutoGenExperimentationTests::TestExperimentationUpdateExclusionGroup(TestContext& testContext)
 {
     struct UpdateExclusionGroupResult : public XAsyncResult
@@ -477,7 +590,12 @@ void AutoGenExperimentationTests::TestExperimentationUpdateExclusionGroup(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UpdateExperiment
+
 void AutoGenExperimentationTests::TestExperimentationUpdateExperiment(TestContext& testContext)
 {
     struct UpdateExperimentResult : public XAsyncResult
@@ -506,6 +624,9 @@ void AutoGenExperimentationTests::TestExperimentationUpdateExperiment(TestContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

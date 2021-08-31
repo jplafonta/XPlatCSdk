@@ -9,8 +9,6 @@ uint32_t g_CloudScriptTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenCloudScriptTests::LogGetCloudScriptRevisionRequest( PlayFab::CloudScriptModels::GetCloudScriptRevisionRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

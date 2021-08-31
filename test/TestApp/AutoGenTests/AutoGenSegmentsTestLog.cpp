@@ -9,8 +9,6 @@ uint32_t g_SegmentsTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenSegmentsTests::LogCreateSegmentRequest( PlayFab::SegmentsModels::CreateSegmentRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenPlayerItemManagementTests::PlayerItemManagementTestData AutoGenPlayerItemManagementTests::testData;
+
 void AutoGenPlayerItemManagementTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,53 +29,95 @@ HRESULT AutoGenPlayerItemManagementTests::LogHR(HRESULT hr)
 
 void AutoGenPlayerItemManagementTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestPlayerItemManagementAdminAddUserVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminAddUserVirtualCurrency);
+
     AddTest("TestPlayerItemManagementAdminCheckLimitedEditionItemAvailability", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminCheckLimitedEditionItemAvailability);
+
     AddTest("TestPlayerItemManagementAdminGetUserInventory", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGetUserInventory);
+
     AddTest("TestPlayerItemManagementAdminGrantItemsToUsers", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGrantItemsToUsers);
+
     AddTest("TestPlayerItemManagementAdminIncrementLimitedEditionItemAvailability", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminIncrementLimitedEditionItemAvailability);
+
     AddTest("TestPlayerItemManagementAdminRevokeInventoryItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInventoryItem);
+
     AddTest("TestPlayerItemManagementAdminRevokeInventoryItems", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInventoryItems);
+
     AddTest("TestPlayerItemManagementAdminSubtractUserVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminSubtractUserVirtualCurrency);
+
     AddTest("TestPlayerItemManagementClientAddUserVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientAddUserVirtualCurrency);
+
     AddTest("TestPlayerItemManagementClientConfirmPurchase", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConfirmPurchase);
+
     AddTest("TestPlayerItemManagementClientConsumeItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConsumeItem);
+
     AddTest("TestPlayerItemManagementClientGetCharacterInventory", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetCharacterInventory);
+
     AddTest("TestPlayerItemManagementClientGetPaymentToken", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetPaymentToken);
+
     AddTest("TestPlayerItemManagementClientGetPurchase", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetPurchase);
+
     AddTest("TestPlayerItemManagementClientGetUserInventory", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetUserInventory);
+
     AddTest("TestPlayerItemManagementClientPayForPurchase", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPayForPurchase);
+
     AddTest("TestPlayerItemManagementClientPurchaseItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPurchaseItem);
+
     AddTest("TestPlayerItemManagementClientRedeemCoupon", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientRedeemCoupon);
+
     AddTest("TestPlayerItemManagementClientStartPurchase", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientStartPurchase);
+
     AddTest("TestPlayerItemManagementClientSubtractUserVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientSubtractUserVirtualCurrency);
+
     AddTest("TestPlayerItemManagementClientUnlockContainerInstance", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockContainerInstance);
+
     AddTest("TestPlayerItemManagementClientUnlockContainerItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockContainerItem);
+
     AddTest("TestPlayerItemManagementServerAddCharacterVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerAddCharacterVirtualCurrency);
+
     AddTest("TestPlayerItemManagementServerAddUserVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerAddUserVirtualCurrency);
+
     AddTest("TestPlayerItemManagementServerConsumeItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerConsumeItem);
+
     AddTest("TestPlayerItemManagementServerEvaluateRandomResultTable", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerEvaluateRandomResultTable);
+
     AddTest("TestPlayerItemManagementServerGetCharacterInventory", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetCharacterInventory);
+
     AddTest("TestPlayerItemManagementServerGetRandomResultTables", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetRandomResultTables);
+
     AddTest("TestPlayerItemManagementServerGetUserInventory", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetUserInventory);
+
     AddTest("TestPlayerItemManagementServerGrantItemsToCharacter", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsToCharacter);
+
     AddTest("TestPlayerItemManagementServerGrantItemsToUser", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsToUser);
+
     AddTest("TestPlayerItemManagementServerGrantItemsToUsers", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsToUsers);
+
     AddTest("TestPlayerItemManagementServerModifyItemUses", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerModifyItemUses);
+
     AddTest("TestPlayerItemManagementServerMoveItemToCharacterFromCharacter", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToCharacterFromCharacter);
+
     AddTest("TestPlayerItemManagementServerMoveItemToCharacterFromUser", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToCharacterFromUser);
+
     AddTest("TestPlayerItemManagementServerMoveItemToUserFromCharacter", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToUserFromCharacter);
+
     AddTest("TestPlayerItemManagementServerRedeemCoupon", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRedeemCoupon);
+
     AddTest("TestPlayerItemManagementServerReportPlayer", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerReportPlayer);
+
     AddTest("TestPlayerItemManagementServerRevokeInventoryItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInventoryItem);
+
     AddTest("TestPlayerItemManagementServerRevokeInventoryItems", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInventoryItems);
+
     AddTest("TestPlayerItemManagementServerSubtractCharacterVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerSubtractCharacterVirtualCurrency);
+
     AddTest("TestPlayerItemManagementServerSubtractUserVirtualCurrency", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerSubtractUserVirtualCurrency);
+
     AddTest("TestPlayerItemManagementServerUnlockContainerInstance", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockContainerInstance);
+
     AddTest("TestPlayerItemManagementServerUnlockContainerItem", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockContainerItem);
+
     AddTest("TestPlayerItemManagementServerUpdateUserInventoryItemCustomData", &AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUpdateUserInventoryItemCustomData);
 }
 
@@ -112,10 +156,52 @@ void AutoGenPlayerItemManagementTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -124,10 +210,12 @@ void AutoGenPlayerItemManagementTests::ClassSetUp()
 
 void AutoGenPlayerItemManagementTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -146,6 +234,8 @@ void AutoGenPlayerItemManagementTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminAddUserVirtualCurrency
 
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminAddUserVirtualCurrency(TestContext& testContext)
 {
@@ -180,7 +270,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminAddUserVirtu
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminCheckLimitedEditionItemAvailability
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminCheckLimitedEditionItemAvailability(TestContext& testContext)
 {
     struct AdminCheckLimitedEditionItemAvailabilityResult : public XAsyncResult
@@ -210,7 +305,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminCheckLimited
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserInventory
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGetUserInventory(TestContext& testContext)
 {
     struct AdminGetUserInventoryResult : public XAsyncResult
@@ -240,7 +340,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGetUserInven
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGrantItemsToUsers
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGrantItemsToUsers(TestContext& testContext)
 {
     struct AdminGrantItemsToUsersResult : public XAsyncResult
@@ -270,7 +375,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGrantItemsTo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminIncrementLimitedEditionItemAvailability
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminIncrementLimitedEditionItemAvailability(TestContext& testContext)
 {
     struct AdminIncrementLimitedEditionItemAvailabilityResult : public XAsyncResult
@@ -299,7 +409,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminIncrementLim
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRevokeInventoryItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInventoryItem(TestContext& testContext)
 {
     struct AdminRevokeInventoryItemResult : public XAsyncResult
@@ -328,7 +443,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInvent
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRevokeInventoryItems
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInventoryItems(TestContext& testContext)
 {
     struct AdminRevokeInventoryItemsResult : public XAsyncResult
@@ -358,7 +478,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInvent
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSubtractUserVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminSubtractUserVirtualCurrency(TestContext& testContext)
 {
     struct AdminSubtractUserVirtualCurrencyResult : public XAsyncResult
@@ -392,7 +517,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminSubtractUser
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientAddUserVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientAddUserVirtualCurrency(TestContext& testContext)
 {
     struct ClientAddUserVirtualCurrencyResult : public XAsyncResult
@@ -419,14 +549,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientAddUserVirt
     PlayFab::PlayerItemManagementModels::ClientAddUserVirtualCurrencyRequest request;
     FillClientAddUserVirtualCurrencyRequest( &request );
     LogClientAddUserVirtualCurrencyRequest( &request, "TestPlayerItemManagementClientAddUserVirtualCurrency" );
-    HRESULT hr = PFPlayerItemManagementClientAddUserVirtualCurrencyAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientAddUserVirtualCurrencyAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientAddUserVirtualCurrencyAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientConfirmPurchase
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConfirmPurchase(TestContext& testContext)
 {
     struct ClientConfirmPurchaseResult : public XAsyncResult
@@ -449,14 +584,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConfirmPurc
     PlayFab::PlayerItemManagementModels::ConfirmPurchaseRequest request;
     FillConfirmPurchaseRequest( &request );
     LogConfirmPurchaseRequest( &request, "TestPlayerItemManagementClientConfirmPurchase" );
-    HRESULT hr = PFPlayerItemManagementClientConfirmPurchaseAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientConfirmPurchaseAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientConfirmPurchaseAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientConsumeItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConsumeItem(TestContext& testContext)
 {
     struct ClientConsumeItemResult : public XAsyncResult
@@ -483,14 +623,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConsumeItem
     PlayFab::PlayerItemManagementModels::ClientConsumeItemRequest request;
     FillClientConsumeItemRequest( &request );
     LogClientConsumeItemRequest( &request, "TestPlayerItemManagementClientConsumeItem" );
-    HRESULT hr = PFPlayerItemManagementClientConsumeItemAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientConsumeItemAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientConsumeItemAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCharacterInventory
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetCharacterInventory(TestContext& testContext)
 {
     struct ClientGetCharacterInventoryResult : public XAsyncResult
@@ -513,14 +658,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetCharacte
     PlayFab::PlayerItemManagementModels::ClientGetCharacterInventoryRequest request;
     FillClientGetCharacterInventoryRequest( &request );
     LogClientGetCharacterInventoryRequest( &request, "TestPlayerItemManagementClientGetCharacterInventory" );
-    HRESULT hr = PFPlayerItemManagementClientGetCharacterInventoryAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientGetCharacterInventoryAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientGetCharacterInventoryAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPaymentToken
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetPaymentToken(TestContext& testContext)
 {
     struct ClientGetPaymentTokenResult : public XAsyncResult
@@ -547,14 +697,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetPaymentT
     PlayFab::PlayerItemManagementModels::GetPaymentTokenRequest request;
     FillGetPaymentTokenRequest( &request );
     LogGetPaymentTokenRequest( &request, "TestPlayerItemManagementClientGetPaymentToken" );
-    HRESULT hr = PFPlayerItemManagementClientGetPaymentTokenAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientGetPaymentTokenAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientGetPaymentTokenAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPurchase
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetPurchase(TestContext& testContext)
 {
     struct ClientGetPurchaseResult : public XAsyncResult
@@ -581,14 +736,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetPurchase
     PlayFab::PlayerItemManagementModels::GetPurchaseRequest request;
     FillGetPurchaseRequest( &request );
     LogGetPurchaseRequest( &request, "TestPlayerItemManagementClientGetPurchase" );
-    HRESULT hr = PFPlayerItemManagementClientGetPurchaseAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientGetPurchaseAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientGetPurchaseAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetUserInventory
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetUserInventory(TestContext& testContext)
 {
     struct ClientGetUserInventoryResult : public XAsyncResult
@@ -611,14 +771,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetUserInve
     PlayFab::PlayerItemManagementModels::ClientGetUserInventoryRequest request;
     FillClientGetUserInventoryRequest( &request );
     LogClientGetUserInventoryRequest( &request, "TestPlayerItemManagementClientGetUserInventory" );
-    HRESULT hr = PFPlayerItemManagementClientGetUserInventoryAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientGetUserInventoryAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientGetUserInventoryAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientPayForPurchase
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPayForPurchase(TestContext& testContext)
 {
     struct ClientPayForPurchaseResult : public XAsyncResult
@@ -641,14 +806,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPayForPurch
     PlayFab::PlayerItemManagementModels::PayForPurchaseRequest request;
     FillPayForPurchaseRequest( &request );
     LogPayForPurchaseRequest( &request, "TestPlayerItemManagementClientPayForPurchase" );
-    HRESULT hr = PFPlayerItemManagementClientPayForPurchaseAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientPayForPurchaseAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientPayForPurchaseAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientPurchaseItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPurchaseItem(TestContext& testContext)
 {
     struct ClientPurchaseItemResult : public XAsyncResult
@@ -671,14 +841,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPurchaseIte
     PlayFab::PlayerItemManagementModels::PurchaseItemRequest request;
     FillPurchaseItemRequest( &request );
     LogPurchaseItemRequest( &request, "TestPlayerItemManagementClientPurchaseItem" );
-    HRESULT hr = PFPlayerItemManagementClientPurchaseItemAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientPurchaseItemAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientPurchaseItemAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRedeemCoupon
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientRedeemCoupon(TestContext& testContext)
 {
     struct ClientRedeemCouponResult : public XAsyncResult
@@ -701,14 +876,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientRedeemCoupo
     PlayFab::PlayerItemManagementModels::ClientRedeemCouponRequest request;
     FillClientRedeemCouponRequest( &request );
     LogClientRedeemCouponRequest( &request, "TestPlayerItemManagementClientRedeemCoupon" );
-    HRESULT hr = PFPlayerItemManagementClientRedeemCouponAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientRedeemCouponAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientRedeemCouponAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientStartPurchase
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientStartPurchase(TestContext& testContext)
 {
     struct ClientStartPurchaseResult : public XAsyncResult
@@ -731,14 +911,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientStartPurcha
     PlayFab::PlayerItemManagementModels::StartPurchaseRequest request;
     FillStartPurchaseRequest( &request );
     LogStartPurchaseRequest( &request, "TestPlayerItemManagementClientStartPurchase" );
-    HRESULT hr = PFPlayerItemManagementClientStartPurchaseAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientStartPurchaseAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientStartPurchaseAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientSubtractUserVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientSubtractUserVirtualCurrency(TestContext& testContext)
 {
     struct ClientSubtractUserVirtualCurrencyResult : public XAsyncResult
@@ -765,14 +950,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientSubtractUse
     PlayFab::PlayerItemManagementModels::ClientSubtractUserVirtualCurrencyRequest request;
     FillClientSubtractUserVirtualCurrencyRequest( &request );
     LogClientSubtractUserVirtualCurrencyRequest( &request, "TestPlayerItemManagementClientSubtractUserVirtualCurrency" );
-    HRESULT hr = PFPlayerItemManagementClientSubtractUserVirtualCurrencyAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientSubtractUserVirtualCurrencyAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientSubtractUserVirtualCurrencyAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlockContainerInstance
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockContainerInstance(TestContext& testContext)
 {
     struct ClientUnlockContainerInstanceResult : public XAsyncResult
@@ -795,14 +985,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockConta
     PlayFab::PlayerItemManagementModels::ClientUnlockContainerInstanceRequest request;
     FillClientUnlockContainerInstanceRequest( &request );
     LogClientUnlockContainerInstanceRequest( &request, "TestPlayerItemManagementClientUnlockContainerInstance" );
-    HRESULT hr = PFPlayerItemManagementClientUnlockContainerInstanceAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientUnlockContainerInstanceAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientUnlockContainerInstanceAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlockContainerItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockContainerItem(TestContext& testContext)
 {
     struct ClientUnlockContainerItemResult : public XAsyncResult
@@ -825,14 +1020,19 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockConta
     PlayFab::PlayerItemManagementModels::ClientUnlockContainerItemRequest request;
     FillClientUnlockContainerItemRequest( &request );
     LogClientUnlockContainerItemRequest( &request, "TestPlayerItemManagementClientUnlockContainerItem" );
-    HRESULT hr = PFPlayerItemManagementClientUnlockContainerItemAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayerItemManagementClientUnlockContainerItemAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayerItemManagementPlayerItemManagementClientUnlockContainerItemAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAddCharacterVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerAddCharacterVirtualCurrency(TestContext& testContext)
 {
     struct ServerAddCharacterVirtualCurrencyResult : public XAsyncResult
@@ -866,7 +1066,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerAddCharacte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAddUserVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerAddUserVirtualCurrency(TestContext& testContext)
 {
     struct ServerAddUserVirtualCurrencyResult : public XAsyncResult
@@ -900,7 +1105,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerAddUserVirt
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerConsumeItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerConsumeItem(TestContext& testContext)
 {
     struct ServerConsumeItemResult : public XAsyncResult
@@ -934,7 +1144,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerConsumeItem
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerEvaluateRandomResultTable
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerEvaluateRandomResultTable(TestContext& testContext)
 {
     struct ServerEvaluateRandomResultTableResult : public XAsyncResult
@@ -968,7 +1183,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerEvaluateRan
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetCharacterInventory
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetCharacterInventory(TestContext& testContext)
 {
     struct ServerGetCharacterInventoryResult : public XAsyncResult
@@ -998,7 +1218,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetCharacte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetRandomResultTables
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetRandomResultTables(TestContext& testContext)
 {
     struct ServerGetRandomResultTablesResult : public XAsyncResult
@@ -1028,7 +1253,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetRandomRe
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserInventory
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetUserInventory(TestContext& testContext)
 {
     struct ServerGetUserInventoryResult : public XAsyncResult
@@ -1058,7 +1288,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetUserInve
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGrantItemsToCharacter
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsToCharacter(TestContext& testContext)
 {
     struct ServerGrantItemsToCharacterResult : public XAsyncResult
@@ -1088,7 +1323,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsT
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGrantItemsToUser
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsToUser(TestContext& testContext)
 {
     struct ServerGrantItemsToUserResult : public XAsyncResult
@@ -1118,7 +1358,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsT
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGrantItemsToUsers
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsToUsers(TestContext& testContext)
 {
     struct ServerGrantItemsToUsersResult : public XAsyncResult
@@ -1148,7 +1393,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsT
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerModifyItemUses
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerModifyItemUses(TestContext& testContext)
 {
     struct ServerModifyItemUsesResult : public XAsyncResult
@@ -1182,7 +1432,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerModifyItemU
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerMoveItemToCharacterFromCharacter
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToCharacterFromCharacter(TestContext& testContext)
 {
     struct ServerMoveItemToCharacterFromCharacterResult : public XAsyncResult
@@ -1211,7 +1466,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerMoveItemToCharacterFromUser
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToCharacterFromUser(TestContext& testContext)
 {
     struct ServerMoveItemToCharacterFromUserResult : public XAsyncResult
@@ -1240,7 +1500,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerMoveItemToUserFromCharacter
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToUserFromCharacter(TestContext& testContext)
 {
     struct ServerMoveItemToUserFromCharacterResult : public XAsyncResult
@@ -1269,7 +1534,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerMoveItemToU
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRedeemCoupon
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRedeemCoupon(TestContext& testContext)
 {
     struct ServerRedeemCouponResult : public XAsyncResult
@@ -1299,7 +1569,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRedeemCoupo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerReportPlayer
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerReportPlayer(TestContext& testContext)
 {
     struct ServerReportPlayerResult : public XAsyncResult
@@ -1329,7 +1604,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerReportPlaye
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRevokeInventoryItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInventoryItem(TestContext& testContext)
 {
     struct ServerRevokeInventoryItemResult : public XAsyncResult
@@ -1358,7 +1638,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInven
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRevokeInventoryItems
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInventoryItems(TestContext& testContext)
 {
     struct ServerRevokeInventoryItemsResult : public XAsyncResult
@@ -1388,7 +1673,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInven
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSubtractCharacterVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerSubtractCharacterVirtualCurrency(TestContext& testContext)
 {
     struct ServerSubtractCharacterVirtualCurrencyResult : public XAsyncResult
@@ -1422,7 +1712,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerSubtractCha
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSubtractUserVirtualCurrency
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerSubtractUserVirtualCurrency(TestContext& testContext)
 {
     struct ServerSubtractUserVirtualCurrencyResult : public XAsyncResult
@@ -1456,7 +1751,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerSubtractUse
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUnlockContainerInstance
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockContainerInstance(TestContext& testContext)
 {
     struct ServerUnlockContainerInstanceResult : public XAsyncResult
@@ -1486,7 +1786,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockConta
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUnlockContainerItem
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockContainerItem(TestContext& testContext)
 {
     struct ServerUnlockContainerItemResult : public XAsyncResult
@@ -1516,7 +1821,12 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockConta
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateUserInventoryItemCustomData
+
 void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUpdateUserInventoryItemCustomData(TestContext& testContext)
 {
     struct ServerUpdateUserInventoryItemCustomDataResult : public XAsyncResult
@@ -1545,6 +1855,9 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUpdateUserI
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

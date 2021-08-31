@@ -9,7 +9,7 @@
 
 #include <playfab/PFAdvertisingDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -18,7 +18,7 @@ extern "C"
 /// <summary>
 /// Attributes an install for advertisment.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -29,7 +29,7 @@ extern "C"
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAdvertisingClientAttributeInstallAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAdvertisingAttributeInstallRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -39,7 +39,7 @@ HRESULT PFAdvertisingClientAttributeInstallAsync(
 /// <summary>
 /// Returns a list of ad placements and a reward for each
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -51,7 +51,7 @@ HRESULT PFAdvertisingClientAttributeInstallAsync(
 /// If successful, call <see cref="PFAdvertisingClientGetAdPlacementsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAdvertisingClientGetAdPlacementsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAdvertisingGetAdPlacementsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -78,7 +78,7 @@ HRESULT PFAdvertisingClientGetAdPlacementsGetResult(
 /// <summary>
 /// Report player's ad activity
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -88,7 +88,7 @@ HRESULT PFAdvertisingClientGetAdPlacementsGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAdvertisingClientReportAdActivityAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAdvertisingReportAdActivityRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -98,7 +98,7 @@ HRESULT PFAdvertisingClientReportAdActivityAsync(
 /// <summary>
 /// Reward player's ad activity
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -110,7 +110,7 @@ HRESULT PFAdvertisingClientReportAdActivityAsync(
 /// If successful, call <see cref="PFAdvertisingClientRewardAdActivityGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAdvertisingClientRewardAdActivityAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAdvertisingRewardAdActivityRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

@@ -585,19 +585,15 @@ ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersChara
 
 ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersCharactersRequest(const ClientGetLeaderboardForUsersCharactersRequest& src) :
     PFCharacterClientGetLeaderboardForUsersCharactersRequest{ src },
-    m_maxResultsCount{ src.m_maxResultsCount },
     m_statisticName{ src.m_statisticName }
 {
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
     statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
 }
 
 ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersCharactersRequest(ClientGetLeaderboardForUsersCharactersRequest&& src) :
     PFCharacterClientGetLeaderboardForUsersCharactersRequest{ src },
-    m_maxResultsCount{ std::move(src.m_maxResultsCount) },
     m_statisticName{ std::move(src.m_statisticName) }
 {
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
     statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
 }
 
@@ -608,13 +604,29 @@ ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersChara
 
 void ClientGetLeaderboardForUsersCharactersRequest::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", m_maxResultsCount, maxResultsCount);
     JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
 }
 
 JsonValue ClientGetLeaderboardForUsersCharactersRequest::ToJson() const
 {
     return JsonUtils::ToJson<PFCharacterClientGetLeaderboardForUsersCharactersRequest>(*this);
+}
+
+size_t ClientGetLeaderboardForUsersCharactersRequest::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFCharacterClientGetLeaderboardForUsersCharactersRequest) };
+    serializedSize += (m_statisticName.size() + 1);
+    return serializedSize;
+}
+
+void ClientGetLeaderboardForUsersCharactersRequest::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFCharacterClientGetLeaderboardForUsersCharactersRequest{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterClientGetLeaderboardForUsersCharactersRequest);
+    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
+    serializedStruct->statisticName = stringBuffer;
+    stringBuffer += m_statisticName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
 }
 
 GetLeaderboardForUsersCharactersResult::GetLeaderboardForUsersCharactersResult() :
@@ -1174,22 +1186,18 @@ ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersChara
 
 ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersCharactersRequest(const ServerGetLeaderboardForUsersCharactersRequest& src) :
     PFCharacterServerGetLeaderboardForUsersCharactersRequest{ src },
-    m_maxResultsCount{ src.m_maxResultsCount },
     m_playFabId{ src.m_playFabId },
     m_statisticName{ src.m_statisticName }
 {
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
     playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
     statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
 }
 
 ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersCharactersRequest(ServerGetLeaderboardForUsersCharactersRequest&& src) :
     PFCharacterServerGetLeaderboardForUsersCharactersRequest{ src },
-    m_maxResultsCount{ std::move(src.m_maxResultsCount) },
     m_playFabId{ std::move(src.m_playFabId) },
     m_statisticName{ std::move(src.m_statisticName) }
 {
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
     playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
     statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
 }
@@ -1201,7 +1209,6 @@ ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersChara
 
 void ServerGetLeaderboardForUsersCharactersRequest::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", m_maxResultsCount, maxResultsCount);
     JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
     JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
 }
@@ -1209,6 +1216,27 @@ void ServerGetLeaderboardForUsersCharactersRequest::FromJson(const JsonValue& in
 JsonValue ServerGetLeaderboardForUsersCharactersRequest::ToJson() const
 {
     return JsonUtils::ToJson<PFCharacterServerGetLeaderboardForUsersCharactersRequest>(*this);
+}
+
+size_t ServerGetLeaderboardForUsersCharactersRequest::SerializedSize() const
+{
+    size_t serializedSize{ sizeof(PFCharacterServerGetLeaderboardForUsersCharactersRequest) };
+    serializedSize += (m_playFabId.size() + 1);
+    serializedSize += (m_statisticName.size() + 1);
+    return serializedSize;
+}
+
+void ServerGetLeaderboardForUsersCharactersRequest::Serialize(void* buffer, size_t bufferSize) const
+{
+    auto serializedStruct = new (buffer) PFCharacterServerGetLeaderboardForUsersCharactersRequest{ *this };
+    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterServerGetLeaderboardForUsersCharactersRequest);
+    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
+    serializedStruct->playFabId = stringBuffer;
+    stringBuffer += m_playFabId.size() + 1;
+    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
+    serializedStruct->statisticName = stringBuffer;
+    stringBuffer += m_statisticName.size() + 1;
+    assert(stringBuffer - bufferSize == buffer);
 }
 
 ServerGrantCharacterToUserRequest::ServerGrantCharacterToUserRequest() :
@@ -1544,7 +1572,6 @@ template<>
 inline JsonValue ToJson<>(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     return output;
 }
@@ -1665,7 +1692,6 @@ template<>
 inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     return output;

@@ -9,8 +9,6 @@ uint32_t g_AuthenticationTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenAuthenticationTests::LogCreateOpenIdConnectionRequest( PlayFab::AuthenticationModels::CreateOpenIdConnectionRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

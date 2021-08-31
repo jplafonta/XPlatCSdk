@@ -9,7 +9,7 @@
 
 #include <playfab/PFAuthenticationDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -360,7 +360,7 @@ HRESULT PFAuthenticationAdminUpdatePolicyGetResult(
 /// room. See https://docs.microsoft.com/gaming/playfab/features/multiplayer/photon/quickstart for more
 /// details.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -369,7 +369,7 @@ HRESULT PFAuthenticationAdminUpdatePolicyGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFAuthenticationClientGetPhotonAuthenticationTokenAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAuthenticationGetPhotonAuthenticationTokenRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -495,15 +495,15 @@ HRESULT PFAuthenticationClientLoginWithAndroidDeviceIDAsync(
 /// Get the result from a PFAuthenticationClientLogin* call.
 /// </symmary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <param name="titlePlayerHandle">TitlePlayer handle which can be used to authenticate other PlayFab API calls.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If the login attempt fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// If the login attempt fails, titlePlayerHandle with be null. Otherwise, the handle must be closed with PFTitlePlayerCloseHandle
 /// when it is no longer needed.
 /// </remarks>
 HRESULT PFAuthenticationClientLoginGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
+    _Out_ PFTitlePlayerHandle* titlePlayerHandle
 ) noexcept;
 
 /// <summary>
@@ -964,22 +964,22 @@ HRESULT PFAuthenticationClientRegisterPlayFabUserAsync(
 /// Get the result from a PFAuthenticationClientRegisterPlayFabUserAsync call.
 /// </symmary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <param name="entityHandle">TitlePlayer handle which can be used to authenticate other PlayFab API calls.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If the PFAuthenticationClientRegisterPlayFabUserAsync call fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// If the PFAuthenticationClientRegisterPlayFabUserAsync call fails, entityHandle with be null. Otherwise, the handle must be closed with PFTitlePlayerCloseHandle
 /// when it is no longer needed.
 /// </remarks>
 HRESULT PFAuthenticationClientRegisterPlayFabUserGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
-) noexcept;   
+    _Out_ PFTitlePlayerHandle* entityHandle
+) noexcept;
 
 /// <summary>
 /// Sets the player's secret if it is not already set. Player secrets are used to sign API requests.
 /// To reset a player's secret use the Admin or Server API method SetPlayerSecret.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -994,7 +994,7 @@ HRESULT PFAuthenticationClientRegisterPlayFabUserGetResult(
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAuthenticationClientSetPlayerSecretAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAuthenticationClientSetPlayerSecretRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -1060,15 +1060,15 @@ HRESULT PFAuthenticationServerLoginWithServerCustomIdAsync(
 /// Get the result from a PFAuthenticationServerLogin* call.
 /// </symmary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <param name="titlePlayerHandle">TitlePlayer handle which can be used to authenticate other PlayFab API calls.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// If the login attempt fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
+/// If the login attempt fails, titlePlayerHandle with be null. Otherwise, the handle must be closed with PFTitlePlayerCloseHandle
 /// when it is no longer needed.
 /// </remarks>
 HRESULT PFAuthenticationServerLoginGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFEntityHandle* entityHandle
+    _Out_ PFTitlePlayerHandle* titlePlayerHandle
 ) noexcept;
 
 /// <summary>
@@ -1186,7 +1186,7 @@ HRESULT PFAuthenticationGetEntityTokenAsync(
 /// Get the result from a PFAuthenticationGetEntityTokenAsync call.
 /// </symmary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="entityHandle">Entity handle which can be used to call other PlayFab APIs.</param>
+/// <param name="entityHandle">Entity handle which can be used to authenticate other PlayFab API calls.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
 /// If the PFAuthenticationGetEntityTokenAsync call fails, entityHandle with be null. Otherwise, the handle must be closed with PFEntityCloseHandle
@@ -1195,12 +1195,12 @@ HRESULT PFAuthenticationGetEntityTokenAsync(
 HRESULT PFAuthenticationGetEntityTokenGetResult(
     _In_ XAsyncBlock* async,
     _Out_ PFEntityHandle* entityHandle
-) noexcept;   
+) noexcept;
 
 /// <summary>
 /// Method for a server to validate a client provided EntityToken. Only callable by the title entity.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

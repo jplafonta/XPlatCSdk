@@ -1,36 +1,35 @@
 #include "stdafx.h"
 #include "Analytics.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace AnalyticsModels;
 
-AnalyticsAPI::AnalyticsAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> AnalyticsAPI::ClientReportDeviceInfo(
+    SharedPtr<TitlePlayer> entity,
     const PFAnalyticsDeviceInfoRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ReportDeviceInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ReportDeviceInfo" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -51,24 +50,26 @@ AsyncOp<void> AnalyticsAPI::ClientReportDeviceInfo(
 }
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteCharacterEvent(
+    SharedPtr<TitlePlayer> entity,
     const PFAnalyticsWriteClientCharacterEventRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/WriteCharacterEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/WriteCharacterEvent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -91,24 +92,26 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteCharacterEvent(
 }
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWritePlayerEvent(
+    SharedPtr<TitlePlayer> entity,
     const PFAnalyticsWriteClientPlayerEventRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/WritePlayerEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/WritePlayerEvent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -131,24 +134,26 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWritePlayerEvent(
 }
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteTitleEvent(
+    SharedPtr<TitlePlayer> entity,
     const PFAnalyticsWriteTitleEventRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/WriteTitleEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/WriteTitleEvent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -171,25 +176,25 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteTitleEvent(
 }
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteCharacterEvent(
+    SharedPtr<GlobalState const> state,
     const PFAnalyticsWriteServerCharacterEventRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/WriteCharacterEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/WriteCharacterEvent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -212,25 +217,25 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteCharacterEvent(
 }
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWritePlayerEvent(
+    SharedPtr<GlobalState const> state,
     const PFAnalyticsWriteServerPlayerEventRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/WritePlayerEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/WritePlayerEvent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -253,25 +258,25 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWritePlayerEvent(
 }
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteTitleEvent(
+    SharedPtr<GlobalState const> state,
     const PFAnalyticsWriteTitleEventRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/WriteTitleEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/WriteTitleEvent" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -294,24 +299,26 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteTitleEvent(
 }
 
 AsyncOp<InsightsGetDetailsResponse> AnalyticsAPI::GetDetails(
+    SharedPtr<Entity> entity,
     const PFAnalyticsInsightsEmptyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Insights/GetDetails" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Insights/GetDetails" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -334,24 +341,26 @@ AsyncOp<InsightsGetDetailsResponse> AnalyticsAPI::GetDetails(
 }
 
 AsyncOp<InsightsGetLimitsResponse> AnalyticsAPI::GetLimits(
+    SharedPtr<Entity> entity,
     const PFAnalyticsInsightsEmptyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Insights/GetLimits" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Insights/GetLimits" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -374,24 +383,26 @@ AsyncOp<InsightsGetLimitsResponse> AnalyticsAPI::GetLimits(
 }
 
 AsyncOp<InsightsGetOperationStatusResponse> AnalyticsAPI::GetOperationStatus(
+    SharedPtr<Entity> entity,
     const PFAnalyticsInsightsGetOperationStatusRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Insights/GetOperationStatus" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Insights/GetOperationStatus" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -414,24 +425,26 @@ AsyncOp<InsightsGetOperationStatusResponse> AnalyticsAPI::GetOperationStatus(
 }
 
 AsyncOp<InsightsGetPendingOperationsResponse> AnalyticsAPI::GetPendingOperations(
+    SharedPtr<Entity> entity,
     const PFAnalyticsInsightsGetPendingOperationsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Insights/GetPendingOperations" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Insights/GetPendingOperations" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -454,24 +467,26 @@ AsyncOp<InsightsGetPendingOperationsResponse> AnalyticsAPI::GetPendingOperations
 }
 
 AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetPerformance(
+    SharedPtr<Entity> entity,
     const PFAnalyticsInsightsSetPerformanceRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Insights/SetPerformance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Insights/SetPerformance" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -494,24 +509,26 @@ AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetPerformance(
 }
 
 AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetStorageRetention(
+    SharedPtr<Entity> entity,
     const PFAnalyticsInsightsSetStorageRetentionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Insights/SetStorageRetention" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Insights/SetStorageRetention" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

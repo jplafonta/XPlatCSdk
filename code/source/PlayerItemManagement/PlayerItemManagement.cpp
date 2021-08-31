@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "PlayerItemManagement.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace PlayerItemManagementModels;
 
-PlayerItemManagementAPI::PlayerItemManagementAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::AdminAddUserVirtualCurrency(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/AddUserVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/AddUserVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -54,25 +51,25 @@ AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::AdminAddUserVi
 }
 
 AsyncOp<CheckLimitedEditionItemAvailabilityResult> PlayerItemManagementAPI::AdminCheckLimitedEditionItemAvailability(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/CheckLimitedEditionItemAvailability" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/CheckLimitedEditionItemAvailability" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -95,25 +92,25 @@ AsyncOp<CheckLimitedEditionItemAvailabilityResult> PlayerItemManagementAPI::Admi
 }
 
 AsyncOp<AdminGetUserInventoryResult> PlayerItemManagementAPI::AdminGetUserInventory(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementAdminGetUserInventoryRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetUserInventory" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetUserInventory" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -136,25 +133,25 @@ AsyncOp<AdminGetUserInventoryResult> PlayerItemManagementAPI::AdminGetUserInvent
 }
 
 AsyncOp<GrantItemsToUsersResult> PlayerItemManagementAPI::AdminGrantItemsToUsers(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementGrantItemsToUsersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GrantItemsToUsers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GrantItemsToUsers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -177,25 +174,25 @@ AsyncOp<GrantItemsToUsersResult> PlayerItemManagementAPI::AdminGrantItemsToUsers
 }
 
 AsyncOp<void> PlayerItemManagementAPI::AdminIncrementLimitedEditionItemAvailability(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/IncrementLimitedEditionItemAvailability" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/IncrementLimitedEditionItemAvailability" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -216,25 +213,25 @@ AsyncOp<void> PlayerItemManagementAPI::AdminIncrementLimitedEditionItemAvailabil
 }
 
 AsyncOp<void> PlayerItemManagementAPI::AdminRevokeInventoryItem(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementRevokeInventoryItemRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RevokeInventoryItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RevokeInventoryItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -255,25 +252,25 @@ AsyncOp<void> PlayerItemManagementAPI::AdminRevokeInventoryItem(
 }
 
 AsyncOp<RevokeInventoryItemsResult> PlayerItemManagementAPI::AdminRevokeInventoryItems(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementRevokeInventoryItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RevokeInventoryItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RevokeInventoryItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -296,25 +293,25 @@ AsyncOp<RevokeInventoryItemsResult> PlayerItemManagementAPI::AdminRevokeInventor
 }
 
 AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::AdminSubtractUserVirtualCurrency(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SubtractUserVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SubtractUserVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -337,24 +334,26 @@ AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::AdminSubtractU
 }
 
 AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ClientAddUserVirtualCurrency(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/AddUserVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/AddUserVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -377,24 +376,26 @@ AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ClientAddUserV
 }
 
 AsyncOp<ConfirmPurchaseResult> PlayerItemManagementAPI::ClientConfirmPurchase(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementConfirmPurchaseRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ConfirmPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ConfirmPurchase" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -417,24 +418,26 @@ AsyncOp<ConfirmPurchaseResult> PlayerItemManagementAPI::ClientConfirmPurchase(
 }
 
 AsyncOp<ConsumeItemResult> PlayerItemManagementAPI::ClientConsumeItem(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientConsumeItemRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ConsumeItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ConsumeItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -457,24 +460,26 @@ AsyncOp<ConsumeItemResult> PlayerItemManagementAPI::ClientConsumeItem(
 }
 
 AsyncOp<ClientGetCharacterInventoryResult> PlayerItemManagementAPI::ClientGetCharacterInventory(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientGetCharacterInventoryRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetCharacterInventory" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetCharacterInventory" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -497,24 +502,26 @@ AsyncOp<ClientGetCharacterInventoryResult> PlayerItemManagementAPI::ClientGetCha
 }
 
 AsyncOp<GetPaymentTokenResult> PlayerItemManagementAPI::ClientGetPaymentToken(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementGetPaymentTokenRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPaymentToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPaymentToken" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -537,24 +544,26 @@ AsyncOp<GetPaymentTokenResult> PlayerItemManagementAPI::ClientGetPaymentToken(
 }
 
 AsyncOp<GetPurchaseResult> PlayerItemManagementAPI::ClientGetPurchase(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementGetPurchaseRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPurchase" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -577,24 +586,26 @@ AsyncOp<GetPurchaseResult> PlayerItemManagementAPI::ClientGetPurchase(
 }
 
 AsyncOp<ClientGetUserInventoryResult> PlayerItemManagementAPI::ClientGetUserInventory(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientGetUserInventoryRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetUserInventory" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetUserInventory" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -617,24 +628,26 @@ AsyncOp<ClientGetUserInventoryResult> PlayerItemManagementAPI::ClientGetUserInve
 }
 
 AsyncOp<PayForPurchaseResult> PlayerItemManagementAPI::ClientPayForPurchase(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementPayForPurchaseRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/PayForPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/PayForPurchase" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -657,24 +670,26 @@ AsyncOp<PayForPurchaseResult> PlayerItemManagementAPI::ClientPayForPurchase(
 }
 
 AsyncOp<PurchaseItemResult> PlayerItemManagementAPI::ClientPurchaseItem(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementPurchaseItemRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/PurchaseItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/PurchaseItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -697,24 +712,26 @@ AsyncOp<PurchaseItemResult> PlayerItemManagementAPI::ClientPurchaseItem(
 }
 
 AsyncOp<RedeemCouponResult> PlayerItemManagementAPI::ClientRedeemCoupon(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientRedeemCouponRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RedeemCoupon" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RedeemCoupon" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -737,24 +754,26 @@ AsyncOp<RedeemCouponResult> PlayerItemManagementAPI::ClientRedeemCoupon(
 }
 
 AsyncOp<StartPurchaseResult> PlayerItemManagementAPI::ClientStartPurchase(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementStartPurchaseRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/StartPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/StartPurchase" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -777,24 +796,26 @@ AsyncOp<StartPurchaseResult> PlayerItemManagementAPI::ClientStartPurchase(
 }
 
 AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ClientSubtractUserVirtualCurrency(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/SubtractUserVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/SubtractUserVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -817,24 +838,26 @@ AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ClientSubtract
 }
 
 AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ClientUnlockContainerInstance(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientUnlockContainerInstanceRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlockContainerInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlockContainerInstance" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -857,24 +880,26 @@ AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ClientUnlockContaine
 }
 
 AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ClientUnlockContainerItem(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayerItemManagementClientUnlockContainerItemRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlockContainerItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlockContainerItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -897,25 +922,25 @@ AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ClientUnlockContaine
 }
 
 AsyncOp<ModifyCharacterVirtualCurrencyResult> PlayerItemManagementAPI::ServerAddCharacterVirtualCurrency(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/AddCharacterVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/AddCharacterVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -938,25 +963,25 @@ AsyncOp<ModifyCharacterVirtualCurrencyResult> PlayerItemManagementAPI::ServerAdd
 }
 
 AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ServerAddUserVirtualCurrency(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/AddUserVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/AddUserVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -979,25 +1004,25 @@ AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ServerAddUserV
 }
 
 AsyncOp<ConsumeItemResult> PlayerItemManagementAPI::ServerConsumeItem(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerConsumeItemRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/ConsumeItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/ConsumeItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1020,25 +1045,25 @@ AsyncOp<ConsumeItemResult> PlayerItemManagementAPI::ServerConsumeItem(
 }
 
 AsyncOp<EvaluateRandomResultTableResult> PlayerItemManagementAPI::ServerEvaluateRandomResultTable(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementEvaluateRandomResultTableRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/EvaluateRandomResultTable" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/EvaluateRandomResultTable" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1061,25 +1086,25 @@ AsyncOp<EvaluateRandomResultTableResult> PlayerItemManagementAPI::ServerEvaluate
 }
 
 AsyncOp<ServerGetCharacterInventoryResult> PlayerItemManagementAPI::ServerGetCharacterInventory(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerGetCharacterInventoryRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetCharacterInventory" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetCharacterInventory" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1102,25 +1127,25 @@ AsyncOp<ServerGetCharacterInventoryResult> PlayerItemManagementAPI::ServerGetCha
 }
 
 AsyncOp<GetRandomResultTablesResult> PlayerItemManagementAPI::ServerGetRandomResultTables(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementGetRandomResultTablesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetRandomResultTables" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetRandomResultTables" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1143,25 +1168,25 @@ AsyncOp<GetRandomResultTablesResult> PlayerItemManagementAPI::ServerGetRandomRes
 }
 
 AsyncOp<ServerGetUserInventoryResult> PlayerItemManagementAPI::ServerGetUserInventory(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerGetUserInventoryRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetUserInventory" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetUserInventory" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1184,25 +1209,25 @@ AsyncOp<ServerGetUserInventoryResult> PlayerItemManagementAPI::ServerGetUserInve
 }
 
 AsyncOp<GrantItemsToCharacterResult> PlayerItemManagementAPI::ServerGrantItemsToCharacter(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementGrantItemsToCharacterRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GrantItemsToCharacter" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GrantItemsToCharacter" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1225,25 +1250,25 @@ AsyncOp<GrantItemsToCharacterResult> PlayerItemManagementAPI::ServerGrantItemsTo
 }
 
 AsyncOp<GrantItemsToUserResult> PlayerItemManagementAPI::ServerGrantItemsToUser(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementGrantItemsToUserRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GrantItemsToUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GrantItemsToUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1266,25 +1291,25 @@ AsyncOp<GrantItemsToUserResult> PlayerItemManagementAPI::ServerGrantItemsToUser(
 }
 
 AsyncOp<GrantItemsToUsersResult> PlayerItemManagementAPI::ServerGrantItemsToUsers(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementGrantItemsToUsersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GrantItemsToUsers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GrantItemsToUsers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1307,25 +1332,25 @@ AsyncOp<GrantItemsToUsersResult> PlayerItemManagementAPI::ServerGrantItemsToUser
 }
 
 AsyncOp<ModifyItemUsesResult> PlayerItemManagementAPI::ServerModifyItemUses(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementModifyItemUsesRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/ModifyItemUses" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/ModifyItemUses" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1348,25 +1373,25 @@ AsyncOp<ModifyItemUsesResult> PlayerItemManagementAPI::ServerModifyItemUses(
 }
 
 AsyncOp<void> PlayerItemManagementAPI::ServerMoveItemToCharacterFromCharacter(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/MoveItemToCharacterFromCharacter" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/MoveItemToCharacterFromCharacter" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1387,25 +1412,25 @@ AsyncOp<void> PlayerItemManagementAPI::ServerMoveItemToCharacterFromCharacter(
 }
 
 AsyncOp<void> PlayerItemManagementAPI::ServerMoveItemToCharacterFromUser(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/MoveItemToCharacterFromUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/MoveItemToCharacterFromUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1426,25 +1451,25 @@ AsyncOp<void> PlayerItemManagementAPI::ServerMoveItemToCharacterFromUser(
 }
 
 AsyncOp<void> PlayerItemManagementAPI::ServerMoveItemToUserFromCharacter(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/MoveItemToUserFromCharacter" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/MoveItemToUserFromCharacter" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1465,25 +1490,25 @@ AsyncOp<void> PlayerItemManagementAPI::ServerMoveItemToUserFromCharacter(
 }
 
 AsyncOp<RedeemCouponResult> PlayerItemManagementAPI::ServerRedeemCoupon(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerRedeemCouponRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RedeemCoupon" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RedeemCoupon" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1506,25 +1531,25 @@ AsyncOp<RedeemCouponResult> PlayerItemManagementAPI::ServerRedeemCoupon(
 }
 
 AsyncOp<ReportPlayerServerResult> PlayerItemManagementAPI::ServerReportPlayer(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementReportPlayerServerRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/ReportPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/ReportPlayer" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1547,25 +1572,25 @@ AsyncOp<ReportPlayerServerResult> PlayerItemManagementAPI::ServerReportPlayer(
 }
 
 AsyncOp<void> PlayerItemManagementAPI::ServerRevokeInventoryItem(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementRevokeInventoryItemRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RevokeInventoryItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RevokeInventoryItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1586,25 +1611,25 @@ AsyncOp<void> PlayerItemManagementAPI::ServerRevokeInventoryItem(
 }
 
 AsyncOp<RevokeInventoryItemsResult> PlayerItemManagementAPI::ServerRevokeInventoryItems(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementRevokeInventoryItemsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RevokeInventoryItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RevokeInventoryItems" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1627,25 +1652,25 @@ AsyncOp<RevokeInventoryItemsResult> PlayerItemManagementAPI::ServerRevokeInvento
 }
 
 AsyncOp<ModifyCharacterVirtualCurrencyResult> PlayerItemManagementAPI::ServerSubtractCharacterVirtualCurrency(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SubtractCharacterVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SubtractCharacterVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1668,25 +1693,25 @@ AsyncOp<ModifyCharacterVirtualCurrencyResult> PlayerItemManagementAPI::ServerSub
 }
 
 AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ServerSubtractUserVirtualCurrency(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SubtractUserVirtualCurrency" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SubtractUserVirtualCurrency" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1709,25 +1734,25 @@ AsyncOp<ModifyUserVirtualCurrencyResult> PlayerItemManagementAPI::ServerSubtract
 }
 
 AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ServerUnlockContainerInstance(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerUnlockContainerInstanceRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UnlockContainerInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UnlockContainerInstance" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1750,25 +1775,25 @@ AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ServerUnlockContaine
 }
 
 AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ServerUnlockContainerItem(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementServerUnlockContainerItemRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UnlockContainerItem" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UnlockContainerItem" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1791,25 +1816,25 @@ AsyncOp<UnlockContainerItemResult> PlayerItemManagementAPI::ServerUnlockContaine
 }
 
 AsyncOp<void> PlayerItemManagementAPI::ServerUpdateUserInventoryItemCustomData(
+    SharedPtr<GlobalState const> state,
     const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateUserInventoryItemCustomData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateUserInventoryItemCustomData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

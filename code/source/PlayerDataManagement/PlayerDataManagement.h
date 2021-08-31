@@ -1,81 +1,74 @@
 #pragma once
 
 #include "PlayerDataManagementDataModels.h"
-#include "AuthTokens.h"
-#include "HttpClient.h"
-#include "TaskQueue.h"
+#include "TitlePlayer.h"
+#include "GlobalState.h"
 
 namespace PlayFab
 {
 
-class Entity;
-
 class PlayerDataManagementAPI
 {
 public:
-    PlayerDataManagementAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    PlayerDataManagementAPI() = delete;
     PlayerDataManagementAPI(const PlayerDataManagementAPI& source) = delete;
     PlayerDataManagementAPI& operator=(const PlayerDataManagementAPI& source) = delete;
     ~PlayerDataManagementAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<PlayerDataManagementModels::CreatePlayerStatisticDefinitionResult> AdminCreatePlayerStatisticDefinition(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::GetDataReportResult> AdminGetDataReport(const PFPlayerDataManagementGetDataReportRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticDefinitionsResult> AdminGetPlayerStatisticDefinitions(SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticVersionsResult> AdminGetPlayerStatisticVersions(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserInternalData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserPublisherData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserPublisherInternalData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserPublisherReadOnlyData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserReadOnlyData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::IncrementPlayerStatisticVersionResult> AdminIncrementPlayerStatisticVersion(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::RefundPurchaseResponse> AdminRefundPurchase(const PFPlayerDataManagementRefundPurchaseRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> AdminResetUserStatistics(const PFPlayerDataManagementResetUserStatisticsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ResolvePurchaseDisputeResponse> AdminResolvePurchaseDispute(const PFPlayerDataManagementResolvePurchaseDisputeRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdatePlayerStatisticDefinitionResult> AdminUpdatePlayerStatisticDefinition(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserData(const PFPlayerDataManagementAdminUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserInternalData(const PFPlayerDataManagementUpdateUserInternalDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserPublisherData(const PFPlayerDataManagementAdminUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserPublisherInternalData(const PFPlayerDataManagementUpdateUserInternalDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserPublisherReadOnlyData(const PFPlayerDataManagementAdminUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserReadOnlyData(const PFPlayerDataManagementAdminUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ClientGetFriendLeaderboard(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::GetFriendLeaderboardAroundPlayerResult> ClientGetFriendLeaderboardAroundPlayer(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ClientGetLeaderboard(const PFPlayerDataManagementGetLeaderboardRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::GetLeaderboardAroundPlayerResult> ClientGetLeaderboardAroundPlayer(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::ClientGetPlayerStatisticsResult> ClientGetPlayerStatistics(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::GetPlayerStatisticVersionsResult> ClientGetPlayerStatisticVersions(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserData(const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserPublisherData(const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserPublisherReadOnlyData(const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserReadOnlyData(const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue) const;
-    AsyncOp<void> ClientUpdatePlayerStatistics(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ClientUpdateUserData(const PFPlayerDataManagementClientUpdateUserDataRequest& request, const TaskQueue& queue) const;
-    AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ClientUpdateUserPublisherData(const PFPlayerDataManagementClientUpdateUserDataRequest& request, const TaskQueue& queue) const;
-    static AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ServerGetFriendLeaderboard(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ServerGetLeaderboard(const PFPlayerDataManagementGetLeaderboardRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::GetLeaderboardAroundUserResult> ServerGetLeaderboardAroundUser(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<GetPlayerCombinedInfoResult> ServerGetPlayerCombinedInfo(const PFGetPlayerCombinedInfoRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetPlayerStatisticsResult> ServerGetPlayerStatistics(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticVersionsResult> ServerGetPlayerStatisticVersions(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserInternalData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserPublisherData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserPublisherInternalData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserPublisherReadOnlyData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserReadOnlyData(const PFPlayerDataManagementGetUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> ServerUpdatePlayerStatistics(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserData(const PFPlayerDataManagementServerUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserInternalData(const PFPlayerDataManagementUpdateUserInternalDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserPublisherData(const PFPlayerDataManagementServerUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserPublisherInternalData(const PFPlayerDataManagementUpdateUserInternalDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserPublisherReadOnlyData(const PFPlayerDataManagementServerUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserReadOnlyData(const PFPlayerDataManagementServerUpdateUserDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-
-private:
-    SharedPtr<HttpClient const> m_httpClient;
-    SharedPtr<AuthTokens const> m_tokens;
+    static AsyncOp<PlayerDataManagementModels::CreatePlayerStatisticDefinitionResult> AdminCreatePlayerStatisticDefinition(SharedPtr<GlobalState const> state, const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetDataReportResult> AdminGetDataReport(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetDataReportRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticDefinitionsResult> AdminGetPlayerStatisticDefinitions(SharedPtr<GlobalState const> state, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticVersionsResult> AdminGetPlayerStatisticVersions(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserPublisherData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserPublisherInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserPublisherReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::AdminGetUserDataResult> AdminGetUserReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::IncrementPlayerStatisticVersionResult> AdminIncrementPlayerStatisticVersion(SharedPtr<GlobalState const> state, const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::RefundPurchaseResponse> AdminRefundPurchase(SharedPtr<GlobalState const> state, const PFPlayerDataManagementRefundPurchaseRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminResetUserStatistics(SharedPtr<GlobalState const> state, const PFPlayerDataManagementResetUserStatisticsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ResolvePurchaseDisputeResponse> AdminResolvePurchaseDispute(SharedPtr<GlobalState const> state, const PFPlayerDataManagementResolvePurchaseDisputeRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdatePlayerStatisticDefinitionResult> AdminUpdatePlayerStatisticDefinition(SharedPtr<GlobalState const> state, const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementAdminUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementUpdateUserInternalDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserPublisherData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementAdminUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserPublisherInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementUpdateUserInternalDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserPublisherReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementAdminUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> AdminUpdateUserReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementAdminUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ClientGetFriendLeaderboard(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementClientGetFriendLeaderboardRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetFriendLeaderboardAroundPlayerResult> ClientGetFriendLeaderboardAroundPlayer(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ClientGetLeaderboard(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetLeaderboardRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetLeaderboardAroundPlayerResult> ClientGetLeaderboardAroundPlayer(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ClientGetPlayerStatisticsResult> ClientGetPlayerStatistics(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementClientGetPlayerStatisticsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticVersionsResult> ClientGetPlayerStatisticVersions(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserData(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserPublisherData(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserPublisherReadOnlyData(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ClientGetUserDataResult> ClientGetUserReadOnlyData(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ClientUpdatePlayerStatistics(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ClientUpdateUserData(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementClientUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ClientUpdateUserPublisherData(SharedPtr<TitlePlayer> entity, const PFPlayerDataManagementClientUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ServerGetFriendLeaderboard(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerGetFriendLeaderboardRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetLeaderboardResult> ServerGetLeaderboard(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetLeaderboardRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetLeaderboardAroundUserResult> ServerGetLeaderboardAroundUser(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetLeaderboardAroundUserRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetPlayerCombinedInfoResult> ServerGetPlayerCombinedInfo(SharedPtr<GlobalState const> state, const PFGetPlayerCombinedInfoRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetPlayerStatisticsResult> ServerGetPlayerStatistics(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerGetPlayerStatisticsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::GetPlayerStatisticVersionsResult> ServerGetPlayerStatisticVersions(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserPublisherData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserPublisherInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserPublisherReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::ServerGetUserDataResult> ServerGetUserReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementGetUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerUpdatePlayerStatistics(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementUpdateUserInternalDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserPublisherData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserPublisherInternalData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementUpdateUserInternalDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserPublisherReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerUpdateUserDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<PlayerDataManagementModels::UpdateUserDataResult> ServerUpdateUserReadOnlyData(SharedPtr<GlobalState const> state, const PFPlayerDataManagementServerUpdateUserDataRequest& request, const TaskQueue& queue);
 };
 
 }

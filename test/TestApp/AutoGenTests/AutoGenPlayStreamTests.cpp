@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenPlayStreamTests::PlayStreamTestData AutoGenPlayStreamTests::testData;
+
 void AutoGenPlayStreamTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,24 +29,37 @@ HRESULT AutoGenPlayStreamTests::LogHR(HRESULT hr)
 
 void AutoGenPlayStreamTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestPlayStreamAdminAddPlayerTag", &AutoGenPlayStreamTests::TestPlayStreamAdminAddPlayerTag);
+
     AddTest("TestPlayStreamAdminGetAllSegments", &AutoGenPlayStreamTests::TestPlayStreamAdminGetAllSegments);
+
     AddTest("TestPlayStreamAdminGetPlayerSegments", &AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerSegments);
+
     AddTest("TestPlayStreamAdminGetPlayersInSegment", &AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayersInSegment);
+
     AddTest("TestPlayStreamAdminGetPlayerTags", &AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerTags);
+
     AddTest("TestPlayStreamAdminRemovePlayerTag", &AutoGenPlayStreamTests::TestPlayStreamAdminRemovePlayerTag);
+
     AddTest("TestPlayStreamClientGetPlayerSegments", &AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerSegments);
+
     AddTest("TestPlayStreamClientGetPlayerTags", &AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerTags);
+
     AddTest("TestPlayStreamServerAddPlayerTag", &AutoGenPlayStreamTests::TestPlayStreamServerAddPlayerTag);
+
     AddTest("TestPlayStreamServerGetAllSegments", &AutoGenPlayStreamTests::TestPlayStreamServerGetAllSegments);
+
     AddTest("TestPlayStreamServerGetPlayerSegments", &AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerSegments);
+
     AddTest("TestPlayStreamServerGetPlayersInSegment", &AutoGenPlayStreamTests::TestPlayStreamServerGetPlayersInSegment);
+
     AddTest("TestPlayStreamServerGetPlayerTags", &AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerTags);
+
     AddTest("TestPlayStreamServerRemovePlayerTag", &AutoGenPlayStreamTests::TestPlayStreamServerRemovePlayerTag);
+
     AddTest("TestPlayStreamWriteEvents", &AutoGenPlayStreamTests::TestPlayStreamWriteEvents);
+
     AddTest("TestPlayStreamWriteTelemetryEvents", &AutoGenPlayStreamTests::TestPlayStreamWriteTelemetryEvents);
 }
 
@@ -83,10 +98,52 @@ void AutoGenPlayStreamTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -95,10 +152,12 @@ void AutoGenPlayStreamTests::ClassSetUp()
 
 void AutoGenPlayStreamTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -117,6 +176,8 @@ void AutoGenPlayStreamTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminAddPlayerTag
 
 void AutoGenPlayStreamTests::TestPlayStreamAdminAddPlayerTag(TestContext& testContext)
 {
@@ -146,7 +207,12 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminAddPlayerTag(TestContext& testCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetAllSegments
+
 void AutoGenPlayStreamTests::TestPlayStreamAdminGetAllSegments(TestContext& testContext)
 {
     struct AdminGetAllSegmentsResult : public XAsyncResult
@@ -173,7 +239,12 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetAllSegments(TestContext& test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerSegments
+
 void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerSegments(TestContext& testContext)
 {
     struct AdminGetPlayerSegmentsResult : public XAsyncResult
@@ -203,7 +274,12 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerSegments(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayersInSegment
+
 void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayersInSegment(TestContext& testContext)
 {
     struct AdminGetPlayersInSegmentResult : public XAsyncResult
@@ -233,7 +309,12 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayersInSegment(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerTags
+
 void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerTags(TestContext& testContext)
 {
     struct AdminGetPlayerTagsResult : public XAsyncResult
@@ -263,7 +344,12 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerTags(TestContext& testC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRemovePlayerTag
+
 void AutoGenPlayStreamTests::TestPlayStreamAdminRemovePlayerTag(TestContext& testContext)
 {
     struct AdminRemovePlayerTagResult : public XAsyncResult
@@ -292,7 +378,12 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminRemovePlayerTag(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerSegments
+
 void AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerSegments(TestContext& testContext)
 {
     struct ClientGetPlayerSegmentsResult : public XAsyncResult
@@ -312,14 +403,19 @@ void AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerSegments(TestContext& 
 
     auto async = std::make_unique<XAsyncHelper<ClientGetPlayerSegmentsResult>>(testContext);
 
-    HRESULT hr = PFPlayStreamClientGetPlayerSegmentsAsync(entityHandle, &async->asyncBlock); 
+    HRESULT hr = PFPlayStreamClientGetPlayerSegmentsAsync(titlePlayerHandle, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayStreamPlayStreamClientGetPlayerSegmentsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerTags
+
 void AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerTags(TestContext& testContext)
 {
     struct ClientGetPlayerTagsResult : public XAsyncResult
@@ -342,14 +438,19 @@ void AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerTags(TestContext& test
     PlayFab::PlayStreamModels::GetPlayerTagsRequest request;
     FillGetPlayerTagsRequest( &request );
     LogGetPlayerTagsRequest( &request, "TestPlayStreamClientGetPlayerTags" );
-    HRESULT hr = PFPlayStreamClientGetPlayerTagsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlayStreamClientGetPlayerTagsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlayStreamPlayStreamClientGetPlayerTagsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAddPlayerTag
+
 void AutoGenPlayStreamTests::TestPlayStreamServerAddPlayerTag(TestContext& testContext)
 {
     struct ServerAddPlayerTagResult : public XAsyncResult
@@ -378,7 +479,12 @@ void AutoGenPlayStreamTests::TestPlayStreamServerAddPlayerTag(TestContext& testC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetAllSegments
+
 void AutoGenPlayStreamTests::TestPlayStreamServerGetAllSegments(TestContext& testContext)
 {
     struct ServerGetAllSegmentsResult : public XAsyncResult
@@ -405,7 +511,12 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetAllSegments(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayerSegments
+
 void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerSegments(TestContext& testContext)
 {
     struct ServerGetPlayerSegmentsResult : public XAsyncResult
@@ -435,7 +546,12 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerSegments(TestContext& 
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayersInSegment
+
 void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayersInSegment(TestContext& testContext)
 {
     struct ServerGetPlayersInSegmentResult : public XAsyncResult
@@ -465,7 +581,12 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayersInSegment(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayerTags
+
 void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerTags(TestContext& testContext)
 {
     struct ServerGetPlayerTagsResult : public XAsyncResult
@@ -495,7 +616,12 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerTags(TestContext& test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRemovePlayerTag
+
 void AutoGenPlayStreamTests::TestPlayStreamServerRemovePlayerTag(TestContext& testContext)
 {
     struct ServerRemovePlayerTagResult : public XAsyncResult
@@ -524,7 +650,12 @@ void AutoGenPlayStreamTests::TestPlayStreamServerRemovePlayerTag(TestContext& te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region WriteEvents
+
 void AutoGenPlayStreamTests::TestPlayStreamWriteEvents(TestContext& testContext)
 {
     struct WriteEventsResult : public XAsyncResult
@@ -554,7 +685,12 @@ void AutoGenPlayStreamTests::TestPlayStreamWriteEvents(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region WriteTelemetryEvents
+
 void AutoGenPlayStreamTests::TestPlayStreamWriteTelemetryEvents(TestContext& testContext)
 {
     struct WriteTelemetryEventsResult : public XAsyncResult
@@ -584,6 +720,9 @@ void AutoGenPlayStreamTests::TestPlayStreamWriteTelemetryEvents(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

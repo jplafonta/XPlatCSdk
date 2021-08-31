@@ -17,7 +17,7 @@ HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminCreatePlayerStatisticDefinition, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminCreatePlayerStatisticDefinition, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -44,7 +44,7 @@ HRESULT PFPlayerDataManagementAdminGetDataReportAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetDataReport, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetDataReport, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -79,7 +79,7 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetPlayerStatisticDefinitions, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetPlayerStatisticDefinitions, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -106,7 +106,7 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetPlayerStatisticVersions, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetPlayerStatisticVersions, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -133,7 +133,7 @@ HRESULT PFPlayerDataManagementAdminGetUserDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -160,7 +160,7 @@ HRESULT PFPlayerDataManagementAdminGetUserInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -187,7 +187,7 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -214,7 +214,7 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserPublisherInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserPublisherInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -241,7 +241,7 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserPublisherReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserPublisherReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -268,7 +268,7 @@ HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminGetUserReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -295,7 +295,7 @@ HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminIncrementPlayerStatisticVersion, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminIncrementPlayerStatisticVersion, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -322,7 +322,7 @@ HRESULT PFPlayerDataManagementAdminRefundPurchaseAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminRefundPurchase, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminRefundPurchase, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -359,7 +359,7 @@ HRESULT PFPlayerDataManagementAdminResetUserStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminResetUserStatistics, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminResetUserStatistics, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -372,7 +372,7 @@ HRESULT PFPlayerDataManagementAdminResolvePurchaseDisputeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminResolvePurchaseDispute, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminResolvePurchaseDispute, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -409,7 +409,7 @@ HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdatePlayerStatisticDefinition, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdatePlayerStatisticDefinition, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -436,7 +436,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -457,7 +457,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -478,7 +478,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -499,7 +499,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserPublisherInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserPublisherInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserPublisherInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -520,7 +520,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserPublisherReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserPublisherReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserPublisherReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -541,7 +541,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::AdminUpdateUserReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -554,7 +554,7 @@ HRESULT PFPlayerDataManagementAdminUpdateUserReadOnlyDataGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementClientGetFriendLeaderboardRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -562,7 +562,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetFriendLeaderboard, &contextHandle->entity->playerDataManagementAPI, ClientGetFriendLeaderboardRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetFriendLeaderboard, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -581,7 +581,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -589,7 +589,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetFriendLeaderboardAroundPlayer, &contextHandle->entity->playerDataManagementAPI, GetFriendLeaderboardAroundPlayerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetFriendLeaderboardAroundPlayer, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -608,7 +608,7 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetLeaderboardAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetLeaderboardRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -616,7 +616,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetLeaderboard, &contextHandle->entity->playerDataManagementAPI, GetLeaderboardRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetLeaderboard, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -635,7 +635,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -643,7 +643,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetLeaderboardAroundPlayer, &contextHandle->entity->playerDataManagementAPI, GetLeaderboardAroundPlayerRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetLeaderboardAroundPlayer, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -662,7 +662,7 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementClientGetPlayerStatisticsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -670,7 +670,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetPlayerStatistics, &contextHandle->entity->playerDataManagementAPI, ClientGetPlayerStatisticsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetPlayerStatistics, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -689,7 +689,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetPlayerStatisticVersionsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -697,7 +697,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetPlayerStatisticVersions, &contextHandle->entity->playerDataManagementAPI, GetPlayerStatisticVersionsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetPlayerStatisticVersions, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -716,7 +716,7 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetUserDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -724,7 +724,7 @@ HRESULT PFPlayerDataManagementClientGetUserDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetUserData, &contextHandle->entity->playerDataManagementAPI, GetUserDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetUserData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -743,7 +743,7 @@ HRESULT PFPlayerDataManagementClientGetUserDataGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetUserPublisherDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -751,7 +751,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetUserPublisherData, &contextHandle->entity->playerDataManagementAPI, GetUserDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetUserPublisherData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -770,7 +770,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -778,7 +778,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetUserPublisherReadOnlyData, &contextHandle->entity->playerDataManagementAPI, GetUserDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetUserPublisherReadOnlyData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -797,7 +797,7 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementGetUserDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -805,7 +805,7 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientGetUserReadOnlyData, &contextHandle->entity->playerDataManagementAPI, GetUserDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientGetUserReadOnlyData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -824,7 +824,7 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -832,12 +832,12 @@ HRESULT PFPlayerDataManagementClientUpdatePlayerStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientUpdatePlayerStatistics, &contextHandle->entity->playerDataManagementAPI, ClientUpdatePlayerStatisticsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientUpdatePlayerStatistics, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFPlayerDataManagementClientUpdateUserDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementClientUpdateUserDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -845,7 +845,7 @@ HRESULT PFPlayerDataManagementClientUpdateUserDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientUpdateUserData, &contextHandle->entity->playerDataManagementAPI, ClientUpdateUserDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientUpdateUserData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -858,7 +858,7 @@ HRESULT PFPlayerDataManagementClientUpdateUserDataGetResult(
 }
 
 HRESULT PFPlayerDataManagementClientUpdateUserPublisherDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerDataManagementClientUpdateUserDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -866,7 +866,7 @@ HRESULT PFPlayerDataManagementClientUpdateUserPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerDataManagementAPI::ClientUpdateUserPublisherData, &contextHandle->entity->playerDataManagementAPI, ClientUpdateUserDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ClientUpdateUserPublisherData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -887,7 +887,7 @@ HRESULT PFPlayerDataManagementServerGetFriendLeaderboardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetFriendLeaderboard, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetFriendLeaderboard, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -914,7 +914,7 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetLeaderboard, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetLeaderboard, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -941,7 +941,7 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetLeaderboardAroundUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetLeaderboardAroundUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -968,7 +968,7 @@ HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetPlayerCombinedInfo, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetPlayerCombinedInfo, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -995,7 +995,7 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetPlayerStatistics, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetPlayerStatistics, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1022,7 +1022,7 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetPlayerStatisticVersions, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetPlayerStatisticVersions, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1049,7 +1049,7 @@ HRESULT PFPlayerDataManagementServerGetUserDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1076,7 +1076,7 @@ HRESULT PFPlayerDataManagementServerGetUserInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1103,7 +1103,7 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1130,7 +1130,7 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserPublisherInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserPublisherInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1157,7 +1157,7 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserPublisherReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserPublisherReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1184,7 +1184,7 @@ HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerGetUserReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1211,7 +1211,7 @@ HRESULT PFPlayerDataManagementServerUpdatePlayerStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdatePlayerStatistics, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdatePlayerStatistics, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1224,7 +1224,7 @@ HRESULT PFPlayerDataManagementServerUpdateUserDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1245,7 +1245,7 @@ HRESULT PFPlayerDataManagementServerUpdateUserInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1266,7 +1266,7 @@ HRESULT PFPlayerDataManagementServerUpdateUserPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1287,7 +1287,7 @@ HRESULT PFPlayerDataManagementServerUpdateUserPublisherInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserPublisherInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserPublisherInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1308,7 +1308,7 @@ HRESULT PFPlayerDataManagementServerUpdateUserPublisherReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserPublisherReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserPublisherReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1329,7 +1329,7 @@ HRESULT PFPlayerDataManagementServerUpdateUserReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerDataManagementAPI::ServerUpdateUserReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

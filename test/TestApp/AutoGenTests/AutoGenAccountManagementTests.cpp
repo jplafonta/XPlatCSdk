@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenAccountManagementTests::AccountManagementTestData AutoGenAccountManagementTests::testData;
+
 void AutoGenAccountManagementTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,117 +29,223 @@ HRESULT AutoGenAccountManagementTests::LogHR(HRESULT hr)
 
 void AutoGenAccountManagementTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestAccountManagementAdminBanUsers", &AutoGenAccountManagementTests::TestAccountManagementAdminBanUsers);
+
     AddTest("TestAccountManagementAdminDeleteMasterPlayerAccount", &AutoGenAccountManagementTests::TestAccountManagementAdminDeleteMasterPlayerAccount);
+
     AddTest("TestAccountManagementAdminDeletePlayer", &AutoGenAccountManagementTests::TestAccountManagementAdminDeletePlayer);
+
     AddTest("TestAccountManagementAdminDeleteTitle", &AutoGenAccountManagementTests::TestAccountManagementAdminDeleteTitle);
+
     AddTest("TestAccountManagementAdminExportMasterPlayerData", &AutoGenAccountManagementTests::TestAccountManagementAdminExportMasterPlayerData);
+
     AddTest("TestAccountManagementAdminGetPlayedTitleList", &AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayedTitleList);
+
     AddTest("TestAccountManagementAdminGetPlayerIdFromAuthToken", &AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerIdFromAuthToken);
+
     AddTest("TestAccountManagementAdminGetPlayerProfile", &AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerProfile);
+
     AddTest("TestAccountManagementAdminGetUserAccountInfo", &AutoGenAccountManagementTests::TestAccountManagementAdminGetUserAccountInfo);
+
     AddTest("TestAccountManagementAdminGetUserBans", &AutoGenAccountManagementTests::TestAccountManagementAdminGetUserBans);
+
     AddTest("TestAccountManagementAdminResetPassword", &AutoGenAccountManagementTests::TestAccountManagementAdminResetPassword);
+
     AddTest("TestAccountManagementAdminRevokeAllBansForUser", &AutoGenAccountManagementTests::TestAccountManagementAdminRevokeAllBansForUser);
+
     AddTest("TestAccountManagementAdminRevokeBans", &AutoGenAccountManagementTests::TestAccountManagementAdminRevokeBans);
+
     AddTest("TestAccountManagementAdminSendAccountRecoveryEmail", &AutoGenAccountManagementTests::TestAccountManagementAdminSendAccountRecoveryEmail);
+
     AddTest("TestAccountManagementAdminUpdateBans", &AutoGenAccountManagementTests::TestAccountManagementAdminUpdateBans);
+
     AddTest("TestAccountManagementAdminUpdateUserTitleDisplayName", &AutoGenAccountManagementTests::TestAccountManagementAdminUpdateUserTitleDisplayName);
+
     AddTest("TestAccountManagementClientAddGenericID", &AutoGenAccountManagementTests::TestAccountManagementClientAddGenericID);
+
     AddTest("TestAccountManagementClientAddOrUpdateContactEmail", &AutoGenAccountManagementTests::TestAccountManagementClientAddOrUpdateContactEmail);
+
     AddTest("TestAccountManagementClientAddUsernamePassword", &AutoGenAccountManagementTests::TestAccountManagementClientAddUsernamePassword);
+
     AddTest("TestAccountManagementClientGetAccountInfo", &AutoGenAccountManagementTests::TestAccountManagementClientGetAccountInfo);
+
     AddTest("TestAccountManagementClientGetPlayerCombinedInfo", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerCombinedInfo);
+
     AddTest("TestAccountManagementClientGetPlayerProfile", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerProfile);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromFacebookIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromFacebookIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIds", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIds);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromGameCenterIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromGameCenterIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromGenericIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromGenericIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromGoogleIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromGoogleIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromKongregateIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromKongregateIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIds", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIds);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromPSNAccountIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromPSNAccountIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromSteamIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromSteamIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromTwitchIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromTwitchIDs);
+
     AddTest("TestAccountManagementClientGetPlayFabIDsFromXboxLiveIDs", &AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromXboxLiveIDs);
+
     AddTest("TestAccountManagementClientLinkAndroidDeviceID", &AutoGenAccountManagementTests::TestAccountManagementClientLinkAndroidDeviceID);
+
     AddTest("TestAccountManagementClientLinkApple", &AutoGenAccountManagementTests::TestAccountManagementClientLinkApple);
+
     AddTest("TestAccountManagementClientLinkCustomID", &AutoGenAccountManagementTests::TestAccountManagementClientLinkCustomID);
+
     AddTest("TestAccountManagementClientLinkFacebookAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkFacebookAccount);
+
     AddTest("TestAccountManagementClientLinkFacebookInstantGamesId", &AutoGenAccountManagementTests::TestAccountManagementClientLinkFacebookInstantGamesId);
+
     AddTest("TestAccountManagementClientLinkGameCenterAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkGameCenterAccount);
+
     AddTest("TestAccountManagementClientLinkGoogleAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkGoogleAccount);
+
     AddTest("TestAccountManagementClientLinkIOSDeviceID", &AutoGenAccountManagementTests::TestAccountManagementClientLinkIOSDeviceID);
+
     AddTest("TestAccountManagementClientLinkKongregate", &AutoGenAccountManagementTests::TestAccountManagementClientLinkKongregate);
+
     AddTest("TestAccountManagementClientLinkNintendoServiceAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkNintendoServiceAccount);
+
     AddTest("TestAccountManagementClientLinkNintendoSwitchDeviceId", &AutoGenAccountManagementTests::TestAccountManagementClientLinkNintendoSwitchDeviceId);
+
     AddTest("TestAccountManagementClientLinkOpenIdConnect", &AutoGenAccountManagementTests::TestAccountManagementClientLinkOpenIdConnect);
+
     AddTest("TestAccountManagementClientLinkPSNAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkPSNAccount);
+
     AddTest("TestAccountManagementClientLinkSteamAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkSteamAccount);
+
     AddTest("TestAccountManagementClientLinkTwitch", &AutoGenAccountManagementTests::TestAccountManagementClientLinkTwitch);
+
     AddTest("TestAccountManagementClientLinkXboxAccount", &AutoGenAccountManagementTests::TestAccountManagementClientLinkXboxAccount);
+
     AddTest("TestAccountManagementClientRemoveContactEmail", &AutoGenAccountManagementTests::TestAccountManagementClientRemoveContactEmail);
+
     AddTest("TestAccountManagementClientRemoveGenericID", &AutoGenAccountManagementTests::TestAccountManagementClientRemoveGenericID);
+
     AddTest("TestAccountManagementClientReportPlayer", &AutoGenAccountManagementTests::TestAccountManagementClientReportPlayer);
+
     AddTest("TestAccountManagementClientSendAccountRecoveryEmail", &AutoGenAccountManagementTests::TestAccountManagementClientSendAccountRecoveryEmail);
+
     AddTest("TestAccountManagementClientUnlinkAndroidDeviceID", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkAndroidDeviceID);
+
     AddTest("TestAccountManagementClientUnlinkApple", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkApple);
+
     AddTest("TestAccountManagementClientUnlinkCustomID", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkCustomID);
+
     AddTest("TestAccountManagementClientUnlinkFacebookAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkFacebookAccount);
+
     AddTest("TestAccountManagementClientUnlinkFacebookInstantGamesId", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkFacebookInstantGamesId);
+
     AddTest("TestAccountManagementClientUnlinkGameCenterAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkGameCenterAccount);
+
     AddTest("TestAccountManagementClientUnlinkGoogleAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkGoogleAccount);
+
     AddTest("TestAccountManagementClientUnlinkIOSDeviceID", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkIOSDeviceID);
+
     AddTest("TestAccountManagementClientUnlinkKongregate", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkKongregate);
+
     AddTest("TestAccountManagementClientUnlinkNintendoServiceAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkNintendoServiceAccount);
+
     AddTest("TestAccountManagementClientUnlinkNintendoSwitchDeviceId", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkNintendoSwitchDeviceId);
+
     AddTest("TestAccountManagementClientUnlinkOpenIdConnect", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkOpenIdConnect);
+
     AddTest("TestAccountManagementClientUnlinkPSNAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkPSNAccount);
+
     AddTest("TestAccountManagementClientUnlinkSteamAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkSteamAccount);
+
     AddTest("TestAccountManagementClientUnlinkTwitch", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkTwitch);
+
     AddTest("TestAccountManagementClientUnlinkXboxAccount", &AutoGenAccountManagementTests::TestAccountManagementClientUnlinkXboxAccount);
+
     AddTest("TestAccountManagementClientUpdateAvatarUrl", &AutoGenAccountManagementTests::TestAccountManagementClientUpdateAvatarUrl);
+
     AddTest("TestAccountManagementClientUpdateUserTitleDisplayName", &AutoGenAccountManagementTests::TestAccountManagementClientUpdateUserTitleDisplayName);
+
     AddTest("TestAccountManagementServerAddGenericID", &AutoGenAccountManagementTests::TestAccountManagementServerAddGenericID);
+
     AddTest("TestAccountManagementServerBanUsers", &AutoGenAccountManagementTests::TestAccountManagementServerBanUsers);
+
     AddTest("TestAccountManagementServerDeletePlayer", &AutoGenAccountManagementTests::TestAccountManagementServerDeletePlayer);
+
     AddTest("TestAccountManagementServerDeletePushNotificationTemplate", &AutoGenAccountManagementTests::TestAccountManagementServerDeletePushNotificationTemplate);
+
     AddTest("TestAccountManagementServerGetPlayerProfile", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayerProfile);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromFacebookIDs", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromFacebookIDs);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIds", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIds);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromGenericIDs", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromGenericIDs);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIds", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIds);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromPSNAccountIDs", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromPSNAccountIDs);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromSteamIDs", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromSteamIDs);
+
     AddTest("TestAccountManagementServerGetPlayFabIDsFromXboxLiveIDs", &AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromXboxLiveIDs);
+
     AddTest("TestAccountManagementServerGetServerCustomIDsFromPlayFabIDs", &AutoGenAccountManagementTests::TestAccountManagementServerGetServerCustomIDsFromPlayFabIDs);
+
     AddTest("TestAccountManagementServerGetUserAccountInfo", &AutoGenAccountManagementTests::TestAccountManagementServerGetUserAccountInfo);
+
     AddTest("TestAccountManagementServerGetUserBans", &AutoGenAccountManagementTests::TestAccountManagementServerGetUserBans);
+
     AddTest("TestAccountManagementServerLinkPSNAccount", &AutoGenAccountManagementTests::TestAccountManagementServerLinkPSNAccount);
+
     AddTest("TestAccountManagementServerLinkServerCustomId", &AutoGenAccountManagementTests::TestAccountManagementServerLinkServerCustomId);
+
     AddTest("TestAccountManagementServerLinkXboxAccount", &AutoGenAccountManagementTests::TestAccountManagementServerLinkXboxAccount);
+
     AddTest("TestAccountManagementServerRemoveGenericID", &AutoGenAccountManagementTests::TestAccountManagementServerRemoveGenericID);
+
     AddTest("TestAccountManagementServerRevokeAllBansForUser", &AutoGenAccountManagementTests::TestAccountManagementServerRevokeAllBansForUser);
+
     AddTest("TestAccountManagementServerRevokeBans", &AutoGenAccountManagementTests::TestAccountManagementServerRevokeBans);
+
     AddTest("TestAccountManagementServerSavePushNotificationTemplate", &AutoGenAccountManagementTests::TestAccountManagementServerSavePushNotificationTemplate);
+
     AddTest("TestAccountManagementServerSendCustomAccountRecoveryEmail", &AutoGenAccountManagementTests::TestAccountManagementServerSendCustomAccountRecoveryEmail);
+
     AddTest("TestAccountManagementServerSendEmailFromTemplate", &AutoGenAccountManagementTests::TestAccountManagementServerSendEmailFromTemplate);
+
     AddTest("TestAccountManagementServerSendPushNotification", &AutoGenAccountManagementTests::TestAccountManagementServerSendPushNotification);
+
     AddTest("TestAccountManagementServerSendPushNotificationFromTemplate", &AutoGenAccountManagementTests::TestAccountManagementServerSendPushNotificationFromTemplate);
+
     AddTest("TestAccountManagementServerUnlinkPSNAccount", &AutoGenAccountManagementTests::TestAccountManagementServerUnlinkPSNAccount);
+
     AddTest("TestAccountManagementServerUnlinkServerCustomId", &AutoGenAccountManagementTests::TestAccountManagementServerUnlinkServerCustomId);
+
     AddTest("TestAccountManagementServerUnlinkXboxAccount", &AutoGenAccountManagementTests::TestAccountManagementServerUnlinkXboxAccount);
+
     AddTest("TestAccountManagementServerUpdateAvatarUrl", &AutoGenAccountManagementTests::TestAccountManagementServerUpdateAvatarUrl);
+
     AddTest("TestAccountManagementServerUpdateBans", &AutoGenAccountManagementTests::TestAccountManagementServerUpdateBans);
+
     AddTest("TestAccountManagementGetGlobalPolicy", &AutoGenAccountManagementTests::TestAccountManagementGetGlobalPolicy);
+
     AddTest("TestAccountManagementGetProfile", &AutoGenAccountManagementTests::TestAccountManagementGetProfile);
+
     AddTest("TestAccountManagementGetProfiles", &AutoGenAccountManagementTests::TestAccountManagementGetProfiles);
+
     AddTest("TestAccountManagementGetTitlePlayersFromMasterPlayerAccountIds", &AutoGenAccountManagementTests::TestAccountManagementGetTitlePlayersFromMasterPlayerAccountIds);
+
     AddTest("TestAccountManagementSetGlobalPolicy", &AutoGenAccountManagementTests::TestAccountManagementSetGlobalPolicy);
+
     AddTest("TestAccountManagementSetProfileLanguage", &AutoGenAccountManagementTests::TestAccountManagementSetProfileLanguage);
+
     AddTest("TestAccountManagementSetProfilePolicy", &AutoGenAccountManagementTests::TestAccountManagementSetProfilePolicy);
 }
 
@@ -176,10 +284,52 @@ void AutoGenAccountManagementTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -188,10 +338,12 @@ void AutoGenAccountManagementTests::ClassSetUp()
 
 void AutoGenAccountManagementTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -210,6 +362,8 @@ void AutoGenAccountManagementTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminBanUsers
 
 void AutoGenAccountManagementTests::TestAccountManagementAdminBanUsers(TestContext& testContext)
 {
@@ -240,7 +394,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminBanUsers(TestConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteMasterPlayerAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminDeleteMasterPlayerAccount(TestContext& testContext)
 {
     struct AdminDeleteMasterPlayerAccountResult : public XAsyncResult
@@ -270,7 +429,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminDeleteMasterPlayer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeletePlayer
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminDeletePlayer(TestContext& testContext)
 {
     struct AdminDeletePlayerResult : public XAsyncResult
@@ -299,7 +463,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminDeletePlayer(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteTitle
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminDeleteTitle(TestContext& testContext)
 {
     struct AdminDeleteTitleResult : public XAsyncResult
@@ -325,7 +494,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminDeleteTitle(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminExportMasterPlayerData
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminExportMasterPlayerData(TestContext& testContext)
 {
     struct AdminExportMasterPlayerDataResult : public XAsyncResult
@@ -359,7 +533,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminExportMasterPlayer
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayedTitleList
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayedTitleList(TestContext& testContext)
 {
     struct AdminGetPlayedTitleListResult : public XAsyncResult
@@ -389,7 +568,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayedTitleList
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerIdFromAuthToken
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerIdFromAuthToken(TestContext& testContext)
 {
     struct AdminGetPlayerIdFromAuthTokenResult : public XAsyncResult
@@ -423,7 +607,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerIdFromAut
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetPlayerProfile
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerProfile(TestContext& testContext)
 {
     struct AdminGetPlayerProfileResult : public XAsyncResult
@@ -453,7 +642,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerProfile(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserAccountInfo
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminGetUserAccountInfo(TestContext& testContext)
 {
     struct AdminGetUserAccountInfoResult : public XAsyncResult
@@ -483,7 +677,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetUserAccountInfo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetUserBans
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminGetUserBans(TestContext& testContext)
 {
     struct AdminGetUserBansResult : public XAsyncResult
@@ -513,7 +712,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetUserBans(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminResetPassword
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminResetPassword(TestContext& testContext)
 {
     struct AdminResetPasswordResult : public XAsyncResult
@@ -542,7 +746,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminResetPassword(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRevokeAllBansForUser
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminRevokeAllBansForUser(TestContext& testContext)
 {
     struct AdminRevokeAllBansForUserResult : public XAsyncResult
@@ -572,7 +781,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminRevokeAllBansForUs
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminRevokeBans
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminRevokeBans(TestContext& testContext)
 {
     struct AdminRevokeBansResult : public XAsyncResult
@@ -602,7 +816,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminRevokeBans(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminSendAccountRecoveryEmail
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminSendAccountRecoveryEmail(TestContext& testContext)
 {
     struct AdminSendAccountRecoveryEmailResult : public XAsyncResult
@@ -631,7 +850,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminSendAccountRecover
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateBans
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminUpdateBans(TestContext& testContext)
 {
     struct AdminUpdateBansResult : public XAsyncResult
@@ -661,7 +885,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminUpdateBans(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateUserTitleDisplayName
+
 void AutoGenAccountManagementTests::TestAccountManagementAdminUpdateUserTitleDisplayName(TestContext& testContext)
 {
     struct AdminUpdateUserTitleDisplayNameResult : public XAsyncResult
@@ -695,7 +924,12 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminUpdateUserTitleDis
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientAddGenericID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientAddGenericID(TestContext& testContext)
 {
     struct ClientAddGenericIDResult : public XAsyncResult
@@ -717,14 +951,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientAddGenericID(Test
     PlayFab::AccountManagementModels::ClientAddGenericIDRequest request;
     FillClientAddGenericIDRequest( &request );
     LogClientAddGenericIDRequest( &request, "TestAccountManagementClientAddGenericID" );
-    HRESULT hr = PFAccountManagementClientAddGenericIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientAddGenericIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientAddGenericIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientAddOrUpdateContactEmail
+
 void AutoGenAccountManagementTests::TestAccountManagementClientAddOrUpdateContactEmail(TestContext& testContext)
 {
     struct ClientAddOrUpdateContactEmailResult : public XAsyncResult
@@ -746,14 +985,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientAddOrUpdateContac
     PlayFab::AccountManagementModels::AddOrUpdateContactEmailRequest request;
     FillAddOrUpdateContactEmailRequest( &request );
     LogAddOrUpdateContactEmailRequest( &request, "TestAccountManagementClientAddOrUpdateContactEmail" );
-    HRESULT hr = PFAccountManagementClientAddOrUpdateContactEmailAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientAddOrUpdateContactEmailAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientAddOrUpdateContactEmailAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientAddUsernamePassword
+
 void AutoGenAccountManagementTests::TestAccountManagementClientAddUsernamePassword(TestContext& testContext)
 {
     struct ClientAddUsernamePasswordResult : public XAsyncResult
@@ -780,14 +1024,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientAddUsernamePasswo
     PlayFab::AccountManagementModels::AddUsernamePasswordRequest request;
     FillAddUsernamePasswordRequest( &request );
     LogAddUsernamePasswordRequest( &request, "TestAccountManagementClientAddUsernamePassword" );
-    HRESULT hr = PFAccountManagementClientAddUsernamePasswordAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientAddUsernamePasswordAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientAddUsernamePasswordAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetAccountInfo
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetAccountInfo(TestContext& testContext)
 {
     struct ClientGetAccountInfoResult : public XAsyncResult
@@ -810,14 +1059,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetAccountInfo(Te
     PlayFab::AccountManagementModels::GetAccountInfoRequest request;
     FillGetAccountInfoRequest( &request );
     LogGetAccountInfoRequest( &request, "TestAccountManagementClientGetAccountInfo" );
-    HRESULT hr = PFAccountManagementClientGetAccountInfoAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetAccountInfoAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetAccountInfoAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerCombinedInfo
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerCombinedInfo(TestContext& testContext)
 {
     struct ClientGetPlayerCombinedInfoResult : public XAsyncResult
@@ -840,14 +1094,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerCombined
     PlayFab::GetPlayerCombinedInfoRequest request;
     FillGetPlayerCombinedInfoRequest( &request );
     LogGetPlayerCombinedInfoRequest( &request, "TestAccountManagementClientGetPlayerCombinedInfo" );
-    HRESULT hr = PFAccountManagementClientGetPlayerCombinedInfoAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayerCombinedInfoAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayerCombinedInfoAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerProfile
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerProfile(TestContext& testContext)
 {
     struct ClientGetPlayerProfileResult : public XAsyncResult
@@ -870,14 +1129,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerProfile(
     PlayFab::AccountManagementModels::GetPlayerProfileRequest request;
     FillGetPlayerProfileRequest( &request );
     LogGetPlayerProfileRequest( &request, "TestAccountManagementClientGetPlayerProfile" );
-    HRESULT hr = PFAccountManagementClientGetPlayerProfileAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayerProfileAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayerProfileAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromFacebookIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromFacebookIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromFacebookIDsResult : public XAsyncResult
@@ -900,14 +1164,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromFacebookIDsRequest request;
     FillGetPlayFabIDsFromFacebookIDsRequest( &request );
     LogGetPlayFabIDsFromFacebookIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromFacebookIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromFacebookIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromFacebookInstantGamesIds
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIds(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromFacebookInstantGamesIdsResult : public XAsyncResult
@@ -930,14 +1199,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromFacebookInstantGamesIdsRequest request;
     FillGetPlayFabIDsFromFacebookInstantGamesIdsRequest( &request );
     LogGetPlayFabIDsFromFacebookInstantGamesIdsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIds" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromGameCenterIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromGameCenterIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromGameCenterIDsResult : public XAsyncResult
@@ -960,14 +1234,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromGameCenterIDsRequest request;
     FillGetPlayFabIDsFromGameCenterIDsRequest( &request );
     LogGetPlayFabIDsFromGameCenterIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromGameCenterIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromGameCenterIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromGenericIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromGenericIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromGenericIDsResult : public XAsyncResult
@@ -990,14 +1269,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromGenericIDsRequest request;
     FillGetPlayFabIDsFromGenericIDsRequest( &request );
     LogGetPlayFabIDsFromGenericIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromGenericIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromGenericIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromGenericIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromGoogleIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromGoogleIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromGoogleIDsResult : public XAsyncResult
@@ -1020,14 +1304,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromGoogleIDsRequest request;
     FillGetPlayFabIDsFromGoogleIDsRequest( &request );
     LogGetPlayFabIDsFromGoogleIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromGoogleIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromGoogleIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromKongregateIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromKongregateIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromKongregateIDsResult : public XAsyncResult
@@ -1050,14 +1339,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromKongregateIDsRequest request;
     FillGetPlayFabIDsFromKongregateIDsRequest( &request );
     LogGetPlayFabIDsFromKongregateIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromKongregateIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromKongregateIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromNintendoSwitchDeviceIds
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIds(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public XAsyncResult
@@ -1080,14 +1374,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest request;
     FillGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest( &request );
     LogGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIds" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromPSNAccountIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromPSNAccountIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromPSNAccountIDsResult : public XAsyncResult
@@ -1110,14 +1409,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromPSNAccountIDsRequest request;
     FillGetPlayFabIDsFromPSNAccountIDsRequest( &request );
     LogGetPlayFabIDsFromPSNAccountIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromPSNAccountIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromPSNAccountIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromSteamIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromSteamIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromSteamIDsResult : public XAsyncResult
@@ -1140,14 +1444,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromSteamIDsRequest request;
     FillGetPlayFabIDsFromSteamIDsRequest( &request );
     LogGetPlayFabIDsFromSteamIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromSteamIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromSteamIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromSteamIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromTwitchIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromTwitchIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromTwitchIDsResult : public XAsyncResult
@@ -1170,14 +1479,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromTwitchIDsRequest request;
     FillGetPlayFabIDsFromTwitchIDsRequest( &request );
     LogGetPlayFabIDsFromTwitchIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromTwitchIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromTwitchIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayFabIDsFromXboxLiveIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFromXboxLiveIDs(TestContext& testContext)
 {
     struct ClientGetPlayFabIDsFromXboxLiveIDsResult : public XAsyncResult
@@ -1200,14 +1514,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
     PlayFab::AccountManagementModels::GetPlayFabIDsFromXboxLiveIDsRequest request;
     FillGetPlayFabIDsFromXboxLiveIDsRequest( &request );
     LogGetPlayFabIDsFromXboxLiveIDsRequest( &request, "TestAccountManagementClientGetPlayFabIDsFromXboxLiveIDs" );
-    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientGetPlayFabIDsFromXboxLiveIDsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkAndroidDeviceID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkAndroidDeviceID(TestContext& testContext)
 {
     struct ClientLinkAndroidDeviceIDResult : public XAsyncResult
@@ -1229,14 +1548,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkAndroidDevice
     PlayFab::AccountManagementModels::LinkAndroidDeviceIDRequest request;
     FillLinkAndroidDeviceIDRequest( &request );
     LogLinkAndroidDeviceIDRequest( &request, "TestAccountManagementClientLinkAndroidDeviceID" );
-    HRESULT hr = PFAccountManagementClientLinkAndroidDeviceIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkAndroidDeviceIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkAndroidDeviceIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkApple
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkApple(TestContext& testContext)
 {
     struct ClientLinkAppleResult : public XAsyncResult
@@ -1258,14 +1582,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkApple(TestCon
     PlayFab::AccountManagementModels::LinkAppleRequest request;
     FillLinkAppleRequest( &request );
     LogLinkAppleRequest( &request, "TestAccountManagementClientLinkApple" );
-    HRESULT hr = PFAccountManagementClientLinkAppleAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkAppleAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkAppleAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkCustomID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkCustomID(TestContext& testContext)
 {
     struct ClientLinkCustomIDResult : public XAsyncResult
@@ -1287,14 +1616,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkCustomID(Test
     PlayFab::AccountManagementModels::LinkCustomIDRequest request;
     FillLinkCustomIDRequest( &request );
     LogLinkCustomIDRequest( &request, "TestAccountManagementClientLinkCustomID" );
-    HRESULT hr = PFAccountManagementClientLinkCustomIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkCustomIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkCustomIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkFacebookAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkFacebookAccount(TestContext& testContext)
 {
     struct ClientLinkFacebookAccountResult : public XAsyncResult
@@ -1316,14 +1650,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkFacebookAccou
     PlayFab::AccountManagementModels::LinkFacebookAccountRequest request;
     FillLinkFacebookAccountRequest( &request );
     LogLinkFacebookAccountRequest( &request, "TestAccountManagementClientLinkFacebookAccount" );
-    HRESULT hr = PFAccountManagementClientLinkFacebookAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkFacebookAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkFacebookAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkFacebookInstantGamesId
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkFacebookInstantGamesId(TestContext& testContext)
 {
     struct ClientLinkFacebookInstantGamesIdResult : public XAsyncResult
@@ -1345,14 +1684,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkFacebookInsta
     PlayFab::AccountManagementModels::LinkFacebookInstantGamesIdRequest request;
     FillLinkFacebookInstantGamesIdRequest( &request );
     LogLinkFacebookInstantGamesIdRequest( &request, "TestAccountManagementClientLinkFacebookInstantGamesId" );
-    HRESULT hr = PFAccountManagementClientLinkFacebookInstantGamesIdAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkFacebookInstantGamesIdAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkFacebookInstantGamesIdAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkGameCenterAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkGameCenterAccount(TestContext& testContext)
 {
     struct ClientLinkGameCenterAccountResult : public XAsyncResult
@@ -1374,14 +1718,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkGameCenterAcc
     PlayFab::AccountManagementModels::LinkGameCenterAccountRequest request;
     FillLinkGameCenterAccountRequest( &request );
     LogLinkGameCenterAccountRequest( &request, "TestAccountManagementClientLinkGameCenterAccount" );
-    HRESULT hr = PFAccountManagementClientLinkGameCenterAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkGameCenterAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkGameCenterAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkGoogleAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkGoogleAccount(TestContext& testContext)
 {
     struct ClientLinkGoogleAccountResult : public XAsyncResult
@@ -1403,14 +1752,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkGoogleAccount
     PlayFab::AccountManagementModels::LinkGoogleAccountRequest request;
     FillLinkGoogleAccountRequest( &request );
     LogLinkGoogleAccountRequest( &request, "TestAccountManagementClientLinkGoogleAccount" );
-    HRESULT hr = PFAccountManagementClientLinkGoogleAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkGoogleAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkGoogleAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkIOSDeviceID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkIOSDeviceID(TestContext& testContext)
 {
     struct ClientLinkIOSDeviceIDResult : public XAsyncResult
@@ -1432,14 +1786,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkIOSDeviceID(T
     PlayFab::AccountManagementModels::LinkIOSDeviceIDRequest request;
     FillLinkIOSDeviceIDRequest( &request );
     LogLinkIOSDeviceIDRequest( &request, "TestAccountManagementClientLinkIOSDeviceID" );
-    HRESULT hr = PFAccountManagementClientLinkIOSDeviceIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkIOSDeviceIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkIOSDeviceIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkKongregate
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkKongregate(TestContext& testContext)
 {
     struct ClientLinkKongregateResult : public XAsyncResult
@@ -1461,14 +1820,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkKongregate(Te
     PlayFab::AccountManagementModels::LinkKongregateAccountRequest request;
     FillLinkKongregateAccountRequest( &request );
     LogLinkKongregateAccountRequest( &request, "TestAccountManagementClientLinkKongregate" );
-    HRESULT hr = PFAccountManagementClientLinkKongregateAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkKongregateAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkKongregateAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkNintendoServiceAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkNintendoServiceAccount(TestContext& testContext)
 {
     struct ClientLinkNintendoServiceAccountResult : public XAsyncResult
@@ -1490,14 +1854,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkNintendoServi
     PlayFab::AccountManagementModels::LinkNintendoServiceAccountRequest request;
     FillLinkNintendoServiceAccountRequest( &request );
     LogLinkNintendoServiceAccountRequest( &request, "TestAccountManagementClientLinkNintendoServiceAccount" );
-    HRESULT hr = PFAccountManagementClientLinkNintendoServiceAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkNintendoServiceAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkNintendoServiceAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkNintendoSwitchDeviceId
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkNintendoSwitchDeviceId(TestContext& testContext)
 {
     struct ClientLinkNintendoSwitchDeviceIdResult : public XAsyncResult
@@ -1519,14 +1888,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkNintendoSwitc
     PlayFab::AccountManagementModels::LinkNintendoSwitchDeviceIdRequest request;
     FillLinkNintendoSwitchDeviceIdRequest( &request );
     LogLinkNintendoSwitchDeviceIdRequest( &request, "TestAccountManagementClientLinkNintendoSwitchDeviceId" );
-    HRESULT hr = PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkNintendoSwitchDeviceIdAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkNintendoSwitchDeviceIdAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkOpenIdConnect
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkOpenIdConnect(TestContext& testContext)
 {
     struct ClientLinkOpenIdConnectResult : public XAsyncResult
@@ -1548,14 +1922,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkOpenIdConnect
     PlayFab::AccountManagementModels::LinkOpenIdConnectRequest request;
     FillLinkOpenIdConnectRequest( &request );
     LogLinkOpenIdConnectRequest( &request, "TestAccountManagementClientLinkOpenIdConnect" );
-    HRESULT hr = PFAccountManagementClientLinkOpenIdConnectAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkOpenIdConnectAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkOpenIdConnectAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkPSNAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkPSNAccount(TestContext& testContext)
 {
     struct ClientLinkPSNAccountResult : public XAsyncResult
@@ -1577,14 +1956,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkPSNAccount(Te
     PlayFab::AccountManagementModels::ClientLinkPSNAccountRequest request;
     FillClientLinkPSNAccountRequest( &request );
     LogClientLinkPSNAccountRequest( &request, "TestAccountManagementClientLinkPSNAccount" );
-    HRESULT hr = PFAccountManagementClientLinkPSNAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkPSNAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkPSNAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkSteamAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkSteamAccount(TestContext& testContext)
 {
     struct ClientLinkSteamAccountResult : public XAsyncResult
@@ -1606,14 +1990,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkSteamAccount(
     PlayFab::AccountManagementModels::LinkSteamAccountRequest request;
     FillLinkSteamAccountRequest( &request );
     LogLinkSteamAccountRequest( &request, "TestAccountManagementClientLinkSteamAccount" );
-    HRESULT hr = PFAccountManagementClientLinkSteamAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkSteamAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkSteamAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkTwitch
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkTwitch(TestContext& testContext)
 {
     struct ClientLinkTwitchResult : public XAsyncResult
@@ -1635,14 +2024,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkTwitch(TestCo
     PlayFab::AccountManagementModels::LinkTwitchAccountRequest request;
     FillLinkTwitchAccountRequest( &request );
     LogLinkTwitchAccountRequest( &request, "TestAccountManagementClientLinkTwitch" );
-    HRESULT hr = PFAccountManagementClientLinkTwitchAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkTwitchAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkTwitchAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientLinkXboxAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientLinkXboxAccount(TestContext& testContext)
 {
     struct ClientLinkXboxAccountResult : public XAsyncResult
@@ -1664,14 +2058,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientLinkXboxAccount(T
     PlayFab::AccountManagementModels::ClientLinkXboxAccountRequest request;
     FillClientLinkXboxAccountRequest( &request );
     LogClientLinkXboxAccountRequest( &request, "TestAccountManagementClientLinkXboxAccount" );
-    HRESULT hr = PFAccountManagementClientLinkXboxAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientLinkXboxAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientLinkXboxAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRemoveContactEmail
+
 void AutoGenAccountManagementTests::TestAccountManagementClientRemoveContactEmail(TestContext& testContext)
 {
     struct ClientRemoveContactEmailResult : public XAsyncResult
@@ -1693,14 +2092,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientRemoveContactEmai
     PlayFab::AccountManagementModels::RemoveContactEmailRequest request;
     FillRemoveContactEmailRequest( &request );
     LogRemoveContactEmailRequest( &request, "TestAccountManagementClientRemoveContactEmail" );
-    HRESULT hr = PFAccountManagementClientRemoveContactEmailAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientRemoveContactEmailAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientRemoveContactEmailAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRemoveGenericID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientRemoveGenericID(TestContext& testContext)
 {
     struct ClientRemoveGenericIDResult : public XAsyncResult
@@ -1722,14 +2126,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientRemoveGenericID(T
     PlayFab::AccountManagementModels::ClientRemoveGenericIDRequest request;
     FillClientRemoveGenericIDRequest( &request );
     LogClientRemoveGenericIDRequest( &request, "TestAccountManagementClientRemoveGenericID" );
-    HRESULT hr = PFAccountManagementClientRemoveGenericIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientRemoveGenericIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientRemoveGenericIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientReportPlayer
+
 void AutoGenAccountManagementTests::TestAccountManagementClientReportPlayer(TestContext& testContext)
 {
     struct ClientReportPlayerResult : public XAsyncResult
@@ -1752,14 +2161,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientReportPlayer(Test
     PlayFab::AccountManagementModels::ReportPlayerClientRequest request;
     FillReportPlayerClientRequest( &request );
     LogReportPlayerClientRequest( &request, "TestAccountManagementClientReportPlayer" );
-    HRESULT hr = PFAccountManagementClientReportPlayerAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientReportPlayerAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientReportPlayerAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientSendAccountRecoveryEmail
+
 void AutoGenAccountManagementTests::TestAccountManagementClientSendAccountRecoveryEmail(TestContext& testContext)
 {
     struct ClientSendAccountRecoveryEmailResult : public XAsyncResult
@@ -1788,7 +2202,12 @@ void AutoGenAccountManagementTests::TestAccountManagementClientSendAccountRecove
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkAndroidDeviceID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkAndroidDeviceID(TestContext& testContext)
 {
     struct ClientUnlinkAndroidDeviceIDResult : public XAsyncResult
@@ -1810,14 +2229,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkAndroidDevi
     PlayFab::AccountManagementModels::UnlinkAndroidDeviceIDRequest request;
     FillUnlinkAndroidDeviceIDRequest( &request );
     LogUnlinkAndroidDeviceIDRequest( &request, "TestAccountManagementClientUnlinkAndroidDeviceID" );
-    HRESULT hr = PFAccountManagementClientUnlinkAndroidDeviceIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkAndroidDeviceIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkAndroidDeviceIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkApple
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkApple(TestContext& testContext)
 {
     struct ClientUnlinkAppleResult : public XAsyncResult
@@ -1839,14 +2263,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkApple(TestC
     PlayFab::AccountManagementModels::UnlinkAppleRequest request;
     FillUnlinkAppleRequest( &request );
     LogUnlinkAppleRequest( &request, "TestAccountManagementClientUnlinkApple" );
-    HRESULT hr = PFAccountManagementClientUnlinkAppleAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkAppleAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkAppleAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkCustomID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkCustomID(TestContext& testContext)
 {
     struct ClientUnlinkCustomIDResult : public XAsyncResult
@@ -1868,14 +2297,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkCustomID(Te
     PlayFab::AccountManagementModels::UnlinkCustomIDRequest request;
     FillUnlinkCustomIDRequest( &request );
     LogUnlinkCustomIDRequest( &request, "TestAccountManagementClientUnlinkCustomID" );
-    HRESULT hr = PFAccountManagementClientUnlinkCustomIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkCustomIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkCustomIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkFacebookAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkFacebookAccount(TestContext& testContext)
 {
     struct ClientUnlinkFacebookAccountResult : public XAsyncResult
@@ -1897,14 +2331,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkFacebookAcc
     PlayFab::AccountManagementModels::UnlinkFacebookAccountRequest request;
     FillUnlinkFacebookAccountRequest( &request );
     LogUnlinkFacebookAccountRequest( &request, "TestAccountManagementClientUnlinkFacebookAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkFacebookAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkFacebookAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkFacebookAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkFacebookInstantGamesId
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkFacebookInstantGamesId(TestContext& testContext)
 {
     struct ClientUnlinkFacebookInstantGamesIdResult : public XAsyncResult
@@ -1926,14 +2365,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkFacebookIns
     PlayFab::AccountManagementModels::UnlinkFacebookInstantGamesIdRequest request;
     FillUnlinkFacebookInstantGamesIdRequest( &request );
     LogUnlinkFacebookInstantGamesIdRequest( &request, "TestAccountManagementClientUnlinkFacebookInstantGamesId" );
-    HRESULT hr = PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkFacebookInstantGamesIdAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkFacebookInstantGamesIdAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkGameCenterAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkGameCenterAccount(TestContext& testContext)
 {
     struct ClientUnlinkGameCenterAccountResult : public XAsyncResult
@@ -1955,14 +2399,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkGameCenterA
     PlayFab::AccountManagementModels::UnlinkGameCenterAccountRequest request;
     FillUnlinkGameCenterAccountRequest( &request );
     LogUnlinkGameCenterAccountRequest( &request, "TestAccountManagementClientUnlinkGameCenterAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkGameCenterAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkGameCenterAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkGameCenterAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkGoogleAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkGoogleAccount(TestContext& testContext)
 {
     struct ClientUnlinkGoogleAccountResult : public XAsyncResult
@@ -1984,14 +2433,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkGoogleAccou
     PlayFab::AccountManagementModels::UnlinkGoogleAccountRequest request;
     FillUnlinkGoogleAccountRequest( &request );
     LogUnlinkGoogleAccountRequest( &request, "TestAccountManagementClientUnlinkGoogleAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkGoogleAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkGoogleAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkGoogleAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkIOSDeviceID
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkIOSDeviceID(TestContext& testContext)
 {
     struct ClientUnlinkIOSDeviceIDResult : public XAsyncResult
@@ -2013,14 +2467,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkIOSDeviceID
     PlayFab::AccountManagementModels::UnlinkIOSDeviceIDRequest request;
     FillUnlinkIOSDeviceIDRequest( &request );
     LogUnlinkIOSDeviceIDRequest( &request, "TestAccountManagementClientUnlinkIOSDeviceID" );
-    HRESULT hr = PFAccountManagementClientUnlinkIOSDeviceIDAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkIOSDeviceIDAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkIOSDeviceIDAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkKongregate
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkKongregate(TestContext& testContext)
 {
     struct ClientUnlinkKongregateResult : public XAsyncResult
@@ -2042,14 +2501,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkKongregate(
     PlayFab::AccountManagementModels::UnlinkKongregateAccountRequest request;
     FillUnlinkKongregateAccountRequest( &request );
     LogUnlinkKongregateAccountRequest( &request, "TestAccountManagementClientUnlinkKongregate" );
-    HRESULT hr = PFAccountManagementClientUnlinkKongregateAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkKongregateAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkKongregateAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkNintendoServiceAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkNintendoServiceAccount(TestContext& testContext)
 {
     struct ClientUnlinkNintendoServiceAccountResult : public XAsyncResult
@@ -2071,14 +2535,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkNintendoSer
     PlayFab::AccountManagementModels::UnlinkNintendoServiceAccountRequest request;
     FillUnlinkNintendoServiceAccountRequest( &request );
     LogUnlinkNintendoServiceAccountRequest( &request, "TestAccountManagementClientUnlinkNintendoServiceAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkNintendoServiceAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkNintendoServiceAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkNintendoServiceAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkNintendoSwitchDeviceId
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkNintendoSwitchDeviceId(TestContext& testContext)
 {
     struct ClientUnlinkNintendoSwitchDeviceIdResult : public XAsyncResult
@@ -2100,14 +2569,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkNintendoSwi
     PlayFab::AccountManagementModels::UnlinkNintendoSwitchDeviceIdRequest request;
     FillUnlinkNintendoSwitchDeviceIdRequest( &request );
     LogUnlinkNintendoSwitchDeviceIdRequest( &request, "TestAccountManagementClientUnlinkNintendoSwitchDeviceId" );
-    HRESULT hr = PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkNintendoSwitchDeviceIdAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkOpenIdConnect
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkOpenIdConnect(TestContext& testContext)
 {
     struct ClientUnlinkOpenIdConnectResult : public XAsyncResult
@@ -2129,14 +2603,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkOpenIdConne
     PlayFab::AccountManagementModels::UnlinkOpenIdConnectRequest request;
     FillUnlinkOpenIdConnectRequest( &request );
     LogUnlinkOpenIdConnectRequest( &request, "TestAccountManagementClientUnlinkOpenIdConnect" );
-    HRESULT hr = PFAccountManagementClientUnlinkOpenIdConnectAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkOpenIdConnectAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkOpenIdConnectAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkPSNAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkPSNAccount(TestContext& testContext)
 {
     struct ClientUnlinkPSNAccountResult : public XAsyncResult
@@ -2158,14 +2637,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkPSNAccount(
     PlayFab::AccountManagementModels::ClientUnlinkPSNAccountRequest request;
     FillClientUnlinkPSNAccountRequest( &request );
     LogClientUnlinkPSNAccountRequest( &request, "TestAccountManagementClientUnlinkPSNAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkPSNAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkPSNAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkPSNAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkSteamAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkSteamAccount(TestContext& testContext)
 {
     struct ClientUnlinkSteamAccountResult : public XAsyncResult
@@ -2187,14 +2671,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkSteamAccoun
     PlayFab::AccountManagementModels::UnlinkSteamAccountRequest request;
     FillUnlinkSteamAccountRequest( &request );
     LogUnlinkSteamAccountRequest( &request, "TestAccountManagementClientUnlinkSteamAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkSteamAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkSteamAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkSteamAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkTwitch
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkTwitch(TestContext& testContext)
 {
     struct ClientUnlinkTwitchResult : public XAsyncResult
@@ -2216,14 +2705,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkTwitch(Test
     PlayFab::AccountManagementModels::UnlinkTwitchAccountRequest request;
     FillUnlinkTwitchAccountRequest( &request );
     LogUnlinkTwitchAccountRequest( &request, "TestAccountManagementClientUnlinkTwitch" );
-    HRESULT hr = PFAccountManagementClientUnlinkTwitchAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkTwitchAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkTwitchAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUnlinkXboxAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkXboxAccount(TestContext& testContext)
 {
     struct ClientUnlinkXboxAccountResult : public XAsyncResult
@@ -2245,14 +2739,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUnlinkXboxAccount
     PlayFab::AccountManagementModels::ClientUnlinkXboxAccountRequest request;
     FillClientUnlinkXboxAccountRequest( &request );
     LogClientUnlinkXboxAccountRequest( &request, "TestAccountManagementClientUnlinkXboxAccount" );
-    HRESULT hr = PFAccountManagementClientUnlinkXboxAccountAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUnlinkXboxAccountAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUnlinkXboxAccountAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdateAvatarUrl
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUpdateAvatarUrl(TestContext& testContext)
 {
     struct ClientUpdateAvatarUrlResult : public XAsyncResult
@@ -2274,14 +2773,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUpdateAvatarUrl(T
     PlayFab::AccountManagementModels::ClientUpdateAvatarUrlRequest request;
     FillClientUpdateAvatarUrlRequest( &request );
     LogClientUpdateAvatarUrlRequest( &request, "TestAccountManagementClientUpdateAvatarUrl" );
-    HRESULT hr = PFAccountManagementClientUpdateAvatarUrlAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUpdateAvatarUrlAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUpdateAvatarUrlAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientUpdateUserTitleDisplayName
+
 void AutoGenAccountManagementTests::TestAccountManagementClientUpdateUserTitleDisplayName(TestContext& testContext)
 {
     struct ClientUpdateUserTitleDisplayNameResult : public XAsyncResult
@@ -2308,14 +2812,19 @@ void AutoGenAccountManagementTests::TestAccountManagementClientUpdateUserTitleDi
     PlayFab::AccountManagementModels::ClientUpdateUserTitleDisplayNameRequest request;
     FillClientUpdateUserTitleDisplayNameRequest( &request );
     LogClientUpdateUserTitleDisplayNameRequest( &request, "TestAccountManagementClientUpdateUserTitleDisplayName" );
-    HRESULT hr = PFAccountManagementClientUpdateUserTitleDisplayNameAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAccountManagementClientUpdateUserTitleDisplayNameAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAccountManagementAccountManagementClientUpdateUserTitleDisplayNameAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAddGenericID
+
 void AutoGenAccountManagementTests::TestAccountManagementServerAddGenericID(TestContext& testContext)
 {
     struct ServerAddGenericIDResult : public XAsyncResult
@@ -2344,7 +2853,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerAddGenericID(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerBanUsers
+
 void AutoGenAccountManagementTests::TestAccountManagementServerBanUsers(TestContext& testContext)
 {
     struct ServerBanUsersResult : public XAsyncResult
@@ -2374,7 +2888,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerBanUsers(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerDeletePlayer
+
 void AutoGenAccountManagementTests::TestAccountManagementServerDeletePlayer(TestContext& testContext)
 {
     struct ServerDeletePlayerResult : public XAsyncResult
@@ -2403,7 +2922,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerDeletePlayer(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerDeletePushNotificationTemplate
+
 void AutoGenAccountManagementTests::TestAccountManagementServerDeletePushNotificationTemplate(TestContext& testContext)
 {
     struct ServerDeletePushNotificationTemplateResult : public XAsyncResult
@@ -2432,7 +2956,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerDeletePushNotific
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayerProfile
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayerProfile(TestContext& testContext)
 {
     struct ServerGetPlayerProfileResult : public XAsyncResult
@@ -2462,7 +2991,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayerProfile(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromFacebookIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromFacebookIDs(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromFacebookIDsResult : public XAsyncResult
@@ -2492,7 +3026,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromFacebookInstantGamesIds
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIds(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromFacebookInstantGamesIdsResult : public XAsyncResult
@@ -2522,7 +3061,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromGenericIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromGenericIDs(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromGenericIDsResult : public XAsyncResult
@@ -2552,7 +3096,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromNintendoSwitchDeviceIds
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIds(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public XAsyncResult
@@ -2582,7 +3131,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromPSNAccountIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromPSNAccountIDs(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromPSNAccountIDsResult : public XAsyncResult
@@ -2612,7 +3166,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromSteamIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromSteamIDs(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromSteamIDsResult : public XAsyncResult
@@ -2642,7 +3201,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetPlayFabIDsFromXboxLiveIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFromXboxLiveIDs(TestContext& testContext)
 {
     struct ServerGetPlayFabIDsFromXboxLiveIDsResult : public XAsyncResult
@@ -2672,7 +3236,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetServerCustomIDsFromPlayFabIDs
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetServerCustomIDsFromPlayFabIDs(TestContext& testContext)
 {
     struct ServerGetServerCustomIDsFromPlayFabIDsResult : public XAsyncResult
@@ -2702,7 +3271,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetServerCustomID
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserAccountInfo
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetUserAccountInfo(TestContext& testContext)
 {
     struct ServerGetUserAccountInfoResult : public XAsyncResult
@@ -2732,7 +3306,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetUserAccountInf
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetUserBans
+
 void AutoGenAccountManagementTests::TestAccountManagementServerGetUserBans(TestContext& testContext)
 {
     struct ServerGetUserBansResult : public XAsyncResult
@@ -2762,7 +3341,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetUserBans(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLinkPSNAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementServerLinkPSNAccount(TestContext& testContext)
 {
     struct ServerLinkPSNAccountResult : public XAsyncResult
@@ -2791,7 +3375,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerLinkPSNAccount(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLinkServerCustomId
+
 void AutoGenAccountManagementTests::TestAccountManagementServerLinkServerCustomId(TestContext& testContext)
 {
     struct ServerLinkServerCustomIdResult : public XAsyncResult
@@ -2820,7 +3409,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerLinkServerCustomI
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerLinkXboxAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementServerLinkXboxAccount(TestContext& testContext)
 {
     struct ServerLinkXboxAccountResult : public XAsyncResult
@@ -2849,7 +3443,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerLinkXboxAccount(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRemoveGenericID
+
 void AutoGenAccountManagementTests::TestAccountManagementServerRemoveGenericID(TestContext& testContext)
 {
     struct ServerRemoveGenericIDResult : public XAsyncResult
@@ -2878,7 +3477,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerRemoveGenericID(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRevokeAllBansForUser
+
 void AutoGenAccountManagementTests::TestAccountManagementServerRevokeAllBansForUser(TestContext& testContext)
 {
     struct ServerRevokeAllBansForUserResult : public XAsyncResult
@@ -2908,7 +3512,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerRevokeAllBansForU
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRevokeBans
+
 void AutoGenAccountManagementTests::TestAccountManagementServerRevokeBans(TestContext& testContext)
 {
     struct ServerRevokeBansResult : public XAsyncResult
@@ -2938,7 +3547,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerRevokeBans(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSavePushNotificationTemplate
+
 void AutoGenAccountManagementTests::TestAccountManagementServerSavePushNotificationTemplate(TestContext& testContext)
 {
     struct ServerSavePushNotificationTemplateResult : public XAsyncResult
@@ -2972,7 +3586,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerSavePushNotificat
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSendCustomAccountRecoveryEmail
+
 void AutoGenAccountManagementTests::TestAccountManagementServerSendCustomAccountRecoveryEmail(TestContext& testContext)
 {
     struct ServerSendCustomAccountRecoveryEmailResult : public XAsyncResult
@@ -3001,7 +3620,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerSendCustomAccount
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSendEmailFromTemplate
+
 void AutoGenAccountManagementTests::TestAccountManagementServerSendEmailFromTemplate(TestContext& testContext)
 {
     struct ServerSendEmailFromTemplateResult : public XAsyncResult
@@ -3030,7 +3654,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerSendEmailFromTemp
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSendPushNotification
+
 void AutoGenAccountManagementTests::TestAccountManagementServerSendPushNotification(TestContext& testContext)
 {
     struct ServerSendPushNotificationResult : public XAsyncResult
@@ -3059,7 +3688,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerSendPushNotificat
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSendPushNotificationFromTemplate
+
 void AutoGenAccountManagementTests::TestAccountManagementServerSendPushNotificationFromTemplate(TestContext& testContext)
 {
     struct ServerSendPushNotificationFromTemplateResult : public XAsyncResult
@@ -3088,7 +3722,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerSendPushNotificat
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUnlinkPSNAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementServerUnlinkPSNAccount(TestContext& testContext)
 {
     struct ServerUnlinkPSNAccountResult : public XAsyncResult
@@ -3117,7 +3756,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerUnlinkPSNAccount(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUnlinkServerCustomId
+
 void AutoGenAccountManagementTests::TestAccountManagementServerUnlinkServerCustomId(TestContext& testContext)
 {
     struct ServerUnlinkServerCustomIdResult : public XAsyncResult
@@ -3146,7 +3790,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerUnlinkServerCusto
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUnlinkXboxAccount
+
 void AutoGenAccountManagementTests::TestAccountManagementServerUnlinkXboxAccount(TestContext& testContext)
 {
     struct ServerUnlinkXboxAccountResult : public XAsyncResult
@@ -3175,7 +3824,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerUnlinkXboxAccount
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateAvatarUrl
+
 void AutoGenAccountManagementTests::TestAccountManagementServerUpdateAvatarUrl(TestContext& testContext)
 {
     struct ServerUpdateAvatarUrlResult : public XAsyncResult
@@ -3204,7 +3858,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerUpdateAvatarUrl(T
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerUpdateBans
+
 void AutoGenAccountManagementTests::TestAccountManagementServerUpdateBans(TestContext& testContext)
 {
     struct ServerUpdateBansResult : public XAsyncResult
@@ -3234,7 +3893,12 @@ void AutoGenAccountManagementTests::TestAccountManagementServerUpdateBans(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetGlobalPolicy
+
 void AutoGenAccountManagementTests::TestAccountManagementGetGlobalPolicy(TestContext& testContext)
 {
     struct GetGlobalPolicyResult : public XAsyncResult
@@ -3264,7 +3928,12 @@ void AutoGenAccountManagementTests::TestAccountManagementGetGlobalPolicy(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetProfile
+
 void AutoGenAccountManagementTests::TestAccountManagementGetProfile(TestContext& testContext)
 {
     struct GetProfileResult : public XAsyncResult
@@ -3294,7 +3963,12 @@ void AutoGenAccountManagementTests::TestAccountManagementGetProfile(TestContext&
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetProfiles
+
 void AutoGenAccountManagementTests::TestAccountManagementGetProfiles(TestContext& testContext)
 {
     struct GetProfilesResult : public XAsyncResult
@@ -3324,7 +3998,12 @@ void AutoGenAccountManagementTests::TestAccountManagementGetProfiles(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetTitlePlayersFromMasterPlayerAccountIds
+
 void AutoGenAccountManagementTests::TestAccountManagementGetTitlePlayersFromMasterPlayerAccountIds(TestContext& testContext)
 {
     struct GetTitlePlayersFromMasterPlayerAccountIdsResult : public XAsyncResult
@@ -3354,7 +4033,12 @@ void AutoGenAccountManagementTests::TestAccountManagementGetTitlePlayersFromMast
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region SetGlobalPolicy
+
 void AutoGenAccountManagementTests::TestAccountManagementSetGlobalPolicy(TestContext& testContext)
 {
     struct SetGlobalPolicyResult : public XAsyncResult
@@ -3383,7 +4067,12 @@ void AutoGenAccountManagementTests::TestAccountManagementSetGlobalPolicy(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region SetProfileLanguage
+
 void AutoGenAccountManagementTests::TestAccountManagementSetProfileLanguage(TestContext& testContext)
 {
     struct SetProfileLanguageResult : public XAsyncResult
@@ -3413,7 +4102,12 @@ void AutoGenAccountManagementTests::TestAccountManagementSetProfileLanguage(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region SetProfilePolicy
+
 void AutoGenAccountManagementTests::TestAccountManagementSetProfilePolicy(TestContext& testContext)
 {
     struct SetProfilePolicyResult : public XAsyncResult
@@ -3443,6 +4137,9 @@ void AutoGenAccountManagementTests::TestAccountManagementSetProfilePolicy(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

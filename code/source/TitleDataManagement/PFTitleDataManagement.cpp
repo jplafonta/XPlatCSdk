@@ -17,7 +17,7 @@ HRESULT PFTitleDataManagementAdminAddLocalizedNewsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminAddLocalizedNews, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminAddLocalizedNews, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -30,7 +30,7 @@ HRESULT PFTitleDataManagementAdminAddNewsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminAddNews, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminAddNews, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -67,7 +67,7 @@ HRESULT PFTitleDataManagementAdminAddVirtualCurrencyTypesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminAddVirtualCurrencyTypes, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminAddVirtualCurrencyTypes, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -80,7 +80,7 @@ HRESULT PFTitleDataManagementAdminDeleteStoreAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminDeleteStore, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminDeleteStore, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -93,7 +93,7 @@ HRESULT PFTitleDataManagementAdminDeleteTitleDataOverrideAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminDeleteTitleDataOverride, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminDeleteTitleDataOverride, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -106,7 +106,7 @@ HRESULT PFTitleDataManagementAdminGetCatalogItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetCatalogItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetCatalogItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -133,7 +133,7 @@ HRESULT PFTitleDataManagementAdminGetPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -160,7 +160,7 @@ HRESULT PFTitleDataManagementAdminGetRandomResultTablesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetRandomResultTables, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetRandomResultTables, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -187,7 +187,7 @@ HRESULT PFTitleDataManagementAdminGetStoreItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetStoreItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetStoreItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -214,7 +214,7 @@ HRESULT PFTitleDataManagementAdminGetTitleDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetTitleData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetTitleData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -241,7 +241,7 @@ HRESULT PFTitleDataManagementAdminGetTitleInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetTitleInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminGetTitleInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -266,7 +266,7 @@ HRESULT PFTitleDataManagementAdminListVirtualCurrencyTypesAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminListVirtualCurrencyTypes, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminListVirtualCurrencyTypes, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -293,7 +293,7 @@ HRESULT PFTitleDataManagementAdminRemoveVirtualCurrencyTypesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -306,7 +306,7 @@ HRESULT PFTitleDataManagementAdminSetCatalogItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetCatalogItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetCatalogItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -319,7 +319,7 @@ HRESULT PFTitleDataManagementAdminSetStoreItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetStoreItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetStoreItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -332,7 +332,7 @@ HRESULT PFTitleDataManagementAdminSetTitleDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetTitleData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetTitleData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -345,7 +345,7 @@ HRESULT PFTitleDataManagementAdminSetTitleDataAndOverridesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetTitleDataAndOverrides, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetTitleDataAndOverrides, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -358,7 +358,7 @@ HRESULT PFTitleDataManagementAdminSetTitleInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetTitleInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetTitleInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -371,7 +371,7 @@ HRESULT PFTitleDataManagementAdminSetupPushNotificationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetupPushNotification, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminSetupPushNotification, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -408,7 +408,7 @@ HRESULT PFTitleDataManagementAdminUpdateCatalogItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminUpdateCatalogItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminUpdateCatalogItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -421,7 +421,7 @@ HRESULT PFTitleDataManagementAdminUpdateRandomResultTablesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminUpdateRandomResultTables, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminUpdateRandomResultTables, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -434,12 +434,12 @@ HRESULT PFTitleDataManagementAdminUpdateStoreItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminUpdateStoreItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::AdminUpdateStoreItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFTitleDataManagementClientGetCatalogItemsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTitleDataManagementGetCatalogItemsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -447,7 +447,7 @@ HRESULT PFTitleDataManagementClientGetCatalogItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TitleDataManagementAPI::ClientGetCatalogItems, &contextHandle->entity->titleDataManagementAPI, GetCatalogItemsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ClientGetCatalogItems, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -466,7 +466,7 @@ HRESULT PFTitleDataManagementClientGetCatalogItemsGetResult(
 }
 
 HRESULT PFTitleDataManagementClientGetPublisherDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTitleDataManagementGetPublisherDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -474,7 +474,7 @@ HRESULT PFTitleDataManagementClientGetPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TitleDataManagementAPI::ClientGetPublisherData, &contextHandle->entity->titleDataManagementAPI, GetPublisherDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ClientGetPublisherData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -493,7 +493,7 @@ HRESULT PFTitleDataManagementClientGetPublisherDataGetResult(
 }
 
 HRESULT PFTitleDataManagementClientGetStoreItemsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTitleDataManagementGetStoreItemsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -501,7 +501,7 @@ HRESULT PFTitleDataManagementClientGetStoreItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TitleDataManagementAPI::ClientGetStoreItems, &contextHandle->entity->titleDataManagementAPI, GetStoreItemsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ClientGetStoreItems, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -520,13 +520,13 @@ HRESULT PFTitleDataManagementClientGetStoreItemsGetResult(
 }
 
 HRESULT PFTitleDataManagementClientGetTimeAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ XAsyncBlock* async
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TitleDataManagementAPI::ClientGetTime, &contextHandle->entity->titleDataManagementAPI, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ClientGetTime, contextHandle->titlePlayer, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -539,7 +539,7 @@ HRESULT PFTitleDataManagementClientGetTimeGetResult(
 }
 
 HRESULT PFTitleDataManagementClientGetTitleDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTitleDataManagementGetTitleDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -547,7 +547,7 @@ HRESULT PFTitleDataManagementClientGetTitleDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TitleDataManagementAPI::ClientGetTitleData, &contextHandle->entity->titleDataManagementAPI, GetTitleDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ClientGetTitleData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -566,7 +566,7 @@ HRESULT PFTitleDataManagementClientGetTitleDataGetResult(
 }
 
 HRESULT PFTitleDataManagementClientGetTitleNewsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTitleDataManagementGetTitleNewsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -574,7 +574,7 @@ HRESULT PFTitleDataManagementClientGetTitleNewsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TitleDataManagementAPI::ClientGetTitleNews, &contextHandle->entity->titleDataManagementAPI, GetTitleNewsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ClientGetTitleNews, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -601,7 +601,7 @@ HRESULT PFTitleDataManagementServerGetCatalogItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetCatalogItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetCatalogItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -628,7 +628,7 @@ HRESULT PFTitleDataManagementServerGetPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -655,7 +655,7 @@ HRESULT PFTitleDataManagementServerGetStoreItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetStoreItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetStoreItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -680,7 +680,7 @@ HRESULT PFTitleDataManagementServerGetTimeAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTime, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTime, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -701,7 +701,7 @@ HRESULT PFTitleDataManagementServerGetTitleDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTitleData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTitleData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -728,7 +728,7 @@ HRESULT PFTitleDataManagementServerGetTitleInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTitleInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTitleInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -755,7 +755,7 @@ HRESULT PFTitleDataManagementServerGetTitleNewsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTitleNews, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerGetTitleNews, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -782,7 +782,7 @@ HRESULT PFTitleDataManagementServerSetPublisherDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerSetPublisherData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerSetPublisherData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -795,7 +795,7 @@ HRESULT PFTitleDataManagementServerSetTitleDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerSetTitleData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerSetTitleData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -808,7 +808,7 @@ HRESULT PFTitleDataManagementServerSetTitleInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerSetTitleInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TitleDataManagementAPI::ServerSetTitleInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

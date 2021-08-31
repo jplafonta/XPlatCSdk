@@ -9,469 +9,6 @@ uint32_t g_GroupsTestIndex = 1;
 namespace PlayFabUnit
 {
 
-void AutoGenGroupsTests::LogPrerequisiteCreateGroupRequest( PlayFab::GroupsModels::CreateGroupRequest* request, const char* prereqName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-    
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Prerequisite: " << prereqName; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsCreateGroupRequest struct:
-    // request->customTags: struct PFStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-            
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
-    if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsCreateGroupResponse( PFGroupsCreateGroupResponse* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsCreateGroupResponse
-    if( result->adminRoleId ) { ss << "  adminRoleId " << result->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char* 
-    ss << "  created " << result->created; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
-    if( result->groupName ) { ss << "  groupName " << result->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
-    if( result->memberRoleId ) { ss << "  memberRoleId " << result->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
-    ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t     
-    ss << "  rolesCount " << result->rolesCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<result->rolesCount; i++ )
-    {
-            ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
-            
-    } 
-    return S_OK;
-}
-void AutoGenGroupsTests::LogPrerequisiteGetGroupRequest( PlayFab::GroupsModels::GetGroupRequest* request, const char* prereqName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-    
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Prerequisite: " << prereqName; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsGetGroupRequest struct:
-    // request->customTags: struct PFStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-            
-    } 
-    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
-    if( request->groupName ) { ss << "  groupName " << request->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsGetGroupResponse( PFGroupsGetGroupResponse* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsGetGroupResponse
-    if( result->adminRoleId ) { ss << "  adminRoleId " << result->adminRoleId; Log(ss); } else { ss << "  adminRoleId = nullptr"; Log(ss); } // Class: const char* 
-    ss << "  created " << result->created; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
-    if( result->groupName ) { ss << "  groupName " << result->groupName; Log(ss); } else { ss << "  groupName = nullptr"; Log(ss); } // Class: const char* 
-    if( result->memberRoleId ) { ss << "  memberRoleId " << result->memberRoleId; Log(ss); } else { ss << "  memberRoleId = nullptr"; Log(ss); } // Class: const char* 
-    ss << "  profileVersion " << result->profileVersion; Log(ss); // Class: int32_t     
-    ss << "  rolesCount " << result->rolesCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<result->rolesCount; i++ )
-    {
-            ss << "  result->roles[" << i << "]:" << result->roles[i].key << "=" << result->roles[i].value; Log(ss);
-            
-    } 
-    return S_OK;
-}
-void AutoGenGroupsTests::LogPrerequisiteApplyToGroupRequest( PlayFab::GroupsModels::ApplyToGroupRequest* request, const char* prereqName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-    
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Prerequisite: " << prereqName; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsApplyToGroupRequest struct:
-    // request->autoAcceptOutstandingInvite: bool const*
-    ss << "  autoAcceptOutstandingInvite " << request->autoAcceptOutstandingInvite; Log(ss); // Class: bool     
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-            
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsApplyToGroupResponse( PFGroupsApplyToGroupResponse* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsApplyToGroupResponse
-    ss << "  entity " << result->entity; Log(ss); // Class: PFGroupsEntityWithLineage 
-    ss << "  expires " << result->expires; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
-    return S_OK;
-}
-void AutoGenGroupsTests::LogPrerequisiteInviteToGroupRequest( PlayFab::GroupsModels::InviteToGroupRequest* request, const char* prereqName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-    
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Prerequisite: " << prereqName; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsInviteToGroupRequest struct:
-    // request->autoAcceptOutstandingApplication: bool const*
-    ss << "  autoAcceptOutstandingApplication " << request->autoAcceptOutstandingApplication; Log(ss); // Class: bool     
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-            
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
-    if( request->roleId ) { ss << "  roleId " << request->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPrerequisitePFGroupsInviteToGroupResponse( PFGroupsInviteToGroupResponse* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsInviteToGroupResponse
-    ss << "  expires " << result->expires; Log(ss); // Class: time_t 
-    ss << "  group " << result->group; Log(ss); // Class: PFEntityKey 
-    ss << "  invitedByEntity " << result->invitedByEntity; Log(ss); // Class: PFGroupsEntityWithLineage 
-    ss << "  invitedEntity " << result->invitedEntity; Log(ss); // Class: PFGroupsEntityWithLineage 
-    if( result->roleId ) { ss << "  roleId " << result->roleId; Log(ss); } else { ss << "  roleId = nullptr"; Log(ss); } // Class: const char* 
-    return S_OK;
-}
-void AutoGenGroupsTests::LogPrerequisiteBlockEntityRequest( PlayFab::GroupsModels::BlockEntityRequest* request, const char* prereqName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-    
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Prerequisite: " << prereqName; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsBlockEntityRequest struct:
-    // request->customTags: struct PFStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-            
-    } 
-    ss << "  entity " << request->entity; Log(ss); // Class: PFEntityKey 
-    ss << "  group " << request->group; Log(ss); // Class: PFEntityKey 
-
-}
-
- 
-
-void AutoGenGroupsTests::LogSetPublisherDataRequest( PlayFab::SetPublisherDataRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsSetPublisherDataRequest struct:
-    // request->key: const char*
-    if( request->key ) { ss << "  key " << request->key; Log(ss); } else { ss << "  key = nullptr"; Log(ss); } // Class: const char* 
-    if( request->value ) { ss << "  value " << request->value; Log(ss); } else { ss << "  value = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-void AutoGenGroupsTests::LogAddSharedGroupMembersRequest( PlayFab::GroupsModels::AddSharedGroupMembersRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsAddSharedGroupMembersRequest struct:
-    // request->playFabIds: const char* const*
-    // request->playFabIdsCount: uint32_t    
-    ss << "  playFabIdsCount " << request->playFabIdsCount; Log(ss);
-
-    // const char*
-    for( uint32_t i=0; i<request->playFabIdsCount; i++ )
-    {
-            ss << "  request->playFabIds[" << i << "]:" << request->playFabIds[i]; Log(ss); // const char*
-    } 
-    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-void AutoGenGroupsTests::LogCreateSharedGroupRequest( PlayFab::GroupsModels::CreateSharedGroupRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsCreateSharedGroupRequest struct:
-    // request->sharedGroupId: const char*
-    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPFGroupsCreateSharedGroupResult(PFGroupsCreateSharedGroupResult* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsCreateSharedGroupResult
-    if( result->sharedGroupId ) { ss << "  sharedGroupId " << result->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-    return S_OK;
-}
-
-void AutoGenGroupsTests::LogGetSharedGroupDataRequest( PlayFab::GroupsModels::GetSharedGroupDataRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsGetSharedGroupDataRequest struct:
-    // request->getMembers: bool const*
-    ss << "  getMembers " << request->getMembers; Log(ss); // Class: bool     
-    ss << "  keysCount " << request->keysCount; Log(ss);
-
-    // const char*
-    for( uint32_t i=0; i<request->keysCount; i++ )
-    {
-            ss << "  request->keys[" << i << "]:" << request->keys[i]; Log(ss); // const char*
-    } 
-    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-HRESULT AutoGenGroupsTests::LogPFGroupsGetSharedGroupDataResult(PFGroupsGetSharedGroupDataResult* result )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return S_OK;
-    }
-
-    std::stringstream ss;
-    ss << "Response:"; Log(ss);
-
-    // Found PlayFabGroupsGetSharedGroupDataResult    
-    ss << "  dataCount " << result->dataCount; Log(ss);
-
-    // PFGroupsSharedGroupDataRecordDictionaryEntry
-    for( uint32_t i=0; i<result->dataCount; i++ )
-    {
-            ss << "  result->data[" << i << "]:" << result->data[i].key << "=" << result->data[i].value; Log(ss);
-            
-    }     
-    ss << "  membersCount " << result->membersCount; Log(ss);
-
-    // const char*
-    for( uint32_t i=0; i<result->membersCount; i++ )
-    {
-            ss << "  result->members[" << i << "]:" << result->members[i]; Log(ss); // const char*
-    } 
-    return S_OK;
-}
-
-void AutoGenGroupsTests::LogRemoveSharedGroupMembersRequest( PlayFab::GroupsModels::RemoveSharedGroupMembersRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsRemoveSharedGroupMembersRequest struct:
-    // request->playFabIds: const char* const*
-    // request->playFabIdsCount: uint32_t    
-    ss << "  playFabIdsCount " << request->playFabIdsCount; Log(ss);
-
-    // const char*
-    for( uint32_t i=0; i<request->playFabIdsCount; i++ )
-    {
-            ss << "  request->playFabIds[" << i << "]:" << request->playFabIds[i]; Log(ss); // const char*
-    } 
-    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-void AutoGenGroupsTests::LogUpdateSharedGroupDataRequest( PlayFab::GroupsModels::UpdateSharedGroupDataRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsUpdateSharedGroupDataRequest struct:
-    // request->customTags: struct PFStringDictionaryEntry const*
-    // request->customTagsCount: uint32_t    
-    ss << "  customTagsCount " << request->customTagsCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->customTagsCount; i++ )
-    {
-            ss << "  request->customTags[" << i << "]:" << request->customTags[i].key << "=" << request->customTags[i].value; Log(ss);
-            
-    }     
-    ss << "  dataCount " << request->dataCount; Log(ss);
-
-    // PFStringDictionaryEntry
-    for( uint32_t i=0; i<request->dataCount; i++ )
-    {
-            ss << "  request->data[" << i << "]:" << request->data[i].key << "=" << request->data[i].value; Log(ss);
-            
-    }     
-    ss << "  keysToRemoveCount " << request->keysToRemoveCount; Log(ss);
-
-    // const char*
-    for( uint32_t i=0; i<request->keysToRemoveCount; i++ )
-    {
-            ss << "  request->keysToRemove[" << i << "]:" << request->keysToRemove[i]; Log(ss); // const char*
-    } 
-    ss << "  permission " << request->permission; Log(ss); // Class: PFUserDataPermission 
-    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
-void AutoGenGroupsTests::LogDeleteSharedGroupRequest( PlayFab::GroupsModels::DeleteSharedGroupRequest* request, const char* testName )
-{
-    if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
-    {
-        return;
-    }
-
-    std::stringstream ss;
-    ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
-    ss << "Request:"; Log(ss);
-
-
-    // PlayFabGroupsDeleteSharedGroupRequest struct:
-    // request->sharedGroupId: const char*
-    if( request->sharedGroupId ) { ss << "  sharedGroupId " << request->sharedGroupId; Log(ss); } else { ss << "  sharedGroupId = nullptr"; Log(ss); } // Class: const char* 
-
-}
-
 void AutoGenGroupsTests::LogAcceptGroupApplicationRequest( PlayFab::GroupsModels::AcceptGroupApplicationRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
@@ -481,7 +18,7 @@ void AutoGenGroupsTests::LogAcceptGroupApplicationRequest( PlayFab::GroupsModels
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -510,7 +47,7 @@ void AutoGenGroupsTests::LogAcceptGroupInvitationRequest( PlayFab::GroupsModels:
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -539,7 +76,7 @@ void AutoGenGroupsTests::LogAddMembersRequest( PlayFab::GroupsModels::AddMembers
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -575,7 +112,7 @@ void AutoGenGroupsTests::LogApplyToGroupRequest( PlayFab::GroupsModels::ApplyToG
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -621,7 +158,7 @@ void AutoGenGroupsTests::LogBlockEntityRequest( PlayFab::GroupsModels::BlockEnti
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -650,7 +187,7 @@ void AutoGenGroupsTests::LogChangeMemberRoleRequest( PlayFab::GroupsModels::Chan
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -819,7 +356,7 @@ void AutoGenGroupsTests::LogDeleteRoleRequest( PlayFab::GroupsModels::DeleteRole
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -848,7 +385,7 @@ void AutoGenGroupsTests::LogGetGroupRequest( PlayFab::GroupsModels::GetGroupRequ
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -905,7 +442,7 @@ void AutoGenGroupsTests::LogInviteToGroupRequest( PlayFab::GroupsModels::InviteT
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -954,7 +491,7 @@ void AutoGenGroupsTests::LogIsMemberRequest( PlayFab::GroupsModels::IsMemberRequ
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1244,7 +781,7 @@ void AutoGenGroupsTests::LogListMembershipOpportunitiesRequest( PlayFab::GroupsM
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingButNoData"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1300,7 +837,7 @@ void AutoGenGroupsTests::LogRemoveGroupApplicationRequest( PlayFab::GroupsModels
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1329,7 +866,7 @@ void AutoGenGroupsTests::LogRemoveGroupInvitationRequest( PlayFab::GroupsModels:
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1358,7 +895,7 @@ void AutoGenGroupsTests::LogRemoveMembersRequest( PlayFab::GroupsModels::RemoveM
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1394,7 +931,7 @@ void AutoGenGroupsTests::LogUnblockEntityRequest( PlayFab::GroupsModels::Unblock
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1423,7 +960,7 @@ void AutoGenGroupsTests::LogUpdateGroupRequest( PlayFab::GroupsModels::UpdateGro
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -1471,7 +1008,7 @@ void AutoGenGroupsTests::LogUpdateGroupRoleRequest( PlayFab::GroupsModels::Updat
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
+    ss << "Test #" << g_GroupsTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 

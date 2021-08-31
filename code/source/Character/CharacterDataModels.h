@@ -228,7 +228,7 @@ private:
     PointerArrayModel<PFCharacterCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
 };
 
-struct ClientGetLeaderboardForUsersCharactersRequest : public PFCharacterClientGetLeaderboardForUsersCharactersRequest, public BaseModel
+struct ClientGetLeaderboardForUsersCharactersRequest : public PFCharacterClientGetLeaderboardForUsersCharactersRequest, public SerializableModel
 {
     ClientGetLeaderboardForUsersCharactersRequest();
     ClientGetLeaderboardForUsersCharactersRequest(const ClientGetLeaderboardForUsersCharactersRequest& src);
@@ -240,8 +240,10 @@ struct ClientGetLeaderboardForUsersCharactersRequest : public PFCharacterClientG
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
 
+    size_t SerializedSize() const override;
+    void Serialize(void* buffer, size_t bufferSize) const override;
+
 private:
-    StdExtra::optional<int32_t> m_maxResultsCount;
     String m_statisticName;
 };
 
@@ -452,7 +454,7 @@ private:
     String m_statisticName;
 };
 
-struct ServerGetLeaderboardForUsersCharactersRequest : public PFCharacterServerGetLeaderboardForUsersCharactersRequest, public BaseModel
+struct ServerGetLeaderboardForUsersCharactersRequest : public PFCharacterServerGetLeaderboardForUsersCharactersRequest, public SerializableModel
 {
     ServerGetLeaderboardForUsersCharactersRequest();
     ServerGetLeaderboardForUsersCharactersRequest(const ServerGetLeaderboardForUsersCharactersRequest& src);
@@ -464,8 +466,10 @@ struct ServerGetLeaderboardForUsersCharactersRequest : public PFCharacterServerG
     void FromJson(const JsonValue& input) override;
     JsonValue ToJson() const override;
 
+    size_t SerializedSize() const override;
+    void Serialize(void* buffer, size_t bufferSize) const override;
+
 private:
-    StdExtra::optional<int32_t> m_maxResultsCount;
     String m_playFabId;
     String m_statisticName;
 };

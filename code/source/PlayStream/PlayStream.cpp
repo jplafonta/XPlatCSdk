@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "PlayStream.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace PlayStreamModels;
 
-PlayStreamAPI::PlayStreamAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> PlayStreamAPI::AdminAddPlayerTag(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamAddPlayerTagRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/AddPlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/AddPlayerTag" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -52,24 +49,24 @@ AsyncOp<void> PlayStreamAPI::AdminAddPlayerTag(
 }
 
 AsyncOp<GetAllSegmentsResult> PlayStreamAPI::AdminGetAllSegments(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetAllSegments" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetAllSegments" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -92,25 +89,25 @@ AsyncOp<GetAllSegmentsResult> PlayStreamAPI::AdminGetAllSegments(
 }
 
 AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::AdminGetPlayerSegments(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamGetPlayersSegmentsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayerSegments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayerSegments" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -133,25 +130,25 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::AdminGetPlayerSegments(
 }
 
 AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::AdminGetPlayersInSegment(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamGetPlayersInSegmentRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayersInSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayersInSegment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -174,25 +171,25 @@ AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::AdminGetPlayersInSegment(
 }
 
 AsyncOp<GetPlayerTagsResult> PlayStreamAPI::AdminGetPlayerTags(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamGetPlayerTagsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayerTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayerTags" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -215,25 +212,25 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::AdminGetPlayerTags(
 }
 
 AsyncOp<void> PlayStreamAPI::AdminRemovePlayerTag(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamRemovePlayerTagRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RemovePlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RemovePlayerTag" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -254,23 +251,25 @@ AsyncOp<void> PlayStreamAPI::AdminRemovePlayerTag(
 }
 
 AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ClientGetPlayerSegments(
+    SharedPtr<TitlePlayer> entity,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayerSegments" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayerSegments" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -293,24 +292,26 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ClientGetPlayerSegments(
 }
 
 AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ClientGetPlayerTags(
+    SharedPtr<TitlePlayer> entity,
     const PFPlayStreamGetPlayerTagsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayerTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayerTags" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -333,25 +334,25 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ClientGetPlayerTags(
 }
 
 AsyncOp<void> PlayStreamAPI::ServerAddPlayerTag(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamAddPlayerTagRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/AddPlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/AddPlayerTag" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -372,24 +373,24 @@ AsyncOp<void> PlayStreamAPI::ServerAddPlayerTag(
 }
 
 AsyncOp<GetAllSegmentsResult> PlayStreamAPI::ServerGetAllSegments(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetAllSegments" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetAllSegments" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -412,25 +413,25 @@ AsyncOp<GetAllSegmentsResult> PlayStreamAPI::ServerGetAllSegments(
 }
 
 AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ServerGetPlayerSegments(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamGetPlayersSegmentsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayerSegments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayerSegments" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -453,25 +454,25 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ServerGetPlayerSegments(
 }
 
 AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::ServerGetPlayersInSegment(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamGetPlayersInSegmentRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayersInSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayersInSegment" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -494,25 +495,25 @@ AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::ServerGetPlayersInSegment(
 }
 
 AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ServerGetPlayerTags(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamGetPlayerTagsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayerTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayerTags" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -535,25 +536,25 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ServerGetPlayerTags(
 }
 
 AsyncOp<void> PlayStreamAPI::ServerRemovePlayerTag(
+    SharedPtr<GlobalState const> state,
     const PFPlayStreamRemovePlayerTagRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RemovePlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RemovePlayerTag" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -574,24 +575,26 @@ AsyncOp<void> PlayStreamAPI::ServerRemovePlayerTag(
 }
 
 AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteEvents(
+    SharedPtr<Entity> entity,
     const PFPlayStreamWriteEventsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Event/WriteEvents" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Event/WriteEvents" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -614,24 +617,26 @@ AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteEvents(
 }
 
 AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteTelemetryEvents(
+    SharedPtr<Entity> entity,
     const PFPlayStreamWriteEventsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Event/WriteTelemetryEvents" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Event/WriteTelemetryEvents" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

@@ -1,33 +1,26 @@
 #pragma once
 
 #include "ContentDataModels.h"
-#include "AuthTokens.h"
-#include "HttpClient.h"
-#include "TaskQueue.h"
+#include "TitlePlayer.h"
+#include "GlobalState.h"
 
 namespace PlayFab
 {
 
-class Entity;
-
 class ContentAPI
 {
 public:
-    ContentAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    ContentAPI() = delete;
     ContentAPI(const ContentAPI& source) = delete;
     ContentAPI& operator=(const ContentAPI& source) = delete;
     ~ContentAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<void> AdminDeleteContent(const PFContentDeleteContentRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ContentModels::GetContentListResult> AdminGetContentList(const PFContentGetContentListRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ContentModels::GetContentUploadUrlResult> AdminGetContentUploadUrl(const PFContentGetContentUploadUrlRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    AsyncOp<ContentModels::GetContentDownloadUrlResult> ClientGetContentDownloadUrl(const PFContentGetContentDownloadUrlRequest& request, const TaskQueue& queue) const;
-    static AsyncOp<ContentModels::GetContentDownloadUrlResult> ServerGetContentDownloadUrl(const PFContentGetContentDownloadUrlRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-
-private:
-    SharedPtr<HttpClient const> m_httpClient;
-    SharedPtr<AuthTokens const> m_tokens;
+    static AsyncOp<void> AdminDeleteContent(SharedPtr<GlobalState const> state, const PFContentDeleteContentRequest& request, const TaskQueue& queue);
+    static AsyncOp<ContentModels::GetContentListResult> AdminGetContentList(SharedPtr<GlobalState const> state, const PFContentGetContentListRequest& request, const TaskQueue& queue);
+    static AsyncOp<ContentModels::GetContentUploadUrlResult> AdminGetContentUploadUrl(SharedPtr<GlobalState const> state, const PFContentGetContentUploadUrlRequest& request, const TaskQueue& queue);
+    static AsyncOp<ContentModels::GetContentDownloadUrlResult> ClientGetContentDownloadUrl(SharedPtr<TitlePlayer> entity, const PFContentGetContentDownloadUrlRequest& request, const TaskQueue& queue);
+    static AsyncOp<ContentModels::GetContentDownloadUrlResult> ServerGetContentDownloadUrl(SharedPtr<GlobalState const> state, const PFContentGetContentDownloadUrlRequest& request, const TaskQueue& queue);
 };
 
 }

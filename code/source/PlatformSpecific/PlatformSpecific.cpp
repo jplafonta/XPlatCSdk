@@ -1,36 +1,35 @@
 #include "stdafx.h"
 #include "PlatformSpecific.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace PlatformSpecificModels;
 
-PlatformSpecificAPI::PlatformSpecificAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<void> PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistration(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/AndroidDevicePushNotificationRegistration" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/AndroidDevicePushNotificationRegistration" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -51,24 +50,26 @@ AsyncOp<void> PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistrati
 }
 
 AsyncOp<ConsumeMicrosoftStoreEntitlementsResponse> PlatformSpecificAPI::ClientConsumeMicrosoftStoreEntitlements(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ConsumeMicrosoftStoreEntitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ConsumeMicrosoftStoreEntitlements" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -91,24 +92,26 @@ AsyncOp<ConsumeMicrosoftStoreEntitlementsResponse> PlatformSpecificAPI::ClientCo
 }
 
 AsyncOp<ConsumePS5EntitlementsResult> PlatformSpecificAPI::ClientConsumePS5Entitlements(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificConsumePS5EntitlementsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ConsumePS5Entitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ConsumePS5Entitlements" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -131,24 +134,26 @@ AsyncOp<ConsumePS5EntitlementsResult> PlatformSpecificAPI::ClientConsumePS5Entit
 }
 
 AsyncOp<ConsumePSNEntitlementsResult> PlatformSpecificAPI::ClientConsumePSNEntitlements(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificConsumePSNEntitlementsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ConsumePSNEntitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ConsumePSNEntitlements" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -171,24 +176,26 @@ AsyncOp<ConsumePSNEntitlementsResult> PlatformSpecificAPI::ClientConsumePSNEntit
 }
 
 AsyncOp<ConsumeXboxEntitlementsResult> PlatformSpecificAPI::ClientConsumeXboxEntitlements(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificConsumeXboxEntitlementsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ConsumeXboxEntitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ConsumeXboxEntitlements" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -211,24 +218,26 @@ AsyncOp<ConsumeXboxEntitlementsResult> PlatformSpecificAPI::ClientConsumeXboxEnt
 }
 
 AsyncOp<void> PlatformSpecificAPI::ClientRefreshPSNAuthToken(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificRefreshPSNAuthTokenRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RefreshPSNAuthToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RefreshPSNAuthToken" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -249,24 +258,26 @@ AsyncOp<void> PlatformSpecificAPI::ClientRefreshPSNAuthToken(
 }
 
 AsyncOp<void> PlatformSpecificAPI::ClientRegisterForIOSPushNotification(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificRegisterForIOSPushNotificationRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RegisterForIOSPushNotification" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RegisterForIOSPushNotification" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -287,24 +298,26 @@ AsyncOp<void> PlatformSpecificAPI::ClientRegisterForIOSPushNotification(
 }
 
 AsyncOp<RestoreIOSPurchasesResult> PlatformSpecificAPI::ClientRestoreIOSPurchases(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificRestoreIOSPurchasesRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RestoreIOSPurchases" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RestoreIOSPurchases" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -327,24 +340,26 @@ AsyncOp<RestoreIOSPurchasesResult> PlatformSpecificAPI::ClientRestoreIOSPurchase
 }
 
 AsyncOp<ValidateAmazonReceiptResult> PlatformSpecificAPI::ClientValidateAmazonIAPReceipt(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificValidateAmazonReceiptRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ValidateAmazonIAPReceipt" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ValidateAmazonIAPReceipt" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -367,24 +382,26 @@ AsyncOp<ValidateAmazonReceiptResult> PlatformSpecificAPI::ClientValidateAmazonIA
 }
 
 AsyncOp<ValidateGooglePlayPurchaseResult> PlatformSpecificAPI::ClientValidateGooglePlayPurchase(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificValidateGooglePlayPurchaseRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ValidateGooglePlayPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ValidateGooglePlayPurchase" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -407,24 +424,26 @@ AsyncOp<ValidateGooglePlayPurchaseResult> PlatformSpecificAPI::ClientValidateGoo
 }
 
 AsyncOp<ValidateIOSReceiptResult> PlatformSpecificAPI::ClientValidateIOSReceipt(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificValidateIOSReceiptRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ValidateIOSReceipt" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ValidateIOSReceipt" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -447,24 +466,26 @@ AsyncOp<ValidateIOSReceiptResult> PlatformSpecificAPI::ClientValidateIOSReceipt(
 }
 
 AsyncOp<ValidateWindowsReceiptResult> PlatformSpecificAPI::ClientValidateWindowsStoreReceipt(
+    SharedPtr<TitlePlayer> entity,
     const PFPlatformSpecificValidateWindowsReceiptRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ValidateWindowsStoreReceipt" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ValidateWindowsStoreReceipt" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -487,25 +508,25 @@ AsyncOp<ValidateWindowsReceiptResult> PlatformSpecificAPI::ClientValidateWindows
 }
 
 AsyncOp<AwardSteamAchievementResult> PlatformSpecificAPI::ServerAwardSteamAchievement(
+    SharedPtr<GlobalState const> state,
     const PFPlatformSpecificAwardSteamAchievementRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/AwardSteamAchievement" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/AwardSteamAchievement" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

@@ -17,7 +17,7 @@ HRESULT PFCloudScriptAdminGetCloudScriptRevisionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminGetCloudScriptRevision, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminGetCloudScriptRevision, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -42,7 +42,7 @@ HRESULT PFCloudScriptAdminGetCloudScriptVersionsAsync(
 {
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminGetCloudScriptVersions, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminGetCloudScriptVersions, contextHandle->state, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -69,7 +69,7 @@ HRESULT PFCloudScriptAdminSetPublishedRevisionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminSetPublishedRevision, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminSetPublishedRevision, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -82,7 +82,7 @@ HRESULT PFCloudScriptAdminUpdateCloudScriptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminUpdateCloudScript, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::AdminUpdateCloudScript, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -95,7 +95,7 @@ HRESULT PFCloudScriptAdminUpdateCloudScriptGetResult(
 }
 
 HRESULT PFCloudScriptClientExecuteCloudScriptAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCloudScriptExecuteCloudScriptRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -103,7 +103,7 @@ HRESULT PFCloudScriptClientExecuteCloudScriptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::ClientExecuteCloudScript, &contextHandle->entity->cloudScriptAPI, ExecuteCloudScriptRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ClientExecuteCloudScript, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -130,7 +130,7 @@ HRESULT PFCloudScriptServerExecuteCloudScriptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ServerExecuteCloudScript, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ServerExecuteCloudScript, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -157,7 +157,7 @@ HRESULT PFCloudScriptExecuteEntityCloudScriptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::ExecuteEntityCloudScript, &contextHandle->entity->cloudScriptAPI, ExecuteEntityCloudScriptRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ExecuteEntityCloudScript, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -184,7 +184,7 @@ HRESULT PFCloudScriptExecuteFunctionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::ExecuteFunction, &contextHandle->entity->cloudScriptAPI, ExecuteFunctionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ExecuteFunction, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -211,7 +211,7 @@ HRESULT PFCloudScriptListFunctionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::ListFunctions, &contextHandle->entity->cloudScriptAPI, ListFunctionsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ListFunctions, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -238,7 +238,7 @@ HRESULT PFCloudScriptListHttpFunctionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::ListHttpFunctions, &contextHandle->entity->cloudScriptAPI, ListFunctionsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ListHttpFunctions, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -265,7 +265,7 @@ HRESULT PFCloudScriptListQueuedFunctionsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::ListQueuedFunctions, &contextHandle->entity->cloudScriptAPI, ListFunctionsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::ListQueuedFunctions, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -292,7 +292,7 @@ HRESULT PFCloudScriptPostFunctionResultForEntityTriggeredActionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::PostFunctionResultForEntityTriggeredAction, &contextHandle->entity->cloudScriptAPI, PostFunctionResultForEntityTriggeredActionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::PostFunctionResultForEntityTriggeredAction, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -305,7 +305,7 @@ HRESULT PFCloudScriptPostFunctionResultForFunctionExecutionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::PostFunctionResultForFunctionExecution, &contextHandle->entity->cloudScriptAPI, PostFunctionResultForFunctionExecutionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::PostFunctionResultForFunctionExecution, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -318,7 +318,7 @@ HRESULT PFCloudScriptPostFunctionResultForPlayerTriggeredActionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction, &contextHandle->entity->cloudScriptAPI, PostFunctionResultForPlayerTriggeredActionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -331,7 +331,7 @@ HRESULT PFCloudScriptPostFunctionResultForScheduledTaskAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::PostFunctionResultForScheduledTask, &contextHandle->entity->cloudScriptAPI, PostFunctionResultForScheduledTaskRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::PostFunctionResultForScheduledTask, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -344,7 +344,7 @@ HRESULT PFCloudScriptRegisterHttpFunctionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::RegisterHttpFunction, &contextHandle->entity->cloudScriptAPI, RegisterHttpFunctionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::RegisterHttpFunction, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -357,7 +357,7 @@ HRESULT PFCloudScriptRegisterQueuedFunctionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::RegisterQueuedFunction, &contextHandle->entity->cloudScriptAPI, RegisterQueuedFunctionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::RegisterQueuedFunction, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -370,7 +370,7 @@ HRESULT PFCloudScriptUnregisterFunctionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CloudScriptAPI::UnregisterFunction, &contextHandle->entity->cloudScriptAPI, UnregisterFunctionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CloudScriptAPI::UnregisterFunction, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

@@ -9,8 +9,6 @@ uint32_t g_GameServerTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenGameServerTests::LogAddServerBuildRequest( PlayFab::GameServerModels::AddServerBuildRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

@@ -9,7 +9,7 @@
 
 #include <playfab/PFExperimentationDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -18,7 +18,7 @@ extern "C"
 /// <summary>
 /// Creates a new experiment exclusion group for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -67,7 +67,7 @@ HRESULT PFExperimentationCreateExclusionGroupGetResult(
 /// <summary>
 /// Creates a new experiment for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -116,7 +116,7 @@ HRESULT PFExperimentationCreateExperimentGetResult(
 /// <summary>
 /// Deletes an existing exclusion group for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -134,7 +134,7 @@ HRESULT PFExperimentationDeleteExclusionGroupAsync(
 /// <summary>
 /// Deletes an existing experiment for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -152,7 +152,7 @@ HRESULT PFExperimentationDeleteExperimentAsync(
 /// <summary>
 /// Gets the details of all exclusion groups for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -187,7 +187,7 @@ HRESULT PFExperimentationGetExclusionGroupsGetResult(
 /// <summary>
 /// Gets the details of all exclusion groups for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -222,7 +222,7 @@ HRESULT PFExperimentationGetExclusionGroupTrafficGetResult(
 /// <summary>
 /// Gets the details of all experiments for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -257,7 +257,7 @@ HRESULT PFExperimentationGetExperimentsGetResult(
 /// <summary>
 /// Gets the latest scorecard of the experiment for the title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -292,7 +292,7 @@ HRESULT PFExperimentationGetLatestScorecardGetResult(
 /// <summary>
 /// Gets the treatment assignments for a player for every running experiment in the title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -327,7 +327,7 @@ HRESULT PFExperimentationGetTreatmentAssignmentGetResult(
 /// <summary>
 /// Starts an existing experiment for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -345,7 +345,7 @@ HRESULT PFExperimentationStartExperimentAsync(
 /// <summary>
 /// Stops an existing experiment for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -363,7 +363,7 @@ HRESULT PFExperimentationStopExperimentAsync(
 /// <summary>
 /// Updates an existing exclusion group for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -381,7 +381,7 @@ HRESULT PFExperimentationUpdateExclusionGroupAsync(
 /// <summary>
 /// Updates an existing experiment for a title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

@@ -9,8 +9,6 @@ uint32_t g_PlatformSpecificTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenPlatformSpecificTests::LogAndroidDevicePushNotificationRegistrationRequest( PlayFab::PlatformSpecificModels::AndroidDevicePushNotificationRegistrationRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

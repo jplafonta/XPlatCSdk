@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "CloudScript.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace CloudScriptModels;
 
-CloudScriptAPI::CloudScriptAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<GetCloudScriptRevisionResult> CloudScriptAPI::AdminGetCloudScriptRevision(
+    SharedPtr<GlobalState const> state,
     const PFCloudScriptGetCloudScriptRevisionRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetCloudScriptRevision" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetCloudScriptRevision" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -54,24 +51,24 @@ AsyncOp<GetCloudScriptRevisionResult> CloudScriptAPI::AdminGetCloudScriptRevisio
 }
 
 AsyncOp<GetCloudScriptVersionsResult> CloudScriptAPI::AdminGetCloudScriptVersions(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetCloudScriptVersions" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetCloudScriptVersions" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -94,25 +91,25 @@ AsyncOp<GetCloudScriptVersionsResult> CloudScriptAPI::AdminGetCloudScriptVersion
 }
 
 AsyncOp<void> CloudScriptAPI::AdminSetPublishedRevision(
+    SharedPtr<GlobalState const> state,
     const PFCloudScriptSetPublishedRevisionRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SetPublishedRevision" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SetPublishedRevision" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -133,25 +130,25 @@ AsyncOp<void> CloudScriptAPI::AdminSetPublishedRevision(
 }
 
 AsyncOp<UpdateCloudScriptResult> CloudScriptAPI::AdminUpdateCloudScript(
+    SharedPtr<GlobalState const> state,
     const PFCloudScriptUpdateCloudScriptRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateCloudScript" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -174,24 +171,26 @@ AsyncOp<UpdateCloudScriptResult> CloudScriptAPI::AdminUpdateCloudScript(
 }
 
 AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ClientExecuteCloudScript(
+    SharedPtr<TitlePlayer> entity,
     const PFCloudScriptExecuteCloudScriptRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ExecuteCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ExecuteCloudScript" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -214,25 +213,25 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ClientExecuteCloudScript(
 }
 
 AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ServerExecuteCloudScript(
+    SharedPtr<GlobalState const> state,
     const PFCloudScriptExecuteCloudScriptServerRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/ExecuteCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/ExecuteCloudScript" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -255,24 +254,26 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ServerExecuteCloudScript(
 }
 
 AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ExecuteEntityCloudScript(
+    SharedPtr<Entity> entity,
     const PFCloudScriptExecuteEntityCloudScriptRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/ExecuteEntityCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/ExecuteEntityCloudScript" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -295,24 +296,26 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ExecuteEntityCloudScript(
 }
 
 AsyncOp<ExecuteFunctionResult> CloudScriptAPI::ExecuteFunction(
+    SharedPtr<Entity> entity,
     const PFCloudScriptExecuteFunctionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/ExecuteFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/ExecuteFunction" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -335,24 +338,26 @@ AsyncOp<ExecuteFunctionResult> CloudScriptAPI::ExecuteFunction(
 }
 
 AsyncOp<ListFunctionsResult> CloudScriptAPI::ListFunctions(
+    SharedPtr<Entity> entity,
     const PFCloudScriptListFunctionsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/ListFunctions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/ListFunctions" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -375,24 +380,26 @@ AsyncOp<ListFunctionsResult> CloudScriptAPI::ListFunctions(
 }
 
 AsyncOp<ListHttpFunctionsResult> CloudScriptAPI::ListHttpFunctions(
+    SharedPtr<Entity> entity,
     const PFCloudScriptListFunctionsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/ListHttpFunctions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/ListHttpFunctions" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -415,24 +422,26 @@ AsyncOp<ListHttpFunctionsResult> CloudScriptAPI::ListHttpFunctions(
 }
 
 AsyncOp<ListQueuedFunctionsResult> CloudScriptAPI::ListQueuedFunctions(
+    SharedPtr<Entity> entity,
     const PFCloudScriptListFunctionsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/ListQueuedFunctions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/ListQueuedFunctions" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -455,24 +464,26 @@ AsyncOp<ListQueuedFunctionsResult> CloudScriptAPI::ListQueuedFunctions(
 }
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForEntityTriggeredAction(
+    SharedPtr<Entity> entity,
     const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/PostFunctionResultForEntityTriggeredAction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/PostFunctionResultForEntityTriggeredAction" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -493,24 +504,26 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForEntityTriggeredAction(
 }
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForFunctionExecution(
+    SharedPtr<Entity> entity,
     const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/PostFunctionResultForFunctionExecution" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/PostFunctionResultForFunctionExecution" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -531,24 +544,26 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForFunctionExecution(
 }
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction(
+    SharedPtr<Entity> entity,
     const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/PostFunctionResultForPlayerTriggeredAction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/PostFunctionResultForPlayerTriggeredAction" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -569,24 +584,26 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction(
 }
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForScheduledTask(
+    SharedPtr<Entity> entity,
     const PFCloudScriptPostFunctionResultForScheduledTaskRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/PostFunctionResultForScheduledTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/PostFunctionResultForScheduledTask" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -607,24 +624,26 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForScheduledTask(
 }
 
 AsyncOp<void> CloudScriptAPI::RegisterHttpFunction(
+    SharedPtr<Entity> entity,
     const PFCloudScriptRegisterHttpFunctionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/RegisterHttpFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/RegisterHttpFunction" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -645,24 +664,26 @@ AsyncOp<void> CloudScriptAPI::RegisterHttpFunction(
 }
 
 AsyncOp<void> CloudScriptAPI::RegisterQueuedFunction(
+    SharedPtr<Entity> entity,
     const PFCloudScriptRegisterQueuedFunctionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/RegisterQueuedFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/RegisterQueuedFunction" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -683,24 +704,26 @@ AsyncOp<void> CloudScriptAPI::RegisterQueuedFunction(
 }
 
 AsyncOp<void> CloudScriptAPI::UnregisterFunction(
+    SharedPtr<Entity> entity,
     const PFCloudScriptUnregisterFunctionRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/CloudScript/UnregisterFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/CloudScript/UnregisterFunction" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

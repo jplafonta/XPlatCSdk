@@ -1,39 +1,32 @@
 #pragma once
 
 #include "ScheduledTaskDataModels.h"
-#include "AuthTokens.h"
-#include "HttpClient.h"
-#include "TaskQueue.h"
+#include "TitlePlayer.h"
+#include "GlobalState.h"
 
 namespace PlayFab
 {
 
-class Entity;
-
 class ScheduledTaskAPI
 {
 public:
-    ScheduledTaskAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    ScheduledTaskAPI() = delete;
     ScheduledTaskAPI(const ScheduledTaskAPI& source) = delete;
     ScheduledTaskAPI& operator=(const ScheduledTaskAPI& source) = delete;
     ~ScheduledTaskAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<void> AdminAbortTaskInstance(const PFScheduledTaskAbortTaskInstanceRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateActionsOnPlayersInSegmentTask(const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateCloudScriptTask(const PFScheduledTaskCreateCloudScriptTaskRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateInsightsScheduledScalingTask(const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> AdminDeleteTask(const PFScheduledTaskDeleteTaskRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetActionsOnPlayersInSegmentTaskInstanceResult> AdminGetActionsOnPlayersInSegmentTaskInstance(const PFScheduledTaskGetTaskInstanceRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetCloudScriptTaskInstanceResult> AdminGetCloudScriptTaskInstance(const PFScheduledTaskGetTaskInstanceRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetTaskInstancesResult> AdminGetTaskInstances(const PFScheduledTaskGetTaskInstancesRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetTasksResult> AdminGetTasks(const PFScheduledTaskGetTasksRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::RunTaskResult> AdminRunTask(const PFScheduledTaskRunTaskRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> AdminUpdateTask(const PFScheduledTaskUpdateTaskRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-
-private:
-    SharedPtr<HttpClient const> m_httpClient;
-    SharedPtr<AuthTokens const> m_tokens;
+    static AsyncOp<void> AdminAbortTaskInstance(SharedPtr<GlobalState const> state, const PFScheduledTaskAbortTaskInstanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateActionsOnPlayersInSegmentTask(SharedPtr<GlobalState const> state, const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateCloudScriptTask(SharedPtr<GlobalState const> state, const PFScheduledTaskCreateCloudScriptTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateInsightsScheduledScalingTask(SharedPtr<GlobalState const> state, const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminDeleteTask(SharedPtr<GlobalState const> state, const PFScheduledTaskDeleteTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::GetActionsOnPlayersInSegmentTaskInstanceResult> AdminGetActionsOnPlayersInSegmentTaskInstance(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTaskInstanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::GetCloudScriptTaskInstanceResult> AdminGetCloudScriptTaskInstance(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTaskInstanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::GetTaskInstancesResult> AdminGetTaskInstances(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTaskInstancesRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::GetTasksResult> AdminGetTasks(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTasksRequest& request, const TaskQueue& queue);
+    static AsyncOp<ScheduledTaskModels::RunTaskResult> AdminRunTask(SharedPtr<GlobalState const> state, const PFScheduledTaskRunTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminUpdateTask(SharedPtr<GlobalState const> state, const PFScheduledTaskUpdateTaskRequest& request, const TaskQueue& queue);
 };
 
 }

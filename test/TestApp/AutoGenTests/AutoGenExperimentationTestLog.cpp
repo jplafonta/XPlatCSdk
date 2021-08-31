@@ -9,8 +9,6 @@ uint32_t g_ExperimentationTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenExperimentationTests::LogCreateExclusionGroupRequest( PlayFab::ExperimentationModels::CreateExclusionGroupRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

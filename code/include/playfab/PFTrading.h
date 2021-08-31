@@ -9,7 +9,7 @@
 
 #include <playfab/PFTradingDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -19,7 +19,7 @@ extern "C"
 /// player is in the allowed player list for the trade, or it is open to all players. If the call is successful,
 /// the offered and accepted items will be swapped between the two players' inventories.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -29,7 +29,7 @@ extern "C"
 /// If successful, call <see cref="PFTradingClientAcceptTradeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientAcceptTradeAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTradingAcceptTradeRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -57,7 +57,7 @@ HRESULT PFTradingClientAcceptTradeGetResult(
 /// trades in order to prevent other players from accepting them, for trades that can be claimed by more
 /// than one player).
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -67,7 +67,7 @@ HRESULT PFTradingClientAcceptTradeGetResult(
 /// If successful, call <see cref="PFTradingClientCancelTradeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientCancelTradeAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTradingCancelTradeRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -92,7 +92,7 @@ HRESULT PFTradingClientCancelTradeGetResult(
 /// <summary>
 /// Gets all trades the player has either opened or accepted, optionally filtered by trade status.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -102,7 +102,7 @@ HRESULT PFTradingClientCancelTradeGetResult(
 /// If successful, call <see cref="PFTradingClientGetPlayerTradesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientGetPlayerTradesAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTradingGetPlayerTradesRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -127,7 +127,7 @@ HRESULT PFTradingClientGetPlayerTradesGetResult(
 /// <summary>
 /// Gets the current status of an existing trade.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -137,7 +137,7 @@ HRESULT PFTradingClientGetPlayerTradesGetResult(
 /// If successful, call <see cref="PFTradingClientGetTradeStatusGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientGetTradeStatusAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTradingGetTradeStatusRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -163,7 +163,7 @@ HRESULT PFTradingClientGetTradeStatusGetResult(
 /// Opens a new outstanding trade. Note that a given item instance may only be in one open trade at a
 /// time.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -173,7 +173,7 @@ HRESULT PFTradingClientGetTradeStatusGetResult(
 /// If successful, call <see cref="PFTradingClientOpenTradeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFTradingClientOpenTradeAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFTradingOpenTradeRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

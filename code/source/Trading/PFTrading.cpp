@@ -9,7 +9,7 @@ using namespace PlayFab;
 using namespace PlayFab::TradingModels;
 
 HRESULT PFTradingClientAcceptTradeAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTradingAcceptTradeRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -17,7 +17,7 @@ HRESULT PFTradingClientAcceptTradeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TradingAPI::ClientAcceptTrade, &contextHandle->entity->tradingAPI, AcceptTradeRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TradingAPI::ClientAcceptTrade, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -36,7 +36,7 @@ HRESULT PFTradingClientAcceptTradeGetResult(
 }
 
 HRESULT PFTradingClientCancelTradeAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTradingCancelTradeRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -44,7 +44,7 @@ HRESULT PFTradingClientCancelTradeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TradingAPI::ClientCancelTrade, &contextHandle->entity->tradingAPI, CancelTradeRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TradingAPI::ClientCancelTrade, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -63,7 +63,7 @@ HRESULT PFTradingClientCancelTradeGetResult(
 }
 
 HRESULT PFTradingClientGetPlayerTradesAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTradingGetPlayerTradesRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -71,7 +71,7 @@ HRESULT PFTradingClientGetPlayerTradesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TradingAPI::ClientGetPlayerTrades, &contextHandle->entity->tradingAPI, GetPlayerTradesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TradingAPI::ClientGetPlayerTrades, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -90,7 +90,7 @@ HRESULT PFTradingClientGetPlayerTradesGetResult(
 }
 
 HRESULT PFTradingClientGetTradeStatusAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTradingGetTradeStatusRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -98,7 +98,7 @@ HRESULT PFTradingClientGetTradeStatusAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TradingAPI::ClientGetTradeStatus, &contextHandle->entity->tradingAPI, GetTradeStatusRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TradingAPI::ClientGetTradeStatus, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -117,7 +117,7 @@ HRESULT PFTradingClientGetTradeStatusGetResult(
 }
 
 HRESULT PFTradingClientOpenTradeAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFTradingOpenTradeRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -125,7 +125,7 @@ HRESULT PFTradingClientOpenTradeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&TradingAPI::ClientOpenTrade, &contextHandle->entity->tradingAPI, OpenTradeRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&TradingAPI::ClientOpenTrade, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

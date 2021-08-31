@@ -9,7 +9,7 @@ using namespace PlayFab;
 using namespace PlayFab::AnalyticsModels;
 
 HRESULT PFAnalyticsClientReportDeviceInfoAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAnalyticsDeviceInfoRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -17,12 +17,12 @@ HRESULT PFAnalyticsClientReportDeviceInfoAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::ClientReportDeviceInfo, &contextHandle->entity->analyticsAPI, DeviceInfoRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ClientReportDeviceInfo, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAnalyticsClientWriteCharacterEventAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAnalyticsWriteClientCharacterEventRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -30,7 +30,7 @@ HRESULT PFAnalyticsClientWriteCharacterEventAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::ClientWriteCharacterEvent, &contextHandle->entity->analyticsAPI, WriteClientCharacterEventRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ClientWriteCharacterEvent, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -59,7 +59,7 @@ HRESULT PFAnalyticsClientWriteCharacterEventGetResult(
 }
 
 HRESULT PFAnalyticsClientWritePlayerEventAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAnalyticsWriteClientPlayerEventRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -67,7 +67,7 @@ HRESULT PFAnalyticsClientWritePlayerEventAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::ClientWritePlayerEvent, &contextHandle->entity->analyticsAPI, WriteClientPlayerEventRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ClientWritePlayerEvent, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -96,7 +96,7 @@ HRESULT PFAnalyticsClientWritePlayerEventGetResult(
 }
 
 HRESULT PFAnalyticsClientWriteTitleEventAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAnalyticsWriteTitleEventRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -104,7 +104,7 @@ HRESULT PFAnalyticsClientWriteTitleEventAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::ClientWriteTitleEvent, &contextHandle->entity->analyticsAPI, WriteTitleEventRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ClientWriteTitleEvent, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -141,7 +141,7 @@ HRESULT PFAnalyticsServerWriteCharacterEventAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ServerWriteCharacterEvent, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ServerWriteCharacterEvent, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -178,7 +178,7 @@ HRESULT PFAnalyticsServerWritePlayerEventAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ServerWritePlayerEvent, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ServerWritePlayerEvent, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -215,7 +215,7 @@ HRESULT PFAnalyticsServerWriteTitleEventAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ServerWriteTitleEvent, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::ServerWriteTitleEvent, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -252,7 +252,7 @@ HRESULT PFAnalyticsGetDetailsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::GetDetails, &contextHandle->entity->analyticsAPI, InsightsEmptyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::GetDetails, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -279,7 +279,7 @@ HRESULT PFAnalyticsGetLimitsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::GetLimits, &contextHandle->entity->analyticsAPI, InsightsEmptyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::GetLimits, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -306,7 +306,7 @@ HRESULT PFAnalyticsGetOperationStatusAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::GetOperationStatus, &contextHandle->entity->analyticsAPI, InsightsGetOperationStatusRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::GetOperationStatus, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -343,7 +343,7 @@ HRESULT PFAnalyticsGetPendingOperationsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::GetPendingOperations, &contextHandle->entity->analyticsAPI, InsightsGetPendingOperationsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::GetPendingOperations, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -370,7 +370,7 @@ HRESULT PFAnalyticsSetPerformanceAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::SetPerformance, &contextHandle->entity->analyticsAPI, InsightsSetPerformanceRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::SetPerformance, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -407,7 +407,7 @@ HRESULT PFAnalyticsSetStorageRetentionAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AnalyticsAPI::SetStorageRetention, &contextHandle->entity->analyticsAPI, InsightsSetStorageRetentionRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AnalyticsAPI::SetStorageRetention, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

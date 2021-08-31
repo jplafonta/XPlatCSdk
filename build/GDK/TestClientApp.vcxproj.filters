@@ -228,16 +228,16 @@
     <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenCharacterTests.cpp">
       <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.h">
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedGroupsTests.h">
       <Filter>Source\AutoGen Tests</Filter>
     </ClInclude>
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestData.cpp">
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedGroupsTestData.cpp">
       <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestLog.cpp">
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedGroupsTestLog.cpp">
       <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.cpp">
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenSharedGroupsTests.cpp">
       <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
     <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenTradingTests.h">
@@ -322,6 +322,18 @@
       <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
     <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenExperimentationTests.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.h">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestData.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestLog.cpp">
+      <Filter>Source\AutoGen Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.cpp">
       <Filter>Source\AutoGen Tests</Filter>
     </ClCompile>
     <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenLocalizationTests.h">

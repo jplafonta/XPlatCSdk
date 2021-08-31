@@ -9,7 +9,7 @@
 
 #include <playfab/PFMatchmakingDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -122,7 +122,7 @@ HRESULT PFMatchmakingAdminModifyMatchmakerGameModesAsync(
 /// <summary>
 /// Get details about all current running game servers matching the given parameters.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -133,7 +133,7 @@ HRESULT PFMatchmakingAdminModifyMatchmakerGameModesAsync(
 /// If successful, call <see cref="PFMatchmakingClientGetCurrentGamesGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientGetCurrentGamesAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFMatchmakingCurrentGamesRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -160,7 +160,7 @@ HRESULT PFMatchmakingClientGetCurrentGamesGetResult(
 /// <summary>
 ///  Get details about the regions hosting game servers matching the given parameters.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -171,7 +171,7 @@ HRESULT PFMatchmakingClientGetCurrentGamesGetResult(
 /// If successful, call <see cref="PFMatchmakingClientGetGameServerRegionsGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientGetGameServerRegionsAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFMatchmakingGameServerRegionsRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -203,7 +203,7 @@ HRESULT PFMatchmakingClientGetGameServerRegionsGetResult(
 /// the slot will be assigned to that player, removing it from the availabe set. In that case, the information
 /// on the game session will be returned, otherwise the Status returned will be GameNotFound.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -214,7 +214,7 @@ HRESULT PFMatchmakingClientGetGameServerRegionsGetResult(
 /// If successful, call <see cref="PFMatchmakingClientMatchmakeGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientMatchmakeAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFMatchmakingMatchmakeRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -242,7 +242,7 @@ HRESULT PFMatchmakingClientMatchmakeGetResult(
 /// Start a new game server with a given configuration, add the current player and return the connection
 /// information.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -254,7 +254,7 @@ HRESULT PFMatchmakingClientMatchmakeGetResult(
 /// If successful, call <see cref="PFMatchmakingClientStartGameGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFMatchmakingClientStartGameAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFMatchmakingClientStartGameRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -690,7 +690,7 @@ HRESULT PFMatchmakingServerSetGameServerInstanceTagsAsync(
 /// <summary>
 /// Cancel all active tickets the player is a member of in a given queue.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -714,7 +714,7 @@ HRESULT PFMatchmakingCancelAllMatchmakingTicketsForPlayerAsync(
 /// <summary>
 /// Cancel all active backfill tickets the player is a member of in a given queue.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -736,7 +736,7 @@ HRESULT PFMatchmakingCancelAllServerBackfillTicketsForPlayerAsync(
 /// <summary>
 /// Cancel a matchmaking ticket.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -766,7 +766,7 @@ HRESULT PFMatchmakingCancelMatchmakingTicketAsync(
 /// <summary>
 /// Cancel a server backfill ticket.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -792,7 +792,7 @@ HRESULT PFMatchmakingCancelServerBackfillTicketAsync(
 /// <summary>
 /// Create a matchmaking ticket as a client.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -845,7 +845,7 @@ HRESULT PFMatchmakingCreateMatchmakingTicketGetResult(
 /// matchmaking service automatically starts matching the backfill ticket against other matchmaking tickets.
 /// Backfill tickets cannot match with other backfill tickets.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -898,7 +898,7 @@ HRESULT PFMatchmakingCreateServerBackfillTicketGetResult(
 /// Create a matchmaking ticket as a server. The matchmaking service automatically starts matching the
 /// ticket against other matchmaking tickets.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -950,7 +950,7 @@ HRESULT PFMatchmakingCreateServerMatchmakingTicketGetResult(
 /// <summary>
 /// Get a match.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -989,7 +989,7 @@ HRESULT PFMatchmakingGetMatchGetResult(
 /// <summary>
 /// Get a matchmaking ticket by ticket Id.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1028,7 +1028,7 @@ HRESULT PFMatchmakingGetMatchmakingTicketGetResult(
 /// <summary>
 /// Get the statistics for a queue.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1069,7 +1069,7 @@ HRESULT PFMatchmakingGetQueueStatisticsGetResult(
 /// <summary>
 /// Get a matchmaking backfill ticket by ticket Id.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1107,7 +1107,7 @@ HRESULT PFMatchmakingGetServerBackfillTicketGetResult(
 /// <summary>
 /// Join a matchmaking ticket.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1130,7 +1130,7 @@ HRESULT PFMatchmakingJoinMatchmakingTicketAsync(
 /// <summary>
 /// List all matchmaking ticket Ids the user is a member of.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -1169,7 +1169,7 @@ HRESULT PFMatchmakingListMatchmakingTicketsForPlayerGetResult(
 /// <summary>
 /// List all server backfill ticket Ids the user is a member of.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

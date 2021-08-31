@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenSegmentsTests::SegmentsTestData AutoGenSegmentsTests::testData;
+
 void AutoGenSegmentsTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,12 +29,13 @@ HRESULT AutoGenSegmentsTests::LogHR(HRESULT hr)
 
 void AutoGenSegmentsTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestSegmentsAdminCreateSegment", &AutoGenSegmentsTests::TestSegmentsAdminCreateSegment);
+
     AddTest("TestSegmentsAdminDeleteSegment", &AutoGenSegmentsTests::TestSegmentsAdminDeleteSegment);
+
     AddTest("TestSegmentsAdminGetSegments", &AutoGenSegmentsTests::TestSegmentsAdminGetSegments);
+
     AddTest("TestSegmentsAdminUpdateSegment", &AutoGenSegmentsTests::TestSegmentsAdminUpdateSegment);
 }
 
@@ -71,10 +74,52 @@ void AutoGenSegmentsTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -83,10 +128,12 @@ void AutoGenSegmentsTests::ClassSetUp()
 
 void AutoGenSegmentsTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -105,6 +152,8 @@ void AutoGenSegmentsTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminCreateSegment
 
 void AutoGenSegmentsTests::TestSegmentsAdminCreateSegment(TestContext& testContext)
 {
@@ -139,7 +188,12 @@ void AutoGenSegmentsTests::TestSegmentsAdminCreateSegment(TestContext& testConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminDeleteSegment
+
 void AutoGenSegmentsTests::TestSegmentsAdminDeleteSegment(TestContext& testContext)
 {
     struct AdminDeleteSegmentResult : public XAsyncResult
@@ -173,7 +227,12 @@ void AutoGenSegmentsTests::TestSegmentsAdminDeleteSegment(TestContext& testConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetSegments
+
 void AutoGenSegmentsTests::TestSegmentsAdminGetSegments(TestContext& testContext)
 {
     struct AdminGetSegmentsResult : public XAsyncResult
@@ -203,7 +262,12 @@ void AutoGenSegmentsTests::TestSegmentsAdminGetSegments(TestContext& testContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminUpdateSegment
+
 void AutoGenSegmentsTests::TestSegmentsAdminUpdateSegment(TestContext& testContext)
 {
     struct AdminUpdateSegmentResult : public XAsyncResult
@@ -237,6 +301,9 @@ void AutoGenSegmentsTests::TestSegmentsAdminUpdateSegment(TestContext& testConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

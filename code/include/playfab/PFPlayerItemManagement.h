@@ -9,7 +9,7 @@
 
 #include <playfab/PFPlayerItemManagementDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -318,7 +318,7 @@ HRESULT PFPlayerItemManagementAdminSubtractUserVirtualCurrencyGetResult(
 /// <summary>
 /// Increments the user's balance of the specified virtual currency by the stated amount
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -330,7 +330,7 @@ HRESULT PFPlayerItemManagementAdminSubtractUserVirtualCurrencyGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -370,7 +370,7 @@ HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyGetResult(
 /// Confirms with the payment provider that the purchase was approved (if applicable) and adjusts inventory
 /// and virtual currency balances as appropriate
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -387,7 +387,7 @@ HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyGetResult(
 /// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientConfirmPurchaseAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementConfirmPurchaseRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -413,7 +413,7 @@ HRESULT PFPlayerItemManagementClientConfirmPurchaseGetResult(
 /// Consume uses of a consumable item. When all uses are consumed, it will be removed from the player's
 /// inventory.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -421,7 +421,7 @@ HRESULT PFPlayerItemManagementClientConfirmPurchaseGetResult(
 /// If successful, call <see cref="PFPlayerItemManagementClientConsumeItemGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientConsumeItemAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientConsumeItemRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -460,7 +460,7 @@ HRESULT PFPlayerItemManagementClientConsumeItemGetResult(
 /// <summary>
 /// Retrieves the specified character's current inventory of virtual goods
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -474,7 +474,7 @@ HRESULT PFPlayerItemManagementClientConsumeItemGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetCharacterInventoryAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientGetCharacterInventoryRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -502,7 +502,7 @@ HRESULT PFPlayerItemManagementClientGetCharacterInventoryGetResult(
 /// passed to Xsolla by the client to create a cart. Poll GetPurchase using the returned OrderId once
 /// you've completed the payment.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -513,7 +513,7 @@ HRESULT PFPlayerItemManagementClientGetCharacterInventoryGetResult(
 /// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetPaymentTokenAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementGetPaymentTokenRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -553,7 +553,7 @@ HRESULT PFPlayerItemManagementClientGetPaymentTokenGetResult(
 /// Retrieves a purchase along with its current PlayFab status. Returns inventory items from the purchase
 /// that are still active.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -563,7 +563,7 @@ HRESULT PFPlayerItemManagementClientGetPaymentTokenGetResult(
 /// If successful, call <see cref="PFPlayerItemManagementClientGetPurchaseGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetPurchaseAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementGetPurchaseRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -602,7 +602,7 @@ HRESULT PFPlayerItemManagementClientGetPurchaseGetResult(
 /// <summary>
 /// Retrieves the user's current inventory of virtual goods
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -613,7 +613,7 @@ HRESULT PFPlayerItemManagementClientGetPurchaseGetResult(
 /// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientGetUserInventoryAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientGetUserInventoryRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -638,7 +638,7 @@ HRESULT PFPlayerItemManagementClientGetUserInventoryGetResult(
 /// <summary>
 /// Selects a payment option for purchase order created via StartPurchase
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -653,7 +653,7 @@ HRESULT PFPlayerItemManagementClientGetUserInventoryGetResult(
 /// result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientPayForPurchaseAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementPayForPurchaseRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -680,7 +680,7 @@ HRESULT PFPlayerItemManagementClientPayForPurchaseGetResult(
 /// as well as what the client believes the price to be. This lets the server fail the purchase if the
 /// price has changed.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -692,7 +692,7 @@ HRESULT PFPlayerItemManagementClientPayForPurchaseGetResult(
 /// If successful, call <see cref="PFPlayerItemManagementClientPurchaseItemGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientPurchaseItemAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementPurchaseItemRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -718,7 +718,7 @@ HRESULT PFPlayerItemManagementClientPurchaseItemGetResult(
 /// Adds the virtual goods associated with the coupon to the user's inventory. Coupons can be generated
 /// via the Economy->Catalogs tab in the PlayFab Game Manager.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -731,7 +731,7 @@ HRESULT PFPlayerItemManagementClientPurchaseItemGetResult(
 /// If successful, call <see cref="PFPlayerItemManagementClientRedeemCouponGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientRedeemCouponAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientRedeemCouponRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -756,7 +756,7 @@ HRESULT PFPlayerItemManagementClientRedeemCouponGetResult(
 /// <summary>
 /// Creates an order for a list of items from the title catalog
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -769,7 +769,7 @@ HRESULT PFPlayerItemManagementClientRedeemCouponGetResult(
 /// If successful, call <see cref="PFPlayerItemManagementClientStartPurchaseGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientStartPurchaseAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementStartPurchaseRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -795,7 +795,7 @@ HRESULT PFPlayerItemManagementClientStartPurchaseGetResult(
 /// Decrements the user's balance of the specified virtual currency by the stated amount. It is possible
 /// to make a VC balance negative with this API.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -807,7 +807,7 @@ HRESULT PFPlayerItemManagementClientStartPurchaseGetResult(
 /// to get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -848,7 +848,7 @@ HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyGetResult(
 /// the opened container. If the container (and key when relevant) are consumable (RemainingUses > 0),
 /// their RemainingUses will be decremented, consistent with the operation of ConsumeItem.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -859,7 +859,7 @@ HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyGetResult(
 /// get the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientUnlockContainerInstanceAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientUnlockContainerInstanceRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -887,7 +887,7 @@ HRESULT PFPlayerItemManagementClientUnlockContainerInstanceGetResult(
 /// key when relevant) are consumable (RemainingUses > 0), their RemainingUses will be decremented, consistent
 /// with the operation of ConsumeItem.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -898,7 +898,7 @@ HRESULT PFPlayerItemManagementClientUnlockContainerInstanceGetResult(
 /// the result.
 /// </remarks>
 HRESULT PFPlayerItemManagementClientUnlockContainerItemAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFPlayerItemManagementClientUnlockContainerItemRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;

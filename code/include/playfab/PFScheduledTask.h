@@ -9,7 +9,7 @@
 
 #include <playfab/PFScheduledTaskDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {

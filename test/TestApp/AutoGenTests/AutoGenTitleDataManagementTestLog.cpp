@@ -9,8 +9,6 @@ uint32_t g_TitleDataManagementTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenTitleDataManagementTests::LogAddLocalizedNewsRequest( PlayFab::TitleDataManagementModels::AddLocalizedNewsRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

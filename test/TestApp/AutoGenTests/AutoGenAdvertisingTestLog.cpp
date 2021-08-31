@@ -9,8 +9,6 @@ uint32_t g_AdvertisingTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenAdvertisingTests::LogAttributeInstallRequest( PlayFab::AdvertisingModels::AttributeInstallRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

@@ -1,507 +1,35 @@
 #include "stdafx.h"
 #include "Groups.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace GroupsModels;
 
-GroupsAPI::GroupsAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
-
-AsyncOp<void> GroupsAPI::AdminSetPublisherData(
-    const PFSetPublisherDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Admin/SetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ClientAddSharedGroupMembers(
-    const PFGroupsAddSharedGroupMembersRequest& request,
-    const TaskQueue& queue
-) const
-{
-    const char* path{ "/Client/AddSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
-    {
-        return E_PF_NOSESSIONTICKET;
-    }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
-
-    auto requestOp = m_httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<CreateSharedGroupResult> GroupsAPI::ClientCreateSharedGroup(
-    const PFGroupsCreateSharedGroupRequest& request,
-    const TaskQueue& queue
-) const
-{
-    const char* path{ "/Client/CreateSharedGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
-    {
-        return E_PF_NOSESSIONTICKET;
-    }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
-
-    auto requestOp = m_httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<CreateSharedGroupResult>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            CreateSharedGroupResult resultModel;
-            resultModel.FromJson(serviceResponse.Data);
-            return resultModel;
-        }
-        else
-        {
-            return Result<CreateSharedGroupResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<GetSharedGroupDataResult> GroupsAPI::ClientGetSharedGroupData(
-    const PFGroupsGetSharedGroupDataRequest& request,
-    const TaskQueue& queue
-) const
-{
-    const char* path{ "/Client/GetSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
-    {
-        return E_PF_NOSESSIONTICKET;
-    }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
-
-    auto requestOp = m_httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<GetSharedGroupDataResult>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            GetSharedGroupDataResult resultModel;
-            resultModel.FromJson(serviceResponse.Data);
-            return resultModel;
-        }
-        else
-        {
-            return Result<GetSharedGroupDataResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ClientRemoveSharedGroupMembers(
-    const PFGroupsRemoveSharedGroupMembersRequest& request,
-    const TaskQueue& queue
-) const
-{
-    const char* path{ "/Client/RemoveSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
-    {
-        return E_PF_NOSESSIONTICKET;
-    }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
-
-    auto requestOp = m_httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ClientUpdateSharedGroupData(
-    const PFGroupsUpdateSharedGroupDataRequest& request,
-    const TaskQueue& queue
-) const
-{
-    const char* path{ "/Client/UpdateSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
-    {
-        return E_PF_NOSESSIONTICKET;
-    }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
-
-    auto requestOp = m_httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ServerAddSharedGroupMembers(
-    const PFGroupsAddSharedGroupMembersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Server/AddSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<CreateSharedGroupResult> GroupsAPI::ServerCreateSharedGroup(
-    const PFGroupsCreateSharedGroupRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Server/CreateSharedGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<CreateSharedGroupResult>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            CreateSharedGroupResult resultModel;
-            resultModel.FromJson(serviceResponse.Data);
-            return resultModel;
-        }
-        else
-        {
-            return Result<CreateSharedGroupResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ServerDeleteSharedGroup(
-    const PFGroupsDeleteSharedGroupRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Server/DeleteSharedGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<GetSharedGroupDataResult> GroupsAPI::ServerGetSharedGroupData(
-    const PFGroupsGetSharedGroupDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Server/GetSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<GetSharedGroupDataResult>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            GetSharedGroupDataResult resultModel;
-            resultModel.FromJson(serviceResponse.Data);
-            return resultModel;
-        }
-        else
-        {
-            return Result<GetSharedGroupDataResult>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ServerRemoveSharedGroupMembers(
-    const PFGroupsRemoveSharedGroupMembersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Server/RemoveSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
-
-AsyncOp<void> GroupsAPI::ServerUpdateSharedGroupData(
-    const PFGroupsUpdateSharedGroupDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
-    const TaskQueue& queue
-)
-{
-    const char* path{ "/Server/UpdateSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
-    {
-        return E_PF_NOSECRETKEY;
-    }
-    headers.emplace("X-SecretKey", *secretKey);
-
-    auto requestOp = httpClient->MakePostRequest(
-        path,
-        headers,
-        requestBody,
-        queue
-    );
-
-    return requestOp.Then([](Result<ServiceResponse> result) -> Result<void>
-    {
-        RETURN_IF_FAILED(result.hr);
-
-        auto serviceResponse = result.ExtractPayload();
-        if (serviceResponse.HttpCode == 200)
-        {
-            return S_OK;
-        }
-        else
-        {
-            return Result<void>{ ServiceErrorToHR(serviceResponse.ErrorCode), std::move(serviceResponse.ErrorMessage) };
-        }
-    });
-}
 
 AsyncOp<void> GroupsAPI::AcceptGroupApplication(
+    SharedPtr<Entity> entity,
     const PFGroupsAcceptGroupApplicationRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/AcceptGroupApplication" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/AcceptGroupApplication" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -522,24 +50,26 @@ AsyncOp<void> GroupsAPI::AcceptGroupApplication(
 }
 
 AsyncOp<void> GroupsAPI::AcceptGroupInvitation(
+    SharedPtr<Entity> entity,
     const PFGroupsAcceptGroupInvitationRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/AcceptGroupInvitation" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/AcceptGroupInvitation" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -560,24 +90,26 @@ AsyncOp<void> GroupsAPI::AcceptGroupInvitation(
 }
 
 AsyncOp<void> GroupsAPI::AddMembers(
+    SharedPtr<Entity> entity,
     const PFGroupsAddMembersRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/AddMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/AddMembers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -598,24 +130,26 @@ AsyncOp<void> GroupsAPI::AddMembers(
 }
 
 AsyncOp<ApplyToGroupResponse> GroupsAPI::ApplyToGroup(
+    SharedPtr<Entity> entity,
     const PFGroupsApplyToGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ApplyToGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ApplyToGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -638,24 +172,26 @@ AsyncOp<ApplyToGroupResponse> GroupsAPI::ApplyToGroup(
 }
 
 AsyncOp<void> GroupsAPI::BlockEntity(
+    SharedPtr<Entity> entity,
     const PFGroupsBlockEntityRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/BlockEntity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/BlockEntity" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -676,24 +212,26 @@ AsyncOp<void> GroupsAPI::BlockEntity(
 }
 
 AsyncOp<void> GroupsAPI::ChangeMemberRole(
+    SharedPtr<Entity> entity,
     const PFGroupsChangeMemberRoleRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ChangeMemberRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ChangeMemberRole" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -714,24 +252,26 @@ AsyncOp<void> GroupsAPI::ChangeMemberRole(
 }
 
 AsyncOp<CreateGroupResponse> GroupsAPI::CreateGroup(
+    SharedPtr<Entity> entity,
     const PFGroupsCreateGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/CreateGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/CreateGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -754,24 +294,26 @@ AsyncOp<CreateGroupResponse> GroupsAPI::CreateGroup(
 }
 
 AsyncOp<CreateGroupRoleResponse> GroupsAPI::CreateRole(
+    SharedPtr<Entity> entity,
     const PFGroupsCreateGroupRoleRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/CreateRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/CreateRole" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -794,24 +336,26 @@ AsyncOp<CreateGroupRoleResponse> GroupsAPI::CreateRole(
 }
 
 AsyncOp<void> GroupsAPI::DeleteGroup(
+    SharedPtr<Entity> entity,
     const PFGroupsDeleteGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/DeleteGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/DeleteGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -832,24 +376,26 @@ AsyncOp<void> GroupsAPI::DeleteGroup(
 }
 
 AsyncOp<void> GroupsAPI::DeleteRole(
+    SharedPtr<Entity> entity,
     const PFGroupsDeleteRoleRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/DeleteRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/DeleteRole" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -870,24 +416,26 @@ AsyncOp<void> GroupsAPI::DeleteRole(
 }
 
 AsyncOp<GetGroupResponse> GroupsAPI::GetGroup(
+    SharedPtr<Entity> entity,
     const PFGroupsGetGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/GetGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/GetGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -910,24 +458,26 @@ AsyncOp<GetGroupResponse> GroupsAPI::GetGroup(
 }
 
 AsyncOp<InviteToGroupResponse> GroupsAPI::InviteToGroup(
+    SharedPtr<Entity> entity,
     const PFGroupsInviteToGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/InviteToGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/InviteToGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -950,24 +500,26 @@ AsyncOp<InviteToGroupResponse> GroupsAPI::InviteToGroup(
 }
 
 AsyncOp<IsMemberResponse> GroupsAPI::IsMember(
+    SharedPtr<Entity> entity,
     const PFGroupsIsMemberRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/IsMember" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/IsMember" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -990,24 +542,26 @@ AsyncOp<IsMemberResponse> GroupsAPI::IsMember(
 }
 
 AsyncOp<ListGroupApplicationsResponse> GroupsAPI::ListGroupApplications(
+    SharedPtr<Entity> entity,
     const PFGroupsListGroupApplicationsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ListGroupApplications" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ListGroupApplications" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1030,24 +584,26 @@ AsyncOp<ListGroupApplicationsResponse> GroupsAPI::ListGroupApplications(
 }
 
 AsyncOp<ListGroupBlocksResponse> GroupsAPI::ListGroupBlocks(
+    SharedPtr<Entity> entity,
     const PFGroupsListGroupBlocksRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ListGroupBlocks" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ListGroupBlocks" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1070,24 +626,26 @@ AsyncOp<ListGroupBlocksResponse> GroupsAPI::ListGroupBlocks(
 }
 
 AsyncOp<ListGroupInvitationsResponse> GroupsAPI::ListGroupInvitations(
+    SharedPtr<Entity> entity,
     const PFGroupsListGroupInvitationsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ListGroupInvitations" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ListGroupInvitations" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1110,24 +668,26 @@ AsyncOp<ListGroupInvitationsResponse> GroupsAPI::ListGroupInvitations(
 }
 
 AsyncOp<ListGroupMembersResponse> GroupsAPI::ListGroupMembers(
+    SharedPtr<Entity> entity,
     const PFGroupsListGroupMembersRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ListGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ListGroupMembers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1150,24 +710,26 @@ AsyncOp<ListGroupMembersResponse> GroupsAPI::ListGroupMembers(
 }
 
 AsyncOp<ListMembershipResponse> GroupsAPI::ListMembership(
+    SharedPtr<Entity> entity,
     const PFGroupsListMembershipRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ListMembership" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ListMembership" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1190,24 +752,26 @@ AsyncOp<ListMembershipResponse> GroupsAPI::ListMembership(
 }
 
 AsyncOp<ListMembershipOpportunitiesResponse> GroupsAPI::ListMembershipOpportunities(
+    SharedPtr<Entity> entity,
     const PFGroupsListMembershipOpportunitiesRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/ListMembershipOpportunities" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/ListMembershipOpportunities" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1230,24 +794,26 @@ AsyncOp<ListMembershipOpportunitiesResponse> GroupsAPI::ListMembershipOpportunit
 }
 
 AsyncOp<void> GroupsAPI::RemoveGroupApplication(
+    SharedPtr<Entity> entity,
     const PFGroupsRemoveGroupApplicationRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/RemoveGroupApplication" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/RemoveGroupApplication" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1268,24 +834,26 @@ AsyncOp<void> GroupsAPI::RemoveGroupApplication(
 }
 
 AsyncOp<void> GroupsAPI::RemoveGroupInvitation(
+    SharedPtr<Entity> entity,
     const PFGroupsRemoveGroupInvitationRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/RemoveGroupInvitation" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/RemoveGroupInvitation" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1306,24 +874,26 @@ AsyncOp<void> GroupsAPI::RemoveGroupInvitation(
 }
 
 AsyncOp<void> GroupsAPI::RemoveMembers(
+    SharedPtr<Entity> entity,
     const PFGroupsRemoveMembersRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/RemoveMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/RemoveMembers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1344,24 +914,26 @@ AsyncOp<void> GroupsAPI::RemoveMembers(
 }
 
 AsyncOp<void> GroupsAPI::UnblockEntity(
+    SharedPtr<Entity> entity,
     const PFGroupsUnblockEntityRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/UnblockEntity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/UnblockEntity" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1382,24 +954,26 @@ AsyncOp<void> GroupsAPI::UnblockEntity(
 }
 
 AsyncOp<UpdateGroupResponse> GroupsAPI::UpdateGroup(
+    SharedPtr<Entity> entity,
     const PFGroupsUpdateGroupRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/UpdateGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/UpdateGroup" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1422,24 +996,26 @@ AsyncOp<UpdateGroupResponse> GroupsAPI::UpdateGroup(
 }
 
 AsyncOp<UpdateGroupRoleResponse> GroupsAPI::UpdateRole(
+    SharedPtr<Entity> entity,
     const PFGroupsUpdateGroupRoleRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Group/UpdateRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Group/UpdateRole" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

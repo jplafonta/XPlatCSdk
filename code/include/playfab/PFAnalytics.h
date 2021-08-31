@@ -9,7 +9,7 @@
 
 #include <playfab/PFAnalyticsDataModels.h>
 #include <playfab/PFGlobal.h>
-#include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 extern "C"
 {
@@ -19,7 +19,7 @@ extern "C"
 /// designed to be called directly by developers. Each PlayFab client SDK will eventually report this
 /// information automatically.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -29,7 +29,7 @@ extern "C"
 /// Call <see cref="XAsyncGetStatus"/> to get the status of the operation.
 /// </remarks>
 HRESULT PFAnalyticsClientReportDeviceInfoAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAnalyticsDeviceInfoRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -37,7 +37,7 @@ HRESULT PFAnalyticsClientReportDeviceInfoAsync(
 /// <summary>
 /// Writes a character-based event into PlayStream.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -49,7 +49,7 @@ HRESULT PFAnalyticsClientReportDeviceInfoAsync(
 /// If successful, call <see cref="PFAnalyticsClientWriteCharacterEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsClientWriteCharacterEventAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAnalyticsWriteClientCharacterEventRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -88,7 +88,7 @@ HRESULT PFAnalyticsClientWriteCharacterEventGetResult(
 /// <summary>
 /// Writes a player-based event into PlayStream.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -100,7 +100,7 @@ HRESULT PFAnalyticsClientWriteCharacterEventGetResult(
 /// If successful, call <see cref="PFAnalyticsClientWritePlayerEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsClientWritePlayerEventAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAnalyticsWriteClientPlayerEventRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -139,7 +139,7 @@ HRESULT PFAnalyticsClientWritePlayerEventGetResult(
 /// <summary>
 /// Writes a title-based event into PlayStream.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFTitlePlayerHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -151,7 +151,7 @@ HRESULT PFAnalyticsClientWritePlayerEventGetResult(
 /// If successful, call <see cref="PFAnalyticsClientWriteTitleEventGetResult"/> to get the result.
 /// </remarks>
 HRESULT PFAnalyticsClientWriteTitleEventAsync(
-    _In_ PFEntityHandle entityHandle,
+    _In_ PFTitlePlayerHandle titlePlayerHandle,
     _In_ const PFAnalyticsWriteTitleEventRequest* request,
     _Inout_ XAsyncBlock* async
 ) noexcept;
@@ -345,7 +345,7 @@ HRESULT PFAnalyticsServerWriteTitleEventGetResult(
 /// Gets the current values for the Insights performance and data storage retention, list of pending
 /// operations, and the performance and data storage retention limits.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -381,7 +381,7 @@ HRESULT PFAnalyticsGetDetailsGetResult(
 /// Retrieves the range of allowed values for performance and data storage retention values as well as
 /// the submeter details for each performance level.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -416,7 +416,7 @@ HRESULT PFAnalyticsGetLimitsGetResult(
 /// <summary>
 /// Gets the status of a SetPerformance or SetStorageRetention operation.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -465,7 +465,7 @@ HRESULT PFAnalyticsGetOperationStatusGetResult(
 /// <summary>
 /// Gets a list of pending SetPerformance and/or SetStorageRetention operations for the title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -500,7 +500,7 @@ HRESULT PFAnalyticsGetPendingOperationsGetResult(
 /// <summary>
 /// Sets the Insights performance level value for the title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>
@@ -549,7 +549,7 @@ HRESULT PFAnalyticsSetPerformanceGetResult(
 /// <summary>
 /// Sets the Insights data storage retention days value for the title.
 /// </summary>
-/// <param name="entityHandle">PFEntityHandle returned from a auth call.</param>
+/// <param name="entityHandle">PFEntityHandle to use for authentication.</param>
 /// <param name="request">Populated request object.</param>
 /// <param name="async">XAsyncBlock for the async operation.</param>
 /// <returns>Result code for this API operation.</returns>

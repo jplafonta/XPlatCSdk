@@ -9,8 +9,6 @@ uint32_t g_LocalizationTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenLocalizationTests::LogGetLanguageListRequest( PlayFab::LocalizationModels::GetLanguageListRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

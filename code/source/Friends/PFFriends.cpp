@@ -9,7 +9,7 @@ using namespace PlayFab;
 using namespace PlayFab::FriendsModels;
 
 HRESULT PFFriendsClientAddFriendAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFFriendsClientAddFriendRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -17,7 +17,7 @@ HRESULT PFFriendsClientAddFriendAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&FriendsAPI::ClientAddFriend, &contextHandle->entity->friendsAPI, ClientAddFriendRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ClientAddFriend, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -30,7 +30,7 @@ HRESULT PFFriendsClientAddFriendGetResult(
 }
 
 HRESULT PFFriendsClientGetFriendsListAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFFriendsClientGetFriendsListRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -38,7 +38,7 @@ HRESULT PFFriendsClientGetFriendsListAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&FriendsAPI::ClientGetFriendsList, &contextHandle->entity->friendsAPI, ClientGetFriendsListRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ClientGetFriendsList, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -57,7 +57,7 @@ HRESULT PFFriendsClientGetFriendsListGetResult(
 }
 
 HRESULT PFFriendsClientRemoveFriendAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFFriendsClientRemoveFriendRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -65,12 +65,12 @@ HRESULT PFFriendsClientRemoveFriendAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&FriendsAPI::ClientRemoveFriend, &contextHandle->entity->friendsAPI, ClientRemoveFriendRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ClientRemoveFriend, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFFriendsClientSetFriendTagsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFFriendsClientSetFriendTagsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -78,7 +78,7 @@ HRESULT PFFriendsClientSetFriendTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&FriendsAPI::ClientSetFriendTags, &contextHandle->entity->friendsAPI, ClientSetFriendTagsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ClientSetFriendTags, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -91,7 +91,7 @@ HRESULT PFFriendsServerAddFriendAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerAddFriend, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerAddFriend, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -104,7 +104,7 @@ HRESULT PFFriendsServerGetFriendsListAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerGetFriendsList, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerGetFriendsList, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -131,7 +131,7 @@ HRESULT PFFriendsServerRemoveFriendAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerRemoveFriend, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerRemoveFriend, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -144,7 +144,7 @@ HRESULT PFFriendsServerSetFriendTagsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerSetFriendTags, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&FriendsAPI::ServerSetFriendTags, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

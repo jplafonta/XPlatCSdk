@@ -17,12 +17,12 @@ HRESULT PFCharacterAdminResetCharacterStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::AdminResetCharacterStatistics, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::AdminResetCharacterStatistics, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFCharacterClientGetAllUsersCharactersAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterListUsersCharactersRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -30,7 +30,7 @@ HRESULT PFCharacterClientGetAllUsersCharactersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetAllUsersCharacters, &contextHandle->entity->characterAPI, ListUsersCharactersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetAllUsersCharacters, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -49,7 +49,7 @@ HRESULT PFCharacterClientGetAllUsersCharactersGetResult(
 }
 
 HRESULT PFCharacterClientGetCharacterDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterGetCharacterDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -57,7 +57,7 @@ HRESULT PFCharacterClientGetCharacterDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetCharacterData, &contextHandle->entity->characterAPI, GetCharacterDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetCharacterData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -76,7 +76,7 @@ HRESULT PFCharacterClientGetCharacterDataGetResult(
 }
 
 HRESULT PFCharacterClientGetCharacterLeaderboardAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterGetCharacterLeaderboardRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -84,7 +84,7 @@ HRESULT PFCharacterClientGetCharacterLeaderboardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetCharacterLeaderboard, &contextHandle->entity->characterAPI, GetCharacterLeaderboardRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetCharacterLeaderboard, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -103,7 +103,7 @@ HRESULT PFCharacterClientGetCharacterLeaderboardGetResult(
 }
 
 HRESULT PFCharacterClientGetCharacterReadOnlyDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterGetCharacterDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -111,7 +111,7 @@ HRESULT PFCharacterClientGetCharacterReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetCharacterReadOnlyData, &contextHandle->entity->characterAPI, GetCharacterDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetCharacterReadOnlyData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -130,7 +130,7 @@ HRESULT PFCharacterClientGetCharacterReadOnlyDataGetResult(
 }
 
 HRESULT PFCharacterClientGetCharacterStatisticsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterClientGetCharacterStatisticsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -138,7 +138,7 @@ HRESULT PFCharacterClientGetCharacterStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetCharacterStatistics, &contextHandle->entity->characterAPI, ClientGetCharacterStatisticsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetCharacterStatistics, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -157,7 +157,7 @@ HRESULT PFCharacterClientGetCharacterStatisticsGetResult(
 }
 
 HRESULT PFCharacterClientGetLeaderboardAroundCharacterAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterClientGetLeaderboardAroundCharacterRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -165,7 +165,7 @@ HRESULT PFCharacterClientGetLeaderboardAroundCharacterAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetLeaderboardAroundCharacter, &contextHandle->entity->characterAPI, ClientGetLeaderboardAroundCharacterRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetLeaderboardAroundCharacter, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -184,7 +184,7 @@ HRESULT PFCharacterClientGetLeaderboardAroundCharacterGetResult(
 }
 
 HRESULT PFCharacterClientGetLeaderboardForUserCharactersAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterClientGetLeaderboardForUsersCharactersRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -192,7 +192,7 @@ HRESULT PFCharacterClientGetLeaderboardForUserCharactersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGetLeaderboardForUserCharacters, &contextHandle->entity->characterAPI, ClientGetLeaderboardForUsersCharactersRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGetLeaderboardForUserCharacters, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -211,7 +211,7 @@ HRESULT PFCharacterClientGetLeaderboardForUserCharactersGetResult(
 }
 
 HRESULT PFCharacterClientGrantCharacterToUserAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterClientGrantCharacterToUserRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -219,7 +219,7 @@ HRESULT PFCharacterClientGrantCharacterToUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientGrantCharacterToUser, &contextHandle->entity->characterAPI, ClientGrantCharacterToUserRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientGrantCharacterToUser, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -248,7 +248,7 @@ HRESULT PFCharacterClientGrantCharacterToUserGetResult(
 }
 
 HRESULT PFCharacterClientUpdateCharacterDataAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterClientUpdateCharacterDataRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -256,7 +256,7 @@ HRESULT PFCharacterClientUpdateCharacterDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientUpdateCharacterData, &contextHandle->entity->characterAPI, ClientUpdateCharacterDataRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientUpdateCharacterData, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -269,7 +269,7 @@ HRESULT PFCharacterClientUpdateCharacterDataGetResult(
 }
 
 HRESULT PFCharacterClientUpdateCharacterStatisticsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFCharacterClientUpdateCharacterStatisticsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -277,7 +277,7 @@ HRESULT PFCharacterClientUpdateCharacterStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&CharacterAPI::ClientUpdateCharacterStatistics, &contextHandle->entity->characterAPI, ClientUpdateCharacterStatisticsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ClientUpdateCharacterStatistics, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -290,7 +290,7 @@ HRESULT PFCharacterServerDeleteCharacterFromUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerDeleteCharacterFromUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerDeleteCharacterFromUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -303,7 +303,7 @@ HRESULT PFCharacterServerGetAllUsersCharactersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetAllUsersCharacters, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetAllUsersCharacters, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -330,7 +330,7 @@ HRESULT PFCharacterServerGetCharacterDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -357,7 +357,7 @@ HRESULT PFCharacterServerGetCharacterInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -384,7 +384,7 @@ HRESULT PFCharacterServerGetCharacterLeaderboardAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterLeaderboard, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterLeaderboard, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -411,7 +411,7 @@ HRESULT PFCharacterServerGetCharacterReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -438,7 +438,7 @@ HRESULT PFCharacterServerGetCharacterStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterStatistics, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetCharacterStatistics, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -465,7 +465,7 @@ HRESULT PFCharacterServerGetLeaderboardAroundCharacterAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetLeaderboardAroundCharacter, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetLeaderboardAroundCharacter, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -492,7 +492,7 @@ HRESULT PFCharacterServerGetLeaderboardForUserCharactersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetLeaderboardForUserCharacters, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGetLeaderboardForUserCharacters, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -519,7 +519,7 @@ HRESULT PFCharacterServerGrantCharacterToUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGrantCharacterToUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerGrantCharacterToUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -556,7 +556,7 @@ HRESULT PFCharacterServerUpdateCharacterDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -577,7 +577,7 @@ HRESULT PFCharacterServerUpdateCharacterInternalDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterInternalData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterInternalData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -598,7 +598,7 @@ HRESULT PFCharacterServerUpdateCharacterReadOnlyDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterReadOnlyData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterReadOnlyData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -619,7 +619,7 @@ HRESULT PFCharacterServerUpdateCharacterStatisticsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterStatistics, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&CharacterAPI::ServerUpdateCharacterStatistics, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

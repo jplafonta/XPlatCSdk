@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenTradingTests::TradingTestData AutoGenTradingTests::testData;
+
 void AutoGenTradingTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,13 +29,15 @@ HRESULT AutoGenTradingTests::LogHR(HRESULT hr)
 
 void AutoGenTradingTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestTradingClientAcceptTrade", &AutoGenTradingTests::TestTradingClientAcceptTrade);
+
     AddTest("TestTradingClientCancelTrade", &AutoGenTradingTests::TestTradingClientCancelTrade);
+
     AddTest("TestTradingClientGetPlayerTrades", &AutoGenTradingTests::TestTradingClientGetPlayerTrades);
+
     AddTest("TestTradingClientGetTradeStatus", &AutoGenTradingTests::TestTradingClientGetTradeStatus);
+
     AddTest("TestTradingClientOpenTrade", &AutoGenTradingTests::TestTradingClientOpenTrade);
 }
 
@@ -72,10 +76,52 @@ void AutoGenTradingTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -84,10 +130,12 @@ void AutoGenTradingTests::ClassSetUp()
 
 void AutoGenTradingTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -106,6 +154,8 @@ void AutoGenTradingTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region ClientAcceptTrade
 
 void AutoGenTradingTests::TestTradingClientAcceptTrade(TestContext& testContext)
 {
@@ -129,14 +179,19 @@ void AutoGenTradingTests::TestTradingClientAcceptTrade(TestContext& testContext)
     PlayFab::TradingModels::AcceptTradeRequest request;
     FillAcceptTradeRequest( &request );
     LogAcceptTradeRequest( &request, "TestTradingClientAcceptTrade" );
-    HRESULT hr = PFTradingClientAcceptTradeAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTradingClientAcceptTradeAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTradingTradingClientAcceptTradeAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientCancelTrade
+
 void AutoGenTradingTests::TestTradingClientCancelTrade(TestContext& testContext)
 {
     struct ClientCancelTradeResult : public XAsyncResult
@@ -159,14 +214,19 @@ void AutoGenTradingTests::TestTradingClientCancelTrade(TestContext& testContext)
     PlayFab::TradingModels::CancelTradeRequest request;
     FillCancelTradeRequest( &request );
     LogCancelTradeRequest( &request, "TestTradingClientCancelTrade" );
-    HRESULT hr = PFTradingClientCancelTradeAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTradingClientCancelTradeAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTradingTradingClientCancelTradeAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetPlayerTrades
+
 void AutoGenTradingTests::TestTradingClientGetPlayerTrades(TestContext& testContext)
 {
     struct ClientGetPlayerTradesResult : public XAsyncResult
@@ -189,14 +249,19 @@ void AutoGenTradingTests::TestTradingClientGetPlayerTrades(TestContext& testCont
     PlayFab::TradingModels::GetPlayerTradesRequest request;
     FillGetPlayerTradesRequest( &request );
     LogGetPlayerTradesRequest( &request, "TestTradingClientGetPlayerTrades" );
-    HRESULT hr = PFTradingClientGetPlayerTradesAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTradingClientGetPlayerTradesAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTradingTradingClientGetPlayerTradesAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetTradeStatus
+
 void AutoGenTradingTests::TestTradingClientGetTradeStatus(TestContext& testContext)
 {
     struct ClientGetTradeStatusResult : public XAsyncResult
@@ -219,14 +284,19 @@ void AutoGenTradingTests::TestTradingClientGetTradeStatus(TestContext& testConte
     PlayFab::TradingModels::GetTradeStatusRequest request;
     FillGetTradeStatusRequest( &request );
     LogGetTradeStatusRequest( &request, "TestTradingClientGetTradeStatus" );
-    HRESULT hr = PFTradingClientGetTradeStatusAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTradingClientGetTradeStatusAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTradingTradingClientGetTradeStatusAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientOpenTrade
+
 void AutoGenTradingTests::TestTradingClientOpenTrade(TestContext& testContext)
 {
     struct ClientOpenTradeResult : public XAsyncResult
@@ -249,13 +319,16 @@ void AutoGenTradingTests::TestTradingClientOpenTrade(TestContext& testContext)
     PlayFab::TradingModels::OpenTradeRequest request;
     FillOpenTradeRequest( &request );
     LogOpenTradeRequest( &request, "TestTradingClientOpenTrade" );
-    HRESULT hr = PFTradingClientOpenTradeAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFTradingClientOpenTradeAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFTradingTradingClientOpenTradeAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

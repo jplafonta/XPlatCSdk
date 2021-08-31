@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenAnalyticsTests::AnalyticsTestData AutoGenAnalyticsTests::testData;
+
 void AutoGenAnalyticsTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,21 +29,31 @@ HRESULT AutoGenAnalyticsTests::LogHR(HRESULT hr)
 
 void AutoGenAnalyticsTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestAnalyticsClientReportDeviceInfo", &AutoGenAnalyticsTests::TestAnalyticsClientReportDeviceInfo);
+
     AddTest("TestAnalyticsClientWriteCharacterEvent", &AutoGenAnalyticsTests::TestAnalyticsClientWriteCharacterEvent);
+
     AddTest("TestAnalyticsClientWritePlayerEvent", &AutoGenAnalyticsTests::TestAnalyticsClientWritePlayerEvent);
+
     AddTest("TestAnalyticsClientWriteTitleEvent", &AutoGenAnalyticsTests::TestAnalyticsClientWriteTitleEvent);
+
     AddTest("TestAnalyticsServerWriteCharacterEvent", &AutoGenAnalyticsTests::TestAnalyticsServerWriteCharacterEvent);
+
     AddTest("TestAnalyticsServerWritePlayerEvent", &AutoGenAnalyticsTests::TestAnalyticsServerWritePlayerEvent);
+
     AddTest("TestAnalyticsServerWriteTitleEvent", &AutoGenAnalyticsTests::TestAnalyticsServerWriteTitleEvent);
+
     AddTest("TestAnalyticsGetDetails", &AutoGenAnalyticsTests::TestAnalyticsGetDetails);
+
     AddTest("TestAnalyticsGetLimits", &AutoGenAnalyticsTests::TestAnalyticsGetLimits);
+
     AddTest("TestAnalyticsGetOperationStatus", &AutoGenAnalyticsTests::TestAnalyticsGetOperationStatus);
+
     AddTest("TestAnalyticsGetPendingOperations", &AutoGenAnalyticsTests::TestAnalyticsGetPendingOperations);
+
     AddTest("TestAnalyticsSetPerformance", &AutoGenAnalyticsTests::TestAnalyticsSetPerformance);
+
     AddTest("TestAnalyticsSetStorageRetention", &AutoGenAnalyticsTests::TestAnalyticsSetStorageRetention);
 }
 
@@ -80,10 +92,52 @@ void AutoGenAnalyticsTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -92,10 +146,12 @@ void AutoGenAnalyticsTests::ClassSetUp()
 
 void AutoGenAnalyticsTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -114,6 +170,8 @@ void AutoGenAnalyticsTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region ClientReportDeviceInfo
 
 void AutoGenAnalyticsTests::TestAnalyticsClientReportDeviceInfo(TestContext& testContext)
 {
@@ -136,14 +194,19 @@ void AutoGenAnalyticsTests::TestAnalyticsClientReportDeviceInfo(TestContext& tes
     PlayFab::AnalyticsModels::DeviceInfoRequest request;
     FillDeviceInfoRequest( &request );
     LogDeviceInfoRequest( &request, "TestAnalyticsClientReportDeviceInfo" );
-    HRESULT hr = PFAnalyticsClientReportDeviceInfoAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAnalyticsClientReportDeviceInfoAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAnalyticsAnalyticsClientReportDeviceInfoAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientWriteCharacterEvent
+
 void AutoGenAnalyticsTests::TestAnalyticsClientWriteCharacterEvent(TestContext& testContext)
 {
     struct ClientWriteCharacterEventResult : public XAsyncResult
@@ -170,14 +233,19 @@ void AutoGenAnalyticsTests::TestAnalyticsClientWriteCharacterEvent(TestContext& 
     PlayFab::AnalyticsModels::WriteClientCharacterEventRequest request;
     FillWriteClientCharacterEventRequest( &request );
     LogWriteClientCharacterEventRequest( &request, "TestAnalyticsClientWriteCharacterEvent" );
-    HRESULT hr = PFAnalyticsClientWriteCharacterEventAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAnalyticsClientWriteCharacterEventAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAnalyticsAnalyticsClientWriteCharacterEventAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientWritePlayerEvent
+
 void AutoGenAnalyticsTests::TestAnalyticsClientWritePlayerEvent(TestContext& testContext)
 {
     struct ClientWritePlayerEventResult : public XAsyncResult
@@ -204,14 +272,19 @@ void AutoGenAnalyticsTests::TestAnalyticsClientWritePlayerEvent(TestContext& tes
     PlayFab::AnalyticsModels::WriteClientPlayerEventRequest request;
     FillWriteClientPlayerEventRequest( &request );
     LogWriteClientPlayerEventRequest( &request, "TestAnalyticsClientWritePlayerEvent" );
-    HRESULT hr = PFAnalyticsClientWritePlayerEventAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAnalyticsClientWritePlayerEventAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAnalyticsAnalyticsClientWritePlayerEventAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientWriteTitleEvent
+
 void AutoGenAnalyticsTests::TestAnalyticsClientWriteTitleEvent(TestContext& testContext)
 {
     struct ClientWriteTitleEventResult : public XAsyncResult
@@ -238,14 +311,19 @@ void AutoGenAnalyticsTests::TestAnalyticsClientWriteTitleEvent(TestContext& test
     PlayFab::AnalyticsModels::WriteTitleEventRequest request;
     FillWriteTitleEventRequest( &request );
     LogWriteTitleEventRequest( &request, "TestAnalyticsClientWriteTitleEvent" );
-    HRESULT hr = PFAnalyticsClientWriteTitleEventAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAnalyticsClientWriteTitleEventAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAnalyticsAnalyticsClientWriteTitleEventAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerWriteCharacterEvent
+
 void AutoGenAnalyticsTests::TestAnalyticsServerWriteCharacterEvent(TestContext& testContext)
 {
     struct ServerWriteCharacterEventResult : public XAsyncResult
@@ -279,7 +357,12 @@ void AutoGenAnalyticsTests::TestAnalyticsServerWriteCharacterEvent(TestContext& 
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerWritePlayerEvent
+
 void AutoGenAnalyticsTests::TestAnalyticsServerWritePlayerEvent(TestContext& testContext)
 {
     struct ServerWritePlayerEventResult : public XAsyncResult
@@ -313,7 +396,12 @@ void AutoGenAnalyticsTests::TestAnalyticsServerWritePlayerEvent(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerWriteTitleEvent
+
 void AutoGenAnalyticsTests::TestAnalyticsServerWriteTitleEvent(TestContext& testContext)
 {
     struct ServerWriteTitleEventResult : public XAsyncResult
@@ -347,7 +435,12 @@ void AutoGenAnalyticsTests::TestAnalyticsServerWriteTitleEvent(TestContext& test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetDetails
+
 void AutoGenAnalyticsTests::TestAnalyticsGetDetails(TestContext& testContext)
 {
     struct GetDetailsResult : public XAsyncResult
@@ -377,7 +470,12 @@ void AutoGenAnalyticsTests::TestAnalyticsGetDetails(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetLimits
+
 void AutoGenAnalyticsTests::TestAnalyticsGetLimits(TestContext& testContext)
 {
     struct GetLimitsResult : public XAsyncResult
@@ -407,7 +505,12 @@ void AutoGenAnalyticsTests::TestAnalyticsGetLimits(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetOperationStatus
+
 void AutoGenAnalyticsTests::TestAnalyticsGetOperationStatus(TestContext& testContext)
 {
     struct GetOperationStatusResult : public XAsyncResult
@@ -441,7 +544,12 @@ void AutoGenAnalyticsTests::TestAnalyticsGetOperationStatus(TestContext& testCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetPendingOperations
+
 void AutoGenAnalyticsTests::TestAnalyticsGetPendingOperations(TestContext& testContext)
 {
     struct GetPendingOperationsResult : public XAsyncResult
@@ -471,7 +579,12 @@ void AutoGenAnalyticsTests::TestAnalyticsGetPendingOperations(TestContext& testC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region SetPerformance
+
 void AutoGenAnalyticsTests::TestAnalyticsSetPerformance(TestContext& testContext)
 {
     struct SetPerformanceResult : public XAsyncResult
@@ -505,7 +618,12 @@ void AutoGenAnalyticsTests::TestAnalyticsSetPerformance(TestContext& testContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region SetStorageRetention
+
 void AutoGenAnalyticsTests::TestAnalyticsSetStorageRetention(TestContext& testContext)
 {
     struct SetStorageRetentionResult : public XAsyncResult
@@ -539,6 +657,9 @@ void AutoGenAnalyticsTests::TestAnalyticsSetStorageRetention(TestContext& testCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

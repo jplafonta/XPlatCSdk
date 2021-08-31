@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenContentTests::ContentTestData AutoGenContentTests::testData;
+
 void AutoGenContentTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,13 +29,15 @@ HRESULT AutoGenContentTests::LogHR(HRESULT hr)
 
 void AutoGenContentTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestContentAdminDeleteContent", &AutoGenContentTests::TestContentAdminDeleteContent);
+
     AddTest("TestContentAdminGetContentList", &AutoGenContentTests::TestContentAdminGetContentList);
+
     AddTest("TestContentAdminGetContentUploadUrl", &AutoGenContentTests::TestContentAdminGetContentUploadUrl);
+
     AddTest("TestContentClientGetContentDownloadUrl", &AutoGenContentTests::TestContentClientGetContentDownloadUrl);
+
     AddTest("TestContentServerGetContentDownloadUrl", &AutoGenContentTests::TestContentServerGetContentDownloadUrl);
 }
 
@@ -72,10 +76,52 @@ void AutoGenContentTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -84,10 +130,12 @@ void AutoGenContentTests::ClassSetUp()
 
 void AutoGenContentTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -106,6 +154,8 @@ void AutoGenContentTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminDeleteContent
 
 void AutoGenContentTests::TestContentAdminDeleteContent(TestContext& testContext)
 {
@@ -135,7 +185,12 @@ void AutoGenContentTests::TestContentAdminDeleteContent(TestContext& testContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetContentList
+
 void AutoGenContentTests::TestContentAdminGetContentList(TestContext& testContext)
 {
     struct AdminGetContentListResult : public XAsyncResult
@@ -165,7 +220,12 @@ void AutoGenContentTests::TestContentAdminGetContentList(TestContext& testContex
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetContentUploadUrl
+
 void AutoGenContentTests::TestContentAdminGetContentUploadUrl(TestContext& testContext)
 {
     struct AdminGetContentUploadUrlResult : public XAsyncResult
@@ -199,7 +259,12 @@ void AutoGenContentTests::TestContentAdminGetContentUploadUrl(TestContext& testC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetContentDownloadUrl
+
 void AutoGenContentTests::TestContentClientGetContentDownloadUrl(TestContext& testContext)
 {
     struct ClientGetContentDownloadUrlResult : public XAsyncResult
@@ -226,14 +291,19 @@ void AutoGenContentTests::TestContentClientGetContentDownloadUrl(TestContext& te
     PlayFab::ContentModels::GetContentDownloadUrlRequest request;
     FillGetContentDownloadUrlRequest( &request );
     LogGetContentDownloadUrlRequest( &request, "TestContentClientGetContentDownloadUrl" );
-    HRESULT hr = PFContentClientGetContentDownloadUrlAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFContentClientGetContentDownloadUrlAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFContentContentClientGetContentDownloadUrlAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerGetContentDownloadUrl
+
 void AutoGenContentTests::TestContentServerGetContentDownloadUrl(TestContext& testContext)
 {
     struct ServerGetContentDownloadUrlResult : public XAsyncResult
@@ -267,6 +337,9 @@ void AutoGenContentTests::TestContentServerGetContentDownloadUrl(TestContext& te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

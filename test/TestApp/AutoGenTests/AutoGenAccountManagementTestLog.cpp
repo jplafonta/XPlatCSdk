@@ -9,8 +9,6 @@ uint32_t g_AccountManagementTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenAccountManagementTests::LogBanUsersRequest( PlayFab::AccountManagementModels::BanUsersRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

@@ -9,7 +9,7 @@ using namespace PlayFab;
 using namespace PlayFab::AdvertisingModels;
 
 HRESULT PFAdvertisingClientAttributeInstallAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAdvertisingAttributeInstallRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -17,12 +17,12 @@ HRESULT PFAdvertisingClientAttributeInstallAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AdvertisingAPI::ClientAttributeInstall, &contextHandle->entity->advertisingAPI, AttributeInstallRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AdvertisingAPI::ClientAttributeInstall, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAdvertisingClientGetAdPlacementsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAdvertisingGetAdPlacementsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -30,7 +30,7 @@ HRESULT PFAdvertisingClientGetAdPlacementsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AdvertisingAPI::ClientGetAdPlacements, &contextHandle->entity->advertisingAPI, GetAdPlacementsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AdvertisingAPI::ClientGetAdPlacements, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -49,7 +49,7 @@ HRESULT PFAdvertisingClientGetAdPlacementsGetResult(
 }
 
 HRESULT PFAdvertisingClientReportAdActivityAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAdvertisingReportAdActivityRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -57,12 +57,12 @@ HRESULT PFAdvertisingClientReportAdActivityAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AdvertisingAPI::ClientReportAdActivity, &contextHandle->entity->advertisingAPI, ReportAdActivityRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AdvertisingAPI::ClientReportAdActivity, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFAdvertisingClientRewardAdActivityAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFAdvertisingRewardAdActivityRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -70,7 +70,7 @@ HRESULT PFAdvertisingClientRewardAdActivityAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&AdvertisingAPI::ClientRewardAdActivity, &contextHandle->entity->advertisingAPI, RewardAdActivityRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&AdvertisingAPI::ClientRewardAdActivity, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

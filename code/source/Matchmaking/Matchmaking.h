@@ -1,62 +1,55 @@
 #pragma once
 
 #include "MatchmakingDataModels.h"
-#include "AuthTokens.h"
-#include "HttpClient.h"
-#include "TaskQueue.h"
+#include "TitlePlayer.h"
+#include "GlobalState.h"
 
 namespace PlayFab
 {
 
-class Entity;
-
 class MatchmakingAPI
 {
 public:
-    MatchmakingAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    MatchmakingAPI() = delete;
     MatchmakingAPI(const MatchmakingAPI& source) = delete;
     MatchmakingAPI& operator=(const MatchmakingAPI& source) = delete;
     ~MatchmakingAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<MatchmakingModels::GetMatchmakerGameInfoResult> AdminGetMatchmakerGameInfo(const PFMatchmakingGetMatchmakerGameInfoRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<MatchmakingModels::GetMatchmakerGameModesResult> AdminGetMatchmakerGameModes(const PFMatchmakingGetMatchmakerGameModesRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> AdminModifyMatchmakerGameModes(const PFMatchmakingModifyMatchmakerGameModesRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    AsyncOp<MatchmakingModels::CurrentGamesResult> ClientGetCurrentGames(const PFMatchmakingCurrentGamesRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::GameServerRegionsResult> ClientGetGameServerRegions(const PFMatchmakingGameServerRegionsRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::MatchmakeResult> ClientMatchmake(const PFMatchmakingMatchmakeRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::StartGameResult> ClientStartGame(const PFMatchmakingClientStartGameRequest& request, const TaskQueue& queue) const;
-    static AsyncOp<MatchmakingModels::AuthUserResponse> AuthUser(const PFMatchmakingAuthUserRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> PlayerJoined(const PFMatchmakingPlayerJoinedRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> PlayerLeft(const PFMatchmakingPlayerLeftRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<MatchmakingModels::StartGameResponse> StartGame(const PFMatchmakingMatchmakerStartGameRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<MatchmakingModels::UserInfoResponse> UserInfo(const PFMatchmakingUserInfoRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> ServerDeregisterGame(const PFMatchmakingDeregisterGameRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<MatchmakingModels::NotifyMatchmakerPlayerLeftResult> ServerNotifyMatchmakerPlayerLeft(const PFMatchmakingNotifyMatchmakerPlayerLeftRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<MatchmakingModels::RedeemMatchmakerTicketResult> ServerRedeemMatchmakerTicket(const PFMatchmakingRedeemMatchmakerTicketRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> ServerRefreshGameServerInstanceHeartbeat(const PFMatchmakingRefreshGameServerInstanceHeartbeatRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<MatchmakingModels::RegisterGameResponse> ServerRegisterGame(const PFMatchmakingRegisterGameRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> ServerSetGameServerInstanceData(const PFMatchmakingSetGameServerInstanceDataRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> ServerSetGameServerInstanceState(const PFMatchmakingSetGameServerInstanceStateRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<void> ServerSetGameServerInstanceTags(const PFMatchmakingSetGameServerInstanceTagsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    AsyncOp<void> CancelAllMatchmakingTicketsForPlayer(const PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest& request, const TaskQueue& queue) const;
-    AsyncOp<void> CancelAllServerBackfillTicketsForPlayer(const PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest& request, const TaskQueue& queue) const;
-    AsyncOp<void> CancelMatchmakingTicket(const PFMatchmakingCancelMatchmakingTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<void> CancelServerBackfillTicket(const PFMatchmakingCancelServerBackfillTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::CreateMatchmakingTicketResult> CreateMatchmakingTicket(const PFMatchmakingCreateMatchmakingTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::CreateServerBackfillTicketResult> CreateServerBackfillTicket(const PFMatchmakingCreateServerBackfillTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::CreateMatchmakingTicketResult> CreateServerMatchmakingTicket(const PFMatchmakingCreateServerMatchmakingTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::GetMatchResult> GetMatch(const PFMatchmakingGetMatchRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::GetMatchmakingTicketResult> GetMatchmakingTicket(const PFMatchmakingGetMatchmakingTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::GetQueueStatisticsResult> GetQueueStatistics(const PFMatchmakingGetQueueStatisticsRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::GetServerBackfillTicketResult> GetServerBackfillTicket(const PFMatchmakingGetServerBackfillTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<void> JoinMatchmakingTicket(const PFMatchmakingJoinMatchmakingTicketRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::ListMatchmakingTicketsForPlayerResult> ListMatchmakingTicketsForPlayer(const PFMatchmakingListMatchmakingTicketsForPlayerRequest& request, const TaskQueue& queue) const;
-    AsyncOp<MatchmakingModels::ListServerBackfillTicketsForPlayerResult> ListServerBackfillTicketsForPlayer(const PFMatchmakingListServerBackfillTicketsForPlayerRequest& request, const TaskQueue& queue) const;
-
-private:
-    SharedPtr<HttpClient const> m_httpClient;
-    SharedPtr<AuthTokens const> m_tokens;
+    static AsyncOp<MatchmakingModels::GetMatchmakerGameInfoResult> AdminGetMatchmakerGameInfo(SharedPtr<GlobalState const> state, const PFMatchmakingGetMatchmakerGameInfoRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::GetMatchmakerGameModesResult> AdminGetMatchmakerGameModes(SharedPtr<GlobalState const> state, const PFMatchmakingGetMatchmakerGameModesRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminModifyMatchmakerGameModes(SharedPtr<GlobalState const> state, const PFMatchmakingModifyMatchmakerGameModesRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::CurrentGamesResult> ClientGetCurrentGames(SharedPtr<TitlePlayer> entity, const PFMatchmakingCurrentGamesRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::GameServerRegionsResult> ClientGetGameServerRegions(SharedPtr<TitlePlayer> entity, const PFMatchmakingGameServerRegionsRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::MatchmakeResult> ClientMatchmake(SharedPtr<TitlePlayer> entity, const PFMatchmakingMatchmakeRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::StartGameResult> ClientStartGame(SharedPtr<TitlePlayer> entity, const PFMatchmakingClientStartGameRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::AuthUserResponse> AuthUser(SharedPtr<GlobalState const> state, const PFMatchmakingAuthUserRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> PlayerJoined(SharedPtr<GlobalState const> state, const PFMatchmakingPlayerJoinedRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> PlayerLeft(SharedPtr<GlobalState const> state, const PFMatchmakingPlayerLeftRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::StartGameResponse> StartGame(SharedPtr<GlobalState const> state, const PFMatchmakingMatchmakerStartGameRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::UserInfoResponse> UserInfo(SharedPtr<GlobalState const> state, const PFMatchmakingUserInfoRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerDeregisterGame(SharedPtr<GlobalState const> state, const PFMatchmakingDeregisterGameRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::NotifyMatchmakerPlayerLeftResult> ServerNotifyMatchmakerPlayerLeft(SharedPtr<GlobalState const> state, const PFMatchmakingNotifyMatchmakerPlayerLeftRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::RedeemMatchmakerTicketResult> ServerRedeemMatchmakerTicket(SharedPtr<GlobalState const> state, const PFMatchmakingRedeemMatchmakerTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerRefreshGameServerInstanceHeartbeat(SharedPtr<GlobalState const> state, const PFMatchmakingRefreshGameServerInstanceHeartbeatRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::RegisterGameResponse> ServerRegisterGame(SharedPtr<GlobalState const> state, const PFMatchmakingRegisterGameRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerSetGameServerInstanceData(SharedPtr<GlobalState const> state, const PFMatchmakingSetGameServerInstanceDataRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerSetGameServerInstanceState(SharedPtr<GlobalState const> state, const PFMatchmakingSetGameServerInstanceStateRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerSetGameServerInstanceTags(SharedPtr<GlobalState const> state, const PFMatchmakingSetGameServerInstanceTagsRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> CancelAllMatchmakingTicketsForPlayer(SharedPtr<Entity> entity, const PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> CancelAllServerBackfillTicketsForPlayer(SharedPtr<Entity> entity, const PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> CancelMatchmakingTicket(SharedPtr<Entity> entity, const PFMatchmakingCancelMatchmakingTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> CancelServerBackfillTicket(SharedPtr<Entity> entity, const PFMatchmakingCancelServerBackfillTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::CreateMatchmakingTicketResult> CreateMatchmakingTicket(SharedPtr<Entity> entity, const PFMatchmakingCreateMatchmakingTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::CreateServerBackfillTicketResult> CreateServerBackfillTicket(SharedPtr<Entity> entity, const PFMatchmakingCreateServerBackfillTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::CreateMatchmakingTicketResult> CreateServerMatchmakingTicket(SharedPtr<Entity> entity, const PFMatchmakingCreateServerMatchmakingTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::GetMatchResult> GetMatch(SharedPtr<Entity> entity, const PFMatchmakingGetMatchRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::GetMatchmakingTicketResult> GetMatchmakingTicket(SharedPtr<Entity> entity, const PFMatchmakingGetMatchmakingTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::GetQueueStatisticsResult> GetQueueStatistics(SharedPtr<Entity> entity, const PFMatchmakingGetQueueStatisticsRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::GetServerBackfillTicketResult> GetServerBackfillTicket(SharedPtr<Entity> entity, const PFMatchmakingGetServerBackfillTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> JoinMatchmakingTicket(SharedPtr<Entity> entity, const PFMatchmakingJoinMatchmakingTicketRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::ListMatchmakingTicketsForPlayerResult> ListMatchmakingTicketsForPlayer(SharedPtr<Entity> entity, const PFMatchmakingListMatchmakingTicketsForPlayerRequest& request, const TaskQueue& queue);
+    static AsyncOp<MatchmakingModels::ListServerBackfillTicketsForPlayerResult> ListServerBackfillTicketsForPlayer(SharedPtr<Entity> entity, const PFMatchmakingListServerBackfillTicketsForPlayerRequest& request, const TaskQueue& queue);
 };
 
 }

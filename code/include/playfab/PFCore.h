@@ -10,6 +10,7 @@
 #include <playfab/PFPal.h>
 #include <playfab/PFGlobal.h>
 #include <playfab/PFEntity.h>
+#include <playfab/PFTitlePlayer.h>
 
 // PlayFab service wrappers
 #include <playfab/PFScheduledTask.h>
@@ -25,7 +26,7 @@
 #include <playfab/PFCloudScript.h>
 #include <playfab/PFMatchmaking.h>
 #include <playfab/PFCharacter.h>
-#include <playfab/PFGroups.h>
+#include <playfab/PFSharedGroups.h>
 #include <playfab/PFTrading.h>
 #include <playfab/PFFriends.h>
 #include <playfab/PFPlatformSpecific.h>
@@ -33,6 +34,7 @@
 #include <playfab/PFAnalytics.h>
 #include <playfab/PFData.h>
 #include <playfab/PFExperimentation.h>
+#include <playfab/PFGroups.h>
 #include <playfab/PFLocalization.h>
 #include <playfab/PFMultiplayerServer.h>
 

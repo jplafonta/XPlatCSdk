@@ -1,32 +1,25 @@
 #pragma once
 
 #include "SegmentsDataModels.h"
-#include "AuthTokens.h"
-#include "HttpClient.h"
-#include "TaskQueue.h"
+#include "TitlePlayer.h"
+#include "GlobalState.h"
 
 namespace PlayFab
 {
 
-class Entity;
-
 class SegmentsAPI
 {
 public:
-    SegmentsAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens);
+    SegmentsAPI() = delete;
     SegmentsAPI(const SegmentsAPI& source) = delete;
     SegmentsAPI& operator=(const SegmentsAPI& source) = delete;
     ~SegmentsAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<SegmentsModels::CreateSegmentResponse> AdminCreateSegment(const PFSegmentsCreateSegmentRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<SegmentsModels::DeleteSegmentsResponse> AdminDeleteSegment(const PFSegmentsDeleteSegmentRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<SegmentsModels::GetSegmentsResponse> AdminGetSegments(const PFSegmentsGetSegmentsRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-    static AsyncOp<SegmentsModels::UpdateSegmentResponse> AdminUpdateSegment(const PFSegmentsUpdateSegmentRequest& request, SharedPtr<String const> secretKey, SharedPtr<HttpClient const> httpClient, const TaskQueue& queue);
-
-private:
-    SharedPtr<HttpClient const> m_httpClient;
-    SharedPtr<AuthTokens const> m_tokens;
+    static AsyncOp<SegmentsModels::CreateSegmentResponse> AdminCreateSegment(SharedPtr<GlobalState const> state, const PFSegmentsCreateSegmentRequest& request, const TaskQueue& queue);
+    static AsyncOp<SegmentsModels::DeleteSegmentsResponse> AdminDeleteSegment(SharedPtr<GlobalState const> state, const PFSegmentsDeleteSegmentRequest& request, const TaskQueue& queue);
+    static AsyncOp<SegmentsModels::GetSegmentsResponse> AdminGetSegments(SharedPtr<GlobalState const> state, const PFSegmentsGetSegmentsRequest& request, const TaskQueue& queue);
+    static AsyncOp<SegmentsModels::UpdateSegmentResponse> AdminUpdateSegment(SharedPtr<GlobalState const> state, const PFSegmentsUpdateSegmentRequest& request, const TaskQueue& queue);
 };
 
 }

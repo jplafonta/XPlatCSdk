@@ -9,8 +9,6 @@ uint32_t g_PlayStreamTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenPlayStreamTests::LogAddPlayerTagRequest( PlayFab::PlayStreamModels::AddPlayerTagRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

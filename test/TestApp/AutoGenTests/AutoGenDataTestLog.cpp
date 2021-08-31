@@ -9,8 +9,6 @@ uint32_t g_DataTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenDataTests::LogAbortFileUploadsRequest( PlayFab::DataModels::AbortFileUploadsRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )
@@ -20,7 +18,7 @@ void AutoGenDataTests::LogAbortFileUploadsRequest( PlayFab::DataModels::AbortFil
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -72,7 +70,7 @@ void AutoGenDataTests::LogDeleteFilesRequest( PlayFab::DataModels::DeleteFilesRe
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -124,7 +122,7 @@ void AutoGenDataTests::LogFinalizeFileUploadsRequest( PlayFab::DataModels::Final
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -184,7 +182,7 @@ void AutoGenDataTests::LogGetFilesRequest( PlayFab::DataModels::GetFilesRequest*
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -236,7 +234,7 @@ void AutoGenDataTests::LogGetObjectsRequest( PlayFab::DataModels::GetObjectsRequ
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: PassingWithData"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -289,7 +287,7 @@ void AutoGenDataTests::LogInitiateFileUploadsRequest( PlayFab::DataModels::Initi
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 
@@ -348,7 +346,7 @@ void AutoGenDataTests::LogSetObjectsRequest( PlayFab::DataModels::SetObjectsRequ
 
     std::stringstream ss;
     ss << "----------"; Log(ss);
-    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: "; Log(ss);
+    ss << "Test #" << g_DataTestIndex++ << ": " << testName << ".  Last Known Status: Failing"; Log(ss);
     ss << "Request:"; Log(ss);
 
 

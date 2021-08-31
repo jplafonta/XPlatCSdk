@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenPlatformSpecificTests::PlatformSpecificTestData AutoGenPlatformSpecificTests::testData;
+
 void AutoGenPlatformSpecificTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,21 +29,31 @@ HRESULT AutoGenPlatformSpecificTests::LogHR(HRESULT hr)
 
 void AutoGenPlatformSpecificTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestPlatformSpecificClientAndroidDevicePushNotificationRegistration", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientAndroidDevicePushNotificationRegistration);
+
     AddTest("TestPlatformSpecificClientConsumeMicrosoftStoreEntitlements", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeMicrosoftStoreEntitlements);
+
     AddTest("TestPlatformSpecificClientConsumePS5Entitlements", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePS5Entitlements);
+
     AddTest("TestPlatformSpecificClientConsumePSNEntitlements", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePSNEntitlements);
+
     AddTest("TestPlatformSpecificClientConsumeXboxEntitlements", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeXboxEntitlements);
+
     AddTest("TestPlatformSpecificClientRefreshPSNAuthToken", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientRefreshPSNAuthToken);
+
     AddTest("TestPlatformSpecificClientRegisterForIOSPushNotification", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientRegisterForIOSPushNotification);
+
     AddTest("TestPlatformSpecificClientRestoreIOSPurchases", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientRestoreIOSPurchases);
+
     AddTest("TestPlatformSpecificClientValidateAmazonIAPReceipt", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateAmazonIAPReceipt);
+
     AddTest("TestPlatformSpecificClientValidateGooglePlayPurchase", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateGooglePlayPurchase);
+
     AddTest("TestPlatformSpecificClientValidateIOSReceipt", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateIOSReceipt);
+
     AddTest("TestPlatformSpecificClientValidateWindowsStoreReceipt", &AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateWindowsStoreReceipt);
+
     AddTest("TestPlatformSpecificServerAwardSteamAchievement", &AutoGenPlatformSpecificTests::TestPlatformSpecificServerAwardSteamAchievement);
 }
 
@@ -80,10 +92,52 @@ void AutoGenPlatformSpecificTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -92,10 +146,12 @@ void AutoGenPlatformSpecificTests::ClassSetUp()
 
 void AutoGenPlatformSpecificTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -114,6 +170,8 @@ void AutoGenPlatformSpecificTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region ClientAndroidDevicePushNotificationRegistration
 
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientAndroidDevicePushNotificationRegistration(TestContext& testContext)
 {
@@ -136,14 +194,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientAndroidDevicePushNo
     PlayFab::PlatformSpecificModels::AndroidDevicePushNotificationRegistrationRequest request;
     FillAndroidDevicePushNotificationRegistrationRequest( &request );
     LogAndroidDevicePushNotificationRegistrationRequest( &request, "TestPlatformSpecificClientAndroidDevicePushNotificationRegistration" );
-    HRESULT hr = PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientConsumeMicrosoftStoreEntitlements
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeMicrosoftStoreEntitlements(TestContext& testContext)
 {
     struct ClientConsumeMicrosoftStoreEntitlementsResult : public XAsyncResult
@@ -166,14 +229,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeMicrosoftSto
     PlayFab::PlatformSpecificModels::ConsumeMicrosoftStoreEntitlementsRequest request;
     FillConsumeMicrosoftStoreEntitlementsRequest( &request );
     LogConsumeMicrosoftStoreEntitlementsRequest( &request, "TestPlatformSpecificClientConsumeMicrosoftStoreEntitlements" );
-    HRESULT hr = PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientConsumePS5Entitlements
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePS5Entitlements(TestContext& testContext)
 {
     struct ClientConsumePS5EntitlementsResult : public XAsyncResult
@@ -196,14 +264,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePS5Entitleme
     PlayFab::PlatformSpecificModels::ConsumePS5EntitlementsRequest request;
     FillConsumePS5EntitlementsRequest( &request );
     LogConsumePS5EntitlementsRequest( &request, "TestPlatformSpecificClientConsumePS5Entitlements" );
-    HRESULT hr = PFPlatformSpecificClientConsumePS5EntitlementsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientConsumePS5EntitlementsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientConsumePS5EntitlementsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientConsumePSNEntitlements
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePSNEntitlements(TestContext& testContext)
 {
     struct ClientConsumePSNEntitlementsResult : public XAsyncResult
@@ -226,14 +299,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePSNEntitleme
     PlayFab::PlatformSpecificModels::ConsumePSNEntitlementsRequest request;
     FillConsumePSNEntitlementsRequest( &request );
     LogConsumePSNEntitlementsRequest( &request, "TestPlatformSpecificClientConsumePSNEntitlements" );
-    HRESULT hr = PFPlatformSpecificClientConsumePSNEntitlementsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientConsumePSNEntitlementsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientConsumePSNEntitlementsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientConsumeXboxEntitlements
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeXboxEntitlements(TestContext& testContext)
 {
     struct ClientConsumeXboxEntitlementsResult : public XAsyncResult
@@ -256,14 +334,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeXboxEntitlem
     PlayFab::PlatformSpecificModels::ConsumeXboxEntitlementsRequest request;
     FillConsumeXboxEntitlementsRequest( &request );
     LogConsumeXboxEntitlementsRequest( &request, "TestPlatformSpecificClientConsumeXboxEntitlements" );
-    HRESULT hr = PFPlatformSpecificClientConsumeXboxEntitlementsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientConsumeXboxEntitlementsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientConsumeXboxEntitlementsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRefreshPSNAuthToken
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRefreshPSNAuthToken(TestContext& testContext)
 {
     struct ClientRefreshPSNAuthTokenResult : public XAsyncResult
@@ -285,14 +368,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRefreshPSNAuthToken
     PlayFab::PlatformSpecificModels::RefreshPSNAuthTokenRequest request;
     FillRefreshPSNAuthTokenRequest( &request );
     LogRefreshPSNAuthTokenRequest( &request, "TestPlatformSpecificClientRefreshPSNAuthToken" );
-    HRESULT hr = PFPlatformSpecificClientRefreshPSNAuthTokenAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientRefreshPSNAuthTokenAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientRefreshPSNAuthTokenAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRegisterForIOSPushNotification
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRegisterForIOSPushNotification(TestContext& testContext)
 {
     struct ClientRegisterForIOSPushNotificationResult : public XAsyncResult
@@ -314,14 +402,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRegisterForIOSPushN
     PlayFab::PlatformSpecificModels::RegisterForIOSPushNotificationRequest request;
     FillRegisterForIOSPushNotificationRequest( &request );
     LogRegisterForIOSPushNotificationRequest( &request, "TestPlatformSpecificClientRegisterForIOSPushNotification" );
-    HRESULT hr = PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientRegisterForIOSPushNotificationAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRestoreIOSPurchases
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRestoreIOSPurchases(TestContext& testContext)
 {
     struct ClientRestoreIOSPurchasesResult : public XAsyncResult
@@ -344,14 +437,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRestoreIOSPurchases
     PlayFab::PlatformSpecificModels::RestoreIOSPurchasesRequest request;
     FillRestoreIOSPurchasesRequest( &request );
     LogRestoreIOSPurchasesRequest( &request, "TestPlatformSpecificClientRestoreIOSPurchases" );
-    HRESULT hr = PFPlatformSpecificClientRestoreIOSPurchasesAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientRestoreIOSPurchasesAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientRestoreIOSPurchasesAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientValidateAmazonIAPReceipt
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateAmazonIAPReceipt(TestContext& testContext)
 {
     struct ClientValidateAmazonIAPReceiptResult : public XAsyncResult
@@ -374,14 +472,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateAmazonIAPRe
     PlayFab::PlatformSpecificModels::ValidateAmazonReceiptRequest request;
     FillValidateAmazonReceiptRequest( &request );
     LogValidateAmazonReceiptRequest( &request, "TestPlatformSpecificClientValidateAmazonIAPReceipt" );
-    HRESULT hr = PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientValidateAmazonIAPReceiptAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientValidateGooglePlayPurchase
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateGooglePlayPurchase(TestContext& testContext)
 {
     struct ClientValidateGooglePlayPurchaseResult : public XAsyncResult
@@ -404,14 +507,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateGooglePlayP
     PlayFab::PlatformSpecificModels::ValidateGooglePlayPurchaseRequest request;
     FillValidateGooglePlayPurchaseRequest( &request );
     LogValidateGooglePlayPurchaseRequest( &request, "TestPlatformSpecificClientValidateGooglePlayPurchase" );
-    HRESULT hr = PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientValidateGooglePlayPurchaseAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientValidateIOSReceipt
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateIOSReceipt(TestContext& testContext)
 {
     struct ClientValidateIOSReceiptResult : public XAsyncResult
@@ -434,14 +542,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateIOSReceipt(
     PlayFab::PlatformSpecificModels::ValidateIOSReceiptRequest request;
     FillValidateIOSReceiptRequest( &request );
     LogValidateIOSReceiptRequest( &request, "TestPlatformSpecificClientValidateIOSReceipt" );
-    HRESULT hr = PFPlatformSpecificClientValidateIOSReceiptAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientValidateIOSReceiptAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientValidateIOSReceiptAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientValidateWindowsStoreReceipt
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateWindowsStoreReceipt(TestContext& testContext)
 {
     struct ClientValidateWindowsStoreReceiptResult : public XAsyncResult
@@ -464,14 +577,19 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateWindowsStor
     PlayFab::PlatformSpecificModels::ValidateWindowsReceiptRequest request;
     FillValidateWindowsReceiptRequest( &request );
     LogValidateWindowsReceiptRequest( &request, "TestPlatformSpecificClientValidateWindowsStoreReceipt" );
-    HRESULT hr = PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFPlatformSpecificPlatformSpecificClientValidateWindowsStoreReceiptAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerAwardSteamAchievement
+
 void AutoGenPlatformSpecificTests::TestPlatformSpecificServerAwardSteamAchievement(TestContext& testContext)
 {
     struct ServerAwardSteamAchievementResult : public XAsyncResult
@@ -501,6 +619,9 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificServerAwardSteamAchieveme
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

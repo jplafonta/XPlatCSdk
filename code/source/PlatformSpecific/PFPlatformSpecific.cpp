@@ -9,7 +9,7 @@ using namespace PlayFab;
 using namespace PlayFab::PlatformSpecificModels;
 
 HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -17,12 +17,12 @@ HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistration, &contextHandle->entity->platformSpecificAPI, AndroidDevicePushNotificationRegistrationRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistration, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -30,7 +30,7 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientConsumeMicrosoftStoreEntitlements, &contextHandle->entity->platformSpecificAPI, ConsumeMicrosoftStoreEntitlementsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientConsumeMicrosoftStoreEntitlements, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -49,7 +49,7 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(
 }
 
 HRESULT PFPlatformSpecificClientConsumePS5EntitlementsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificConsumePS5EntitlementsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -57,7 +57,7 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientConsumePS5Entitlements, &contextHandle->entity->platformSpecificAPI, ConsumePS5EntitlementsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientConsumePS5Entitlements, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -76,7 +76,7 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResult(
 }
 
 HRESULT PFPlatformSpecificClientConsumePSNEntitlementsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificConsumePSNEntitlementsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -84,7 +84,7 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientConsumePSNEntitlements, &contextHandle->entity->platformSpecificAPI, ConsumePSNEntitlementsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientConsumePSNEntitlements, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -103,7 +103,7 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResult(
 }
 
 HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificConsumeXboxEntitlementsRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -111,7 +111,7 @@ HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientConsumeXboxEntitlements, &contextHandle->entity->platformSpecificAPI, ConsumeXboxEntitlementsRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientConsumeXboxEntitlements, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -130,7 +130,7 @@ HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(
 }
 
 HRESULT PFPlatformSpecificClientRefreshPSNAuthTokenAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificRefreshPSNAuthTokenRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -138,12 +138,12 @@ HRESULT PFPlatformSpecificClientRefreshPSNAuthTokenAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientRefreshPSNAuthToken, &contextHandle->entity->platformSpecificAPI, RefreshPSNAuthTokenRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientRefreshPSNAuthToken, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificRegisterForIOSPushNotificationRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -151,12 +151,12 @@ HRESULT PFPlatformSpecificClientRegisterForIOSPushNotificationAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientRegisterForIOSPushNotification, &contextHandle->entity->platformSpecificAPI, RegisterForIOSPushNotificationRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientRegisterForIOSPushNotification, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
 HRESULT PFPlatformSpecificClientRestoreIOSPurchasesAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificRestoreIOSPurchasesRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -164,7 +164,7 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientRestoreIOSPurchases, &contextHandle->entity->platformSpecificAPI, RestoreIOSPurchasesRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientRestoreIOSPurchases, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -183,7 +183,7 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResult(
 }
 
 HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificValidateAmazonReceiptRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -191,7 +191,7 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientValidateAmazonIAPReceipt, &contextHandle->entity->platformSpecificAPI, ValidateAmazonReceiptRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientValidateAmazonIAPReceipt, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -210,7 +210,7 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(
 }
 
 HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificValidateGooglePlayPurchaseRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -218,7 +218,7 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientValidateGooglePlayPurchase, &contextHandle->entity->platformSpecificAPI, ValidateGooglePlayPurchaseRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientValidateGooglePlayPurchase, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -237,7 +237,7 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(
 }
 
 HRESULT PFPlatformSpecificClientValidateIOSReceiptAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificValidateIOSReceiptRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -245,7 +245,7 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientValidateIOSReceipt, &contextHandle->entity->platformSpecificAPI, ValidateIOSReceiptRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientValidateIOSReceipt, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -264,7 +264,7 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResult(
 }
 
 HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlatformSpecificValidateWindowsReceiptRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -272,7 +272,7 @@ HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlatformSpecificAPI::ClientValidateWindowsStoreReceipt, &contextHandle->entity->platformSpecificAPI, ValidateWindowsReceiptRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ClientValidateWindowsStoreReceipt, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -299,7 +299,7 @@ HRESULT PFPlatformSpecificServerAwardSteamAchievementAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ServerAwardSteamAchievement, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlatformSpecificAPI::ServerAwardSteamAchievement, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

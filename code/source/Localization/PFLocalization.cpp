@@ -17,7 +17,7 @@ HRESULT PFLocalizationGetLanguageListAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&LocalizationAPI::GetLanguageList, &contextHandle->entity->localizationAPI, GetLanguageListRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&LocalizationAPI::GetLanguageList, contextHandle->entity, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 

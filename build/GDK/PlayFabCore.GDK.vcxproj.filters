@@ -20,7 +20,7 @@
     <Filter Include="Source\CloudScript" />
     <Filter Include="Source\Matchmaking" />
     <Filter Include="Source\Character" />
-    <Filter Include="Source\Groups" />
+    <Filter Include="Source\SharedGroups" />
     <Filter Include="Source\Trading" />
     <Filter Include="Source\Friends" />
     <Filter Include="Source\PlatformSpecific" />
@@ -28,6 +28,7 @@
     <Filter Include="Source\Analytics" />
     <Filter Include="Source\Data" />
     <Filter Include="Source\Experimentation" />
+    <Filter Include="Source\Groups" />
     <Filter Include="Source\Localization" />
     <Filter Include="Source\MultiplayerServer" />
   </ItemGroup>
@@ -50,6 +51,9 @@
     <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFQoS.h">
       <Filter>C Public Includes\playfab</Filter>
     </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFTitlePlayer.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
     <ClInclude Include="$(PlayFabSourceDir)\source\ApiAsyncProviders.h" >
       <Filter>Source</Filter>
     </ClInclude>
@@ -60,12 +64,6 @@
       <Filter>Source</Filter>
     </ClCompile>
     <ClInclude Include="$(PlayFabSourceDir)\source\AsyncProvider.h" >
-      <Filter>Source</Filter>
-    </ClInclude>
-    <ClCompile Include="$(PlayFabSourceDir)\source\AuthTokens.cpp" >
-      <Filter>Source</Filter>
-    </ClCompile>
-    <ClInclude Include="$(PlayFabSourceDir)\source\AuthTokens.h" >
       <Filter>Source</Filter>
     </ClInclude>
     <ClCompile Include="$(PlayFabSourceDir)\source\BaseModel.cpp" >
@@ -149,6 +147,12 @@
     <ClInclude Include="$(PlayFabSourceDir)\source\TaskQueue.h" >
       <Filter>Source</Filter>
     </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\TitlePlayer.cpp" >
+      <Filter>Source</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\TitlePlayer.h" >
+      <Filter>Source</Filter>
+    </ClInclude>
     <ClCompile Include="$(PlayFabSourceDir)\source\Trace.cpp" >
       <Filter>Source</Filter>
     </ClCompile>
@@ -162,6 +166,9 @@
       <Filter>Source\Api</Filter>
     </ClCompile>
     <ClCompile Include="$(PlayFabSourceDir)\source\Api\PFGlobal.cpp" >
+      <Filter>Source\Api</Filter>
+    </ClCompile>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Api\PFTitlePlayer.cpp" >
       <Filter>Source\Api</Filter>
     </ClCompile>
     <ClCompile Include="$(PlayFabSourceDir)\source\QoS\PFQoS.cpp" >
@@ -467,26 +474,26 @@
     <ClCompile Include="$(PlayFabSourceDir)\source\Character\PFCharacter.cpp">
       <Filter>Source\Character</Filter>
     </ClCompile>
-    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGroupsDataModels.h">
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFSharedGroupsDataModels.h">
       <Filter>C Public Includes\playfab</Filter>
     </ClInclude>
-    <ClInclude Include="$(PlayFabSourceDir)\source\Groups\GroupsDataModels.h">
-      <Filter>Source\Groups</Filter>
+    <ClInclude Include="$(PlayFabSourceDir)\source\SharedGroups\SharedGroupsDataModels.h">
+      <Filter>Source\SharedGroups</Filter>
     </ClInclude>
-    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\GroupsDataModels.cpp">
-      <Filter>Source\Groups</Filter>
+    <ClCompile Include="$(PlayFabSourceDir)\source\SharedGroups\SharedGroupsDataModels.cpp">
+      <Filter>Source\SharedGroups</Filter>
     </ClCompile>
-    <ClInclude Include="$(PlayFabSourceDir)\source\Groups\Groups.h">
-      <Filter>Source\Groups</Filter>
+    <ClInclude Include="$(PlayFabSourceDir)\source\SharedGroups\SharedGroups.h">
+      <Filter>Source\SharedGroups</Filter>
     </ClInclude>
-    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\Groups.cpp">
-      <Filter>Source\Groups</Filter>
+    <ClCompile Include="$(PlayFabSourceDir)\source\SharedGroups\SharedGroups.cpp">
+      <Filter>Source\SharedGroups</Filter>
     </ClCompile>
-    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGroups.h">
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFSharedGroups.h">
       <Filter>C Public Includes\playfab</Filter>
     </ClInclude>
-    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\PFGroups.cpp">
-      <Filter>Source\Groups</Filter>
+    <ClCompile Include="$(PlayFabSourceDir)\source\SharedGroups\PFSharedGroups.cpp">
+      <Filter>Source\SharedGroups</Filter>
     </ClCompile>
     <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFTradingDataModels.h">
       <Filter>C Public Includes\playfab</Filter>
@@ -634,6 +641,27 @@
     </ClInclude>
     <ClCompile Include="$(PlayFabSourceDir)\source\Experimentation\PFExperimentation.cpp">
       <Filter>Source\Experimentation</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGroupsDataModels.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Groups\GroupsDataModels.h">
+      <Filter>Source\Groups</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\GroupsDataModels.cpp">
+      <Filter>Source\Groups</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\source\Groups\Groups.h">
+      <Filter>Source\Groups</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\Groups.cpp">
+      <Filter>Source\Groups</Filter>
+    </ClCompile>
+    <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFGroups.h">
+      <Filter>C Public Includes\playfab</Filter>
+    </ClInclude>
+    <ClCompile Include="$(PlayFabSourceDir)\source\Groups\PFGroups.cpp">
+      <Filter>Source\Groups</Filter>
     </ClCompile>
     <ClInclude Include="$(PlayFabSourceDir)\include\playfab\PFLocalizationDataModels.h">
       <Filter>C Public Includes\playfab</Filter>

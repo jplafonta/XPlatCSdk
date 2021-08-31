@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenAdvertisingTests::AdvertisingTestData AutoGenAdvertisingTests::testData;
+
 void AutoGenAdvertisingTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,12 +29,13 @@ HRESULT AutoGenAdvertisingTests::LogHR(HRESULT hr)
 
 void AutoGenAdvertisingTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestAdvertisingClientAttributeInstall", &AutoGenAdvertisingTests::TestAdvertisingClientAttributeInstall);
+
     AddTest("TestAdvertisingClientGetAdPlacements", &AutoGenAdvertisingTests::TestAdvertisingClientGetAdPlacements);
+
     AddTest("TestAdvertisingClientReportAdActivity", &AutoGenAdvertisingTests::TestAdvertisingClientReportAdActivity);
+
     AddTest("TestAdvertisingClientRewardAdActivity", &AutoGenAdvertisingTests::TestAdvertisingClientRewardAdActivity);
 }
 
@@ -71,10 +74,52 @@ void AutoGenAdvertisingTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -83,10 +128,12 @@ void AutoGenAdvertisingTests::ClassSetUp()
 
 void AutoGenAdvertisingTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -105,6 +152,8 @@ void AutoGenAdvertisingTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region ClientAttributeInstall
 
 void AutoGenAdvertisingTests::TestAdvertisingClientAttributeInstall(TestContext& testContext)
 {
@@ -127,14 +176,19 @@ void AutoGenAdvertisingTests::TestAdvertisingClientAttributeInstall(TestContext&
     PlayFab::AdvertisingModels::AttributeInstallRequest request;
     FillAttributeInstallRequest( &request );
     LogAttributeInstallRequest( &request, "TestAdvertisingClientAttributeInstall" );
-    HRESULT hr = PFAdvertisingClientAttributeInstallAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAdvertisingClientAttributeInstallAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAdvertisingAdvertisingClientAttributeInstallAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetAdPlacements
+
 void AutoGenAdvertisingTests::TestAdvertisingClientGetAdPlacements(TestContext& testContext)
 {
     struct ClientGetAdPlacementsResult : public XAsyncResult
@@ -157,14 +211,19 @@ void AutoGenAdvertisingTests::TestAdvertisingClientGetAdPlacements(TestContext& 
     PlayFab::AdvertisingModels::GetAdPlacementsRequest request;
     FillGetAdPlacementsRequest( &request );
     LogGetAdPlacementsRequest( &request, "TestAdvertisingClientGetAdPlacements" );
-    HRESULT hr = PFAdvertisingClientGetAdPlacementsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAdvertisingClientGetAdPlacementsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAdvertisingAdvertisingClientGetAdPlacementsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientReportAdActivity
+
 void AutoGenAdvertisingTests::TestAdvertisingClientReportAdActivity(TestContext& testContext)
 {
     struct ClientReportAdActivityResult : public XAsyncResult
@@ -186,14 +245,19 @@ void AutoGenAdvertisingTests::TestAdvertisingClientReportAdActivity(TestContext&
     PlayFab::AdvertisingModels::ReportAdActivityRequest request;
     FillReportAdActivityRequest( &request );
     LogReportAdActivityRequest( &request, "TestAdvertisingClientReportAdActivity" );
-    HRESULT hr = PFAdvertisingClientReportAdActivityAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAdvertisingClientReportAdActivityAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAdvertisingAdvertisingClientReportAdActivityAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientRewardAdActivity
+
 void AutoGenAdvertisingTests::TestAdvertisingClientRewardAdActivity(TestContext& testContext)
 {
     struct ClientRewardAdActivityResult : public XAsyncResult
@@ -216,13 +280,16 @@ void AutoGenAdvertisingTests::TestAdvertisingClientRewardAdActivity(TestContext&
     PlayFab::AdvertisingModels::RewardAdActivityRequest request;
     FillRewardAdActivityRequest( &request );
     LogRewardAdActivityRequest( &request, "TestAdvertisingClientRewardAdActivity" );
-    HRESULT hr = PFAdvertisingClientRewardAdActivityAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFAdvertisingClientRewardAdActivityAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFAdvertisingAdvertisingClientRewardAdActivityAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

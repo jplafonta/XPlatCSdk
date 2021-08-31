@@ -1,37 +1,34 @@
 #include "stdafx.h"
 #include "AccountManagement.h"
+#include "GlobalState.h"
+#include "TitlePlayer.h"
 
 namespace PlayFab
 {
 
 using namespace AccountManagementModels;
 
-AccountManagementAPI::AccountManagementAPI(SharedPtr<HttpClient const> httpClient, SharedPtr<AuthTokens const> tokens) :
-    m_httpClient{ std::move(httpClient) },
-    m_tokens{ std::move(tokens) }
-{
-}
 
 AsyncOp<BanUsersResult> AccountManagementAPI::AdminBanUsers(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementBanUsersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/BanUsers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/BanUsers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -54,25 +51,25 @@ AsyncOp<BanUsersResult> AccountManagementAPI::AdminBanUsers(
 }
 
 AsyncOp<DeleteMasterPlayerAccountResult> AccountManagementAPI::AdminDeleteMasterPlayerAccount(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementDeleteMasterPlayerAccountRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteMasterPlayerAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteMasterPlayerAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -95,25 +92,25 @@ AsyncOp<DeleteMasterPlayerAccountResult> AccountManagementAPI::AdminDeleteMaster
 }
 
 AsyncOp<void> AccountManagementAPI::AdminDeletePlayer(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementDeletePlayerRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeletePlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeletePlayer" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -134,24 +131,24 @@ AsyncOp<void> AccountManagementAPI::AdminDeletePlayer(
 }
 
 AsyncOp<void> AccountManagementAPI::AdminDeleteTitle(
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
+    SharedPtr<GlobalState const> state,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/DeleteTitle" };
-    JsonValue requestBody{ rapidjson::kNullType };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/DeleteTitle" };
+    JsonValue requestBody{ rapidjson::kNullType };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -172,25 +169,25 @@ AsyncOp<void> AccountManagementAPI::AdminDeleteTitle(
 }
 
 AsyncOp<ExportMasterPlayerDataResult> AccountManagementAPI::AdminExportMasterPlayerData(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementExportMasterPlayerDataRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/ExportMasterPlayerData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/ExportMasterPlayerData" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -213,25 +210,25 @@ AsyncOp<ExportMasterPlayerDataResult> AccountManagementAPI::AdminExportMasterPla
 }
 
 AsyncOp<GetPlayedTitleListResult> AccountManagementAPI::AdminGetPlayedTitleList(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayedTitleListRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayedTitleList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayedTitleList" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -254,25 +251,25 @@ AsyncOp<GetPlayedTitleListResult> AccountManagementAPI::AdminGetPlayedTitleList(
 }
 
 AsyncOp<GetPlayerIdFromAuthTokenResult> AccountManagementAPI::AdminGetPlayerIdFromAuthToken(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayerIdFromAuthTokenRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayerIdFromAuthToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayerIdFromAuthToken" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -295,25 +292,25 @@ AsyncOp<GetPlayerIdFromAuthTokenResult> AccountManagementAPI::AdminGetPlayerIdFr
 }
 
 AsyncOp<GetPlayerProfileResult> AccountManagementAPI::AdminGetPlayerProfile(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayerProfileRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetPlayerProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetPlayerProfile" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -336,25 +333,25 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::AdminGetPlayerProfile(
 }
 
 AsyncOp<LookupUserAccountInfoResult> AccountManagementAPI::AdminGetUserAccountInfo(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementLookupUserAccountInfoRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetUserAccountInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetUserAccountInfo" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -377,25 +374,25 @@ AsyncOp<LookupUserAccountInfoResult> AccountManagementAPI::AdminGetUserAccountIn
 }
 
 AsyncOp<GetUserBansResult> AccountManagementAPI::AdminGetUserBans(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetUserBansRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/GetUserBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/GetUserBans" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -418,25 +415,25 @@ AsyncOp<GetUserBansResult> AccountManagementAPI::AdminGetUserBans(
 }
 
 AsyncOp<void> AccountManagementAPI::AdminResetPassword(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementResetPasswordRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/ResetPassword" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/ResetPassword" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -457,25 +454,25 @@ AsyncOp<void> AccountManagementAPI::AdminResetPassword(
 }
 
 AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::AdminRevokeAllBansForUser(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementRevokeAllBansForUserRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RevokeAllBansForUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RevokeAllBansForUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -498,25 +495,25 @@ AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::AdminRevokeAllBansForU
 }
 
 AsyncOp<RevokeBansResult> AccountManagementAPI::AdminRevokeBans(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementRevokeBansRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/RevokeBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/RevokeBans" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -539,25 +536,25 @@ AsyncOp<RevokeBansResult> AccountManagementAPI::AdminRevokeBans(
 }
 
 AsyncOp<void> AccountManagementAPI::AdminSendAccountRecoveryEmail(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementAdminSendAccountRecoveryEmailRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/SendAccountRecoveryEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/SendAccountRecoveryEmail" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -578,25 +575,25 @@ AsyncOp<void> AccountManagementAPI::AdminSendAccountRecoveryEmail(
 }
 
 AsyncOp<UpdateBansResult> AccountManagementAPI::AdminUpdateBans(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementUpdateBansRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateBans" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -619,25 +616,25 @@ AsyncOp<UpdateBansResult> AccountManagementAPI::AdminUpdateBans(
 }
 
 AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::AdminUpdateUserTitleDisplayName(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementAdminUpdateUserTitleDisplayNameRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Admin/UpdateUserTitleDisplayName" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Admin/UpdateUserTitleDisplayName" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -660,24 +657,26 @@ AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::AdminUpdateUserT
 }
 
 AsyncOp<void> AccountManagementAPI::ClientAddGenericID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientAddGenericIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/AddGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/AddGenericID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -698,24 +697,26 @@ AsyncOp<void> AccountManagementAPI::ClientAddGenericID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientAddOrUpdateContactEmail(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementAddOrUpdateContactEmailRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/AddOrUpdateContactEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/AddOrUpdateContactEmail" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -736,24 +737,26 @@ AsyncOp<void> AccountManagementAPI::ClientAddOrUpdateContactEmail(
 }
 
 AsyncOp<AddUsernamePasswordResult> AccountManagementAPI::ClientAddUsernamePassword(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementAddUsernamePasswordRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/AddUsernamePassword" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/AddUsernamePassword" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -776,24 +779,26 @@ AsyncOp<AddUsernamePasswordResult> AccountManagementAPI::ClientAddUsernamePasswo
 }
 
 AsyncOp<GetAccountInfoResult> AccountManagementAPI::ClientGetAccountInfo(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetAccountInfoRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetAccountInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetAccountInfo" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -816,24 +821,26 @@ AsyncOp<GetAccountInfoResult> AccountManagementAPI::ClientGetAccountInfo(
 }
 
 AsyncOp<GetPlayerCombinedInfoResult> AccountManagementAPI::ClientGetPlayerCombinedInfo(
+    SharedPtr<TitlePlayer> entity,
     const PFGetPlayerCombinedInfoRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayerCombinedInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayerCombinedInfo" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -856,24 +863,26 @@ AsyncOp<GetPlayerCombinedInfoResult> AccountManagementAPI::ClientGetPlayerCombin
 }
 
 AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ClientGetPlayerProfile(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayerProfileRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayerProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayerProfile" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -896,24 +905,26 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ClientGetPlayerProfile(
 }
 
 AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromFacebookIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromFacebookIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromFacebookIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -936,24 +947,26 @@ AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ClientGetPlayF
 }
 
 AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::ClientGetPlayFabIDsFromFacebookInstantGamesIds(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromFacebookInstantGamesIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromFacebookInstantGamesIds" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -976,24 +989,26 @@ AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::Cl
 }
 
 AsyncOp<GetPlayFabIDsFromGameCenterIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromGameCenterIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromGameCenterIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromGameCenterIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1016,24 +1031,26 @@ AsyncOp<GetPlayFabIDsFromGameCenterIDsResult> AccountManagementAPI::ClientGetPla
 }
 
 AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromGenericIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromGenericIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromGenericIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1056,24 +1073,26 @@ AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ClientGetPlayFa
 }
 
 AsyncOp<GetPlayFabIDsFromGoogleIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromGoogleIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromGoogleIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromGoogleIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1096,24 +1115,26 @@ AsyncOp<GetPlayFabIDsFromGoogleIDsResult> AccountManagementAPI::ClientGetPlayFab
 }
 
 AsyncOp<GetPlayFabIDsFromKongregateIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromKongregateIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromKongregateIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromKongregateIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1136,24 +1157,26 @@ AsyncOp<GetPlayFabIDsFromKongregateIDsResult> AccountManagementAPI::ClientGetPla
 }
 
 AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::ClientGetPlayFabIDsFromNintendoSwitchDeviceIds(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1176,24 +1199,26 @@ AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::Cl
 }
 
 AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromPSNAccountIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromPSNAccountIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromPSNAccountIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1216,24 +1241,26 @@ AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ClientGetPla
 }
 
 AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromSteamIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromSteamIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromSteamIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1256,24 +1283,26 @@ AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ClientGetPlayFabI
 }
 
 AsyncOp<GetPlayFabIDsFromTwitchIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromTwitchIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromTwitchIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromTwitchIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1296,24 +1325,26 @@ AsyncOp<GetPlayFabIDsFromTwitchIDsResult> AccountManagementAPI::ClientGetPlayFab
 }
 
 AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromXboxLiveIDs(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/GetPlayFabIDsFromXboxLiveIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/GetPlayFabIDsFromXboxLiveIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1336,24 +1367,26 @@ AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ClientGetPlayF
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkAndroidDeviceID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkAndroidDeviceIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkAndroidDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkAndroidDeviceID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1374,24 +1407,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkAndroidDeviceID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkApple(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkAppleRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkApple" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkApple" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1412,24 +1447,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkApple(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkCustomID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkCustomIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkCustomID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkCustomID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1450,24 +1487,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkCustomID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkFacebookAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkFacebookAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkFacebookAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkFacebookAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1488,24 +1527,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkFacebookAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkFacebookInstantGamesId(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkFacebookInstantGamesIdRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkFacebookInstantGamesId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkFacebookInstantGamesId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1526,24 +1567,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkFacebookInstantGamesId(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkGameCenterAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkGameCenterAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkGameCenterAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkGameCenterAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1564,24 +1607,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkGameCenterAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkGoogleAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkGoogleAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkGoogleAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkGoogleAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1602,24 +1647,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkGoogleAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkIOSDeviceID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkIOSDeviceIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkIOSDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkIOSDeviceID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1640,24 +1687,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkIOSDeviceID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkKongregate(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkKongregateAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkKongregate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkKongregate" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1678,24 +1727,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkKongregate(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkNintendoServiceAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkNintendoServiceAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkNintendoServiceAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkNintendoServiceAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1716,24 +1767,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkNintendoServiceAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkNintendoSwitchDeviceId(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkNintendoSwitchDeviceIdRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkNintendoSwitchDeviceId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkNintendoSwitchDeviceId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1754,24 +1807,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkNintendoSwitchDeviceId(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkOpenIdConnect(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkOpenIdConnectRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkOpenIdConnect" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkOpenIdConnect" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1792,24 +1847,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkOpenIdConnect(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkPSNAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientLinkPSNAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkPSNAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1830,24 +1887,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkPSNAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkSteamAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkSteamAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkSteamAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkSteamAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1868,24 +1927,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkSteamAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkTwitch(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementLinkTwitchAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkTwitch" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkTwitch" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1906,24 +1967,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkTwitch(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientLinkXboxAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientLinkXboxAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/LinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/LinkXboxAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1944,24 +2007,26 @@ AsyncOp<void> AccountManagementAPI::ClientLinkXboxAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientRemoveContactEmail(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementRemoveContactEmailRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RemoveContactEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RemoveContactEmail" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -1982,24 +2047,26 @@ AsyncOp<void> AccountManagementAPI::ClientRemoveContactEmail(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientRemoveGenericID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientRemoveGenericIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/RemoveGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/RemoveGenericID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2020,24 +2087,26 @@ AsyncOp<void> AccountManagementAPI::ClientRemoveGenericID(
 }
 
 AsyncOp<ReportPlayerClientResult> AccountManagementAPI::ClientReportPlayer(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementReportPlayerClientRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/ReportPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/ReportPlayer" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2060,19 +2129,19 @@ AsyncOp<ReportPlayerClientResult> AccountManagementAPI::ClientReportPlayer(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientSendAccountRecoveryEmail(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementClientSendAccountRecoveryEmailRequest& request,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/SendAccountRecoveryEmail" };
     JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
+    UnorderedMap<String, String> headers{};
 
-    auto requestOp = httpClient->MakePostRequest(
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2093,24 +2162,26 @@ AsyncOp<void> AccountManagementAPI::ClientSendAccountRecoveryEmail(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkAndroidDeviceID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkAndroidDeviceIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkAndroidDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkAndroidDeviceID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2131,24 +2202,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkAndroidDeviceID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkApple(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkAppleRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkApple" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkApple" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2169,24 +2242,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkApple(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkCustomID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkCustomIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkCustomID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkCustomID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2207,24 +2282,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkCustomID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkFacebookAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkFacebookAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkFacebookAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2245,24 +2322,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookInstantGamesId(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkFacebookInstantGamesIdRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkFacebookInstantGamesId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkFacebookInstantGamesId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2283,24 +2362,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookInstantGamesId(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkGameCenterAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkGameCenterAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkGameCenterAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkGameCenterAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2321,24 +2402,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkGameCenterAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkGoogleAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkGoogleAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkGoogleAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkGoogleAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2359,24 +2442,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkGoogleAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkIOSDeviceID(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkIOSDeviceIDRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkIOSDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkIOSDeviceID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2397,24 +2482,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkIOSDeviceID(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkKongregate(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkKongregateAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkKongregate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkKongregate" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2435,24 +2522,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkKongregate(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoServiceAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkNintendoServiceAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkNintendoServiceAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkNintendoServiceAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2473,24 +2562,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoServiceAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkNintendoSwitchDeviceId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkNintendoSwitchDeviceId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2511,24 +2602,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkOpenIdConnect(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkOpenIdConnectRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkOpenIdConnect" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkOpenIdConnect" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2549,24 +2642,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkOpenIdConnect(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkPSNAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientUnlinkPSNAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkPSNAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2587,24 +2682,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkPSNAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkSteamAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkSteamAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkSteamAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkSteamAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2625,24 +2722,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkSteamAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkTwitch(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementUnlinkTwitchAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkTwitch" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkTwitch" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2663,24 +2762,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkTwitch(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkXboxAccount(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientUnlinkXboxAccountRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UnlinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UnlinkXboxAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2701,24 +2802,26 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkXboxAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ClientUpdateAvatarUrl(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientUpdateAvatarUrlRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UpdateAvatarUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UpdateAvatarUrl" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2739,24 +2842,26 @@ AsyncOp<void> AccountManagementAPI::ClientUpdateAvatarUrl(
 }
 
 AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::ClientUpdateUserTitleDisplayName(
+    SharedPtr<TitlePlayer> entity,
     const PFAccountManagementClientUpdateUserTitleDisplayNameRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Client/UpdateUserTitleDisplayName" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto sessionTicket{ m_tokens->SessionTicket() };
-    if (sessionTicket.empty())
+    auto sessionTicket{ entity->SessionTicket() };
+    if (!sessionTicket || sessionTicket->empty()) 
     {
         return E_PF_NOSESSIONTICKET;
     }
-    headers.emplace("X-Authorization", std::move(sessionTicket));
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Client/UpdateUserTitleDisplayName" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
+
+    auto requestOp = entity->HttpClient()->MakeClassicRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2779,25 +2884,25 @@ AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::ClientUpdateUser
 }
 
 AsyncOp<void> AccountManagementAPI::ServerAddGenericID(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerAddGenericIDRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/AddGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/AddGenericID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2818,25 +2923,25 @@ AsyncOp<void> AccountManagementAPI::ServerAddGenericID(
 }
 
 AsyncOp<BanUsersResult> AccountManagementAPI::ServerBanUsers(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementBanUsersRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/BanUsers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/BanUsers" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2859,25 +2964,25 @@ AsyncOp<BanUsersResult> AccountManagementAPI::ServerBanUsers(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerDeletePlayer(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementDeletePlayerRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/DeletePlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/DeletePlayer" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2898,25 +3003,25 @@ AsyncOp<void> AccountManagementAPI::ServerDeletePlayer(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerDeletePushNotificationTemplate(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementDeletePushNotificationTemplateRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/DeletePushNotificationTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/DeletePushNotificationTemplate" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2937,25 +3042,25 @@ AsyncOp<void> AccountManagementAPI::ServerDeletePushNotificationTemplate(
 }
 
 AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ServerGetPlayerProfile(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayerProfileRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayerProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayerProfile" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -2978,25 +3083,25 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ServerGetPlayerProfile(
 }
 
 AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromFacebookIDs(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromFacebookIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromFacebookIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3019,25 +3124,25 @@ AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ServerGetPlayF
 }
 
 AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::ServerGetPlayFabIDsFromFacebookInstantGamesIds(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromFacebookInstantGamesIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromFacebookInstantGamesIds" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3060,25 +3165,25 @@ AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::Se
 }
 
 AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromGenericIDs(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromGenericIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromGenericIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3101,25 +3206,25 @@ AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ServerGetPlayFa
 }
 
 AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::ServerGetPlayFabIDsFromNintendoSwitchDeviceIds(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromNintendoSwitchDeviceIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromNintendoSwitchDeviceIds" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3142,25 +3247,25 @@ AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::Se
 }
 
 AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromPSNAccountIDs(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromPSNAccountIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromPSNAccountIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3183,25 +3288,25 @@ AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ServerGetPla
 }
 
 AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromSteamIDs(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromSteamIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromSteamIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3224,25 +3329,25 @@ AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ServerGetPlayFabI
 }
 
 AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromXboxLiveIDs(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetPlayFabIDsFromXboxLiveIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetPlayFabIDsFromXboxLiveIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3265,25 +3370,25 @@ AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ServerGetPlayF
 }
 
 AsyncOp<GetServerCustomIDsFromPlayFabIDsResult> AccountManagementAPI::ServerGetServerCustomIDsFromPlayFabIDs(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetServerCustomIDsFromPlayFabIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetServerCustomIDsFromPlayFabIDs" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3306,25 +3411,25 @@ AsyncOp<GetServerCustomIDsFromPlayFabIDsResult> AccountManagementAPI::ServerGetS
 }
 
 AsyncOp<GetUserAccountInfoResult> AccountManagementAPI::ServerGetUserAccountInfo(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetUserAccountInfoRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetUserAccountInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetUserAccountInfo" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3347,25 +3452,25 @@ AsyncOp<GetUserAccountInfoResult> AccountManagementAPI::ServerGetUserAccountInfo
 }
 
 AsyncOp<GetUserBansResult> AccountManagementAPI::ServerGetUserBans(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementGetUserBansRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/GetUserBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/GetUserBans" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3388,25 +3493,25 @@ AsyncOp<GetUserBansResult> AccountManagementAPI::ServerGetUserBans(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerLinkPSNAccount(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerLinkPSNAccountRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/LinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/LinkPSNAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3427,25 +3532,25 @@ AsyncOp<void> AccountManagementAPI::ServerLinkPSNAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerLinkServerCustomId(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementLinkServerCustomIdRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/LinkServerCustomId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/LinkServerCustomId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3466,25 +3571,25 @@ AsyncOp<void> AccountManagementAPI::ServerLinkServerCustomId(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerLinkXboxAccount(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerLinkXboxAccountRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/LinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/LinkXboxAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3505,25 +3610,25 @@ AsyncOp<void> AccountManagementAPI::ServerLinkXboxAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerRemoveGenericID(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerRemoveGenericIDRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RemoveGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RemoveGenericID" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3544,25 +3649,25 @@ AsyncOp<void> AccountManagementAPI::ServerRemoveGenericID(
 }
 
 AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::ServerRevokeAllBansForUser(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementRevokeAllBansForUserRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RevokeAllBansForUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RevokeAllBansForUser" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3585,25 +3690,25 @@ AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::ServerRevokeAllBansFor
 }
 
 AsyncOp<RevokeBansResult> AccountManagementAPI::ServerRevokeBans(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementRevokeBansRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/RevokeBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/RevokeBans" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3626,25 +3731,25 @@ AsyncOp<RevokeBansResult> AccountManagementAPI::ServerRevokeBans(
 }
 
 AsyncOp<SavePushNotificationTemplateResult> AccountManagementAPI::ServerSavePushNotificationTemplate(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementSavePushNotificationTemplateRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SavePushNotificationTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SavePushNotificationTemplate" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3667,25 +3772,25 @@ AsyncOp<SavePushNotificationTemplateResult> AccountManagementAPI::ServerSavePush
 }
 
 AsyncOp<void> AccountManagementAPI::ServerSendCustomAccountRecoveryEmail(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementSendCustomAccountRecoveryEmailRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SendCustomAccountRecoveryEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SendCustomAccountRecoveryEmail" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3706,25 +3811,25 @@ AsyncOp<void> AccountManagementAPI::ServerSendCustomAccountRecoveryEmail(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerSendEmailFromTemplate(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementSendEmailFromTemplateRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SendEmailFromTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SendEmailFromTemplate" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3745,25 +3850,25 @@ AsyncOp<void> AccountManagementAPI::ServerSendEmailFromTemplate(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerSendPushNotification(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementSendPushNotificationRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SendPushNotification" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SendPushNotification" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3784,25 +3889,25 @@ AsyncOp<void> AccountManagementAPI::ServerSendPushNotification(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerSendPushNotificationFromTemplate(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementSendPushNotificationFromTemplateRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/SendPushNotificationFromTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/SendPushNotificationFromTemplate" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3823,25 +3928,25 @@ AsyncOp<void> AccountManagementAPI::ServerSendPushNotificationFromTemplate(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerUnlinkPSNAccount(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerUnlinkPSNAccountRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UnlinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UnlinkPSNAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3862,25 +3967,25 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkPSNAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerUnlinkServerCustomId(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementUnlinkServerCustomIdRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UnlinkServerCustomId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UnlinkServerCustomId" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3901,25 +4006,25 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkServerCustomId(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerUnlinkXboxAccount(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerUnlinkXboxAccountRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UnlinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UnlinkXboxAccount" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3940,25 +4045,25 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkXboxAccount(
 }
 
 AsyncOp<void> AccountManagementAPI::ServerUpdateAvatarUrl(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementServerUpdateAvatarUrlRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateAvatarUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateAvatarUrl" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -3979,25 +4084,25 @@ AsyncOp<void> AccountManagementAPI::ServerUpdateAvatarUrl(
 }
 
 AsyncOp<UpdateBansResult> AccountManagementAPI::ServerUpdateBans(
+    SharedPtr<GlobalState const> state,
     const PFAccountManagementUpdateBansRequest& request,
-    SharedPtr<String const> secretKey,
-    SharedPtr<HttpClient const> httpClient,
     const TaskQueue& queue
 )
 {
-    const char* path{ "/Server/UpdateBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    if (secretKey == nullptr || secretKey->empty())
+    auto secretKey{ state->SecretKey() };
+    if (!secretKey || secretKey->empty())
     {
         return E_PF_NOSECRETKEY;
     }
-    headers.emplace("X-SecretKey", *secretKey);
 
-    auto requestOp = httpClient->MakePostRequest(
+    const char* path{ "/Server/UpdateBans" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
+
+    auto requestOp = state->HttpClient()->MakePostRequest(
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4020,24 +4125,26 @@ AsyncOp<UpdateBansResult> AccountManagementAPI::ServerUpdateBans(
 }
 
 AsyncOp<GetGlobalPolicyResponse> AccountManagementAPI::GetGlobalPolicy(
+    SharedPtr<Entity> entity,
     const PFAccountManagementGetGlobalPolicyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/GetGlobalPolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/GetGlobalPolicy" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4060,24 +4167,26 @@ AsyncOp<GetGlobalPolicyResponse> AccountManagementAPI::GetGlobalPolicy(
 }
 
 AsyncOp<GetEntityProfileResponse> AccountManagementAPI::GetProfile(
+    SharedPtr<Entity> entity,
     const PFAccountManagementGetEntityProfileRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/GetProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/GetProfile" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4100,24 +4209,26 @@ AsyncOp<GetEntityProfileResponse> AccountManagementAPI::GetProfile(
 }
 
 AsyncOp<GetEntityProfilesResponse> AccountManagementAPI::GetProfiles(
+    SharedPtr<Entity> entity,
     const PFAccountManagementGetEntityProfilesRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/GetProfiles" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/GetProfiles" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4140,24 +4251,26 @@ AsyncOp<GetEntityProfilesResponse> AccountManagementAPI::GetProfiles(
 }
 
 AsyncOp<GetTitlePlayersFromMasterPlayerAccountIdsResponse> AccountManagementAPI::GetTitlePlayersFromMasterPlayerAccountIds(
+    SharedPtr<Entity> entity,
     const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/GetTitlePlayersFromMasterPlayerAccountIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/GetTitlePlayersFromMasterPlayerAccountIds" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4180,24 +4293,26 @@ AsyncOp<GetTitlePlayersFromMasterPlayerAccountIdsResponse> AccountManagementAPI:
 }
 
 AsyncOp<void> AccountManagementAPI::SetGlobalPolicy(
+    SharedPtr<Entity> entity,
     const PFAccountManagementSetGlobalPolicyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/SetGlobalPolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/SetGlobalPolicy" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4218,24 +4333,26 @@ AsyncOp<void> AccountManagementAPI::SetGlobalPolicy(
 }
 
 AsyncOp<SetProfileLanguageResponse> AccountManagementAPI::SetProfileLanguage(
+    SharedPtr<Entity> entity,
     const PFAccountManagementSetProfileLanguageRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/SetProfileLanguage" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/SetProfileLanguage" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 
@@ -4258,24 +4375,26 @@ AsyncOp<SetProfileLanguageResponse> AccountManagementAPI::SetProfileLanguage(
 }
 
 AsyncOp<SetEntityProfilePolicyResponse> AccountManagementAPI::SetProfilePolicy(
+    SharedPtr<Entity> entity,
     const PFAccountManagementSetEntityProfilePolicyRequest& request,
     const TaskQueue& queue
-) const
+)
 {
-    const char* path{ "/Profile/SetProfilePolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
-    UnorderedMap<String, String> headers;
-    auto& entityToken{ m_tokens->EntityToken() };
-    if (!entityToken.token)
+    auto entityToken{ entity->EntityToken() };
+    if (!entityToken || !entityToken->token) 
     {
         return E_PF_NOENTITYTOKEN;
     }
-    headers.emplace("X-EntityToken", entityToken.token);
 
-    auto requestOp = m_httpClient->MakePostRequest(
+    const char* path{ "/Profile/SetProfilePolicy" };
+    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
+
+    auto requestOp = entity->HttpClient()->MakeEntityRequest(
+        entity,
         path,
-        headers,
-        requestBody,
+        std::move(headers),
+        std::move(requestBody),
         queue
     );
 

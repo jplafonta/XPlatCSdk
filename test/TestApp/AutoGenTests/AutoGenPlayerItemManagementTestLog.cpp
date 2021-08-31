@@ -9,8 +9,6 @@ uint32_t g_PlayerItemManagementTestIndex = 1;
 namespace PlayFabUnit
 {
 
- 
-
 void AutoGenPlayerItemManagementTests::LogAdminAddUserVirtualCurrencyRequest( PlayFab::PlayerItemManagementModels::AdminAddUserVirtualCurrencyRequest* request, const char* testName )
 {
     if( !TestApp::ShouldTrace(PFTestTraceLevel::Information) )

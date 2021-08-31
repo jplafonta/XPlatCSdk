@@ -8,6 +8,8 @@
 namespace PlayFabUnit
 {
 
+AutoGenMatchmakingTests::MatchmakingTestData AutoGenMatchmakingTests::testData;
+
 void AutoGenMatchmakingTests::Log(std::stringstream& ss)
 {
     TestApp::LogPut(ss.str().c_str());
@@ -27,42 +29,73 @@ HRESULT AutoGenMatchmakingTests::LogHR(HRESULT hr)
 
 void AutoGenMatchmakingTests::AddTests()
 {
-    // Generated prerequisites
-
     // Generated tests 
     AddTest("TestMatchmakingAdminGetMatchmakerGameInfo", &AutoGenMatchmakingTests::TestMatchmakingAdminGetMatchmakerGameInfo);
+
     AddTest("TestMatchmakingAdminGetMatchmakerGameModes", &AutoGenMatchmakingTests::TestMatchmakingAdminGetMatchmakerGameModes);
+
     AddTest("TestMatchmakingAdminModifyMatchmakerGameModes", &AutoGenMatchmakingTests::TestMatchmakingAdminModifyMatchmakerGameModes);
+
     AddTest("TestMatchmakingClientGetCurrentGames", &AutoGenMatchmakingTests::TestMatchmakingClientGetCurrentGames);
+
     AddTest("TestMatchmakingClientGetGameServerRegions", &AutoGenMatchmakingTests::TestMatchmakingClientGetGameServerRegions);
+
     AddTest("TestMatchmakingClientMatchmake", &AutoGenMatchmakingTests::TestMatchmakingClientMatchmake);
+
     AddTest("TestMatchmakingClientStartGame", &AutoGenMatchmakingTests::TestMatchmakingClientStartGame);
+
     AddTest("TestMatchmakingAuthUser", &AutoGenMatchmakingTests::TestMatchmakingAuthUser);
+
     AddTest("TestMatchmakingPlayerJoined", &AutoGenMatchmakingTests::TestMatchmakingPlayerJoined);
+
     AddTest("TestMatchmakingPlayerLeft", &AutoGenMatchmakingTests::TestMatchmakingPlayerLeft);
+
     AddTest("TestMatchmakingStartGame", &AutoGenMatchmakingTests::TestMatchmakingStartGame);
+
     AddTest("TestMatchmakingUserInfo", &AutoGenMatchmakingTests::TestMatchmakingUserInfo);
+
     AddTest("TestMatchmakingServerDeregisterGame", &AutoGenMatchmakingTests::TestMatchmakingServerDeregisterGame);
+
     AddTest("TestMatchmakingServerNotifyMatchmakerPlayerLeft", &AutoGenMatchmakingTests::TestMatchmakingServerNotifyMatchmakerPlayerLeft);
+
     AddTest("TestMatchmakingServerRedeemMatchmakerTicket", &AutoGenMatchmakingTests::TestMatchmakingServerRedeemMatchmakerTicket);
+
     AddTest("TestMatchmakingServerRefreshGameServerInstanceHeartbeat", &AutoGenMatchmakingTests::TestMatchmakingServerRefreshGameServerInstanceHeartbeat);
+
     AddTest("TestMatchmakingServerRegisterGame", &AutoGenMatchmakingTests::TestMatchmakingServerRegisterGame);
+
     AddTest("TestMatchmakingServerSetGameServerInstanceData", &AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceData);
+
     AddTest("TestMatchmakingServerSetGameServerInstanceState", &AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceState);
+
     AddTest("TestMatchmakingServerSetGameServerInstanceTags", &AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceTags);
+
     AddTest("TestMatchmakingCancelAllMatchmakingTicketsForPlayer", &AutoGenMatchmakingTests::TestMatchmakingCancelAllMatchmakingTicketsForPlayer);
+
     AddTest("TestMatchmakingCancelAllServerBackfillTicketsForPlayer", &AutoGenMatchmakingTests::TestMatchmakingCancelAllServerBackfillTicketsForPlayer);
+
     AddTest("TestMatchmakingCancelMatchmakingTicket", &AutoGenMatchmakingTests::TestMatchmakingCancelMatchmakingTicket);
+
     AddTest("TestMatchmakingCancelServerBackfillTicket", &AutoGenMatchmakingTests::TestMatchmakingCancelServerBackfillTicket);
+
     AddTest("TestMatchmakingCreateMatchmakingTicket", &AutoGenMatchmakingTests::TestMatchmakingCreateMatchmakingTicket);
+
     AddTest("TestMatchmakingCreateServerBackfillTicket", &AutoGenMatchmakingTests::TestMatchmakingCreateServerBackfillTicket);
+
     AddTest("TestMatchmakingCreateServerMatchmakingTicket", &AutoGenMatchmakingTests::TestMatchmakingCreateServerMatchmakingTicket);
+
     AddTest("TestMatchmakingGetMatch", &AutoGenMatchmakingTests::TestMatchmakingGetMatch);
+
     AddTest("TestMatchmakingGetMatchmakingTicket", &AutoGenMatchmakingTests::TestMatchmakingGetMatchmakingTicket);
+
     AddTest("TestMatchmakingGetQueueStatistics", &AutoGenMatchmakingTests::TestMatchmakingGetQueueStatistics);
+
     AddTest("TestMatchmakingGetServerBackfillTicket", &AutoGenMatchmakingTests::TestMatchmakingGetServerBackfillTicket);
+
     AddTest("TestMatchmakingJoinMatchmakingTicket", &AutoGenMatchmakingTests::TestMatchmakingJoinMatchmakingTicket);
+
     AddTest("TestMatchmakingListMatchmakingTicketsForPlayer", &AutoGenMatchmakingTests::TestMatchmakingListMatchmakingTicketsForPlayer);
+
     AddTest("TestMatchmakingListServerBackfillTicketsForPlayer", &AutoGenMatchmakingTests::TestMatchmakingListServerBackfillTicketsForPlayer);
 }
 
@@ -101,10 +134,52 @@ void AutoGenMatchmakingTests::ClassSetUp()
             assert(SUCCEEDED(hr));
             if (SUCCEEDED(hr))
             {
-                hr = PFAuthenticationClientLoginGetResult(&async, &entityHandle);
-                assert(SUCCEEDED(hr) && entityHandle != nullptr);
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle);
+                assert(SUCCEEDED(hr) && titlePlayerHandle);
 
-                hr = PFEntityGetPlayerCombinedInfo(entityHandle, &playerCombinedInfo);
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle, &entityHandle);
+                assert(SUCCEEDED(hr) && entityHandle);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle, &playerCombinedInfo);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        request.customId = "CustomId2";
+        async = {};
+        hr = PFAuthenticationClientLoginWithCustomIDAsync(stateHandle, &request, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationClientLoginGetResult(&async, &titlePlayerHandle2);
+                assert(SUCCEEDED(hr) && titlePlayerHandle2);
+
+                hr = PFTitlePlayerGetEntityHandle(titlePlayerHandle2, &entityHandle2);
+                assert(SUCCEEDED(hr) && entityHandle2);
+
+                hr = PFTitlePlayerGetPlayerCombinedInfo(titlePlayerHandle2, &playerCombinedInfo2);
+                assert(SUCCEEDED(hr));
+            }
+        }
+
+        PFAuthenticationGetEntityTokenRequest titleTokenRequest{};
+        async = {};
+        hr = PFAuthenticationGetEntityTokenAsync(stateHandle, &titleTokenRequest, &async);
+        assert(SUCCEEDED(hr));
+        if (SUCCEEDED(hr))
+        {
+            // Synchronously what for login to complete
+            hr = XAsyncGetStatus(&async, true);
+            assert(SUCCEEDED(hr));
+            
+            if (SUCCEEDED(hr))
+            {
+                hr = PFAuthenticationGetEntityTokenGetResult(&async, &titleEntityHandle);
                 assert(SUCCEEDED(hr));
             }
         }
@@ -113,10 +188,12 @@ void AutoGenMatchmakingTests::ClassSetUp()
 
 void AutoGenMatchmakingTests::ClassTearDown()
 {
+    PFTitlePlayerCloseHandle(titlePlayerHandle);
     PFEntityCloseHandle(entityHandle);
+    PFEntityCloseHandle(titleEntityHandle);
 
     XAsyncBlock async{};
-    HRESULT hr = PFCleanupAsync(stateHandle, &async);
+    HRESULT hr = PFUninitializeAsync(stateHandle, &async);
     assert(SUCCEEDED(hr));
 
     hr = XAsyncGetStatus(&async, true);
@@ -135,6 +212,8 @@ void AutoGenMatchmakingTests::SetUp(TestContext& testContext)
 
 }
 
+
+#pragma region AdminGetMatchmakerGameInfo
 
 void AutoGenMatchmakingTests::TestMatchmakingAdminGetMatchmakerGameInfo(TestContext& testContext)
 {
@@ -165,7 +244,12 @@ void AutoGenMatchmakingTests::TestMatchmakingAdminGetMatchmakerGameInfo(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminGetMatchmakerGameModes
+
 void AutoGenMatchmakingTests::TestMatchmakingAdminGetMatchmakerGameModes(TestContext& testContext)
 {
     struct AdminGetMatchmakerGameModesResult : public XAsyncResult
@@ -195,7 +279,12 @@ void AutoGenMatchmakingTests::TestMatchmakingAdminGetMatchmakerGameModes(TestCon
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AdminModifyMatchmakerGameModes
+
 void AutoGenMatchmakingTests::TestMatchmakingAdminModifyMatchmakerGameModes(TestContext& testContext)
 {
     struct AdminModifyMatchmakerGameModesResult : public XAsyncResult
@@ -224,7 +313,12 @@ void AutoGenMatchmakingTests::TestMatchmakingAdminModifyMatchmakerGameModes(Test
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetCurrentGames
+
 void AutoGenMatchmakingTests::TestMatchmakingClientGetCurrentGames(TestContext& testContext)
 {
     struct ClientGetCurrentGamesResult : public XAsyncResult
@@ -247,14 +341,19 @@ void AutoGenMatchmakingTests::TestMatchmakingClientGetCurrentGames(TestContext& 
     PlayFab::MatchmakingModels::CurrentGamesRequest request;
     FillCurrentGamesRequest( &request );
     LogCurrentGamesRequest( &request, "TestMatchmakingClientGetCurrentGames" );
-    HRESULT hr = PFMatchmakingClientGetCurrentGamesAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFMatchmakingClientGetCurrentGamesAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFMatchmakingMatchmakingClientGetCurrentGamesAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientGetGameServerRegions
+
 void AutoGenMatchmakingTests::TestMatchmakingClientGetGameServerRegions(TestContext& testContext)
 {
     struct ClientGetGameServerRegionsResult : public XAsyncResult
@@ -277,14 +376,19 @@ void AutoGenMatchmakingTests::TestMatchmakingClientGetGameServerRegions(TestCont
     PlayFab::MatchmakingModels::GameServerRegionsRequest request;
     FillGameServerRegionsRequest( &request );
     LogGameServerRegionsRequest( &request, "TestMatchmakingClientGetGameServerRegions" );
-    HRESULT hr = PFMatchmakingClientGetGameServerRegionsAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFMatchmakingClientGetGameServerRegionsAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFMatchmakingMatchmakingClientGetGameServerRegionsAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientMatchmake
+
 void AutoGenMatchmakingTests::TestMatchmakingClientMatchmake(TestContext& testContext)
 {
     struct ClientMatchmakeResult : public XAsyncResult
@@ -307,14 +411,19 @@ void AutoGenMatchmakingTests::TestMatchmakingClientMatchmake(TestContext& testCo
     PlayFab::MatchmakingModels::MatchmakeRequest request;
     FillMatchmakeRequest( &request );
     LogMatchmakeRequest( &request, "TestMatchmakingClientMatchmake" );
-    HRESULT hr = PFMatchmakingClientMatchmakeAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFMatchmakingClientMatchmakeAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFMatchmakingMatchmakingClientMatchmakeAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ClientStartGame
+
 void AutoGenMatchmakingTests::TestMatchmakingClientStartGame(TestContext& testContext)
 {
     struct ClientStartGameResult : public XAsyncResult
@@ -337,14 +446,19 @@ void AutoGenMatchmakingTests::TestMatchmakingClientStartGame(TestContext& testCo
     PlayFab::MatchmakingModels::ClientStartGameRequest request;
     FillClientStartGameRequest( &request );
     LogClientStartGameRequest( &request, "TestMatchmakingClientStartGame" );
-    HRESULT hr = PFMatchmakingClientStartGameAsync(entityHandle, &request, &async->asyncBlock); 
+    HRESULT hr = PFMatchmakingClientStartGameAsync(titlePlayerHandle, &request, &async->asyncBlock); 
     if (FAILED(hr))
     {
         testContext.Fail("PFMatchmakingMatchmakingClientStartGameAsync", hr);
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region AuthUser
+
 void AutoGenMatchmakingTests::TestMatchmakingAuthUser(TestContext& testContext)
 {
     struct AuthUserResult : public XAsyncResult
@@ -378,7 +492,12 @@ void AutoGenMatchmakingTests::TestMatchmakingAuthUser(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region PlayerJoined
+
 void AutoGenMatchmakingTests::TestMatchmakingPlayerJoined(TestContext& testContext)
 {
     struct PlayerJoinedResult : public XAsyncResult
@@ -407,7 +526,12 @@ void AutoGenMatchmakingTests::TestMatchmakingPlayerJoined(TestContext& testConte
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region PlayerLeft
+
 void AutoGenMatchmakingTests::TestMatchmakingPlayerLeft(TestContext& testContext)
 {
     struct PlayerLeftResult : public XAsyncResult
@@ -436,7 +560,12 @@ void AutoGenMatchmakingTests::TestMatchmakingPlayerLeft(TestContext& testContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region StartGame
+
 void AutoGenMatchmakingTests::TestMatchmakingStartGame(TestContext& testContext)
 {
     struct StartGameResult : public XAsyncResult
@@ -470,7 +599,12 @@ void AutoGenMatchmakingTests::TestMatchmakingStartGame(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region UserInfo
+
 void AutoGenMatchmakingTests::TestMatchmakingUserInfo(TestContext& testContext)
 {
     struct UserInfoResult : public XAsyncResult
@@ -500,7 +634,12 @@ void AutoGenMatchmakingTests::TestMatchmakingUserInfo(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerDeregisterGame
+
 void AutoGenMatchmakingTests::TestMatchmakingServerDeregisterGame(TestContext& testContext)
 {
     struct ServerDeregisterGameResult : public XAsyncResult
@@ -529,7 +668,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerDeregisterGame(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerNotifyMatchmakerPlayerLeft
+
 void AutoGenMatchmakingTests::TestMatchmakingServerNotifyMatchmakerPlayerLeft(TestContext& testContext)
 {
     struct ServerNotifyMatchmakerPlayerLeftResult : public XAsyncResult
@@ -559,7 +703,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerNotifyMatchmakerPlayerLeft(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRedeemMatchmakerTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingServerRedeemMatchmakerTicket(TestContext& testContext)
 {
     struct ServerRedeemMatchmakerTicketResult : public XAsyncResult
@@ -589,7 +738,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerRedeemMatchmakerTicket(TestCo
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRefreshGameServerInstanceHeartbeat
+
 void AutoGenMatchmakingTests::TestMatchmakingServerRefreshGameServerInstanceHeartbeat(TestContext& testContext)
 {
     struct ServerRefreshGameServerInstanceHeartbeatResult : public XAsyncResult
@@ -618,7 +772,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerRefreshGameServerInstanceHear
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerRegisterGame
+
 void AutoGenMatchmakingTests::TestMatchmakingServerRegisterGame(TestContext& testContext)
 {
     struct ServerRegisterGameResult : public XAsyncResult
@@ -652,7 +811,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerRegisterGame(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetGameServerInstanceData
+
 void AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceData(TestContext& testContext)
 {
     struct ServerSetGameServerInstanceDataResult : public XAsyncResult
@@ -681,7 +845,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceData(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetGameServerInstanceState
+
 void AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceState(TestContext& testContext)
 {
     struct ServerSetGameServerInstanceStateResult : public XAsyncResult
@@ -710,7 +879,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceState(Te
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ServerSetGameServerInstanceTags
+
 void AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceTags(TestContext& testContext)
 {
     struct ServerSetGameServerInstanceTagsResult : public XAsyncResult
@@ -739,7 +913,12 @@ void AutoGenMatchmakingTests::TestMatchmakingServerSetGameServerInstanceTags(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CancelAllMatchmakingTicketsForPlayer
+
 void AutoGenMatchmakingTests::TestMatchmakingCancelAllMatchmakingTicketsForPlayer(TestContext& testContext)
 {
     struct CancelAllMatchmakingTicketsForPlayerResult : public XAsyncResult
@@ -768,7 +947,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCancelAllMatchmakingTicketsForPlaye
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CancelAllServerBackfillTicketsForPlayer
+
 void AutoGenMatchmakingTests::TestMatchmakingCancelAllServerBackfillTicketsForPlayer(TestContext& testContext)
 {
     struct CancelAllServerBackfillTicketsForPlayerResult : public XAsyncResult
@@ -797,7 +981,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCancelAllServerBackfillTicketsForPl
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CancelMatchmakingTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingCancelMatchmakingTicket(TestContext& testContext)
 {
     struct CancelMatchmakingTicketResult : public XAsyncResult
@@ -826,7 +1015,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCancelMatchmakingTicket(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CancelServerBackfillTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingCancelServerBackfillTicket(TestContext& testContext)
 {
     struct CancelServerBackfillTicketResult : public XAsyncResult
@@ -855,7 +1049,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCancelServerBackfillTicket(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateMatchmakingTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingCreateMatchmakingTicket(TestContext& testContext)
 {
     struct CreateMatchmakingTicketResult : public XAsyncResult
@@ -889,7 +1088,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCreateMatchmakingTicket(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateServerBackfillTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingCreateServerBackfillTicket(TestContext& testContext)
 {
     struct CreateServerBackfillTicketResult : public XAsyncResult
@@ -923,7 +1127,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCreateServerBackfillTicket(TestCont
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region CreateServerMatchmakingTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingCreateServerMatchmakingTicket(TestContext& testContext)
 {
     struct CreateServerMatchmakingTicketResult : public XAsyncResult
@@ -957,7 +1166,12 @@ void AutoGenMatchmakingTests::TestMatchmakingCreateServerMatchmakingTicket(TestC
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetMatch
+
 void AutoGenMatchmakingTests::TestMatchmakingGetMatch(TestContext& testContext)
 {
     struct GetMatchResult : public XAsyncResult
@@ -987,7 +1201,12 @@ void AutoGenMatchmakingTests::TestMatchmakingGetMatch(TestContext& testContext)
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetMatchmakingTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingGetMatchmakingTicket(TestContext& testContext)
 {
     struct GetMatchmakingTicketResult : public XAsyncResult
@@ -1017,7 +1236,12 @@ void AutoGenMatchmakingTests::TestMatchmakingGetMatchmakingTicket(TestContext& t
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetQueueStatistics
+
 void AutoGenMatchmakingTests::TestMatchmakingGetQueueStatistics(TestContext& testContext)
 {
     struct GetQueueStatisticsResult : public XAsyncResult
@@ -1047,7 +1271,12 @@ void AutoGenMatchmakingTests::TestMatchmakingGetQueueStatistics(TestContext& tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region GetServerBackfillTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingGetServerBackfillTicket(TestContext& testContext)
 {
     struct GetServerBackfillTicketResult : public XAsyncResult
@@ -1077,7 +1306,12 @@ void AutoGenMatchmakingTests::TestMatchmakingGetServerBackfillTicket(TestContext
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region JoinMatchmakingTicket
+
 void AutoGenMatchmakingTests::TestMatchmakingJoinMatchmakingTicket(TestContext& testContext)
 {
     struct JoinMatchmakingTicketResult : public XAsyncResult
@@ -1106,7 +1340,12 @@ void AutoGenMatchmakingTests::TestMatchmakingJoinMatchmakingTicket(TestContext& 
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListMatchmakingTicketsForPlayer
+
 void AutoGenMatchmakingTests::TestMatchmakingListMatchmakingTicketsForPlayer(TestContext& testContext)
 {
     struct ListMatchmakingTicketsForPlayerResult : public XAsyncResult
@@ -1136,7 +1375,12 @@ void AutoGenMatchmakingTests::TestMatchmakingListMatchmakingTicketsForPlayer(Tes
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
+#pragma region ListServerBackfillTicketsForPlayer
+
 void AutoGenMatchmakingTests::TestMatchmakingListServerBackfillTicketsForPlayer(TestContext& testContext)
 {
     struct ListServerBackfillTicketsForPlayerResult : public XAsyncResult
@@ -1166,6 +1410,9 @@ void AutoGenMatchmakingTests::TestMatchmakingListServerBackfillTicketsForPlayer(
         return;
     }
     async.release(); 
-} 
+}
+
+#pragma endregion
+
 
 }

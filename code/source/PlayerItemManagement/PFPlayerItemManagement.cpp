@@ -17,7 +17,7 @@ HRESULT PFPlayerItemManagementAdminAddUserVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminAddUserVirtualCurrency, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminAddUserVirtualCurrency, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -54,7 +54,7 @@ HRESULT PFPlayerItemManagementAdminCheckLimitedEditionItemAvailabilityAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminCheckLimitedEditionItemAvailability, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminCheckLimitedEditionItemAvailability, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -75,7 +75,7 @@ HRESULT PFPlayerItemManagementAdminGetUserInventoryAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminGetUserInventory, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminGetUserInventory, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -102,7 +102,7 @@ HRESULT PFPlayerItemManagementAdminGrantItemsToUsersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminGrantItemsToUsers, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminGrantItemsToUsers, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -129,7 +129,7 @@ HRESULT PFPlayerItemManagementAdminIncrementLimitedEditionItemAvailabilityAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminIncrementLimitedEditionItemAvailability, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminIncrementLimitedEditionItemAvailability, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -142,7 +142,7 @@ HRESULT PFPlayerItemManagementAdminRevokeInventoryItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminRevokeInventoryItem, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminRevokeInventoryItem, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -155,7 +155,7 @@ HRESULT PFPlayerItemManagementAdminRevokeInventoryItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminRevokeInventoryItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminRevokeInventoryItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -182,7 +182,7 @@ HRESULT PFPlayerItemManagementAdminSubtractUserVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminSubtractUserVirtualCurrency, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::AdminSubtractUserVirtualCurrency, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -211,7 +211,7 @@ HRESULT PFPlayerItemManagementAdminSubtractUserVirtualCurrencyGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -219,7 +219,7 @@ HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientAddUserVirtualCurrency, &contextHandle->entity->playerItemManagementAPI, ClientAddUserVirtualCurrencyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientAddUserVirtualCurrency, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -248,7 +248,7 @@ HRESULT PFPlayerItemManagementClientAddUserVirtualCurrencyGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientConfirmPurchaseAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementConfirmPurchaseRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -256,7 +256,7 @@ HRESULT PFPlayerItemManagementClientConfirmPurchaseAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientConfirmPurchase, &contextHandle->entity->playerItemManagementAPI, ConfirmPurchaseRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientConfirmPurchase, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -275,7 +275,7 @@ HRESULT PFPlayerItemManagementClientConfirmPurchaseGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientConsumeItemAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientConsumeItemRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -283,7 +283,7 @@ HRESULT PFPlayerItemManagementClientConsumeItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientConsumeItem, &contextHandle->entity->playerItemManagementAPI, ClientConsumeItemRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientConsumeItem, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -312,7 +312,7 @@ HRESULT PFPlayerItemManagementClientConsumeItemGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientGetCharacterInventoryAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientGetCharacterInventoryRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -320,7 +320,7 @@ HRESULT PFPlayerItemManagementClientGetCharacterInventoryAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientGetCharacterInventory, &contextHandle->entity->playerItemManagementAPI, ClientGetCharacterInventoryRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientGetCharacterInventory, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -339,7 +339,7 @@ HRESULT PFPlayerItemManagementClientGetCharacterInventoryGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientGetPaymentTokenAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementGetPaymentTokenRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -347,7 +347,7 @@ HRESULT PFPlayerItemManagementClientGetPaymentTokenAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientGetPaymentToken, &contextHandle->entity->playerItemManagementAPI, GetPaymentTokenRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientGetPaymentToken, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -376,7 +376,7 @@ HRESULT PFPlayerItemManagementClientGetPaymentTokenGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientGetPurchaseAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementGetPurchaseRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -384,7 +384,7 @@ HRESULT PFPlayerItemManagementClientGetPurchaseAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientGetPurchase, &contextHandle->entity->playerItemManagementAPI, GetPurchaseRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientGetPurchase, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -413,7 +413,7 @@ HRESULT PFPlayerItemManagementClientGetPurchaseGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientGetUserInventoryAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientGetUserInventoryRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -421,7 +421,7 @@ HRESULT PFPlayerItemManagementClientGetUserInventoryAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientGetUserInventory, &contextHandle->entity->playerItemManagementAPI, ClientGetUserInventoryRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientGetUserInventory, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -440,7 +440,7 @@ HRESULT PFPlayerItemManagementClientGetUserInventoryGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientPayForPurchaseAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementPayForPurchaseRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -448,7 +448,7 @@ HRESULT PFPlayerItemManagementClientPayForPurchaseAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientPayForPurchase, &contextHandle->entity->playerItemManagementAPI, PayForPurchaseRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientPayForPurchase, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -467,7 +467,7 @@ HRESULT PFPlayerItemManagementClientPayForPurchaseGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientPurchaseItemAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementPurchaseItemRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -475,7 +475,7 @@ HRESULT PFPlayerItemManagementClientPurchaseItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientPurchaseItem, &contextHandle->entity->playerItemManagementAPI, PurchaseItemRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientPurchaseItem, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -494,7 +494,7 @@ HRESULT PFPlayerItemManagementClientPurchaseItemGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientRedeemCouponAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientRedeemCouponRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -502,7 +502,7 @@ HRESULT PFPlayerItemManagementClientRedeemCouponAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientRedeemCoupon, &contextHandle->entity->playerItemManagementAPI, ClientRedeemCouponRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientRedeemCoupon, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -521,7 +521,7 @@ HRESULT PFPlayerItemManagementClientRedeemCouponGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientStartPurchaseAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementStartPurchaseRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -529,7 +529,7 @@ HRESULT PFPlayerItemManagementClientStartPurchaseAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientStartPurchase, &contextHandle->entity->playerItemManagementAPI, StartPurchaseRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientStartPurchase, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -548,7 +548,7 @@ HRESULT PFPlayerItemManagementClientStartPurchaseGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -556,7 +556,7 @@ HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientSubtractUserVirtualCurrency, &contextHandle->entity->playerItemManagementAPI, ClientSubtractUserVirtualCurrencyRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientSubtractUserVirtualCurrency, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -585,7 +585,7 @@ HRESULT PFPlayerItemManagementClientSubtractUserVirtualCurrencyGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientUnlockContainerInstanceAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientUnlockContainerInstanceRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -593,7 +593,7 @@ HRESULT PFPlayerItemManagementClientUnlockContainerInstanceAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientUnlockContainerInstance, &contextHandle->entity->playerItemManagementAPI, ClientUnlockContainerInstanceRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientUnlockContainerInstance, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -612,7 +612,7 @@ HRESULT PFPlayerItemManagementClientUnlockContainerInstanceGetResult(
 }
 
 HRESULT PFPlayerItemManagementClientUnlockContainerItemAsync(
-    _In_ PFEntityHandle contextHandle,
+    _In_ PFTitlePlayerHandle contextHandle,
     _In_ const PFPlayerItemManagementClientUnlockContainerItemRequest* request,
     _In_ XAsyncBlock* async
 ) noexcept
@@ -620,7 +620,7 @@ HRESULT PFPlayerItemManagementClientUnlockContainerItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeEntityProvider(async, __FUNCTION__, contextHandle->entity, std::bind(&PlayerItemManagementAPI::ClientUnlockContainerItem, &contextHandle->entity->playerItemManagementAPI, ClientUnlockContainerItemRequest{ *request }, std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ClientUnlockContainerItem, contextHandle->titlePlayer, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -647,7 +647,7 @@ HRESULT PFPlayerItemManagementServerAddCharacterVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerAddCharacterVirtualCurrency, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerAddCharacterVirtualCurrency, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -684,7 +684,7 @@ HRESULT PFPlayerItemManagementServerAddUserVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerAddUserVirtualCurrency, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerAddUserVirtualCurrency, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -721,7 +721,7 @@ HRESULT PFPlayerItemManagementServerConsumeItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerConsumeItem, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerConsumeItem, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -758,7 +758,7 @@ HRESULT PFPlayerItemManagementServerEvaluateRandomResultTableAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerEvaluateRandomResultTable, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerEvaluateRandomResultTable, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -795,7 +795,7 @@ HRESULT PFPlayerItemManagementServerGetCharacterInventoryAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGetCharacterInventory, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGetCharacterInventory, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -822,7 +822,7 @@ HRESULT PFPlayerItemManagementServerGetRandomResultTablesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGetRandomResultTables, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGetRandomResultTables, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -849,7 +849,7 @@ HRESULT PFPlayerItemManagementServerGetUserInventoryAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGetUserInventory, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGetUserInventory, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -876,7 +876,7 @@ HRESULT PFPlayerItemManagementServerGrantItemsToCharacterAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGrantItemsToCharacter, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGrantItemsToCharacter, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -903,7 +903,7 @@ HRESULT PFPlayerItemManagementServerGrantItemsToUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGrantItemsToUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGrantItemsToUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -930,7 +930,7 @@ HRESULT PFPlayerItemManagementServerGrantItemsToUsersAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGrantItemsToUsers, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerGrantItemsToUsers, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -957,7 +957,7 @@ HRESULT PFPlayerItemManagementServerModifyItemUsesAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerModifyItemUses, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerModifyItemUses, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -994,7 +994,7 @@ HRESULT PFPlayerItemManagementServerMoveItemToCharacterFromCharacterAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerMoveItemToCharacterFromCharacter, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerMoveItemToCharacterFromCharacter, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1007,7 +1007,7 @@ HRESULT PFPlayerItemManagementServerMoveItemToCharacterFromUserAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerMoveItemToCharacterFromUser, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerMoveItemToCharacterFromUser, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1020,7 +1020,7 @@ HRESULT PFPlayerItemManagementServerMoveItemToUserFromCharacterAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerMoveItemToUserFromCharacter, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerMoveItemToUserFromCharacter, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1033,7 +1033,7 @@ HRESULT PFPlayerItemManagementServerRedeemCouponAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerRedeemCoupon, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerRedeemCoupon, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1060,7 +1060,7 @@ HRESULT PFPlayerItemManagementServerReportPlayerAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerReportPlayer, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerReportPlayer, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1081,7 +1081,7 @@ HRESULT PFPlayerItemManagementServerRevokeInventoryItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerRevokeInventoryItem, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerRevokeInventoryItem, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1094,7 +1094,7 @@ HRESULT PFPlayerItemManagementServerRevokeInventoryItemsAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerRevokeInventoryItems, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerRevokeInventoryItems, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1121,7 +1121,7 @@ HRESULT PFPlayerItemManagementServerSubtractCharacterVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerSubtractCharacterVirtualCurrency, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerSubtractCharacterVirtualCurrency, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1158,7 +1158,7 @@ HRESULT PFPlayerItemManagementServerSubtractUserVirtualCurrencyAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerSubtractUserVirtualCurrency, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerSubtractUserVirtualCurrency, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1195,7 +1195,7 @@ HRESULT PFPlayerItemManagementServerUnlockContainerInstanceAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerUnlockContainerInstance, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerUnlockContainerInstance, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1222,7 +1222,7 @@ HRESULT PFPlayerItemManagementServerUnlockContainerItemAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerUnlockContainerItem, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerUnlockContainerItem, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
@@ -1249,7 +1249,7 @@ HRESULT PFPlayerItemManagementServerUpdateUserInventoryItemCustomDataAsync(
     RETURN_HR_INVALIDARG_IF_NULL(contextHandle);
     RETURN_HR_INVALIDARG_IF_NULL(request);
 
-    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerUpdateUserInventoryItemCustomData, *request, contextHandle->state->SecretKey(), contextHandle->state->HttpClient(), std::placeholders::_1));
+    auto provider = MakeProvider(async, __FUNCTION__, std::bind(&PlayerItemManagementAPI::ServerUpdateUserInventoryItemCustomData, contextHandle->state, *request, std::placeholders::_1));
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
