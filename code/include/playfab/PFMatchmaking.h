@@ -35,20 +35,34 @@ HRESULT PFMatchmakingAdminGetMatchmakerGameInfoAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetMatchmakerGameInfo call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingAdminGetMatchmakerGameInfoGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingAdminGetMatchmakerGameInfoAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingAdminGetMatchmakerGameInfoGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGetMatchmakerGameInfoResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGetMatchmakerGameInfoResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -75,20 +89,34 @@ HRESULT PFMatchmakingAdminGetMatchmakerGameModesAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetMatchmakerGameModes call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingAdminGetMatchmakerGameModesGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingAdminGetMatchmakerGameModesAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingAdminGetMatchmakerGameModesGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGetMatchmakerGameModesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGetMatchmakerGameModesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -139,20 +167,34 @@ HRESULT PFMatchmakingClientGetCurrentGamesAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetCurrentGames call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingClientGetCurrentGamesGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingClientGetCurrentGamesAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingClientGetCurrentGamesGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingCurrentGamesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingCurrentGamesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -177,20 +219,34 @@ HRESULT PFMatchmakingClientGetGameServerRegionsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetGameServerRegions call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingClientGetGameServerRegionsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingClientGetGameServerRegionsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingClientGetGameServerRegionsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGameServerRegionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGameServerRegionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -220,20 +276,34 @@ HRESULT PFMatchmakingClientMatchmakeAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientMatchmake call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingClientMatchmakeGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingClientMatchmakeAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingClientMatchmakeGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingMatchmakeResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingMatchmakeResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -260,20 +330,34 @@ HRESULT PFMatchmakingClientStartGameAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientStartGame call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingClientStartGameGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingClientStartGameAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingClientStartGameGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingStartGameResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingStartGameResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -446,20 +530,34 @@ HRESULT PFMatchmakingUserInfoAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a UserInfo call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingUserInfoGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingUserInfoAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingUserInfoGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingUserInfoResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingUserInfoResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -502,20 +600,34 @@ HRESULT PFMatchmakingServerNotifyMatchmakerPlayerLeftAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerNotifyMatchmakerPlayerLeft call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingServerNotifyMatchmakerPlayerLeftGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingServerNotifyMatchmakerPlayerLeftAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingServerNotifyMatchmakerPlayerLeftGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingNotifyMatchmakerPlayerLeftResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingNotifyMatchmakerPlayerLeftResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -546,20 +658,34 @@ HRESULT PFMatchmakingServerRedeemMatchmakerTicketAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerRedeemMatchmakerTicket call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingServerRedeemMatchmakerTicketGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingServerRedeemMatchmakerTicketAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingServerRedeemMatchmakerTicketGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingRedeemMatchmakerTicketResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingRedeemMatchmakerTicketResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -968,20 +1094,34 @@ HRESULT PFMatchmakingGetMatchAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a GetMatch call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingGetMatchGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingGetMatchAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingGetMatchGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGetMatchResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGetMatchResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -1007,20 +1147,34 @@ HRESULT PFMatchmakingGetMatchmakingTicketAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a GetMatchmakingTicket call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingGetMatchmakingTicketGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingGetMatchmakingTicketAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingGetMatchmakingTicketGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGetMatchmakingTicketResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGetMatchmakingTicketResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -1048,20 +1202,34 @@ HRESULT PFMatchmakingGetQueueStatisticsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a GetQueueStatistics call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingGetQueueStatisticsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingGetQueueStatisticsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingGetQueueStatisticsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGetQueueStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGetQueueStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -1086,20 +1254,34 @@ HRESULT PFMatchmakingGetServerBackfillTicketAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a GetServerBackfillTicket call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingGetServerBackfillTicketGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingGetServerBackfillTicketAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingGetServerBackfillTicketGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingGetServerBackfillTicketResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingGetServerBackfillTicketResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -1148,20 +1330,34 @@ HRESULT PFMatchmakingListMatchmakingTicketsForPlayerAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListMatchmakingTicketsForPlayer call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingListMatchmakingTicketsForPlayerGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingListMatchmakingTicketsForPlayerAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingListMatchmakingTicketsForPlayerGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingListMatchmakingTicketsForPlayerResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingListMatchmakingTicketsForPlayerResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -1186,20 +1382,34 @@ HRESULT PFMatchmakingListServerBackfillTicketsForPlayerAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListServerBackfillTicketsForPlayer call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFMatchmakingListServerBackfillTicketsForPlayerGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFMatchmakingListServerBackfillTicketsForPlayerAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFMatchmakingListServerBackfillTicketsForPlayerGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMatchmakingListServerBackfillTicketsForPlayerResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMatchmakingListServerBackfillTicketsForPlayerResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 

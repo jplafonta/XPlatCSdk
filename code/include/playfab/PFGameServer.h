@@ -36,20 +36,34 @@ HRESULT PFGameServerAdminAddServerBuildAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminAddServerBuild call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGameServerAdminAddServerBuildGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGameServerAdminAddServerBuildAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGameServerAdminAddServerBuildGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGameServerAddServerBuildResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGameServerAddServerBuildResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -73,20 +87,34 @@ HRESULT PFGameServerAdminGetServerBuildInfoAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetServerBuildInfo call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGameServerAdminGetServerBuildInfoGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGameServerAdminGetServerBuildInfoAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGameServerAdminGetServerBuildInfoGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGameServerGetServerBuildInfoResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGameServerGetServerBuildInfoResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -161,20 +189,34 @@ HRESULT PFGameServerAdminListServerBuildsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminListServerBuilds call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGameServerAdminListServerBuildsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGameServerAdminListServerBuildsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGameServerAdminListServerBuildsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGameServerListBuildsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGameServerListBuildsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -198,20 +240,34 @@ HRESULT PFGameServerAdminModifyServerBuildAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminModifyServerBuild call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGameServerAdminModifyServerBuildGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGameServerAdminModifyServerBuildAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGameServerAdminModifyServerBuildGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGameServerModifyServerBuildResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGameServerModifyServerBuildResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 

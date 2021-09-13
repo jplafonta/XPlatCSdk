@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::TradingModels;
+using namespace PlayFab::Trading;
 
 HRESULT PFTradingClientAcceptTradeAsync(
     _In_ PFTitlePlayerHandle contextHandle,
@@ -21,16 +21,26 @@ HRESULT PFTradingClientAcceptTradeAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTradingClientAcceptTradeGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTradingClientAcceptTradeGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTradingAcceptTradeResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTradingAcceptTradeResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTradingAcceptTradeResponse*)(std::dynamic_pointer_cast<AcceptTradeResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTradingAcceptTradeResponse*>(buffer);
 
     return S_OK;
 }
@@ -48,16 +58,26 @@ HRESULT PFTradingClientCancelTradeAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTradingClientCancelTradeGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTradingClientCancelTradeGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTradingCancelTradeResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTradingCancelTradeResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTradingCancelTradeResponse*)(std::dynamic_pointer_cast<CancelTradeResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTradingCancelTradeResponse*>(buffer);
 
     return S_OK;
 }
@@ -75,16 +95,26 @@ HRESULT PFTradingClientGetPlayerTradesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTradingClientGetPlayerTradesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTradingClientGetPlayerTradesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTradingGetPlayerTradesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTradingGetPlayerTradesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTradingGetPlayerTradesResponse*)(std::dynamic_pointer_cast<GetPlayerTradesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTradingGetPlayerTradesResponse*>(buffer);
 
     return S_OK;
 }
@@ -102,16 +132,26 @@ HRESULT PFTradingClientGetTradeStatusAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTradingClientGetTradeStatusGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTradingClientGetTradeStatusGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTradingGetTradeStatusResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTradingGetTradeStatusResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTradingGetTradeStatusResponse*)(std::dynamic_pointer_cast<GetTradeStatusResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTradingGetTradeStatusResponse*>(buffer);
 
     return S_OK;
 }
@@ -129,16 +169,26 @@ HRESULT PFTradingClientOpenTradeAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTradingClientOpenTradeGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTradingClientOpenTradeGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTradingOpenTradeResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTradingOpenTradeResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTradingOpenTradeResponse*)(std::dynamic_pointer_cast<OpenTradeResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTradingOpenTradeResponse*>(buffer);
 
     return S_OK;
 }

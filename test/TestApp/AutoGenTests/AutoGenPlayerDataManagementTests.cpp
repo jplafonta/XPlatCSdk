@@ -260,7 +260,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminCreatePlayer
         PFPlayerDataManagementCreatePlayerStatisticDefinitionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -334,7 +338,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerSta
         PFPlayerDataManagementGetPlayerStatisticDefinitionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -366,7 +374,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetPlayerSta
         PFPlayerDataManagementGetPlayerStatisticVersionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -401,7 +413,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserData(
         PFPlayerDataManagementAdminGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetUserDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetUserDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetUserDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -436,7 +452,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserInter
         PFPlayerDataManagementAdminGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetUserInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetUserInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetUserInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -471,7 +491,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPubli
         PFPlayerDataManagementAdminGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetUserPublisherDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetUserPublisherDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetUserPublisherDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -506,7 +530,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPubli
         PFPlayerDataManagementAdminGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -541,7 +569,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserPubli
         PFPlayerDataManagementAdminGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -576,7 +608,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminGetUserReadO
         PFPlayerDataManagementAdminGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminGetUserReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminGetUserReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminGetUserReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -611,7 +647,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminIncrementPla
         PFPlayerDataManagementIncrementPlayerStatisticVersionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -758,7 +798,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementAdminUpdatePlayer
         PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1003,7 +1047,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLe
         PFPlayerDataManagementGetLeaderboardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetFriendLeaderboardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetFriendLeaderboardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetFriendLeaderboardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1038,7 +1086,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetFriendLe
         PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1073,7 +1125,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderbo
         PFPlayerDataManagementGetLeaderboardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetLeaderboardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetLeaderboardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetLeaderboardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1108,7 +1164,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetLeaderbo
         PFPlayerDataManagementGetLeaderboardAroundPlayerResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1143,7 +1203,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerSt
         PFPlayerDataManagementClientGetPlayerStatisticsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetPlayerStatisticsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetPlayerStatisticsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetPlayerStatisticsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1178,7 +1242,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetPlayerSt
         PFPlayerDataManagementGetPlayerStatisticVersionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1213,7 +1281,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserData
         PFPlayerDataManagementClientGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetUserDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetUserDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetUserDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1248,7 +1320,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPubl
         PFPlayerDataManagementClientGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetUserPublisherDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetUserPublisherDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetUserPublisherDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1283,7 +1359,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserPubl
         PFPlayerDataManagementClientGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1318,7 +1398,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementClientGetUserRead
         PFPlayerDataManagementClientGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementClientGetUserReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1457,7 +1541,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetFriendLe
         PFPlayerDataManagementGetLeaderboardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetFriendLeaderboardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetFriendLeaderboardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetFriendLeaderboardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1492,7 +1580,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderbo
         PFPlayerDataManagementGetLeaderboardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetLeaderboardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetLeaderboardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetLeaderboardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1527,7 +1619,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetLeaderbo
         PFPlayerDataManagementGetLeaderboardAroundUserResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetLeaderboardAroundUserGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetLeaderboardAroundUserGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetLeaderboardAroundUserGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1562,7 +1658,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerCo
         PFGetPlayerCombinedInfoResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetPlayerCombinedInfoGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1597,7 +1697,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerSt
         PFPlayerDataManagementServerGetPlayerStatisticsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetPlayerStatisticsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetPlayerStatisticsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetPlayerStatisticsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1632,7 +1736,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetPlayerSt
         PFPlayerDataManagementGetPlayerStatisticVersionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1667,7 +1775,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserData
         PFPlayerDataManagementServerGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetUserDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetUserDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetUserDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1702,7 +1814,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserInte
         PFPlayerDataManagementServerGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetUserInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetUserInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetUserInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1737,7 +1853,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPubl
         PFPlayerDataManagementServerGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetUserPublisherDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetUserPublisherDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetUserPublisherDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1772,7 +1892,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPubl
         PFPlayerDataManagementServerGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetUserPublisherInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetUserPublisherInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetUserPublisherInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1807,7 +1931,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserPubl
         PFPlayerDataManagementServerGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1842,7 +1970,11 @@ void AutoGenPlayerDataManagementTests::TestPlayerDataManagementServerGetUserRead
         PFPlayerDataManagementServerGetUserDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerDataManagementServerGetUserReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerDataManagementServerGetUserReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerDataManagementServerGetUserReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

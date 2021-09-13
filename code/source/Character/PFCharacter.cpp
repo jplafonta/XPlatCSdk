@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::CharacterModels;
+using namespace PlayFab::Character;
 
 HRESULT PFCharacterAdminResetCharacterStatisticsAsync(
     _In_ PFStateHandle contextHandle,
@@ -34,16 +34,26 @@ HRESULT PFCharacterClientGetAllUsersCharactersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetAllUsersCharactersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetAllUsersCharactersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterListUsersCharactersResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterListUsersCharactersResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterListUsersCharactersResult*)(std::dynamic_pointer_cast<ListUsersCharactersResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterListUsersCharactersResult*>(buffer);
 
     return S_OK;
 }
@@ -61,16 +71,26 @@ HRESULT PFCharacterClientGetCharacterDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetCharacterDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetCharacterDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterClientGetCharacterDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterClientGetCharacterDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterClientGetCharacterDataResult*)(std::dynamic_pointer_cast<ClientGetCharacterDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterClientGetCharacterDataResult*>(buffer);
 
     return S_OK;
 }
@@ -88,16 +108,26 @@ HRESULT PFCharacterClientGetCharacterLeaderboardAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetCharacterLeaderboardGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetCharacterLeaderboardGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterGetCharacterLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterGetCharacterLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterGetCharacterLeaderboardResult*)(std::dynamic_pointer_cast<GetCharacterLeaderboardResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterGetCharacterLeaderboardResult*>(buffer);
 
     return S_OK;
 }
@@ -115,16 +145,26 @@ HRESULT PFCharacterClientGetCharacterReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetCharacterReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetCharacterReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterClientGetCharacterDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterClientGetCharacterDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterClientGetCharacterDataResult*)(std::dynamic_pointer_cast<ClientGetCharacterDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterClientGetCharacterDataResult*>(buffer);
 
     return S_OK;
 }
@@ -142,16 +182,26 @@ HRESULT PFCharacterClientGetCharacterStatisticsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetCharacterStatisticsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetCharacterStatisticsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterClientGetCharacterStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterClientGetCharacterStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterClientGetCharacterStatisticsResult*)(std::dynamic_pointer_cast<ClientGetCharacterStatisticsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterClientGetCharacterStatisticsResult*>(buffer);
 
     return S_OK;
 }
@@ -169,16 +219,26 @@ HRESULT PFCharacterClientGetLeaderboardAroundCharacterAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetLeaderboardAroundCharacterGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetLeaderboardAroundCharacterGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterGetLeaderboardAroundCharacterResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterGetLeaderboardAroundCharacterResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterGetLeaderboardAroundCharacterResult*)(std::dynamic_pointer_cast<GetLeaderboardAroundCharacterResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterGetLeaderboardAroundCharacterResult*>(buffer);
 
     return S_OK;
 }
@@ -196,16 +256,26 @@ HRESULT PFCharacterClientGetLeaderboardForUserCharactersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterClientGetLeaderboardForUserCharactersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterClientGetLeaderboardForUserCharactersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterGetLeaderboardForUsersCharactersResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterGetLeaderboardForUsersCharactersResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterGetLeaderboardForUsersCharactersResult*)(std::dynamic_pointer_cast<GetLeaderboardForUsersCharactersResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterGetLeaderboardForUsersCharactersResult*>(buffer);
 
     return S_OK;
 }
@@ -307,16 +377,26 @@ HRESULT PFCharacterServerGetAllUsersCharactersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetAllUsersCharactersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetAllUsersCharactersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterListUsersCharactersResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterListUsersCharactersResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterListUsersCharactersResult*)(std::dynamic_pointer_cast<ListUsersCharactersResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterListUsersCharactersResult*>(buffer);
 
     return S_OK;
 }
@@ -334,16 +414,26 @@ HRESULT PFCharacterServerGetCharacterDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetCharacterDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetCharacterDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterServerGetCharacterDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterServerGetCharacterDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterServerGetCharacterDataResult*)(std::dynamic_pointer_cast<ServerGetCharacterDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterServerGetCharacterDataResult*>(buffer);
 
     return S_OK;
 }
@@ -361,16 +451,26 @@ HRESULT PFCharacterServerGetCharacterInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetCharacterInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetCharacterInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterServerGetCharacterDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterServerGetCharacterDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterServerGetCharacterDataResult*)(std::dynamic_pointer_cast<ServerGetCharacterDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterServerGetCharacterDataResult*>(buffer);
 
     return S_OK;
 }
@@ -388,16 +488,26 @@ HRESULT PFCharacterServerGetCharacterLeaderboardAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetCharacterLeaderboardGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetCharacterLeaderboardGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterGetCharacterLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterGetCharacterLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterGetCharacterLeaderboardResult*)(std::dynamic_pointer_cast<GetCharacterLeaderboardResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterGetCharacterLeaderboardResult*>(buffer);
 
     return S_OK;
 }
@@ -415,16 +525,26 @@ HRESULT PFCharacterServerGetCharacterReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetCharacterReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetCharacterReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterServerGetCharacterDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterServerGetCharacterDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterServerGetCharacterDataResult*)(std::dynamic_pointer_cast<ServerGetCharacterDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterServerGetCharacterDataResult*>(buffer);
 
     return S_OK;
 }
@@ -442,16 +562,26 @@ HRESULT PFCharacterServerGetCharacterStatisticsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetCharacterStatisticsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetCharacterStatisticsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterServerGetCharacterStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterServerGetCharacterStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterServerGetCharacterStatisticsResult*)(std::dynamic_pointer_cast<ServerGetCharacterStatisticsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterServerGetCharacterStatisticsResult*>(buffer);
 
     return S_OK;
 }
@@ -469,16 +599,26 @@ HRESULT PFCharacterServerGetLeaderboardAroundCharacterAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetLeaderboardAroundCharacterGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetLeaderboardAroundCharacterGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterGetLeaderboardAroundCharacterResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterGetLeaderboardAroundCharacterResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterGetLeaderboardAroundCharacterResult*)(std::dynamic_pointer_cast<GetLeaderboardAroundCharacterResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterGetLeaderboardAroundCharacterResult*>(buffer);
 
     return S_OK;
 }
@@ -496,16 +636,26 @@ HRESULT PFCharacterServerGetLeaderboardForUserCharactersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFCharacterServerGetLeaderboardForUserCharactersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFCharacterServerGetLeaderboardForUserCharactersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFCharacterGetLeaderboardForUsersCharactersResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFCharacterGetLeaderboardForUsersCharactersResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFCharacterGetLeaderboardForUsersCharactersResult*)(std::dynamic_pointer_cast<GetLeaderboardForUsersCharactersResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFCharacterGetLeaderboardForUsersCharactersResult*>(buffer);
 
     return S_OK;
 }

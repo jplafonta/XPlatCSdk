@@ -1,179 +1,147 @@
 #pragma once
 
-#include <playfab/PFContentDataModels.h>
+#include <playfab/cpp/PFContentDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace ContentModels
+namespace Content
 {
 
 // Content Classes
-struct DeleteContentRequest : public PFContentDeleteContentRequest, public SerializableModel
+class DeleteContentRequest : public Wrappers::PFContentDeleteContentRequestWrapper<Allocator>, public InputModel
 {
-    DeleteContentRequest();
-    DeleteContentRequest(const DeleteContentRequest& src);
-    DeleteContentRequest(DeleteContentRequest&& src);
-    DeleteContentRequest(const PFContentDeleteContentRequest& src);
-    DeleteContentRequest& operator=(const DeleteContentRequest&) = delete;
-    ~DeleteContentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentDeleteContentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFContentDeleteContentRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_key;
 };
 
-struct GetContentListRequest : public PFContentGetContentListRequest, public SerializableModel
+class GetContentListRequest : public Wrappers::PFContentGetContentListRequestWrapper<Allocator>, public InputModel
 {
-    GetContentListRequest();
-    GetContentListRequest(const GetContentListRequest& src);
-    GetContentListRequest(GetContentListRequest&& src);
-    GetContentListRequest(const PFContentGetContentListRequest& src);
-    GetContentListRequest& operator=(const GetContentListRequest&) = delete;
-    ~GetContentListRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentGetContentListRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFContentGetContentListRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_prefix;
 };
 
-struct ContentInfo : public PFContentContentInfo, public SerializableModel
+class ContentInfo : public Wrappers::PFContentContentInfoWrapper<Allocator>, public OutputModel<PFContentContentInfo>
 {
-    ContentInfo();
-    ContentInfo(const ContentInfo& src);
-    ContentInfo(ContentInfo&& src);
-    ContentInfo(const PFContentContentInfo& src);
-    ContentInfo& operator=(const ContentInfo&) = delete;
-    ~ContentInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentContentInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFContentContentInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_key;
+    static size_t RequiredBufferSize(const PFContentContentInfo& model);
+    static HRESULT Copy(const PFContentContentInfo& input, PFContentContentInfo& output, ModelBuffer& buffer);
 };
 
-struct GetContentListResult : public PFContentGetContentListResult, public BaseModel, public ApiResult
+class GetContentListResult : public Wrappers::PFContentGetContentListResultWrapper<Allocator>, public OutputModel<PFContentGetContentListResult>
 {
-    GetContentListResult();
-    GetContentListResult(const GetContentListResult& src);
-    GetContentListResult(GetContentListResult&& src);
-    GetContentListResult(const PFContentGetContentListResult& src);
-    GetContentListResult& operator=(const GetContentListResult&) = delete;
-    ~GetContentListResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentGetContentListResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFContentGetContentListResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFContentContentInfo, ContentInfo> m_contents;
+    static size_t RequiredBufferSize(const PFContentGetContentListResult& model);
+    static HRESULT Copy(const PFContentGetContentListResult& input, PFContentGetContentListResult& output, ModelBuffer& buffer);
 };
 
-struct GetContentUploadUrlRequest : public PFContentGetContentUploadUrlRequest, public SerializableModel
+class GetContentUploadUrlRequest : public Wrappers::PFContentGetContentUploadUrlRequestWrapper<Allocator>, public InputModel
 {
-    GetContentUploadUrlRequest();
-    GetContentUploadUrlRequest(const GetContentUploadUrlRequest& src);
-    GetContentUploadUrlRequest(GetContentUploadUrlRequest&& src);
-    GetContentUploadUrlRequest(const PFContentGetContentUploadUrlRequest& src);
-    GetContentUploadUrlRequest& operator=(const GetContentUploadUrlRequest&) = delete;
-    ~GetContentUploadUrlRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentGetContentUploadUrlRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFContentGetContentUploadUrlRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_contentType;
-    String m_key;
 };
 
-struct GetContentUploadUrlResult : public PFContentGetContentUploadUrlResult, public SerializableModel, public ApiResult
+class GetContentUploadUrlResult : public Wrappers::PFContentGetContentUploadUrlResultWrapper<Allocator>, public OutputModel<PFContentGetContentUploadUrlResult>
 {
-    GetContentUploadUrlResult();
-    GetContentUploadUrlResult(const GetContentUploadUrlResult& src);
-    GetContentUploadUrlResult(GetContentUploadUrlResult&& src);
-    GetContentUploadUrlResult(const PFContentGetContentUploadUrlResult& src);
-    GetContentUploadUrlResult& operator=(const GetContentUploadUrlResult&) = delete;
-    ~GetContentUploadUrlResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentGetContentUploadUrlResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFContentGetContentUploadUrlResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_uRL;
+    static size_t RequiredBufferSize(const PFContentGetContentUploadUrlResult& model);
+    static HRESULT Copy(const PFContentGetContentUploadUrlResult& input, PFContentGetContentUploadUrlResult& output, ModelBuffer& buffer);
 };
 
-struct GetContentDownloadUrlRequest : public PFContentGetContentDownloadUrlRequest, public BaseModel
+class GetContentDownloadUrlRequest : public Wrappers::PFContentGetContentDownloadUrlRequestWrapper<Allocator>, public InputModel
 {
-    GetContentDownloadUrlRequest();
-    GetContentDownloadUrlRequest(const GetContentDownloadUrlRequest& src);
-    GetContentDownloadUrlRequest(GetContentDownloadUrlRequest&& src);
-    GetContentDownloadUrlRequest(const PFContentGetContentDownloadUrlRequest& src);
-    GetContentDownloadUrlRequest& operator=(const GetContentDownloadUrlRequest&) = delete;
-    ~GetContentDownloadUrlRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentGetContentDownloadUrlRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFContentGetContentDownloadUrlRequest& input);
 
-private:
-    String m_httpMethod;
-    String m_key;
-    StdExtra::optional<bool> m_thruCDN;
 };
 
-struct GetContentDownloadUrlResult : public PFContentGetContentDownloadUrlResult, public SerializableModel, public ApiResult
+class GetContentDownloadUrlResult : public Wrappers::PFContentGetContentDownloadUrlResultWrapper<Allocator>, public OutputModel<PFContentGetContentDownloadUrlResult>
 {
-    GetContentDownloadUrlResult();
-    GetContentDownloadUrlResult(const GetContentDownloadUrlResult& src);
-    GetContentDownloadUrlResult(GetContentDownloadUrlResult&& src);
-    GetContentDownloadUrlResult(const PFContentGetContentDownloadUrlResult& src);
-    GetContentDownloadUrlResult& operator=(const GetContentDownloadUrlResult&) = delete;
-    ~GetContentDownloadUrlResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContentGetContentDownloadUrlResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFContentGetContentDownloadUrlResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_uRL;
+    static size_t RequiredBufferSize(const PFContentGetContentDownloadUrlResult& model);
+    static HRESULT Copy(const PFContentGetContentDownloadUrlResult& input, PFContentGetContentDownloadUrlResult& output, ModelBuffer& buffer);
 };
 
-} // namespace ContentModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFContentDeleteContentRequest& input);
-template<> inline JsonValue ToJson<>(const PFContentGetContentListRequest& input);
-template<> inline JsonValue ToJson<>(const PFContentContentInfo& input);
-template<> inline JsonValue ToJson<>(const PFContentGetContentListResult& input);
-template<> inline JsonValue ToJson<>(const PFContentGetContentUploadUrlRequest& input);
-template<> inline JsonValue ToJson<>(const PFContentGetContentUploadUrlResult& input);
-template<> inline JsonValue ToJson<>(const PFContentGetContentDownloadUrlRequest& input);
-template<> inline JsonValue ToJson<>(const PFContentGetContentDownloadUrlResult& input);
-} // namespace JsonUtils
-
+} // namespace Content
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

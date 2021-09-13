@@ -50,20 +50,34 @@ HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminCreatePlayerStatisticDefinition call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementCreatePlayerStatisticDefinitionResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementCreatePlayerStatisticDefinitionResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -140,20 +154,34 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetPlayerStatisticDefinitions call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticDefinitionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticDefinitionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -180,20 +208,34 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetPlayerStatisticVersions call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetPlayerStatisticVersionsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -220,20 +262,34 @@ HRESULT PFPlayerDataManagementAdminGetUserDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetUserData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetUserDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetUserDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -261,20 +317,34 @@ HRESULT PFPlayerDataManagementAdminGetUserInternalDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetUserInternalData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetUserInternalDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetUserInternalDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserInternalDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -302,20 +372,34 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetUserPublisherData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetUserPublisherDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetUserPublisherDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserPublisherDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -343,20 +427,34 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetUserPublisherInternalData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetUserPublisherInternalDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -384,20 +482,34 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetUserPublisherReadOnlyData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -425,20 +537,34 @@ HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminGetUserReadOnlyData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminGetUserReadOnlyDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -475,20 +601,34 @@ HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminIncrementPlayerStatisticVersion call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminIncrementPlayerStatisticVersionAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementIncrementPlayerStatisticVersionResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementIncrementPlayerStatisticVersionResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -648,20 +788,34 @@ HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a AdminUpdatePlayerStatisticDefinition call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -908,20 +1062,34 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetFriendLeaderboard call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetFriendLeaderboardAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -946,20 +1114,34 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetFriendLeaderboardAroundPlayer call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -983,20 +1165,34 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetLeaderboard call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetLeaderboardGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetLeaderboardAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetLeaderboardGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1020,20 +1216,34 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetLeaderboardAroundPlayer call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundPlayerResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundPlayerResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1058,20 +1268,34 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetPlayerStatistics call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetPlayerStatisticsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetPlayerStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetPlayerStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1095,20 +1319,34 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetPlayerStatisticVersions call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1134,20 +1372,34 @@ HRESULT PFPlayerDataManagementClientGetUserDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetUserData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetUserDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetUserDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1172,20 +1424,34 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetUserPublisherData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetUserPublisherDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1210,20 +1476,34 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetUserPublisherReadOnlyData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1250,20 +1530,34 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientGetUserReadOnlyData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementClientGetUserReadOnlyDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1385,20 +1679,34 @@ HRESULT PFPlayerDataManagementServerGetFriendLeaderboardAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetFriendLeaderboard call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetFriendLeaderboardGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetFriendLeaderboardAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetFriendLeaderboardGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1422,20 +1730,34 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetLeaderboard call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetLeaderboardGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetLeaderboardAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetLeaderboardGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1458,20 +1780,34 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetLeaderboardAroundUser call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetLeaderboardAroundUserAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundUserResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundUserResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1493,20 +1829,34 @@ HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetPlayerCombinedInfo call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetPlayerCombinedInfoAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGetPlayerCombinedInfoResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGetPlayerCombinedInfoResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1530,20 +1880,34 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetPlayerStatistics call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetPlayerStatisticsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetPlayerStatisticsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetPlayerStatisticsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetPlayerStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetPlayerStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1567,20 +1931,34 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetPlayerStatisticVersions call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetPlayerStatisticVersionsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1605,20 +1983,34 @@ HRESULT PFPlayerDataManagementServerGetUserDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetUserData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetUserDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetUserDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1644,20 +2036,34 @@ HRESULT PFPlayerDataManagementServerGetUserInternalDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetUserInternalData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetUserInternalDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetUserInternalDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserInternalDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1683,20 +2089,34 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetUserPublisherData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetUserPublisherDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetUserPublisherDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserPublisherDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1722,20 +2142,34 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetUserPublisherInternalData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetUserPublisherInternalDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1761,20 +2195,34 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetUserPublisherReadOnlyData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetUserPublisherReadOnlyDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -1800,20 +2248,34 @@ HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerGetUserReadOnlyData call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlayerDataManagementServerGetUserReadOnlyDataAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>

@@ -190,7 +190,11 @@ void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptRevision(TestCon
         PFCloudScriptGetCloudScriptRevisionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptAdminGetCloudScriptRevisionGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptAdminGetCloudScriptRevisionGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptAdminGetCloudScriptRevisionGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -225,7 +229,11 @@ void AutoGenCloudScriptTests::TestCloudScriptAdminGetCloudScriptVersions(TestCon
         PFCloudScriptGetCloudScriptVersionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptAdminGetCloudScriptVersionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptAdminGetCloudScriptVersionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptAdminGetCloudScriptVersionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -326,7 +334,11 @@ void AutoGenCloudScriptTests::TestCloudScriptClientExecuteCloudScript(TestContex
         PFExecuteCloudScriptResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptClientExecuteCloudScriptGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptClientExecuteCloudScriptGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptClientExecuteCloudScriptGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -361,7 +373,11 @@ void AutoGenCloudScriptTests::TestCloudScriptServerExecuteCloudScript(TestContex
         PFExecuteCloudScriptResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptServerExecuteCloudScriptGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptServerExecuteCloudScriptGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptServerExecuteCloudScriptGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -396,7 +412,11 @@ void AutoGenCloudScriptTests::TestCloudScriptExecuteEntityCloudScript(TestContex
         PFExecuteCloudScriptResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptExecuteEntityCloudScriptGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptExecuteEntityCloudScriptGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptExecuteEntityCloudScriptGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -431,7 +451,11 @@ void AutoGenCloudScriptTests::TestCloudScriptExecuteFunction(TestContext& testCo
         PFCloudScriptExecuteFunctionResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptExecuteFunctionGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptExecuteFunctionGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptExecuteFunctionGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -466,7 +490,11 @@ void AutoGenCloudScriptTests::TestCloudScriptListFunctions(TestContext& testCont
         PFCloudScriptListFunctionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptListFunctionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptListFunctionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptListFunctionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -501,7 +529,11 @@ void AutoGenCloudScriptTests::TestCloudScriptListHttpFunctions(TestContext& test
         PFCloudScriptListHttpFunctionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptListHttpFunctionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptListHttpFunctionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptListHttpFunctionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -536,7 +568,11 @@ void AutoGenCloudScriptTests::TestCloudScriptListQueuedFunctions(TestContext& te
         PFCloudScriptListQueuedFunctionsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCloudScriptListQueuedFunctionsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCloudScriptListQueuedFunctionsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCloudScriptListQueuedFunctionsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

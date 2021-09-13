@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::TitleDataManagementModels;
+using namespace PlayFab::TitleDataManagement;
 
 HRESULT PFTitleDataManagementAdminAddLocalizedNewsAsync(
     _In_ PFStateHandle contextHandle,
@@ -110,16 +110,26 @@ HRESULT PFTitleDataManagementAdminGetCatalogItemsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminGetCatalogItemsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminGetCatalogItemsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetCatalogItemsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetCatalogItemsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetCatalogItemsResult*)(std::dynamic_pointer_cast<GetCatalogItemsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetCatalogItemsResult*>(buffer);
 
     return S_OK;
 }
@@ -137,16 +147,26 @@ HRESULT PFTitleDataManagementAdminGetPublisherDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminGetPublisherDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminGetPublisherDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetPublisherDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetPublisherDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetPublisherDataResult*)(std::dynamic_pointer_cast<GetPublisherDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetPublisherDataResult*>(buffer);
 
     return S_OK;
 }
@@ -164,16 +184,26 @@ HRESULT PFTitleDataManagementAdminGetRandomResultTablesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminGetRandomResultTablesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminGetRandomResultTablesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGetRandomResultTablesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGetRandomResultTablesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFGetRandomResultTablesResult*)(std::dynamic_pointer_cast<GetRandomResultTablesResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFGetRandomResultTablesResult*>(buffer);
 
     return S_OK;
 }
@@ -191,16 +221,26 @@ HRESULT PFTitleDataManagementAdminGetStoreItemsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminGetStoreItemsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminGetStoreItemsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetStoreItemsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetStoreItemsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetStoreItemsResult*)(std::dynamic_pointer_cast<GetStoreItemsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetStoreItemsResult*>(buffer);
 
     return S_OK;
 }
@@ -218,16 +258,26 @@ HRESULT PFTitleDataManagementAdminGetTitleDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminGetTitleDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminGetTitleDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleDataResult*)(std::dynamic_pointer_cast<GetTitleDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleDataResult*>(buffer);
 
     return S_OK;
 }
@@ -245,16 +295,26 @@ HRESULT PFTitleDataManagementAdminGetTitleInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminGetTitleInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminGetTitleInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleDataResult*)(std::dynamic_pointer_cast<GetTitleDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleDataResult*>(buffer);
 
     return S_OK;
 }
@@ -270,16 +330,26 @@ HRESULT PFTitleDataManagementAdminListVirtualCurrencyTypesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementAdminListVirtualCurrencyTypesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementAdminListVirtualCurrencyTypesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementListVirtualCurrencyTypesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementListVirtualCurrencyTypesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementListVirtualCurrencyTypesResult*)(std::dynamic_pointer_cast<ListVirtualCurrencyTypesResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementListVirtualCurrencyTypesResult*>(buffer);
 
     return S_OK;
 }
@@ -451,16 +521,26 @@ HRESULT PFTitleDataManagementClientGetCatalogItemsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementClientGetCatalogItemsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementClientGetCatalogItemsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetCatalogItemsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetCatalogItemsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetCatalogItemsResult*)(std::dynamic_pointer_cast<GetCatalogItemsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetCatalogItemsResult*>(buffer);
 
     return S_OK;
 }
@@ -478,16 +558,26 @@ HRESULT PFTitleDataManagementClientGetPublisherDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementClientGetPublisherDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementClientGetPublisherDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetPublisherDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetPublisherDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetPublisherDataResult*)(std::dynamic_pointer_cast<GetPublisherDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetPublisherDataResult*>(buffer);
 
     return S_OK;
 }
@@ -505,16 +595,26 @@ HRESULT PFTitleDataManagementClientGetStoreItemsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementClientGetStoreItemsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementClientGetStoreItemsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetStoreItemsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetStoreItemsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetStoreItemsResult*)(std::dynamic_pointer_cast<GetStoreItemsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetStoreItemsResult*>(buffer);
 
     return S_OK;
 }
@@ -551,16 +651,26 @@ HRESULT PFTitleDataManagementClientGetTitleDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementClientGetTitleDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementClientGetTitleDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleDataResult*)(std::dynamic_pointer_cast<GetTitleDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleDataResult*>(buffer);
 
     return S_OK;
 }
@@ -578,16 +688,26 @@ HRESULT PFTitleDataManagementClientGetTitleNewsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementClientGetTitleNewsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementClientGetTitleNewsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleNewsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleNewsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleNewsResult*)(std::dynamic_pointer_cast<GetTitleNewsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleNewsResult*>(buffer);
 
     return S_OK;
 }
@@ -605,16 +725,26 @@ HRESULT PFTitleDataManagementServerGetCatalogItemsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementServerGetCatalogItemsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementServerGetCatalogItemsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetCatalogItemsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetCatalogItemsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetCatalogItemsResult*)(std::dynamic_pointer_cast<GetCatalogItemsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetCatalogItemsResult*>(buffer);
 
     return S_OK;
 }
@@ -632,16 +762,26 @@ HRESULT PFTitleDataManagementServerGetPublisherDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementServerGetPublisherDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementServerGetPublisherDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetPublisherDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetPublisherDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetPublisherDataResult*)(std::dynamic_pointer_cast<GetPublisherDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetPublisherDataResult*>(buffer);
 
     return S_OK;
 }
@@ -659,16 +799,26 @@ HRESULT PFTitleDataManagementServerGetStoreItemsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementServerGetStoreItemsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementServerGetStoreItemsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetStoreItemsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetStoreItemsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetStoreItemsResult*)(std::dynamic_pointer_cast<GetStoreItemsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetStoreItemsResult*>(buffer);
 
     return S_OK;
 }
@@ -705,16 +855,26 @@ HRESULT PFTitleDataManagementServerGetTitleDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementServerGetTitleDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementServerGetTitleDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleDataResult*)(std::dynamic_pointer_cast<GetTitleDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleDataResult*>(buffer);
 
     return S_OK;
 }
@@ -732,16 +892,26 @@ HRESULT PFTitleDataManagementServerGetTitleInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementServerGetTitleInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementServerGetTitleInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleDataResult*)(std::dynamic_pointer_cast<GetTitleDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleDataResult*>(buffer);
 
     return S_OK;
 }
@@ -759,16 +929,26 @@ HRESULT PFTitleDataManagementServerGetTitleNewsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFTitleDataManagementServerGetTitleNewsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFTitleDataManagementServerGetTitleNewsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFTitleDataManagementGetTitleNewsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFTitleDataManagementGetTitleNewsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFTitleDataManagementGetTitleNewsResult*)(std::dynamic_pointer_cast<GetTitleNewsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFTitleDataManagementGetTitleNewsResult*>(buffer);
 
     return S_OK;
 }

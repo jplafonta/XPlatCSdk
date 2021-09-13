@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace PlatformSpecificModels;
+namespace PlatformSpecific
+{
 
 
 AsyncOp<void> PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistration(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest& request,
+    const AndroidDevicePushNotificationRegistrationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistrati
     }
 
     const char* path{ "/Client/AndroidDevicePushNotificationRegistration" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -51,7 +51,7 @@ AsyncOp<void> PlatformSpecificAPI::ClientAndroidDevicePushNotificationRegistrati
 
 AsyncOp<ConsumeMicrosoftStoreEntitlementsResponse> PlatformSpecificAPI::ClientConsumeMicrosoftStoreEntitlements(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest& request,
+    const ConsumeMicrosoftStoreEntitlementsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -62,7 +62,7 @@ AsyncOp<ConsumeMicrosoftStoreEntitlementsResponse> PlatformSpecificAPI::ClientCo
     }
 
     const char* path{ "/Client/ConsumeMicrosoftStoreEntitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -93,7 +93,7 @@ AsyncOp<ConsumeMicrosoftStoreEntitlementsResponse> PlatformSpecificAPI::ClientCo
 
 AsyncOp<ConsumePS5EntitlementsResult> PlatformSpecificAPI::ClientConsumePS5Entitlements(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificConsumePS5EntitlementsRequest& request,
+    const ConsumePS5EntitlementsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<ConsumePS5EntitlementsResult> PlatformSpecificAPI::ClientConsumePS5Entit
     }
 
     const char* path{ "/Client/ConsumePS5Entitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -135,7 +135,7 @@ AsyncOp<ConsumePS5EntitlementsResult> PlatformSpecificAPI::ClientConsumePS5Entit
 
 AsyncOp<ConsumePSNEntitlementsResult> PlatformSpecificAPI::ClientConsumePSNEntitlements(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificConsumePSNEntitlementsRequest& request,
+    const ConsumePSNEntitlementsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -146,7 +146,7 @@ AsyncOp<ConsumePSNEntitlementsResult> PlatformSpecificAPI::ClientConsumePSNEntit
     }
 
     const char* path{ "/Client/ConsumePSNEntitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -177,7 +177,7 @@ AsyncOp<ConsumePSNEntitlementsResult> PlatformSpecificAPI::ClientConsumePSNEntit
 
 AsyncOp<ConsumeXboxEntitlementsResult> PlatformSpecificAPI::ClientConsumeXboxEntitlements(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificConsumeXboxEntitlementsRequest& request,
+    const ConsumeXboxEntitlementsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -188,7 +188,7 @@ AsyncOp<ConsumeXboxEntitlementsResult> PlatformSpecificAPI::ClientConsumeXboxEnt
     }
 
     const char* path{ "/Client/ConsumeXboxEntitlements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -219,7 +219,7 @@ AsyncOp<ConsumeXboxEntitlementsResult> PlatformSpecificAPI::ClientConsumeXboxEnt
 
 AsyncOp<void> PlatformSpecificAPI::ClientRefreshPSNAuthToken(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificRefreshPSNAuthTokenRequest& request,
+    const RefreshPSNAuthTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -230,7 +230,7 @@ AsyncOp<void> PlatformSpecificAPI::ClientRefreshPSNAuthToken(
     }
 
     const char* path{ "/Client/RefreshPSNAuthToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -259,7 +259,7 @@ AsyncOp<void> PlatformSpecificAPI::ClientRefreshPSNAuthToken(
 
 AsyncOp<void> PlatformSpecificAPI::ClientRegisterForIOSPushNotification(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificRegisterForIOSPushNotificationRequest& request,
+    const RegisterForIOSPushNotificationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -270,7 +270,7 @@ AsyncOp<void> PlatformSpecificAPI::ClientRegisterForIOSPushNotification(
     }
 
     const char* path{ "/Client/RegisterForIOSPushNotification" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -299,7 +299,7 @@ AsyncOp<void> PlatformSpecificAPI::ClientRegisterForIOSPushNotification(
 
 AsyncOp<RestoreIOSPurchasesResult> PlatformSpecificAPI::ClientRestoreIOSPurchases(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificRestoreIOSPurchasesRequest& request,
+    const RestoreIOSPurchasesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -310,7 +310,7 @@ AsyncOp<RestoreIOSPurchasesResult> PlatformSpecificAPI::ClientRestoreIOSPurchase
     }
 
     const char* path{ "/Client/RestoreIOSPurchases" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -341,7 +341,7 @@ AsyncOp<RestoreIOSPurchasesResult> PlatformSpecificAPI::ClientRestoreIOSPurchase
 
 AsyncOp<ValidateAmazonReceiptResult> PlatformSpecificAPI::ClientValidateAmazonIAPReceipt(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificValidateAmazonReceiptRequest& request,
+    const ValidateAmazonReceiptRequest& request,
     const TaskQueue& queue
 )
 {
@@ -352,7 +352,7 @@ AsyncOp<ValidateAmazonReceiptResult> PlatformSpecificAPI::ClientValidateAmazonIA
     }
 
     const char* path{ "/Client/ValidateAmazonIAPReceipt" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -383,7 +383,7 @@ AsyncOp<ValidateAmazonReceiptResult> PlatformSpecificAPI::ClientValidateAmazonIA
 
 AsyncOp<ValidateGooglePlayPurchaseResult> PlatformSpecificAPI::ClientValidateGooglePlayPurchase(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificValidateGooglePlayPurchaseRequest& request,
+    const ValidateGooglePlayPurchaseRequest& request,
     const TaskQueue& queue
 )
 {
@@ -394,7 +394,7 @@ AsyncOp<ValidateGooglePlayPurchaseResult> PlatformSpecificAPI::ClientValidateGoo
     }
 
     const char* path{ "/Client/ValidateGooglePlayPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -425,7 +425,7 @@ AsyncOp<ValidateGooglePlayPurchaseResult> PlatformSpecificAPI::ClientValidateGoo
 
 AsyncOp<ValidateIOSReceiptResult> PlatformSpecificAPI::ClientValidateIOSReceipt(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificValidateIOSReceiptRequest& request,
+    const ValidateIOSReceiptRequest& request,
     const TaskQueue& queue
 )
 {
@@ -436,7 +436,7 @@ AsyncOp<ValidateIOSReceiptResult> PlatformSpecificAPI::ClientValidateIOSReceipt(
     }
 
     const char* path{ "/Client/ValidateIOSReceipt" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -467,7 +467,7 @@ AsyncOp<ValidateIOSReceiptResult> PlatformSpecificAPI::ClientValidateIOSReceipt(
 
 AsyncOp<ValidateWindowsReceiptResult> PlatformSpecificAPI::ClientValidateWindowsStoreReceipt(
     SharedPtr<TitlePlayer> entity,
-    const PFPlatformSpecificValidateWindowsReceiptRequest& request,
+    const ValidateWindowsReceiptRequest& request,
     const TaskQueue& queue
 )
 {
@@ -478,7 +478,7 @@ AsyncOp<ValidateWindowsReceiptResult> PlatformSpecificAPI::ClientValidateWindows
     }
 
     const char* path{ "/Client/ValidateWindowsStoreReceipt" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -509,7 +509,7 @@ AsyncOp<ValidateWindowsReceiptResult> PlatformSpecificAPI::ClientValidateWindows
 
 AsyncOp<AwardSteamAchievementResult> PlatformSpecificAPI::ServerAwardSteamAchievement(
     SharedPtr<GlobalState const> state,
-    const PFPlatformSpecificAwardSteamAchievementRequest& request,
+    const AwardSteamAchievementRequest& request,
     const TaskQueue& queue
 )
 {
@@ -520,7 +520,7 @@ AsyncOp<AwardSteamAchievementResult> PlatformSpecificAPI::ServerAwardSteamAchiev
     }
 
     const char* path{ "/Server/AwardSteamAchievement" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -548,5 +548,5 @@ AsyncOp<AwardSteamAchievementResult> PlatformSpecificAPI::ServerAwardSteamAchiev
     });
 }
 
-
-}
+} // namespace PlatformSpecific
+} // namespace PlayFab

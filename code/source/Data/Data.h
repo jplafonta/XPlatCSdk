@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Data
+{
 
 class DataAPI
 {
@@ -16,13 +18,14 @@ public:
     ~DataAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<DataModels::AbortFileUploadsResponse> AbortFileUploads(SharedPtr<Entity> entity, const PFDataAbortFileUploadsRequest& request, const TaskQueue& queue);
-    static AsyncOp<DataModels::DeleteFilesResponse> DeleteFiles(SharedPtr<Entity> entity, const PFDataDeleteFilesRequest& request, const TaskQueue& queue);
-    static AsyncOp<DataModels::FinalizeFileUploadsResponse> FinalizeFileUploads(SharedPtr<Entity> entity, const PFDataFinalizeFileUploadsRequest& request, const TaskQueue& queue);
-    static AsyncOp<DataModels::GetFilesResponse> GetFiles(SharedPtr<Entity> entity, const PFDataGetFilesRequest& request, const TaskQueue& queue);
-    static AsyncOp<DataModels::GetObjectsResponse> GetObjects(SharedPtr<Entity> entity, const PFDataGetObjectsRequest& request, const TaskQueue& queue);
-    static AsyncOp<DataModels::InitiateFileUploadsResponse> InitiateFileUploads(SharedPtr<Entity> entity, const PFDataInitiateFileUploadsRequest& request, const TaskQueue& queue);
-    static AsyncOp<DataModels::SetObjectsResponse> SetObjects(SharedPtr<Entity> entity, const PFDataSetObjectsRequest& request, const TaskQueue& queue);
+    static AsyncOp<AbortFileUploadsResponse> AbortFileUploads(SharedPtr<Entity> entity, const AbortFileUploadsRequest& request, const TaskQueue& queue);
+    static AsyncOp<DeleteFilesResponse> DeleteFiles(SharedPtr<Entity> entity, const DeleteFilesRequest& request, const TaskQueue& queue);
+    static AsyncOp<FinalizeFileUploadsResponse> FinalizeFileUploads(SharedPtr<Entity> entity, const FinalizeFileUploadsRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetFilesResponse> GetFiles(SharedPtr<Entity> entity, const GetFilesRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetObjectsResponse> GetObjects(SharedPtr<Entity> entity, const GetObjectsRequest& request, const TaskQueue& queue);
+    static AsyncOp<InitiateFileUploadsResponse> InitiateFileUploads(SharedPtr<Entity> entity, const InitiateFileUploadsRequest& request, const TaskQueue& queue);
+    static AsyncOp<SetObjectsResponse> SetObjects(SharedPtr<Entity> entity, const SetObjectsRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Data
+} // namespace PlayFab

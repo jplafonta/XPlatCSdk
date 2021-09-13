@@ -361,7 +361,11 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetActionsOnPlayersInSegme
         PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -396,7 +400,11 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetCloudScriptTaskInstance
         PFScheduledTaskGetCloudScriptTaskInstanceResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -431,7 +439,11 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTaskInstances(TestConte
         PFScheduledTaskGetTaskInstancesResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFScheduledTaskAdminGetTaskInstancesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFScheduledTaskAdminGetTaskInstancesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFScheduledTaskAdminGetTaskInstancesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -466,7 +478,11 @@ void AutoGenScheduledTaskTests::TestScheduledTaskAdminGetTasks(TestContext& test
         PFScheduledTaskGetTasksResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFScheduledTaskAdminGetTasksGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFScheduledTaskAdminGetTasksGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFScheduledTaskAdminGetTasksGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

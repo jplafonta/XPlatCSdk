@@ -238,7 +238,11 @@ void AutoGenCharacterTests::TestCharacterClientGetAllUsersCharacters(TestContext
         PFCharacterListUsersCharactersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetAllUsersCharactersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetAllUsersCharactersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetAllUsersCharactersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -273,7 +277,11 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterData(TestContext& tes
         PFCharacterClientGetCharacterDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetCharacterDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetCharacterDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetCharacterDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -308,7 +316,11 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterLeaderboard(TestConte
         PFCharacterGetCharacterLeaderboardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetCharacterLeaderboardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetCharacterLeaderboardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetCharacterLeaderboardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -343,7 +355,11 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterReadOnlyData(TestCont
         PFCharacterClientGetCharacterDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetCharacterReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetCharacterReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetCharacterReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -378,7 +394,11 @@ void AutoGenCharacterTests::TestCharacterClientGetCharacterStatistics(TestContex
         PFCharacterClientGetCharacterStatisticsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetCharacterStatisticsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetCharacterStatisticsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetCharacterStatisticsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -413,7 +433,11 @@ void AutoGenCharacterTests::TestCharacterClientGetLeaderboardAroundCharacter(Tes
         PFCharacterGetLeaderboardAroundCharacterResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetLeaderboardAroundCharacterGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetLeaderboardAroundCharacterGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetLeaderboardAroundCharacterGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -448,7 +472,11 @@ void AutoGenCharacterTests::TestCharacterClientGetLeaderboardForUserCharacters(T
         PFCharacterGetLeaderboardForUsersCharactersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterClientGetLeaderboardForUserCharactersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterClientGetLeaderboardForUserCharactersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterClientGetLeaderboardForUserCharactersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -625,7 +653,11 @@ void AutoGenCharacterTests::TestCharacterServerGetAllUsersCharacters(TestContext
         PFCharacterListUsersCharactersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetAllUsersCharactersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetAllUsersCharactersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetAllUsersCharactersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -660,7 +692,11 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterData(TestContext& tes
         PFCharacterServerGetCharacterDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetCharacterDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetCharacterDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetCharacterDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -695,7 +731,11 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterInternalData(TestCont
         PFCharacterServerGetCharacterDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetCharacterInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetCharacterInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetCharacterInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -730,7 +770,11 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterLeaderboard(TestConte
         PFCharacterGetCharacterLeaderboardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetCharacterLeaderboardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetCharacterLeaderboardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetCharacterLeaderboardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -765,7 +809,11 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterReadOnlyData(TestCont
         PFCharacterServerGetCharacterDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetCharacterReadOnlyDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetCharacterReadOnlyDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetCharacterReadOnlyDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -800,7 +848,11 @@ void AutoGenCharacterTests::TestCharacterServerGetCharacterStatistics(TestContex
         PFCharacterServerGetCharacterStatisticsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetCharacterStatisticsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetCharacterStatisticsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetCharacterStatisticsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -835,7 +887,11 @@ void AutoGenCharacterTests::TestCharacterServerGetLeaderboardAroundCharacter(Tes
         PFCharacterGetLeaderboardAroundCharacterResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetLeaderboardAroundCharacterGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetLeaderboardAroundCharacterGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetLeaderboardAroundCharacterGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -870,7 +926,11 @@ void AutoGenCharacterTests::TestCharacterServerGetLeaderboardForUserCharacters(T
         PFCharacterGetLeaderboardForUsersCharactersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFCharacterServerGetLeaderboardForUserCharactersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFCharacterServerGetLeaderboardForUserCharactersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFCharacterServerGetLeaderboardForUserCharactersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

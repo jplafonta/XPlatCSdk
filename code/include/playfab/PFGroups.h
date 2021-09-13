@@ -102,20 +102,34 @@ HRESULT PFGroupsApplyToGroupAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ApplyToGroup call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsApplyToGroupGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsApplyToGroupAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsApplyToGroupGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsApplyToGroupResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsApplyToGroupResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -181,20 +195,34 @@ HRESULT PFGroupsCreateGroupAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a CreateGroup call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsCreateGroupGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsCreateGroupAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsCreateGroupGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsCreateGroupResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsCreateGroupResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -307,20 +335,34 @@ HRESULT PFGroupsGetGroupAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a GetGroup call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsGetGroupGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsGetGroupAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsGetGroupGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsGetGroupResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsGetGroupResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -348,20 +390,34 @@ HRESULT PFGroupsInviteToGroupAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a InviteToGroup call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsInviteToGroupGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsInviteToGroupAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsInviteToGroupGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsInviteToGroupResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsInviteToGroupResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -416,20 +472,34 @@ HRESULT PFGroupsListGroupApplicationsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListGroupApplications call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsListGroupApplicationsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsListGroupApplicationsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsListGroupApplicationsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsListGroupApplicationsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsListGroupApplicationsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -452,20 +522,34 @@ HRESULT PFGroupsListGroupBlocksAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListGroupBlocks call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsListGroupBlocksGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsListGroupBlocksAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsListGroupBlocksGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsListGroupBlocksResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsListGroupBlocksResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -490,20 +574,34 @@ HRESULT PFGroupsListGroupInvitationsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListGroupInvitations call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsListGroupInvitationsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsListGroupInvitationsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsListGroupInvitationsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsListGroupInvitationsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsListGroupInvitationsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -527,20 +625,34 @@ HRESULT PFGroupsListGroupMembersAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListGroupMembers call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsListGroupMembersGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsListGroupMembersAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsListGroupMembersGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsListGroupMembersResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsListGroupMembersResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -565,20 +677,34 @@ HRESULT PFGroupsListMembershipAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListMembership call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsListMembershipGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsListMembershipAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsListMembershipGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsListMembershipResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsListMembershipResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -603,20 +729,34 @@ HRESULT PFGroupsListMembershipOpportunitiesAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ListMembershipOpportunities call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsListMembershipOpportunitiesGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsListMembershipOpportunitiesAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsListMembershipOpportunitiesGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsListMembershipOpportunitiesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsListMembershipOpportunitiesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -722,20 +862,34 @@ HRESULT PFGroupsUpdateGroupAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a UpdateGroup call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsUpdateGroupGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsUpdateGroupAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsUpdateGroupGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsUpdateGroupResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsUpdateGroupResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 /// <summary>
@@ -758,20 +912,34 @@ HRESULT PFGroupsUpdateRoleAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a UpdateRole call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFGroupsUpdateRoleGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFGroupsUpdateRoleAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFGroupsUpdateRoleGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGroupsUpdateGroupRoleResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGroupsUpdateGroupRoleResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 

@@ -214,7 +214,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeMicrosoftSto
         PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -249,7 +253,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePS5Entitleme
         PFPlatformSpecificConsumePS5EntitlementsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientConsumePS5EntitlementsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientConsumePS5EntitlementsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientConsumePS5EntitlementsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -284,7 +292,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumePSNEntitleme
         PFPlatformSpecificConsumePSNEntitlementsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientConsumePSNEntitlementsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientConsumePSNEntitlementsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientConsumePSNEntitlementsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -319,7 +331,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientConsumeXboxEntitlem
         PFPlatformSpecificConsumeXboxEntitlementsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientConsumeXboxEntitlementsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -422,7 +438,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientRestoreIOSPurchases
         PFPlatformSpecificRestoreIOSPurchasesResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientRestoreIOSPurchasesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientRestoreIOSPurchasesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientRestoreIOSPurchasesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -457,7 +477,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateAmazonIAPRe
         PFPlatformSpecificValidateAmazonReceiptResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientValidateAmazonIAPReceiptGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -492,7 +516,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateGooglePlayP
         PFPlatformSpecificValidateGooglePlayPurchaseResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientValidateGooglePlayPurchaseGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -527,7 +555,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateIOSReceipt(
         PFPlatformSpecificValidateIOSReceiptResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientValidateIOSReceiptGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientValidateIOSReceiptGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientValidateIOSReceiptGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -562,7 +594,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificClientValidateWindowsStor
         PFPlatformSpecificValidateWindowsReceiptResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificClientValidateWindowsStoreReceiptGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -597,7 +633,11 @@ void AutoGenPlatformSpecificTests::TestPlatformSpecificServerAwardSteamAchieveme
         PFPlatformSpecificAwardSteamAchievementResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlatformSpecificServerAwardSteamAchievementGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlatformSpecificServerAwardSteamAchievementGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlatformSpecificServerAwardSteamAchievementGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

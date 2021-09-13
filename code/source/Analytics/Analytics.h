@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Analytics
+{
 
 class AnalyticsAPI
 {
@@ -16,19 +18,20 @@ public:
     ~AnalyticsAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<void> ClientReportDeviceInfo(SharedPtr<TitlePlayer> entity, const PFAnalyticsDeviceInfoRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::WriteEventResponse> ClientWriteCharacterEvent(SharedPtr<TitlePlayer> entity, const PFAnalyticsWriteClientCharacterEventRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::WriteEventResponse> ClientWritePlayerEvent(SharedPtr<TitlePlayer> entity, const PFAnalyticsWriteClientPlayerEventRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::WriteEventResponse> ClientWriteTitleEvent(SharedPtr<TitlePlayer> entity, const PFAnalyticsWriteTitleEventRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::WriteEventResponse> ServerWriteCharacterEvent(SharedPtr<GlobalState const> state, const PFAnalyticsWriteServerCharacterEventRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::WriteEventResponse> ServerWritePlayerEvent(SharedPtr<GlobalState const> state, const PFAnalyticsWriteServerPlayerEventRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::WriteEventResponse> ServerWriteTitleEvent(SharedPtr<GlobalState const> state, const PFAnalyticsWriteTitleEventRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::InsightsGetDetailsResponse> GetDetails(SharedPtr<Entity> entity, const PFAnalyticsInsightsEmptyRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::InsightsGetLimitsResponse> GetLimits(SharedPtr<Entity> entity, const PFAnalyticsInsightsEmptyRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::InsightsGetOperationStatusResponse> GetOperationStatus(SharedPtr<Entity> entity, const PFAnalyticsInsightsGetOperationStatusRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::InsightsGetPendingOperationsResponse> GetPendingOperations(SharedPtr<Entity> entity, const PFAnalyticsInsightsGetPendingOperationsRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::InsightsOperationResponse> SetPerformance(SharedPtr<Entity> entity, const PFAnalyticsInsightsSetPerformanceRequest& request, const TaskQueue& queue);
-    static AsyncOp<AnalyticsModels::InsightsOperationResponse> SetStorageRetention(SharedPtr<Entity> entity, const PFAnalyticsInsightsSetStorageRetentionRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ClientReportDeviceInfo(SharedPtr<TitlePlayer> entity, const DeviceInfoRequest& request, const TaskQueue& queue);
+    static AsyncOp<WriteEventResponse> ClientWriteCharacterEvent(SharedPtr<TitlePlayer> entity, const WriteClientCharacterEventRequest& request, const TaskQueue& queue);
+    static AsyncOp<WriteEventResponse> ClientWritePlayerEvent(SharedPtr<TitlePlayer> entity, const WriteClientPlayerEventRequest& request, const TaskQueue& queue);
+    static AsyncOp<WriteEventResponse> ClientWriteTitleEvent(SharedPtr<TitlePlayer> entity, const WriteTitleEventRequest& request, const TaskQueue& queue);
+    static AsyncOp<WriteEventResponse> ServerWriteCharacterEvent(SharedPtr<GlobalState const> state, const WriteServerCharacterEventRequest& request, const TaskQueue& queue);
+    static AsyncOp<WriteEventResponse> ServerWritePlayerEvent(SharedPtr<GlobalState const> state, const WriteServerPlayerEventRequest& request, const TaskQueue& queue);
+    static AsyncOp<WriteEventResponse> ServerWriteTitleEvent(SharedPtr<GlobalState const> state, const WriteTitleEventRequest& request, const TaskQueue& queue);
+    static AsyncOp<InsightsGetDetailsResponse> GetDetails(SharedPtr<Entity> entity, const InsightsEmptyRequest& request, const TaskQueue& queue);
+    static AsyncOp<InsightsGetLimitsResponse> GetLimits(SharedPtr<Entity> entity, const InsightsEmptyRequest& request, const TaskQueue& queue);
+    static AsyncOp<InsightsGetOperationStatusResponse> GetOperationStatus(SharedPtr<Entity> entity, const InsightsGetOperationStatusRequest& request, const TaskQueue& queue);
+    static AsyncOp<InsightsGetPendingOperationsResponse> GetPendingOperations(SharedPtr<Entity> entity, const InsightsGetPendingOperationsRequest& request, const TaskQueue& queue);
+    static AsyncOp<InsightsOperationResponse> SetPerformance(SharedPtr<Entity> entity, const InsightsSetPerformanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<InsightsOperationResponse> SetStorageRetention(SharedPtr<Entity> entity, const InsightsSetStorageRetentionRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Analytics
+} // namespace PlayFab

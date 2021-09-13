@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::AdvertisingModels;
+using namespace PlayFab::Advertising;
 
 HRESULT PFAdvertisingClientAttributeInstallAsync(
     _In_ PFTitlePlayerHandle contextHandle,
@@ -34,16 +34,26 @@ HRESULT PFAdvertisingClientGetAdPlacementsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAdvertisingClientGetAdPlacementsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAdvertisingClientGetAdPlacementsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAdvertisingGetAdPlacementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAdvertisingGetAdPlacementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAdvertisingGetAdPlacementsResult*)(std::dynamic_pointer_cast<GetAdPlacementsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAdvertisingGetAdPlacementsResult*>(buffer);
 
     return S_OK;
 }
@@ -74,16 +84,26 @@ HRESULT PFAdvertisingClientRewardAdActivityAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAdvertisingClientRewardAdActivityGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAdvertisingClientRewardAdActivityGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAdvertisingRewardAdActivityResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAdvertisingRewardAdActivityResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAdvertisingRewardAdActivityResult*)(std::dynamic_pointer_cast<RewardAdActivityResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAdvertisingRewardAdActivityResult*>(buffer);
 
     return S_OK;
 }

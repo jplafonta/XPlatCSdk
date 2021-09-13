@@ -54,20 +54,34 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientConsumeMicrosoftStoreEntitlements call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 #if HC_PLATFORM != HC_PLATFORM_GDK
@@ -90,20 +104,34 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientConsumePS5Entitlements call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientConsumePS5EntitlementsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumePS5EntitlementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumePS5EntitlementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -127,20 +155,34 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientConsumePSNEntitlements call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientConsumePSNEntitlementsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumePSNEntitlementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumePSNEntitlementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -166,20 +208,34 @@ HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientConsumeXboxEntitlements call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientConsumeXboxEntitlementsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumeXboxEntitlementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumeXboxEntitlementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 #if HC_PLATFORM != HC_PLATFORM_GDK
@@ -244,20 +300,34 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientRestoreIOSPurchases call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientRestoreIOSPurchasesAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificRestoreIOSPurchasesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificRestoreIOSPurchasesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -281,20 +351,34 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientValidateAmazonIAPReceipt call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientValidateAmazonIAPReceiptAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateAmazonReceiptResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateAmazonReceiptResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -324,20 +408,34 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientValidateGooglePlayPurchase call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientValidateGooglePlayPurchaseAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateGooglePlayPurchaseResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateGooglePlayPurchaseResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -367,20 +465,34 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientValidateIOSReceipt call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientValidateIOSReceiptAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateIOSReceiptResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateIOSReceiptResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 
@@ -403,20 +515,34 @@ HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ClientValidateWindowsStoreReceipt call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificClientValidateWindowsStoreReceiptAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateWindowsReceiptResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateWindowsReceiptResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 #if HC_PLATFORM != HC_PLATFORM_GDK
@@ -438,20 +564,34 @@ HRESULT PFPlatformSpecificServerAwardSteamAchievementAsync(
 ) noexcept;
 
 /// <summary>
+/// Get the size in bytes needed to store the result of a ServerAwardSteamAchievement call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFPlatformSpecificServerAwardSteamAchievementGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
 /// Gets the result of a successful PFPlatformSpecificServerAwardSteamAchievementAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFPlatformSpecificServerAwardSteamAchievementGetResult(
     _Inout_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificAwardSteamAchievementResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificAwardSteamAchievementResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 #endif
 

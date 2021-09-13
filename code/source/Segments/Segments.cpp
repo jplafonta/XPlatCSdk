@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace SegmentsModels;
+namespace Segments
+{
 
 
 AsyncOp<CreateSegmentResponse> SegmentsAPI::AdminCreateSegment(
     SharedPtr<GlobalState const> state,
-    const PFSegmentsCreateSegmentRequest& request,
+    const CreateSegmentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<CreateSegmentResponse> SegmentsAPI::AdminCreateSegment(
     }
 
     const char* path{ "/Admin/CreateSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -52,7 +52,7 @@ AsyncOp<CreateSegmentResponse> SegmentsAPI::AdminCreateSegment(
 
 AsyncOp<DeleteSegmentsResponse> SegmentsAPI::AdminDeleteSegment(
     SharedPtr<GlobalState const> state,
-    const PFSegmentsDeleteSegmentRequest& request,
+    const DeleteSegmentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -63,7 +63,7 @@ AsyncOp<DeleteSegmentsResponse> SegmentsAPI::AdminDeleteSegment(
     }
 
     const char* path{ "/Admin/DeleteSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -93,7 +93,7 @@ AsyncOp<DeleteSegmentsResponse> SegmentsAPI::AdminDeleteSegment(
 
 AsyncOp<GetSegmentsResponse> SegmentsAPI::AdminGetSegments(
     SharedPtr<GlobalState const> state,
-    const PFSegmentsGetSegmentsRequest& request,
+    const GetSegmentsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<GetSegmentsResponse> SegmentsAPI::AdminGetSegments(
     }
 
     const char* path{ "/Admin/GetSegments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -134,7 +134,7 @@ AsyncOp<GetSegmentsResponse> SegmentsAPI::AdminGetSegments(
 
 AsyncOp<UpdateSegmentResponse> SegmentsAPI::AdminUpdateSegment(
     SharedPtr<GlobalState const> state,
-    const PFSegmentsUpdateSegmentRequest& request,
+    const UpdateSegmentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -145,7 +145,7 @@ AsyncOp<UpdateSegmentResponse> SegmentsAPI::AdminUpdateSegment(
     }
 
     const char* path{ "/Admin/UpdateSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -173,5 +173,5 @@ AsyncOp<UpdateSegmentResponse> SegmentsAPI::AdminUpdateSegment(
     });
 }
 
-
-}
+} // namespace Segments
+} // namespace PlayFab

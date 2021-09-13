@@ -318,7 +318,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGetUserInven
         PFPlayerItemManagementAdminGetUserInventoryResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementAdminGetUserInventoryGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementAdminGetUserInventoryGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementAdminGetUserInventoryGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -353,7 +357,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminGrantItemsTo
         PFPlayerItemManagementGrantItemsToUsersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementAdminGrantItemsToUsersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementAdminGrantItemsToUsersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementAdminGrantItemsToUsersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -456,7 +464,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementAdminRevokeInvent
         PFPlayerItemManagementRevokeInventoryItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementAdminRevokeInventoryItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementAdminRevokeInventoryItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementAdminRevokeInventoryItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -569,7 +581,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientConfirmPurc
         PFPlayerItemManagementConfirmPurchaseResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientConfirmPurchaseGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientConfirmPurchaseGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientConfirmPurchaseGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -643,7 +659,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetCharacte
         PFPlayerItemManagementClientGetCharacterInventoryResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientGetCharacterInventoryGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientGetCharacterInventoryGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientGetCharacterInventoryGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -756,7 +776,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientGetUserInve
         PFPlayerItemManagementClientGetUserInventoryResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientGetUserInventoryGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientGetUserInventoryGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientGetUserInventoryGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -791,7 +815,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPayForPurch
         PFPlayerItemManagementPayForPurchaseResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientPayForPurchaseGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientPayForPurchaseGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientPayForPurchaseGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -826,7 +854,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientPurchaseIte
         PFPlayerItemManagementPurchaseItemResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientPurchaseItemGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientPurchaseItemGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientPurchaseItemGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -861,7 +893,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientRedeemCoupo
         PFPlayerItemManagementRedeemCouponResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientRedeemCouponGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientRedeemCouponGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientRedeemCouponGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -896,7 +932,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientStartPurcha
         PFPlayerItemManagementStartPurchaseResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientStartPurchaseGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientStartPurchaseGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientStartPurchaseGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -970,7 +1010,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockConta
         PFPlayerItemManagementUnlockContainerItemResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientUnlockContainerInstanceGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientUnlockContainerInstanceGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientUnlockContainerInstanceGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1005,7 +1049,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementClientUnlockConta
         PFPlayerItemManagementUnlockContainerItemResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementClientUnlockContainerItemGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementClientUnlockContainerItemGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementClientUnlockContainerItemGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1196,7 +1244,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetCharacte
         PFPlayerItemManagementServerGetCharacterInventoryResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerGetCharacterInventoryGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerGetCharacterInventoryGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerGetCharacterInventoryGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1231,7 +1283,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetRandomRe
         PFGetRandomResultTablesResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerGetRandomResultTablesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerGetRandomResultTablesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerGetRandomResultTablesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1266,7 +1322,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGetUserInve
         PFPlayerItemManagementServerGetUserInventoryResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerGetUserInventoryGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerGetUserInventoryGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerGetUserInventoryGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1301,7 +1361,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsT
         PFPlayerItemManagementGrantItemsToCharacterResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerGrantItemsToCharacterGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerGrantItemsToCharacterGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerGrantItemsToCharacterGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1336,7 +1400,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsT
         PFPlayerItemManagementGrantItemsToUserResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerGrantItemsToUserGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerGrantItemsToUserGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerGrantItemsToUserGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1371,7 +1439,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerGrantItemsT
         PFPlayerItemManagementGrantItemsToUsersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerGrantItemsToUsersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerGrantItemsToUsersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerGrantItemsToUsersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1547,7 +1619,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRedeemCoupo
         PFPlayerItemManagementRedeemCouponResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerRedeemCouponGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerRedeemCouponGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerRedeemCouponGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1651,7 +1727,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerRevokeInven
         PFPlayerItemManagementRevokeInventoryItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerRevokeInventoryItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerRevokeInventoryItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerRevokeInventoryItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1764,7 +1844,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockConta
         PFPlayerItemManagementUnlockContainerItemResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerUnlockContainerInstanceGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerUnlockContainerInstanceGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerUnlockContainerInstanceGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1799,7 +1883,11 @@ void AutoGenPlayerItemManagementTests::TestPlayerItemManagementServerUnlockConta
         PFPlayerItemManagementUnlockContainerItemResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayerItemManagementServerUnlockContainerItemGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayerItemManagementServerUnlockContainerItemGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayerItemManagementServerUnlockContainerItemGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

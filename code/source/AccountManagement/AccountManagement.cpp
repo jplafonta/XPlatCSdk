@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace AccountManagementModels;
+namespace AccountManagement
+{
 
 
 AsyncOp<BanUsersResult> AccountManagementAPI::AdminBanUsers(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementBanUsersRequest& request,
+    const BanUsersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<BanUsersResult> AccountManagementAPI::AdminBanUsers(
     }
 
     const char* path{ "/Admin/BanUsers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -52,7 +52,7 @@ AsyncOp<BanUsersResult> AccountManagementAPI::AdminBanUsers(
 
 AsyncOp<DeleteMasterPlayerAccountResult> AccountManagementAPI::AdminDeleteMasterPlayerAccount(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementDeleteMasterPlayerAccountRequest& request,
+    const DeleteMasterPlayerAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -63,7 +63,7 @@ AsyncOp<DeleteMasterPlayerAccountResult> AccountManagementAPI::AdminDeleteMaster
     }
 
     const char* path{ "/Admin/DeleteMasterPlayerAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -93,7 +93,7 @@ AsyncOp<DeleteMasterPlayerAccountResult> AccountManagementAPI::AdminDeleteMaster
 
 AsyncOp<void> AccountManagementAPI::AdminDeletePlayer(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementDeletePlayerRequest& request,
+    const DeletePlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<void> AccountManagementAPI::AdminDeletePlayer(
     }
 
     const char* path{ "/Admin/DeletePlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -170,7 +170,7 @@ AsyncOp<void> AccountManagementAPI::AdminDeleteTitle(
 
 AsyncOp<ExportMasterPlayerDataResult> AccountManagementAPI::AdminExportMasterPlayerData(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementExportMasterPlayerDataRequest& request,
+    const ExportMasterPlayerDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -181,7 +181,7 @@ AsyncOp<ExportMasterPlayerDataResult> AccountManagementAPI::AdminExportMasterPla
     }
 
     const char* path{ "/Admin/ExportMasterPlayerData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -211,7 +211,7 @@ AsyncOp<ExportMasterPlayerDataResult> AccountManagementAPI::AdminExportMasterPla
 
 AsyncOp<GetPlayedTitleListResult> AccountManagementAPI::AdminGetPlayedTitleList(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayedTitleListRequest& request,
+    const GetPlayedTitleListRequest& request,
     const TaskQueue& queue
 )
 {
@@ -222,7 +222,7 @@ AsyncOp<GetPlayedTitleListResult> AccountManagementAPI::AdminGetPlayedTitleList(
     }
 
     const char* path{ "/Admin/GetPlayedTitleList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -252,7 +252,7 @@ AsyncOp<GetPlayedTitleListResult> AccountManagementAPI::AdminGetPlayedTitleList(
 
 AsyncOp<GetPlayerIdFromAuthTokenResult> AccountManagementAPI::AdminGetPlayerIdFromAuthToken(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayerIdFromAuthTokenRequest& request,
+    const GetPlayerIdFromAuthTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -263,7 +263,7 @@ AsyncOp<GetPlayerIdFromAuthTokenResult> AccountManagementAPI::AdminGetPlayerIdFr
     }
 
     const char* path{ "/Admin/GetPlayerIdFromAuthToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -293,7 +293,7 @@ AsyncOp<GetPlayerIdFromAuthTokenResult> AccountManagementAPI::AdminGetPlayerIdFr
 
 AsyncOp<GetPlayerProfileResult> AccountManagementAPI::AdminGetPlayerProfile(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayerProfileRequest& request,
+    const GetPlayerProfileRequest& request,
     const TaskQueue& queue
 )
 {
@@ -304,7 +304,7 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::AdminGetPlayerProfile(
     }
 
     const char* path{ "/Admin/GetPlayerProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -334,7 +334,7 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::AdminGetPlayerProfile(
 
 AsyncOp<LookupUserAccountInfoResult> AccountManagementAPI::AdminGetUserAccountInfo(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementLookupUserAccountInfoRequest& request,
+    const LookupUserAccountInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -345,7 +345,7 @@ AsyncOp<LookupUserAccountInfoResult> AccountManagementAPI::AdminGetUserAccountIn
     }
 
     const char* path{ "/Admin/GetUserAccountInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -375,7 +375,7 @@ AsyncOp<LookupUserAccountInfoResult> AccountManagementAPI::AdminGetUserAccountIn
 
 AsyncOp<GetUserBansResult> AccountManagementAPI::AdminGetUserBans(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetUserBansRequest& request,
+    const GetUserBansRequest& request,
     const TaskQueue& queue
 )
 {
@@ -386,7 +386,7 @@ AsyncOp<GetUserBansResult> AccountManagementAPI::AdminGetUserBans(
     }
 
     const char* path{ "/Admin/GetUserBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -416,7 +416,7 @@ AsyncOp<GetUserBansResult> AccountManagementAPI::AdminGetUserBans(
 
 AsyncOp<void> AccountManagementAPI::AdminResetPassword(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementResetPasswordRequest& request,
+    const ResetPasswordRequest& request,
     const TaskQueue& queue
 )
 {
@@ -427,7 +427,7 @@ AsyncOp<void> AccountManagementAPI::AdminResetPassword(
     }
 
     const char* path{ "/Admin/ResetPassword" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -455,7 +455,7 @@ AsyncOp<void> AccountManagementAPI::AdminResetPassword(
 
 AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::AdminRevokeAllBansForUser(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementRevokeAllBansForUserRequest& request,
+    const RevokeAllBansForUserRequest& request,
     const TaskQueue& queue
 )
 {
@@ -466,7 +466,7 @@ AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::AdminRevokeAllBansForU
     }
 
     const char* path{ "/Admin/RevokeAllBansForUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -496,7 +496,7 @@ AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::AdminRevokeAllBansForU
 
 AsyncOp<RevokeBansResult> AccountManagementAPI::AdminRevokeBans(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementRevokeBansRequest& request,
+    const RevokeBansRequest& request,
     const TaskQueue& queue
 )
 {
@@ -507,7 +507,7 @@ AsyncOp<RevokeBansResult> AccountManagementAPI::AdminRevokeBans(
     }
 
     const char* path{ "/Admin/RevokeBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -537,7 +537,7 @@ AsyncOp<RevokeBansResult> AccountManagementAPI::AdminRevokeBans(
 
 AsyncOp<void> AccountManagementAPI::AdminSendAccountRecoveryEmail(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementAdminSendAccountRecoveryEmailRequest& request,
+    const AdminSendAccountRecoveryEmailRequest& request,
     const TaskQueue& queue
 )
 {
@@ -548,7 +548,7 @@ AsyncOp<void> AccountManagementAPI::AdminSendAccountRecoveryEmail(
     }
 
     const char* path{ "/Admin/SendAccountRecoveryEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -576,7 +576,7 @@ AsyncOp<void> AccountManagementAPI::AdminSendAccountRecoveryEmail(
 
 AsyncOp<UpdateBansResult> AccountManagementAPI::AdminUpdateBans(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementUpdateBansRequest& request,
+    const UpdateBansRequest& request,
     const TaskQueue& queue
 )
 {
@@ -587,7 +587,7 @@ AsyncOp<UpdateBansResult> AccountManagementAPI::AdminUpdateBans(
     }
 
     const char* path{ "/Admin/UpdateBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -617,7 +617,7 @@ AsyncOp<UpdateBansResult> AccountManagementAPI::AdminUpdateBans(
 
 AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::AdminUpdateUserTitleDisplayName(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementAdminUpdateUserTitleDisplayNameRequest& request,
+    const AdminUpdateUserTitleDisplayNameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -628,7 +628,7 @@ AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::AdminUpdateUserT
     }
 
     const char* path{ "/Admin/UpdateUserTitleDisplayName" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -658,7 +658,7 @@ AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::AdminUpdateUserT
 
 AsyncOp<void> AccountManagementAPI::ClientAddGenericID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientAddGenericIDRequest& request,
+    const ClientAddGenericIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -669,7 +669,7 @@ AsyncOp<void> AccountManagementAPI::ClientAddGenericID(
     }
 
     const char* path{ "/Client/AddGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -698,7 +698,7 @@ AsyncOp<void> AccountManagementAPI::ClientAddGenericID(
 
 AsyncOp<void> AccountManagementAPI::ClientAddOrUpdateContactEmail(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementAddOrUpdateContactEmailRequest& request,
+    const AddOrUpdateContactEmailRequest& request,
     const TaskQueue& queue
 )
 {
@@ -709,7 +709,7 @@ AsyncOp<void> AccountManagementAPI::ClientAddOrUpdateContactEmail(
     }
 
     const char* path{ "/Client/AddOrUpdateContactEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -738,7 +738,7 @@ AsyncOp<void> AccountManagementAPI::ClientAddOrUpdateContactEmail(
 
 AsyncOp<AddUsernamePasswordResult> AccountManagementAPI::ClientAddUsernamePassword(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementAddUsernamePasswordRequest& request,
+    const AddUsernamePasswordRequest& request,
     const TaskQueue& queue
 )
 {
@@ -749,7 +749,7 @@ AsyncOp<AddUsernamePasswordResult> AccountManagementAPI::ClientAddUsernamePasswo
     }
 
     const char* path{ "/Client/AddUsernamePassword" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -780,7 +780,7 @@ AsyncOp<AddUsernamePasswordResult> AccountManagementAPI::ClientAddUsernamePasswo
 
 AsyncOp<GetAccountInfoResult> AccountManagementAPI::ClientGetAccountInfo(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetAccountInfoRequest& request,
+    const GetAccountInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -791,7 +791,7 @@ AsyncOp<GetAccountInfoResult> AccountManagementAPI::ClientGetAccountInfo(
     }
 
     const char* path{ "/Client/GetAccountInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -822,7 +822,7 @@ AsyncOp<GetAccountInfoResult> AccountManagementAPI::ClientGetAccountInfo(
 
 AsyncOp<GetPlayerCombinedInfoResult> AccountManagementAPI::ClientGetPlayerCombinedInfo(
     SharedPtr<TitlePlayer> entity,
-    const PFGetPlayerCombinedInfoRequest& request,
+    const GetPlayerCombinedInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -833,7 +833,7 @@ AsyncOp<GetPlayerCombinedInfoResult> AccountManagementAPI::ClientGetPlayerCombin
     }
 
     const char* path{ "/Client/GetPlayerCombinedInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -864,7 +864,7 @@ AsyncOp<GetPlayerCombinedInfoResult> AccountManagementAPI::ClientGetPlayerCombin
 
 AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ClientGetPlayerProfile(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayerProfileRequest& request,
+    const GetPlayerProfileRequest& request,
     const TaskQueue& queue
 )
 {
@@ -875,7 +875,7 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ClientGetPlayerProfile(
     }
 
     const char* path{ "/Client/GetPlayerProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -906,7 +906,7 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ClientGetPlayerProfile(
 
 AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromFacebookIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& request,
+    const GetPlayFabIDsFromFacebookIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -917,7 +917,7 @@ AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ClientGetPlayF
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromFacebookIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -948,7 +948,7 @@ AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ClientGetPlayF
 
 AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::ClientGetPlayFabIDsFromFacebookInstantGamesIds(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& request,
+    const GetPlayFabIDsFromFacebookInstantGamesIdsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -959,7 +959,7 @@ AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::Cl
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromFacebookInstantGamesIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -990,7 +990,7 @@ AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::Cl
 
 AsyncOp<GetPlayFabIDsFromGameCenterIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromGameCenterIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest& request,
+    const GetPlayFabIDsFromGameCenterIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1001,7 +1001,7 @@ AsyncOp<GetPlayFabIDsFromGameCenterIDsResult> AccountManagementAPI::ClientGetPla
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromGameCenterIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1032,7 +1032,7 @@ AsyncOp<GetPlayFabIDsFromGameCenterIDsResult> AccountManagementAPI::ClientGetPla
 
 AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromGenericIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& request,
+    const GetPlayFabIDsFromGenericIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1043,7 +1043,7 @@ AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ClientGetPlayFa
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromGenericIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1074,7 +1074,7 @@ AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ClientGetPlayFa
 
 AsyncOp<GetPlayFabIDsFromGoogleIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromGoogleIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest& request,
+    const GetPlayFabIDsFromGoogleIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1085,7 +1085,7 @@ AsyncOp<GetPlayFabIDsFromGoogleIDsResult> AccountManagementAPI::ClientGetPlayFab
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromGoogleIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1116,7 +1116,7 @@ AsyncOp<GetPlayFabIDsFromGoogleIDsResult> AccountManagementAPI::ClientGetPlayFab
 
 AsyncOp<GetPlayFabIDsFromKongregateIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromKongregateIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest& request,
+    const GetPlayFabIDsFromKongregateIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1127,7 +1127,7 @@ AsyncOp<GetPlayFabIDsFromKongregateIDsResult> AccountManagementAPI::ClientGetPla
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromKongregateIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1158,7 +1158,7 @@ AsyncOp<GetPlayFabIDsFromKongregateIDsResult> AccountManagementAPI::ClientGetPla
 
 AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::ClientGetPlayFabIDsFromNintendoSwitchDeviceIds(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request,
+    const GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1169,7 +1169,7 @@ AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::Cl
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromNintendoSwitchDeviceIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1200,7 +1200,7 @@ AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::Cl
 
 AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromPSNAccountIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& request,
+    const GetPlayFabIDsFromPSNAccountIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1211,7 +1211,7 @@ AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ClientGetPla
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromPSNAccountIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1242,7 +1242,7 @@ AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ClientGetPla
 
 AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromSteamIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& request,
+    const GetPlayFabIDsFromSteamIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1253,7 +1253,7 @@ AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ClientGetPlayFabI
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromSteamIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1284,7 +1284,7 @@ AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ClientGetPlayFabI
 
 AsyncOp<GetPlayFabIDsFromTwitchIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromTwitchIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest& request,
+    const GetPlayFabIDsFromTwitchIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1295,7 +1295,7 @@ AsyncOp<GetPlayFabIDsFromTwitchIDsResult> AccountManagementAPI::ClientGetPlayFab
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromTwitchIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1326,7 +1326,7 @@ AsyncOp<GetPlayFabIDsFromTwitchIDsResult> AccountManagementAPI::ClientGetPlayFab
 
 AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ClientGetPlayFabIDsFromXboxLiveIDs(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& request,
+    const GetPlayFabIDsFromXboxLiveIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1337,7 +1337,7 @@ AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ClientGetPlayF
     }
 
     const char* path{ "/Client/GetPlayFabIDsFromXboxLiveIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1368,7 +1368,7 @@ AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ClientGetPlayF
 
 AsyncOp<void> AccountManagementAPI::ClientLinkAndroidDeviceID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkAndroidDeviceIDRequest& request,
+    const LinkAndroidDeviceIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1379,7 +1379,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkAndroidDeviceID(
     }
 
     const char* path{ "/Client/LinkAndroidDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1408,7 +1408,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkAndroidDeviceID(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkApple(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkAppleRequest& request,
+    const LinkAppleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1419,7 +1419,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkApple(
     }
 
     const char* path{ "/Client/LinkApple" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1448,7 +1448,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkApple(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkCustomID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkCustomIDRequest& request,
+    const LinkCustomIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1459,7 +1459,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkCustomID(
     }
 
     const char* path{ "/Client/LinkCustomID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1488,7 +1488,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkCustomID(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkFacebookAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkFacebookAccountRequest& request,
+    const LinkFacebookAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1499,7 +1499,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkFacebookAccount(
     }
 
     const char* path{ "/Client/LinkFacebookAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1528,7 +1528,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkFacebookAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkFacebookInstantGamesId(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkFacebookInstantGamesIdRequest& request,
+    const LinkFacebookInstantGamesIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1539,7 +1539,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkFacebookInstantGamesId(
     }
 
     const char* path{ "/Client/LinkFacebookInstantGamesId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1568,7 +1568,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkFacebookInstantGamesId(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkGameCenterAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkGameCenterAccountRequest& request,
+    const LinkGameCenterAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1579,7 +1579,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkGameCenterAccount(
     }
 
     const char* path{ "/Client/LinkGameCenterAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1608,7 +1608,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkGameCenterAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkGoogleAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkGoogleAccountRequest& request,
+    const LinkGoogleAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1619,7 +1619,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkGoogleAccount(
     }
 
     const char* path{ "/Client/LinkGoogleAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1648,7 +1648,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkGoogleAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkIOSDeviceID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkIOSDeviceIDRequest& request,
+    const LinkIOSDeviceIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1659,7 +1659,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkIOSDeviceID(
     }
 
     const char* path{ "/Client/LinkIOSDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1688,7 +1688,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkIOSDeviceID(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkKongregate(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkKongregateAccountRequest& request,
+    const LinkKongregateAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1699,7 +1699,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkKongregate(
     }
 
     const char* path{ "/Client/LinkKongregate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1728,7 +1728,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkKongregate(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkNintendoServiceAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkNintendoServiceAccountRequest& request,
+    const LinkNintendoServiceAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1739,7 +1739,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkNintendoServiceAccount(
     }
 
     const char* path{ "/Client/LinkNintendoServiceAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1768,7 +1768,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkNintendoServiceAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkNintendoSwitchDeviceId(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkNintendoSwitchDeviceIdRequest& request,
+    const LinkNintendoSwitchDeviceIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1779,7 +1779,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkNintendoSwitchDeviceId(
     }
 
     const char* path{ "/Client/LinkNintendoSwitchDeviceId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1808,7 +1808,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkNintendoSwitchDeviceId(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkOpenIdConnect(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkOpenIdConnectRequest& request,
+    const LinkOpenIdConnectRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1819,7 +1819,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkOpenIdConnect(
     }
 
     const char* path{ "/Client/LinkOpenIdConnect" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1848,7 +1848,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkOpenIdConnect(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkPSNAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientLinkPSNAccountRequest& request,
+    const ClientLinkPSNAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1859,7 +1859,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkPSNAccount(
     }
 
     const char* path{ "/Client/LinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1888,7 +1888,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkPSNAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkSteamAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkSteamAccountRequest& request,
+    const LinkSteamAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1899,7 +1899,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkSteamAccount(
     }
 
     const char* path{ "/Client/LinkSteamAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1928,7 +1928,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkSteamAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkTwitch(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementLinkTwitchAccountRequest& request,
+    const LinkTwitchAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1939,7 +1939,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkTwitch(
     }
 
     const char* path{ "/Client/LinkTwitch" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1968,7 +1968,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkTwitch(
 
 AsyncOp<void> AccountManagementAPI::ClientLinkXboxAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientLinkXboxAccountRequest& request,
+    const ClientLinkXboxAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1979,7 +1979,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkXboxAccount(
     }
 
     const char* path{ "/Client/LinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2008,7 +2008,7 @@ AsyncOp<void> AccountManagementAPI::ClientLinkXboxAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientRemoveContactEmail(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementRemoveContactEmailRequest& request,
+    const RemoveContactEmailRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2019,7 +2019,7 @@ AsyncOp<void> AccountManagementAPI::ClientRemoveContactEmail(
     }
 
     const char* path{ "/Client/RemoveContactEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2048,7 +2048,7 @@ AsyncOp<void> AccountManagementAPI::ClientRemoveContactEmail(
 
 AsyncOp<void> AccountManagementAPI::ClientRemoveGenericID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientRemoveGenericIDRequest& request,
+    const ClientRemoveGenericIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2059,7 +2059,7 @@ AsyncOp<void> AccountManagementAPI::ClientRemoveGenericID(
     }
 
     const char* path{ "/Client/RemoveGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2088,7 +2088,7 @@ AsyncOp<void> AccountManagementAPI::ClientRemoveGenericID(
 
 AsyncOp<ReportPlayerClientResult> AccountManagementAPI::ClientReportPlayer(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementReportPlayerClientRequest& request,
+    const ReportPlayerClientRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2099,7 +2099,7 @@ AsyncOp<ReportPlayerClientResult> AccountManagementAPI::ClientReportPlayer(
     }
 
     const char* path{ "/Client/ReportPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2130,12 +2130,12 @@ AsyncOp<ReportPlayerClientResult> AccountManagementAPI::ClientReportPlayer(
 
 AsyncOp<void> AccountManagementAPI::ClientSendAccountRecoveryEmail(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementClientSendAccountRecoveryEmailRequest& request,
+    const ClientSendAccountRecoveryEmailRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/SendAccountRecoveryEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2163,7 +2163,7 @@ AsyncOp<void> AccountManagementAPI::ClientSendAccountRecoveryEmail(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkAndroidDeviceID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkAndroidDeviceIDRequest& request,
+    const UnlinkAndroidDeviceIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2174,7 +2174,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkAndroidDeviceID(
     }
 
     const char* path{ "/Client/UnlinkAndroidDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2203,7 +2203,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkAndroidDeviceID(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkApple(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkAppleRequest& request,
+    const UnlinkAppleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2214,7 +2214,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkApple(
     }
 
     const char* path{ "/Client/UnlinkApple" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2243,7 +2243,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkApple(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkCustomID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkCustomIDRequest& request,
+    const UnlinkCustomIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2254,7 +2254,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkCustomID(
     }
 
     const char* path{ "/Client/UnlinkCustomID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2283,7 +2283,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkCustomID(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkFacebookAccountRequest& request,
+    const UnlinkFacebookAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2294,7 +2294,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookAccount(
     }
 
     const char* path{ "/Client/UnlinkFacebookAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2323,7 +2323,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookInstantGamesId(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkFacebookInstantGamesIdRequest& request,
+    const UnlinkFacebookInstantGamesIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2334,7 +2334,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookInstantGamesId(
     }
 
     const char* path{ "/Client/UnlinkFacebookInstantGamesId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2363,7 +2363,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkFacebookInstantGamesId(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkGameCenterAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkGameCenterAccountRequest& request,
+    const UnlinkGameCenterAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2374,7 +2374,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkGameCenterAccount(
     }
 
     const char* path{ "/Client/UnlinkGameCenterAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2403,7 +2403,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkGameCenterAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkGoogleAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkGoogleAccountRequest& request,
+    const UnlinkGoogleAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2414,7 +2414,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkGoogleAccount(
     }
 
     const char* path{ "/Client/UnlinkGoogleAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2443,7 +2443,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkGoogleAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkIOSDeviceID(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkIOSDeviceIDRequest& request,
+    const UnlinkIOSDeviceIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2454,7 +2454,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkIOSDeviceID(
     }
 
     const char* path{ "/Client/UnlinkIOSDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2483,7 +2483,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkIOSDeviceID(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkKongregate(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkKongregateAccountRequest& request,
+    const UnlinkKongregateAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2494,7 +2494,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkKongregate(
     }
 
     const char* path{ "/Client/UnlinkKongregate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2523,7 +2523,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkKongregate(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoServiceAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkNintendoServiceAccountRequest& request,
+    const UnlinkNintendoServiceAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2534,7 +2534,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoServiceAccount(
     }
 
     const char* path{ "/Client/UnlinkNintendoServiceAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2563,7 +2563,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoServiceAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest& request,
+    const UnlinkNintendoSwitchDeviceIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2574,7 +2574,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId(
     }
 
     const char* path{ "/Client/UnlinkNintendoSwitchDeviceId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2603,7 +2603,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkNintendoSwitchDeviceId(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkOpenIdConnect(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkOpenIdConnectRequest& request,
+    const UnlinkOpenIdConnectRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2614,7 +2614,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkOpenIdConnect(
     }
 
     const char* path{ "/Client/UnlinkOpenIdConnect" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2643,7 +2643,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkOpenIdConnect(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkPSNAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientUnlinkPSNAccountRequest& request,
+    const ClientUnlinkPSNAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2654,7 +2654,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkPSNAccount(
     }
 
     const char* path{ "/Client/UnlinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2683,7 +2683,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkPSNAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkSteamAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkSteamAccountRequest& request,
+    const UnlinkSteamAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2694,7 +2694,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkSteamAccount(
     }
 
     const char* path{ "/Client/UnlinkSteamAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2723,7 +2723,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkSteamAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkTwitch(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementUnlinkTwitchAccountRequest& request,
+    const UnlinkTwitchAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2734,7 +2734,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkTwitch(
     }
 
     const char* path{ "/Client/UnlinkTwitch" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2763,7 +2763,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkTwitch(
 
 AsyncOp<void> AccountManagementAPI::ClientUnlinkXboxAccount(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientUnlinkXboxAccountRequest& request,
+    const ClientUnlinkXboxAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2774,7 +2774,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkXboxAccount(
     }
 
     const char* path{ "/Client/UnlinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2803,7 +2803,7 @@ AsyncOp<void> AccountManagementAPI::ClientUnlinkXboxAccount(
 
 AsyncOp<void> AccountManagementAPI::ClientUpdateAvatarUrl(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientUpdateAvatarUrlRequest& request,
+    const ClientUpdateAvatarUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2814,7 +2814,7 @@ AsyncOp<void> AccountManagementAPI::ClientUpdateAvatarUrl(
     }
 
     const char* path{ "/Client/UpdateAvatarUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2843,7 +2843,7 @@ AsyncOp<void> AccountManagementAPI::ClientUpdateAvatarUrl(
 
 AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::ClientUpdateUserTitleDisplayName(
     SharedPtr<TitlePlayer> entity,
-    const PFAccountManagementClientUpdateUserTitleDisplayNameRequest& request,
+    const ClientUpdateUserTitleDisplayNameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2854,7 +2854,7 @@ AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::ClientUpdateUser
     }
 
     const char* path{ "/Client/UpdateUserTitleDisplayName" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -2885,7 +2885,7 @@ AsyncOp<UpdateUserTitleDisplayNameResult> AccountManagementAPI::ClientUpdateUser
 
 AsyncOp<void> AccountManagementAPI::ServerAddGenericID(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerAddGenericIDRequest& request,
+    const ServerAddGenericIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2896,7 +2896,7 @@ AsyncOp<void> AccountManagementAPI::ServerAddGenericID(
     }
 
     const char* path{ "/Server/AddGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2924,7 +2924,7 @@ AsyncOp<void> AccountManagementAPI::ServerAddGenericID(
 
 AsyncOp<BanUsersResult> AccountManagementAPI::ServerBanUsers(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementBanUsersRequest& request,
+    const BanUsersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2935,7 +2935,7 @@ AsyncOp<BanUsersResult> AccountManagementAPI::ServerBanUsers(
     }
 
     const char* path{ "/Server/BanUsers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2965,7 +2965,7 @@ AsyncOp<BanUsersResult> AccountManagementAPI::ServerBanUsers(
 
 AsyncOp<void> AccountManagementAPI::ServerDeletePlayer(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementDeletePlayerRequest& request,
+    const DeletePlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2976,7 +2976,7 @@ AsyncOp<void> AccountManagementAPI::ServerDeletePlayer(
     }
 
     const char* path{ "/Server/DeletePlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3004,7 +3004,7 @@ AsyncOp<void> AccountManagementAPI::ServerDeletePlayer(
 
 AsyncOp<void> AccountManagementAPI::ServerDeletePushNotificationTemplate(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementDeletePushNotificationTemplateRequest& request,
+    const DeletePushNotificationTemplateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3015,7 +3015,7 @@ AsyncOp<void> AccountManagementAPI::ServerDeletePushNotificationTemplate(
     }
 
     const char* path{ "/Server/DeletePushNotificationTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3043,7 +3043,7 @@ AsyncOp<void> AccountManagementAPI::ServerDeletePushNotificationTemplate(
 
 AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ServerGetPlayerProfile(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayerProfileRequest& request,
+    const GetPlayerProfileRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3054,7 +3054,7 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ServerGetPlayerProfile(
     }
 
     const char* path{ "/Server/GetPlayerProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3084,7 +3084,7 @@ AsyncOp<GetPlayerProfileResult> AccountManagementAPI::ServerGetPlayerProfile(
 
 AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromFacebookIDs(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& request,
+    const GetPlayFabIDsFromFacebookIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3095,7 +3095,7 @@ AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ServerGetPlayF
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromFacebookIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3125,7 +3125,7 @@ AsyncOp<GetPlayFabIDsFromFacebookIDsResult> AccountManagementAPI::ServerGetPlayF
 
 AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::ServerGetPlayFabIDsFromFacebookInstantGamesIds(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& request,
+    const GetPlayFabIDsFromFacebookInstantGamesIdsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3136,7 +3136,7 @@ AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::Se
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromFacebookInstantGamesIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3166,7 +3166,7 @@ AsyncOp<GetPlayFabIDsFromFacebookInstantGamesIdsResult> AccountManagementAPI::Se
 
 AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromGenericIDs(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& request,
+    const GetPlayFabIDsFromGenericIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3177,7 +3177,7 @@ AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ServerGetPlayFa
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromGenericIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3207,7 +3207,7 @@ AsyncOp<GetPlayFabIDsFromGenericIDsResult> AccountManagementAPI::ServerGetPlayFa
 
 AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::ServerGetPlayFabIDsFromNintendoSwitchDeviceIds(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request,
+    const GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3218,7 +3218,7 @@ AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::Se
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromNintendoSwitchDeviceIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3248,7 +3248,7 @@ AsyncOp<GetPlayFabIDsFromNintendoSwitchDeviceIdsResult> AccountManagementAPI::Se
 
 AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromPSNAccountIDs(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& request,
+    const GetPlayFabIDsFromPSNAccountIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3259,7 +3259,7 @@ AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ServerGetPla
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromPSNAccountIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3289,7 +3289,7 @@ AsyncOp<GetPlayFabIDsFromPSNAccountIDsResult> AccountManagementAPI::ServerGetPla
 
 AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromSteamIDs(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& request,
+    const GetPlayFabIDsFromSteamIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3300,7 +3300,7 @@ AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ServerGetPlayFabI
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromSteamIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3330,7 +3330,7 @@ AsyncOp<GetPlayFabIDsFromSteamIDsResult> AccountManagementAPI::ServerGetPlayFabI
 
 AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ServerGetPlayFabIDsFromXboxLiveIDs(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& request,
+    const GetPlayFabIDsFromXboxLiveIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3341,7 +3341,7 @@ AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ServerGetPlayF
     }
 
     const char* path{ "/Server/GetPlayFabIDsFromXboxLiveIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3371,7 +3371,7 @@ AsyncOp<GetPlayFabIDsFromXboxLiveIDsResult> AccountManagementAPI::ServerGetPlayF
 
 AsyncOp<GetServerCustomIDsFromPlayFabIDsResult> AccountManagementAPI::ServerGetServerCustomIDsFromPlayFabIDs(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest& request,
+    const GetServerCustomIDsFromPlayFabIDsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3382,7 +3382,7 @@ AsyncOp<GetServerCustomIDsFromPlayFabIDsResult> AccountManagementAPI::ServerGetS
     }
 
     const char* path{ "/Server/GetServerCustomIDsFromPlayFabIDs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3412,7 +3412,7 @@ AsyncOp<GetServerCustomIDsFromPlayFabIDsResult> AccountManagementAPI::ServerGetS
 
 AsyncOp<GetUserAccountInfoResult> AccountManagementAPI::ServerGetUserAccountInfo(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetUserAccountInfoRequest& request,
+    const GetUserAccountInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3423,7 +3423,7 @@ AsyncOp<GetUserAccountInfoResult> AccountManagementAPI::ServerGetUserAccountInfo
     }
 
     const char* path{ "/Server/GetUserAccountInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3453,7 +3453,7 @@ AsyncOp<GetUserAccountInfoResult> AccountManagementAPI::ServerGetUserAccountInfo
 
 AsyncOp<GetUserBansResult> AccountManagementAPI::ServerGetUserBans(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementGetUserBansRequest& request,
+    const GetUserBansRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3464,7 +3464,7 @@ AsyncOp<GetUserBansResult> AccountManagementAPI::ServerGetUserBans(
     }
 
     const char* path{ "/Server/GetUserBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3494,7 +3494,7 @@ AsyncOp<GetUserBansResult> AccountManagementAPI::ServerGetUserBans(
 
 AsyncOp<void> AccountManagementAPI::ServerLinkPSNAccount(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerLinkPSNAccountRequest& request,
+    const ServerLinkPSNAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3505,7 +3505,7 @@ AsyncOp<void> AccountManagementAPI::ServerLinkPSNAccount(
     }
 
     const char* path{ "/Server/LinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3533,7 +3533,7 @@ AsyncOp<void> AccountManagementAPI::ServerLinkPSNAccount(
 
 AsyncOp<void> AccountManagementAPI::ServerLinkServerCustomId(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementLinkServerCustomIdRequest& request,
+    const LinkServerCustomIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3544,7 +3544,7 @@ AsyncOp<void> AccountManagementAPI::ServerLinkServerCustomId(
     }
 
     const char* path{ "/Server/LinkServerCustomId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3572,7 +3572,7 @@ AsyncOp<void> AccountManagementAPI::ServerLinkServerCustomId(
 
 AsyncOp<void> AccountManagementAPI::ServerLinkXboxAccount(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerLinkXboxAccountRequest& request,
+    const ServerLinkXboxAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3583,7 +3583,7 @@ AsyncOp<void> AccountManagementAPI::ServerLinkXboxAccount(
     }
 
     const char* path{ "/Server/LinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3611,7 +3611,7 @@ AsyncOp<void> AccountManagementAPI::ServerLinkXboxAccount(
 
 AsyncOp<void> AccountManagementAPI::ServerRemoveGenericID(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerRemoveGenericIDRequest& request,
+    const ServerRemoveGenericIDRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3622,7 +3622,7 @@ AsyncOp<void> AccountManagementAPI::ServerRemoveGenericID(
     }
 
     const char* path{ "/Server/RemoveGenericID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3650,7 +3650,7 @@ AsyncOp<void> AccountManagementAPI::ServerRemoveGenericID(
 
 AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::ServerRevokeAllBansForUser(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementRevokeAllBansForUserRequest& request,
+    const RevokeAllBansForUserRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3661,7 +3661,7 @@ AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::ServerRevokeAllBansFor
     }
 
     const char* path{ "/Server/RevokeAllBansForUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3691,7 +3691,7 @@ AsyncOp<RevokeAllBansForUserResult> AccountManagementAPI::ServerRevokeAllBansFor
 
 AsyncOp<RevokeBansResult> AccountManagementAPI::ServerRevokeBans(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementRevokeBansRequest& request,
+    const RevokeBansRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3702,7 +3702,7 @@ AsyncOp<RevokeBansResult> AccountManagementAPI::ServerRevokeBans(
     }
 
     const char* path{ "/Server/RevokeBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3732,7 +3732,7 @@ AsyncOp<RevokeBansResult> AccountManagementAPI::ServerRevokeBans(
 
 AsyncOp<SavePushNotificationTemplateResult> AccountManagementAPI::ServerSavePushNotificationTemplate(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementSavePushNotificationTemplateRequest& request,
+    const SavePushNotificationTemplateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3743,7 +3743,7 @@ AsyncOp<SavePushNotificationTemplateResult> AccountManagementAPI::ServerSavePush
     }
 
     const char* path{ "/Server/SavePushNotificationTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3773,7 +3773,7 @@ AsyncOp<SavePushNotificationTemplateResult> AccountManagementAPI::ServerSavePush
 
 AsyncOp<void> AccountManagementAPI::ServerSendCustomAccountRecoveryEmail(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementSendCustomAccountRecoveryEmailRequest& request,
+    const SendCustomAccountRecoveryEmailRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3784,7 +3784,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendCustomAccountRecoveryEmail(
     }
 
     const char* path{ "/Server/SendCustomAccountRecoveryEmail" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3812,7 +3812,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendCustomAccountRecoveryEmail(
 
 AsyncOp<void> AccountManagementAPI::ServerSendEmailFromTemplate(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementSendEmailFromTemplateRequest& request,
+    const SendEmailFromTemplateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3823,7 +3823,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendEmailFromTemplate(
     }
 
     const char* path{ "/Server/SendEmailFromTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3851,7 +3851,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendEmailFromTemplate(
 
 AsyncOp<void> AccountManagementAPI::ServerSendPushNotification(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementSendPushNotificationRequest& request,
+    const SendPushNotificationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3862,7 +3862,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendPushNotification(
     }
 
     const char* path{ "/Server/SendPushNotification" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3890,7 +3890,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendPushNotification(
 
 AsyncOp<void> AccountManagementAPI::ServerSendPushNotificationFromTemplate(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementSendPushNotificationFromTemplateRequest& request,
+    const SendPushNotificationFromTemplateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3901,7 +3901,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendPushNotificationFromTemplate(
     }
 
     const char* path{ "/Server/SendPushNotificationFromTemplate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3929,7 +3929,7 @@ AsyncOp<void> AccountManagementAPI::ServerSendPushNotificationFromTemplate(
 
 AsyncOp<void> AccountManagementAPI::ServerUnlinkPSNAccount(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerUnlinkPSNAccountRequest& request,
+    const ServerUnlinkPSNAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3940,7 +3940,7 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkPSNAccount(
     }
 
     const char* path{ "/Server/UnlinkPSNAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -3968,7 +3968,7 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkPSNAccount(
 
 AsyncOp<void> AccountManagementAPI::ServerUnlinkServerCustomId(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementUnlinkServerCustomIdRequest& request,
+    const UnlinkServerCustomIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -3979,7 +3979,7 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkServerCustomId(
     }
 
     const char* path{ "/Server/UnlinkServerCustomId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -4007,7 +4007,7 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkServerCustomId(
 
 AsyncOp<void> AccountManagementAPI::ServerUnlinkXboxAccount(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerUnlinkXboxAccountRequest& request,
+    const ServerUnlinkXboxAccountRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4018,7 +4018,7 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkXboxAccount(
     }
 
     const char* path{ "/Server/UnlinkXboxAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -4046,7 +4046,7 @@ AsyncOp<void> AccountManagementAPI::ServerUnlinkXboxAccount(
 
 AsyncOp<void> AccountManagementAPI::ServerUpdateAvatarUrl(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementServerUpdateAvatarUrlRequest& request,
+    const ServerUpdateAvatarUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4057,7 +4057,7 @@ AsyncOp<void> AccountManagementAPI::ServerUpdateAvatarUrl(
     }
 
     const char* path{ "/Server/UpdateAvatarUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -4085,7 +4085,7 @@ AsyncOp<void> AccountManagementAPI::ServerUpdateAvatarUrl(
 
 AsyncOp<UpdateBansResult> AccountManagementAPI::ServerUpdateBans(
     SharedPtr<GlobalState const> state,
-    const PFAccountManagementUpdateBansRequest& request,
+    const UpdateBansRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4096,7 +4096,7 @@ AsyncOp<UpdateBansResult> AccountManagementAPI::ServerUpdateBans(
     }
 
     const char* path{ "/Server/UpdateBans" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -4126,7 +4126,7 @@ AsyncOp<UpdateBansResult> AccountManagementAPI::ServerUpdateBans(
 
 AsyncOp<GetGlobalPolicyResponse> AccountManagementAPI::GetGlobalPolicy(
     SharedPtr<Entity> entity,
-    const PFAccountManagementGetGlobalPolicyRequest& request,
+    const GetGlobalPolicyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4137,7 +4137,7 @@ AsyncOp<GetGlobalPolicyResponse> AccountManagementAPI::GetGlobalPolicy(
     }
 
     const char* path{ "/Profile/GetGlobalPolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4168,7 +4168,7 @@ AsyncOp<GetGlobalPolicyResponse> AccountManagementAPI::GetGlobalPolicy(
 
 AsyncOp<GetEntityProfileResponse> AccountManagementAPI::GetProfile(
     SharedPtr<Entity> entity,
-    const PFAccountManagementGetEntityProfileRequest& request,
+    const GetEntityProfileRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4179,7 +4179,7 @@ AsyncOp<GetEntityProfileResponse> AccountManagementAPI::GetProfile(
     }
 
     const char* path{ "/Profile/GetProfile" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4210,7 +4210,7 @@ AsyncOp<GetEntityProfileResponse> AccountManagementAPI::GetProfile(
 
 AsyncOp<GetEntityProfilesResponse> AccountManagementAPI::GetProfiles(
     SharedPtr<Entity> entity,
-    const PFAccountManagementGetEntityProfilesRequest& request,
+    const GetEntityProfilesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4221,7 +4221,7 @@ AsyncOp<GetEntityProfilesResponse> AccountManagementAPI::GetProfiles(
     }
 
     const char* path{ "/Profile/GetProfiles" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4252,7 +4252,7 @@ AsyncOp<GetEntityProfilesResponse> AccountManagementAPI::GetProfiles(
 
 AsyncOp<GetTitlePlayersFromMasterPlayerAccountIdsResponse> AccountManagementAPI::GetTitlePlayersFromMasterPlayerAccountIds(
     SharedPtr<Entity> entity,
-    const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest& request,
+    const GetTitlePlayersFromMasterPlayerAccountIdsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4263,7 +4263,7 @@ AsyncOp<GetTitlePlayersFromMasterPlayerAccountIdsResponse> AccountManagementAPI:
     }
 
     const char* path{ "/Profile/GetTitlePlayersFromMasterPlayerAccountIds" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4294,7 +4294,7 @@ AsyncOp<GetTitlePlayersFromMasterPlayerAccountIdsResponse> AccountManagementAPI:
 
 AsyncOp<void> AccountManagementAPI::SetGlobalPolicy(
     SharedPtr<Entity> entity,
-    const PFAccountManagementSetGlobalPolicyRequest& request,
+    const SetGlobalPolicyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4305,7 +4305,7 @@ AsyncOp<void> AccountManagementAPI::SetGlobalPolicy(
     }
 
     const char* path{ "/Profile/SetGlobalPolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4334,7 +4334,7 @@ AsyncOp<void> AccountManagementAPI::SetGlobalPolicy(
 
 AsyncOp<SetProfileLanguageResponse> AccountManagementAPI::SetProfileLanguage(
     SharedPtr<Entity> entity,
-    const PFAccountManagementSetProfileLanguageRequest& request,
+    const SetProfileLanguageRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4345,7 +4345,7 @@ AsyncOp<SetProfileLanguageResponse> AccountManagementAPI::SetProfileLanguage(
     }
 
     const char* path{ "/Profile/SetProfileLanguage" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4376,7 +4376,7 @@ AsyncOp<SetProfileLanguageResponse> AccountManagementAPI::SetProfileLanguage(
 
 AsyncOp<SetEntityProfilePolicyResponse> AccountManagementAPI::SetProfilePolicy(
     SharedPtr<Entity> entity,
-    const PFAccountManagementSetEntityProfilePolicyRequest& request,
+    const SetEntityProfilePolicyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -4387,7 +4387,7 @@ AsyncOp<SetEntityProfilePolicyResponse> AccountManagementAPI::SetProfilePolicy(
     }
 
     const char* path{ "/Profile/SetProfilePolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -4416,5 +4416,5 @@ AsyncOp<SetEntityProfilePolicyResponse> AccountManagementAPI::SetProfilePolicy(
     });
 }
 
-
-}
+} // namespace AccountManagement
+} // namespace PlayFab

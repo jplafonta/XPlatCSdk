@@ -4,1026 +4,530 @@
 
 namespace PlayFab
 {
-namespace DataModels
+namespace Data
 {
-
-AbortFileUploadsRequest::AbortFileUploadsRequest() :
-    PFDataAbortFileUploadsRequest{}
-{
-}
-
-AbortFileUploadsRequest::AbortFileUploadsRequest(const AbortFileUploadsRequest& src) :
-    PFDataAbortFileUploadsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity },
-    m_fileNames{ src.m_fileNames },
-    m_profileVersion{ src.m_profileVersion }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-    profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
-}
-
-AbortFileUploadsRequest::AbortFileUploadsRequest(AbortFileUploadsRequest&& src) :
-    PFDataAbortFileUploadsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) },
-    m_fileNames{ std::move(src.m_fileNames) },
-    m_profileVersion{ std::move(src.m_profileVersion) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-    profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
-}
-
-AbortFileUploadsRequest::AbortFileUploadsRequest(const PFDataAbortFileUploadsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AbortFileUploadsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", m_profileVersion, profileVersion);
-}
 
 JsonValue AbortFileUploadsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFDataAbortFileUploadsRequest>(*this);
+    return AbortFileUploadsRequest::ToJson(this->Model());
 }
 
-AbortFileUploadsResponse::AbortFileUploadsResponse() :
-    PFDataAbortFileUploadsResponse{}
+JsonValue AbortFileUploadsRequest::ToJson(const PFDataAbortFileUploadsRequest& input)
 {
-}
-
-AbortFileUploadsResponse::AbortFileUploadsResponse(const AbortFileUploadsResponse& src) :
-    PFDataAbortFileUploadsResponse{ src },
-    m_entity{ src.m_entity }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-}
-
-AbortFileUploadsResponse::AbortFileUploadsResponse(AbortFileUploadsResponse&& src) :
-    PFDataAbortFileUploadsResponse{ src },
-    m_entity{ std::move(src.m_entity) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-}
-
-AbortFileUploadsResponse::AbortFileUploadsResponse(const PFDataAbortFileUploadsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMemberArray(output, "FileNames", input.fileNames, input.fileNamesCount);
+    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
+    return output;
 }
 
 void AbortFileUploadsResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
+    StdExtra::optional<EntityKey> entity{};
+    JsonUtils::ObjectGetMember(input, "Entity", entity);
+    if (entity)
+    {
+        this->SetEntity(std::move(*entity));
+    }
+
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
 }
 
-JsonValue AbortFileUploadsResponse::ToJson() const
+size_t AbortFileUploadsResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFDataAbortFileUploadsResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-DeleteFilesRequest::DeleteFilesRequest() :
-    PFDataDeleteFilesRequest{}
+Result<PFDataAbortFileUploadsResponse const*> AbortFileUploadsResponse::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<AbortFileUploadsResponse>(&this->Model());
 }
 
-DeleteFilesRequest::DeleteFilesRequest(const DeleteFilesRequest& src) :
-    PFDataDeleteFilesRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity },
-    m_fileNames{ src.m_fileNames },
-    m_profileVersion{ src.m_profileVersion }
+size_t AbortFileUploadsResponse::RequiredBufferSize(const PFDataAbortFileUploadsResponse& model)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-    profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.entity)
+    {
+        requiredSize += EntityKey::RequiredBufferSize(*model.entity);
+    }
+    return requiredSize;
 }
 
-DeleteFilesRequest::DeleteFilesRequest(DeleteFilesRequest&& src) :
-    PFDataDeleteFilesRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) },
-    m_fileNames{ std::move(src.m_fileNames) },
-    m_profileVersion{ std::move(src.m_profileVersion) }
+HRESULT AbortFileUploadsResponse::Copy(const PFDataAbortFileUploadsResponse& input, PFDataAbortFileUploadsResponse& output, ModelBuffer& buffer)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-    profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
-}
-
-DeleteFilesRequest::DeleteFilesRequest(const PFDataDeleteFilesRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeleteFilesRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", m_profileVersion, profileVersion);
+    output = input;
+    output.entity = buffer.CopyTo<EntityKey>(input.entity);
+    return S_OK;
 }
 
 JsonValue DeleteFilesRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFDataDeleteFilesRequest>(*this);
+    return DeleteFilesRequest::ToJson(this->Model());
 }
 
-DeleteFilesResponse::DeleteFilesResponse() :
-    PFDataDeleteFilesResponse{}
+JsonValue DeleteFilesRequest::ToJson(const PFDataDeleteFilesRequest& input)
 {
-}
-
-DeleteFilesResponse::DeleteFilesResponse(const DeleteFilesResponse& src) :
-    PFDataDeleteFilesResponse{ src },
-    m_entity{ src.m_entity }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-}
-
-DeleteFilesResponse::DeleteFilesResponse(DeleteFilesResponse&& src) :
-    PFDataDeleteFilesResponse{ src },
-    m_entity{ std::move(src.m_entity) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-}
-
-DeleteFilesResponse::DeleteFilesResponse(const PFDataDeleteFilesResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMemberArray(output, "FileNames", input.fileNames, input.fileNamesCount);
+    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
+    return output;
 }
 
 void DeleteFilesResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
+    StdExtra::optional<EntityKey> entity{};
+    JsonUtils::ObjectGetMember(input, "Entity", entity);
+    if (entity)
+    {
+        this->SetEntity(std::move(*entity));
+    }
+
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
 }
 
-JsonValue DeleteFilesResponse::ToJson() const
+size_t DeleteFilesResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFDataDeleteFilesResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-FinalizeFileUploadsRequest::FinalizeFileUploadsRequest() :
-    PFDataFinalizeFileUploadsRequest{}
+Result<PFDataDeleteFilesResponse const*> DeleteFilesResponse::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<DeleteFilesResponse>(&this->Model());
 }
 
-FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(const FinalizeFileUploadsRequest& src) :
-    PFDataFinalizeFileUploadsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity },
-    m_fileNames{ src.m_fileNames }
+size_t DeleteFilesResponse::RequiredBufferSize(const PFDataDeleteFilesResponse& model)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.entity)
+    {
+        requiredSize += EntityKey::RequiredBufferSize(*model.entity);
+    }
+    return requiredSize;
 }
 
-FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(FinalizeFileUploadsRequest&& src) :
-    PFDataFinalizeFileUploadsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) },
-    m_fileNames{ std::move(src.m_fileNames) }
+HRESULT DeleteFilesResponse::Copy(const PFDataDeleteFilesResponse& input, PFDataDeleteFilesResponse& output, ModelBuffer& buffer)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-}
-
-FinalizeFileUploadsRequest::FinalizeFileUploadsRequest(const PFDataFinalizeFileUploadsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void FinalizeFileUploadsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
+    output = input;
+    output.entity = buffer.CopyTo<EntityKey>(input.entity);
+    return S_OK;
 }
 
 JsonValue FinalizeFileUploadsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFDataFinalizeFileUploadsRequest>(*this);
+    return FinalizeFileUploadsRequest::ToJson(this->Model());
 }
 
-GetFileMetadata::GetFileMetadata() :
-    PFDataGetFileMetadata{}
+JsonValue FinalizeFileUploadsRequest::ToJson(const PFDataFinalizeFileUploadsRequest& input)
 {
-}
-
-GetFileMetadata::GetFileMetadata(const GetFileMetadata& src) :
-    PFDataGetFileMetadata{ src },
-    m_checksum{ src.m_checksum },
-    m_downloadUrl{ src.m_downloadUrl },
-    m_fileName{ src.m_fileName }
-{
-    checksum = m_checksum.empty() ? nullptr : m_checksum.data();
-    downloadUrl = m_downloadUrl.empty() ? nullptr : m_downloadUrl.data();
-    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
-}
-
-GetFileMetadata::GetFileMetadata(GetFileMetadata&& src) :
-    PFDataGetFileMetadata{ src },
-    m_checksum{ std::move(src.m_checksum) },
-    m_downloadUrl{ std::move(src.m_downloadUrl) },
-    m_fileName{ std::move(src.m_fileName) }
-{
-    checksum = m_checksum.empty() ? nullptr : m_checksum.data();
-    downloadUrl = m_downloadUrl.empty() ? nullptr : m_downloadUrl.data();
-    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
-}
-
-GetFileMetadata::GetFileMetadata(const PFDataGetFileMetadata& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMemberArray(output, "FileNames", input.fileNames, input.fileNamesCount);
+    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
+    return output;
 }
 
 void GetFileMetadata::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Checksum", m_checksum, checksum);
-    JsonUtils::ObjectGetMember(input, "DownloadUrl", m_downloadUrl, downloadUrl);
-    JsonUtils::ObjectGetMember(input, "FileName", m_fileName, fileName);
-    JsonUtils::ObjectGetMember(input, "LastModified", lastModified, true);
-    JsonUtils::ObjectGetMember(input, "Size", size);
+    String checksum{};
+    JsonUtils::ObjectGetMember(input, "Checksum", checksum);
+    this->SetChecksum(std::move(checksum));
+
+    String downloadUrl{};
+    JsonUtils::ObjectGetMember(input, "DownloadUrl", downloadUrl);
+    this->SetDownloadUrl(std::move(downloadUrl));
+
+    String fileName{};
+    JsonUtils::ObjectGetMember(input, "FileName", fileName);
+    this->SetFileName(std::move(fileName));
+
+    JsonUtils::ObjectGetMemberTime(input, "LastModified", this->m_model.lastModified);
+
+    JsonUtils::ObjectGetMember(input, "Size", this->m_model.size);
 }
 
-JsonValue GetFileMetadata::ToJson() const
+size_t GetFileMetadata::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFDataGetFileMetadata>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-size_t GetFileMetadata::SerializedSize() const
+Result<PFDataGetFileMetadata const*> GetFileMetadata::Copy(ModelBuffer& buffer) const
 {
-    size_t serializedSize{ sizeof(PFDataGetFileMetadata) };
-    serializedSize += (m_checksum.size() + 1);
-    serializedSize += (m_downloadUrl.size() + 1);
-    serializedSize += (m_fileName.size() + 1);
-    return serializedSize;
+    return buffer.CopyTo<GetFileMetadata>(&this->Model());
 }
 
-void GetFileMetadata::Serialize(void* buffer, size_t bufferSize) const
+size_t GetFileMetadata::RequiredBufferSize(const PFDataGetFileMetadata& model)
 {
-    auto serializedStruct = new (buffer) PFDataGetFileMetadata{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFDataGetFileMetadata);
-    memcpy(stringBuffer, m_checksum.data(), m_checksum.size() + 1);
-    serializedStruct->checksum = stringBuffer;
-    stringBuffer += m_checksum.size() + 1;
-    memcpy(stringBuffer, m_downloadUrl.data(), m_downloadUrl.size() + 1);
-    serializedStruct->downloadUrl = stringBuffer;
-    stringBuffer += m_downloadUrl.size() + 1;
-    memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
-    serializedStruct->fileName = stringBuffer;
-    stringBuffer += m_fileName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.checksum)
+    {
+        requiredSize += (std::strlen(model.checksum) + 1);
+    }
+    if (model.downloadUrl)
+    {
+        requiredSize += (std::strlen(model.downloadUrl) + 1);
+    }
+    if (model.fileName)
+    {
+        requiredSize += (std::strlen(model.fileName) + 1);
+    }
+    return requiredSize;
 }
 
-FinalizeFileUploadsResponse::FinalizeFileUploadsResponse() :
-    PFDataFinalizeFileUploadsResponse{}
+HRESULT GetFileMetadata::Copy(const PFDataGetFileMetadata& input, PFDataGetFileMetadata& output, ModelBuffer& buffer)
 {
-}
-
-FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(const FinalizeFileUploadsResponse& src) :
-    PFDataFinalizeFileUploadsResponse{ src },
-    m_entity{ src.m_entity },
-    m_metadata{ src.m_metadata }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
-}
-
-FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(FinalizeFileUploadsResponse&& src) :
-    PFDataFinalizeFileUploadsResponse{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_metadata{ std::move(src.m_metadata) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
-}
-
-FinalizeFileUploadsResponse::FinalizeFileUploadsResponse(const PFDataFinalizeFileUploadsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.checksum = buffer.CopyTo(input.checksum);
+    output.downloadUrl = buffer.CopyTo(input.downloadUrl);
+    output.fileName = buffer.CopyTo(input.fileName);
+    return S_OK;
 }
 
 void FinalizeFileUploadsResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "Metadata", m_metadata, metadata, metadataCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
+    StdExtra::optional<EntityKey> entity{};
+    JsonUtils::ObjectGetMember(input, "Entity", entity);
+    if (entity)
+    {
+        this->SetEntity(std::move(*entity));
+    }
+
+    ModelDictionaryEntryVector<GetFileMetadata> metadata{};
+    JsonUtils::ObjectGetMember<GetFileMetadata>(input, "Metadata", metadata);
+    this->SetMetadata(std::move(metadata));
+
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
 }
 
-JsonValue FinalizeFileUploadsResponse::ToJson() const
+size_t FinalizeFileUploadsResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFDataFinalizeFileUploadsResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetFilesRequest::GetFilesRequest() :
-    PFDataGetFilesRequest{}
+Result<PFDataFinalizeFileUploadsResponse const*> FinalizeFileUploadsResponse::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<FinalizeFileUploadsResponse>(&this->Model());
 }
 
-GetFilesRequest::GetFilesRequest(const GetFilesRequest& src) :
-    PFDataGetFilesRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity }
+size_t FinalizeFileUploadsResponse::RequiredBufferSize(const PFDataFinalizeFileUploadsResponse& model)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.entity)
+    {
+        requiredSize += EntityKey::RequiredBufferSize(*model.entity);
+    }
+    requiredSize += (alignof(PFDataGetFileMetadataDictionaryEntry) + sizeof(PFDataGetFileMetadataDictionaryEntry) * model.metadataCount);
+    for (size_t i = 0; i < model.metadataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.metadata[i].key) + 1);
+        requiredSize += GetFileMetadata::RequiredBufferSize(*model.metadata[i].value);
+    }
+    return requiredSize;
 }
 
-GetFilesRequest::GetFilesRequest(GetFilesRequest&& src) :
-    PFDataGetFilesRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) }
+HRESULT FinalizeFileUploadsResponse::Copy(const PFDataFinalizeFileUploadsResponse& input, PFDataFinalizeFileUploadsResponse& output, ModelBuffer& buffer)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-}
-
-GetFilesRequest::GetFilesRequest(const PFDataGetFilesRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetFilesRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
+    output = input;
+    output.entity = buffer.CopyTo<EntityKey>(input.entity);
+    output.metadata = buffer.CopyToDictionary<GetFileMetadata>(input.metadata, input.metadataCount);
+    return S_OK;
 }
 
 JsonValue GetFilesRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFDataGetFilesRequest>(*this);
+    return GetFilesRequest::ToJson(this->Model());
 }
 
-GetFilesResponse::GetFilesResponse() :
-    PFDataGetFilesResponse{}
+JsonValue GetFilesRequest::ToJson(const PFDataGetFilesRequest& input)
 {
-}
-
-GetFilesResponse::GetFilesResponse(const GetFilesResponse& src) :
-    PFDataGetFilesResponse{ src },
-    m_entity{ src.m_entity },
-    m_metadata{ src.m_metadata }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
-}
-
-GetFilesResponse::GetFilesResponse(GetFilesResponse&& src) :
-    PFDataGetFilesResponse{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_metadata{ std::move(src.m_metadata) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    metadata = m_metadata.Empty() ? nullptr : m_metadata.Data();
-}
-
-GetFilesResponse::GetFilesResponse(const PFDataGetFilesResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
+    return output;
 }
 
 void GetFilesResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "Metadata", m_metadata, metadata, metadataCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
+    StdExtra::optional<EntityKey> entity{};
+    JsonUtils::ObjectGetMember(input, "Entity", entity);
+    if (entity)
+    {
+        this->SetEntity(std::move(*entity));
+    }
+
+    ModelDictionaryEntryVector<GetFileMetadata> metadata{};
+    JsonUtils::ObjectGetMember<GetFileMetadata>(input, "Metadata", metadata);
+    this->SetMetadata(std::move(metadata));
+
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
 }
 
-JsonValue GetFilesResponse::ToJson() const
+size_t GetFilesResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFDataGetFilesResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetObjectsRequest::GetObjectsRequest() :
-    PFDataGetObjectsRequest{}
+Result<PFDataGetFilesResponse const*> GetFilesResponse::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<GetFilesResponse>(&this->Model());
 }
 
-GetObjectsRequest::GetObjectsRequest(const GetObjectsRequest& src) :
-    PFDataGetObjectsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity },
-    m_escapeObject{ src.m_escapeObject }
+size_t GetFilesResponse::RequiredBufferSize(const PFDataGetFilesResponse& model)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    escapeObject = m_escapeObject ? m_escapeObject.operator->() : nullptr;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.entity)
+    {
+        requiredSize += EntityKey::RequiredBufferSize(*model.entity);
+    }
+    requiredSize += (alignof(PFDataGetFileMetadataDictionaryEntry) + sizeof(PFDataGetFileMetadataDictionaryEntry) * model.metadataCount);
+    for (size_t i = 0; i < model.metadataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.metadata[i].key) + 1);
+        requiredSize += GetFileMetadata::RequiredBufferSize(*model.metadata[i].value);
+    }
+    return requiredSize;
 }
 
-GetObjectsRequest::GetObjectsRequest(GetObjectsRequest&& src) :
-    PFDataGetObjectsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) },
-    m_escapeObject{ std::move(src.m_escapeObject) }
+HRESULT GetFilesResponse::Copy(const PFDataGetFilesResponse& input, PFDataGetFilesResponse& output, ModelBuffer& buffer)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    escapeObject = m_escapeObject ? m_escapeObject.operator->() : nullptr;
-}
-
-GetObjectsRequest::GetObjectsRequest(const PFDataGetObjectsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetObjectsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "EscapeObject", m_escapeObject, escapeObject);
+    output = input;
+    output.entity = buffer.CopyTo<EntityKey>(input.entity);
+    output.metadata = buffer.CopyToDictionary<GetFileMetadata>(input.metadata, input.metadataCount);
+    return S_OK;
 }
 
 JsonValue GetObjectsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFDataGetObjectsRequest>(*this);
+    return GetObjectsRequest::ToJson(this->Model());
 }
 
-ObjectResult::ObjectResult() :
-    PFDataObjectResult{}
-{
-}
-
-ObjectResult::ObjectResult(const ObjectResult& src) :
-    PFDataObjectResult{ src },
-    m_dataObject{ src.m_dataObject },
-    m_escapedDataObject{ src.m_escapedDataObject },
-    m_objectName{ src.m_objectName }
-{
-    dataObject.stringValue = m_dataObject.StringValue();
-    escapedDataObject = m_escapedDataObject.empty() ? nullptr : m_escapedDataObject.data();
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-}
-
-ObjectResult::ObjectResult(ObjectResult&& src) :
-    PFDataObjectResult{ src },
-    m_dataObject{ std::move(src.m_dataObject) },
-    m_escapedDataObject{ std::move(src.m_escapedDataObject) },
-    m_objectName{ std::move(src.m_objectName) }
-{
-    dataObject.stringValue = m_dataObject.StringValue();
-    escapedDataObject = m_escapedDataObject.empty() ? nullptr : m_escapedDataObject.data();
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-}
-
-ObjectResult::ObjectResult(const PFDataObjectResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ObjectResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DataObject", m_dataObject, dataObject);
-    JsonUtils::ObjectGetMember(input, "EscapedDataObject", m_escapedDataObject, escapedDataObject);
-    JsonUtils::ObjectGetMember(input, "ObjectName", m_objectName, objectName);
-}
-
-JsonValue ObjectResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataObjectResult>(*this);
-}
-
-GetObjectsResponse::GetObjectsResponse() :
-    PFDataGetObjectsResponse{}
-{
-}
-
-GetObjectsResponse::GetObjectsResponse(const GetObjectsResponse& src) :
-    PFDataGetObjectsResponse{ src },
-    m_entity{ src.m_entity },
-    m_objects{ src.m_objects }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    objects = m_objects.Empty() ? nullptr : m_objects.Data();
-}
-
-GetObjectsResponse::GetObjectsResponse(GetObjectsResponse&& src) :
-    PFDataGetObjectsResponse{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_objects{ std::move(src.m_objects) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    objects = m_objects.Empty() ? nullptr : m_objects.Data();
-}
-
-GetObjectsResponse::GetObjectsResponse(const PFDataGetObjectsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetObjectsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "Objects", m_objects, objects, objectsCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
-}
-
-JsonValue GetObjectsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataGetObjectsResponse>(*this);
-}
-
-InitiateFileUploadsRequest::InitiateFileUploadsRequest() :
-    PFDataInitiateFileUploadsRequest{}
-{
-}
-
-InitiateFileUploadsRequest::InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src) :
-    PFDataInitiateFileUploadsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity },
-    m_fileNames{ src.m_fileNames },
-    m_profileVersion{ src.m_profileVersion }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-    profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
-}
-
-InitiateFileUploadsRequest::InitiateFileUploadsRequest(InitiateFileUploadsRequest&& src) :
-    PFDataInitiateFileUploadsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) },
-    m_fileNames{ std::move(src.m_fileNames) },
-    m_profileVersion{ std::move(src.m_profileVersion) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    fileNames = m_fileNames.Empty() ? nullptr : m_fileNames.Data();
-    profileVersion = m_profileVersion ? m_profileVersion.operator->() : nullptr;
-}
-
-InitiateFileUploadsRequest::InitiateFileUploadsRequest(const PFDataInitiateFileUploadsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InitiateFileUploadsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "FileNames", m_fileNames, fileNames, fileNamesCount);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", m_profileVersion, profileVersion);
-}
-
-JsonValue InitiateFileUploadsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataInitiateFileUploadsRequest>(*this);
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata() :
-    PFDataInitiateFileUploadMetadata{}
-{
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata(const InitiateFileUploadMetadata& src) :
-    PFDataInitiateFileUploadMetadata{ src },
-    m_fileName{ src.m_fileName },
-    m_uploadUrl{ src.m_uploadUrl }
-{
-    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
-    uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata(InitiateFileUploadMetadata&& src) :
-    PFDataInitiateFileUploadMetadata{ src },
-    m_fileName{ std::move(src.m_fileName) },
-    m_uploadUrl{ std::move(src.m_uploadUrl) }
-{
-    fileName = m_fileName.empty() ? nullptr : m_fileName.data();
-    uploadUrl = m_uploadUrl.empty() ? nullptr : m_uploadUrl.data();
-}
-
-InitiateFileUploadMetadata::InitiateFileUploadMetadata(const PFDataInitiateFileUploadMetadata& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InitiateFileUploadMetadata::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "FileName", m_fileName, fileName);
-    JsonUtils::ObjectGetMember(input, "UploadUrl", m_uploadUrl, uploadUrl);
-}
-
-JsonValue InitiateFileUploadMetadata::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataInitiateFileUploadMetadata>(*this);
-}
-
-size_t InitiateFileUploadMetadata::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFDataInitiateFileUploadMetadata) };
-    serializedSize += (m_fileName.size() + 1);
-    serializedSize += (m_uploadUrl.size() + 1);
-    return serializedSize;
-}
-
-void InitiateFileUploadMetadata::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFDataInitiateFileUploadMetadata{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFDataInitiateFileUploadMetadata);
-    memcpy(stringBuffer, m_fileName.data(), m_fileName.size() + 1);
-    serializedStruct->fileName = stringBuffer;
-    stringBuffer += m_fileName.size() + 1;
-    memcpy(stringBuffer, m_uploadUrl.data(), m_uploadUrl.size() + 1);
-    serializedStruct->uploadUrl = stringBuffer;
-    stringBuffer += m_uploadUrl.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-InitiateFileUploadsResponse::InitiateFileUploadsResponse() :
-    PFDataInitiateFileUploadsResponse{}
-{
-}
-
-InitiateFileUploadsResponse::InitiateFileUploadsResponse(const InitiateFileUploadsResponse& src) :
-    PFDataInitiateFileUploadsResponse{ src },
-    m_entity{ src.m_entity },
-    m_uploadDetails{ src.m_uploadDetails }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    uploadDetails = m_uploadDetails.Empty() ? nullptr : m_uploadDetails.Data();
-}
-
-InitiateFileUploadsResponse::InitiateFileUploadsResponse(InitiateFileUploadsResponse&& src) :
-    PFDataInitiateFileUploadsResponse{ src },
-    m_entity{ std::move(src.m_entity) },
-    m_uploadDetails{ std::move(src.m_uploadDetails) }
-{
-    entity = m_entity ? m_entity.operator->() : nullptr;
-    uploadDetails = m_uploadDetails.Empty() ? nullptr : m_uploadDetails.Data();
-}
-
-InitiateFileUploadsResponse::InitiateFileUploadsResponse(const PFDataInitiateFileUploadsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InitiateFileUploadsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
-    JsonUtils::ObjectGetMember(input, "UploadDetails", m_uploadDetails, uploadDetails, uploadDetailsCount);
-}
-
-JsonValue InitiateFileUploadsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataInitiateFileUploadsResponse>(*this);
-}
-
-SetObject::SetObject() :
-    PFDataSetObject{}
-{
-}
-
-SetObject::SetObject(const SetObject& src) :
-    PFDataSetObject{ src },
-    m_dataObject{ src.m_dataObject },
-    m_deleteObject{ src.m_deleteObject },
-    m_escapedDataObject{ src.m_escapedDataObject },
-    m_objectName{ src.m_objectName }
-{
-    dataObject.stringValue = m_dataObject.StringValue();
-    deleteObject = m_deleteObject ? m_deleteObject.operator->() : nullptr;
-    escapedDataObject = m_escapedDataObject.empty() ? nullptr : m_escapedDataObject.data();
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-}
-
-SetObject::SetObject(SetObject&& src) :
-    PFDataSetObject{ src },
-    m_dataObject{ std::move(src.m_dataObject) },
-    m_deleteObject{ std::move(src.m_deleteObject) },
-    m_escapedDataObject{ std::move(src.m_escapedDataObject) },
-    m_objectName{ std::move(src.m_objectName) }
-{
-    dataObject.stringValue = m_dataObject.StringValue();
-    deleteObject = m_deleteObject ? m_deleteObject.operator->() : nullptr;
-    escapedDataObject = m_escapedDataObject.empty() ? nullptr : m_escapedDataObject.data();
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-}
-
-SetObject::SetObject(const PFDataSetObject& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SetObject::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DataObject", m_dataObject, dataObject);
-    JsonUtils::ObjectGetMember(input, "DeleteObject", m_deleteObject, deleteObject);
-    JsonUtils::ObjectGetMember(input, "EscapedDataObject", m_escapedDataObject, escapedDataObject);
-    JsonUtils::ObjectGetMember(input, "ObjectName", m_objectName, objectName);
-}
-
-JsonValue SetObject::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataSetObject>(*this);
-}
-
-SetObjectsRequest::SetObjectsRequest() :
-    PFDataSetObjectsRequest{}
-{
-}
-
-SetObjectsRequest::SetObjectsRequest(const SetObjectsRequest& src) :
-    PFDataSetObjectsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_entity{ src.m_entity },
-    m_expectedProfileVersion{ src.m_expectedProfileVersion },
-    m_objects{ src.m_objects }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
-    objects = m_objects.Empty() ? nullptr : m_objects.Data();
-}
-
-SetObjectsRequest::SetObjectsRequest(SetObjectsRequest&& src) :
-    PFDataSetObjectsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_entity{ std::move(src.m_entity) },
-    m_expectedProfileVersion{ std::move(src.m_expectedProfileVersion) },
-    m_objects{ std::move(src.m_objects) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    entity = (PFEntityKey const*)&m_entity;
-    expectedProfileVersion = m_expectedProfileVersion ? m_expectedProfileVersion.operator->() : nullptr;
-    objects = m_objects.Empty() ? nullptr : m_objects.Data();
-}
-
-SetObjectsRequest::SetObjectsRequest(const PFDataSetObjectsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SetObjectsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Entity", m_entity, entity);
-    JsonUtils::ObjectGetMember(input, "ExpectedProfileVersion", m_expectedProfileVersion, expectedProfileVersion);
-    JsonUtils::ObjectGetMember(input, "Objects", m_objects, objects, objectsCount);
-}
-
-JsonValue SetObjectsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataSetObjectsRequest>(*this);
-}
-
-SetObjectInfo::SetObjectInfo() :
-    PFDataSetObjectInfo{}
-{
-}
-
-SetObjectInfo::SetObjectInfo(const SetObjectInfo& src) :
-    PFDataSetObjectInfo{ src },
-    m_objectName{ src.m_objectName },
-    m_operationReason{ src.m_operationReason },
-    m_setResult{ src.m_setResult }
-{
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-    operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
-    setResult = m_setResult ? m_setResult.operator->() : nullptr;
-}
-
-SetObjectInfo::SetObjectInfo(SetObjectInfo&& src) :
-    PFDataSetObjectInfo{ src },
-    m_objectName{ std::move(src.m_objectName) },
-    m_operationReason{ std::move(src.m_operationReason) },
-    m_setResult{ std::move(src.m_setResult) }
-{
-    objectName = m_objectName.empty() ? nullptr : m_objectName.data();
-    operationReason = m_operationReason.empty() ? nullptr : m_operationReason.data();
-    setResult = m_setResult ? m_setResult.operator->() : nullptr;
-}
-
-SetObjectInfo::SetObjectInfo(const PFDataSetObjectInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SetObjectInfo::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ObjectName", m_objectName, objectName);
-    JsonUtils::ObjectGetMember(input, "OperationReason", m_operationReason, operationReason);
-    JsonUtils::ObjectGetMember(input, "SetResult", m_setResult, setResult);
-}
-
-JsonValue SetObjectInfo::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataSetObjectInfo>(*this);
-}
-
-SetObjectsResponse::SetObjectsResponse() :
-    PFDataSetObjectsResponse{}
-{
-}
-
-SetObjectsResponse::SetObjectsResponse(const SetObjectsResponse& src) :
-    PFDataSetObjectsResponse{ src },
-    m_setResults{ src.m_setResults }
-{
-    setResults = m_setResults.Empty() ? nullptr : m_setResults.Data();
-}
-
-SetObjectsResponse::SetObjectsResponse(SetObjectsResponse&& src) :
-    PFDataSetObjectsResponse{ src },
-    m_setResults{ std::move(src.m_setResults) }
-{
-    setResults = m_setResults.Empty() ? nullptr : m_setResults.Data();
-}
-
-SetObjectsResponse::SetObjectsResponse(const PFDataSetObjectsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SetObjectsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ProfileVersion", profileVersion);
-    JsonUtils::ObjectGetMember(input, "SetResults", m_setResults, setResults, setResultsCount);
-}
-
-JsonValue SetObjectsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFDataSetObjectsResponse>(*this);
-}
-
-} // namespace DataModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFDataAbortFileUploadsRequest& input)
+JsonValue GetObjectsRequest::ToJson(const PFDataGetObjectsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "FileNames", input.fileNames, input.fileNamesCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataAbortFileUploadsResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataDeleteFilesRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "FileNames", input.fileNames, input.fileNamesCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataDeleteFilesResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "FileNames", input.fileNames, input.fileNamesCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataGetFileMetadata& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Checksum", input.checksum);
-    JsonUtils::ObjectAddMember(output, "DownloadUrl", input.downloadUrl);
-    JsonUtils::ObjectAddMember(output, "FileName", input.fileName);
-    JsonUtils::ObjectAddMember(output, "LastModified", input.lastModified, true);
-    JsonUtils::ObjectAddMember(output, "Size", input.size);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "Metadata", input.metadata, input.metadataCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataGetFilesRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataGetFilesResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "Metadata", input.metadata, input.metadataCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFDataGetObjectsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
     JsonUtils::ObjectAddMember(output, "EscapeObject", input.escapeObject);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataObjectResult& input)
+void ObjectResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DataObject", input.dataObject);
-    JsonUtils::ObjectAddMember(output, "EscapedDataObject", input.escapedDataObject);
-    JsonUtils::ObjectAddMember(output, "ObjectName", input.objectName);
-    return output;
+    JsonObject dataObject{};
+    JsonUtils::ObjectGetMember(input, "DataObject", dataObject);
+    this->SetDataObject(std::move(dataObject));
+
+    String escapedDataObject{};
+    JsonUtils::ObjectGetMember(input, "EscapedDataObject", escapedDataObject);
+    this->SetEscapedDataObject(std::move(escapedDataObject));
+
+    String objectName{};
+    JsonUtils::ObjectGetMember(input, "ObjectName", objectName);
+    this->SetObjectName(std::move(objectName));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataGetObjectsResponse& input)
+size_t ObjectResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFDataObjectResult const*> ObjectResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ObjectResult>(&this->Model());
+}
+
+size_t ObjectResult::RequiredBufferSize(const PFDataObjectResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.dataObject.stringValue)
+    {
+    requiredSize += (std::strlen(model.dataObject.stringValue) + 1);
+    }
+    if (model.escapedDataObject)
+    {
+        requiredSize += (std::strlen(model.escapedDataObject) + 1);
+    }
+    if (model.objectName)
+    {
+        requiredSize += (std::strlen(model.objectName) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ObjectResult::Copy(const PFDataObjectResult& input, PFDataObjectResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.dataObject.stringValue = buffer.CopyTo(input.dataObject.stringValue);
+    output.escapedDataObject = buffer.CopyTo(input.escapedDataObject);
+    output.objectName = buffer.CopyTo(input.objectName);
+    return S_OK;
+}
+
+void GetObjectsResponse::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<EntityKey> entity{};
+    JsonUtils::ObjectGetMember(input, "Entity", entity);
+    if (entity)
+    {
+        this->SetEntity(std::move(*entity));
+    }
+
+    ModelDictionaryEntryVector<ObjectResult> objects{};
+    JsonUtils::ObjectGetMember<ObjectResult>(input, "Objects", objects);
+    this->SetObjects(std::move(objects));
+
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
+}
+
+size_t GetObjectsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFDataGetObjectsResponse const*> GetObjectsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetObjectsResponse>(&this->Model());
+}
+
+size_t GetObjectsResponse::RequiredBufferSize(const PFDataGetObjectsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.entity)
+    {
+        requiredSize += EntityKey::RequiredBufferSize(*model.entity);
+    }
+    requiredSize += (alignof(PFDataObjectResultDictionaryEntry) + sizeof(PFDataObjectResultDictionaryEntry) * model.objectsCount);
+    for (size_t i = 0; i < model.objectsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.objects[i].key) + 1);
+        requiredSize += ObjectResult::RequiredBufferSize(*model.objects[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT GetObjectsResponse::Copy(const PFDataGetObjectsResponse& input, PFDataGetObjectsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.entity = buffer.CopyTo<EntityKey>(input.entity);
+    output.objects = buffer.CopyToDictionary<ObjectResult>(input.objects, input.objectsCount);
+    return S_OK;
+}
+
+JsonValue InitiateFileUploadsRequest::ToJson() const
+{
+    return InitiateFileUploadsRequest::ToJson(this->Model());
+}
+
+JsonValue InitiateFileUploadsRequest::ToJson(const PFDataInitiateFileUploadsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "Objects", input.objects, input.objectsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMemberArray(output, "FileNames", input.fileNames, input.fileNamesCount);
     JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataInitiateFileUploadsRequest& input)
+void InitiateFileUploadMetadata::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "FileNames", input.fileNames, input.fileNamesCount);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    return output;
+    String fileName{};
+    JsonUtils::ObjectGetMember(input, "FileName", fileName);
+    this->SetFileName(std::move(fileName));
+
+    String uploadUrl{};
+    JsonUtils::ObjectGetMember(input, "UploadUrl", uploadUrl);
+    this->SetUploadUrl(std::move(uploadUrl));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataInitiateFileUploadMetadata& input)
+size_t InitiateFileUploadMetadata::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "FileName", input.fileName);
-    JsonUtils::ObjectAddMember(output, "UploadUrl", input.uploadUrl);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataInitiateFileUploadsResponse& input)
+Result<PFDataInitiateFileUploadMetadata const*> InitiateFileUploadMetadata::Copy(ModelBuffer& buffer) const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    JsonUtils::ObjectAddMember(output, "UploadDetails", input.uploadDetails, input.uploadDetailsCount);
-    return output;
+    return buffer.CopyTo<InitiateFileUploadMetadata>(&this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataSetObject& input)
+size_t InitiateFileUploadMetadata::RequiredBufferSize(const PFDataInitiateFileUploadMetadata& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.fileName)
+    {
+        requiredSize += (std::strlen(model.fileName) + 1);
+    }
+    if (model.uploadUrl)
+    {
+        requiredSize += (std::strlen(model.uploadUrl) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT InitiateFileUploadMetadata::Copy(const PFDataInitiateFileUploadMetadata& input, PFDataInitiateFileUploadMetadata& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.fileName = buffer.CopyTo(input.fileName);
+    output.uploadUrl = buffer.CopyTo(input.uploadUrl);
+    return S_OK;
+}
+
+void InitiateFileUploadsResponse::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<EntityKey> entity{};
+    JsonUtils::ObjectGetMember(input, "Entity", entity);
+    if (entity)
+    {
+        this->SetEntity(std::move(*entity));
+    }
+
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
+
+    ModelVector<InitiateFileUploadMetadata> uploadDetails{};
+    JsonUtils::ObjectGetMember<InitiateFileUploadMetadata>(input, "UploadDetails", uploadDetails);
+    this->SetUploadDetails(std::move(uploadDetails));
+}
+
+size_t InitiateFileUploadsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFDataInitiateFileUploadsResponse const*> InitiateFileUploadsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InitiateFileUploadsResponse>(&this->Model());
+}
+
+size_t InitiateFileUploadsResponse::RequiredBufferSize(const PFDataInitiateFileUploadsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.entity)
+    {
+        requiredSize += EntityKey::RequiredBufferSize(*model.entity);
+    }
+    requiredSize += (alignof(PFDataInitiateFileUploadMetadata*) + sizeof(PFDataInitiateFileUploadMetadata*) * model.uploadDetailsCount);
+    for (size_t i = 0; i < model.uploadDetailsCount; ++i)
+    {
+        requiredSize += InitiateFileUploadMetadata::RequiredBufferSize(*model.uploadDetails[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT InitiateFileUploadsResponse::Copy(const PFDataInitiateFileUploadsResponse& input, PFDataInitiateFileUploadsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.entity = buffer.CopyTo<EntityKey>(input.entity);
+    output.uploadDetails = buffer.CopyToArray<InitiateFileUploadMetadata>(input.uploadDetails, input.uploadDetailsCount);
+    return S_OK;
+}
+
+JsonValue SetObject::ToJson() const
+{
+    return SetObject::ToJson(this->Model());
+}
+
+JsonValue SetObject::ToJson(const PFDataSetObject& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "DataObject", input.dataObject);
@@ -1033,36 +537,109 @@ inline JsonValue ToJson<>(const PFDataSetObject& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataSetObjectsRequest& input)
+JsonValue SetObjectsRequest::ToJson() const
+{
+    return SetObjectsRequest::ToJson(this->Model());
+}
+
+JsonValue SetObjectsRequest::ToJson(const PFDataSetObjectsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Entity", input.entity);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember<EntityKey>(output, "Entity", input.entity);
     JsonUtils::ObjectAddMember(output, "ExpectedProfileVersion", input.expectedProfileVersion);
-    JsonUtils::ObjectAddMember(output, "Objects", input.objects, input.objectsCount);
+    JsonUtils::ObjectAddMemberArray<SetObject>(output, "Objects", input.objects, input.objectsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataSetObjectInfo& input)
+void SetObjectInfo::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ObjectName", input.objectName);
-    JsonUtils::ObjectAddMember(output, "OperationReason", input.operationReason);
-    JsonUtils::ObjectAddMember(output, "SetResult", input.setResult);
-    return output;
+    String objectName{};
+    JsonUtils::ObjectGetMember(input, "ObjectName", objectName);
+    this->SetObjectName(std::move(objectName));
+
+    String operationReason{};
+    JsonUtils::ObjectGetMember(input, "OperationReason", operationReason);
+    this->SetOperationReason(std::move(operationReason));
+
+    StdExtra::optional<PFOperationTypes> setResult{};
+    JsonUtils::ObjectGetMember(input, "SetResult", setResult);
+    this->SetSetResult(std::move(setResult));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFDataSetObjectsResponse& input)
+size_t SetObjectInfo::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ProfileVersion", input.profileVersion);
-    JsonUtils::ObjectAddMember(output, "SetResults", input.setResults, input.setResultsCount);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-} // namespace JsonUtils
+Result<PFDataSetObjectInfo const*> SetObjectInfo::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<SetObjectInfo>(&this->Model());
+}
 
+size_t SetObjectInfo::RequiredBufferSize(const PFDataSetObjectInfo& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.objectName)
+    {
+        requiredSize += (std::strlen(model.objectName) + 1);
+    }
+    if (model.operationReason)
+    {
+        requiredSize += (std::strlen(model.operationReason) + 1);
+    }
+    if (model.setResult)
+    {
+        requiredSize += (alignof(PFOperationTypes) + sizeof(PFOperationTypes));
+    }
+    return requiredSize;
+}
+
+HRESULT SetObjectInfo::Copy(const PFDataSetObjectInfo& input, PFDataSetObjectInfo& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.objectName = buffer.CopyTo(input.objectName);
+    output.operationReason = buffer.CopyTo(input.operationReason);
+    output.setResult = buffer.CopyTo(input.setResult);
+    return S_OK;
+}
+
+void SetObjectsResponse::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "ProfileVersion", this->m_model.profileVersion);
+
+    ModelVector<SetObjectInfo> setResults{};
+    JsonUtils::ObjectGetMember<SetObjectInfo>(input, "SetResults", setResults);
+    this->SetSetResults(std::move(setResults));
+}
+
+size_t SetObjectsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFDataSetObjectsResponse const*> SetObjectsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<SetObjectsResponse>(&this->Model());
+}
+
+size_t SetObjectsResponse::RequiredBufferSize(const PFDataSetObjectsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFDataSetObjectInfo*) + sizeof(PFDataSetObjectInfo*) * model.setResultsCount);
+    for (size_t i = 0; i < model.setResultsCount; ++i)
+    {
+        requiredSize += SetObjectInfo::RequiredBufferSize(*model.setResults[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT SetObjectsResponse::Copy(const PFDataSetObjectsResponse& input, PFDataSetObjectsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.setResults = buffer.CopyToArray<SetObjectInfo>(input.setResults, input.setResultsCount);
+    return S_OK;
+}
+
+} // namespace Data
 } // namespace PlayFab

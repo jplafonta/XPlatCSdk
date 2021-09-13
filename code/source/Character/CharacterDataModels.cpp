@@ -4,1504 +4,138 @@
 
 namespace PlayFab
 {
-namespace CharacterModels
+namespace Character
 {
-
-ResetCharacterStatisticsRequest::ResetCharacterStatisticsRequest() :
-    PFCharacterResetCharacterStatisticsRequest{}
-{
-}
-
-ResetCharacterStatisticsRequest::ResetCharacterStatisticsRequest(const ResetCharacterStatisticsRequest& src) :
-    PFCharacterResetCharacterStatisticsRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ResetCharacterStatisticsRequest::ResetCharacterStatisticsRequest(ResetCharacterStatisticsRequest&& src) :
-    PFCharacterResetCharacterStatisticsRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ResetCharacterStatisticsRequest::ResetCharacterStatisticsRequest(const PFCharacterResetCharacterStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ResetCharacterStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
 
 JsonValue ResetCharacterStatisticsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFCharacterResetCharacterStatisticsRequest>(*this);
+    return ResetCharacterStatisticsRequest::ToJson(this->Model());
 }
 
-ListUsersCharactersRequest::ListUsersCharactersRequest() :
-    PFCharacterListUsersCharactersRequest{}
+JsonValue ResetCharacterStatisticsRequest::ToJson(const PFCharacterResetCharacterStatisticsRequest& input)
 {
-}
-
-ListUsersCharactersRequest::ListUsersCharactersRequest(const ListUsersCharactersRequest& src) :
-    PFCharacterListUsersCharactersRequest{ src },
-    m_playFabId{ src.m_playFabId }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ListUsersCharactersRequest::ListUsersCharactersRequest(ListUsersCharactersRequest&& src) :
-    PFCharacterListUsersCharactersRequest{ src },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ListUsersCharactersRequest::ListUsersCharactersRequest(const PFCharacterListUsersCharactersRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ListUsersCharactersRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
 }
 
 JsonValue ListUsersCharactersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFCharacterListUsersCharactersRequest>(*this);
+    return ListUsersCharactersRequest::ToJson(this->Model());
 }
 
-size_t ListUsersCharactersRequest::SerializedSize() const
+JsonValue ListUsersCharactersRequest::ToJson(const PFCharacterListUsersCharactersRequest& input)
 {
-    size_t serializedSize{ sizeof(PFCharacterListUsersCharactersRequest) };
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
-}
-
-void ListUsersCharactersRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterListUsersCharactersRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterListUsersCharactersRequest);
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ListUsersCharactersResult::ListUsersCharactersResult() :
-    PFCharacterListUsersCharactersResult{}
-{
-}
-
-ListUsersCharactersResult::ListUsersCharactersResult(const ListUsersCharactersResult& src) :
-    PFCharacterListUsersCharactersResult{ src },
-    m_characters{ src.m_characters }
-{
-    characters = m_characters.Empty() ? nullptr : m_characters.Data();
-}
-
-ListUsersCharactersResult::ListUsersCharactersResult(ListUsersCharactersResult&& src) :
-    PFCharacterListUsersCharactersResult{ src },
-    m_characters{ std::move(src.m_characters) }
-{
-    characters = m_characters.Empty() ? nullptr : m_characters.Data();
-}
-
-ListUsersCharactersResult::ListUsersCharactersResult(const PFCharacterListUsersCharactersResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
 }
 
 void ListUsersCharactersResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Characters", m_characters, characters, charactersCount);
+    ModelVector<CharacterResult> characters{};
+    JsonUtils::ObjectGetMember<CharacterResult>(input, "Characters", characters);
+    this->SetCharacters(std::move(characters));
 }
 
-JsonValue ListUsersCharactersResult::ToJson() const
+size_t ListUsersCharactersResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFCharacterListUsersCharactersResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetCharacterDataRequest::GetCharacterDataRequest() :
-    PFCharacterGetCharacterDataRequest{}
+Result<PFCharacterListUsersCharactersResult const*> ListUsersCharactersResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<ListUsersCharactersResult>(&this->Model());
 }
 
-GetCharacterDataRequest::GetCharacterDataRequest(const GetCharacterDataRequest& src) :
-    PFCharacterGetCharacterDataRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_ifChangedFromDataVersion{ src.m_ifChangedFromDataVersion },
-    m_keys{ src.m_keys },
-    m_playFabId{ src.m_playFabId }
+size_t ListUsersCharactersResult::RequiredBufferSize(const PFCharacterListUsersCharactersResult& model)
 {
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    ifChangedFromDataVersion = m_ifChangedFromDataVersion ? m_ifChangedFromDataVersion.operator->() : nullptr;
-    keys = m_keys.Empty() ? nullptr : m_keys.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFCharacterResult*) + sizeof(PFCharacterResult*) * model.charactersCount);
+    for (size_t i = 0; i < model.charactersCount; ++i)
+    {
+        requiredSize += CharacterResult::RequiredBufferSize(*model.characters[i]);
+    }
+    return requiredSize;
 }
 
-GetCharacterDataRequest::GetCharacterDataRequest(GetCharacterDataRequest&& src) :
-    PFCharacterGetCharacterDataRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_ifChangedFromDataVersion{ std::move(src.m_ifChangedFromDataVersion) },
-    m_keys{ std::move(src.m_keys) },
-    m_playFabId{ std::move(src.m_playFabId) }
+HRESULT ListUsersCharactersResult::Copy(const PFCharacterListUsersCharactersResult& input, PFCharacterListUsersCharactersResult& output, ModelBuffer& buffer)
 {
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    ifChangedFromDataVersion = m_ifChangedFromDataVersion ? m_ifChangedFromDataVersion.operator->() : nullptr;
-    keys = m_keys.Empty() ? nullptr : m_keys.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GetCharacterDataRequest::GetCharacterDataRequest(const PFCharacterGetCharacterDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetCharacterDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "IfChangedFromDataVersion", m_ifChangedFromDataVersion, ifChangedFromDataVersion);
-    JsonUtils::ObjectGetMember(input, "Keys", m_keys, keys, keysCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    output = input;
+    output.characters = buffer.CopyToArray<CharacterResult>(input.characters, input.charactersCount);
+    return S_OK;
 }
 
 JsonValue GetCharacterDataRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFCharacterGetCharacterDataRequest>(*this);
+    return GetCharacterDataRequest::ToJson(this->Model());
 }
 
-ClientGetCharacterDataResult::ClientGetCharacterDataResult() :
-    PFCharacterClientGetCharacterDataResult{}
-{
-}
-
-ClientGetCharacterDataResult::ClientGetCharacterDataResult(const ClientGetCharacterDataResult& src) :
-    PFCharacterClientGetCharacterDataResult{ src },
-    m_characterId{ src.m_characterId },
-    m_data{ src.m_data }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-}
-
-ClientGetCharacterDataResult::ClientGetCharacterDataResult(ClientGetCharacterDataResult&& src) :
-    PFCharacterClientGetCharacterDataResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_data{ std::move(src.m_data) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-}
-
-ClientGetCharacterDataResult::ClientGetCharacterDataResult(const PFCharacterClientGetCharacterDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetCharacterDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-}
-
-JsonValue ClientGetCharacterDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGetCharacterDataResult>(*this);
-}
-
-GetCharacterLeaderboardRequest::GetCharacterLeaderboardRequest() :
-    PFCharacterGetCharacterLeaderboardRequest{}
-{
-}
-
-GetCharacterLeaderboardRequest::GetCharacterLeaderboardRequest(const GetCharacterLeaderboardRequest& src) :
-    PFCharacterGetCharacterLeaderboardRequest{ src },
-    m_characterType{ src.m_characterType },
-    m_statisticName{ src.m_statisticName }
-{
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-GetCharacterLeaderboardRequest::GetCharacterLeaderboardRequest(GetCharacterLeaderboardRequest&& src) :
-    PFCharacterGetCharacterLeaderboardRequest{ src },
-    m_characterType{ std::move(src.m_characterType) },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-GetCharacterLeaderboardRequest::GetCharacterLeaderboardRequest(const PFCharacterGetCharacterLeaderboardRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetCharacterLeaderboardRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "StartPosition", startPosition);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue GetCharacterLeaderboardRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterGetCharacterLeaderboardRequest>(*this);
-}
-
-size_t GetCharacterLeaderboardRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterGetCharacterLeaderboardRequest) };
-    serializedSize += (m_characterType.size() + 1);
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void GetCharacterLeaderboardRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterGetCharacterLeaderboardRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterGetCharacterLeaderboardRequest);
-    memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
-    serializedStruct->characterType = stringBuffer;
-    stringBuffer += m_characterType.size() + 1;
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-CharacterLeaderboardEntry::CharacterLeaderboardEntry() :
-    PFCharacterCharacterLeaderboardEntry{}
-{
-}
-
-CharacterLeaderboardEntry::CharacterLeaderboardEntry(const CharacterLeaderboardEntry& src) :
-    PFCharacterCharacterLeaderboardEntry{ src },
-    m_characterId{ src.m_characterId },
-    m_characterName{ src.m_characterName },
-    m_characterType{ src.m_characterType },
-    m_displayName{ src.m_displayName },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-CharacterLeaderboardEntry::CharacterLeaderboardEntry(CharacterLeaderboardEntry&& src) :
-    PFCharacterCharacterLeaderboardEntry{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterName{ std::move(src.m_characterName) },
-    m_characterType{ std::move(src.m_characterType) },
-    m_displayName{ std::move(src.m_displayName) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-CharacterLeaderboardEntry::CharacterLeaderboardEntry(const PFCharacterCharacterLeaderboardEntry& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CharacterLeaderboardEntry::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterName", m_characterName, characterName);
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
-    JsonUtils::ObjectGetMember(input, "DisplayName", m_displayName, displayName);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Position", position);
-    JsonUtils::ObjectGetMember(input, "StatValue", statValue);
-}
-
-JsonValue CharacterLeaderboardEntry::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterCharacterLeaderboardEntry>(*this);
-}
-
-size_t CharacterLeaderboardEntry::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterCharacterLeaderboardEntry) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_characterName.size() + 1);
-    serializedSize += (m_characterType.size() + 1);
-    serializedSize += (m_displayName.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
-}
-
-void CharacterLeaderboardEntry::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterCharacterLeaderboardEntry{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterCharacterLeaderboardEntry);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_characterName.data(), m_characterName.size() + 1);
-    serializedStruct->characterName = stringBuffer;
-    stringBuffer += m_characterName.size() + 1;
-    memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
-    serializedStruct->characterType = stringBuffer;
-    stringBuffer += m_characterType.size() + 1;
-    memcpy(stringBuffer, m_displayName.data(), m_displayName.size() + 1);
-    serializedStruct->displayName = stringBuffer;
-    stringBuffer += m_displayName.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetCharacterLeaderboardResult::GetCharacterLeaderboardResult() :
-    PFCharacterGetCharacterLeaderboardResult{}
-{
-}
-
-GetCharacterLeaderboardResult::GetCharacterLeaderboardResult(const GetCharacterLeaderboardResult& src) :
-    PFCharacterGetCharacterLeaderboardResult{ src },
-    m_leaderboard{ src.m_leaderboard }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-}
-
-GetCharacterLeaderboardResult::GetCharacterLeaderboardResult(GetCharacterLeaderboardResult&& src) :
-    PFCharacterGetCharacterLeaderboardResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-}
-
-GetCharacterLeaderboardResult::GetCharacterLeaderboardResult(const PFCharacterGetCharacterLeaderboardResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetCharacterLeaderboardResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-}
-
-JsonValue GetCharacterLeaderboardResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterGetCharacterLeaderboardResult>(*this);
-}
-
-ClientGetCharacterStatisticsRequest::ClientGetCharacterStatisticsRequest() :
-    PFCharacterClientGetCharacterStatisticsRequest{}
-{
-}
-
-ClientGetCharacterStatisticsRequest::ClientGetCharacterStatisticsRequest(const ClientGetCharacterStatisticsRequest& src) :
-    PFCharacterClientGetCharacterStatisticsRequest{ src },
-    m_characterId{ src.m_characterId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-}
-
-ClientGetCharacterStatisticsRequest::ClientGetCharacterStatisticsRequest(ClientGetCharacterStatisticsRequest&& src) :
-    PFCharacterClientGetCharacterStatisticsRequest{ src },
-    m_characterId{ std::move(src.m_characterId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-}
-
-ClientGetCharacterStatisticsRequest::ClientGetCharacterStatisticsRequest(const PFCharacterClientGetCharacterStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetCharacterStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-}
-
-JsonValue ClientGetCharacterStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGetCharacterStatisticsRequest>(*this);
-}
-
-size_t ClientGetCharacterStatisticsRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterClientGetCharacterStatisticsRequest) };
-    serializedSize += (m_characterId.size() + 1);
-    return serializedSize;
-}
-
-void ClientGetCharacterStatisticsRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterClientGetCharacterStatisticsRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterClientGetCharacterStatisticsRequest);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ClientGetCharacterStatisticsResult::ClientGetCharacterStatisticsResult() :
-    PFCharacterClientGetCharacterStatisticsResult{}
-{
-}
-
-ClientGetCharacterStatisticsResult::ClientGetCharacterStatisticsResult(const ClientGetCharacterStatisticsResult& src) :
-    PFCharacterClientGetCharacterStatisticsResult{ src },
-    m_characterStatistics{ src.m_characterStatistics }
-{
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-}
-
-ClientGetCharacterStatisticsResult::ClientGetCharacterStatisticsResult(ClientGetCharacterStatisticsResult&& src) :
-    PFCharacterClientGetCharacterStatisticsResult{ src },
-    m_characterStatistics{ std::move(src.m_characterStatistics) }
-{
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-}
-
-ClientGetCharacterStatisticsResult::ClientGetCharacterStatisticsResult(const PFCharacterClientGetCharacterStatisticsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetCharacterStatisticsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterStatistics", m_characterStatistics, characterStatistics, characterStatisticsCount);
-}
-
-JsonValue ClientGetCharacterStatisticsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGetCharacterStatisticsResult>(*this);
-}
-
-ClientGetLeaderboardAroundCharacterRequest::ClientGetLeaderboardAroundCharacterRequest() :
-    PFCharacterClientGetLeaderboardAroundCharacterRequest{}
-{
-}
-
-ClientGetLeaderboardAroundCharacterRequest::ClientGetLeaderboardAroundCharacterRequest(const ClientGetLeaderboardAroundCharacterRequest& src) :
-    PFCharacterClientGetLeaderboardAroundCharacterRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_characterType{ src.m_characterType },
-    m_maxResultsCount{ src.m_maxResultsCount },
-    m_statisticName{ src.m_statisticName }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ClientGetLeaderboardAroundCharacterRequest::ClientGetLeaderboardAroundCharacterRequest(ClientGetLeaderboardAroundCharacterRequest&& src) :
-    PFCharacterClientGetLeaderboardAroundCharacterRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterType{ std::move(src.m_characterType) },
-    m_maxResultsCount{ std::move(src.m_maxResultsCount) },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ClientGetLeaderboardAroundCharacterRequest::ClientGetLeaderboardAroundCharacterRequest(const PFCharacterClientGetLeaderboardAroundCharacterRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetLeaderboardAroundCharacterRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", m_maxResultsCount, maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue ClientGetLeaderboardAroundCharacterRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGetLeaderboardAroundCharacterRequest>(*this);
-}
-
-GetLeaderboardAroundCharacterResult::GetLeaderboardAroundCharacterResult() :
-    PFCharacterGetLeaderboardAroundCharacterResult{}
-{
-}
-
-GetLeaderboardAroundCharacterResult::GetLeaderboardAroundCharacterResult(const GetLeaderboardAroundCharacterResult& src) :
-    PFCharacterGetLeaderboardAroundCharacterResult{ src },
-    m_leaderboard{ src.m_leaderboard }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-}
-
-GetLeaderboardAroundCharacterResult::GetLeaderboardAroundCharacterResult(GetLeaderboardAroundCharacterResult&& src) :
-    PFCharacterGetLeaderboardAroundCharacterResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-}
-
-GetLeaderboardAroundCharacterResult::GetLeaderboardAroundCharacterResult(const PFCharacterGetLeaderboardAroundCharacterResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardAroundCharacterResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-}
-
-JsonValue GetLeaderboardAroundCharacterResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterGetLeaderboardAroundCharacterResult>(*this);
-}
-
-ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersCharactersRequest() :
-    PFCharacterClientGetLeaderboardForUsersCharactersRequest{}
-{
-}
-
-ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersCharactersRequest(const ClientGetLeaderboardForUsersCharactersRequest& src) :
-    PFCharacterClientGetLeaderboardForUsersCharactersRequest{ src },
-    m_statisticName{ src.m_statisticName }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersCharactersRequest(ClientGetLeaderboardForUsersCharactersRequest&& src) :
-    PFCharacterClientGetLeaderboardForUsersCharactersRequest{ src },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ClientGetLeaderboardForUsersCharactersRequest::ClientGetLeaderboardForUsersCharactersRequest(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetLeaderboardForUsersCharactersRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue ClientGetLeaderboardForUsersCharactersRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGetLeaderboardForUsersCharactersRequest>(*this);
-}
-
-size_t ClientGetLeaderboardForUsersCharactersRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterClientGetLeaderboardForUsersCharactersRequest) };
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void ClientGetLeaderboardForUsersCharactersRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterClientGetLeaderboardForUsersCharactersRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterClientGetLeaderboardForUsersCharactersRequest);
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetLeaderboardForUsersCharactersResult::GetLeaderboardForUsersCharactersResult() :
-    PFCharacterGetLeaderboardForUsersCharactersResult{}
-{
-}
-
-GetLeaderboardForUsersCharactersResult::GetLeaderboardForUsersCharactersResult(const GetLeaderboardForUsersCharactersResult& src) :
-    PFCharacterGetLeaderboardForUsersCharactersResult{ src },
-    m_leaderboard{ src.m_leaderboard }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-}
-
-GetLeaderboardForUsersCharactersResult::GetLeaderboardForUsersCharactersResult(GetLeaderboardForUsersCharactersResult&& src) :
-    PFCharacterGetLeaderboardForUsersCharactersResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-}
-
-GetLeaderboardForUsersCharactersResult::GetLeaderboardForUsersCharactersResult(const PFCharacterGetLeaderboardForUsersCharactersResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardForUsersCharactersResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-}
-
-JsonValue GetLeaderboardForUsersCharactersResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterGetLeaderboardForUsersCharactersResult>(*this);
-}
-
-ClientGrantCharacterToUserRequest::ClientGrantCharacterToUserRequest() :
-    PFCharacterClientGrantCharacterToUserRequest{}
-{
-}
-
-ClientGrantCharacterToUserRequest::ClientGrantCharacterToUserRequest(const ClientGrantCharacterToUserRequest& src) :
-    PFCharacterClientGrantCharacterToUserRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterName{ src.m_characterName },
-    m_customTags{ src.m_customTags },
-    m_itemId{ src.m_itemId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-ClientGrantCharacterToUserRequest::ClientGrantCharacterToUserRequest(ClientGrantCharacterToUserRequest&& src) :
-    PFCharacterClientGrantCharacterToUserRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterName{ std::move(src.m_characterName) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemId{ std::move(src.m_itemId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-ClientGrantCharacterToUserRequest::ClientGrantCharacterToUserRequest(const PFCharacterClientGrantCharacterToUserRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGrantCharacterToUserRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterName", m_characterName, characterName);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-}
-
-JsonValue ClientGrantCharacterToUserRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGrantCharacterToUserRequest>(*this);
-}
-
-ClientGrantCharacterToUserResult::ClientGrantCharacterToUserResult() :
-    PFCharacterClientGrantCharacterToUserResult{}
-{
-}
-
-ClientGrantCharacterToUserResult::ClientGrantCharacterToUserResult(const ClientGrantCharacterToUserResult& src) :
-    PFCharacterClientGrantCharacterToUserResult{ src },
-    m_characterId{ src.m_characterId },
-    m_characterType{ src.m_characterType }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-}
-
-ClientGrantCharacterToUserResult::ClientGrantCharacterToUserResult(ClientGrantCharacterToUserResult&& src) :
-    PFCharacterClientGrantCharacterToUserResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterType{ std::move(src.m_characterType) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-}
-
-ClientGrantCharacterToUserResult::ClientGrantCharacterToUserResult(const PFCharacterClientGrantCharacterToUserResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGrantCharacterToUserResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
-    JsonUtils::ObjectGetMember(input, "Result", result);
-}
-
-JsonValue ClientGrantCharacterToUserResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientGrantCharacterToUserResult>(*this);
-}
-
-size_t ClientGrantCharacterToUserResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterClientGrantCharacterToUserResult) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_characterType.size() + 1);
-    return serializedSize;
-}
-
-void ClientGrantCharacterToUserResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterClientGrantCharacterToUserResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterClientGrantCharacterToUserResult);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
-    serializedStruct->characterType = stringBuffer;
-    stringBuffer += m_characterType.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ClientUpdateCharacterDataRequest::ClientUpdateCharacterDataRequest() :
-    PFCharacterClientUpdateCharacterDataRequest{}
-{
-}
-
-ClientUpdateCharacterDataRequest::ClientUpdateCharacterDataRequest(const ClientUpdateCharacterDataRequest& src) :
-    PFCharacterClientUpdateCharacterDataRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_permission{ src.m_permission }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-}
-
-ClientUpdateCharacterDataRequest::ClientUpdateCharacterDataRequest(ClientUpdateCharacterDataRequest&& src) :
-    PFCharacterClientUpdateCharacterDataRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_permission{ std::move(src.m_permission) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-}
-
-ClientUpdateCharacterDataRequest::ClientUpdateCharacterDataRequest(const PFCharacterClientUpdateCharacterDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientUpdateCharacterDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-}
-
-JsonValue ClientUpdateCharacterDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientUpdateCharacterDataRequest>(*this);
-}
-
-UpdateCharacterDataResult::UpdateCharacterDataResult() :
-    PFCharacterUpdateCharacterDataResult{}
-{
-}
-
-
-UpdateCharacterDataResult::UpdateCharacterDataResult(const PFCharacterUpdateCharacterDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateCharacterDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-}
-
-JsonValue UpdateCharacterDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterUpdateCharacterDataResult>(*this);
-}
-
-size_t UpdateCharacterDataResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterUpdateCharacterDataResult) };
-    return serializedSize;
-}
-
-void UpdateCharacterDataResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterUpdateCharacterDataResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterUpdateCharacterDataResult);
-    UNREFERENCED_PARAMETER(serializedStruct);
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ClientUpdateCharacterStatisticsRequest::ClientUpdateCharacterStatisticsRequest() :
-    PFCharacterClientUpdateCharacterStatisticsRequest{}
-{
-}
-
-ClientUpdateCharacterStatisticsRequest::ClientUpdateCharacterStatisticsRequest(const ClientUpdateCharacterStatisticsRequest& src) :
-    PFCharacterClientUpdateCharacterStatisticsRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_characterStatistics{ src.m_characterStatistics },
-    m_customTags{ src.m_customTags }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientUpdateCharacterStatisticsRequest::ClientUpdateCharacterStatisticsRequest(ClientUpdateCharacterStatisticsRequest&& src) :
-    PFCharacterClientUpdateCharacterStatisticsRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterStatistics{ std::move(src.m_characterStatistics) },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientUpdateCharacterStatisticsRequest::ClientUpdateCharacterStatisticsRequest(const PFCharacterClientUpdateCharacterStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientUpdateCharacterStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterStatistics", m_characterStatistics, characterStatistics, characterStatisticsCount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue ClientUpdateCharacterStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterClientUpdateCharacterStatisticsRequest>(*this);
-}
-
-DeleteCharacterFromUserRequest::DeleteCharacterFromUserRequest() :
-    PFCharacterDeleteCharacterFromUserRequest{}
-{
-}
-
-DeleteCharacterFromUserRequest::DeleteCharacterFromUserRequest(const DeleteCharacterFromUserRequest& src) :
-    PFCharacterDeleteCharacterFromUserRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-DeleteCharacterFromUserRequest::DeleteCharacterFromUserRequest(DeleteCharacterFromUserRequest&& src) :
-    PFCharacterDeleteCharacterFromUserRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-DeleteCharacterFromUserRequest::DeleteCharacterFromUserRequest(const PFCharacterDeleteCharacterFromUserRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeleteCharacterFromUserRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "SaveCharacterInventory", saveCharacterInventory);
-}
-
-JsonValue DeleteCharacterFromUserRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterDeleteCharacterFromUserRequest>(*this);
-}
-
-ServerGetCharacterDataResult::ServerGetCharacterDataResult() :
-    PFCharacterServerGetCharacterDataResult{}
-{
-}
-
-ServerGetCharacterDataResult::ServerGetCharacterDataResult(const ServerGetCharacterDataResult& src) :
-    PFCharacterServerGetCharacterDataResult{ src },
-    m_characterId{ src.m_characterId },
-    m_data{ src.m_data },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterDataResult::ServerGetCharacterDataResult(ServerGetCharacterDataResult&& src) :
-    PFCharacterServerGetCharacterDataResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_data{ std::move(src.m_data) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterDataResult::ServerGetCharacterDataResult(const PFCharacterServerGetCharacterDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetCharacterDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGetCharacterDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGetCharacterDataResult>(*this);
-}
-
-ServerGetCharacterStatisticsRequest::ServerGetCharacterStatisticsRequest() :
-    PFCharacterServerGetCharacterStatisticsRequest{}
-{
-}
-
-ServerGetCharacterStatisticsRequest::ServerGetCharacterStatisticsRequest(const ServerGetCharacterStatisticsRequest& src) :
-    PFCharacterServerGetCharacterStatisticsRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterStatisticsRequest::ServerGetCharacterStatisticsRequest(ServerGetCharacterStatisticsRequest&& src) :
-    PFCharacterServerGetCharacterStatisticsRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterStatisticsRequest::ServerGetCharacterStatisticsRequest(const PFCharacterServerGetCharacterStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetCharacterStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGetCharacterStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGetCharacterStatisticsRequest>(*this);
-}
-
-size_t ServerGetCharacterStatisticsRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterServerGetCharacterStatisticsRequest) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
-}
-
-void ServerGetCharacterStatisticsRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterServerGetCharacterStatisticsRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterServerGetCharacterStatisticsRequest);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerGetCharacterStatisticsResult::ServerGetCharacterStatisticsResult() :
-    PFCharacterServerGetCharacterStatisticsResult{}
-{
-}
-
-ServerGetCharacterStatisticsResult::ServerGetCharacterStatisticsResult(const ServerGetCharacterStatisticsResult& src) :
-    PFCharacterServerGetCharacterStatisticsResult{ src },
-    m_characterId{ src.m_characterId },
-    m_characterStatistics{ src.m_characterStatistics },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterStatisticsResult::ServerGetCharacterStatisticsResult(ServerGetCharacterStatisticsResult&& src) :
-    PFCharacterServerGetCharacterStatisticsResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterStatistics{ std::move(src.m_characterStatistics) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterStatisticsResult::ServerGetCharacterStatisticsResult(const PFCharacterServerGetCharacterStatisticsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetCharacterStatisticsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterStatistics", m_characterStatistics, characterStatistics, characterStatisticsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGetCharacterStatisticsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGetCharacterStatisticsResult>(*this);
-}
-
-ServerGetLeaderboardAroundCharacterRequest::ServerGetLeaderboardAroundCharacterRequest() :
-    PFCharacterServerGetLeaderboardAroundCharacterRequest{}
-{
-}
-
-ServerGetLeaderboardAroundCharacterRequest::ServerGetLeaderboardAroundCharacterRequest(const ServerGetLeaderboardAroundCharacterRequest& src) :
-    PFCharacterServerGetLeaderboardAroundCharacterRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_characterType{ src.m_characterType },
-    m_playFabId{ src.m_playFabId },
-    m_statisticName{ src.m_statisticName }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ServerGetLeaderboardAroundCharacterRequest::ServerGetLeaderboardAroundCharacterRequest(ServerGetLeaderboardAroundCharacterRequest&& src) :
-    PFCharacterServerGetLeaderboardAroundCharacterRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterType{ std::move(src.m_characterType) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ServerGetLeaderboardAroundCharacterRequest::ServerGetLeaderboardAroundCharacterRequest(const PFCharacterServerGetLeaderboardAroundCharacterRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetLeaderboardAroundCharacterRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue ServerGetLeaderboardAroundCharacterRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGetLeaderboardAroundCharacterRequest>(*this);
-}
-
-size_t ServerGetLeaderboardAroundCharacterRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterServerGetLeaderboardAroundCharacterRequest) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_characterType.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void ServerGetLeaderboardAroundCharacterRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterServerGetLeaderboardAroundCharacterRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterServerGetLeaderboardAroundCharacterRequest);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_characterType.data(), m_characterType.size() + 1);
-    serializedStruct->characterType = stringBuffer;
-    stringBuffer += m_characterType.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersCharactersRequest() :
-    PFCharacterServerGetLeaderboardForUsersCharactersRequest{}
-{
-}
-
-ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersCharactersRequest(const ServerGetLeaderboardForUsersCharactersRequest& src) :
-    PFCharacterServerGetLeaderboardForUsersCharactersRequest{ src },
-    m_playFabId{ src.m_playFabId },
-    m_statisticName{ src.m_statisticName }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersCharactersRequest(ServerGetLeaderboardForUsersCharactersRequest&& src) :
-    PFCharacterServerGetLeaderboardForUsersCharactersRequest{ src },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-ServerGetLeaderboardForUsersCharactersRequest::ServerGetLeaderboardForUsersCharactersRequest(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetLeaderboardForUsersCharactersRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue ServerGetLeaderboardForUsersCharactersRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGetLeaderboardForUsersCharactersRequest>(*this);
-}
-
-size_t ServerGetLeaderboardForUsersCharactersRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterServerGetLeaderboardForUsersCharactersRequest) };
-    serializedSize += (m_playFabId.size() + 1);
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void ServerGetLeaderboardForUsersCharactersRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterServerGetLeaderboardForUsersCharactersRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterServerGetLeaderboardForUsersCharactersRequest);
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerGrantCharacterToUserRequest::ServerGrantCharacterToUserRequest() :
-    PFCharacterServerGrantCharacterToUserRequest{}
-{
-}
-
-ServerGrantCharacterToUserRequest::ServerGrantCharacterToUserRequest(const ServerGrantCharacterToUserRequest& src) :
-    PFCharacterServerGrantCharacterToUserRequest{ src },
-    m_characterName{ src.m_characterName },
-    m_characterType{ src.m_characterType },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGrantCharacterToUserRequest::ServerGrantCharacterToUserRequest(ServerGrantCharacterToUserRequest&& src) :
-    PFCharacterServerGrantCharacterToUserRequest{ src },
-    m_characterName{ std::move(src.m_characterName) },
-    m_characterType{ std::move(src.m_characterType) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterName = m_characterName.empty() ? nullptr : m_characterName.data();
-    characterType = m_characterType.empty() ? nullptr : m_characterType.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGrantCharacterToUserRequest::ServerGrantCharacterToUserRequest(const PFCharacterServerGrantCharacterToUserRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGrantCharacterToUserRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterName", m_characterName, characterName);
-    JsonUtils::ObjectGetMember(input, "CharacterType", m_characterType, characterType);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGrantCharacterToUserRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGrantCharacterToUserRequest>(*this);
-}
-
-ServerGrantCharacterToUserResult::ServerGrantCharacterToUserResult() :
-    PFCharacterServerGrantCharacterToUserResult{}
-{
-}
-
-ServerGrantCharacterToUserResult::ServerGrantCharacterToUserResult(const ServerGrantCharacterToUserResult& src) :
-    PFCharacterServerGrantCharacterToUserResult{ src },
-    m_characterId{ src.m_characterId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-}
-
-ServerGrantCharacterToUserResult::ServerGrantCharacterToUserResult(ServerGrantCharacterToUserResult&& src) :
-    PFCharacterServerGrantCharacterToUserResult{ src },
-    m_characterId{ std::move(src.m_characterId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-}
-
-ServerGrantCharacterToUserResult::ServerGrantCharacterToUserResult(const PFCharacterServerGrantCharacterToUserResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGrantCharacterToUserResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-}
-
-JsonValue ServerGrantCharacterToUserResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerGrantCharacterToUserResult>(*this);
-}
-
-size_t ServerGrantCharacterToUserResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFCharacterServerGrantCharacterToUserResult) };
-    serializedSize += (m_characterId.size() + 1);
-    return serializedSize;
-}
-
-void ServerGrantCharacterToUserResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFCharacterServerGrantCharacterToUserResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFCharacterServerGrantCharacterToUserResult);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerUpdateCharacterDataRequest::ServerUpdateCharacterDataRequest() :
-    PFCharacterServerUpdateCharacterDataRequest{}
-{
-}
-
-ServerUpdateCharacterDataRequest::ServerUpdateCharacterDataRequest(const ServerUpdateCharacterDataRequest& src) :
-    PFCharacterServerUpdateCharacterDataRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_permission{ src.m_permission },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUpdateCharacterDataRequest::ServerUpdateCharacterDataRequest(ServerUpdateCharacterDataRequest&& src) :
-    PFCharacterServerUpdateCharacterDataRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_permission{ std::move(src.m_permission) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUpdateCharacterDataRequest::ServerUpdateCharacterDataRequest(const PFCharacterServerUpdateCharacterDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerUpdateCharacterDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerUpdateCharacterDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerUpdateCharacterDataRequest>(*this);
-}
-
-ServerUpdateCharacterStatisticsRequest::ServerUpdateCharacterStatisticsRequest() :
-    PFCharacterServerUpdateCharacterStatisticsRequest{}
-{
-}
-
-ServerUpdateCharacterStatisticsRequest::ServerUpdateCharacterStatisticsRequest(const ServerUpdateCharacterStatisticsRequest& src) :
-    PFCharacterServerUpdateCharacterStatisticsRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_characterStatistics{ src.m_characterStatistics },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUpdateCharacterStatisticsRequest::ServerUpdateCharacterStatisticsRequest(ServerUpdateCharacterStatisticsRequest&& src) :
-    PFCharacterServerUpdateCharacterStatisticsRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_characterStatistics{ std::move(src.m_characterStatistics) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    characterStatistics = m_characterStatistics.Empty() ? nullptr : m_characterStatistics.Data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUpdateCharacterStatisticsRequest::ServerUpdateCharacterStatisticsRequest(const PFCharacterServerUpdateCharacterStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerUpdateCharacterStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CharacterStatistics", m_characterStatistics, characterStatistics, characterStatisticsCount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerUpdateCharacterStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFCharacterServerUpdateCharacterStatisticsRequest>(*this);
-}
-
-} // namespace CharacterModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFCharacterResetCharacterStatisticsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFCharacterListUsersCharactersRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFCharacterListUsersCharactersResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Characters", input.characters, input.charactersCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFCharacterGetCharacterDataRequest& input)
+JsonValue GetCharacterDataRequest::ToJson(const PFCharacterGetCharacterDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "IfChangedFromDataVersion", input.ifChangedFromDataVersion);
-    JsonUtils::ObjectAddMember(output, "Keys", input.keys, input.keysCount);
+    JsonUtils::ObjectAddMemberArray(output, "Keys", input.keys, input.keysCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGetCharacterDataResult& input)
+void ClientGetCharacterDataResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
-    return output;
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    ModelDictionaryEntryVector<UserDataRecord> data{};
+    JsonUtils::ObjectGetMember<UserDataRecord>(input, "Data", data);
+    this->SetData(std::move(data));
+
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterGetCharacterLeaderboardRequest& input)
+size_t ClientGetCharacterDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterClientGetCharacterDataResult const*> ClientGetCharacterDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ClientGetCharacterDataResult>(&this->Model());
+}
+
+size_t ClientGetCharacterDataResult::RequiredBufferSize(const PFCharacterClientGetCharacterDataResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    requiredSize += (alignof(PFUserDataRecordDictionaryEntry) + sizeof(PFUserDataRecordDictionaryEntry) * model.dataCount);
+    for (size_t i = 0; i < model.dataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.data[i].key) + 1);
+        requiredSize += UserDataRecord::RequiredBufferSize(*model.data[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGetCharacterDataResult::Copy(const PFCharacterClientGetCharacterDataResult& input, PFCharacterClientGetCharacterDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.data = buffer.CopyToDictionary<UserDataRecord>(input.data, input.dataCount);
+    return S_OK;
+}
+
+JsonValue GetCharacterLeaderboardRequest::ToJson() const
+{
+    return GetCharacterLeaderboardRequest::ToJson(this->Model());
+}
+
+JsonValue GetCharacterLeaderboardRequest::ToJson(const PFCharacterGetCharacterLeaderboardRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterType", input.characterType);
@@ -1511,46 +145,168 @@ inline JsonValue ToJson<>(const PFCharacterGetCharacterLeaderboardRequest& input
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterCharacterLeaderboardEntry& input)
+void CharacterLeaderboardEntry::FromJson(const JsonValue& input)
+{
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    String characterName{};
+    JsonUtils::ObjectGetMember(input, "CharacterName", characterName);
+    this->SetCharacterName(std::move(characterName));
+
+    String characterType{};
+    JsonUtils::ObjectGetMember(input, "CharacterType", characterType);
+    this->SetCharacterType(std::move(characterType));
+
+    String displayName{};
+    JsonUtils::ObjectGetMember(input, "DisplayName", displayName);
+    this->SetDisplayName(std::move(displayName));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    JsonUtils::ObjectGetMember(input, "Position", this->m_model.position);
+
+    JsonUtils::ObjectGetMember(input, "StatValue", this->m_model.statValue);
+}
+
+size_t CharacterLeaderboardEntry::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterCharacterLeaderboardEntry const*> CharacterLeaderboardEntry::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<CharacterLeaderboardEntry>(&this->Model());
+}
+
+size_t CharacterLeaderboardEntry::RequiredBufferSize(const PFCharacterCharacterLeaderboardEntry& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    if (model.characterName)
+    {
+        requiredSize += (std::strlen(model.characterName) + 1);
+    }
+    if (model.characterType)
+    {
+        requiredSize += (std::strlen(model.characterType) + 1);
+    }
+    if (model.displayName)
+    {
+        requiredSize += (std::strlen(model.displayName) + 1);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT CharacterLeaderboardEntry::Copy(const PFCharacterCharacterLeaderboardEntry& input, PFCharacterCharacterLeaderboardEntry& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.characterName = buffer.CopyTo(input.characterName);
+    output.characterType = buffer.CopyTo(input.characterType);
+    output.displayName = buffer.CopyTo(input.displayName);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    return S_OK;
+}
+
+void GetCharacterLeaderboardResult::FromJson(const JsonValue& input)
+{
+    ModelVector<CharacterLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<CharacterLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
+}
+
+size_t GetCharacterLeaderboardResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterGetCharacterLeaderboardResult const*> GetCharacterLeaderboardResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetCharacterLeaderboardResult>(&this->Model());
+}
+
+size_t GetCharacterLeaderboardResult::RequiredBufferSize(const PFCharacterGetCharacterLeaderboardResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFCharacterCharacterLeaderboardEntry*) + sizeof(PFCharacterCharacterLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += CharacterLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetCharacterLeaderboardResult::Copy(const PFCharacterGetCharacterLeaderboardResult& input, PFCharacterGetCharacterLeaderboardResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<CharacterLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    return S_OK;
+}
+
+JsonValue ClientGetCharacterStatisticsRequest::ToJson() const
+{
+    return ClientGetCharacterStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetCharacterStatisticsRequest::ToJson(const PFCharacterClientGetCharacterStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CharacterName", input.characterName);
-    JsonUtils::ObjectAddMember(output, "CharacterType", input.characterType);
-    JsonUtils::ObjectAddMember(output, "DisplayName", input.displayName);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "Position", input.position);
-    JsonUtils::ObjectAddMember(output, "StatValue", input.statValue);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterGetCharacterLeaderboardResult& input)
+void ClientGetCharacterStatisticsResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    return output;
+    DictionaryEntryVector<PFInt32DictionaryEntry> characterStatistics{};
+    JsonUtils::ObjectGetMember(input, "CharacterStatistics", characterStatistics);
+    this->SetCharacterStatistics(std::move(characterStatistics));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGetCharacterStatisticsRequest& input)
+size_t ClientGetCharacterStatisticsResult::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGetCharacterStatisticsResult& input)
+Result<PFCharacterClientGetCharacterStatisticsResult const*> ClientGetCharacterStatisticsResult::Copy(ModelBuffer& buffer) const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterStatistics", input.characterStatistics, input.characterStatisticsCount);
-    return output;
+    return buffer.CopyTo<ClientGetCharacterStatisticsResult>(&this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGetLeaderboardAroundCharacterRequest& input)
+size_t ClientGetCharacterStatisticsResult::RequiredBufferSize(const PFCharacterClientGetCharacterStatisticsResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.characterStatisticsCount);
+    for (size_t i = 0; i < model.characterStatisticsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.characterStatistics[i].key) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGetCharacterStatisticsResult::Copy(const PFCharacterClientGetCharacterStatisticsResult& input, PFCharacterClientGetCharacterStatisticsResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterStatistics = buffer.CopyToDictionary(input.characterStatistics, input.characterStatisticsCount);
+    return S_OK;
+}
+
+JsonValue ClientGetLeaderboardAroundCharacterRequest::ToJson() const
+{
+    return ClientGetLeaderboardAroundCharacterRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetLeaderboardAroundCharacterRequest::ToJson(const PFCharacterClientGetLeaderboardAroundCharacterRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
@@ -1560,124 +316,349 @@ inline JsonValue ToJson<>(const PFCharacterClientGetLeaderboardAroundCharacterRe
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterGetLeaderboardAroundCharacterResult& input)
+void GetLeaderboardAroundCharacterResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    return output;
+    ModelVector<CharacterLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<CharacterLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& input)
+size_t GetLeaderboardAroundCharacterResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterGetLeaderboardAroundCharacterResult const*> GetLeaderboardAroundCharacterResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetLeaderboardAroundCharacterResult>(&this->Model());
+}
+
+size_t GetLeaderboardAroundCharacterResult::RequiredBufferSize(const PFCharacterGetLeaderboardAroundCharacterResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFCharacterCharacterLeaderboardEntry*) + sizeof(PFCharacterCharacterLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += CharacterLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetLeaderboardAroundCharacterResult::Copy(const PFCharacterGetLeaderboardAroundCharacterResult& input, PFCharacterGetLeaderboardAroundCharacterResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<CharacterLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    return S_OK;
+}
+
+JsonValue ClientGetLeaderboardForUsersCharactersRequest::ToJson() const
+{
+    return ClientGetLeaderboardForUsersCharactersRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetLeaderboardForUsersCharactersRequest::ToJson(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterGetLeaderboardForUsersCharactersResult& input)
+void GetLeaderboardForUsersCharactersResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    return output;
+    ModelVector<CharacterLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<CharacterLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGrantCharacterToUserRequest& input)
+size_t GetLeaderboardForUsersCharactersResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterGetLeaderboardForUsersCharactersResult const*> GetLeaderboardForUsersCharactersResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetLeaderboardForUsersCharactersResult>(&this->Model());
+}
+
+size_t GetLeaderboardForUsersCharactersResult::RequiredBufferSize(const PFCharacterGetLeaderboardForUsersCharactersResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFCharacterCharacterLeaderboardEntry*) + sizeof(PFCharacterCharacterLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += CharacterLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetLeaderboardForUsersCharactersResult::Copy(const PFCharacterGetLeaderboardForUsersCharactersResult& input, PFCharacterGetLeaderboardForUsersCharactersResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<CharacterLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    return S_OK;
+}
+
+JsonValue ClientGrantCharacterToUserRequest::ToJson() const
+{
+    return ClientGrantCharacterToUserRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGrantCharacterToUserRequest::ToJson(const PFCharacterClientGrantCharacterToUserRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterName", input.characterName);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientGrantCharacterToUserResult& input)
+void ClientGrantCharacterToUserResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CharacterType", input.characterType);
-    JsonUtils::ObjectAddMember(output, "Result", input.result);
-    return output;
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    String characterType{};
+    JsonUtils::ObjectGetMember(input, "CharacterType", characterType);
+    this->SetCharacterType(std::move(characterType));
+
+    JsonUtils::ObjectGetMember(input, "Result", this->m_model.result);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientUpdateCharacterDataRequest& input)
+size_t ClientGrantCharacterToUserResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterClientGrantCharacterToUserResult const*> ClientGrantCharacterToUserResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ClientGrantCharacterToUserResult>(&this->Model());
+}
+
+size_t ClientGrantCharacterToUserResult::RequiredBufferSize(const PFCharacterClientGrantCharacterToUserResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    if (model.characterType)
+    {
+        requiredSize += (std::strlen(model.characterType) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGrantCharacterToUserResult::Copy(const PFCharacterClientGrantCharacterToUserResult& input, PFCharacterClientGrantCharacterToUserResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.characterType = buffer.CopyTo(input.characterType);
+    return S_OK;
+}
+
+JsonValue ClientUpdateCharacterDataRequest::ToJson() const
+{
+    return ClientUpdateCharacterDataRequest::ToJson(this->Model());
+}
+
+JsonValue ClientUpdateCharacterDataRequest::ToJson(const PFCharacterClientUpdateCharacterDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "Permission", input.permission);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterUpdateCharacterDataResult& input)
+void UpdateCharacterDataResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
-    return output;
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterClientUpdateCharacterStatisticsRequest& input)
+size_t UpdateCharacterDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterUpdateCharacterDataResult const*> UpdateCharacterDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<UpdateCharacterDataResult>(&this->Model());
+}
+
+size_t UpdateCharacterDataResult::RequiredBufferSize(const PFCharacterUpdateCharacterDataResult& model)
+{
+    UNREFERENCED_PARAMETER(model); // Fixed size
+    return sizeof(ModelType);
+}
+
+HRESULT UpdateCharacterDataResult::Copy(const PFCharacterUpdateCharacterDataResult& input, PFCharacterUpdateCharacterDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    UNREFERENCED_PARAMETER(buffer); // Fixed size
+    return S_OK;
+}
+
+JsonValue ClientUpdateCharacterStatisticsRequest::ToJson() const
+{
+    return ClientUpdateCharacterStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ClientUpdateCharacterStatisticsRequest::ToJson(const PFCharacterClientUpdateCharacterStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CharacterStatistics", input.characterStatistics, input.characterStatisticsCount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CharacterStatistics", input.characterStatistics, input.characterStatisticsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterDeleteCharacterFromUserRequest& input)
+JsonValue DeleteCharacterFromUserRequest::ToJson() const
+{
+    return DeleteCharacterFromUserRequest::ToJson(this->Model());
+}
+
+JsonValue DeleteCharacterFromUserRequest::ToJson(const PFCharacterDeleteCharacterFromUserRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "SaveCharacterInventory", input.saveCharacterInventory);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGetCharacterDataResult& input)
+void ServerGetCharacterDataResult::FromJson(const JsonValue& input)
+{
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    ModelDictionaryEntryVector<UserDataRecord> data{};
+    JsonUtils::ObjectGetMember<UserDataRecord>(input, "Data", data);
+    this->SetData(std::move(data));
+
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+}
+
+size_t ServerGetCharacterDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterServerGetCharacterDataResult const*> ServerGetCharacterDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGetCharacterDataResult>(&this->Model());
+}
+
+size_t ServerGetCharacterDataResult::RequiredBufferSize(const PFCharacterServerGetCharacterDataResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    requiredSize += (alignof(PFUserDataRecordDictionaryEntry) + sizeof(PFUserDataRecordDictionaryEntry) * model.dataCount);
+    for (size_t i = 0; i < model.dataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.data[i].key) + 1);
+        requiredSize += UserDataRecord::RequiredBufferSize(*model.data[i].value);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGetCharacterDataResult::Copy(const PFCharacterServerGetCharacterDataResult& input, PFCharacterServerGetCharacterDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.data = buffer.CopyToDictionary<UserDataRecord>(input.data, input.dataCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    return S_OK;
+}
+
+JsonValue ServerGetCharacterStatisticsRequest::ToJson() const
+{
+    return ServerGetCharacterStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetCharacterStatisticsRequest::ToJson(const PFCharacterServerGetCharacterStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGetCharacterStatisticsRequest& input)
+void ServerGetCharacterStatisticsResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> characterStatistics{};
+    JsonUtils::ObjectGetMember(input, "CharacterStatistics", characterStatistics);
+    this->SetCharacterStatistics(std::move(characterStatistics));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGetCharacterStatisticsResult& input)
+size_t ServerGetCharacterStatisticsResult::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CharacterStatistics", input.characterStatistics, input.characterStatisticsCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardAroundCharacterRequest& input)
+Result<PFCharacterServerGetCharacterStatisticsResult const*> ServerGetCharacterStatisticsResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGetCharacterStatisticsResult>(&this->Model());
+}
+
+size_t ServerGetCharacterStatisticsResult::RequiredBufferSize(const PFCharacterServerGetCharacterStatisticsResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.characterStatisticsCount);
+    for (size_t i = 0; i < model.characterStatisticsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.characterStatistics[i].key) + 1);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGetCharacterStatisticsResult::Copy(const PFCharacterServerGetCharacterStatisticsResult& input, PFCharacterServerGetCharacterStatisticsResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.characterStatistics = buffer.CopyToDictionary(input.characterStatistics, input.characterStatisticsCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    return S_OK;
+}
+
+JsonValue ServerGetLeaderboardAroundCharacterRequest::ToJson() const
+{
+    return ServerGetLeaderboardAroundCharacterRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetLeaderboardAroundCharacterRequest::ToJson(const PFCharacterServerGetLeaderboardAroundCharacterRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
@@ -1688,8 +669,12 @@ inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardAroundCharacterRe
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& input)
+JsonValue ServerGetLeaderboardForUsersCharactersRequest::ToJson() const
+{
+    return ServerGetLeaderboardForUsersCharactersRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetLeaderboardForUsersCharactersRequest::ToJson(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
@@ -1697,49 +682,86 @@ inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardForUsersCharacter
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGrantCharacterToUserRequest& input)
+JsonValue ServerGrantCharacterToUserRequest::ToJson() const
+{
+    return ServerGrantCharacterToUserRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGrantCharacterToUserRequest::ToJson(const PFCharacterServerGrantCharacterToUserRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterName", input.characterName);
     JsonUtils::ObjectAddMember(output, "CharacterType", input.characterType);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerGrantCharacterToUserResult& input)
+void ServerGrantCharacterToUserResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    return output;
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerUpdateCharacterDataRequest& input)
+size_t ServerGrantCharacterToUserResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFCharacterServerGrantCharacterToUserResult const*> ServerGrantCharacterToUserResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGrantCharacterToUserResult>(&this->Model());
+}
+
+size_t ServerGrantCharacterToUserResult::RequiredBufferSize(const PFCharacterServerGrantCharacterToUserResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGrantCharacterToUserResult::Copy(const PFCharacterServerGrantCharacterToUserResult& input, PFCharacterServerGrantCharacterToUserResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    return S_OK;
+}
+
+JsonValue ServerUpdateCharacterDataRequest::ToJson() const
+{
+    return ServerUpdateCharacterDataRequest::ToJson(this->Model());
+}
+
+JsonValue ServerUpdateCharacterDataRequest::ToJson(const PFCharacterServerUpdateCharacterDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "Permission", input.permission);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFCharacterServerUpdateCharacterStatisticsRequest& input)
+JsonValue ServerUpdateCharacterStatisticsRequest::ToJson() const
+{
+    return ServerUpdateCharacterStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ServerUpdateCharacterStatisticsRequest::ToJson(const PFCharacterServerUpdateCharacterStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CharacterStatistics", input.characterStatistics, input.characterStatisticsCount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CharacterStatistics", input.characterStatistics, input.characterStatisticsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-} // namespace JsonUtils
-
+} // namespace Character
 } // namespace PlayFab

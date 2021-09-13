@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace ScheduledTask
+{
 
 class ScheduledTaskAPI
 {
@@ -16,17 +18,18 @@ public:
     ~ScheduledTaskAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<void> AdminAbortTaskInstance(SharedPtr<GlobalState const> state, const PFScheduledTaskAbortTaskInstanceRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateActionsOnPlayersInSegmentTask(SharedPtr<GlobalState const> state, const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateCloudScriptTask(SharedPtr<GlobalState const> state, const PFScheduledTaskCreateCloudScriptTaskRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::CreateTaskResult> AdminCreateInsightsScheduledScalingTask(SharedPtr<GlobalState const> state, const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> AdminDeleteTask(SharedPtr<GlobalState const> state, const PFScheduledTaskDeleteTaskRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetActionsOnPlayersInSegmentTaskInstanceResult> AdminGetActionsOnPlayersInSegmentTaskInstance(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTaskInstanceRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetCloudScriptTaskInstanceResult> AdminGetCloudScriptTaskInstance(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTaskInstanceRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetTaskInstancesResult> AdminGetTaskInstances(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTaskInstancesRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::GetTasksResult> AdminGetTasks(SharedPtr<GlobalState const> state, const PFScheduledTaskGetTasksRequest& request, const TaskQueue& queue);
-    static AsyncOp<ScheduledTaskModels::RunTaskResult> AdminRunTask(SharedPtr<GlobalState const> state, const PFScheduledTaskRunTaskRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> AdminUpdateTask(SharedPtr<GlobalState const> state, const PFScheduledTaskUpdateTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminAbortTaskInstance(SharedPtr<GlobalState const> state, const AbortTaskInstanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<CreateTaskResult> AdminCreateActionsOnPlayersInSegmentTask(SharedPtr<GlobalState const> state, const CreateActionsOnPlayerSegmentTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<CreateTaskResult> AdminCreateCloudScriptTask(SharedPtr<GlobalState const> state, const CreateCloudScriptTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<CreateTaskResult> AdminCreateInsightsScheduledScalingTask(SharedPtr<GlobalState const> state, const CreateInsightsScheduledScalingTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminDeleteTask(SharedPtr<GlobalState const> state, const DeleteTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetActionsOnPlayersInSegmentTaskInstanceResult> AdminGetActionsOnPlayersInSegmentTaskInstance(SharedPtr<GlobalState const> state, const GetTaskInstanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetCloudScriptTaskInstanceResult> AdminGetCloudScriptTaskInstance(SharedPtr<GlobalState const> state, const GetTaskInstanceRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetTaskInstancesResult> AdminGetTaskInstances(SharedPtr<GlobalState const> state, const GetTaskInstancesRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetTasksResult> AdminGetTasks(SharedPtr<GlobalState const> state, const GetTasksRequest& request, const TaskQueue& queue);
+    static AsyncOp<RunTaskResult> AdminRunTask(SharedPtr<GlobalState const> state, const RunTaskRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminUpdateTask(SharedPtr<GlobalState const> state, const UpdateTaskRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace ScheduledTask
+} // namespace PlayFab

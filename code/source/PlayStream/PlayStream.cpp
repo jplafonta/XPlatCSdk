@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace PlayStreamModels;
+namespace PlayStream
+{
 
 
 AsyncOp<void> PlayStreamAPI::AdminAddPlayerTag(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamAddPlayerTagRequest& request,
+    const AddPlayerTagRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> PlayStreamAPI::AdminAddPlayerTag(
     }
 
     const char* path{ "/Admin/AddPlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -90,7 +90,7 @@ AsyncOp<GetAllSegmentsResult> PlayStreamAPI::AdminGetAllSegments(
 
 AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::AdminGetPlayerSegments(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamGetPlayersSegmentsRequest& request,
+    const GetPlayersSegmentsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -101,7 +101,7 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::AdminGetPlayerSegments(
     }
 
     const char* path{ "/Admin/GetPlayerSegments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -131,7 +131,7 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::AdminGetPlayerSegments(
 
 AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::AdminGetPlayersInSegment(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamGetPlayersInSegmentRequest& request,
+    const GetPlayersInSegmentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -142,7 +142,7 @@ AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::AdminGetPlayersInSegment(
     }
 
     const char* path{ "/Admin/GetPlayersInSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -172,7 +172,7 @@ AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::AdminGetPlayersInSegment(
 
 AsyncOp<GetPlayerTagsResult> PlayStreamAPI::AdminGetPlayerTags(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamGetPlayerTagsRequest& request,
+    const GetPlayerTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -183,7 +183,7 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::AdminGetPlayerTags(
     }
 
     const char* path{ "/Admin/GetPlayerTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -213,7 +213,7 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::AdminGetPlayerTags(
 
 AsyncOp<void> PlayStreamAPI::AdminRemovePlayerTag(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamRemovePlayerTagRequest& request,
+    const RemovePlayerTagRequest& request,
     const TaskQueue& queue
 )
 {
@@ -224,7 +224,7 @@ AsyncOp<void> PlayStreamAPI::AdminRemovePlayerTag(
     }
 
     const char* path{ "/Admin/RemovePlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -293,7 +293,7 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ClientGetPlayerSegments(
 
 AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ClientGetPlayerTags(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayStreamGetPlayerTagsRequest& request,
+    const GetPlayerTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -304,7 +304,7 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ClientGetPlayerTags(
     }
 
     const char* path{ "/Client/GetPlayerTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -335,7 +335,7 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ClientGetPlayerTags(
 
 AsyncOp<void> PlayStreamAPI::ServerAddPlayerTag(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamAddPlayerTagRequest& request,
+    const AddPlayerTagRequest& request,
     const TaskQueue& queue
 )
 {
@@ -346,7 +346,7 @@ AsyncOp<void> PlayStreamAPI::ServerAddPlayerTag(
     }
 
     const char* path{ "/Server/AddPlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -414,7 +414,7 @@ AsyncOp<GetAllSegmentsResult> PlayStreamAPI::ServerGetAllSegments(
 
 AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ServerGetPlayerSegments(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamGetPlayersSegmentsRequest& request,
+    const GetPlayersSegmentsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -425,7 +425,7 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ServerGetPlayerSegments(
     }
 
     const char* path{ "/Server/GetPlayerSegments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -455,7 +455,7 @@ AsyncOp<GetPlayerSegmentsResult> PlayStreamAPI::ServerGetPlayerSegments(
 
 AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::ServerGetPlayersInSegment(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamGetPlayersInSegmentRequest& request,
+    const GetPlayersInSegmentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -466,7 +466,7 @@ AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::ServerGetPlayersInSegment(
     }
 
     const char* path{ "/Server/GetPlayersInSegment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -496,7 +496,7 @@ AsyncOp<GetPlayersInSegmentResult> PlayStreamAPI::ServerGetPlayersInSegment(
 
 AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ServerGetPlayerTags(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamGetPlayerTagsRequest& request,
+    const GetPlayerTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -507,7 +507,7 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ServerGetPlayerTags(
     }
 
     const char* path{ "/Server/GetPlayerTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -537,7 +537,7 @@ AsyncOp<GetPlayerTagsResult> PlayStreamAPI::ServerGetPlayerTags(
 
 AsyncOp<void> PlayStreamAPI::ServerRemovePlayerTag(
     SharedPtr<GlobalState const> state,
-    const PFPlayStreamRemovePlayerTagRequest& request,
+    const RemovePlayerTagRequest& request,
     const TaskQueue& queue
 )
 {
@@ -548,7 +548,7 @@ AsyncOp<void> PlayStreamAPI::ServerRemovePlayerTag(
     }
 
     const char* path{ "/Server/RemovePlayerTag" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -576,7 +576,7 @@ AsyncOp<void> PlayStreamAPI::ServerRemovePlayerTag(
 
 AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteEvents(
     SharedPtr<Entity> entity,
-    const PFPlayStreamWriteEventsRequest& request,
+    const WriteEventsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -587,7 +587,7 @@ AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteEvents(
     }
 
     const char* path{ "/Event/WriteEvents" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -618,7 +618,7 @@ AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteEvents(
 
 AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteTelemetryEvents(
     SharedPtr<Entity> entity,
-    const PFPlayStreamWriteEventsRequest& request,
+    const WriteEventsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -629,7 +629,7 @@ AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteTelemetryEvents(
     }
 
     const char* path{ "/Event/WriteTelemetryEvents" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -658,5 +658,5 @@ AsyncOp<WriteEventsResponse> PlayStreamAPI::WriteTelemetryEvents(
     });
 }
 
-
-}
+} // namespace PlayStream
+} // namespace PlayFab

@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace AdvertisingModels;
+namespace Advertising
+{
 
 
 AsyncOp<void> AdvertisingAPI::ClientAttributeInstall(
     SharedPtr<TitlePlayer> entity,
-    const PFAdvertisingAttributeInstallRequest& request,
+    const AttributeInstallRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> AdvertisingAPI::ClientAttributeInstall(
     }
 
     const char* path{ "/Client/AttributeInstall" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -51,7 +51,7 @@ AsyncOp<void> AdvertisingAPI::ClientAttributeInstall(
 
 AsyncOp<GetAdPlacementsResult> AdvertisingAPI::ClientGetAdPlacements(
     SharedPtr<TitlePlayer> entity,
-    const PFAdvertisingGetAdPlacementsRequest& request,
+    const GetAdPlacementsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -62,7 +62,7 @@ AsyncOp<GetAdPlacementsResult> AdvertisingAPI::ClientGetAdPlacements(
     }
 
     const char* path{ "/Client/GetAdPlacements" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -93,7 +93,7 @@ AsyncOp<GetAdPlacementsResult> AdvertisingAPI::ClientGetAdPlacements(
 
 AsyncOp<void> AdvertisingAPI::ClientReportAdActivity(
     SharedPtr<TitlePlayer> entity,
-    const PFAdvertisingReportAdActivityRequest& request,
+    const ReportAdActivityRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<void> AdvertisingAPI::ClientReportAdActivity(
     }
 
     const char* path{ "/Client/ReportAdActivity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -133,7 +133,7 @@ AsyncOp<void> AdvertisingAPI::ClientReportAdActivity(
 
 AsyncOp<RewardAdActivityResult> AdvertisingAPI::ClientRewardAdActivity(
     SharedPtr<TitlePlayer> entity,
-    const PFAdvertisingRewardAdActivityRequest& request,
+    const RewardAdActivityRequest& request,
     const TaskQueue& queue
 )
 {
@@ -144,7 +144,7 @@ AsyncOp<RewardAdActivityResult> AdvertisingAPI::ClientRewardAdActivity(
     }
 
     const char* path{ "/Client/RewardAdActivity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -173,5 +173,5 @@ AsyncOp<RewardAdActivityResult> AdvertisingAPI::ClientRewardAdActivity(
     });
 }
 
-
-}
+} // namespace Advertising
+} // namespace PlayFab

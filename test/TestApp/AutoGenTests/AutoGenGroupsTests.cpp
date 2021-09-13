@@ -248,7 +248,11 @@ void AutoGenGroupsTests::TestGroupsAcceptGroupApplicationPrerequisiteGetGroup(Te
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -278,7 +282,11 @@ void AutoGenGroupsTests::TestGroupsAcceptGroupApplicationPrerequisiteApplyToGrou
         PFGroupsApplyToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsApplyToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsApplyToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsApplyToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -371,7 +379,11 @@ void AutoGenGroupsTests::TestGroupsAcceptGroupInvitationPrerequisiteGetGroup(Tes
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -401,7 +413,11 @@ void AutoGenGroupsTests::TestGroupsAcceptGroupInvitationPrerequisiteInviteToGrou
         PFGroupsInviteToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsInviteToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsInviteToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsInviteToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -494,7 +510,11 @@ void AutoGenGroupsTests::TestGroupsAddMembersPrerequisiteGetGroup(TestContext& t
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -587,7 +607,11 @@ void AutoGenGroupsTests::TestGroupsApplyToGroupPrerequisiteGetGroup(TestContext&
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -617,7 +641,11 @@ void AutoGenGroupsTests::TestGroupsApplyToGroup(TestContext& testContext)
         PFGroupsApplyToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsApplyToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsApplyToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsApplyToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -681,7 +709,11 @@ void AutoGenGroupsTests::TestGroupsBlockEntityPrerequisiteGetGroup(TestContext& 
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -774,7 +806,11 @@ void AutoGenGroupsTests::TestGroupsChangeMemberRolePrerequisiteGetGroup(TestCont
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -867,7 +903,11 @@ void AutoGenGroupsTests::TestGroupsCreateGroup(TestContext& testContext)
         PFGroupsCreateGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsCreateGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsCreateGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsCreateGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -897,7 +937,11 @@ void AutoGenGroupsTests::TestGroupsCreateGroupCleanupGetGroup(TestContext& testC
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -961,7 +1005,11 @@ void AutoGenGroupsTests::TestGroupsCreateRolePrerequisiteGetGroup(TestContext& t
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1059,7 +1107,11 @@ void AutoGenGroupsTests::TestGroupsDeleteGroupPrerequisiteCreateGroup(TestContex
         PFGroupsCreateGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsCreateGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsCreateGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsCreateGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1123,7 +1175,11 @@ void AutoGenGroupsTests::TestGroupsDeleteRolePrerequisiteGetGroup(TestContext& t
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1157,7 +1213,7 @@ void AutoGenGroupsTests::TestGroupsDeleteRolePrerequisiteCreateRole(TestContext&
             RETURN_IF_FAILED(LogHR(PFGroupsCreateRoleGetResultSize(async, &requiredBufferSize)));
 
             resultBuffer.resize(requiredBufferSize);
-            return LogHR(PFGroupsCreateRoleGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
+            return LogHR(PFGroupsCreateRoleGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1221,7 +1277,11 @@ void AutoGenGroupsTests::TestGroupsGetGroup(TestContext& testContext)
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1256,7 +1316,11 @@ void AutoGenGroupsTests::TestGroupsInviteToGroupPrerequisiteGetGroup(TestContext
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1286,7 +1350,11 @@ void AutoGenGroupsTests::TestGroupsInviteToGroup(TestContext& testContext)
         PFGroupsInviteToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsInviteToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsInviteToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsInviteToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1350,7 +1418,11 @@ void AutoGenGroupsTests::TestGroupsIsMemberPrerequisiteGetGroup(TestContext& tes
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1415,7 +1487,11 @@ void AutoGenGroupsTests::TestGroupsListGroupApplicationsPrerequisiteGetGroup(Tes
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1445,7 +1521,11 @@ void AutoGenGroupsTests::TestGroupsListGroupApplications(TestContext& testContex
         PFGroupsListGroupApplicationsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsListGroupApplicationsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsListGroupApplicationsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsListGroupApplicationsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1480,7 +1560,11 @@ void AutoGenGroupsTests::TestGroupsListGroupBlocksPrerequisiteGetGroup(TestConte
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1510,7 +1594,11 @@ void AutoGenGroupsTests::TestGroupsListGroupBlocks(TestContext& testContext)
         PFGroupsListGroupBlocksResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsListGroupBlocksGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsListGroupBlocksGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsListGroupBlocksGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1545,7 +1633,11 @@ void AutoGenGroupsTests::TestGroupsListGroupInvitationsPrerequisiteGetGroup(Test
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1575,7 +1667,11 @@ void AutoGenGroupsTests::TestGroupsListGroupInvitations(TestContext& testContext
         PFGroupsListGroupInvitationsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsListGroupInvitationsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsListGroupInvitationsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsListGroupInvitationsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1610,7 +1706,11 @@ void AutoGenGroupsTests::TestGroupsListGroupMembersPrerequisiteGetGroup(TestCont
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1640,7 +1740,11 @@ void AutoGenGroupsTests::TestGroupsListGroupMembers(TestContext& testContext)
         PFGroupsListGroupMembersResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsListGroupMembersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsListGroupMembersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsListGroupMembersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1675,7 +1779,11 @@ void AutoGenGroupsTests::TestGroupsListMembershipPrerequisiteGetGroup(TestContex
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1705,7 +1813,11 @@ void AutoGenGroupsTests::TestGroupsListMembership(TestContext& testContext)
         PFGroupsListMembershipResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsListMembershipGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsListMembershipGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsListMembershipGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1740,7 +1852,11 @@ void AutoGenGroupsTests::TestGroupsListMembershipOpportunitiesPrerequisiteGetGro
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1770,7 +1886,11 @@ void AutoGenGroupsTests::TestGroupsListMembershipOpportunitiesPrerequisiteApplyT
         PFGroupsApplyToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsApplyToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsApplyToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsApplyToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1800,7 +1920,11 @@ void AutoGenGroupsTests::TestGroupsListMembershipOpportunities(TestContext& test
         PFGroupsListMembershipOpportunitiesResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsListMembershipOpportunitiesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsListMembershipOpportunitiesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsListMembershipOpportunitiesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1864,7 +1988,11 @@ void AutoGenGroupsTests::TestGroupsRemoveGroupApplicationPrerequisiteGetGroup(Te
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1894,7 +2022,11 @@ void AutoGenGroupsTests::TestGroupsRemoveGroupApplicationPrerequisiteApplyToGrou
         PFGroupsApplyToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsApplyToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsApplyToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsApplyToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1958,7 +2090,11 @@ void AutoGenGroupsTests::TestGroupsRemoveGroupInvitationPrerequisiteGetGroup(Tes
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -1988,7 +2124,11 @@ void AutoGenGroupsTests::TestGroupsRemoveGroupInvitationPrerequisiteInviteToGrou
         PFGroupsInviteToGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsInviteToGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsInviteToGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsInviteToGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -2052,7 +2192,11 @@ void AutoGenGroupsTests::TestGroupsRemoveMembersPrerequisiteGetGroup(TestContext
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -2145,7 +2289,11 @@ void AutoGenGroupsTests::TestGroupsUnblockEntityPrerequisiteGetGroup(TestContext
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -2238,7 +2386,11 @@ void AutoGenGroupsTests::TestGroupsUpdateGroupPrerequisiteCreateGroup(TestContex
         PFGroupsCreateGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsCreateGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsCreateGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsCreateGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -2268,7 +2420,11 @@ void AutoGenGroupsTests::TestGroupsUpdateGroup(TestContext& testContext)
         PFGroupsUpdateGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsUpdateGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsUpdateGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsUpdateGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -2332,7 +2488,11 @@ void AutoGenGroupsTests::TestGroupsUpdateRolePrerequisiteGetGroup(TestContext& t
         PFGroupsGetGroupResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsGetGroupGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsGetGroupGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsGetGroupGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -2362,7 +2522,11 @@ void AutoGenGroupsTests::TestGroupsUpdateRolePrerequisiteUpdateRole(TestContext&
         PFGroupsUpdateGroupRoleResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsUpdateRoleGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsUpdateRoleGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsUpdateRoleGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr));
         }
 
         HRESULT Validate()
@@ -2392,7 +2556,11 @@ void AutoGenGroupsTests::TestGroupsUpdateRole(TestContext& testContext)
         PFGroupsUpdateGroupRoleResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGroupsUpdateRoleGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGroupsUpdateRoleGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGroupsUpdateRoleGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

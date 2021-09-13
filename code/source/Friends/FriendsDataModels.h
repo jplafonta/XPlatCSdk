@@ -1,252 +1,189 @@
 #pragma once
 
-#include <playfab/PFFriendsDataModels.h>
+#include <playfab/cpp/PFFriendsDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace FriendsModels
+namespace Friends
 {
 
 // Friends Classes
-struct ClientAddFriendRequest : public PFFriendsClientAddFriendRequest, public SerializableModel
+class ClientAddFriendRequest : public Wrappers::PFFriendsClientAddFriendRequestWrapper<Allocator>, public InputModel
 {
-    ClientAddFriendRequest();
-    ClientAddFriendRequest(const ClientAddFriendRequest& src);
-    ClientAddFriendRequest(ClientAddFriendRequest&& src);
-    ClientAddFriendRequest(const PFFriendsClientAddFriendRequest& src);
-    ClientAddFriendRequest& operator=(const ClientAddFriendRequest&) = delete;
-    ~ClientAddFriendRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsClientAddFriendRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsClientAddFriendRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_friendEmail;
-    String m_friendPlayFabId;
-    String m_friendTitleDisplayName;
-    String m_friendUsername;
 };
 
-struct AddFriendResult : public PFFriendsAddFriendResult, public SerializableModel, public ApiResult
+class AddFriendResult : public Wrappers::PFFriendsAddFriendResultWrapper<Allocator>, public OutputModel<PFFriendsAddFriendResult>
 {
-    AddFriendResult();
-    AddFriendResult(const AddFriendResult&) = default;
-    AddFriendResult(AddFriendResult&&) = default;
-    AddFriendResult(const PFFriendsAddFriendResult& src);
-    AddFriendResult& operator=(const AddFriendResult&) = delete;
-    ~AddFriendResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsAddFriendResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFFriendsAddFriendResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFFriendsAddFriendResult& model);
+    static HRESULT Copy(const PFFriendsAddFriendResult& input, PFFriendsAddFriendResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetFriendsListRequest : public PFFriendsClientGetFriendsListRequest, public BaseModel
+class ClientGetFriendsListRequest : public Wrappers::PFFriendsClientGetFriendsListRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetFriendsListRequest();
-    ClientGetFriendsListRequest(const ClientGetFriendsListRequest& src);
-    ClientGetFriendsListRequest(ClientGetFriendsListRequest&& src);
-    ClientGetFriendsListRequest(const PFFriendsClientGetFriendsListRequest& src);
-    ClientGetFriendsListRequest& operator=(const ClientGetFriendsListRequest&) = delete;
-    ~ClientGetFriendsListRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsClientGetFriendsListRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsClientGetFriendsListRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_includeFacebookFriends;
-    StdExtra::optional<bool> m_includeSteamFriends;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_xboxToken;
 };
 
-struct FriendInfo : public PFFriendsFriendInfo, public BaseModel
+class FriendInfo : public Wrappers::PFFriendsFriendInfoWrapper<Allocator>, public OutputModel<PFFriendsFriendInfo>
 {
-    FriendInfo();
-    FriendInfo(const FriendInfo& src);
-    FriendInfo(FriendInfo&& src);
-    FriendInfo(const PFFriendsFriendInfo& src);
-    FriendInfo& operator=(const FriendInfo&) = delete;
-    ~FriendInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsFriendInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFFriendsFriendInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<UserFacebookInfo> m_facebookInfo;
-    String m_friendPlayFabId;
-    StdExtra::optional<UserGameCenterInfo> m_gameCenterInfo;
-    StdExtra::optional<PlayerProfileModel> m_profile;
-    StdExtra::optional<UserPsnInfo> m_PSNInfo;
-    StdExtra::optional<UserSteamInfo> m_steamInfo;
-    PointerArrayModel<char, String> m_tags;
-    String m_titleDisplayName;
-    String m_username;
-    StdExtra::optional<UserXboxInfo> m_xboxInfo;
+    static size_t RequiredBufferSize(const PFFriendsFriendInfo& model);
+    static HRESULT Copy(const PFFriendsFriendInfo& input, PFFriendsFriendInfo& output, ModelBuffer& buffer);
 };
 
-struct GetFriendsListResult : public PFFriendsGetFriendsListResult, public BaseModel, public ApiResult
+class GetFriendsListResult : public Wrappers::PFFriendsGetFriendsListResultWrapper<Allocator>, public OutputModel<PFFriendsGetFriendsListResult>
 {
-    GetFriendsListResult();
-    GetFriendsListResult(const GetFriendsListResult& src);
-    GetFriendsListResult(GetFriendsListResult&& src);
-    GetFriendsListResult(const PFFriendsGetFriendsListResult& src);
-    GetFriendsListResult& operator=(const GetFriendsListResult&) = delete;
-    ~GetFriendsListResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsGetFriendsListResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFFriendsGetFriendsListResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFFriendsFriendInfo, FriendInfo> m_friends;
+    static size_t RequiredBufferSize(const PFFriendsGetFriendsListResult& model);
+    static HRESULT Copy(const PFFriendsGetFriendsListResult& input, PFFriendsGetFriendsListResult& output, ModelBuffer& buffer);
 };
 
-struct ClientRemoveFriendRequest : public PFFriendsClientRemoveFriendRequest, public SerializableModel
+class ClientRemoveFriendRequest : public Wrappers::PFFriendsClientRemoveFriendRequestWrapper<Allocator>, public InputModel
 {
-    ClientRemoveFriendRequest();
-    ClientRemoveFriendRequest(const ClientRemoveFriendRequest& src);
-    ClientRemoveFriendRequest(ClientRemoveFriendRequest&& src);
-    ClientRemoveFriendRequest(const PFFriendsClientRemoveFriendRequest& src);
-    ClientRemoveFriendRequest& operator=(const ClientRemoveFriendRequest&) = delete;
-    ~ClientRemoveFriendRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsClientRemoveFriendRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsClientRemoveFriendRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_friendPlayFabId;
 };
 
-struct ClientSetFriendTagsRequest : public PFFriendsClientSetFriendTagsRequest, public BaseModel
+class ClientSetFriendTagsRequest : public Wrappers::PFFriendsClientSetFriendTagsRequestWrapper<Allocator>, public InputModel
 {
-    ClientSetFriendTagsRequest();
-    ClientSetFriendTagsRequest(const ClientSetFriendTagsRequest& src);
-    ClientSetFriendTagsRequest(ClientSetFriendTagsRequest&& src);
-    ClientSetFriendTagsRequest(const PFFriendsClientSetFriendTagsRequest& src);
-    ClientSetFriendTagsRequest& operator=(const ClientSetFriendTagsRequest&) = delete;
-    ~ClientSetFriendTagsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsClientSetFriendTagsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsClientSetFriendTagsRequest& input);
 
-private:
-    String m_friendPlayFabId;
-    PointerArrayModel<char, String> m_tags;
 };
 
-struct ServerAddFriendRequest : public PFFriendsServerAddFriendRequest, public SerializableModel
+class ServerAddFriendRequest : public Wrappers::PFFriendsServerAddFriendRequestWrapper<Allocator>, public InputModel
 {
-    ServerAddFriendRequest();
-    ServerAddFriendRequest(const ServerAddFriendRequest& src);
-    ServerAddFriendRequest(ServerAddFriendRequest&& src);
-    ServerAddFriendRequest(const PFFriendsServerAddFriendRequest& src);
-    ServerAddFriendRequest& operator=(const ServerAddFriendRequest&) = delete;
-    ~ServerAddFriendRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsServerAddFriendRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsServerAddFriendRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_friendEmail;
-    String m_friendPlayFabId;
-    String m_friendTitleDisplayName;
-    String m_friendUsername;
-    String m_playFabId;
 };
 
-struct ServerGetFriendsListRequest : public PFFriendsServerGetFriendsListRequest, public BaseModel
+class ServerGetFriendsListRequest : public Wrappers::PFFriendsServerGetFriendsListRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetFriendsListRequest();
-    ServerGetFriendsListRequest(const ServerGetFriendsListRequest& src);
-    ServerGetFriendsListRequest(ServerGetFriendsListRequest&& src);
-    ServerGetFriendsListRequest(const PFFriendsServerGetFriendsListRequest& src);
-    ServerGetFriendsListRequest& operator=(const ServerGetFriendsListRequest&) = delete;
-    ~ServerGetFriendsListRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsServerGetFriendsListRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsServerGetFriendsListRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_includeFacebookFriends;
-    StdExtra::optional<bool> m_includeSteamFriends;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_xboxToken;
 };
 
-struct ServerRemoveFriendRequest : public PFFriendsServerRemoveFriendRequest, public SerializableModel
+class ServerRemoveFriendRequest : public Wrappers::PFFriendsServerRemoveFriendRequestWrapper<Allocator>, public InputModel
 {
-    ServerRemoveFriendRequest();
-    ServerRemoveFriendRequest(const ServerRemoveFriendRequest& src);
-    ServerRemoveFriendRequest(ServerRemoveFriendRequest&& src);
-    ServerRemoveFriendRequest(const PFFriendsServerRemoveFriendRequest& src);
-    ServerRemoveFriendRequest& operator=(const ServerRemoveFriendRequest&) = delete;
-    ~ServerRemoveFriendRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsServerRemoveFriendRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsServerRemoveFriendRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_friendPlayFabId;
-    String m_playFabId;
 };
 
-struct ServerSetFriendTagsRequest : public PFFriendsServerSetFriendTagsRequest, public BaseModel
+class ServerSetFriendTagsRequest : public Wrappers::PFFriendsServerSetFriendTagsRequestWrapper<Allocator>, public InputModel
 {
-    ServerSetFriendTagsRequest();
-    ServerSetFriendTagsRequest(const ServerSetFriendTagsRequest& src);
-    ServerSetFriendTagsRequest(ServerSetFriendTagsRequest&& src);
-    ServerSetFriendTagsRequest(const PFFriendsServerSetFriendTagsRequest& src);
-    ServerSetFriendTagsRequest& operator=(const ServerSetFriendTagsRequest&) = delete;
-    ~ServerSetFriendTagsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFFriendsServerSetFriendTagsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFFriendsServerSetFriendTagsRequest& input);
 
-private:
-    String m_friendPlayFabId;
-    String m_playFabId;
-    PointerArrayModel<char, String> m_tags;
 };
 
-} // namespace FriendsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFFriendsClientAddFriendRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsAddFriendResult& input);
-template<> inline JsonValue ToJson<>(const PFFriendsClientGetFriendsListRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsFriendInfo& input);
-template<> inline JsonValue ToJson<>(const PFFriendsGetFriendsListResult& input);
-template<> inline JsonValue ToJson<>(const PFFriendsClientRemoveFriendRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsClientSetFriendTagsRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsServerAddFriendRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsServerGetFriendsListRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsServerRemoveFriendRequest& input);
-template<> inline JsonValue ToJson<>(const PFFriendsServerSetFriendTagsRequest& input);
-} // namespace JsonUtils
-
+} // namespace Friends
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

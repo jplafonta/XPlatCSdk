@@ -4,590 +4,319 @@
 
 namespace PlayFab
 {
-namespace TradingModels
+namespace Trading
 {
-
-AcceptTradeRequest::AcceptTradeRequest() :
-    PFTradingAcceptTradeRequest{}
-{
-}
-
-AcceptTradeRequest::AcceptTradeRequest(const AcceptTradeRequest& src) :
-    PFTradingAcceptTradeRequest{ src },
-    m_acceptedInventoryInstanceIds{ src.m_acceptedInventoryInstanceIds },
-    m_offeringPlayerId{ src.m_offeringPlayerId },
-    m_tradeId{ src.m_tradeId }
-{
-    acceptedInventoryInstanceIds = m_acceptedInventoryInstanceIds.Empty() ? nullptr : m_acceptedInventoryInstanceIds.Data();
-    offeringPlayerId = m_offeringPlayerId.empty() ? nullptr : m_offeringPlayerId.data();
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-AcceptTradeRequest::AcceptTradeRequest(AcceptTradeRequest&& src) :
-    PFTradingAcceptTradeRequest{ src },
-    m_acceptedInventoryInstanceIds{ std::move(src.m_acceptedInventoryInstanceIds) },
-    m_offeringPlayerId{ std::move(src.m_offeringPlayerId) },
-    m_tradeId{ std::move(src.m_tradeId) }
-{
-    acceptedInventoryInstanceIds = m_acceptedInventoryInstanceIds.Empty() ? nullptr : m_acceptedInventoryInstanceIds.Data();
-    offeringPlayerId = m_offeringPlayerId.empty() ? nullptr : m_offeringPlayerId.data();
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-AcceptTradeRequest::AcceptTradeRequest(const PFTradingAcceptTradeRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AcceptTradeRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AcceptedInventoryInstanceIds", m_acceptedInventoryInstanceIds, acceptedInventoryInstanceIds, acceptedInventoryInstanceIdsCount);
-    JsonUtils::ObjectGetMember(input, "OfferingPlayerId", m_offeringPlayerId, offeringPlayerId);
-    JsonUtils::ObjectGetMember(input, "TradeId", m_tradeId, tradeId);
-}
 
 JsonValue AcceptTradeRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFTradingAcceptTradeRequest>(*this);
+    return AcceptTradeRequest::ToJson(this->Model());
 }
 
-TradeInfo::TradeInfo() :
-    PFTradingTradeInfo{}
+JsonValue AcceptTradeRequest::ToJson(const PFTradingAcceptTradeRequest& input)
 {
-}
-
-TradeInfo::TradeInfo(const TradeInfo& src) :
-    PFTradingTradeInfo{ src },
-    m_acceptedInventoryInstanceIds{ src.m_acceptedInventoryInstanceIds },
-    m_acceptedPlayerId{ src.m_acceptedPlayerId },
-    m_allowedPlayerIds{ src.m_allowedPlayerIds },
-    m_cancelledAt{ src.m_cancelledAt },
-    m_filledAt{ src.m_filledAt },
-    m_invalidatedAt{ src.m_invalidatedAt },
-    m_offeredCatalogItemIds{ src.m_offeredCatalogItemIds },
-    m_offeredInventoryInstanceIds{ src.m_offeredInventoryInstanceIds },
-    m_offeringPlayerId{ src.m_offeringPlayerId },
-    m_openedAt{ src.m_openedAt },
-    m_requestedCatalogItemIds{ src.m_requestedCatalogItemIds },
-    m_status{ src.m_status },
-    m_tradeId{ src.m_tradeId }
-{
-    acceptedInventoryInstanceIds = m_acceptedInventoryInstanceIds.Empty() ? nullptr : m_acceptedInventoryInstanceIds.Data();
-    acceptedPlayerId = m_acceptedPlayerId.empty() ? nullptr : m_acceptedPlayerId.data();
-    allowedPlayerIds = m_allowedPlayerIds.Empty() ? nullptr : m_allowedPlayerIds.Data();
-    cancelledAt = m_cancelledAt ? m_cancelledAt.operator->() : nullptr;
-    filledAt = m_filledAt ? m_filledAt.operator->() : nullptr;
-    invalidatedAt = m_invalidatedAt ? m_invalidatedAt.operator->() : nullptr;
-    offeredCatalogItemIds = m_offeredCatalogItemIds.Empty() ? nullptr : m_offeredCatalogItemIds.Data();
-    offeredInventoryInstanceIds = m_offeredInventoryInstanceIds.Empty() ? nullptr : m_offeredInventoryInstanceIds.Data();
-    offeringPlayerId = m_offeringPlayerId.empty() ? nullptr : m_offeringPlayerId.data();
-    openedAt = m_openedAt ? m_openedAt.operator->() : nullptr;
-    requestedCatalogItemIds = m_requestedCatalogItemIds.Empty() ? nullptr : m_requestedCatalogItemIds.Data();
-    status = m_status ? m_status.operator->() : nullptr;
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-TradeInfo::TradeInfo(TradeInfo&& src) :
-    PFTradingTradeInfo{ src },
-    m_acceptedInventoryInstanceIds{ std::move(src.m_acceptedInventoryInstanceIds) },
-    m_acceptedPlayerId{ std::move(src.m_acceptedPlayerId) },
-    m_allowedPlayerIds{ std::move(src.m_allowedPlayerIds) },
-    m_cancelledAt{ std::move(src.m_cancelledAt) },
-    m_filledAt{ std::move(src.m_filledAt) },
-    m_invalidatedAt{ std::move(src.m_invalidatedAt) },
-    m_offeredCatalogItemIds{ std::move(src.m_offeredCatalogItemIds) },
-    m_offeredInventoryInstanceIds{ std::move(src.m_offeredInventoryInstanceIds) },
-    m_offeringPlayerId{ std::move(src.m_offeringPlayerId) },
-    m_openedAt{ std::move(src.m_openedAt) },
-    m_requestedCatalogItemIds{ std::move(src.m_requestedCatalogItemIds) },
-    m_status{ std::move(src.m_status) },
-    m_tradeId{ std::move(src.m_tradeId) }
-{
-    acceptedInventoryInstanceIds = m_acceptedInventoryInstanceIds.Empty() ? nullptr : m_acceptedInventoryInstanceIds.Data();
-    acceptedPlayerId = m_acceptedPlayerId.empty() ? nullptr : m_acceptedPlayerId.data();
-    allowedPlayerIds = m_allowedPlayerIds.Empty() ? nullptr : m_allowedPlayerIds.Data();
-    cancelledAt = m_cancelledAt ? m_cancelledAt.operator->() : nullptr;
-    filledAt = m_filledAt ? m_filledAt.operator->() : nullptr;
-    invalidatedAt = m_invalidatedAt ? m_invalidatedAt.operator->() : nullptr;
-    offeredCatalogItemIds = m_offeredCatalogItemIds.Empty() ? nullptr : m_offeredCatalogItemIds.Data();
-    offeredInventoryInstanceIds = m_offeredInventoryInstanceIds.Empty() ? nullptr : m_offeredInventoryInstanceIds.Data();
-    offeringPlayerId = m_offeringPlayerId.empty() ? nullptr : m_offeringPlayerId.data();
-    openedAt = m_openedAt ? m_openedAt.operator->() : nullptr;
-    requestedCatalogItemIds = m_requestedCatalogItemIds.Empty() ? nullptr : m_requestedCatalogItemIds.Data();
-    status = m_status ? m_status.operator->() : nullptr;
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-TradeInfo::TradeInfo(const PFTradingTradeInfo& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberArray(output, "AcceptedInventoryInstanceIds", input.acceptedInventoryInstanceIds, input.acceptedInventoryInstanceIdsCount);
+    JsonUtils::ObjectAddMember(output, "OfferingPlayerId", input.offeringPlayerId);
+    JsonUtils::ObjectAddMember(output, "TradeId", input.tradeId);
+    return output;
 }
 
 void TradeInfo::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "AcceptedInventoryInstanceIds", m_acceptedInventoryInstanceIds, acceptedInventoryInstanceIds, acceptedInventoryInstanceIdsCount);
-    JsonUtils::ObjectGetMember(input, "AcceptedPlayerId", m_acceptedPlayerId, acceptedPlayerId);
-    JsonUtils::ObjectGetMember(input, "AllowedPlayerIds", m_allowedPlayerIds, allowedPlayerIds, allowedPlayerIdsCount);
-    JsonUtils::ObjectGetMember(input, "CancelledAt", m_cancelledAt, cancelledAt, true);
-    JsonUtils::ObjectGetMember(input, "FilledAt", m_filledAt, filledAt, true);
-    JsonUtils::ObjectGetMember(input, "InvalidatedAt", m_invalidatedAt, invalidatedAt, true);
-    JsonUtils::ObjectGetMember(input, "OfferedCatalogItemIds", m_offeredCatalogItemIds, offeredCatalogItemIds, offeredCatalogItemIdsCount);
-    JsonUtils::ObjectGetMember(input, "OfferedInventoryInstanceIds", m_offeredInventoryInstanceIds, offeredInventoryInstanceIds, offeredInventoryInstanceIdsCount);
-    JsonUtils::ObjectGetMember(input, "OfferingPlayerId", m_offeringPlayerId, offeringPlayerId);
-    JsonUtils::ObjectGetMember(input, "OpenedAt", m_openedAt, openedAt, true);
-    JsonUtils::ObjectGetMember(input, "RequestedCatalogItemIds", m_requestedCatalogItemIds, requestedCatalogItemIds, requestedCatalogItemIdsCount);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-    JsonUtils::ObjectGetMember(input, "TradeId", m_tradeId, tradeId);
+    CStringVector acceptedInventoryInstanceIds{};
+    JsonUtils::ObjectGetMember(input, "AcceptedInventoryInstanceIds", acceptedInventoryInstanceIds);
+    this->SetAcceptedInventoryInstanceIds(std::move(acceptedInventoryInstanceIds));
+
+    String acceptedPlayerId{};
+    JsonUtils::ObjectGetMember(input, "AcceptedPlayerId", acceptedPlayerId);
+    this->SetAcceptedPlayerId(std::move(acceptedPlayerId));
+
+    CStringVector allowedPlayerIds{};
+    JsonUtils::ObjectGetMember(input, "AllowedPlayerIds", allowedPlayerIds);
+    this->SetAllowedPlayerIds(std::move(allowedPlayerIds));
+
+    StdExtra::optional<time_t> cancelledAt{};
+    JsonUtils::ObjectGetMemberTime(input, "CancelledAt", cancelledAt);
+    this->SetCancelledAt(std::move(cancelledAt));
+
+    StdExtra::optional<time_t> filledAt{};
+    JsonUtils::ObjectGetMemberTime(input, "FilledAt", filledAt);
+    this->SetFilledAt(std::move(filledAt));
+
+    StdExtra::optional<time_t> invalidatedAt{};
+    JsonUtils::ObjectGetMemberTime(input, "InvalidatedAt", invalidatedAt);
+    this->SetInvalidatedAt(std::move(invalidatedAt));
+
+    CStringVector offeredCatalogItemIds{};
+    JsonUtils::ObjectGetMember(input, "OfferedCatalogItemIds", offeredCatalogItemIds);
+    this->SetOfferedCatalogItemIds(std::move(offeredCatalogItemIds));
+
+    CStringVector offeredInventoryInstanceIds{};
+    JsonUtils::ObjectGetMember(input, "OfferedInventoryInstanceIds", offeredInventoryInstanceIds);
+    this->SetOfferedInventoryInstanceIds(std::move(offeredInventoryInstanceIds));
+
+    String offeringPlayerId{};
+    JsonUtils::ObjectGetMember(input, "OfferingPlayerId", offeringPlayerId);
+    this->SetOfferingPlayerId(std::move(offeringPlayerId));
+
+    StdExtra::optional<time_t> openedAt{};
+    JsonUtils::ObjectGetMemberTime(input, "OpenedAt", openedAt);
+    this->SetOpenedAt(std::move(openedAt));
+
+    CStringVector requestedCatalogItemIds{};
+    JsonUtils::ObjectGetMember(input, "RequestedCatalogItemIds", requestedCatalogItemIds);
+    this->SetRequestedCatalogItemIds(std::move(requestedCatalogItemIds));
+
+    StdExtra::optional<PFTradingTradeStatus> status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+
+    String tradeId{};
+    JsonUtils::ObjectGetMember(input, "TradeId", tradeId);
+    this->SetTradeId(std::move(tradeId));
 }
 
-JsonValue TradeInfo::ToJson() const
+size_t TradeInfo::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFTradingTradeInfo>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-AcceptTradeResponse::AcceptTradeResponse() :
-    PFTradingAcceptTradeResponse{}
+Result<PFTradingTradeInfo const*> TradeInfo::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<TradeInfo>(&this->Model());
 }
 
-AcceptTradeResponse::AcceptTradeResponse(const AcceptTradeResponse& src) :
-    PFTradingAcceptTradeResponse{ src },
-    m_trade{ src.m_trade }
+size_t TradeInfo::RequiredBufferSize(const PFTradingTradeInfo& model)
 {
-    trade = m_trade ? m_trade.operator->() : nullptr;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(char*) + sizeof(char*) * model.acceptedInventoryInstanceIdsCount);
+    for (size_t i = 0; i < model.acceptedInventoryInstanceIdsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.acceptedInventoryInstanceIds[i]) + 1);
+    }
+    if (model.acceptedPlayerId)
+    {
+        requiredSize += (std::strlen(model.acceptedPlayerId) + 1);
+    }
+    requiredSize += (alignof(char*) + sizeof(char*) * model.allowedPlayerIdsCount);
+    for (size_t i = 0; i < model.allowedPlayerIdsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.allowedPlayerIds[i]) + 1);
+    }
+    if (model.cancelledAt)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.filledAt)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.invalidatedAt)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    requiredSize += (alignof(char*) + sizeof(char*) * model.offeredCatalogItemIdsCount);
+    for (size_t i = 0; i < model.offeredCatalogItemIdsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.offeredCatalogItemIds[i]) + 1);
+    }
+    requiredSize += (alignof(char*) + sizeof(char*) * model.offeredInventoryInstanceIdsCount);
+    for (size_t i = 0; i < model.offeredInventoryInstanceIdsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.offeredInventoryInstanceIds[i]) + 1);
+    }
+    if (model.offeringPlayerId)
+    {
+        requiredSize += (std::strlen(model.offeringPlayerId) + 1);
+    }
+    if (model.openedAt)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    requiredSize += (alignof(char*) + sizeof(char*) * model.requestedCatalogItemIdsCount);
+    for (size_t i = 0; i < model.requestedCatalogItemIdsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.requestedCatalogItemIds[i]) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (alignof(PFTradingTradeStatus) + sizeof(PFTradingTradeStatus));
+    }
+    if (model.tradeId)
+    {
+        requiredSize += (std::strlen(model.tradeId) + 1);
+    }
+    return requiredSize;
 }
 
-AcceptTradeResponse::AcceptTradeResponse(AcceptTradeResponse&& src) :
-    PFTradingAcceptTradeResponse{ src },
-    m_trade{ std::move(src.m_trade) }
+HRESULT TradeInfo::Copy(const PFTradingTradeInfo& input, PFTradingTradeInfo& output, ModelBuffer& buffer)
 {
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-AcceptTradeResponse::AcceptTradeResponse(const PFTradingAcceptTradeResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.acceptedInventoryInstanceIds = buffer.CopyToArray(input.acceptedInventoryInstanceIds, input.acceptedInventoryInstanceIdsCount);
+    output.acceptedPlayerId = buffer.CopyTo(input.acceptedPlayerId);
+    output.allowedPlayerIds = buffer.CopyToArray(input.allowedPlayerIds, input.allowedPlayerIdsCount);
+    output.cancelledAt = buffer.CopyTo(input.cancelledAt);
+    output.filledAt = buffer.CopyTo(input.filledAt);
+    output.invalidatedAt = buffer.CopyTo(input.invalidatedAt);
+    output.offeredCatalogItemIds = buffer.CopyToArray(input.offeredCatalogItemIds, input.offeredCatalogItemIdsCount);
+    output.offeredInventoryInstanceIds = buffer.CopyToArray(input.offeredInventoryInstanceIds, input.offeredInventoryInstanceIdsCount);
+    output.offeringPlayerId = buffer.CopyTo(input.offeringPlayerId);
+    output.openedAt = buffer.CopyTo(input.openedAt);
+    output.requestedCatalogItemIds = buffer.CopyToArray(input.requestedCatalogItemIds, input.requestedCatalogItemIdsCount);
+    output.status = buffer.CopyTo(input.status);
+    output.tradeId = buffer.CopyTo(input.tradeId);
+    return S_OK;
 }
 
 void AcceptTradeResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Trade", m_trade, trade);
+    StdExtra::optional<TradeInfo> trade{};
+    JsonUtils::ObjectGetMember(input, "Trade", trade);
+    if (trade)
+    {
+        this->SetTrade(std::move(*trade));
+    }
 }
 
-JsonValue AcceptTradeResponse::ToJson() const
+size_t AcceptTradeResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFTradingAcceptTradeResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-CancelTradeRequest::CancelTradeRequest() :
-    PFTradingCancelTradeRequest{}
+Result<PFTradingAcceptTradeResponse const*> AcceptTradeResponse::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<AcceptTradeResponse>(&this->Model());
 }
 
-CancelTradeRequest::CancelTradeRequest(const CancelTradeRequest& src) :
-    PFTradingCancelTradeRequest{ src },
-    m_tradeId{ src.m_tradeId }
+size_t AcceptTradeResponse::RequiredBufferSize(const PFTradingAcceptTradeResponse& model)
 {
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.trade)
+    {
+        requiredSize += TradeInfo::RequiredBufferSize(*model.trade);
+    }
+    return requiredSize;
 }
 
-CancelTradeRequest::CancelTradeRequest(CancelTradeRequest&& src) :
-    PFTradingCancelTradeRequest{ src },
-    m_tradeId{ std::move(src.m_tradeId) }
+HRESULT AcceptTradeResponse::Copy(const PFTradingAcceptTradeResponse& input, PFTradingAcceptTradeResponse& output, ModelBuffer& buffer)
 {
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-CancelTradeRequest::CancelTradeRequest(const PFTradingCancelTradeRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CancelTradeRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "TradeId", m_tradeId, tradeId);
+    output = input;
+    output.trade = buffer.CopyTo<TradeInfo>(input.trade);
+    return S_OK;
 }
 
 JsonValue CancelTradeRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFTradingCancelTradeRequest>(*this);
+    return CancelTradeRequest::ToJson(this->Model());
 }
 
-size_t CancelTradeRequest::SerializedSize() const
+JsonValue CancelTradeRequest::ToJson(const PFTradingCancelTradeRequest& input)
 {
-    size_t serializedSize{ sizeof(PFTradingCancelTradeRequest) };
-    serializedSize += (m_tradeId.size() + 1);
-    return serializedSize;
-}
-
-void CancelTradeRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFTradingCancelTradeRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFTradingCancelTradeRequest);
-    memcpy(stringBuffer, m_tradeId.data(), m_tradeId.size() + 1);
-    serializedStruct->tradeId = stringBuffer;
-    stringBuffer += m_tradeId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-CancelTradeResponse::CancelTradeResponse() :
-    PFTradingCancelTradeResponse{}
-{
-}
-
-CancelTradeResponse::CancelTradeResponse(const CancelTradeResponse& src) :
-    PFTradingCancelTradeResponse{ src },
-    m_trade{ src.m_trade }
-{
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-CancelTradeResponse::CancelTradeResponse(CancelTradeResponse&& src) :
-    PFTradingCancelTradeResponse{ src },
-    m_trade{ std::move(src.m_trade) }
-{
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-CancelTradeResponse::CancelTradeResponse(const PFTradingCancelTradeResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "TradeId", input.tradeId);
+    return output;
 }
 
 void CancelTradeResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Trade", m_trade, trade);
+    StdExtra::optional<TradeInfo> trade{};
+    JsonUtils::ObjectGetMember(input, "Trade", trade);
+    if (trade)
+    {
+        this->SetTrade(std::move(*trade));
+    }
 }
 
-JsonValue CancelTradeResponse::ToJson() const
+size_t CancelTradeResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFTradingCancelTradeResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetPlayerTradesRequest::GetPlayerTradesRequest() :
-    PFTradingGetPlayerTradesRequest{}
+Result<PFTradingCancelTradeResponse const*> CancelTradeResponse::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<CancelTradeResponse>(&this->Model());
 }
 
-GetPlayerTradesRequest::GetPlayerTradesRequest(const GetPlayerTradesRequest& src) :
-    PFTradingGetPlayerTradesRequest{ src },
-    m_statusFilter{ src.m_statusFilter }
+size_t CancelTradeResponse::RequiredBufferSize(const PFTradingCancelTradeResponse& model)
 {
-    statusFilter = m_statusFilter ? m_statusFilter.operator->() : nullptr;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.trade)
+    {
+        requiredSize += TradeInfo::RequiredBufferSize(*model.trade);
+    }
+    return requiredSize;
 }
 
-GetPlayerTradesRequest::GetPlayerTradesRequest(GetPlayerTradesRequest&& src) :
-    PFTradingGetPlayerTradesRequest{ src },
-    m_statusFilter{ std::move(src.m_statusFilter) }
+HRESULT CancelTradeResponse::Copy(const PFTradingCancelTradeResponse& input, PFTradingCancelTradeResponse& output, ModelBuffer& buffer)
 {
-    statusFilter = m_statusFilter ? m_statusFilter.operator->() : nullptr;
-}
-
-GetPlayerTradesRequest::GetPlayerTradesRequest(const PFTradingGetPlayerTradesRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPlayerTradesRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatusFilter", m_statusFilter, statusFilter);
+    output = input;
+    output.trade = buffer.CopyTo<TradeInfo>(input.trade);
+    return S_OK;
 }
 
 JsonValue GetPlayerTradesRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFTradingGetPlayerTradesRequest>(*this);
+    return GetPlayerTradesRequest::ToJson(this->Model());
 }
 
-GetPlayerTradesResponse::GetPlayerTradesResponse() :
-    PFTradingGetPlayerTradesResponse{}
-{
-}
-
-GetPlayerTradesResponse::GetPlayerTradesResponse(const GetPlayerTradesResponse& src) :
-    PFTradingGetPlayerTradesResponse{ src },
-    m_acceptedTrades{ src.m_acceptedTrades },
-    m_openedTrades{ src.m_openedTrades }
-{
-    acceptedTrades = m_acceptedTrades.Empty() ? nullptr : m_acceptedTrades.Data();
-    openedTrades = m_openedTrades.Empty() ? nullptr : m_openedTrades.Data();
-}
-
-GetPlayerTradesResponse::GetPlayerTradesResponse(GetPlayerTradesResponse&& src) :
-    PFTradingGetPlayerTradesResponse{ src },
-    m_acceptedTrades{ std::move(src.m_acceptedTrades) },
-    m_openedTrades{ std::move(src.m_openedTrades) }
-{
-    acceptedTrades = m_acceptedTrades.Empty() ? nullptr : m_acceptedTrades.Data();
-    openedTrades = m_openedTrades.Empty() ? nullptr : m_openedTrades.Data();
-}
-
-GetPlayerTradesResponse::GetPlayerTradesResponse(const PFTradingGetPlayerTradesResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPlayerTradesResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AcceptedTrades", m_acceptedTrades, acceptedTrades, acceptedTradesCount);
-    JsonUtils::ObjectGetMember(input, "OpenedTrades", m_openedTrades, openedTrades, openedTradesCount);
-}
-
-JsonValue GetPlayerTradesResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFTradingGetPlayerTradesResponse>(*this);
-}
-
-GetTradeStatusRequest::GetTradeStatusRequest() :
-    PFTradingGetTradeStatusRequest{}
-{
-}
-
-GetTradeStatusRequest::GetTradeStatusRequest(const GetTradeStatusRequest& src) :
-    PFTradingGetTradeStatusRequest{ src },
-    m_offeringPlayerId{ src.m_offeringPlayerId },
-    m_tradeId{ src.m_tradeId }
-{
-    offeringPlayerId = m_offeringPlayerId.empty() ? nullptr : m_offeringPlayerId.data();
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-GetTradeStatusRequest::GetTradeStatusRequest(GetTradeStatusRequest&& src) :
-    PFTradingGetTradeStatusRequest{ src },
-    m_offeringPlayerId{ std::move(src.m_offeringPlayerId) },
-    m_tradeId{ std::move(src.m_tradeId) }
-{
-    offeringPlayerId = m_offeringPlayerId.empty() ? nullptr : m_offeringPlayerId.data();
-    tradeId = m_tradeId.empty() ? nullptr : m_tradeId.data();
-}
-
-GetTradeStatusRequest::GetTradeStatusRequest(const PFTradingGetTradeStatusRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetTradeStatusRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "OfferingPlayerId", m_offeringPlayerId, offeringPlayerId);
-    JsonUtils::ObjectGetMember(input, "TradeId", m_tradeId, tradeId);
-}
-
-JsonValue GetTradeStatusRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFTradingGetTradeStatusRequest>(*this);
-}
-
-size_t GetTradeStatusRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFTradingGetTradeStatusRequest) };
-    serializedSize += (m_offeringPlayerId.size() + 1);
-    serializedSize += (m_tradeId.size() + 1);
-    return serializedSize;
-}
-
-void GetTradeStatusRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFTradingGetTradeStatusRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFTradingGetTradeStatusRequest);
-    memcpy(stringBuffer, m_offeringPlayerId.data(), m_offeringPlayerId.size() + 1);
-    serializedStruct->offeringPlayerId = stringBuffer;
-    stringBuffer += m_offeringPlayerId.size() + 1;
-    memcpy(stringBuffer, m_tradeId.data(), m_tradeId.size() + 1);
-    serializedStruct->tradeId = stringBuffer;
-    stringBuffer += m_tradeId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetTradeStatusResponse::GetTradeStatusResponse() :
-    PFTradingGetTradeStatusResponse{}
-{
-}
-
-GetTradeStatusResponse::GetTradeStatusResponse(const GetTradeStatusResponse& src) :
-    PFTradingGetTradeStatusResponse{ src },
-    m_trade{ src.m_trade }
-{
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-GetTradeStatusResponse::GetTradeStatusResponse(GetTradeStatusResponse&& src) :
-    PFTradingGetTradeStatusResponse{ src },
-    m_trade{ std::move(src.m_trade) }
-{
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-GetTradeStatusResponse::GetTradeStatusResponse(const PFTradingGetTradeStatusResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetTradeStatusResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Trade", m_trade, trade);
-}
-
-JsonValue GetTradeStatusResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFTradingGetTradeStatusResponse>(*this);
-}
-
-OpenTradeRequest::OpenTradeRequest() :
-    PFTradingOpenTradeRequest{}
-{
-}
-
-OpenTradeRequest::OpenTradeRequest(const OpenTradeRequest& src) :
-    PFTradingOpenTradeRequest{ src },
-    m_allowedPlayerIds{ src.m_allowedPlayerIds },
-    m_offeredInventoryInstanceIds{ src.m_offeredInventoryInstanceIds },
-    m_requestedCatalogItemIds{ src.m_requestedCatalogItemIds }
-{
-    allowedPlayerIds = m_allowedPlayerIds.Empty() ? nullptr : m_allowedPlayerIds.Data();
-    offeredInventoryInstanceIds = m_offeredInventoryInstanceIds.Empty() ? nullptr : m_offeredInventoryInstanceIds.Data();
-    requestedCatalogItemIds = m_requestedCatalogItemIds.Empty() ? nullptr : m_requestedCatalogItemIds.Data();
-}
-
-OpenTradeRequest::OpenTradeRequest(OpenTradeRequest&& src) :
-    PFTradingOpenTradeRequest{ src },
-    m_allowedPlayerIds{ std::move(src.m_allowedPlayerIds) },
-    m_offeredInventoryInstanceIds{ std::move(src.m_offeredInventoryInstanceIds) },
-    m_requestedCatalogItemIds{ std::move(src.m_requestedCatalogItemIds) }
-{
-    allowedPlayerIds = m_allowedPlayerIds.Empty() ? nullptr : m_allowedPlayerIds.Data();
-    offeredInventoryInstanceIds = m_offeredInventoryInstanceIds.Empty() ? nullptr : m_offeredInventoryInstanceIds.Data();
-    requestedCatalogItemIds = m_requestedCatalogItemIds.Empty() ? nullptr : m_requestedCatalogItemIds.Data();
-}
-
-OpenTradeRequest::OpenTradeRequest(const PFTradingOpenTradeRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void OpenTradeRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AllowedPlayerIds", m_allowedPlayerIds, allowedPlayerIds, allowedPlayerIdsCount);
-    JsonUtils::ObjectGetMember(input, "OfferedInventoryInstanceIds", m_offeredInventoryInstanceIds, offeredInventoryInstanceIds, offeredInventoryInstanceIdsCount);
-    JsonUtils::ObjectGetMember(input, "RequestedCatalogItemIds", m_requestedCatalogItemIds, requestedCatalogItemIds, requestedCatalogItemIdsCount);
-}
-
-JsonValue OpenTradeRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFTradingOpenTradeRequest>(*this);
-}
-
-OpenTradeResponse::OpenTradeResponse() :
-    PFTradingOpenTradeResponse{}
-{
-}
-
-OpenTradeResponse::OpenTradeResponse(const OpenTradeResponse& src) :
-    PFTradingOpenTradeResponse{ src },
-    m_trade{ src.m_trade }
-{
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-OpenTradeResponse::OpenTradeResponse(OpenTradeResponse&& src) :
-    PFTradingOpenTradeResponse{ src },
-    m_trade{ std::move(src.m_trade) }
-{
-    trade = m_trade ? m_trade.operator->() : nullptr;
-}
-
-OpenTradeResponse::OpenTradeResponse(const PFTradingOpenTradeResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void OpenTradeResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Trade", m_trade, trade);
-}
-
-JsonValue OpenTradeResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFTradingOpenTradeResponse>(*this);
-}
-
-} // namespace TradingModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFTradingAcceptTradeRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AcceptedInventoryInstanceIds", input.acceptedInventoryInstanceIds, input.acceptedInventoryInstanceIdsCount);
-    JsonUtils::ObjectAddMember(output, "OfferingPlayerId", input.offeringPlayerId);
-    JsonUtils::ObjectAddMember(output, "TradeId", input.tradeId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFTradingTradeInfo& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AcceptedInventoryInstanceIds", input.acceptedInventoryInstanceIds, input.acceptedInventoryInstanceIdsCount);
-    JsonUtils::ObjectAddMember(output, "AcceptedPlayerId", input.acceptedPlayerId);
-    JsonUtils::ObjectAddMember(output, "AllowedPlayerIds", input.allowedPlayerIds, input.allowedPlayerIdsCount);
-    JsonUtils::ObjectAddMember(output, "CancelledAt", input.cancelledAt, true);
-    JsonUtils::ObjectAddMember(output, "FilledAt", input.filledAt, true);
-    JsonUtils::ObjectAddMember(output, "InvalidatedAt", input.invalidatedAt, true);
-    JsonUtils::ObjectAddMember(output, "OfferedCatalogItemIds", input.offeredCatalogItemIds, input.offeredCatalogItemIdsCount);
-    JsonUtils::ObjectAddMember(output, "OfferedInventoryInstanceIds", input.offeredInventoryInstanceIds, input.offeredInventoryInstanceIdsCount);
-    JsonUtils::ObjectAddMember(output, "OfferingPlayerId", input.offeringPlayerId);
-    JsonUtils::ObjectAddMember(output, "OpenedAt", input.openedAt, true);
-    JsonUtils::ObjectAddMember(output, "RequestedCatalogItemIds", input.requestedCatalogItemIds, input.requestedCatalogItemIdsCount);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
-    JsonUtils::ObjectAddMember(output, "TradeId", input.tradeId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFTradingAcceptTradeResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Trade", input.trade);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFTradingCancelTradeRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "TradeId", input.tradeId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFTradingCancelTradeResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Trade", input.trade);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFTradingGetPlayerTradesRequest& input)
+JsonValue GetPlayerTradesRequest::ToJson(const PFTradingGetPlayerTradesRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "StatusFilter", input.statusFilter);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFTradingGetPlayerTradesResponse& input)
+void GetPlayerTradesResponse::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AcceptedTrades", input.acceptedTrades, input.acceptedTradesCount);
-    JsonUtils::ObjectAddMember(output, "OpenedTrades", input.openedTrades, input.openedTradesCount);
-    return output;
+    ModelVector<TradeInfo> acceptedTrades{};
+    JsonUtils::ObjectGetMember<TradeInfo>(input, "AcceptedTrades", acceptedTrades);
+    this->SetAcceptedTrades(std::move(acceptedTrades));
+
+    ModelVector<TradeInfo> openedTrades{};
+    JsonUtils::ObjectGetMember<TradeInfo>(input, "OpenedTrades", openedTrades);
+    this->SetOpenedTrades(std::move(openedTrades));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFTradingGetTradeStatusRequest& input)
+size_t GetPlayerTradesResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFTradingGetPlayerTradesResponse const*> GetPlayerTradesResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetPlayerTradesResponse>(&this->Model());
+}
+
+size_t GetPlayerTradesResponse::RequiredBufferSize(const PFTradingGetPlayerTradesResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFTradingTradeInfo*) + sizeof(PFTradingTradeInfo*) * model.acceptedTradesCount);
+    for (size_t i = 0; i < model.acceptedTradesCount; ++i)
+    {
+        requiredSize += TradeInfo::RequiredBufferSize(*model.acceptedTrades[i]);
+    }
+    requiredSize += (alignof(PFTradingTradeInfo*) + sizeof(PFTradingTradeInfo*) * model.openedTradesCount);
+    for (size_t i = 0; i < model.openedTradesCount; ++i)
+    {
+        requiredSize += TradeInfo::RequiredBufferSize(*model.openedTrades[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetPlayerTradesResponse::Copy(const PFTradingGetPlayerTradesResponse& input, PFTradingGetPlayerTradesResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.acceptedTrades = buffer.CopyToArray<TradeInfo>(input.acceptedTrades, input.acceptedTradesCount);
+    output.openedTrades = buffer.CopyToArray<TradeInfo>(input.openedTrades, input.openedTradesCount);
+    return S_OK;
+}
+
+JsonValue GetTradeStatusRequest::ToJson() const
+{
+    return GetTradeStatusRequest::ToJson(this->Model());
+}
+
+JsonValue GetTradeStatusRequest::ToJson(const PFTradingGetTradeStatusRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "OfferingPlayerId", input.offeringPlayerId);
@@ -595,32 +324,93 @@ inline JsonValue ToJson<>(const PFTradingGetTradeStatusRequest& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFTradingGetTradeStatusResponse& input)
+void GetTradeStatusResponse::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<TradeInfo> trade{};
+    JsonUtils::ObjectGetMember(input, "Trade", trade);
+    if (trade)
+    {
+        this->SetTrade(std::move(*trade));
+    }
+}
+
+size_t GetTradeStatusResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFTradingGetTradeStatusResponse const*> GetTradeStatusResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetTradeStatusResponse>(&this->Model());
+}
+
+size_t GetTradeStatusResponse::RequiredBufferSize(const PFTradingGetTradeStatusResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.trade)
+    {
+        requiredSize += TradeInfo::RequiredBufferSize(*model.trade);
+    }
+    return requiredSize;
+}
+
+HRESULT GetTradeStatusResponse::Copy(const PFTradingGetTradeStatusResponse& input, PFTradingGetTradeStatusResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.trade = buffer.CopyTo<TradeInfo>(input.trade);
+    return S_OK;
+}
+
+JsonValue OpenTradeRequest::ToJson() const
+{
+    return OpenTradeRequest::ToJson(this->Model());
+}
+
+JsonValue OpenTradeRequest::ToJson(const PFTradingOpenTradeRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Trade", input.trade);
+    JsonUtils::ObjectAddMemberArray(output, "AllowedPlayerIds", input.allowedPlayerIds, input.allowedPlayerIdsCount);
+    JsonUtils::ObjectAddMemberArray(output, "OfferedInventoryInstanceIds", input.offeredInventoryInstanceIds, input.offeredInventoryInstanceIdsCount);
+    JsonUtils::ObjectAddMemberArray(output, "RequestedCatalogItemIds", input.requestedCatalogItemIds, input.requestedCatalogItemIdsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFTradingOpenTradeRequest& input)
+void OpenTradeResponse::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AllowedPlayerIds", input.allowedPlayerIds, input.allowedPlayerIdsCount);
-    JsonUtils::ObjectAddMember(output, "OfferedInventoryInstanceIds", input.offeredInventoryInstanceIds, input.offeredInventoryInstanceIdsCount);
-    JsonUtils::ObjectAddMember(output, "RequestedCatalogItemIds", input.requestedCatalogItemIds, input.requestedCatalogItemIdsCount);
-    return output;
+    StdExtra::optional<TradeInfo> trade{};
+    JsonUtils::ObjectGetMember(input, "Trade", trade);
+    if (trade)
+    {
+        this->SetTrade(std::move(*trade));
+    }
 }
 
-template<>
-inline JsonValue ToJson<>(const PFTradingOpenTradeResponse& input)
+size_t OpenTradeResponse::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Trade", input.trade);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-} // namespace JsonUtils
+Result<PFTradingOpenTradeResponse const*> OpenTradeResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<OpenTradeResponse>(&this->Model());
+}
 
+size_t OpenTradeResponse::RequiredBufferSize(const PFTradingOpenTradeResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.trade)
+    {
+        requiredSize += TradeInfo::RequiredBufferSize(*model.trade);
+    }
+    return requiredSize;
+}
+
+HRESULT OpenTradeResponse::Copy(const PFTradingOpenTradeResponse& input, PFTradingOpenTradeResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.trade = buffer.CopyTo<TradeInfo>(input.trade);
+    return S_OK;
+}
+
+} // namespace Trading
 } // namespace PlayFab

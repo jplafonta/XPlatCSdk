@@ -4,1678 +4,15 @@
 
 namespace PlayFab
 {
-namespace SegmentsModels
+namespace Segments
 {
-
-BanPlayerSegmentAction::BanPlayerSegmentAction() :
-    PFSegmentsBanPlayerSegmentAction{}
-{
-}
-
-BanPlayerSegmentAction::BanPlayerSegmentAction(const BanPlayerSegmentAction& src) :
-    PFSegmentsBanPlayerSegmentAction{ src },
-    m_banHours{ src.m_banHours },
-    m_reasonForBan{ src.m_reasonForBan }
-{
-    banHours = m_banHours ? m_banHours.operator->() : nullptr;
-    reasonForBan = m_reasonForBan.empty() ? nullptr : m_reasonForBan.data();
-}
-
-BanPlayerSegmentAction::BanPlayerSegmentAction(BanPlayerSegmentAction&& src) :
-    PFSegmentsBanPlayerSegmentAction{ src },
-    m_banHours{ std::move(src.m_banHours) },
-    m_reasonForBan{ std::move(src.m_reasonForBan) }
-{
-    banHours = m_banHours ? m_banHours.operator->() : nullptr;
-    reasonForBan = m_reasonForBan.empty() ? nullptr : m_reasonForBan.data();
-}
-
-BanPlayerSegmentAction::BanPlayerSegmentAction(const PFSegmentsBanPlayerSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void BanPlayerSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "BanHours", m_banHours, banHours);
-    JsonUtils::ObjectGetMember(input, "ReasonForBan", m_reasonForBan, reasonForBan);
-}
 
 JsonValue BanPlayerSegmentAction::ToJson() const
 {
-    return JsonUtils::ToJson<PFSegmentsBanPlayerSegmentAction>(*this);
+    return BanPlayerSegmentAction::ToJson(this->Model());
 }
 
-DeletePlayerStatisticSegmentAction::DeletePlayerStatisticSegmentAction() :
-    PFSegmentsDeletePlayerStatisticSegmentAction{}
-{
-}
-
-DeletePlayerStatisticSegmentAction::DeletePlayerStatisticSegmentAction(const DeletePlayerStatisticSegmentAction& src) :
-    PFSegmentsDeletePlayerStatisticSegmentAction{ src },
-    m_statisticName{ src.m_statisticName }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-DeletePlayerStatisticSegmentAction::DeletePlayerStatisticSegmentAction(DeletePlayerStatisticSegmentAction&& src) :
-    PFSegmentsDeletePlayerStatisticSegmentAction{ src },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-DeletePlayerStatisticSegmentAction::DeletePlayerStatisticSegmentAction(const PFSegmentsDeletePlayerStatisticSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeletePlayerStatisticSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue DeletePlayerStatisticSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsDeletePlayerStatisticSegmentAction>(*this);
-}
-
-size_t DeletePlayerStatisticSegmentAction::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsDeletePlayerStatisticSegmentAction) };
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void DeletePlayerStatisticSegmentAction::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsDeletePlayerStatisticSegmentAction{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsDeletePlayerStatisticSegmentAction);
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-EmailNotificationSegmentAction::EmailNotificationSegmentAction() :
-    PFSegmentsEmailNotificationSegmentAction{}
-{
-}
-
-EmailNotificationSegmentAction::EmailNotificationSegmentAction(const EmailNotificationSegmentAction& src) :
-    PFSegmentsEmailNotificationSegmentAction{ src },
-    m_emailTemplateId{ src.m_emailTemplateId },
-    m_emailTemplateName{ src.m_emailTemplateName }
-{
-    emailTemplateId = m_emailTemplateId.empty() ? nullptr : m_emailTemplateId.data();
-    emailTemplateName = m_emailTemplateName.empty() ? nullptr : m_emailTemplateName.data();
-}
-
-EmailNotificationSegmentAction::EmailNotificationSegmentAction(EmailNotificationSegmentAction&& src) :
-    PFSegmentsEmailNotificationSegmentAction{ src },
-    m_emailTemplateId{ std::move(src.m_emailTemplateId) },
-    m_emailTemplateName{ std::move(src.m_emailTemplateName) }
-{
-    emailTemplateId = m_emailTemplateId.empty() ? nullptr : m_emailTemplateId.data();
-    emailTemplateName = m_emailTemplateName.empty() ? nullptr : m_emailTemplateName.data();
-}
-
-EmailNotificationSegmentAction::EmailNotificationSegmentAction(const PFSegmentsEmailNotificationSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void EmailNotificationSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "EmailTemplateId", m_emailTemplateId, emailTemplateId);
-    JsonUtils::ObjectGetMember(input, "EmailTemplateName", m_emailTemplateName, emailTemplateName);
-}
-
-JsonValue EmailNotificationSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsEmailNotificationSegmentAction>(*this);
-}
-
-size_t EmailNotificationSegmentAction::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsEmailNotificationSegmentAction) };
-    serializedSize += (m_emailTemplateId.size() + 1);
-    serializedSize += (m_emailTemplateName.size() + 1);
-    return serializedSize;
-}
-
-void EmailNotificationSegmentAction::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsEmailNotificationSegmentAction{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsEmailNotificationSegmentAction);
-    memcpy(stringBuffer, m_emailTemplateId.data(), m_emailTemplateId.size() + 1);
-    serializedStruct->emailTemplateId = stringBuffer;
-    stringBuffer += m_emailTemplateId.size() + 1;
-    memcpy(stringBuffer, m_emailTemplateName.data(), m_emailTemplateName.size() + 1);
-    serializedStruct->emailTemplateName = stringBuffer;
-    stringBuffer += m_emailTemplateName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ExecuteAzureFunctionSegmentAction::ExecuteAzureFunctionSegmentAction() :
-    PFSegmentsExecuteAzureFunctionSegmentAction{}
-{
-}
-
-ExecuteAzureFunctionSegmentAction::ExecuteAzureFunctionSegmentAction(const ExecuteAzureFunctionSegmentAction& src) :
-    PFSegmentsExecuteAzureFunctionSegmentAction{ src },
-    m_azureFunction{ src.m_azureFunction },
-    m_functionParameter{ src.m_functionParameter }
-{
-    azureFunction = m_azureFunction.empty() ? nullptr : m_azureFunction.data();
-    functionParameter.stringValue = m_functionParameter.StringValue();
-}
-
-ExecuteAzureFunctionSegmentAction::ExecuteAzureFunctionSegmentAction(ExecuteAzureFunctionSegmentAction&& src) :
-    PFSegmentsExecuteAzureFunctionSegmentAction{ src },
-    m_azureFunction{ std::move(src.m_azureFunction) },
-    m_functionParameter{ std::move(src.m_functionParameter) }
-{
-    azureFunction = m_azureFunction.empty() ? nullptr : m_azureFunction.data();
-    functionParameter.stringValue = m_functionParameter.StringValue();
-}
-
-ExecuteAzureFunctionSegmentAction::ExecuteAzureFunctionSegmentAction(const PFSegmentsExecuteAzureFunctionSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ExecuteAzureFunctionSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AzureFunction", m_azureFunction, azureFunction);
-    JsonUtils::ObjectGetMember(input, "FunctionParameter", m_functionParameter, functionParameter);
-    JsonUtils::ObjectGetMember(input, "GenerateFunctionExecutedEvents", generateFunctionExecutedEvents);
-}
-
-JsonValue ExecuteAzureFunctionSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsExecuteAzureFunctionSegmentAction>(*this);
-}
-
-ExecuteCloudScriptSegmentAction::ExecuteCloudScriptSegmentAction() :
-    PFSegmentsExecuteCloudScriptSegmentAction{}
-{
-}
-
-ExecuteCloudScriptSegmentAction::ExecuteCloudScriptSegmentAction(const ExecuteCloudScriptSegmentAction& src) :
-    PFSegmentsExecuteCloudScriptSegmentAction{ src },
-    m_cloudScriptFunction{ src.m_cloudScriptFunction },
-    m_functionParameter{ src.m_functionParameter },
-    m_functionParameterJson{ src.m_functionParameterJson }
-{
-    cloudScriptFunction = m_cloudScriptFunction.empty() ? nullptr : m_cloudScriptFunction.data();
-    functionParameter.stringValue = m_functionParameter.StringValue();
-    functionParameterJson = m_functionParameterJson.empty() ? nullptr : m_functionParameterJson.data();
-}
-
-ExecuteCloudScriptSegmentAction::ExecuteCloudScriptSegmentAction(ExecuteCloudScriptSegmentAction&& src) :
-    PFSegmentsExecuteCloudScriptSegmentAction{ src },
-    m_cloudScriptFunction{ std::move(src.m_cloudScriptFunction) },
-    m_functionParameter{ std::move(src.m_functionParameter) },
-    m_functionParameterJson{ std::move(src.m_functionParameterJson) }
-{
-    cloudScriptFunction = m_cloudScriptFunction.empty() ? nullptr : m_cloudScriptFunction.data();
-    functionParameter.stringValue = m_functionParameter.StringValue();
-    functionParameterJson = m_functionParameterJson.empty() ? nullptr : m_functionParameterJson.data();
-}
-
-ExecuteCloudScriptSegmentAction::ExecuteCloudScriptSegmentAction(const PFSegmentsExecuteCloudScriptSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ExecuteCloudScriptSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CloudScriptFunction", m_cloudScriptFunction, cloudScriptFunction);
-    JsonUtils::ObjectGetMember(input, "CloudScriptPublishResultsToPlayStream", cloudScriptPublishResultsToPlayStream);
-    JsonUtils::ObjectGetMember(input, "FunctionParameter", m_functionParameter, functionParameter);
-    JsonUtils::ObjectGetMember(input, "FunctionParameterJson", m_functionParameterJson, functionParameterJson);
-}
-
-JsonValue ExecuteCloudScriptSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsExecuteCloudScriptSegmentAction>(*this);
-}
-
-GrantItemSegmentAction::GrantItemSegmentAction() :
-    PFSegmentsGrantItemSegmentAction{}
-{
-}
-
-GrantItemSegmentAction::GrantItemSegmentAction(const GrantItemSegmentAction& src) :
-    PFSegmentsGrantItemSegmentAction{ src },
-    m_catelogId{ src.m_catelogId },
-    m_itemId{ src.m_itemId }
-{
-    catelogId = m_catelogId.empty() ? nullptr : m_catelogId.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-GrantItemSegmentAction::GrantItemSegmentAction(GrantItemSegmentAction&& src) :
-    PFSegmentsGrantItemSegmentAction{ src },
-    m_catelogId{ std::move(src.m_catelogId) },
-    m_itemId{ std::move(src.m_itemId) }
-{
-    catelogId = m_catelogId.empty() ? nullptr : m_catelogId.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-GrantItemSegmentAction::GrantItemSegmentAction(const PFSegmentsGrantItemSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantItemSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatelogId", m_catelogId, catelogId);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-    JsonUtils::ObjectGetMember(input, "Quantity", quantity);
-}
-
-JsonValue GrantItemSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsGrantItemSegmentAction>(*this);
-}
-
-size_t GrantItemSegmentAction::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsGrantItemSegmentAction) };
-    serializedSize += (m_catelogId.size() + 1);
-    serializedSize += (m_itemId.size() + 1);
-    return serializedSize;
-}
-
-void GrantItemSegmentAction::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsGrantItemSegmentAction{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsGrantItemSegmentAction);
-    memcpy(stringBuffer, m_catelogId.data(), m_catelogId.size() + 1);
-    serializedStruct->catelogId = stringBuffer;
-    stringBuffer += m_catelogId.size() + 1;
-    memcpy(stringBuffer, m_itemId.data(), m_itemId.size() + 1);
-    serializedStruct->itemId = stringBuffer;
-    stringBuffer += m_itemId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GrantVirtualCurrencySegmentAction::GrantVirtualCurrencySegmentAction() :
-    PFSegmentsGrantVirtualCurrencySegmentAction{}
-{
-}
-
-GrantVirtualCurrencySegmentAction::GrantVirtualCurrencySegmentAction(const GrantVirtualCurrencySegmentAction& src) :
-    PFSegmentsGrantVirtualCurrencySegmentAction{ src },
-    m_currencyCode{ src.m_currencyCode }
-{
-    currencyCode = m_currencyCode.empty() ? nullptr : m_currencyCode.data();
-}
-
-GrantVirtualCurrencySegmentAction::GrantVirtualCurrencySegmentAction(GrantVirtualCurrencySegmentAction&& src) :
-    PFSegmentsGrantVirtualCurrencySegmentAction{ src },
-    m_currencyCode{ std::move(src.m_currencyCode) }
-{
-    currencyCode = m_currencyCode.empty() ? nullptr : m_currencyCode.data();
-}
-
-GrantVirtualCurrencySegmentAction::GrantVirtualCurrencySegmentAction(const PFSegmentsGrantVirtualCurrencySegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantVirtualCurrencySegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CurrencyCode", m_currencyCode, currencyCode);
-}
-
-JsonValue GrantVirtualCurrencySegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsGrantVirtualCurrencySegmentAction>(*this);
-}
-
-size_t GrantVirtualCurrencySegmentAction::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsGrantVirtualCurrencySegmentAction) };
-    serializedSize += (m_currencyCode.size() + 1);
-    return serializedSize;
-}
-
-void GrantVirtualCurrencySegmentAction::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsGrantVirtualCurrencySegmentAction{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsGrantVirtualCurrencySegmentAction);
-    memcpy(stringBuffer, m_currencyCode.data(), m_currencyCode.size() + 1);
-    serializedStruct->currencyCode = stringBuffer;
-    stringBuffer += m_currencyCode.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-IncrementPlayerStatisticSegmentAction::IncrementPlayerStatisticSegmentAction() :
-    PFSegmentsIncrementPlayerStatisticSegmentAction{}
-{
-}
-
-IncrementPlayerStatisticSegmentAction::IncrementPlayerStatisticSegmentAction(const IncrementPlayerStatisticSegmentAction& src) :
-    PFSegmentsIncrementPlayerStatisticSegmentAction{ src },
-    m_statisticName{ src.m_statisticName }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-IncrementPlayerStatisticSegmentAction::IncrementPlayerStatisticSegmentAction(IncrementPlayerStatisticSegmentAction&& src) :
-    PFSegmentsIncrementPlayerStatisticSegmentAction{ src },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-IncrementPlayerStatisticSegmentAction::IncrementPlayerStatisticSegmentAction(const PFSegmentsIncrementPlayerStatisticSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void IncrementPlayerStatisticSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "IncrementValue", incrementValue);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue IncrementPlayerStatisticSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsIncrementPlayerStatisticSegmentAction>(*this);
-}
-
-size_t IncrementPlayerStatisticSegmentAction::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsIncrementPlayerStatisticSegmentAction) };
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void IncrementPlayerStatisticSegmentAction::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsIncrementPlayerStatisticSegmentAction{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsIncrementPlayerStatisticSegmentAction);
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-PushNotificationSegmentAction::PushNotificationSegmentAction() :
-    PFSegmentsPushNotificationSegmentAction{}
-{
-}
-
-PushNotificationSegmentAction::PushNotificationSegmentAction(const PushNotificationSegmentAction& src) :
-    PFSegmentsPushNotificationSegmentAction{ src },
-    m_pushNotificationTemplateId{ src.m_pushNotificationTemplateId }
-{
-    pushNotificationTemplateId = m_pushNotificationTemplateId.empty() ? nullptr : m_pushNotificationTemplateId.data();
-}
-
-PushNotificationSegmentAction::PushNotificationSegmentAction(PushNotificationSegmentAction&& src) :
-    PFSegmentsPushNotificationSegmentAction{ src },
-    m_pushNotificationTemplateId{ std::move(src.m_pushNotificationTemplateId) }
-{
-    pushNotificationTemplateId = m_pushNotificationTemplateId.empty() ? nullptr : m_pushNotificationTemplateId.data();
-}
-
-PushNotificationSegmentAction::PushNotificationSegmentAction(const PFSegmentsPushNotificationSegmentAction& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PushNotificationSegmentAction::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PushNotificationTemplateId", m_pushNotificationTemplateId, pushNotificationTemplateId);
-}
-
-JsonValue PushNotificationSegmentAction::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsPushNotificationSegmentAction>(*this);
-}
-
-size_t PushNotificationSegmentAction::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsPushNotificationSegmentAction) };
-    serializedSize += (m_pushNotificationTemplateId.size() + 1);
-    return serializedSize;
-}
-
-void PushNotificationSegmentAction::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsPushNotificationSegmentAction{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsPushNotificationSegmentAction);
-    memcpy(stringBuffer, m_pushNotificationTemplateId.data(), m_pushNotificationTemplateId.size() + 1);
-    serializedStruct->pushNotificationTemplateId = stringBuffer;
-    stringBuffer += m_pushNotificationTemplateId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-SegmentTrigger::SegmentTrigger() :
-    PFSegmentsSegmentTrigger{}
-{
-}
-
-SegmentTrigger::SegmentTrigger(const SegmentTrigger& src) :
-    PFSegmentsSegmentTrigger{ src },
-    m_banPlayerAction{ src.m_banPlayerAction },
-    m_deletePlayerStatisticAction{ src.m_deletePlayerStatisticAction },
-    m_emailNotificationAction{ src.m_emailNotificationAction },
-    m_executeAzureFunctionAction{ src.m_executeAzureFunctionAction },
-    m_executeCloudScriptAction{ src.m_executeCloudScriptAction },
-    m_grantItemAction{ src.m_grantItemAction },
-    m_grantVirtualCurrencyAction{ src.m_grantVirtualCurrencyAction },
-    m_incrementPlayerStatisticAction{ src.m_incrementPlayerStatisticAction },
-    m_pushNotificationAction{ src.m_pushNotificationAction }
-{
-    banPlayerAction = m_banPlayerAction ? m_banPlayerAction.operator->() : nullptr;
-    deletePlayerStatisticAction = m_deletePlayerStatisticAction ? m_deletePlayerStatisticAction.operator->() : nullptr;
-    emailNotificationAction = m_emailNotificationAction ? m_emailNotificationAction.operator->() : nullptr;
-    executeAzureFunctionAction = m_executeAzureFunctionAction ? m_executeAzureFunctionAction.operator->() : nullptr;
-    executeCloudScriptAction = m_executeCloudScriptAction ? m_executeCloudScriptAction.operator->() : nullptr;
-    grantItemAction = m_grantItemAction ? m_grantItemAction.operator->() : nullptr;
-    grantVirtualCurrencyAction = m_grantVirtualCurrencyAction ? m_grantVirtualCurrencyAction.operator->() : nullptr;
-    incrementPlayerStatisticAction = m_incrementPlayerStatisticAction ? m_incrementPlayerStatisticAction.operator->() : nullptr;
-    pushNotificationAction = m_pushNotificationAction ? m_pushNotificationAction.operator->() : nullptr;
-}
-
-SegmentTrigger::SegmentTrigger(SegmentTrigger&& src) :
-    PFSegmentsSegmentTrigger{ src },
-    m_banPlayerAction{ std::move(src.m_banPlayerAction) },
-    m_deletePlayerStatisticAction{ std::move(src.m_deletePlayerStatisticAction) },
-    m_emailNotificationAction{ std::move(src.m_emailNotificationAction) },
-    m_executeAzureFunctionAction{ std::move(src.m_executeAzureFunctionAction) },
-    m_executeCloudScriptAction{ std::move(src.m_executeCloudScriptAction) },
-    m_grantItemAction{ std::move(src.m_grantItemAction) },
-    m_grantVirtualCurrencyAction{ std::move(src.m_grantVirtualCurrencyAction) },
-    m_incrementPlayerStatisticAction{ std::move(src.m_incrementPlayerStatisticAction) },
-    m_pushNotificationAction{ std::move(src.m_pushNotificationAction) }
-{
-    banPlayerAction = m_banPlayerAction ? m_banPlayerAction.operator->() : nullptr;
-    deletePlayerStatisticAction = m_deletePlayerStatisticAction ? m_deletePlayerStatisticAction.operator->() : nullptr;
-    emailNotificationAction = m_emailNotificationAction ? m_emailNotificationAction.operator->() : nullptr;
-    executeAzureFunctionAction = m_executeAzureFunctionAction ? m_executeAzureFunctionAction.operator->() : nullptr;
-    executeCloudScriptAction = m_executeCloudScriptAction ? m_executeCloudScriptAction.operator->() : nullptr;
-    grantItemAction = m_grantItemAction ? m_grantItemAction.operator->() : nullptr;
-    grantVirtualCurrencyAction = m_grantVirtualCurrencyAction ? m_grantVirtualCurrencyAction.operator->() : nullptr;
-    incrementPlayerStatisticAction = m_incrementPlayerStatisticAction ? m_incrementPlayerStatisticAction.operator->() : nullptr;
-    pushNotificationAction = m_pushNotificationAction ? m_pushNotificationAction.operator->() : nullptr;
-}
-
-SegmentTrigger::SegmentTrigger(const PFSegmentsSegmentTrigger& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SegmentTrigger::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "BanPlayerAction", m_banPlayerAction, banPlayerAction);
-    JsonUtils::ObjectGetMember(input, "DeletePlayerStatisticAction", m_deletePlayerStatisticAction, deletePlayerStatisticAction);
-    JsonUtils::ObjectGetMember(input, "EmailNotificationAction", m_emailNotificationAction, emailNotificationAction);
-    JsonUtils::ObjectGetMember(input, "ExecuteAzureFunctionAction", m_executeAzureFunctionAction, executeAzureFunctionAction);
-    JsonUtils::ObjectGetMember(input, "ExecuteCloudScriptAction", m_executeCloudScriptAction, executeCloudScriptAction);
-    JsonUtils::ObjectGetMember(input, "GrantItemAction", m_grantItemAction, grantItemAction);
-    JsonUtils::ObjectGetMember(input, "GrantVirtualCurrencyAction", m_grantVirtualCurrencyAction, grantVirtualCurrencyAction);
-    JsonUtils::ObjectGetMember(input, "IncrementPlayerStatisticAction", m_incrementPlayerStatisticAction, incrementPlayerStatisticAction);
-    JsonUtils::ObjectGetMember(input, "PushNotificationAction", m_pushNotificationAction, pushNotificationAction);
-}
-
-JsonValue SegmentTrigger::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsSegmentTrigger>(*this);
-}
-
-AdCampaignSegmentFilter::AdCampaignSegmentFilter() :
-    PFSegmentsAdCampaignSegmentFilter{}
-{
-}
-
-AdCampaignSegmentFilter::AdCampaignSegmentFilter(const AdCampaignSegmentFilter& src) :
-    PFSegmentsAdCampaignSegmentFilter{ src },
-    m_campaignId{ src.m_campaignId },
-    m_campaignSource{ src.m_campaignSource },
-    m_comparison{ src.m_comparison }
-{
-    campaignId = m_campaignId.empty() ? nullptr : m_campaignId.data();
-    campaignSource = m_campaignSource.empty() ? nullptr : m_campaignSource.data();
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-AdCampaignSegmentFilter::AdCampaignSegmentFilter(AdCampaignSegmentFilter&& src) :
-    PFSegmentsAdCampaignSegmentFilter{ src },
-    m_campaignId{ std::move(src.m_campaignId) },
-    m_campaignSource{ std::move(src.m_campaignSource) },
-    m_comparison{ std::move(src.m_comparison) }
-{
-    campaignId = m_campaignId.empty() ? nullptr : m_campaignId.data();
-    campaignSource = m_campaignSource.empty() ? nullptr : m_campaignSource.data();
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-AdCampaignSegmentFilter::AdCampaignSegmentFilter(const PFSegmentsAdCampaignSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AdCampaignSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CampaignId", m_campaignId, campaignId);
-    JsonUtils::ObjectGetMember(input, "CampaignSource", m_campaignSource, campaignSource);
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-}
-
-JsonValue AdCampaignSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsAdCampaignSegmentFilter>(*this);
-}
-
-FirstLoginDateSegmentFilter::FirstLoginDateSegmentFilter() :
-    PFSegmentsFirstLoginDateSegmentFilter{}
-{
-}
-
-FirstLoginDateSegmentFilter::FirstLoginDateSegmentFilter(const FirstLoginDateSegmentFilter& src) :
-    PFSegmentsFirstLoginDateSegmentFilter{ src },
-    m_comparison{ src.m_comparison }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-FirstLoginDateSegmentFilter::FirstLoginDateSegmentFilter(FirstLoginDateSegmentFilter&& src) :
-    PFSegmentsFirstLoginDateSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-FirstLoginDateSegmentFilter::FirstLoginDateSegmentFilter(const PFSegmentsFirstLoginDateSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void FirstLoginDateSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "LogInDate", logInDate, true);
-}
-
-JsonValue FirstLoginDateSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsFirstLoginDateSegmentFilter>(*this);
-}
-
-FirstLoginTimespanSegmentFilter::FirstLoginTimespanSegmentFilter() :
-    PFSegmentsFirstLoginTimespanSegmentFilter{}
-{
-}
-
-FirstLoginTimespanSegmentFilter::FirstLoginTimespanSegmentFilter(const FirstLoginTimespanSegmentFilter& src) :
-    PFSegmentsFirstLoginTimespanSegmentFilter{ src },
-    m_comparison{ src.m_comparison }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-FirstLoginTimespanSegmentFilter::FirstLoginTimespanSegmentFilter(FirstLoginTimespanSegmentFilter&& src) :
-    PFSegmentsFirstLoginTimespanSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-FirstLoginTimespanSegmentFilter::FirstLoginTimespanSegmentFilter(const PFSegmentsFirstLoginTimespanSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void FirstLoginTimespanSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "DurationInMinutes", durationInMinutes);
-}
-
-JsonValue FirstLoginTimespanSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsFirstLoginTimespanSegmentFilter>(*this);
-}
-
-LastLoginDateSegmentFilter::LastLoginDateSegmentFilter() :
-    PFSegmentsLastLoginDateSegmentFilter{}
-{
-}
-
-LastLoginDateSegmentFilter::LastLoginDateSegmentFilter(const LastLoginDateSegmentFilter& src) :
-    PFSegmentsLastLoginDateSegmentFilter{ src },
-    m_comparison{ src.m_comparison }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-LastLoginDateSegmentFilter::LastLoginDateSegmentFilter(LastLoginDateSegmentFilter&& src) :
-    PFSegmentsLastLoginDateSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-LastLoginDateSegmentFilter::LastLoginDateSegmentFilter(const PFSegmentsLastLoginDateSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void LastLoginDateSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "LogInDate", logInDate, true);
-}
-
-JsonValue LastLoginDateSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsLastLoginDateSegmentFilter>(*this);
-}
-
-LastLoginTimespanSegmentFilter::LastLoginTimespanSegmentFilter() :
-    PFSegmentsLastLoginTimespanSegmentFilter{}
-{
-}
-
-LastLoginTimespanSegmentFilter::LastLoginTimespanSegmentFilter(const LastLoginTimespanSegmentFilter& src) :
-    PFSegmentsLastLoginTimespanSegmentFilter{ src },
-    m_comparison{ src.m_comparison }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-LastLoginTimespanSegmentFilter::LastLoginTimespanSegmentFilter(LastLoginTimespanSegmentFilter&& src) :
-    PFSegmentsLastLoginTimespanSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-LastLoginTimespanSegmentFilter::LastLoginTimespanSegmentFilter(const PFSegmentsLastLoginTimespanSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void LastLoginTimespanSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "DurationInMinutes", durationInMinutes);
-}
-
-JsonValue LastLoginTimespanSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsLastLoginTimespanSegmentFilter>(*this);
-}
-
-LinkedUserAccountSegmentFilter::LinkedUserAccountSegmentFilter() :
-    PFSegmentsLinkedUserAccountSegmentFilter{}
-{
-}
-
-LinkedUserAccountSegmentFilter::LinkedUserAccountSegmentFilter(const LinkedUserAccountSegmentFilter& src) :
-    PFSegmentsLinkedUserAccountSegmentFilter{ src },
-    m_loginProvider{ src.m_loginProvider }
-{
-    loginProvider = m_loginProvider ? m_loginProvider.operator->() : nullptr;
-}
-
-LinkedUserAccountSegmentFilter::LinkedUserAccountSegmentFilter(LinkedUserAccountSegmentFilter&& src) :
-    PFSegmentsLinkedUserAccountSegmentFilter{ src },
-    m_loginProvider{ std::move(src.m_loginProvider) }
-{
-    loginProvider = m_loginProvider ? m_loginProvider.operator->() : nullptr;
-}
-
-LinkedUserAccountSegmentFilter::LinkedUserAccountSegmentFilter(const PFSegmentsLinkedUserAccountSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void LinkedUserAccountSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "LoginProvider", m_loginProvider, loginProvider);
-}
-
-JsonValue LinkedUserAccountSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsLinkedUserAccountSegmentFilter>(*this);
-}
-
-LinkedUserAccountHasEmailSegmentFilter::LinkedUserAccountHasEmailSegmentFilter() :
-    PFSegmentsLinkedUserAccountHasEmailSegmentFilter{}
-{
-}
-
-LinkedUserAccountHasEmailSegmentFilter::LinkedUserAccountHasEmailSegmentFilter(const LinkedUserAccountHasEmailSegmentFilter& src) :
-    PFSegmentsLinkedUserAccountHasEmailSegmentFilter{ src },
-    m_comparison{ src.m_comparison },
-    m_loginProvider{ src.m_loginProvider }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    loginProvider = m_loginProvider ? m_loginProvider.operator->() : nullptr;
-}
-
-LinkedUserAccountHasEmailSegmentFilter::LinkedUserAccountHasEmailSegmentFilter(LinkedUserAccountHasEmailSegmentFilter&& src) :
-    PFSegmentsLinkedUserAccountHasEmailSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) },
-    m_loginProvider{ std::move(src.m_loginProvider) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    loginProvider = m_loginProvider ? m_loginProvider.operator->() : nullptr;
-}
-
-LinkedUserAccountHasEmailSegmentFilter::LinkedUserAccountHasEmailSegmentFilter(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void LinkedUserAccountHasEmailSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "LoginProvider", m_loginProvider, loginProvider);
-}
-
-JsonValue LinkedUserAccountHasEmailSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsLinkedUserAccountHasEmailSegmentFilter>(*this);
-}
-
-LocationSegmentFilter::LocationSegmentFilter() :
-    PFSegmentsLocationSegmentFilter{}
-{
-}
-
-LocationSegmentFilter::LocationSegmentFilter(const LocationSegmentFilter& src) :
-    PFSegmentsLocationSegmentFilter{ src },
-    m_countryCode{ src.m_countryCode }
-{
-    countryCode = m_countryCode ? m_countryCode.operator->() : nullptr;
-}
-
-LocationSegmentFilter::LocationSegmentFilter(LocationSegmentFilter&& src) :
-    PFSegmentsLocationSegmentFilter{ src },
-    m_countryCode{ std::move(src.m_countryCode) }
-{
-    countryCode = m_countryCode ? m_countryCode.operator->() : nullptr;
-}
-
-LocationSegmentFilter::LocationSegmentFilter(const PFSegmentsLocationSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void LocationSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CountryCode", m_countryCode, countryCode);
-}
-
-JsonValue LocationSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsLocationSegmentFilter>(*this);
-}
-
-PushNotificationSegmentFilter::PushNotificationSegmentFilter() :
-    PFSegmentsPushNotificationSegmentFilter{}
-{
-}
-
-PushNotificationSegmentFilter::PushNotificationSegmentFilter(const PushNotificationSegmentFilter& src) :
-    PFSegmentsPushNotificationSegmentFilter{ src },
-    m_pushNotificationDevicePlatform{ src.m_pushNotificationDevicePlatform }
-{
-    pushNotificationDevicePlatform = m_pushNotificationDevicePlatform ? m_pushNotificationDevicePlatform.operator->() : nullptr;
-}
-
-PushNotificationSegmentFilter::PushNotificationSegmentFilter(PushNotificationSegmentFilter&& src) :
-    PFSegmentsPushNotificationSegmentFilter{ src },
-    m_pushNotificationDevicePlatform{ std::move(src.m_pushNotificationDevicePlatform) }
-{
-    pushNotificationDevicePlatform = m_pushNotificationDevicePlatform ? m_pushNotificationDevicePlatform.operator->() : nullptr;
-}
-
-PushNotificationSegmentFilter::PushNotificationSegmentFilter(const PFSegmentsPushNotificationSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PushNotificationSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PushNotificationDevicePlatform", m_pushNotificationDevicePlatform, pushNotificationDevicePlatform);
-}
-
-JsonValue PushNotificationSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsPushNotificationSegmentFilter>(*this);
-}
-
-StatisticSegmentFilter::StatisticSegmentFilter() :
-    PFSegmentsStatisticSegmentFilter{}
-{
-}
-
-StatisticSegmentFilter::StatisticSegmentFilter(const StatisticSegmentFilter& src) :
-    PFSegmentsStatisticSegmentFilter{ src },
-    m_comparison{ src.m_comparison },
-    m_filterValue{ src.m_filterValue },
-    m_name{ src.m_name },
-    m_useCurrentVersion{ src.m_useCurrentVersion },
-    m_version{ src.m_version }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    filterValue = m_filterValue.empty() ? nullptr : m_filterValue.data();
-    name = m_name.empty() ? nullptr : m_name.data();
-    useCurrentVersion = m_useCurrentVersion ? m_useCurrentVersion.operator->() : nullptr;
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-StatisticSegmentFilter::StatisticSegmentFilter(StatisticSegmentFilter&& src) :
-    PFSegmentsStatisticSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) },
-    m_filterValue{ std::move(src.m_filterValue) },
-    m_name{ std::move(src.m_name) },
-    m_useCurrentVersion{ std::move(src.m_useCurrentVersion) },
-    m_version{ std::move(src.m_version) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    filterValue = m_filterValue.empty() ? nullptr : m_filterValue.data();
-    name = m_name.empty() ? nullptr : m_name.data();
-    useCurrentVersion = m_useCurrentVersion ? m_useCurrentVersion.operator->() : nullptr;
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-StatisticSegmentFilter::StatisticSegmentFilter(const PFSegmentsStatisticSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void StatisticSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "FilterValue", m_filterValue, filterValue);
-    JsonUtils::ObjectGetMember(input, "Name", m_name, name);
-    JsonUtils::ObjectGetMember(input, "UseCurrentVersion", m_useCurrentVersion, useCurrentVersion);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-}
-
-JsonValue StatisticSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsStatisticSegmentFilter>(*this);
-}
-
-TagSegmentFilter::TagSegmentFilter() :
-    PFSegmentsTagSegmentFilter{}
-{
-}
-
-TagSegmentFilter::TagSegmentFilter(const TagSegmentFilter& src) :
-    PFSegmentsTagSegmentFilter{ src },
-    m_comparison{ src.m_comparison },
-    m_tagValue{ src.m_tagValue }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    tagValue = m_tagValue.empty() ? nullptr : m_tagValue.data();
-}
-
-TagSegmentFilter::TagSegmentFilter(TagSegmentFilter&& src) :
-    PFSegmentsTagSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) },
-    m_tagValue{ std::move(src.m_tagValue) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    tagValue = m_tagValue.empty() ? nullptr : m_tagValue.data();
-}
-
-TagSegmentFilter::TagSegmentFilter(const PFSegmentsTagSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void TagSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "TagValue", m_tagValue, tagValue);
-}
-
-JsonValue TagSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsTagSegmentFilter>(*this);
-}
-
-TotalValueToDateInUSDSegmentFilter::TotalValueToDateInUSDSegmentFilter() :
-    PFSegmentsTotalValueToDateInUSDSegmentFilter{}
-{
-}
-
-TotalValueToDateInUSDSegmentFilter::TotalValueToDateInUSDSegmentFilter(const TotalValueToDateInUSDSegmentFilter& src) :
-    PFSegmentsTotalValueToDateInUSDSegmentFilter{ src },
-    m_amount{ src.m_amount },
-    m_comparison{ src.m_comparison }
-{
-    amount = m_amount.empty() ? nullptr : m_amount.data();
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-TotalValueToDateInUSDSegmentFilter::TotalValueToDateInUSDSegmentFilter(TotalValueToDateInUSDSegmentFilter&& src) :
-    PFSegmentsTotalValueToDateInUSDSegmentFilter{ src },
-    m_amount{ std::move(src.m_amount) },
-    m_comparison{ std::move(src.m_comparison) }
-{
-    amount = m_amount.empty() ? nullptr : m_amount.data();
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-}
-
-TotalValueToDateInUSDSegmentFilter::TotalValueToDateInUSDSegmentFilter(const PFSegmentsTotalValueToDateInUSDSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void TotalValueToDateInUSDSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", m_amount, amount);
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-}
-
-JsonValue TotalValueToDateInUSDSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsTotalValueToDateInUSDSegmentFilter>(*this);
-}
-
-UserOriginationSegmentFilter::UserOriginationSegmentFilter() :
-    PFSegmentsUserOriginationSegmentFilter{}
-{
-}
-
-UserOriginationSegmentFilter::UserOriginationSegmentFilter(const UserOriginationSegmentFilter& src) :
-    PFSegmentsUserOriginationSegmentFilter{ src },
-    m_loginProvider{ src.m_loginProvider }
-{
-    loginProvider = m_loginProvider ? m_loginProvider.operator->() : nullptr;
-}
-
-UserOriginationSegmentFilter::UserOriginationSegmentFilter(UserOriginationSegmentFilter&& src) :
-    PFSegmentsUserOriginationSegmentFilter{ src },
-    m_loginProvider{ std::move(src.m_loginProvider) }
-{
-    loginProvider = m_loginProvider ? m_loginProvider.operator->() : nullptr;
-}
-
-UserOriginationSegmentFilter::UserOriginationSegmentFilter(const PFSegmentsUserOriginationSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UserOriginationSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "LoginProvider", m_loginProvider, loginProvider);
-}
-
-JsonValue UserOriginationSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsUserOriginationSegmentFilter>(*this);
-}
-
-ValueToDateSegmentFilter::ValueToDateSegmentFilter() :
-    PFSegmentsValueToDateSegmentFilter{}
-{
-}
-
-ValueToDateSegmentFilter::ValueToDateSegmentFilter(const ValueToDateSegmentFilter& src) :
-    PFSegmentsValueToDateSegmentFilter{ src },
-    m_amount{ src.m_amount },
-    m_comparison{ src.m_comparison },
-    m_currency{ src.m_currency }
-{
-    amount = m_amount.empty() ? nullptr : m_amount.data();
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    currency = m_currency ? m_currency.operator->() : nullptr;
-}
-
-ValueToDateSegmentFilter::ValueToDateSegmentFilter(ValueToDateSegmentFilter&& src) :
-    PFSegmentsValueToDateSegmentFilter{ src },
-    m_amount{ std::move(src.m_amount) },
-    m_comparison{ std::move(src.m_comparison) },
-    m_currency{ std::move(src.m_currency) }
-{
-    amount = m_amount.empty() ? nullptr : m_amount.data();
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    currency = m_currency ? m_currency.operator->() : nullptr;
-}
-
-ValueToDateSegmentFilter::ValueToDateSegmentFilter(const PFSegmentsValueToDateSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ValueToDateSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", m_amount, amount);
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "Currency", m_currency, currency);
-}
-
-JsonValue ValueToDateSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsValueToDateSegmentFilter>(*this);
-}
-
-VirtualCurrencyBalanceSegmentFilter::VirtualCurrencyBalanceSegmentFilter() :
-    PFSegmentsVirtualCurrencyBalanceSegmentFilter{}
-{
-}
-
-VirtualCurrencyBalanceSegmentFilter::VirtualCurrencyBalanceSegmentFilter(const VirtualCurrencyBalanceSegmentFilter& src) :
-    PFSegmentsVirtualCurrencyBalanceSegmentFilter{ src },
-    m_comparison{ src.m_comparison },
-    m_currencyCode{ src.m_currencyCode }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    currencyCode = m_currencyCode.empty() ? nullptr : m_currencyCode.data();
-}
-
-VirtualCurrencyBalanceSegmentFilter::VirtualCurrencyBalanceSegmentFilter(VirtualCurrencyBalanceSegmentFilter&& src) :
-    PFSegmentsVirtualCurrencyBalanceSegmentFilter{ src },
-    m_comparison{ std::move(src.m_comparison) },
-    m_currencyCode{ std::move(src.m_currencyCode) }
-{
-    comparison = m_comparison ? m_comparison.operator->() : nullptr;
-    currencyCode = m_currencyCode.empty() ? nullptr : m_currencyCode.data();
-}
-
-VirtualCurrencyBalanceSegmentFilter::VirtualCurrencyBalanceSegmentFilter(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void VirtualCurrencyBalanceSegmentFilter::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "Comparison", m_comparison, comparison);
-    JsonUtils::ObjectGetMember(input, "CurrencyCode", m_currencyCode, currencyCode);
-}
-
-JsonValue VirtualCurrencyBalanceSegmentFilter::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsVirtualCurrencyBalanceSegmentFilter>(*this);
-}
-
-SegmentAndDefinition::SegmentAndDefinition() :
-    PFSegmentsSegmentAndDefinition{}
-{
-}
-
-SegmentAndDefinition::SegmentAndDefinition(const SegmentAndDefinition& src) :
-    PFSegmentsSegmentAndDefinition{ src },
-    m_adCampaignFilter{ src.m_adCampaignFilter },
-    m_firstLoginDateFilter{ src.m_firstLoginDateFilter },
-    m_firstLoginFilter{ src.m_firstLoginFilter },
-    m_lastLoginDateFilter{ src.m_lastLoginDateFilter },
-    m_lastLoginFilter{ src.m_lastLoginFilter },
-    m_linkedUserAccountFilter{ src.m_linkedUserAccountFilter },
-    m_linkedUserAccountHasEmailFilter{ src.m_linkedUserAccountHasEmailFilter },
-    m_locationFilter{ src.m_locationFilter },
-    m_pushNotificationFilter{ src.m_pushNotificationFilter },
-    m_statisticFilter{ src.m_statisticFilter },
-    m_tagFilter{ src.m_tagFilter },
-    m_totalValueToDateInUSDFilter{ src.m_totalValueToDateInUSDFilter },
-    m_userOriginationFilter{ src.m_userOriginationFilter },
-    m_valueToDateFilter{ src.m_valueToDateFilter },
-    m_virtualCurrencyBalanceFilter{ src.m_virtualCurrencyBalanceFilter }
-{
-    adCampaignFilter = m_adCampaignFilter ? m_adCampaignFilter.operator->() : nullptr;
-    firstLoginDateFilter = m_firstLoginDateFilter ? m_firstLoginDateFilter.operator->() : nullptr;
-    firstLoginFilter = m_firstLoginFilter ? m_firstLoginFilter.operator->() : nullptr;
-    lastLoginDateFilter = m_lastLoginDateFilter ? m_lastLoginDateFilter.operator->() : nullptr;
-    lastLoginFilter = m_lastLoginFilter ? m_lastLoginFilter.operator->() : nullptr;
-    linkedUserAccountFilter = m_linkedUserAccountFilter ? m_linkedUserAccountFilter.operator->() : nullptr;
-    linkedUserAccountHasEmailFilter = m_linkedUserAccountHasEmailFilter ? m_linkedUserAccountHasEmailFilter.operator->() : nullptr;
-    locationFilter = m_locationFilter ? m_locationFilter.operator->() : nullptr;
-    pushNotificationFilter = m_pushNotificationFilter ? m_pushNotificationFilter.operator->() : nullptr;
-    statisticFilter = m_statisticFilter ? m_statisticFilter.operator->() : nullptr;
-    tagFilter = m_tagFilter ? m_tagFilter.operator->() : nullptr;
-    totalValueToDateInUSDFilter = m_totalValueToDateInUSDFilter ? m_totalValueToDateInUSDFilter.operator->() : nullptr;
-    userOriginationFilter = m_userOriginationFilter ? m_userOriginationFilter.operator->() : nullptr;
-    valueToDateFilter = m_valueToDateFilter ? m_valueToDateFilter.operator->() : nullptr;
-    virtualCurrencyBalanceFilter = m_virtualCurrencyBalanceFilter ? m_virtualCurrencyBalanceFilter.operator->() : nullptr;
-}
-
-SegmentAndDefinition::SegmentAndDefinition(SegmentAndDefinition&& src) :
-    PFSegmentsSegmentAndDefinition{ src },
-    m_adCampaignFilter{ std::move(src.m_adCampaignFilter) },
-    m_firstLoginDateFilter{ std::move(src.m_firstLoginDateFilter) },
-    m_firstLoginFilter{ std::move(src.m_firstLoginFilter) },
-    m_lastLoginDateFilter{ std::move(src.m_lastLoginDateFilter) },
-    m_lastLoginFilter{ std::move(src.m_lastLoginFilter) },
-    m_linkedUserAccountFilter{ std::move(src.m_linkedUserAccountFilter) },
-    m_linkedUserAccountHasEmailFilter{ std::move(src.m_linkedUserAccountHasEmailFilter) },
-    m_locationFilter{ std::move(src.m_locationFilter) },
-    m_pushNotificationFilter{ std::move(src.m_pushNotificationFilter) },
-    m_statisticFilter{ std::move(src.m_statisticFilter) },
-    m_tagFilter{ std::move(src.m_tagFilter) },
-    m_totalValueToDateInUSDFilter{ std::move(src.m_totalValueToDateInUSDFilter) },
-    m_userOriginationFilter{ std::move(src.m_userOriginationFilter) },
-    m_valueToDateFilter{ std::move(src.m_valueToDateFilter) },
-    m_virtualCurrencyBalanceFilter{ std::move(src.m_virtualCurrencyBalanceFilter) }
-{
-    adCampaignFilter = m_adCampaignFilter ? m_adCampaignFilter.operator->() : nullptr;
-    firstLoginDateFilter = m_firstLoginDateFilter ? m_firstLoginDateFilter.operator->() : nullptr;
-    firstLoginFilter = m_firstLoginFilter ? m_firstLoginFilter.operator->() : nullptr;
-    lastLoginDateFilter = m_lastLoginDateFilter ? m_lastLoginDateFilter.operator->() : nullptr;
-    lastLoginFilter = m_lastLoginFilter ? m_lastLoginFilter.operator->() : nullptr;
-    linkedUserAccountFilter = m_linkedUserAccountFilter ? m_linkedUserAccountFilter.operator->() : nullptr;
-    linkedUserAccountHasEmailFilter = m_linkedUserAccountHasEmailFilter ? m_linkedUserAccountHasEmailFilter.operator->() : nullptr;
-    locationFilter = m_locationFilter ? m_locationFilter.operator->() : nullptr;
-    pushNotificationFilter = m_pushNotificationFilter ? m_pushNotificationFilter.operator->() : nullptr;
-    statisticFilter = m_statisticFilter ? m_statisticFilter.operator->() : nullptr;
-    tagFilter = m_tagFilter ? m_tagFilter.operator->() : nullptr;
-    totalValueToDateInUSDFilter = m_totalValueToDateInUSDFilter ? m_totalValueToDateInUSDFilter.operator->() : nullptr;
-    userOriginationFilter = m_userOriginationFilter ? m_userOriginationFilter.operator->() : nullptr;
-    valueToDateFilter = m_valueToDateFilter ? m_valueToDateFilter.operator->() : nullptr;
-    virtualCurrencyBalanceFilter = m_virtualCurrencyBalanceFilter ? m_virtualCurrencyBalanceFilter.operator->() : nullptr;
-}
-
-SegmentAndDefinition::SegmentAndDefinition(const PFSegmentsSegmentAndDefinition& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SegmentAndDefinition::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AdCampaignFilter", m_adCampaignFilter, adCampaignFilter);
-    JsonUtils::ObjectGetMember(input, "FirstLoginDateFilter", m_firstLoginDateFilter, firstLoginDateFilter);
-    JsonUtils::ObjectGetMember(input, "FirstLoginFilter", m_firstLoginFilter, firstLoginFilter);
-    JsonUtils::ObjectGetMember(input, "LastLoginDateFilter", m_lastLoginDateFilter, lastLoginDateFilter);
-    JsonUtils::ObjectGetMember(input, "LastLoginFilter", m_lastLoginFilter, lastLoginFilter);
-    JsonUtils::ObjectGetMember(input, "LinkedUserAccountFilter", m_linkedUserAccountFilter, linkedUserAccountFilter);
-    JsonUtils::ObjectGetMember(input, "LinkedUserAccountHasEmailFilter", m_linkedUserAccountHasEmailFilter, linkedUserAccountHasEmailFilter);
-    JsonUtils::ObjectGetMember(input, "LocationFilter", m_locationFilter, locationFilter);
-    JsonUtils::ObjectGetMember(input, "PushNotificationFilter", m_pushNotificationFilter, pushNotificationFilter);
-    JsonUtils::ObjectGetMember(input, "StatisticFilter", m_statisticFilter, statisticFilter);
-    JsonUtils::ObjectGetMember(input, "TagFilter", m_tagFilter, tagFilter);
-    JsonUtils::ObjectGetMember(input, "TotalValueToDateInUSDFilter", m_totalValueToDateInUSDFilter, totalValueToDateInUSDFilter);
-    JsonUtils::ObjectGetMember(input, "UserOriginationFilter", m_userOriginationFilter, userOriginationFilter);
-    JsonUtils::ObjectGetMember(input, "ValueToDateFilter", m_valueToDateFilter, valueToDateFilter);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyBalanceFilter", m_virtualCurrencyBalanceFilter, virtualCurrencyBalanceFilter);
-}
-
-JsonValue SegmentAndDefinition::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsSegmentAndDefinition>(*this);
-}
-
-SegmentOrDefinition::SegmentOrDefinition() :
-    PFSegmentsSegmentOrDefinition{}
-{
-}
-
-SegmentOrDefinition::SegmentOrDefinition(const SegmentOrDefinition& src) :
-    PFSegmentsSegmentOrDefinition{ src },
-    m_segmentAndDefinitions{ src.m_segmentAndDefinitions }
-{
-    segmentAndDefinitions = m_segmentAndDefinitions.Empty() ? nullptr : m_segmentAndDefinitions.Data();
-}
-
-SegmentOrDefinition::SegmentOrDefinition(SegmentOrDefinition&& src) :
-    PFSegmentsSegmentOrDefinition{ src },
-    m_segmentAndDefinitions{ std::move(src.m_segmentAndDefinitions) }
-{
-    segmentAndDefinitions = m_segmentAndDefinitions.Empty() ? nullptr : m_segmentAndDefinitions.Data();
-}
-
-SegmentOrDefinition::SegmentOrDefinition(const PFSegmentsSegmentOrDefinition& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SegmentOrDefinition::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SegmentAndDefinitions", m_segmentAndDefinitions, segmentAndDefinitions, segmentAndDefinitionsCount);
-}
-
-JsonValue SegmentOrDefinition::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsSegmentOrDefinition>(*this);
-}
-
-SegmentModel::SegmentModel() :
-    PFSegmentsSegmentModel{}
-{
-}
-
-SegmentModel::SegmentModel(const SegmentModel& src) :
-    PFSegmentsSegmentModel{ src },
-    m_description{ src.m_description },
-    m_enteredSegmentActions{ src.m_enteredSegmentActions },
-    m_leftSegmentActions{ src.m_leftSegmentActions },
-    m_name{ src.m_name },
-    m_segmentId{ src.m_segmentId },
-    m_segmentOrDefinitions{ src.m_segmentOrDefinitions }
-{
-    description = m_description.empty() ? nullptr : m_description.data();
-    enteredSegmentActions = m_enteredSegmentActions.Empty() ? nullptr : m_enteredSegmentActions.Data();
-    leftSegmentActions = m_leftSegmentActions.Empty() ? nullptr : m_leftSegmentActions.Data();
-    name = m_name.empty() ? nullptr : m_name.data();
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-    segmentOrDefinitions = m_segmentOrDefinitions.Empty() ? nullptr : m_segmentOrDefinitions.Data();
-}
-
-SegmentModel::SegmentModel(SegmentModel&& src) :
-    PFSegmentsSegmentModel{ src },
-    m_description{ std::move(src.m_description) },
-    m_enteredSegmentActions{ std::move(src.m_enteredSegmentActions) },
-    m_leftSegmentActions{ std::move(src.m_leftSegmentActions) },
-    m_name{ std::move(src.m_name) },
-    m_segmentId{ std::move(src.m_segmentId) },
-    m_segmentOrDefinitions{ std::move(src.m_segmentOrDefinitions) }
-{
-    description = m_description.empty() ? nullptr : m_description.data();
-    enteredSegmentActions = m_enteredSegmentActions.Empty() ? nullptr : m_enteredSegmentActions.Data();
-    leftSegmentActions = m_leftSegmentActions.Empty() ? nullptr : m_leftSegmentActions.Data();
-    name = m_name.empty() ? nullptr : m_name.data();
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-    segmentOrDefinitions = m_segmentOrDefinitions.Empty() ? nullptr : m_segmentOrDefinitions.Data();
-}
-
-SegmentModel::SegmentModel(const PFSegmentsSegmentModel& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SegmentModel::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Description", m_description, description);
-    JsonUtils::ObjectGetMember(input, "EnteredSegmentActions", m_enteredSegmentActions, enteredSegmentActions, enteredSegmentActionsCount);
-    JsonUtils::ObjectGetMember(input, "LastUpdateTime", lastUpdateTime, true);
-    JsonUtils::ObjectGetMember(input, "LeftSegmentActions", m_leftSegmentActions, leftSegmentActions, leftSegmentActionsCount);
-    JsonUtils::ObjectGetMember(input, "Name", m_name, name);
-    JsonUtils::ObjectGetMember(input, "SegmentId", m_segmentId, segmentId);
-    JsonUtils::ObjectGetMember(input, "SegmentOrDefinitions", m_segmentOrDefinitions, segmentOrDefinitions, segmentOrDefinitionsCount);
-}
-
-JsonValue SegmentModel::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsSegmentModel>(*this);
-}
-
-CreateSegmentRequest::CreateSegmentRequest() :
-    PFSegmentsCreateSegmentRequest{}
-{
-}
-
-CreateSegmentRequest::CreateSegmentRequest(const CreateSegmentRequest& src) :
-    PFSegmentsCreateSegmentRequest{ src },
-    m_segmentModel{ src.m_segmentModel }
-{
-    segmentModel = (PFSegmentsSegmentModel const*)&m_segmentModel;
-}
-
-CreateSegmentRequest::CreateSegmentRequest(CreateSegmentRequest&& src) :
-    PFSegmentsCreateSegmentRequest{ src },
-    m_segmentModel{ std::move(src.m_segmentModel) }
-{
-    segmentModel = (PFSegmentsSegmentModel const*)&m_segmentModel;
-}
-
-CreateSegmentRequest::CreateSegmentRequest(const PFSegmentsCreateSegmentRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CreateSegmentRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SegmentModel", m_segmentModel, segmentModel);
-}
-
-JsonValue CreateSegmentRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsCreateSegmentRequest>(*this);
-}
-
-CreateSegmentResponse::CreateSegmentResponse() :
-    PFSegmentsCreateSegmentResponse{}
-{
-}
-
-CreateSegmentResponse::CreateSegmentResponse(const CreateSegmentResponse& src) :
-    PFSegmentsCreateSegmentResponse{ src },
-    m_errorMessage{ src.m_errorMessage },
-    m_segmentId{ src.m_segmentId }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-}
-
-CreateSegmentResponse::CreateSegmentResponse(CreateSegmentResponse&& src) :
-    PFSegmentsCreateSegmentResponse{ src },
-    m_errorMessage{ std::move(src.m_errorMessage) },
-    m_segmentId{ std::move(src.m_segmentId) }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-}
-
-CreateSegmentResponse::CreateSegmentResponse(const PFSegmentsCreateSegmentResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CreateSegmentResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
-    JsonUtils::ObjectGetMember(input, "SegmentId", m_segmentId, segmentId);
-}
-
-JsonValue CreateSegmentResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsCreateSegmentResponse>(*this);
-}
-
-size_t CreateSegmentResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsCreateSegmentResponse) };
-    serializedSize += (m_errorMessage.size() + 1);
-    serializedSize += (m_segmentId.size() + 1);
-    return serializedSize;
-}
-
-void CreateSegmentResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsCreateSegmentResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsCreateSegmentResponse);
-    memcpy(stringBuffer, m_errorMessage.data(), m_errorMessage.size() + 1);
-    serializedStruct->errorMessage = stringBuffer;
-    stringBuffer += m_errorMessage.size() + 1;
-    memcpy(stringBuffer, m_segmentId.data(), m_segmentId.size() + 1);
-    serializedStruct->segmentId = stringBuffer;
-    stringBuffer += m_segmentId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-DeleteSegmentRequest::DeleteSegmentRequest() :
-    PFSegmentsDeleteSegmentRequest{}
-{
-}
-
-DeleteSegmentRequest::DeleteSegmentRequest(const DeleteSegmentRequest& src) :
-    PFSegmentsDeleteSegmentRequest{ src },
-    m_segmentId{ src.m_segmentId }
-{
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-}
-
-DeleteSegmentRequest::DeleteSegmentRequest(DeleteSegmentRequest&& src) :
-    PFSegmentsDeleteSegmentRequest{ src },
-    m_segmentId{ std::move(src.m_segmentId) }
-{
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-}
-
-DeleteSegmentRequest::DeleteSegmentRequest(const PFSegmentsDeleteSegmentRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeleteSegmentRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SegmentId", m_segmentId, segmentId);
-}
-
-JsonValue DeleteSegmentRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsDeleteSegmentRequest>(*this);
-}
-
-size_t DeleteSegmentRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsDeleteSegmentRequest) };
-    serializedSize += (m_segmentId.size() + 1);
-    return serializedSize;
-}
-
-void DeleteSegmentRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsDeleteSegmentRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsDeleteSegmentRequest);
-    memcpy(stringBuffer, m_segmentId.data(), m_segmentId.size() + 1);
-    serializedStruct->segmentId = stringBuffer;
-    stringBuffer += m_segmentId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-DeleteSegmentsResponse::DeleteSegmentsResponse() :
-    PFSegmentsDeleteSegmentsResponse{}
-{
-}
-
-DeleteSegmentsResponse::DeleteSegmentsResponse(const DeleteSegmentsResponse& src) :
-    PFSegmentsDeleteSegmentsResponse{ src },
-    m_errorMessage{ src.m_errorMessage }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-}
-
-DeleteSegmentsResponse::DeleteSegmentsResponse(DeleteSegmentsResponse&& src) :
-    PFSegmentsDeleteSegmentsResponse{ src },
-    m_errorMessage{ std::move(src.m_errorMessage) }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-}
-
-DeleteSegmentsResponse::DeleteSegmentsResponse(const PFSegmentsDeleteSegmentsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeleteSegmentsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
-}
-
-JsonValue DeleteSegmentsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsDeleteSegmentsResponse>(*this);
-}
-
-size_t DeleteSegmentsResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsDeleteSegmentsResponse) };
-    serializedSize += (m_errorMessage.size() + 1);
-    return serializedSize;
-}
-
-void DeleteSegmentsResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsDeleteSegmentsResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsDeleteSegmentsResponse);
-    memcpy(stringBuffer, m_errorMessage.data(), m_errorMessage.size() + 1);
-    serializedStruct->errorMessage = stringBuffer;
-    stringBuffer += m_errorMessage.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetSegmentsRequest::GetSegmentsRequest() :
-    PFSegmentsGetSegmentsRequest{}
-{
-}
-
-GetSegmentsRequest::GetSegmentsRequest(const GetSegmentsRequest& src) :
-    PFSegmentsGetSegmentsRequest{ src },
-    m_segmentIds{ src.m_segmentIds }
-{
-    segmentIds = m_segmentIds.Empty() ? nullptr : m_segmentIds.Data();
-}
-
-GetSegmentsRequest::GetSegmentsRequest(GetSegmentsRequest&& src) :
-    PFSegmentsGetSegmentsRequest{ src },
-    m_segmentIds{ std::move(src.m_segmentIds) }
-{
-    segmentIds = m_segmentIds.Empty() ? nullptr : m_segmentIds.Data();
-}
-
-GetSegmentsRequest::GetSegmentsRequest(const PFSegmentsGetSegmentsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetSegmentsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SegmentIds", m_segmentIds, segmentIds, segmentIdsCount);
-}
-
-JsonValue GetSegmentsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsGetSegmentsRequest>(*this);
-}
-
-GetSegmentsResponse::GetSegmentsResponse() :
-    PFSegmentsGetSegmentsResponse{}
-{
-}
-
-GetSegmentsResponse::GetSegmentsResponse(const GetSegmentsResponse& src) :
-    PFSegmentsGetSegmentsResponse{ src },
-    m_errorMessage{ src.m_errorMessage },
-    m_segments{ src.m_segments }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    segments = m_segments.Empty() ? nullptr : m_segments.Data();
-}
-
-GetSegmentsResponse::GetSegmentsResponse(GetSegmentsResponse&& src) :
-    PFSegmentsGetSegmentsResponse{ src },
-    m_errorMessage{ std::move(src.m_errorMessage) },
-    m_segments{ std::move(src.m_segments) }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    segments = m_segments.Empty() ? nullptr : m_segments.Data();
-}
-
-GetSegmentsResponse::GetSegmentsResponse(const PFSegmentsGetSegmentsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetSegmentsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
-    JsonUtils::ObjectGetMember(input, "Segments", m_segments, segments, segmentsCount);
-}
-
-JsonValue GetSegmentsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsGetSegmentsResponse>(*this);
-}
-
-UpdateSegmentRequest::UpdateSegmentRequest() :
-    PFSegmentsUpdateSegmentRequest{}
-{
-}
-
-UpdateSegmentRequest::UpdateSegmentRequest(const UpdateSegmentRequest& src) :
-    PFSegmentsUpdateSegmentRequest{ src },
-    m_segmentModel{ src.m_segmentModel }
-{
-    segmentModel = (PFSegmentsSegmentModel const*)&m_segmentModel;
-}
-
-UpdateSegmentRequest::UpdateSegmentRequest(UpdateSegmentRequest&& src) :
-    PFSegmentsUpdateSegmentRequest{ src },
-    m_segmentModel{ std::move(src.m_segmentModel) }
-{
-    segmentModel = (PFSegmentsSegmentModel const*)&m_segmentModel;
-}
-
-UpdateSegmentRequest::UpdateSegmentRequest(const PFSegmentsUpdateSegmentRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateSegmentRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SegmentModel", m_segmentModel, segmentModel);
-}
-
-JsonValue UpdateSegmentRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsUpdateSegmentRequest>(*this);
-}
-
-UpdateSegmentResponse::UpdateSegmentResponse() :
-    PFSegmentsUpdateSegmentResponse{}
-{
-}
-
-UpdateSegmentResponse::UpdateSegmentResponse(const UpdateSegmentResponse& src) :
-    PFSegmentsUpdateSegmentResponse{ src },
-    m_errorMessage{ src.m_errorMessage },
-    m_segmentId{ src.m_segmentId }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-}
-
-UpdateSegmentResponse::UpdateSegmentResponse(UpdateSegmentResponse&& src) :
-    PFSegmentsUpdateSegmentResponse{ src },
-    m_errorMessage{ std::move(src.m_errorMessage) },
-    m_segmentId{ std::move(src.m_segmentId) }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    segmentId = m_segmentId.empty() ? nullptr : m_segmentId.data();
-}
-
-UpdateSegmentResponse::UpdateSegmentResponse(const PFSegmentsUpdateSegmentResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateSegmentResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
-    JsonUtils::ObjectGetMember(input, "SegmentId", m_segmentId, segmentId);
-}
-
-JsonValue UpdateSegmentResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFSegmentsUpdateSegmentResponse>(*this);
-}
-
-size_t UpdateSegmentResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSegmentsUpdateSegmentResponse) };
-    serializedSize += (m_errorMessage.size() + 1);
-    serializedSize += (m_segmentId.size() + 1);
-    return serializedSize;
-}
-
-void UpdateSegmentResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSegmentsUpdateSegmentResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSegmentsUpdateSegmentResponse);
-    memcpy(stringBuffer, m_errorMessage.data(), m_errorMessage.size() + 1);
-    serializedStruct->errorMessage = stringBuffer;
-    stringBuffer += m_errorMessage.size() + 1;
-    memcpy(stringBuffer, m_segmentId.data(), m_segmentId.size() + 1);
-    serializedStruct->segmentId = stringBuffer;
-    stringBuffer += m_segmentId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-} // namespace SegmentsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFSegmentsBanPlayerSegmentAction& input)
+JsonValue BanPlayerSegmentAction::ToJson(const PFSegmentsBanPlayerSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "BanHours", input.banHours);
@@ -1683,16 +20,101 @@ inline JsonValue ToJson<>(const PFSegmentsBanPlayerSegmentAction& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsDeletePlayerStatisticSegmentAction& input)
+void BanPlayerSegmentAction::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<uint32_t> banHours{};
+    JsonUtils::ObjectGetMember(input, "BanHours", banHours);
+    this->SetBanHours(std::move(banHours));
+
+    String reasonForBan{};
+    JsonUtils::ObjectGetMember(input, "ReasonForBan", reasonForBan);
+    this->SetReasonForBan(std::move(reasonForBan));
+}
+
+size_t BanPlayerSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsBanPlayerSegmentAction const*> BanPlayerSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<BanPlayerSegmentAction>(&this->Model());
+}
+
+size_t BanPlayerSegmentAction::RequiredBufferSize(const PFSegmentsBanPlayerSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.banHours)
+    {
+        requiredSize += (alignof(uint32_t) + sizeof(uint32_t));
+    }
+    if (model.reasonForBan)
+    {
+        requiredSize += (std::strlen(model.reasonForBan) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT BanPlayerSegmentAction::Copy(const PFSegmentsBanPlayerSegmentAction& input, PFSegmentsBanPlayerSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.banHours = buffer.CopyTo(input.banHours);
+    output.reasonForBan = buffer.CopyTo(input.reasonForBan);
+    return S_OK;
+}
+
+JsonValue DeletePlayerStatisticSegmentAction::ToJson() const
+{
+    return DeletePlayerStatisticSegmentAction::ToJson(this->Model());
+}
+
+JsonValue DeletePlayerStatisticSegmentAction::ToJson(const PFSegmentsDeletePlayerStatisticSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsEmailNotificationSegmentAction& input)
+void DeletePlayerStatisticSegmentAction::FromJson(const JsonValue& input)
+{
+    String statisticName{};
+    JsonUtils::ObjectGetMember(input, "StatisticName", statisticName);
+    this->SetStatisticName(std::move(statisticName));
+}
+
+size_t DeletePlayerStatisticSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsDeletePlayerStatisticSegmentAction const*> DeletePlayerStatisticSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<DeletePlayerStatisticSegmentAction>(&this->Model());
+}
+
+size_t DeletePlayerStatisticSegmentAction::RequiredBufferSize(const PFSegmentsDeletePlayerStatisticSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.statisticName)
+    {
+        requiredSize += (std::strlen(model.statisticName) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT DeletePlayerStatisticSegmentAction::Copy(const PFSegmentsDeletePlayerStatisticSegmentAction& input, PFSegmentsDeletePlayerStatisticSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statisticName = buffer.CopyTo(input.statisticName);
+    return S_OK;
+}
+
+JsonValue EmailNotificationSegmentAction::ToJson() const
+{
+    return EmailNotificationSegmentAction::ToJson(this->Model());
+}
+
+JsonValue EmailNotificationSegmentAction::ToJson(const PFSegmentsEmailNotificationSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "EmailTemplateId", input.emailTemplateId);
@@ -1700,8 +122,55 @@ inline JsonValue ToJson<>(const PFSegmentsEmailNotificationSegmentAction& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsExecuteAzureFunctionSegmentAction& input)
+void EmailNotificationSegmentAction::FromJson(const JsonValue& input)
+{
+    String emailTemplateId{};
+    JsonUtils::ObjectGetMember(input, "EmailTemplateId", emailTemplateId);
+    this->SetEmailTemplateId(std::move(emailTemplateId));
+
+    String emailTemplateName{};
+    JsonUtils::ObjectGetMember(input, "EmailTemplateName", emailTemplateName);
+    this->SetEmailTemplateName(std::move(emailTemplateName));
+}
+
+size_t EmailNotificationSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsEmailNotificationSegmentAction const*> EmailNotificationSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<EmailNotificationSegmentAction>(&this->Model());
+}
+
+size_t EmailNotificationSegmentAction::RequiredBufferSize(const PFSegmentsEmailNotificationSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.emailTemplateId)
+    {
+        requiredSize += (std::strlen(model.emailTemplateId) + 1);
+    }
+    if (model.emailTemplateName)
+    {
+        requiredSize += (std::strlen(model.emailTemplateName) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT EmailNotificationSegmentAction::Copy(const PFSegmentsEmailNotificationSegmentAction& input, PFSegmentsEmailNotificationSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.emailTemplateId = buffer.CopyTo(input.emailTemplateId);
+    output.emailTemplateName = buffer.CopyTo(input.emailTemplateName);
+    return S_OK;
+}
+
+JsonValue ExecuteAzureFunctionSegmentAction::ToJson() const
+{
+    return ExecuteAzureFunctionSegmentAction::ToJson(this->Model());
+}
+
+JsonValue ExecuteAzureFunctionSegmentAction::ToJson(const PFSegmentsExecuteAzureFunctionSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AzureFunction", input.azureFunction);
@@ -1710,8 +179,57 @@ inline JsonValue ToJson<>(const PFSegmentsExecuteAzureFunctionSegmentAction& inp
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsExecuteCloudScriptSegmentAction& input)
+void ExecuteAzureFunctionSegmentAction::FromJson(const JsonValue& input)
+{
+    String azureFunction{};
+    JsonUtils::ObjectGetMember(input, "AzureFunction", azureFunction);
+    this->SetAzureFunction(std::move(azureFunction));
+
+    JsonObject functionParameter{};
+    JsonUtils::ObjectGetMember(input, "FunctionParameter", functionParameter);
+    this->SetFunctionParameter(std::move(functionParameter));
+
+    JsonUtils::ObjectGetMember(input, "GenerateFunctionExecutedEvents", this->m_model.generateFunctionExecutedEvents);
+}
+
+size_t ExecuteAzureFunctionSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsExecuteAzureFunctionSegmentAction const*> ExecuteAzureFunctionSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ExecuteAzureFunctionSegmentAction>(&this->Model());
+}
+
+size_t ExecuteAzureFunctionSegmentAction::RequiredBufferSize(const PFSegmentsExecuteAzureFunctionSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.azureFunction)
+    {
+        requiredSize += (std::strlen(model.azureFunction) + 1);
+    }
+    if (model.functionParameter.stringValue)
+    {
+    requiredSize += (std::strlen(model.functionParameter.stringValue) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ExecuteAzureFunctionSegmentAction::Copy(const PFSegmentsExecuteAzureFunctionSegmentAction& input, PFSegmentsExecuteAzureFunctionSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.azureFunction = buffer.CopyTo(input.azureFunction);
+    output.functionParameter.stringValue = buffer.CopyTo(input.functionParameter.stringValue);
+    return S_OK;
+}
+
+JsonValue ExecuteCloudScriptSegmentAction::ToJson() const
+{
+    return ExecuteCloudScriptSegmentAction::ToJson(this->Model());
+}
+
+JsonValue ExecuteCloudScriptSegmentAction::ToJson(const PFSegmentsExecuteCloudScriptSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CloudScriptFunction", input.cloudScriptFunction);
@@ -1721,8 +239,66 @@ inline JsonValue ToJson<>(const PFSegmentsExecuteCloudScriptSegmentAction& input
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsGrantItemSegmentAction& input)
+void ExecuteCloudScriptSegmentAction::FromJson(const JsonValue& input)
+{
+    String cloudScriptFunction{};
+    JsonUtils::ObjectGetMember(input, "CloudScriptFunction", cloudScriptFunction);
+    this->SetCloudScriptFunction(std::move(cloudScriptFunction));
+
+    JsonUtils::ObjectGetMember(input, "CloudScriptPublishResultsToPlayStream", this->m_model.cloudScriptPublishResultsToPlayStream);
+
+    JsonObject functionParameter{};
+    JsonUtils::ObjectGetMember(input, "FunctionParameter", functionParameter);
+    this->SetFunctionParameter(std::move(functionParameter));
+
+    String functionParameterJson{};
+    JsonUtils::ObjectGetMember(input, "FunctionParameterJson", functionParameterJson);
+    this->SetFunctionParameterJson(std::move(functionParameterJson));
+}
+
+size_t ExecuteCloudScriptSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsExecuteCloudScriptSegmentAction const*> ExecuteCloudScriptSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ExecuteCloudScriptSegmentAction>(&this->Model());
+}
+
+size_t ExecuteCloudScriptSegmentAction::RequiredBufferSize(const PFSegmentsExecuteCloudScriptSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.cloudScriptFunction)
+    {
+        requiredSize += (std::strlen(model.cloudScriptFunction) + 1);
+    }
+    if (model.functionParameter.stringValue)
+    {
+    requiredSize += (std::strlen(model.functionParameter.stringValue) + 1);
+    }
+    if (model.functionParameterJson)
+    {
+        requiredSize += (std::strlen(model.functionParameterJson) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ExecuteCloudScriptSegmentAction::Copy(const PFSegmentsExecuteCloudScriptSegmentAction& input, PFSegmentsExecuteCloudScriptSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.cloudScriptFunction = buffer.CopyTo(input.cloudScriptFunction);
+    output.functionParameter.stringValue = buffer.CopyTo(input.functionParameter.stringValue);
+    output.functionParameterJson = buffer.CopyTo(input.functionParameterJson);
+    return S_OK;
+}
+
+JsonValue GrantItemSegmentAction::ToJson() const
+{
+    return GrantItemSegmentAction::ToJson(this->Model());
+}
+
+JsonValue GrantItemSegmentAction::ToJson(const PFSegmentsGrantItemSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatelogId", input.catelogId);
@@ -1731,8 +307,57 @@ inline JsonValue ToJson<>(const PFSegmentsGrantItemSegmentAction& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsGrantVirtualCurrencySegmentAction& input)
+void GrantItemSegmentAction::FromJson(const JsonValue& input)
+{
+    String catelogId{};
+    JsonUtils::ObjectGetMember(input, "CatelogId", catelogId);
+    this->SetCatelogId(std::move(catelogId));
+
+    String itemId{};
+    JsonUtils::ObjectGetMember(input, "ItemId", itemId);
+    this->SetItemId(std::move(itemId));
+
+    JsonUtils::ObjectGetMember(input, "Quantity", this->m_model.quantity);
+}
+
+size_t GrantItemSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsGrantItemSegmentAction const*> GrantItemSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GrantItemSegmentAction>(&this->Model());
+}
+
+size_t GrantItemSegmentAction::RequiredBufferSize(const PFSegmentsGrantItemSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.catelogId)
+    {
+        requiredSize += (std::strlen(model.catelogId) + 1);
+    }
+    if (model.itemId)
+    {
+        requiredSize += (std::strlen(model.itemId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT GrantItemSegmentAction::Copy(const PFSegmentsGrantItemSegmentAction& input, PFSegmentsGrantItemSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.catelogId = buffer.CopyTo(input.catelogId);
+    output.itemId = buffer.CopyTo(input.itemId);
+    return S_OK;
+}
+
+JsonValue GrantVirtualCurrencySegmentAction::ToJson() const
+{
+    return GrantVirtualCurrencySegmentAction::ToJson(this->Model());
+}
+
+JsonValue GrantVirtualCurrencySegmentAction::ToJson(const PFSegmentsGrantVirtualCurrencySegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
@@ -1740,8 +365,48 @@ inline JsonValue ToJson<>(const PFSegmentsGrantVirtualCurrencySegmentAction& inp
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsIncrementPlayerStatisticSegmentAction& input)
+void GrantVirtualCurrencySegmentAction::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Amount", this->m_model.amount);
+
+    String currencyCode{};
+    JsonUtils::ObjectGetMember(input, "CurrencyCode", currencyCode);
+    this->SetCurrencyCode(std::move(currencyCode));
+}
+
+size_t GrantVirtualCurrencySegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsGrantVirtualCurrencySegmentAction const*> GrantVirtualCurrencySegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GrantVirtualCurrencySegmentAction>(&this->Model());
+}
+
+size_t GrantVirtualCurrencySegmentAction::RequiredBufferSize(const PFSegmentsGrantVirtualCurrencySegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.currencyCode)
+    {
+        requiredSize += (std::strlen(model.currencyCode) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT GrantVirtualCurrencySegmentAction::Copy(const PFSegmentsGrantVirtualCurrencySegmentAction& input, PFSegmentsGrantVirtualCurrencySegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.currencyCode = buffer.CopyTo(input.currencyCode);
+    return S_OK;
+}
+
+JsonValue IncrementPlayerStatisticSegmentAction::ToJson() const
+{
+    return IncrementPlayerStatisticSegmentAction::ToJson(this->Model());
+}
+
+JsonValue IncrementPlayerStatisticSegmentAction::ToJson(const PFSegmentsIncrementPlayerStatisticSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "IncrementValue", input.incrementValue);
@@ -1749,32 +414,247 @@ inline JsonValue ToJson<>(const PFSegmentsIncrementPlayerStatisticSegmentAction&
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsPushNotificationSegmentAction& input)
+void IncrementPlayerStatisticSegmentAction::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "IncrementValue", this->m_model.incrementValue);
+
+    String statisticName{};
+    JsonUtils::ObjectGetMember(input, "StatisticName", statisticName);
+    this->SetStatisticName(std::move(statisticName));
+}
+
+size_t IncrementPlayerStatisticSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsIncrementPlayerStatisticSegmentAction const*> IncrementPlayerStatisticSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<IncrementPlayerStatisticSegmentAction>(&this->Model());
+}
+
+size_t IncrementPlayerStatisticSegmentAction::RequiredBufferSize(const PFSegmentsIncrementPlayerStatisticSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.statisticName)
+    {
+        requiredSize += (std::strlen(model.statisticName) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT IncrementPlayerStatisticSegmentAction::Copy(const PFSegmentsIncrementPlayerStatisticSegmentAction& input, PFSegmentsIncrementPlayerStatisticSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statisticName = buffer.CopyTo(input.statisticName);
+    return S_OK;
+}
+
+JsonValue PushNotificationSegmentAction::ToJson() const
+{
+    return PushNotificationSegmentAction::ToJson(this->Model());
+}
+
+JsonValue PushNotificationSegmentAction::ToJson(const PFSegmentsPushNotificationSegmentAction& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "PushNotificationTemplateId", input.pushNotificationTemplateId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsSegmentTrigger& input)
+void PushNotificationSegmentAction::FromJson(const JsonValue& input)
+{
+    String pushNotificationTemplateId{};
+    JsonUtils::ObjectGetMember(input, "PushNotificationTemplateId", pushNotificationTemplateId);
+    this->SetPushNotificationTemplateId(std::move(pushNotificationTemplateId));
+}
+
+size_t PushNotificationSegmentAction::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsPushNotificationSegmentAction const*> PushNotificationSegmentAction::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PushNotificationSegmentAction>(&this->Model());
+}
+
+size_t PushNotificationSegmentAction::RequiredBufferSize(const PFSegmentsPushNotificationSegmentAction& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.pushNotificationTemplateId)
+    {
+        requiredSize += (std::strlen(model.pushNotificationTemplateId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT PushNotificationSegmentAction::Copy(const PFSegmentsPushNotificationSegmentAction& input, PFSegmentsPushNotificationSegmentAction& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.pushNotificationTemplateId = buffer.CopyTo(input.pushNotificationTemplateId);
+    return S_OK;
+}
+
+JsonValue SegmentTrigger::ToJson() const
+{
+    return SegmentTrigger::ToJson(this->Model());
+}
+
+JsonValue SegmentTrigger::ToJson(const PFSegmentsSegmentTrigger& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "BanPlayerAction", input.banPlayerAction);
-    JsonUtils::ObjectAddMember(output, "DeletePlayerStatisticAction", input.deletePlayerStatisticAction);
-    JsonUtils::ObjectAddMember(output, "EmailNotificationAction", input.emailNotificationAction);
-    JsonUtils::ObjectAddMember(output, "ExecuteAzureFunctionAction", input.executeAzureFunctionAction);
-    JsonUtils::ObjectAddMember(output, "ExecuteCloudScriptAction", input.executeCloudScriptAction);
-    JsonUtils::ObjectAddMember(output, "GrantItemAction", input.grantItemAction);
-    JsonUtils::ObjectAddMember(output, "GrantVirtualCurrencyAction", input.grantVirtualCurrencyAction);
-    JsonUtils::ObjectAddMember(output, "IncrementPlayerStatisticAction", input.incrementPlayerStatisticAction);
-    JsonUtils::ObjectAddMember(output, "PushNotificationAction", input.pushNotificationAction);
+    JsonUtils::ObjectAddMember<BanPlayerSegmentAction>(output, "BanPlayerAction", input.banPlayerAction);
+    JsonUtils::ObjectAddMember<DeletePlayerStatisticSegmentAction>(output, "DeletePlayerStatisticAction", input.deletePlayerStatisticAction);
+    JsonUtils::ObjectAddMember<EmailNotificationSegmentAction>(output, "EmailNotificationAction", input.emailNotificationAction);
+    JsonUtils::ObjectAddMember<ExecuteAzureFunctionSegmentAction>(output, "ExecuteAzureFunctionAction", input.executeAzureFunctionAction);
+    JsonUtils::ObjectAddMember<ExecuteCloudScriptSegmentAction>(output, "ExecuteCloudScriptAction", input.executeCloudScriptAction);
+    JsonUtils::ObjectAddMember<GrantItemSegmentAction>(output, "GrantItemAction", input.grantItemAction);
+    JsonUtils::ObjectAddMember<GrantVirtualCurrencySegmentAction>(output, "GrantVirtualCurrencyAction", input.grantVirtualCurrencyAction);
+    JsonUtils::ObjectAddMember<IncrementPlayerStatisticSegmentAction>(output, "IncrementPlayerStatisticAction", input.incrementPlayerStatisticAction);
+    JsonUtils::ObjectAddMember<PushNotificationSegmentAction>(output, "PushNotificationAction", input.pushNotificationAction);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsAdCampaignSegmentFilter& input)
+void SegmentTrigger::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<BanPlayerSegmentAction> banPlayerAction{};
+    JsonUtils::ObjectGetMember(input, "BanPlayerAction", banPlayerAction);
+    if (banPlayerAction)
+    {
+        this->SetBanPlayerAction(std::move(*banPlayerAction));
+    }
+
+    StdExtra::optional<DeletePlayerStatisticSegmentAction> deletePlayerStatisticAction{};
+    JsonUtils::ObjectGetMember(input, "DeletePlayerStatisticAction", deletePlayerStatisticAction);
+    if (deletePlayerStatisticAction)
+    {
+        this->SetDeletePlayerStatisticAction(std::move(*deletePlayerStatisticAction));
+    }
+
+    StdExtra::optional<EmailNotificationSegmentAction> emailNotificationAction{};
+    JsonUtils::ObjectGetMember(input, "EmailNotificationAction", emailNotificationAction);
+    if (emailNotificationAction)
+    {
+        this->SetEmailNotificationAction(std::move(*emailNotificationAction));
+    }
+
+    StdExtra::optional<ExecuteAzureFunctionSegmentAction> executeAzureFunctionAction{};
+    JsonUtils::ObjectGetMember(input, "ExecuteAzureFunctionAction", executeAzureFunctionAction);
+    if (executeAzureFunctionAction)
+    {
+        this->SetExecuteAzureFunctionAction(std::move(*executeAzureFunctionAction));
+    }
+
+    StdExtra::optional<ExecuteCloudScriptSegmentAction> executeCloudScriptAction{};
+    JsonUtils::ObjectGetMember(input, "ExecuteCloudScriptAction", executeCloudScriptAction);
+    if (executeCloudScriptAction)
+    {
+        this->SetExecuteCloudScriptAction(std::move(*executeCloudScriptAction));
+    }
+
+    StdExtra::optional<GrantItemSegmentAction> grantItemAction{};
+    JsonUtils::ObjectGetMember(input, "GrantItemAction", grantItemAction);
+    if (grantItemAction)
+    {
+        this->SetGrantItemAction(std::move(*grantItemAction));
+    }
+
+    StdExtra::optional<GrantVirtualCurrencySegmentAction> grantVirtualCurrencyAction{};
+    JsonUtils::ObjectGetMember(input, "GrantVirtualCurrencyAction", grantVirtualCurrencyAction);
+    if (grantVirtualCurrencyAction)
+    {
+        this->SetGrantVirtualCurrencyAction(std::move(*grantVirtualCurrencyAction));
+    }
+
+    StdExtra::optional<IncrementPlayerStatisticSegmentAction> incrementPlayerStatisticAction{};
+    JsonUtils::ObjectGetMember(input, "IncrementPlayerStatisticAction", incrementPlayerStatisticAction);
+    if (incrementPlayerStatisticAction)
+    {
+        this->SetIncrementPlayerStatisticAction(std::move(*incrementPlayerStatisticAction));
+    }
+
+    StdExtra::optional<PushNotificationSegmentAction> pushNotificationAction{};
+    JsonUtils::ObjectGetMember(input, "PushNotificationAction", pushNotificationAction);
+    if (pushNotificationAction)
+    {
+        this->SetPushNotificationAction(std::move(*pushNotificationAction));
+    }
+}
+
+size_t SegmentTrigger::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsSegmentTrigger const*> SegmentTrigger::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<SegmentTrigger>(&this->Model());
+}
+
+size_t SegmentTrigger::RequiredBufferSize(const PFSegmentsSegmentTrigger& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.banPlayerAction)
+    {
+        requiredSize += BanPlayerSegmentAction::RequiredBufferSize(*model.banPlayerAction);
+    }
+    if (model.deletePlayerStatisticAction)
+    {
+        requiredSize += DeletePlayerStatisticSegmentAction::RequiredBufferSize(*model.deletePlayerStatisticAction);
+    }
+    if (model.emailNotificationAction)
+    {
+        requiredSize += EmailNotificationSegmentAction::RequiredBufferSize(*model.emailNotificationAction);
+    }
+    if (model.executeAzureFunctionAction)
+    {
+        requiredSize += ExecuteAzureFunctionSegmentAction::RequiredBufferSize(*model.executeAzureFunctionAction);
+    }
+    if (model.executeCloudScriptAction)
+    {
+        requiredSize += ExecuteCloudScriptSegmentAction::RequiredBufferSize(*model.executeCloudScriptAction);
+    }
+    if (model.grantItemAction)
+    {
+        requiredSize += GrantItemSegmentAction::RequiredBufferSize(*model.grantItemAction);
+    }
+    if (model.grantVirtualCurrencyAction)
+    {
+        requiredSize += GrantVirtualCurrencySegmentAction::RequiredBufferSize(*model.grantVirtualCurrencyAction);
+    }
+    if (model.incrementPlayerStatisticAction)
+    {
+        requiredSize += IncrementPlayerStatisticSegmentAction::RequiredBufferSize(*model.incrementPlayerStatisticAction);
+    }
+    if (model.pushNotificationAction)
+    {
+        requiredSize += PushNotificationSegmentAction::RequiredBufferSize(*model.pushNotificationAction);
+    }
+    return requiredSize;
+}
+
+HRESULT SegmentTrigger::Copy(const PFSegmentsSegmentTrigger& input, PFSegmentsSegmentTrigger& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.banPlayerAction = buffer.CopyTo<BanPlayerSegmentAction>(input.banPlayerAction);
+    output.deletePlayerStatisticAction = buffer.CopyTo<DeletePlayerStatisticSegmentAction>(input.deletePlayerStatisticAction);
+    output.emailNotificationAction = buffer.CopyTo<EmailNotificationSegmentAction>(input.emailNotificationAction);
+    output.executeAzureFunctionAction = buffer.CopyTo<ExecuteAzureFunctionSegmentAction>(input.executeAzureFunctionAction);
+    output.executeCloudScriptAction = buffer.CopyTo<ExecuteCloudScriptSegmentAction>(input.executeCloudScriptAction);
+    output.grantItemAction = buffer.CopyTo<GrantItemSegmentAction>(input.grantItemAction);
+    output.grantVirtualCurrencyAction = buffer.CopyTo<GrantVirtualCurrencySegmentAction>(input.grantVirtualCurrencyAction);
+    output.incrementPlayerStatisticAction = buffer.CopyTo<IncrementPlayerStatisticSegmentAction>(input.incrementPlayerStatisticAction);
+    output.pushNotificationAction = buffer.CopyTo<PushNotificationSegmentAction>(input.pushNotificationAction);
+    return S_OK;
+}
+
+JsonValue AdCampaignSegmentFilter::ToJson() const
+{
+    return AdCampaignSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue AdCampaignSegmentFilter::ToJson(const PFSegmentsAdCampaignSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CampaignId", input.campaignId);
@@ -1783,17 +663,113 @@ inline JsonValue ToJson<>(const PFSegmentsAdCampaignSegmentFilter& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsFirstLoginDateSegmentFilter& input)
+void AdCampaignSegmentFilter::FromJson(const JsonValue& input)
+{
+    String campaignId{};
+    JsonUtils::ObjectGetMember(input, "CampaignId", campaignId);
+    this->SetCampaignId(std::move(campaignId));
+
+    String campaignSource{};
+    JsonUtils::ObjectGetMember(input, "CampaignSource", campaignSource);
+    this->SetCampaignSource(std::move(campaignSource));
+
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+}
+
+size_t AdCampaignSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsAdCampaignSegmentFilter const*> AdCampaignSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<AdCampaignSegmentFilter>(&this->Model());
+}
+
+size_t AdCampaignSegmentFilter::RequiredBufferSize(const PFSegmentsAdCampaignSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.campaignId)
+    {
+        requiredSize += (std::strlen(model.campaignId) + 1);
+    }
+    if (model.campaignSource)
+    {
+        requiredSize += (std::strlen(model.campaignSource) + 1);
+    }
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    return requiredSize;
+}
+
+HRESULT AdCampaignSegmentFilter::Copy(const PFSegmentsAdCampaignSegmentFilter& input, PFSegmentsAdCampaignSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.campaignId = buffer.CopyTo(input.campaignId);
+    output.campaignSource = buffer.CopyTo(input.campaignSource);
+    output.comparison = buffer.CopyTo(input.comparison);
+    return S_OK;
+}
+
+JsonValue FirstLoginDateSegmentFilter::ToJson() const
+{
+    return FirstLoginDateSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue FirstLoginDateSegmentFilter::ToJson(const PFSegmentsFirstLoginDateSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
-    JsonUtils::ObjectAddMember(output, "LogInDate", input.logInDate, true);
+    JsonUtils::ObjectAddMemberTime(output, "LogInDate", input.logInDate);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsFirstLoginTimespanSegmentFilter& input)
+void FirstLoginDateSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    JsonUtils::ObjectGetMemberTime(input, "LogInDate", this->m_model.logInDate);
+}
+
+size_t FirstLoginDateSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsFirstLoginDateSegmentFilter const*> FirstLoginDateSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<FirstLoginDateSegmentFilter>(&this->Model());
+}
+
+size_t FirstLoginDateSegmentFilter::RequiredBufferSize(const PFSegmentsFirstLoginDateSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    return requiredSize;
+}
+
+HRESULT FirstLoginDateSegmentFilter::Copy(const PFSegmentsFirstLoginDateSegmentFilter& input, PFSegmentsFirstLoginDateSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    return S_OK;
+}
+
+JsonValue FirstLoginTimespanSegmentFilter::ToJson() const
+{
+    return FirstLoginTimespanSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue FirstLoginTimespanSegmentFilter::ToJson(const PFSegmentsFirstLoginTimespanSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
@@ -1801,17 +777,97 @@ inline JsonValue ToJson<>(const PFSegmentsFirstLoginTimespanSegmentFilter& input
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsLastLoginDateSegmentFilter& input)
+void FirstLoginTimespanSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    JsonUtils::ObjectGetMember(input, "DurationInMinutes", this->m_model.durationInMinutes);
+}
+
+size_t FirstLoginTimespanSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsFirstLoginTimespanSegmentFilter const*> FirstLoginTimespanSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<FirstLoginTimespanSegmentFilter>(&this->Model());
+}
+
+size_t FirstLoginTimespanSegmentFilter::RequiredBufferSize(const PFSegmentsFirstLoginTimespanSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    return requiredSize;
+}
+
+HRESULT FirstLoginTimespanSegmentFilter::Copy(const PFSegmentsFirstLoginTimespanSegmentFilter& input, PFSegmentsFirstLoginTimespanSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    return S_OK;
+}
+
+JsonValue LastLoginDateSegmentFilter::ToJson() const
+{
+    return LastLoginDateSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue LastLoginDateSegmentFilter::ToJson(const PFSegmentsLastLoginDateSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
-    JsonUtils::ObjectAddMember(output, "LogInDate", input.logInDate, true);
+    JsonUtils::ObjectAddMemberTime(output, "LogInDate", input.logInDate);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsLastLoginTimespanSegmentFilter& input)
+void LastLoginDateSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    JsonUtils::ObjectGetMemberTime(input, "LogInDate", this->m_model.logInDate);
+}
+
+size_t LastLoginDateSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsLastLoginDateSegmentFilter const*> LastLoginDateSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<LastLoginDateSegmentFilter>(&this->Model());
+}
+
+size_t LastLoginDateSegmentFilter::RequiredBufferSize(const PFSegmentsLastLoginDateSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    return requiredSize;
+}
+
+HRESULT LastLoginDateSegmentFilter::Copy(const PFSegmentsLastLoginDateSegmentFilter& input, PFSegmentsLastLoginDateSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    return S_OK;
+}
+
+JsonValue LastLoginTimespanSegmentFilter::ToJson() const
+{
+    return LastLoginTimespanSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue LastLoginTimespanSegmentFilter::ToJson(const PFSegmentsLastLoginTimespanSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
@@ -1819,16 +875,94 @@ inline JsonValue ToJson<>(const PFSegmentsLastLoginTimespanSegmentFilter& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsLinkedUserAccountSegmentFilter& input)
+void LastLoginTimespanSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    JsonUtils::ObjectGetMember(input, "DurationInMinutes", this->m_model.durationInMinutes);
+}
+
+size_t LastLoginTimespanSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsLastLoginTimespanSegmentFilter const*> LastLoginTimespanSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<LastLoginTimespanSegmentFilter>(&this->Model());
+}
+
+size_t LastLoginTimespanSegmentFilter::RequiredBufferSize(const PFSegmentsLastLoginTimespanSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    return requiredSize;
+}
+
+HRESULT LastLoginTimespanSegmentFilter::Copy(const PFSegmentsLastLoginTimespanSegmentFilter& input, PFSegmentsLastLoginTimespanSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    return S_OK;
+}
+
+JsonValue LinkedUserAccountSegmentFilter::ToJson() const
+{
+    return LinkedUserAccountSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue LinkedUserAccountSegmentFilter::ToJson(const PFSegmentsLinkedUserAccountSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "LoginProvider", input.loginProvider);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& input)
+void LinkedUserAccountSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentLoginIdentityProvider> loginProvider{};
+    JsonUtils::ObjectGetMember(input, "LoginProvider", loginProvider);
+    this->SetLoginProvider(std::move(loginProvider));
+}
+
+size_t LinkedUserAccountSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsLinkedUserAccountSegmentFilter const*> LinkedUserAccountSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<LinkedUserAccountSegmentFilter>(&this->Model());
+}
+
+size_t LinkedUserAccountSegmentFilter::RequiredBufferSize(const PFSegmentsLinkedUserAccountSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.loginProvider)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentLoginIdentityProvider) + sizeof(PFSegmentsSegmentLoginIdentityProvider));
+    }
+    return requiredSize;
+}
+
+HRESULT LinkedUserAccountSegmentFilter::Copy(const PFSegmentsLinkedUserAccountSegmentFilter& input, PFSegmentsLinkedUserAccountSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.loginProvider = buffer.CopyTo(input.loginProvider);
+    return S_OK;
+}
+
+JsonValue LinkedUserAccountHasEmailSegmentFilter::ToJson() const
+{
+    return LinkedUserAccountHasEmailSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue LinkedUserAccountHasEmailSegmentFilter::ToJson(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
@@ -1836,24 +970,147 @@ inline JsonValue ToJson<>(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsLocationSegmentFilter& input)
+void LinkedUserAccountHasEmailSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    StdExtra::optional<PFSegmentsSegmentLoginIdentityProvider> loginProvider{};
+    JsonUtils::ObjectGetMember(input, "LoginProvider", loginProvider);
+    this->SetLoginProvider(std::move(loginProvider));
+}
+
+size_t LinkedUserAccountHasEmailSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsLinkedUserAccountHasEmailSegmentFilter const*> LinkedUserAccountHasEmailSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<LinkedUserAccountHasEmailSegmentFilter>(&this->Model());
+}
+
+size_t LinkedUserAccountHasEmailSegmentFilter::RequiredBufferSize(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    if (model.loginProvider)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentLoginIdentityProvider) + sizeof(PFSegmentsSegmentLoginIdentityProvider));
+    }
+    return requiredSize;
+}
+
+HRESULT LinkedUserAccountHasEmailSegmentFilter::Copy(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& input, PFSegmentsLinkedUserAccountHasEmailSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    output.loginProvider = buffer.CopyTo(input.loginProvider);
+    return S_OK;
+}
+
+JsonValue LocationSegmentFilter::ToJson() const
+{
+    return LocationSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue LocationSegmentFilter::ToJson(const PFSegmentsLocationSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CountryCode", input.countryCode);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsPushNotificationSegmentFilter& input)
+void LocationSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentCountryCode> countryCode{};
+    JsonUtils::ObjectGetMember(input, "CountryCode", countryCode);
+    this->SetCountryCode(std::move(countryCode));
+}
+
+size_t LocationSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsLocationSegmentFilter const*> LocationSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<LocationSegmentFilter>(&this->Model());
+}
+
+size_t LocationSegmentFilter::RequiredBufferSize(const PFSegmentsLocationSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.countryCode)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentCountryCode) + sizeof(PFSegmentsSegmentCountryCode));
+    }
+    return requiredSize;
+}
+
+HRESULT LocationSegmentFilter::Copy(const PFSegmentsLocationSegmentFilter& input, PFSegmentsLocationSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.countryCode = buffer.CopyTo(input.countryCode);
+    return S_OK;
+}
+
+JsonValue PushNotificationSegmentFilter::ToJson() const
+{
+    return PushNotificationSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue PushNotificationSegmentFilter::ToJson(const PFSegmentsPushNotificationSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "PushNotificationDevicePlatform", input.pushNotificationDevicePlatform);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsStatisticSegmentFilter& input)
+void PushNotificationSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentPushNotificationDevicePlatform> pushNotificationDevicePlatform{};
+    JsonUtils::ObjectGetMember(input, "PushNotificationDevicePlatform", pushNotificationDevicePlatform);
+    this->SetPushNotificationDevicePlatform(std::move(pushNotificationDevicePlatform));
+}
+
+size_t PushNotificationSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsPushNotificationSegmentFilter const*> PushNotificationSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PushNotificationSegmentFilter>(&this->Model());
+}
+
+size_t PushNotificationSegmentFilter::RequiredBufferSize(const PFSegmentsPushNotificationSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.pushNotificationDevicePlatform)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentPushNotificationDevicePlatform) + sizeof(PFSegmentsSegmentPushNotificationDevicePlatform));
+    }
+    return requiredSize;
+}
+
+HRESULT PushNotificationSegmentFilter::Copy(const PFSegmentsPushNotificationSegmentFilter& input, PFSegmentsPushNotificationSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.pushNotificationDevicePlatform = buffer.CopyTo(input.pushNotificationDevicePlatform);
+    return S_OK;
+}
+
+JsonValue StatisticSegmentFilter::ToJson() const
+{
+    return StatisticSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue StatisticSegmentFilter::ToJson(const PFSegmentsStatisticSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
@@ -1864,8 +1121,82 @@ inline JsonValue ToJson<>(const PFSegmentsStatisticSegmentFilter& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsTagSegmentFilter& input)
+void StatisticSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    String filterValue{};
+    JsonUtils::ObjectGetMember(input, "FilterValue", filterValue);
+    this->SetFilterValue(std::move(filterValue));
+
+    String name{};
+    JsonUtils::ObjectGetMember(input, "Name", name);
+    this->SetName(std::move(name));
+
+    StdExtra::optional<bool> useCurrentVersion{};
+    JsonUtils::ObjectGetMember(input, "UseCurrentVersion", useCurrentVersion);
+    this->SetUseCurrentVersion(std::move(useCurrentVersion));
+
+    StdExtra::optional<int32_t> version{};
+    JsonUtils::ObjectGetMember(input, "Version", version);
+    this->SetVersion(std::move(version));
+}
+
+size_t StatisticSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsStatisticSegmentFilter const*> StatisticSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<StatisticSegmentFilter>(&this->Model());
+}
+
+size_t StatisticSegmentFilter::RequiredBufferSize(const PFSegmentsStatisticSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    if (model.filterValue)
+    {
+        requiredSize += (std::strlen(model.filterValue) + 1);
+    }
+    if (model.name)
+    {
+        requiredSize += (std::strlen(model.name) + 1);
+    }
+    if (model.useCurrentVersion)
+    {
+        requiredSize += (alignof(bool) + sizeof(bool));
+    }
+    if (model.version)
+    {
+        requiredSize += (alignof(int32_t) + sizeof(int32_t));
+    }
+    return requiredSize;
+}
+
+HRESULT StatisticSegmentFilter::Copy(const PFSegmentsStatisticSegmentFilter& input, PFSegmentsStatisticSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    output.filterValue = buffer.CopyTo(input.filterValue);
+    output.name = buffer.CopyTo(input.name);
+    output.useCurrentVersion = buffer.CopyTo(input.useCurrentVersion);
+    output.version = buffer.CopyTo(input.version);
+    return S_OK;
+}
+
+JsonValue TagSegmentFilter::ToJson() const
+{
+    return TagSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue TagSegmentFilter::ToJson(const PFSegmentsTagSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comparison", input.comparison);
@@ -1873,8 +1204,55 @@ inline JsonValue ToJson<>(const PFSegmentsTagSegmentFilter& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsTotalValueToDateInUSDSegmentFilter& input)
+void TagSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    String tagValue{};
+    JsonUtils::ObjectGetMember(input, "TagValue", tagValue);
+    this->SetTagValue(std::move(tagValue));
+}
+
+size_t TagSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsTagSegmentFilter const*> TagSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<TagSegmentFilter>(&this->Model());
+}
+
+size_t TagSegmentFilter::RequiredBufferSize(const PFSegmentsTagSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    if (model.tagValue)
+    {
+        requiredSize += (std::strlen(model.tagValue) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT TagSegmentFilter::Copy(const PFSegmentsTagSegmentFilter& input, PFSegmentsTagSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    output.tagValue = buffer.CopyTo(input.tagValue);
+    return S_OK;
+}
+
+JsonValue TotalValueToDateInUSDSegmentFilter::ToJson() const
+{
+    return TotalValueToDateInUSDSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue TotalValueToDateInUSDSegmentFilter::ToJson(const PFSegmentsTotalValueToDateInUSDSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
@@ -1882,16 +1260,101 @@ inline JsonValue ToJson<>(const PFSegmentsTotalValueToDateInUSDSegmentFilter& in
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsUserOriginationSegmentFilter& input)
+void TotalValueToDateInUSDSegmentFilter::FromJson(const JsonValue& input)
+{
+    String amount{};
+    JsonUtils::ObjectGetMember(input, "Amount", amount);
+    this->SetAmount(std::move(amount));
+
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+}
+
+size_t TotalValueToDateInUSDSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsTotalValueToDateInUSDSegmentFilter const*> TotalValueToDateInUSDSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<TotalValueToDateInUSDSegmentFilter>(&this->Model());
+}
+
+size_t TotalValueToDateInUSDSegmentFilter::RequiredBufferSize(const PFSegmentsTotalValueToDateInUSDSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.amount)
+    {
+        requiredSize += (std::strlen(model.amount) + 1);
+    }
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    return requiredSize;
+}
+
+HRESULT TotalValueToDateInUSDSegmentFilter::Copy(const PFSegmentsTotalValueToDateInUSDSegmentFilter& input, PFSegmentsTotalValueToDateInUSDSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.amount = buffer.CopyTo(input.amount);
+    output.comparison = buffer.CopyTo(input.comparison);
+    return S_OK;
+}
+
+JsonValue UserOriginationSegmentFilter::ToJson() const
+{
+    return UserOriginationSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue UserOriginationSegmentFilter::ToJson(const PFSegmentsUserOriginationSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "LoginProvider", input.loginProvider);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsValueToDateSegmentFilter& input)
+void UserOriginationSegmentFilter::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<PFSegmentsSegmentLoginIdentityProvider> loginProvider{};
+    JsonUtils::ObjectGetMember(input, "LoginProvider", loginProvider);
+    this->SetLoginProvider(std::move(loginProvider));
+}
+
+size_t UserOriginationSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsUserOriginationSegmentFilter const*> UserOriginationSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<UserOriginationSegmentFilter>(&this->Model());
+}
+
+size_t UserOriginationSegmentFilter::RequiredBufferSize(const PFSegmentsUserOriginationSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.loginProvider)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentLoginIdentityProvider) + sizeof(PFSegmentsSegmentLoginIdentityProvider));
+    }
+    return requiredSize;
+}
+
+HRESULT UserOriginationSegmentFilter::Copy(const PFSegmentsUserOriginationSegmentFilter& input, PFSegmentsUserOriginationSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.loginProvider = buffer.CopyTo(input.loginProvider);
+    return S_OK;
+}
+
+JsonValue ValueToDateSegmentFilter::ToJson() const
+{
+    return ValueToDateSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue ValueToDateSegmentFilter::ToJson(const PFSegmentsValueToDateSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
@@ -1900,8 +1363,64 @@ inline JsonValue ToJson<>(const PFSegmentsValueToDateSegmentFilter& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& input)
+void ValueToDateSegmentFilter::FromJson(const JsonValue& input)
+{
+    String amount{};
+    JsonUtils::ObjectGetMember(input, "Amount", amount);
+    this->SetAmount(std::move(amount));
+
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    StdExtra::optional<PFSegmentsSegmentCurrency> currency{};
+    JsonUtils::ObjectGetMember(input, "Currency", currency);
+    this->SetCurrency(std::move(currency));
+}
+
+size_t ValueToDateSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsValueToDateSegmentFilter const*> ValueToDateSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ValueToDateSegmentFilter>(&this->Model());
+}
+
+size_t ValueToDateSegmentFilter::RequiredBufferSize(const PFSegmentsValueToDateSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.amount)
+    {
+        requiredSize += (std::strlen(model.amount) + 1);
+    }
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    if (model.currency)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentCurrency) + sizeof(PFSegmentsSegmentCurrency));
+    }
+    return requiredSize;
+}
+
+HRESULT ValueToDateSegmentFilter::Copy(const PFSegmentsValueToDateSegmentFilter& input, PFSegmentsValueToDateSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.amount = buffer.CopyTo(input.amount);
+    output.comparison = buffer.CopyTo(input.comparison);
+    output.currency = buffer.CopyTo(input.currency);
+    return S_OK;
+}
+
+JsonValue VirtualCurrencyBalanceSegmentFilter::ToJson() const
+{
+    return VirtualCurrencyBalanceSegmentFilter::ToJson(this->Model());
+}
+
+JsonValue VirtualCurrencyBalanceSegmentFilter::ToJson(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
@@ -1910,117 +1429,642 @@ inline JsonValue ToJson<>(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& i
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsSegmentAndDefinition& input)
+void VirtualCurrencyBalanceSegmentFilter::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "Amount", this->m_model.amount);
+
+    StdExtra::optional<PFSegmentsSegmentFilterComparison> comparison{};
+    JsonUtils::ObjectGetMember(input, "Comparison", comparison);
+    this->SetComparison(std::move(comparison));
+
+    String currencyCode{};
+    JsonUtils::ObjectGetMember(input, "CurrencyCode", currencyCode);
+    this->SetCurrencyCode(std::move(currencyCode));
+}
+
+size_t VirtualCurrencyBalanceSegmentFilter::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsVirtualCurrencyBalanceSegmentFilter const*> VirtualCurrencyBalanceSegmentFilter::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<VirtualCurrencyBalanceSegmentFilter>(&this->Model());
+}
+
+size_t VirtualCurrencyBalanceSegmentFilter::RequiredBufferSize(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.comparison)
+    {
+        requiredSize += (alignof(PFSegmentsSegmentFilterComparison) + sizeof(PFSegmentsSegmentFilterComparison));
+    }
+    if (model.currencyCode)
+    {
+        requiredSize += (std::strlen(model.currencyCode) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT VirtualCurrencyBalanceSegmentFilter::Copy(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& input, PFSegmentsVirtualCurrencyBalanceSegmentFilter& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.comparison = buffer.CopyTo(input.comparison);
+    output.currencyCode = buffer.CopyTo(input.currencyCode);
+    return S_OK;
+}
+
+JsonValue SegmentAndDefinition::ToJson() const
+{
+    return SegmentAndDefinition::ToJson(this->Model());
+}
+
+JsonValue SegmentAndDefinition::ToJson(const PFSegmentsSegmentAndDefinition& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AdCampaignFilter", input.adCampaignFilter);
-    JsonUtils::ObjectAddMember(output, "FirstLoginDateFilter", input.firstLoginDateFilter);
-    JsonUtils::ObjectAddMember(output, "FirstLoginFilter", input.firstLoginFilter);
-    JsonUtils::ObjectAddMember(output, "LastLoginDateFilter", input.lastLoginDateFilter);
-    JsonUtils::ObjectAddMember(output, "LastLoginFilter", input.lastLoginFilter);
-    JsonUtils::ObjectAddMember(output, "LinkedUserAccountFilter", input.linkedUserAccountFilter);
-    JsonUtils::ObjectAddMember(output, "LinkedUserAccountHasEmailFilter", input.linkedUserAccountHasEmailFilter);
-    JsonUtils::ObjectAddMember(output, "LocationFilter", input.locationFilter);
-    JsonUtils::ObjectAddMember(output, "PushNotificationFilter", input.pushNotificationFilter);
-    JsonUtils::ObjectAddMember(output, "StatisticFilter", input.statisticFilter);
-    JsonUtils::ObjectAddMember(output, "TagFilter", input.tagFilter);
-    JsonUtils::ObjectAddMember(output, "TotalValueToDateInUSDFilter", input.totalValueToDateInUSDFilter);
-    JsonUtils::ObjectAddMember(output, "UserOriginationFilter", input.userOriginationFilter);
-    JsonUtils::ObjectAddMember(output, "ValueToDateFilter", input.valueToDateFilter);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyBalanceFilter", input.virtualCurrencyBalanceFilter);
+    JsonUtils::ObjectAddMember<AdCampaignSegmentFilter>(output, "AdCampaignFilter", input.adCampaignFilter);
+    JsonUtils::ObjectAddMember<FirstLoginDateSegmentFilter>(output, "FirstLoginDateFilter", input.firstLoginDateFilter);
+    JsonUtils::ObjectAddMember<FirstLoginTimespanSegmentFilter>(output, "FirstLoginFilter", input.firstLoginFilter);
+    JsonUtils::ObjectAddMember<LastLoginDateSegmentFilter>(output, "LastLoginDateFilter", input.lastLoginDateFilter);
+    JsonUtils::ObjectAddMember<LastLoginTimespanSegmentFilter>(output, "LastLoginFilter", input.lastLoginFilter);
+    JsonUtils::ObjectAddMember<LinkedUserAccountSegmentFilter>(output, "LinkedUserAccountFilter", input.linkedUserAccountFilter);
+    JsonUtils::ObjectAddMember<LinkedUserAccountHasEmailSegmentFilter>(output, "LinkedUserAccountHasEmailFilter", input.linkedUserAccountHasEmailFilter);
+    JsonUtils::ObjectAddMember<LocationSegmentFilter>(output, "LocationFilter", input.locationFilter);
+    JsonUtils::ObjectAddMember<PushNotificationSegmentFilter>(output, "PushNotificationFilter", input.pushNotificationFilter);
+    JsonUtils::ObjectAddMember<StatisticSegmentFilter>(output, "StatisticFilter", input.statisticFilter);
+    JsonUtils::ObjectAddMember<TagSegmentFilter>(output, "TagFilter", input.tagFilter);
+    JsonUtils::ObjectAddMember<TotalValueToDateInUSDSegmentFilter>(output, "TotalValueToDateInUSDFilter", input.totalValueToDateInUSDFilter);
+    JsonUtils::ObjectAddMember<UserOriginationSegmentFilter>(output, "UserOriginationFilter", input.userOriginationFilter);
+    JsonUtils::ObjectAddMember<ValueToDateSegmentFilter>(output, "ValueToDateFilter", input.valueToDateFilter);
+    JsonUtils::ObjectAddMember<VirtualCurrencyBalanceSegmentFilter>(output, "VirtualCurrencyBalanceFilter", input.virtualCurrencyBalanceFilter);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsSegmentOrDefinition& input)
+void SegmentAndDefinition::FromJson(const JsonValue& input)
+{
+    StdExtra::optional<AdCampaignSegmentFilter> adCampaignFilter{};
+    JsonUtils::ObjectGetMember(input, "AdCampaignFilter", adCampaignFilter);
+    if (adCampaignFilter)
+    {
+        this->SetAdCampaignFilter(std::move(*adCampaignFilter));
+    }
+
+    StdExtra::optional<FirstLoginDateSegmentFilter> firstLoginDateFilter{};
+    JsonUtils::ObjectGetMember(input, "FirstLoginDateFilter", firstLoginDateFilter);
+    if (firstLoginDateFilter)
+    {
+        this->SetFirstLoginDateFilter(std::move(*firstLoginDateFilter));
+    }
+
+    StdExtra::optional<FirstLoginTimespanSegmentFilter> firstLoginFilter{};
+    JsonUtils::ObjectGetMember(input, "FirstLoginFilter", firstLoginFilter);
+    if (firstLoginFilter)
+    {
+        this->SetFirstLoginFilter(std::move(*firstLoginFilter));
+    }
+
+    StdExtra::optional<LastLoginDateSegmentFilter> lastLoginDateFilter{};
+    JsonUtils::ObjectGetMember(input, "LastLoginDateFilter", lastLoginDateFilter);
+    if (lastLoginDateFilter)
+    {
+        this->SetLastLoginDateFilter(std::move(*lastLoginDateFilter));
+    }
+
+    StdExtra::optional<LastLoginTimespanSegmentFilter> lastLoginFilter{};
+    JsonUtils::ObjectGetMember(input, "LastLoginFilter", lastLoginFilter);
+    if (lastLoginFilter)
+    {
+        this->SetLastLoginFilter(std::move(*lastLoginFilter));
+    }
+
+    StdExtra::optional<LinkedUserAccountSegmentFilter> linkedUserAccountFilter{};
+    JsonUtils::ObjectGetMember(input, "LinkedUserAccountFilter", linkedUserAccountFilter);
+    if (linkedUserAccountFilter)
+    {
+        this->SetLinkedUserAccountFilter(std::move(*linkedUserAccountFilter));
+    }
+
+    StdExtra::optional<LinkedUserAccountHasEmailSegmentFilter> linkedUserAccountHasEmailFilter{};
+    JsonUtils::ObjectGetMember(input, "LinkedUserAccountHasEmailFilter", linkedUserAccountHasEmailFilter);
+    if (linkedUserAccountHasEmailFilter)
+    {
+        this->SetLinkedUserAccountHasEmailFilter(std::move(*linkedUserAccountHasEmailFilter));
+    }
+
+    StdExtra::optional<LocationSegmentFilter> locationFilter{};
+    JsonUtils::ObjectGetMember(input, "LocationFilter", locationFilter);
+    if (locationFilter)
+    {
+        this->SetLocationFilter(std::move(*locationFilter));
+    }
+
+    StdExtra::optional<PushNotificationSegmentFilter> pushNotificationFilter{};
+    JsonUtils::ObjectGetMember(input, "PushNotificationFilter", pushNotificationFilter);
+    if (pushNotificationFilter)
+    {
+        this->SetPushNotificationFilter(std::move(*pushNotificationFilter));
+    }
+
+    StdExtra::optional<StatisticSegmentFilter> statisticFilter{};
+    JsonUtils::ObjectGetMember(input, "StatisticFilter", statisticFilter);
+    if (statisticFilter)
+    {
+        this->SetStatisticFilter(std::move(*statisticFilter));
+    }
+
+    StdExtra::optional<TagSegmentFilter> tagFilter{};
+    JsonUtils::ObjectGetMember(input, "TagFilter", tagFilter);
+    if (tagFilter)
+    {
+        this->SetTagFilter(std::move(*tagFilter));
+    }
+
+    StdExtra::optional<TotalValueToDateInUSDSegmentFilter> totalValueToDateInUSDFilter{};
+    JsonUtils::ObjectGetMember(input, "TotalValueToDateInUSDFilter", totalValueToDateInUSDFilter);
+    if (totalValueToDateInUSDFilter)
+    {
+        this->SetTotalValueToDateInUSDFilter(std::move(*totalValueToDateInUSDFilter));
+    }
+
+    StdExtra::optional<UserOriginationSegmentFilter> userOriginationFilter{};
+    JsonUtils::ObjectGetMember(input, "UserOriginationFilter", userOriginationFilter);
+    if (userOriginationFilter)
+    {
+        this->SetUserOriginationFilter(std::move(*userOriginationFilter));
+    }
+
+    StdExtra::optional<ValueToDateSegmentFilter> valueToDateFilter{};
+    JsonUtils::ObjectGetMember(input, "ValueToDateFilter", valueToDateFilter);
+    if (valueToDateFilter)
+    {
+        this->SetValueToDateFilter(std::move(*valueToDateFilter));
+    }
+
+    StdExtra::optional<VirtualCurrencyBalanceSegmentFilter> virtualCurrencyBalanceFilter{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrencyBalanceFilter", virtualCurrencyBalanceFilter);
+    if (virtualCurrencyBalanceFilter)
+    {
+        this->SetVirtualCurrencyBalanceFilter(std::move(*virtualCurrencyBalanceFilter));
+    }
+}
+
+size_t SegmentAndDefinition::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsSegmentAndDefinition const*> SegmentAndDefinition::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<SegmentAndDefinition>(&this->Model());
+}
+
+size_t SegmentAndDefinition::RequiredBufferSize(const PFSegmentsSegmentAndDefinition& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.adCampaignFilter)
+    {
+        requiredSize += AdCampaignSegmentFilter::RequiredBufferSize(*model.adCampaignFilter);
+    }
+    if (model.firstLoginDateFilter)
+    {
+        requiredSize += FirstLoginDateSegmentFilter::RequiredBufferSize(*model.firstLoginDateFilter);
+    }
+    if (model.firstLoginFilter)
+    {
+        requiredSize += FirstLoginTimespanSegmentFilter::RequiredBufferSize(*model.firstLoginFilter);
+    }
+    if (model.lastLoginDateFilter)
+    {
+        requiredSize += LastLoginDateSegmentFilter::RequiredBufferSize(*model.lastLoginDateFilter);
+    }
+    if (model.lastLoginFilter)
+    {
+        requiredSize += LastLoginTimespanSegmentFilter::RequiredBufferSize(*model.lastLoginFilter);
+    }
+    if (model.linkedUserAccountFilter)
+    {
+        requiredSize += LinkedUserAccountSegmentFilter::RequiredBufferSize(*model.linkedUserAccountFilter);
+    }
+    if (model.linkedUserAccountHasEmailFilter)
+    {
+        requiredSize += LinkedUserAccountHasEmailSegmentFilter::RequiredBufferSize(*model.linkedUserAccountHasEmailFilter);
+    }
+    if (model.locationFilter)
+    {
+        requiredSize += LocationSegmentFilter::RequiredBufferSize(*model.locationFilter);
+    }
+    if (model.pushNotificationFilter)
+    {
+        requiredSize += PushNotificationSegmentFilter::RequiredBufferSize(*model.pushNotificationFilter);
+    }
+    if (model.statisticFilter)
+    {
+        requiredSize += StatisticSegmentFilter::RequiredBufferSize(*model.statisticFilter);
+    }
+    if (model.tagFilter)
+    {
+        requiredSize += TagSegmentFilter::RequiredBufferSize(*model.tagFilter);
+    }
+    if (model.totalValueToDateInUSDFilter)
+    {
+        requiredSize += TotalValueToDateInUSDSegmentFilter::RequiredBufferSize(*model.totalValueToDateInUSDFilter);
+    }
+    if (model.userOriginationFilter)
+    {
+        requiredSize += UserOriginationSegmentFilter::RequiredBufferSize(*model.userOriginationFilter);
+    }
+    if (model.valueToDateFilter)
+    {
+        requiredSize += ValueToDateSegmentFilter::RequiredBufferSize(*model.valueToDateFilter);
+    }
+    if (model.virtualCurrencyBalanceFilter)
+    {
+        requiredSize += VirtualCurrencyBalanceSegmentFilter::RequiredBufferSize(*model.virtualCurrencyBalanceFilter);
+    }
+    return requiredSize;
+}
+
+HRESULT SegmentAndDefinition::Copy(const PFSegmentsSegmentAndDefinition& input, PFSegmentsSegmentAndDefinition& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.adCampaignFilter = buffer.CopyTo<AdCampaignSegmentFilter>(input.adCampaignFilter);
+    output.firstLoginDateFilter = buffer.CopyTo<FirstLoginDateSegmentFilter>(input.firstLoginDateFilter);
+    output.firstLoginFilter = buffer.CopyTo<FirstLoginTimespanSegmentFilter>(input.firstLoginFilter);
+    output.lastLoginDateFilter = buffer.CopyTo<LastLoginDateSegmentFilter>(input.lastLoginDateFilter);
+    output.lastLoginFilter = buffer.CopyTo<LastLoginTimespanSegmentFilter>(input.lastLoginFilter);
+    output.linkedUserAccountFilter = buffer.CopyTo<LinkedUserAccountSegmentFilter>(input.linkedUserAccountFilter);
+    output.linkedUserAccountHasEmailFilter = buffer.CopyTo<LinkedUserAccountHasEmailSegmentFilter>(input.linkedUserAccountHasEmailFilter);
+    output.locationFilter = buffer.CopyTo<LocationSegmentFilter>(input.locationFilter);
+    output.pushNotificationFilter = buffer.CopyTo<PushNotificationSegmentFilter>(input.pushNotificationFilter);
+    output.statisticFilter = buffer.CopyTo<StatisticSegmentFilter>(input.statisticFilter);
+    output.tagFilter = buffer.CopyTo<TagSegmentFilter>(input.tagFilter);
+    output.totalValueToDateInUSDFilter = buffer.CopyTo<TotalValueToDateInUSDSegmentFilter>(input.totalValueToDateInUSDFilter);
+    output.userOriginationFilter = buffer.CopyTo<UserOriginationSegmentFilter>(input.userOriginationFilter);
+    output.valueToDateFilter = buffer.CopyTo<ValueToDateSegmentFilter>(input.valueToDateFilter);
+    output.virtualCurrencyBalanceFilter = buffer.CopyTo<VirtualCurrencyBalanceSegmentFilter>(input.virtualCurrencyBalanceFilter);
+    return S_OK;
+}
+
+JsonValue SegmentOrDefinition::ToJson() const
+{
+    return SegmentOrDefinition::ToJson(this->Model());
+}
+
+JsonValue SegmentOrDefinition::ToJson(const PFSegmentsSegmentOrDefinition& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SegmentAndDefinitions", input.segmentAndDefinitions, input.segmentAndDefinitionsCount);
+    JsonUtils::ObjectAddMemberArray<SegmentAndDefinition>(output, "SegmentAndDefinitions", input.segmentAndDefinitions, input.segmentAndDefinitionsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsSegmentModel& input)
+void SegmentOrDefinition::FromJson(const JsonValue& input)
+{
+    ModelVector<SegmentAndDefinition> segmentAndDefinitions{};
+    JsonUtils::ObjectGetMember<SegmentAndDefinition>(input, "SegmentAndDefinitions", segmentAndDefinitions);
+    this->SetSegmentAndDefinitions(std::move(segmentAndDefinitions));
+}
+
+size_t SegmentOrDefinition::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsSegmentOrDefinition const*> SegmentOrDefinition::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<SegmentOrDefinition>(&this->Model());
+}
+
+size_t SegmentOrDefinition::RequiredBufferSize(const PFSegmentsSegmentOrDefinition& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFSegmentsSegmentAndDefinition*) + sizeof(PFSegmentsSegmentAndDefinition*) * model.segmentAndDefinitionsCount);
+    for (size_t i = 0; i < model.segmentAndDefinitionsCount; ++i)
+    {
+        requiredSize += SegmentAndDefinition::RequiredBufferSize(*model.segmentAndDefinitions[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT SegmentOrDefinition::Copy(const PFSegmentsSegmentOrDefinition& input, PFSegmentsSegmentOrDefinition& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.segmentAndDefinitions = buffer.CopyToArray<SegmentAndDefinition>(input.segmentAndDefinitions, input.segmentAndDefinitionsCount);
+    return S_OK;
+}
+
+JsonValue SegmentModel::ToJson() const
+{
+    return SegmentModel::ToJson(this->Model());
+}
+
+JsonValue SegmentModel::ToJson(const PFSegmentsSegmentModel& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Description", input.description);
-    JsonUtils::ObjectAddMember(output, "EnteredSegmentActions", input.enteredSegmentActions, input.enteredSegmentActionsCount);
-    JsonUtils::ObjectAddMember(output, "LastUpdateTime", input.lastUpdateTime, true);
-    JsonUtils::ObjectAddMember(output, "LeftSegmentActions", input.leftSegmentActions, input.leftSegmentActionsCount);
+    JsonUtils::ObjectAddMemberArray<SegmentTrigger>(output, "EnteredSegmentActions", input.enteredSegmentActions, input.enteredSegmentActionsCount);
+    JsonUtils::ObjectAddMemberTime(output, "LastUpdateTime", input.lastUpdateTime);
+    JsonUtils::ObjectAddMemberArray<SegmentTrigger>(output, "LeftSegmentActions", input.leftSegmentActions, input.leftSegmentActionsCount);
     JsonUtils::ObjectAddMember(output, "Name", input.name);
     JsonUtils::ObjectAddMember(output, "SegmentId", input.segmentId);
-    JsonUtils::ObjectAddMember(output, "SegmentOrDefinitions", input.segmentOrDefinitions, input.segmentOrDefinitionsCount);
+    JsonUtils::ObjectAddMemberArray<SegmentOrDefinition>(output, "SegmentOrDefinitions", input.segmentOrDefinitions, input.segmentOrDefinitionsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsCreateSegmentRequest& input)
+void SegmentModel::FromJson(const JsonValue& input)
+{
+    String description{};
+    JsonUtils::ObjectGetMember(input, "Description", description);
+    this->SetDescription(std::move(description));
+
+    ModelVector<SegmentTrigger> enteredSegmentActions{};
+    JsonUtils::ObjectGetMember<SegmentTrigger>(input, "EnteredSegmentActions", enteredSegmentActions);
+    this->SetEnteredSegmentActions(std::move(enteredSegmentActions));
+
+    JsonUtils::ObjectGetMemberTime(input, "LastUpdateTime", this->m_model.lastUpdateTime);
+
+    ModelVector<SegmentTrigger> leftSegmentActions{};
+    JsonUtils::ObjectGetMember<SegmentTrigger>(input, "LeftSegmentActions", leftSegmentActions);
+    this->SetLeftSegmentActions(std::move(leftSegmentActions));
+
+    String name{};
+    JsonUtils::ObjectGetMember(input, "Name", name);
+    this->SetName(std::move(name));
+
+    String segmentId{};
+    JsonUtils::ObjectGetMember(input, "SegmentId", segmentId);
+    this->SetSegmentId(std::move(segmentId));
+
+    ModelVector<SegmentOrDefinition> segmentOrDefinitions{};
+    JsonUtils::ObjectGetMember<SegmentOrDefinition>(input, "SegmentOrDefinitions", segmentOrDefinitions);
+    this->SetSegmentOrDefinitions(std::move(segmentOrDefinitions));
+}
+
+size_t SegmentModel::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsSegmentModel const*> SegmentModel::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<SegmentModel>(&this->Model());
+}
+
+size_t SegmentModel::RequiredBufferSize(const PFSegmentsSegmentModel& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.description)
+    {
+        requiredSize += (std::strlen(model.description) + 1);
+    }
+    requiredSize += (alignof(PFSegmentsSegmentTrigger*) + sizeof(PFSegmentsSegmentTrigger*) * model.enteredSegmentActionsCount);
+    for (size_t i = 0; i < model.enteredSegmentActionsCount; ++i)
+    {
+        requiredSize += SegmentTrigger::RequiredBufferSize(*model.enteredSegmentActions[i]);
+    }
+    requiredSize += (alignof(PFSegmentsSegmentTrigger*) + sizeof(PFSegmentsSegmentTrigger*) * model.leftSegmentActionsCount);
+    for (size_t i = 0; i < model.leftSegmentActionsCount; ++i)
+    {
+        requiredSize += SegmentTrigger::RequiredBufferSize(*model.leftSegmentActions[i]);
+    }
+    if (model.name)
+    {
+        requiredSize += (std::strlen(model.name) + 1);
+    }
+    if (model.segmentId)
+    {
+        requiredSize += (std::strlen(model.segmentId) + 1);
+    }
+    requiredSize += (alignof(PFSegmentsSegmentOrDefinition*) + sizeof(PFSegmentsSegmentOrDefinition*) * model.segmentOrDefinitionsCount);
+    for (size_t i = 0; i < model.segmentOrDefinitionsCount; ++i)
+    {
+        requiredSize += SegmentOrDefinition::RequiredBufferSize(*model.segmentOrDefinitions[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT SegmentModel::Copy(const PFSegmentsSegmentModel& input, PFSegmentsSegmentModel& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.description = buffer.CopyTo(input.description);
+    output.enteredSegmentActions = buffer.CopyToArray<SegmentTrigger>(input.enteredSegmentActions, input.enteredSegmentActionsCount);
+    output.leftSegmentActions = buffer.CopyToArray<SegmentTrigger>(input.leftSegmentActions, input.leftSegmentActionsCount);
+    output.name = buffer.CopyTo(input.name);
+    output.segmentId = buffer.CopyTo(input.segmentId);
+    output.segmentOrDefinitions = buffer.CopyToArray<SegmentOrDefinition>(input.segmentOrDefinitions, input.segmentOrDefinitionsCount);
+    return S_OK;
+}
+
+JsonValue CreateSegmentRequest::ToJson() const
+{
+    return CreateSegmentRequest::ToJson(this->Model());
+}
+
+JsonValue CreateSegmentRequest::ToJson(const PFSegmentsCreateSegmentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SegmentModel", input.segmentModel);
+    JsonUtils::ObjectAddMember<SegmentModel>(output, "SegmentModel", input.segmentModel);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsCreateSegmentResponse& input)
+void CreateSegmentResponse::FromJson(const JsonValue& input)
+{
+    String errorMessage{};
+    JsonUtils::ObjectGetMember(input, "ErrorMessage", errorMessage);
+    this->SetErrorMessage(std::move(errorMessage));
+
+    String segmentId{};
+    JsonUtils::ObjectGetMember(input, "SegmentId", segmentId);
+    this->SetSegmentId(std::move(segmentId));
+}
+
+size_t CreateSegmentResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsCreateSegmentResponse const*> CreateSegmentResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<CreateSegmentResponse>(&this->Model());
+}
+
+size_t CreateSegmentResponse::RequiredBufferSize(const PFSegmentsCreateSegmentResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.errorMessage)
+    {
+        requiredSize += (std::strlen(model.errorMessage) + 1);
+    }
+    if (model.segmentId)
+    {
+        requiredSize += (std::strlen(model.segmentId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT CreateSegmentResponse::Copy(const PFSegmentsCreateSegmentResponse& input, PFSegmentsCreateSegmentResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.errorMessage = buffer.CopyTo(input.errorMessage);
+    output.segmentId = buffer.CopyTo(input.segmentId);
+    return S_OK;
+}
+
+JsonValue DeleteSegmentRequest::ToJson() const
+{
+    return DeleteSegmentRequest::ToJson(this->Model());
+}
+
+JsonValue DeleteSegmentRequest::ToJson(const PFSegmentsDeleteSegmentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
     JsonUtils::ObjectAddMember(output, "SegmentId", input.segmentId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsDeleteSegmentRequest& input)
+void DeleteSegmentsResponse::FromJson(const JsonValue& input)
+{
+    String errorMessage{};
+    JsonUtils::ObjectGetMember(input, "ErrorMessage", errorMessage);
+    this->SetErrorMessage(std::move(errorMessage));
+}
+
+size_t DeleteSegmentsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsDeleteSegmentsResponse const*> DeleteSegmentsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<DeleteSegmentsResponse>(&this->Model());
+}
+
+size_t DeleteSegmentsResponse::RequiredBufferSize(const PFSegmentsDeleteSegmentsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.errorMessage)
+    {
+        requiredSize += (std::strlen(model.errorMessage) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT DeleteSegmentsResponse::Copy(const PFSegmentsDeleteSegmentsResponse& input, PFSegmentsDeleteSegmentsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.errorMessage = buffer.CopyTo(input.errorMessage);
+    return S_OK;
+}
+
+JsonValue GetSegmentsRequest::ToJson() const
+{
+    return GetSegmentsRequest::ToJson(this->Model());
+}
+
+JsonValue GetSegmentsRequest::ToJson(const PFSegmentsGetSegmentsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SegmentId", input.segmentId);
+    JsonUtils::ObjectAddMemberArray(output, "SegmentIds", input.segmentIds, input.segmentIdsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsDeleteSegmentsResponse& input)
+void GetSegmentsResponse::FromJson(const JsonValue& input)
+{
+    String errorMessage{};
+    JsonUtils::ObjectGetMember(input, "ErrorMessage", errorMessage);
+    this->SetErrorMessage(std::move(errorMessage));
+
+    ModelVector<SegmentModel> segments{};
+    JsonUtils::ObjectGetMember<SegmentModel>(input, "Segments", segments);
+    this->SetSegments(std::move(segments));
+}
+
+size_t GetSegmentsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFSegmentsGetSegmentsResponse const*> GetSegmentsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetSegmentsResponse>(&this->Model());
+}
+
+size_t GetSegmentsResponse::RequiredBufferSize(const PFSegmentsGetSegmentsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.errorMessage)
+    {
+        requiredSize += (std::strlen(model.errorMessage) + 1);
+    }
+    requiredSize += (alignof(PFSegmentsSegmentModel*) + sizeof(PFSegmentsSegmentModel*) * model.segmentsCount);
+    for (size_t i = 0; i < model.segmentsCount; ++i)
+    {
+        requiredSize += SegmentModel::RequiredBufferSize(*model.segments[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetSegmentsResponse::Copy(const PFSegmentsGetSegmentsResponse& input, PFSegmentsGetSegmentsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.errorMessage = buffer.CopyTo(input.errorMessage);
+    output.segments = buffer.CopyToArray<SegmentModel>(input.segments, input.segmentsCount);
+    return S_OK;
+}
+
+JsonValue UpdateSegmentRequest::ToJson() const
+{
+    return UpdateSegmentRequest::ToJson(this->Model());
+}
+
+JsonValue UpdateSegmentRequest::ToJson(const PFSegmentsUpdateSegmentRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
+    JsonUtils::ObjectAddMember<SegmentModel>(output, "SegmentModel", input.segmentModel);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsGetSegmentsRequest& input)
+void UpdateSegmentResponse::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SegmentIds", input.segmentIds, input.segmentIdsCount);
-    return output;
+    String errorMessage{};
+    JsonUtils::ObjectGetMember(input, "ErrorMessage", errorMessage);
+    this->SetErrorMessage(std::move(errorMessage));
+
+    String segmentId{};
+    JsonUtils::ObjectGetMember(input, "SegmentId", segmentId);
+    this->SetSegmentId(std::move(segmentId));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsGetSegmentsResponse& input)
+size_t UpdateSegmentResponse::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
-    JsonUtils::ObjectAddMember(output, "Segments", input.segments, input.segmentsCount);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsUpdateSegmentRequest& input)
+Result<PFSegmentsUpdateSegmentResponse const*> UpdateSegmentResponse::Copy(ModelBuffer& buffer) const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SegmentModel", input.segmentModel);
-    return output;
+    return buffer.CopyTo<UpdateSegmentResponse>(&this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSegmentsUpdateSegmentResponse& input)
+size_t UpdateSegmentResponse::RequiredBufferSize(const PFSegmentsUpdateSegmentResponse& model)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
-    JsonUtils::ObjectAddMember(output, "SegmentId", input.segmentId);
-    return output;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.errorMessage)
+    {
+        requiredSize += (std::strlen(model.errorMessage) + 1);
+    }
+    if (model.segmentId)
+    {
+        requiredSize += (std::strlen(model.segmentId) + 1);
+    }
+    return requiredSize;
 }
 
-} // namespace JsonUtils
+HRESULT UpdateSegmentResponse::Copy(const PFSegmentsUpdateSegmentResponse& input, PFSegmentsUpdateSegmentResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.errorMessage = buffer.CopyTo(input.errorMessage);
+    output.segmentId = buffer.CopyTo(input.segmentId);
+    return S_OK;
+}
 
+} // namespace Segments
 } // namespace PlayFab

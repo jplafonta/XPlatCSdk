@@ -1,367 +1,306 @@
 #pragma once
 
-#include <playfab/PFAnalyticsDataModels.h>
+#include <playfab/cpp/PFAnalyticsDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace AnalyticsModels
+namespace Analytics
 {
 
 // Analytics Classes
-struct DeviceInfoRequest : public PFAnalyticsDeviceInfoRequest, public BaseModel
+class DeviceInfoRequest : public Wrappers::PFAnalyticsDeviceInfoRequestWrapper<Allocator>, public InputModel
 {
-    DeviceInfoRequest();
-    DeviceInfoRequest(const DeviceInfoRequest& src);
-    DeviceInfoRequest(DeviceInfoRequest&& src);
-    DeviceInfoRequest(const PFAnalyticsDeviceInfoRequest& src);
-    DeviceInfoRequest& operator=(const DeviceInfoRequest&) = delete;
-    ~DeviceInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsDeviceInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsDeviceInfoRequest& input);
 
-private:
-    JsonObject m_info;
 };
 
-struct WriteClientCharacterEventRequest : public PFAnalyticsWriteClientCharacterEventRequest, public BaseModel
+class WriteClientCharacterEventRequest : public Wrappers::PFAnalyticsWriteClientCharacterEventRequestWrapper<Allocator>, public InputModel
 {
-    WriteClientCharacterEventRequest();
-    WriteClientCharacterEventRequest(const WriteClientCharacterEventRequest& src);
-    WriteClientCharacterEventRequest(WriteClientCharacterEventRequest&& src);
-    WriteClientCharacterEventRequest(const PFAnalyticsWriteClientCharacterEventRequest& src);
-    WriteClientCharacterEventRequest& operator=(const WriteClientCharacterEventRequest&) = delete;
-    ~WriteClientCharacterEventRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsWriteClientCharacterEventRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsWriteClientCharacterEventRequest& input);
 
-private:
-    JsonObject m_body;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_eventName;
-    StdExtra::optional<time_t> m_timestamp;
 };
 
-struct WriteEventResponse : public PFAnalyticsWriteEventResponse, public SerializableModel, public ApiResult
+class WriteEventResponse : public Wrappers::PFAnalyticsWriteEventResponseWrapper<Allocator>, public OutputModel<PFAnalyticsWriteEventResponse>
 {
-    WriteEventResponse();
-    WriteEventResponse(const WriteEventResponse& src);
-    WriteEventResponse(WriteEventResponse&& src);
-    WriteEventResponse(const PFAnalyticsWriteEventResponse& src);
-    WriteEventResponse& operator=(const WriteEventResponse&) = delete;
-    ~WriteEventResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsWriteEventResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsWriteEventResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_eventId;
+    static size_t RequiredBufferSize(const PFAnalyticsWriteEventResponse& model);
+    static HRESULT Copy(const PFAnalyticsWriteEventResponse& input, PFAnalyticsWriteEventResponse& output, ModelBuffer& buffer);
 };
 
-struct WriteClientPlayerEventRequest : public PFAnalyticsWriteClientPlayerEventRequest, public BaseModel
+class WriteClientPlayerEventRequest : public Wrappers::PFAnalyticsWriteClientPlayerEventRequestWrapper<Allocator>, public InputModel
 {
-    WriteClientPlayerEventRequest();
-    WriteClientPlayerEventRequest(const WriteClientPlayerEventRequest& src);
-    WriteClientPlayerEventRequest(WriteClientPlayerEventRequest&& src);
-    WriteClientPlayerEventRequest(const PFAnalyticsWriteClientPlayerEventRequest& src);
-    WriteClientPlayerEventRequest& operator=(const WriteClientPlayerEventRequest&) = delete;
-    ~WriteClientPlayerEventRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsWriteClientPlayerEventRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsWriteClientPlayerEventRequest& input);
 
-private:
-    JsonObject m_body;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_eventName;
-    StdExtra::optional<time_t> m_timestamp;
 };
 
-struct WriteTitleEventRequest : public PFAnalyticsWriteTitleEventRequest, public BaseModel
+class WriteTitleEventRequest : public Wrappers::PFAnalyticsWriteTitleEventRequestWrapper<Allocator>, public InputModel
 {
-    WriteTitleEventRequest();
-    WriteTitleEventRequest(const WriteTitleEventRequest& src);
-    WriteTitleEventRequest(WriteTitleEventRequest&& src);
-    WriteTitleEventRequest(const PFAnalyticsWriteTitleEventRequest& src);
-    WriteTitleEventRequest& operator=(const WriteTitleEventRequest&) = delete;
-    ~WriteTitleEventRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsWriteTitleEventRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsWriteTitleEventRequest& input);
 
-private:
-    JsonObject m_body;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_eventName;
-    StdExtra::optional<time_t> m_timestamp;
 };
 
-struct WriteServerCharacterEventRequest : public PFAnalyticsWriteServerCharacterEventRequest, public BaseModel
+class WriteServerCharacterEventRequest : public Wrappers::PFAnalyticsWriteServerCharacterEventRequestWrapper<Allocator>, public InputModel
 {
-    WriteServerCharacterEventRequest();
-    WriteServerCharacterEventRequest(const WriteServerCharacterEventRequest& src);
-    WriteServerCharacterEventRequest(WriteServerCharacterEventRequest&& src);
-    WriteServerCharacterEventRequest(const PFAnalyticsWriteServerCharacterEventRequest& src);
-    WriteServerCharacterEventRequest& operator=(const WriteServerCharacterEventRequest&) = delete;
-    ~WriteServerCharacterEventRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsWriteServerCharacterEventRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsWriteServerCharacterEventRequest& input);
 
-private:
-    JsonObject m_body;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_eventName;
-    String m_playFabId;
-    StdExtra::optional<time_t> m_timestamp;
 };
 
-struct WriteServerPlayerEventRequest : public PFAnalyticsWriteServerPlayerEventRequest, public BaseModel
+class WriteServerPlayerEventRequest : public Wrappers::PFAnalyticsWriteServerPlayerEventRequestWrapper<Allocator>, public InputModel
 {
-    WriteServerPlayerEventRequest();
-    WriteServerPlayerEventRequest(const WriteServerPlayerEventRequest& src);
-    WriteServerPlayerEventRequest(WriteServerPlayerEventRequest&& src);
-    WriteServerPlayerEventRequest(const PFAnalyticsWriteServerPlayerEventRequest& src);
-    WriteServerPlayerEventRequest& operator=(const WriteServerPlayerEventRequest&) = delete;
-    ~WriteServerPlayerEventRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsWriteServerPlayerEventRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsWriteServerPlayerEventRequest& input);
 
-private:
-    JsonObject m_body;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_eventName;
-    String m_playFabId;
-    StdExtra::optional<time_t> m_timestamp;
 };
 
-struct InsightsEmptyRequest : public PFAnalyticsInsightsEmptyRequest, public BaseModel
+class InsightsEmptyRequest : public Wrappers::PFAnalyticsInsightsEmptyRequestWrapper<Allocator>, public InputModel
 {
-    InsightsEmptyRequest();
-    InsightsEmptyRequest(const InsightsEmptyRequest& src);
-    InsightsEmptyRequest(InsightsEmptyRequest&& src);
-    InsightsEmptyRequest(const PFAnalyticsInsightsEmptyRequest& src);
-    InsightsEmptyRequest& operator=(const InsightsEmptyRequest&) = delete;
-    ~InsightsEmptyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsEmptyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsInsightsEmptyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct InsightsPerformanceLevel : public PFAnalyticsInsightsPerformanceLevel, public SerializableModel
+class InsightsPerformanceLevel : public Wrappers::PFAnalyticsInsightsPerformanceLevelWrapper<Allocator>, public OutputModel<PFAnalyticsInsightsPerformanceLevel>
 {
-    InsightsPerformanceLevel();
-    InsightsPerformanceLevel(const InsightsPerformanceLevel&) = default;
-    InsightsPerformanceLevel(InsightsPerformanceLevel&&) = default;
-    InsightsPerformanceLevel(const PFAnalyticsInsightsPerformanceLevel& src);
-    InsightsPerformanceLevel& operator=(const InsightsPerformanceLevel&) = delete;
-    ~InsightsPerformanceLevel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsPerformanceLevelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsInsightsPerformanceLevel const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFAnalyticsInsightsPerformanceLevel& model);
+    static HRESULT Copy(const PFAnalyticsInsightsPerformanceLevel& input, PFAnalyticsInsightsPerformanceLevel& output, ModelBuffer& buffer);
 };
 
-struct InsightsGetLimitsResponse : public PFAnalyticsInsightsGetLimitsResponse, public BaseModel, public ApiResult
+class InsightsGetLimitsResponse : public Wrappers::PFAnalyticsInsightsGetLimitsResponseWrapper<Allocator>, public OutputModel<PFAnalyticsInsightsGetLimitsResponse>
 {
-    InsightsGetLimitsResponse();
-    InsightsGetLimitsResponse(const InsightsGetLimitsResponse& src);
-    InsightsGetLimitsResponse(InsightsGetLimitsResponse&& src);
-    InsightsGetLimitsResponse(const PFAnalyticsInsightsGetLimitsResponse& src);
-    InsightsGetLimitsResponse& operator=(const InsightsGetLimitsResponse&) = delete;
-    ~InsightsGetLimitsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsGetLimitsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsInsightsGetLimitsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAnalyticsInsightsPerformanceLevel, InsightsPerformanceLevel> m_subMeters;
+    static size_t RequiredBufferSize(const PFAnalyticsInsightsGetLimitsResponse& model);
+    static HRESULT Copy(const PFAnalyticsInsightsGetLimitsResponse& input, PFAnalyticsInsightsGetLimitsResponse& output, ModelBuffer& buffer);
 };
 
-struct InsightsGetOperationStatusResponse : public PFAnalyticsInsightsGetOperationStatusResponse, public SerializableModel, public ApiResult
+class InsightsGetOperationStatusResponse : public Wrappers::PFAnalyticsInsightsGetOperationStatusResponseWrapper<Allocator>, public OutputModel<PFAnalyticsInsightsGetOperationStatusResponse>
 {
-    InsightsGetOperationStatusResponse();
-    InsightsGetOperationStatusResponse(const InsightsGetOperationStatusResponse& src);
-    InsightsGetOperationStatusResponse(InsightsGetOperationStatusResponse&& src);
-    InsightsGetOperationStatusResponse(const PFAnalyticsInsightsGetOperationStatusResponse& src);
-    InsightsGetOperationStatusResponse& operator=(const InsightsGetOperationStatusResponse&) = delete;
-    ~InsightsGetOperationStatusResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsGetOperationStatusResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsInsightsGetOperationStatusResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_message;
-    String m_operationId;
-    String m_operationType;
-    String m_status;
+    static size_t RequiredBufferSize(const PFAnalyticsInsightsGetOperationStatusResponse& model);
+    static HRESULT Copy(const PFAnalyticsInsightsGetOperationStatusResponse& input, PFAnalyticsInsightsGetOperationStatusResponse& output, ModelBuffer& buffer);
 };
 
-struct InsightsGetDetailsResponse : public PFAnalyticsInsightsGetDetailsResponse, public BaseModel, public ApiResult
+class InsightsGetDetailsResponse : public Wrappers::PFAnalyticsInsightsGetDetailsResponseWrapper<Allocator>, public OutputModel<PFAnalyticsInsightsGetDetailsResponse>
 {
-    InsightsGetDetailsResponse();
-    InsightsGetDetailsResponse(const InsightsGetDetailsResponse& src);
-    InsightsGetDetailsResponse(InsightsGetDetailsResponse&& src);
-    InsightsGetDetailsResponse(const PFAnalyticsInsightsGetDetailsResponse& src);
-    InsightsGetDetailsResponse& operator=(const InsightsGetDetailsResponse&) = delete;
-    ~InsightsGetDetailsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsGetDetailsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsInsightsGetDetailsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_errorMessage;
-    StdExtra::optional<InsightsGetLimitsResponse> m_limits;
-    PointerArrayModel<PFAnalyticsInsightsGetOperationStatusResponse, InsightsGetOperationStatusResponse> m_pendingOperations;
+    static size_t RequiredBufferSize(const PFAnalyticsInsightsGetDetailsResponse& model);
+    static HRESULT Copy(const PFAnalyticsInsightsGetDetailsResponse& input, PFAnalyticsInsightsGetDetailsResponse& output, ModelBuffer& buffer);
 };
 
-struct InsightsGetOperationStatusRequest : public PFAnalyticsInsightsGetOperationStatusRequest, public BaseModel
+class InsightsGetOperationStatusRequest : public Wrappers::PFAnalyticsInsightsGetOperationStatusRequestWrapper<Allocator>, public InputModel
 {
-    InsightsGetOperationStatusRequest();
-    InsightsGetOperationStatusRequest(const InsightsGetOperationStatusRequest& src);
-    InsightsGetOperationStatusRequest(InsightsGetOperationStatusRequest&& src);
-    InsightsGetOperationStatusRequest(const PFAnalyticsInsightsGetOperationStatusRequest& src);
-    InsightsGetOperationStatusRequest& operator=(const InsightsGetOperationStatusRequest&) = delete;
-    ~InsightsGetOperationStatusRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsGetOperationStatusRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsInsightsGetOperationStatusRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_operationId;
 };
 
-struct InsightsGetPendingOperationsRequest : public PFAnalyticsInsightsGetPendingOperationsRequest, public BaseModel
+class InsightsGetPendingOperationsRequest : public Wrappers::PFAnalyticsInsightsGetPendingOperationsRequestWrapper<Allocator>, public InputModel
 {
-    InsightsGetPendingOperationsRequest();
-    InsightsGetPendingOperationsRequest(const InsightsGetPendingOperationsRequest& src);
-    InsightsGetPendingOperationsRequest(InsightsGetPendingOperationsRequest&& src);
-    InsightsGetPendingOperationsRequest(const PFAnalyticsInsightsGetPendingOperationsRequest& src);
-    InsightsGetPendingOperationsRequest& operator=(const InsightsGetPendingOperationsRequest&) = delete;
-    ~InsightsGetPendingOperationsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsGetPendingOperationsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsInsightsGetPendingOperationsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_operationType;
 };
 
-struct InsightsGetPendingOperationsResponse : public PFAnalyticsInsightsGetPendingOperationsResponse, public BaseModel, public ApiResult
+class InsightsGetPendingOperationsResponse : public Wrappers::PFAnalyticsInsightsGetPendingOperationsResponseWrapper<Allocator>, public OutputModel<PFAnalyticsInsightsGetPendingOperationsResponse>
 {
-    InsightsGetPendingOperationsResponse();
-    InsightsGetPendingOperationsResponse(const InsightsGetPendingOperationsResponse& src);
-    InsightsGetPendingOperationsResponse(InsightsGetPendingOperationsResponse&& src);
-    InsightsGetPendingOperationsResponse(const PFAnalyticsInsightsGetPendingOperationsResponse& src);
-    InsightsGetPendingOperationsResponse& operator=(const InsightsGetPendingOperationsResponse&) = delete;
-    ~InsightsGetPendingOperationsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsGetPendingOperationsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsInsightsGetPendingOperationsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAnalyticsInsightsGetOperationStatusResponse, InsightsGetOperationStatusResponse> m_pendingOperations;
+    static size_t RequiredBufferSize(const PFAnalyticsInsightsGetPendingOperationsResponse& model);
+    static HRESULT Copy(const PFAnalyticsInsightsGetPendingOperationsResponse& input, PFAnalyticsInsightsGetPendingOperationsResponse& output, ModelBuffer& buffer);
 };
 
-struct InsightsSetPerformanceRequest : public PFAnalyticsInsightsSetPerformanceRequest, public BaseModel
+class InsightsSetPerformanceRequest : public Wrappers::PFAnalyticsInsightsSetPerformanceRequestWrapper<Allocator>, public InputModel
 {
-    InsightsSetPerformanceRequest();
-    InsightsSetPerformanceRequest(const InsightsSetPerformanceRequest& src);
-    InsightsSetPerformanceRequest(InsightsSetPerformanceRequest&& src);
-    InsightsSetPerformanceRequest(const PFAnalyticsInsightsSetPerformanceRequest& src);
-    InsightsSetPerformanceRequest& operator=(const InsightsSetPerformanceRequest&) = delete;
-    ~InsightsSetPerformanceRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsSetPerformanceRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsInsightsSetPerformanceRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct InsightsOperationResponse : public PFAnalyticsInsightsOperationResponse, public SerializableModel, public ApiResult
+class InsightsOperationResponse : public Wrappers::PFAnalyticsInsightsOperationResponseWrapper<Allocator>, public OutputModel<PFAnalyticsInsightsOperationResponse>
 {
-    InsightsOperationResponse();
-    InsightsOperationResponse(const InsightsOperationResponse& src);
-    InsightsOperationResponse(InsightsOperationResponse&& src);
-    InsightsOperationResponse(const PFAnalyticsInsightsOperationResponse& src);
-    InsightsOperationResponse& operator=(const InsightsOperationResponse&) = delete;
-    ~InsightsOperationResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsOperationResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAnalyticsInsightsOperationResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_message;
-    String m_operationId;
-    String m_operationType;
+    static size_t RequiredBufferSize(const PFAnalyticsInsightsOperationResponse& model);
+    static HRESULT Copy(const PFAnalyticsInsightsOperationResponse& input, PFAnalyticsInsightsOperationResponse& output, ModelBuffer& buffer);
 };
 
-struct InsightsSetStorageRetentionRequest : public PFAnalyticsInsightsSetStorageRetentionRequest, public BaseModel
+class InsightsSetStorageRetentionRequest : public Wrappers::PFAnalyticsInsightsSetStorageRetentionRequestWrapper<Allocator>, public InputModel
 {
-    InsightsSetStorageRetentionRequest();
-    InsightsSetStorageRetentionRequest(const InsightsSetStorageRetentionRequest& src);
-    InsightsSetStorageRetentionRequest(InsightsSetStorageRetentionRequest&& src);
-    InsightsSetStorageRetentionRequest(const PFAnalyticsInsightsSetStorageRetentionRequest& src);
-    InsightsSetStorageRetentionRequest& operator=(const InsightsSetStorageRetentionRequest&) = delete;
-    ~InsightsSetStorageRetentionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAnalyticsInsightsSetStorageRetentionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAnalyticsInsightsSetStorageRetentionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-} // namespace AnalyticsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFAnalyticsDeviceInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsWriteClientCharacterEventRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsWriteEventResponse& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsWriteClientPlayerEventRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsWriteTitleEventRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsWriteServerCharacterEventRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsWriteServerPlayerEventRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsEmptyRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsPerformanceLevel& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsGetLimitsResponse& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsGetOperationStatusResponse& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsGetDetailsResponse& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsGetOperationStatusRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsGetPendingOperationsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsGetPendingOperationsResponse& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsSetPerformanceRequest& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsOperationResponse& input);
-template<> inline JsonValue ToJson<>(const PFAnalyticsInsightsSetStorageRetentionRequest& input);
-} // namespace JsonUtils
-
+} // namespace Analytics
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

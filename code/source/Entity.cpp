@@ -1,26 +1,26 @@
 #include "stdafx.h"
 #include "Entity.h"
 
-#define AS_STRING(charPtr) (charPtr ? String{ charPtr } : String{})
-
 namespace PlayFab
 {
 
-Entity::Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const AuthenticationModels::EntityTokenResponse& result) :
+using Wrappers::SafeString;
+
+Entity::Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const Authentication::EntityTokenResponse& result) :
     m_httpClient{ std::move(httpClient) },
     m_qosAPI{ std::move(qosAPI) },
     m_entityToken{ MakeShared<PlayFab::EntityToken>(result) },
-    m_id{ AS_STRING(result.entity->id) },
-    m_type{ AS_STRING(result.entity->type) }
+    m_id{ SafeString(result.Model().entity->id) },
+    m_type{ SafeString(result.Model().entity->type) }
 {
 }
 
-Entity::Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const AuthenticationModels::GetEntityTokenResponse& result) :
+Entity::Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const Authentication::GetEntityTokenResponse& result) :
     m_httpClient{ std::move(httpClient) },
     m_qosAPI{ std::move(qosAPI) },
     m_entityToken{ MakeShared<PlayFab::EntityToken>(result) },
-    m_id{ AS_STRING(result.entity->id) },
-    m_type{ AS_STRING(result.entity->type) }
+    m_id{ SafeString(result.entity->Model().id) },
+    m_type{ SafeString(result.entity->Model().type) }
 {
 }
 
@@ -60,7 +60,7 @@ AsyncOp<void> Entity::RefreshToken(const TaskQueue& queue)
 }
 
 AsyncOp<SharedPtr<Entity>> Entity::GetEntityToken(
-    const PFAuthenticationGetEntityTokenRequest& request,
+    const Authentication::GetEntityTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -77,7 +77,7 @@ AsyncOp<SharedPtr<Entity>> Entity::GetEntityToken(
     return m_httpClient->MakePostRequest(
         "/Authentication/GetEntityToken",
         headers,
-        JsonUtils::ToJson(request),
+        request.ToJson(),
         queue
     ).Then([ sharedThis{ shared_from_this() } ](Result<ServiceResponse> result) mutable -> Result<SharedPtr<Entity>>
     {
@@ -86,13 +86,13 @@ AsyncOp<SharedPtr<Entity>> Entity::GetEntityToken(
         auto serviceResponse = result.ExtractPayload();
         if (serviceResponse.HttpCode == 200)
         {
-            AuthenticationModels::GetEntityTokenResponse resultModel;
+            Authentication::GetEntityTokenResponse resultModel;
             resultModel.FromJson(serviceResponse.Data);
 
-            if (sharedThis->m_id == AS_STRING(resultModel.entity->id))
+            if (sharedThis->m_id == SafeString(resultModel.entity->Model().id))
             {
                 // If we requested an EntityToken for ourselves, update m_authTokens and return "this"
-                assert(sharedThis->m_type == AS_STRING(resultModel.entity->type));
+                assert(sharedThis->m_type == SafeString(resultModel.entity->Model().type));
                 sharedThis->m_entityToken = MakeShared<PlayFab::EntityToken>(resultModel);
                 sharedThis->TokenRefreshedCallbacks.Invoke(sharedThis->m_entityToken);
                 return Result<SharedPtr<Entity>>{ std::move(sharedThis) };
@@ -110,16 +110,16 @@ AsyncOp<SharedPtr<Entity>> Entity::GetEntityToken(
     });
 }
 
-EntityToken::EntityToken(const AuthenticationModels::EntityTokenResponse& tokenResponse) :
+EntityToken::EntityToken(const Authentication::EntityTokenResponse& tokenResponse) :
     PFEntityToken{},
-    m_token{ AS_STRING(tokenResponse.entityToken) },
-    m_expiration{ tokenResponse.tokenExpiration ? *tokenResponse.tokenExpiration : StdExtra::optional<time_t>{} }
+    m_token{ SafeString(tokenResponse.Model().entityToken) },
+    m_expiration{ tokenResponse.Model().tokenExpiration ? *tokenResponse.Model().tokenExpiration : StdExtra::optional<time_t>{} }
 {
     token = m_token.empty() ? nullptr : m_token.data();
     expiration = m_expiration ? m_expiration.operator->() : nullptr;
 }
 
-EntityToken::EntityToken(const AuthenticationModels::GetEntityTokenResponse& tokenResponse) :
+EntityToken::EntityToken(const Authentication::GetEntityTokenResponse& tokenResponse) :
     PFEntityToken{},
     m_token{ tokenResponse.entityToken },
     m_expiration{ tokenResponse.tokenExpiration }

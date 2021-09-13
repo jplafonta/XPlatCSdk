@@ -1,1484 +1,1201 @@
 #pragma once
 
-#include <playfab/PFPlayerItemManagementDataModels.h>
+#include <playfab/cpp/PFPlayerItemManagementDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace PlayerItemManagementModels
+namespace PlayerItemManagement
 {
 
 // PlayerItemManagement Classes
-struct AdminAddUserVirtualCurrencyRequest : public PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest, public BaseModel
-{
-    AdminAddUserVirtualCurrencyRequest();
-    AdminAddUserVirtualCurrencyRequest(const AdminAddUserVirtualCurrencyRequest& src);
-    AdminAddUserVirtualCurrencyRequest(AdminAddUserVirtualCurrencyRequest&& src);
-    AdminAddUserVirtualCurrencyRequest(const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& src);
-    AdminAddUserVirtualCurrencyRequest& operator=(const AdminAddUserVirtualCurrencyRequest&) = delete;
-    ~AdminAddUserVirtualCurrencyRequest() = default;
+class AdminAddUserVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementAdminAddUserVirtualCurrencyRequestWrapper<Allocator>, public InputModel
+{
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementAdminAddUserVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_virtualCurrency;
 };
 
-struct ModifyUserVirtualCurrencyResult : public PFPlayerItemManagementModifyUserVirtualCurrencyResult, public SerializableModel, public ApiResult
+class ModifyUserVirtualCurrencyResult : public Wrappers::PFPlayerItemManagementModifyUserVirtualCurrencyResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementModifyUserVirtualCurrencyResult>
 {
-    ModifyUserVirtualCurrencyResult();
-    ModifyUserVirtualCurrencyResult(const ModifyUserVirtualCurrencyResult& src);
-    ModifyUserVirtualCurrencyResult(ModifyUserVirtualCurrencyResult&& src);
-    ModifyUserVirtualCurrencyResult(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& src);
-    ModifyUserVirtualCurrencyResult& operator=(const ModifyUserVirtualCurrencyResult&) = delete;
-    ~ModifyUserVirtualCurrencyResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementModifyUserVirtualCurrencyResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementModifyUserVirtualCurrencyResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    String m_virtualCurrency;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& input, PFPlayerItemManagementModifyUserVirtualCurrencyResult& output, ModelBuffer& buffer);
 };
 
-struct CheckLimitedEditionItemAvailabilityRequest : public PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest, public SerializableModel
+class CheckLimitedEditionItemAvailabilityRequest : public Wrappers::PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequestWrapper<Allocator>, public InputModel
 {
-    CheckLimitedEditionItemAvailabilityRequest();
-    CheckLimitedEditionItemAvailabilityRequest(const CheckLimitedEditionItemAvailabilityRequest& src);
-    CheckLimitedEditionItemAvailabilityRequest(CheckLimitedEditionItemAvailabilityRequest&& src);
-    CheckLimitedEditionItemAvailabilityRequest(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& src);
-    CheckLimitedEditionItemAvailabilityRequest& operator=(const CheckLimitedEditionItemAvailabilityRequest&) = delete;
-    ~CheckLimitedEditionItemAvailabilityRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_itemId;
 };
 
-struct CheckLimitedEditionItemAvailabilityResult : public PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult, public SerializableModel, public ApiResult
+class CheckLimitedEditionItemAvailabilityResult : public Wrappers::PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult>
 {
-    CheckLimitedEditionItemAvailabilityResult();
-    CheckLimitedEditionItemAvailabilityResult(const CheckLimitedEditionItemAvailabilityResult&) = default;
-    CheckLimitedEditionItemAvailabilityResult(CheckLimitedEditionItemAvailabilityResult&&) = default;
-    CheckLimitedEditionItemAvailabilityResult(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& src);
-    CheckLimitedEditionItemAvailabilityResult& operator=(const CheckLimitedEditionItemAvailabilityResult&) = delete;
-    ~CheckLimitedEditionItemAvailabilityResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
+    static size_t RequiredBufferSize(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& input, PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& output, ModelBuffer& buffer);
 };
 
-struct AdminGetUserInventoryRequest : public PFPlayerItemManagementAdminGetUserInventoryRequest, public BaseModel
+class AdminGetUserInventoryRequest : public Wrappers::PFPlayerItemManagementAdminGetUserInventoryRequestWrapper<Allocator>, public InputModel
 {
-    AdminGetUserInventoryRequest();
-    AdminGetUserInventoryRequest(const AdminGetUserInventoryRequest& src);
-    AdminGetUserInventoryRequest(AdminGetUserInventoryRequest&& src);
-    AdminGetUserInventoryRequest(const PFPlayerItemManagementAdminGetUserInventoryRequest& src);
-    AdminGetUserInventoryRequest& operator=(const AdminGetUserInventoryRequest&) = delete;
-    ~AdminGetUserInventoryRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementAdminGetUserInventoryRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementAdminGetUserInventoryRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct AdminGetUserInventoryResult : public PFPlayerItemManagementAdminGetUserInventoryResult, public BaseModel, public ApiResult
+class AdminGetUserInventoryResult : public Wrappers::PFPlayerItemManagementAdminGetUserInventoryResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementAdminGetUserInventoryResult>
 {
-    AdminGetUserInventoryResult();
-    AdminGetUserInventoryResult(const AdminGetUserInventoryResult& src);
-    AdminGetUserInventoryResult(AdminGetUserInventoryResult&& src);
-    AdminGetUserInventoryResult(const PFPlayerItemManagementAdminGetUserInventoryResult& src);
-    AdminGetUserInventoryResult& operator=(const AdminGetUserInventoryResult&) = delete;
-    ~AdminGetUserInventoryResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementAdminGetUserInventoryResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementAdminGetUserInventoryResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
-    String m_playFabId;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementAdminGetUserInventoryResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementAdminGetUserInventoryResult& input, PFPlayerItemManagementAdminGetUserInventoryResult& output, ModelBuffer& buffer);
 };
 
-struct ItemGrant : public PFPlayerItemManagementItemGrant, public BaseModel
+class ItemGrant : public Wrappers::PFPlayerItemManagementItemGrantWrapper<Allocator>, public InputModel
 {
-    ItemGrant();
-    ItemGrant(const ItemGrant& src);
-    ItemGrant(ItemGrant&& src);
-    ItemGrant(const PFPlayerItemManagementItemGrant& src);
-    ItemGrant& operator=(const ItemGrant&) = delete;
-    ~ItemGrant() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementItemGrantWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementItemGrant& input);
 
-private:
-    String m_annotation;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    String m_itemId;
-    PointerArrayModel<char, String> m_keysToRemove;
-    String m_playFabId;
 };
 
-struct GrantItemsToUsersRequest : public PFPlayerItemManagementGrantItemsToUsersRequest, public BaseModel
+class GrantItemsToUsersRequest : public Wrappers::PFPlayerItemManagementGrantItemsToUsersRequestWrapper<Allocator>, public InputModel
 {
-    GrantItemsToUsersRequest();
-    GrantItemsToUsersRequest(const GrantItemsToUsersRequest& src);
-    GrantItemsToUsersRequest(GrantItemsToUsersRequest&& src);
-    GrantItemsToUsersRequest(const PFPlayerItemManagementGrantItemsToUsersRequest& src);
-    GrantItemsToUsersRequest& operator=(const GrantItemsToUsersRequest&) = delete;
-    ~GrantItemsToUsersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantItemsToUsersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementGrantItemsToUsersRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFPlayerItemManagementItemGrant, ItemGrant> m_itemGrants;
 };
 
-struct GrantedItemInstance : public PFPlayerItemManagementGrantedItemInstance, public BaseModel
+class GrantedItemInstance : public Wrappers::PFPlayerItemManagementGrantedItemInstanceWrapper<Allocator>, public OutputModel<PFPlayerItemManagementGrantedItemInstance>
 {
-    GrantedItemInstance();
-    GrantedItemInstance(const GrantedItemInstance& src);
-    GrantedItemInstance(GrantedItemInstance&& src);
-    GrantedItemInstance(const PFPlayerItemManagementGrantedItemInstance& src);
-    GrantedItemInstance& operator=(const GrantedItemInstance&) = delete;
-    ~GrantedItemInstance() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantedItemInstanceWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementGrantedItemInstance const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFPlayerItemManagementGrantedItemInstance& model);
+    static HRESULT Copy(const PFPlayerItemManagementGrantedItemInstance& input, PFPlayerItemManagementGrantedItemInstance& output, ModelBuffer& buffer);
+};
+
+class GrantItemsToUsersResult : public Wrappers::PFPlayerItemManagementGrantItemsToUsersResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementGrantItemsToUsersResult>
+{
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantItemsToUsersResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-private:
-    String m_annotation;
-    PointerArrayModel<char, String> m_bundleContents;
-    String m_bundleParent;
-    String m_catalogVersion;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customData;
-    String m_displayName;
-    StdExtra::optional<time_t> m_expiration;
-    String m_itemClass;
-    String m_itemId;
-    String m_itemInstanceId;
-    String m_playFabId;
-    StdExtra::optional<time_t> m_purchaseDate;
-    StdExtra::optional<int32_t> m_remainingUses;
-    String m_unitCurrency;
-    StdExtra::optional<int32_t> m_usesIncrementedBy;
-};
-
-struct GrantItemsToUsersResult : public PFPlayerItemManagementGrantItemsToUsersResult, public BaseModel, public ApiResult
-{
-    GrantItemsToUsersResult();
-    GrantItemsToUsersResult(const GrantItemsToUsersResult& src);
-    GrantItemsToUsersResult(GrantItemsToUsersResult&& src);
-    GrantItemsToUsersResult(const PFPlayerItemManagementGrantItemsToUsersResult& src);
-    GrantItemsToUsersResult& operator=(const GrantItemsToUsersResult&) = delete;
-    ~GrantItemsToUsersResult() = default;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementGrantItemsToUsersResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerItemManagementGrantedItemInstance, GrantedItemInstance> m_itemGrantResults;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementGrantItemsToUsersResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementGrantItemsToUsersResult& input, PFPlayerItemManagementGrantItemsToUsersResult& output, ModelBuffer& buffer);
 };
 
-struct IncrementLimitedEditionItemAvailabilityRequest : public PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest, public BaseModel
+class IncrementLimitedEditionItemAvailabilityRequest : public Wrappers::PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequestWrapper<Allocator>, public InputModel
 {
-    IncrementLimitedEditionItemAvailabilityRequest();
-    IncrementLimitedEditionItemAvailabilityRequest(const IncrementLimitedEditionItemAvailabilityRequest& src);
-    IncrementLimitedEditionItemAvailabilityRequest(IncrementLimitedEditionItemAvailabilityRequest&& src);
-    IncrementLimitedEditionItemAvailabilityRequest(const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& src);
-    IncrementLimitedEditionItemAvailabilityRequest& operator=(const IncrementLimitedEditionItemAvailabilityRequest&) = delete;
-    ~IncrementLimitedEditionItemAvailabilityRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_itemId;
 };
 
-struct RevokeInventoryItemRequest : public PFPlayerItemManagementRevokeInventoryItemRequest, public SerializableModel
+class RevokeInventoryItemRequest : public Wrappers::PFPlayerItemManagementRevokeInventoryItemRequestWrapper<Allocator>, public InputModel
 {
-    RevokeInventoryItemRequest();
-    RevokeInventoryItemRequest(const RevokeInventoryItemRequest& src);
-    RevokeInventoryItemRequest(RevokeInventoryItemRequest&& src);
-    RevokeInventoryItemRequest(const PFPlayerItemManagementRevokeInventoryItemRequest& src);
-    RevokeInventoryItemRequest& operator=(const RevokeInventoryItemRequest&) = delete;
-    ~RevokeInventoryItemRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementRevokeInventoryItemRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementRevokeInventoryItemRequest& input);
 
-private:
-    String m_characterId;
-    String m_itemInstanceId;
-    String m_playFabId;
 };
 
-struct RevokeInventoryItem : public PFPlayerItemManagementRevokeInventoryItem, public SerializableModel
+class RevokeInventoryItem : public Wrappers::PFPlayerItemManagementRevokeInventoryItemWrapper<Allocator>, public InputModel, public OutputModel<PFPlayerItemManagementRevokeInventoryItem>
 {
-    RevokeInventoryItem();
-    RevokeInventoryItem(const RevokeInventoryItem& src);
-    RevokeInventoryItem(RevokeInventoryItem&& src);
-    RevokeInventoryItem(const PFPlayerItemManagementRevokeInventoryItem& src);
-    RevokeInventoryItem& operator=(const RevokeInventoryItem&) = delete;
-    ~RevokeInventoryItem() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementRevokeInventoryItemWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementRevokeInventoryItem& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementRevokeInventoryItem const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    String m_itemInstanceId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementRevokeInventoryItem& model);
+    static HRESULT Copy(const PFPlayerItemManagementRevokeInventoryItem& input, PFPlayerItemManagementRevokeInventoryItem& output, ModelBuffer& buffer);
 };
 
-struct RevokeInventoryItemsRequest : public PFPlayerItemManagementRevokeInventoryItemsRequest, public BaseModel
+class RevokeInventoryItemsRequest : public Wrappers::PFPlayerItemManagementRevokeInventoryItemsRequestWrapper<Allocator>, public InputModel
 {
-    RevokeInventoryItemsRequest();
-    RevokeInventoryItemsRequest(const RevokeInventoryItemsRequest& src);
-    RevokeInventoryItemsRequest(RevokeInventoryItemsRequest&& src);
-    RevokeInventoryItemsRequest(const PFPlayerItemManagementRevokeInventoryItemsRequest& src);
-    RevokeInventoryItemsRequest& operator=(const RevokeInventoryItemsRequest&) = delete;
-    ~RevokeInventoryItemsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementRevokeInventoryItemsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementRevokeInventoryItemsRequest& input);
 
-private:
-    PointerArrayModel<PFPlayerItemManagementRevokeInventoryItem, RevokeInventoryItem> m_items;
 };
 
-struct RevokeItemError : public PFPlayerItemManagementRevokeItemError, public BaseModel
+class RevokeItemError : public Wrappers::PFPlayerItemManagementRevokeItemErrorWrapper<Allocator>, public OutputModel<PFPlayerItemManagementRevokeItemError>
 {
-    RevokeItemError();
-    RevokeItemError(const RevokeItemError& src);
-    RevokeItemError(RevokeItemError&& src);
-    RevokeItemError(const PFPlayerItemManagementRevokeItemError& src);
-    RevokeItemError& operator=(const RevokeItemError&) = delete;
-    ~RevokeItemError() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementRevokeItemErrorWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementRevokeItemError const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PFPlayerItemManagementGenericErrorCodes> m_error;
-    StdExtra::optional<RevokeInventoryItem> m_item;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementRevokeItemError& model);
+    static HRESULT Copy(const PFPlayerItemManagementRevokeItemError& input, PFPlayerItemManagementRevokeItemError& output, ModelBuffer& buffer);
 };
 
-struct RevokeInventoryItemsResult : public PFPlayerItemManagementRevokeInventoryItemsResult, public BaseModel, public ApiResult
+class RevokeInventoryItemsResult : public Wrappers::PFPlayerItemManagementRevokeInventoryItemsResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementRevokeInventoryItemsResult>
 {
-    RevokeInventoryItemsResult();
-    RevokeInventoryItemsResult(const RevokeInventoryItemsResult& src);
-    RevokeInventoryItemsResult(RevokeInventoryItemsResult&& src);
-    RevokeInventoryItemsResult(const PFPlayerItemManagementRevokeInventoryItemsResult& src);
-    RevokeInventoryItemsResult& operator=(const RevokeInventoryItemsResult&) = delete;
-    ~RevokeInventoryItemsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementRevokeInventoryItemsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementRevokeInventoryItemsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerItemManagementRevokeItemError, RevokeItemError> m_errors;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementRevokeInventoryItemsResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementRevokeInventoryItemsResult& input, PFPlayerItemManagementRevokeInventoryItemsResult& output, ModelBuffer& buffer);
 };
 
-struct AdminSubtractUserVirtualCurrencyRequest : public PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest, public BaseModel
+class AdminSubtractUserVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    AdminSubtractUserVirtualCurrencyRequest();
-    AdminSubtractUserVirtualCurrencyRequest(const AdminSubtractUserVirtualCurrencyRequest& src);
-    AdminSubtractUserVirtualCurrencyRequest(AdminSubtractUserVirtualCurrencyRequest&& src);
-    AdminSubtractUserVirtualCurrencyRequest(const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& src);
-    AdminSubtractUserVirtualCurrencyRequest& operator=(const AdminSubtractUserVirtualCurrencyRequest&) = delete;
-    ~AdminSubtractUserVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_virtualCurrency;
 };
 
-struct ClientAddUserVirtualCurrencyRequest : public PFPlayerItemManagementClientAddUserVirtualCurrencyRequest, public BaseModel
+class ClientAddUserVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementClientAddUserVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    ClientAddUserVirtualCurrencyRequest();
-    ClientAddUserVirtualCurrencyRequest(const ClientAddUserVirtualCurrencyRequest& src);
-    ClientAddUserVirtualCurrencyRequest(ClientAddUserVirtualCurrencyRequest&& src);
-    ClientAddUserVirtualCurrencyRequest(const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& src);
-    ClientAddUserVirtualCurrencyRequest& operator=(const ClientAddUserVirtualCurrencyRequest&) = delete;
-    ~ClientAddUserVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientAddUserVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_virtualCurrency;
 };
 
-struct ConfirmPurchaseRequest : public PFPlayerItemManagementConfirmPurchaseRequest, public BaseModel
+class ConfirmPurchaseRequest : public Wrappers::PFPlayerItemManagementConfirmPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    ConfirmPurchaseRequest();
-    ConfirmPurchaseRequest(const ConfirmPurchaseRequest& src);
-    ConfirmPurchaseRequest(ConfirmPurchaseRequest&& src);
-    ConfirmPurchaseRequest(const PFPlayerItemManagementConfirmPurchaseRequest& src);
-    ConfirmPurchaseRequest& operator=(const ConfirmPurchaseRequest&) = delete;
-    ~ConfirmPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementConfirmPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementConfirmPurchaseRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_orderId;
 };
 
-struct ConfirmPurchaseResult : public PFPlayerItemManagementConfirmPurchaseResult, public BaseModel, public ApiResult
+class ConfirmPurchaseResult : public Wrappers::PFPlayerItemManagementConfirmPurchaseResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementConfirmPurchaseResult>
 {
-    ConfirmPurchaseResult();
-    ConfirmPurchaseResult(const ConfirmPurchaseResult& src);
-    ConfirmPurchaseResult(ConfirmPurchaseResult&& src);
-    ConfirmPurchaseResult(const PFPlayerItemManagementConfirmPurchaseResult& src);
-    ConfirmPurchaseResult& operator=(const ConfirmPurchaseResult&) = delete;
-    ~ConfirmPurchaseResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementConfirmPurchaseResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementConfirmPurchaseResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_items;
-    String m_orderId;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementConfirmPurchaseResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementConfirmPurchaseResult& input, PFPlayerItemManagementConfirmPurchaseResult& output, ModelBuffer& buffer);
 };
 
-struct ClientConsumeItemRequest : public PFPlayerItemManagementClientConsumeItemRequest, public BaseModel
+class ClientConsumeItemRequest : public Wrappers::PFPlayerItemManagementClientConsumeItemRequestWrapper<Allocator>, public InputModel
 {
-    ClientConsumeItemRequest();
-    ClientConsumeItemRequest(const ClientConsumeItemRequest& src);
-    ClientConsumeItemRequest(ClientConsumeItemRequest&& src);
-    ClientConsumeItemRequest(const PFPlayerItemManagementClientConsumeItemRequest& src);
-    ClientConsumeItemRequest& operator=(const ClientConsumeItemRequest&) = delete;
-    ~ClientConsumeItemRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientConsumeItemRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientConsumeItemRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_itemInstanceId;
 };
 
-struct ConsumeItemResult : public PFPlayerItemManagementConsumeItemResult, public SerializableModel, public ApiResult
+class ConsumeItemResult : public Wrappers::PFPlayerItemManagementConsumeItemResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementConsumeItemResult>
 {
-    ConsumeItemResult();
-    ConsumeItemResult(const ConsumeItemResult& src);
-    ConsumeItemResult(ConsumeItemResult&& src);
-    ConsumeItemResult(const PFPlayerItemManagementConsumeItemResult& src);
-    ConsumeItemResult& operator=(const ConsumeItemResult&) = delete;
-    ~ConsumeItemResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementConsumeItemResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementConsumeItemResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_itemInstanceId;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementConsumeItemResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementConsumeItemResult& input, PFPlayerItemManagementConsumeItemResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetCharacterInventoryRequest : public PFPlayerItemManagementClientGetCharacterInventoryRequest, public BaseModel
+class ClientGetCharacterInventoryRequest : public Wrappers::PFPlayerItemManagementClientGetCharacterInventoryRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetCharacterInventoryRequest();
-    ClientGetCharacterInventoryRequest(const ClientGetCharacterInventoryRequest& src);
-    ClientGetCharacterInventoryRequest(ClientGetCharacterInventoryRequest&& src);
-    ClientGetCharacterInventoryRequest(const PFPlayerItemManagementClientGetCharacterInventoryRequest& src);
-    ClientGetCharacterInventoryRequest& operator=(const ClientGetCharacterInventoryRequest&) = delete;
-    ~ClientGetCharacterInventoryRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientGetCharacterInventoryRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientGetCharacterInventoryRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ClientGetCharacterInventoryResult : public PFPlayerItemManagementClientGetCharacterInventoryResult, public BaseModel, public ApiResult
+class ClientGetCharacterInventoryResult : public Wrappers::PFPlayerItemManagementClientGetCharacterInventoryResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementClientGetCharacterInventoryResult>
 {
-    ClientGetCharacterInventoryResult();
-    ClientGetCharacterInventoryResult(const ClientGetCharacterInventoryResult& src);
-    ClientGetCharacterInventoryResult(ClientGetCharacterInventoryResult&& src);
-    ClientGetCharacterInventoryResult(const PFPlayerItemManagementClientGetCharacterInventoryResult& src);
-    ClientGetCharacterInventoryResult& operator=(const ClientGetCharacterInventoryResult&) = delete;
-    ~ClientGetCharacterInventoryResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientGetCharacterInventoryResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementClientGetCharacterInventoryResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementClientGetCharacterInventoryResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementClientGetCharacterInventoryResult& input, PFPlayerItemManagementClientGetCharacterInventoryResult& output, ModelBuffer& buffer);
 };
 
-struct GetPaymentTokenRequest : public PFPlayerItemManagementGetPaymentTokenRequest, public SerializableModel
+class GetPaymentTokenRequest : public Wrappers::PFPlayerItemManagementGetPaymentTokenRequestWrapper<Allocator>, public InputModel
 {
-    GetPaymentTokenRequest();
-    GetPaymentTokenRequest(const GetPaymentTokenRequest& src);
-    GetPaymentTokenRequest(GetPaymentTokenRequest&& src);
-    GetPaymentTokenRequest(const PFPlayerItemManagementGetPaymentTokenRequest& src);
-    GetPaymentTokenRequest& operator=(const GetPaymentTokenRequest&) = delete;
-    ~GetPaymentTokenRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGetPaymentTokenRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementGetPaymentTokenRequest& input);
 
-private:
-    String m_tokenProvider;
 };
 
-struct GetPaymentTokenResult : public PFPlayerItemManagementGetPaymentTokenResult, public SerializableModel, public ApiResult
+class GetPaymentTokenResult : public Wrappers::PFPlayerItemManagementGetPaymentTokenResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementGetPaymentTokenResult>
 {
-    GetPaymentTokenResult();
-    GetPaymentTokenResult(const GetPaymentTokenResult& src);
-    GetPaymentTokenResult(GetPaymentTokenResult&& src);
-    GetPaymentTokenResult(const PFPlayerItemManagementGetPaymentTokenResult& src);
-    GetPaymentTokenResult& operator=(const GetPaymentTokenResult&) = delete;
-    ~GetPaymentTokenResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGetPaymentTokenResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementGetPaymentTokenResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_orderId;
-    String m_providerToken;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementGetPaymentTokenResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementGetPaymentTokenResult& input, PFPlayerItemManagementGetPaymentTokenResult& output, ModelBuffer& buffer);
 };
 
-struct GetPurchaseRequest : public PFPlayerItemManagementGetPurchaseRequest, public SerializableModel
+class GetPurchaseRequest : public Wrappers::PFPlayerItemManagementGetPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    GetPurchaseRequest();
-    GetPurchaseRequest(const GetPurchaseRequest& src);
-    GetPurchaseRequest(GetPurchaseRequest&& src);
-    GetPurchaseRequest(const PFPlayerItemManagementGetPurchaseRequest& src);
-    GetPurchaseRequest& operator=(const GetPurchaseRequest&) = delete;
-    ~GetPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGetPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementGetPurchaseRequest& input);
 
-private:
-    String m_orderId;
 };
 
-struct GetPurchaseResult : public PFPlayerItemManagementGetPurchaseResult, public SerializableModel, public ApiResult
+class GetPurchaseResult : public Wrappers::PFPlayerItemManagementGetPurchaseResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementGetPurchaseResult>
 {
-    GetPurchaseResult();
-    GetPurchaseResult(const GetPurchaseResult& src);
-    GetPurchaseResult(GetPurchaseResult&& src);
-    GetPurchaseResult(const PFPlayerItemManagementGetPurchaseResult& src);
-    GetPurchaseResult& operator=(const GetPurchaseResult&) = delete;
-    ~GetPurchaseResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGetPurchaseResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementGetPurchaseResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_orderId;
-    String m_paymentProvider;
-    String m_transactionId;
-    String m_transactionStatus;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementGetPurchaseResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementGetPurchaseResult& input, PFPlayerItemManagementGetPurchaseResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetUserInventoryRequest : public PFPlayerItemManagementClientGetUserInventoryRequest, public BaseModel
+class ClientGetUserInventoryRequest : public Wrappers::PFPlayerItemManagementClientGetUserInventoryRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetUserInventoryRequest();
-    ClientGetUserInventoryRequest(const ClientGetUserInventoryRequest& src);
-    ClientGetUserInventoryRequest(ClientGetUserInventoryRequest&& src);
-    ClientGetUserInventoryRequest(const PFPlayerItemManagementClientGetUserInventoryRequest& src);
-    ClientGetUserInventoryRequest& operator=(const ClientGetUserInventoryRequest&) = delete;
-    ~ClientGetUserInventoryRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientGetUserInventoryRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientGetUserInventoryRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ClientGetUserInventoryResult : public PFPlayerItemManagementClientGetUserInventoryResult, public BaseModel, public ApiResult
+class ClientGetUserInventoryResult : public Wrappers::PFPlayerItemManagementClientGetUserInventoryResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementClientGetUserInventoryResult>
 {
-    ClientGetUserInventoryResult();
-    ClientGetUserInventoryResult(const ClientGetUserInventoryResult& src);
-    ClientGetUserInventoryResult(ClientGetUserInventoryResult&& src);
-    ClientGetUserInventoryResult(const PFPlayerItemManagementClientGetUserInventoryResult& src);
-    ClientGetUserInventoryResult& operator=(const ClientGetUserInventoryResult&) = delete;
-    ~ClientGetUserInventoryResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientGetUserInventoryResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementClientGetUserInventoryResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementClientGetUserInventoryResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementClientGetUserInventoryResult& input, PFPlayerItemManagementClientGetUserInventoryResult& output, ModelBuffer& buffer);
 };
 
-struct PayForPurchaseRequest : public PFPlayerItemManagementPayForPurchaseRequest, public BaseModel
+class PayForPurchaseRequest : public Wrappers::PFPlayerItemManagementPayForPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    PayForPurchaseRequest();
-    PayForPurchaseRequest(const PayForPurchaseRequest& src);
-    PayForPurchaseRequest(PayForPurchaseRequest&& src);
-    PayForPurchaseRequest(const PFPlayerItemManagementPayForPurchaseRequest& src);
-    PayForPurchaseRequest& operator=(const PayForPurchaseRequest&) = delete;
-    ~PayForPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementPayForPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementPayForPurchaseRequest& input);
 
-private:
-    String m_currency;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_orderId;
-    String m_providerName;
-    String m_providerTransactionId;
 };
 
-struct PayForPurchaseResult : public PFPlayerItemManagementPayForPurchaseResult, public BaseModel, public ApiResult
+class PayForPurchaseResult : public Wrappers::PFPlayerItemManagementPayForPurchaseResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementPayForPurchaseResult>
 {
-    PayForPurchaseResult();
-    PayForPurchaseResult(const PayForPurchaseResult& src);
-    PayForPurchaseResult(PayForPurchaseResult&& src);
-    PayForPurchaseResult(const PFPlayerItemManagementPayForPurchaseResult& src);
-    PayForPurchaseResult& operator=(const PayForPurchaseResult&) = delete;
-    ~PayForPurchaseResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementPayForPurchaseResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementPayForPurchaseResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_orderId;
-    String m_providerData;
-    String m_providerToken;
-    String m_purchaseConfirmationPageURL;
-    String m_purchaseCurrency;
-    StdExtra::optional<PFPlayerItemManagementTransactionStatus> m_status;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_vCAmount;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementPayForPurchaseResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementPayForPurchaseResult& input, PFPlayerItemManagementPayForPurchaseResult& output, ModelBuffer& buffer);
 };
 
-struct PurchaseItemRequest : public PFPlayerItemManagementPurchaseItemRequest, public BaseModel
+class PurchaseItemRequest : public Wrappers::PFPlayerItemManagementPurchaseItemRequestWrapper<Allocator>, public InputModel
 {
-    PurchaseItemRequest();
-    PurchaseItemRequest(const PurchaseItemRequest& src);
-    PurchaseItemRequest(PurchaseItemRequest&& src);
-    PurchaseItemRequest(const PFPlayerItemManagementPurchaseItemRequest& src);
-    PurchaseItemRequest& operator=(const PurchaseItemRequest&) = delete;
-    ~PurchaseItemRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementPurchaseItemRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementPurchaseItemRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_itemId;
-    String m_storeId;
-    String m_virtualCurrency;
 };
 
-struct PurchaseItemResult : public PFPlayerItemManagementPurchaseItemResult, public BaseModel, public ApiResult
+class PurchaseItemResult : public Wrappers::PFPlayerItemManagementPurchaseItemResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementPurchaseItemResult>
 {
-    PurchaseItemResult();
-    PurchaseItemResult(const PurchaseItemResult& src);
-    PurchaseItemResult(PurchaseItemResult&& src);
-    PurchaseItemResult(const PFPlayerItemManagementPurchaseItemResult& src);
-    PurchaseItemResult& operator=(const PurchaseItemResult&) = delete;
-    ~PurchaseItemResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementPurchaseItemResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementPurchaseItemResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_items;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementPurchaseItemResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementPurchaseItemResult& input, PFPlayerItemManagementPurchaseItemResult& output, ModelBuffer& buffer);
 };
 
-struct ClientRedeemCouponRequest : public PFPlayerItemManagementClientRedeemCouponRequest, public BaseModel
+class ClientRedeemCouponRequest : public Wrappers::PFPlayerItemManagementClientRedeemCouponRequestWrapper<Allocator>, public InputModel
 {
-    ClientRedeemCouponRequest();
-    ClientRedeemCouponRequest(const ClientRedeemCouponRequest& src);
-    ClientRedeemCouponRequest(ClientRedeemCouponRequest&& src);
-    ClientRedeemCouponRequest(const PFPlayerItemManagementClientRedeemCouponRequest& src);
-    ClientRedeemCouponRequest& operator=(const ClientRedeemCouponRequest&) = delete;
-    ~ClientRedeemCouponRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientRedeemCouponRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientRedeemCouponRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    String m_couponCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct RedeemCouponResult : public PFPlayerItemManagementRedeemCouponResult, public BaseModel, public ApiResult
+class RedeemCouponResult : public Wrappers::PFPlayerItemManagementRedeemCouponResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementRedeemCouponResult>
 {
-    RedeemCouponResult();
-    RedeemCouponResult(const RedeemCouponResult& src);
-    RedeemCouponResult(RedeemCouponResult&& src);
-    RedeemCouponResult(const PFPlayerItemManagementRedeemCouponResult& src);
-    RedeemCouponResult& operator=(const RedeemCouponResult&) = delete;
-    ~RedeemCouponResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementRedeemCouponResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementRedeemCouponResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_grantedItems;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementRedeemCouponResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementRedeemCouponResult& input, PFPlayerItemManagementRedeemCouponResult& output, ModelBuffer& buffer);
 };
 
-struct ItemPurchaseRequest : public PFPlayerItemManagementItemPurchaseRequest, public BaseModel
+class ItemPurchaseRequest : public Wrappers::PFPlayerItemManagementItemPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    ItemPurchaseRequest();
-    ItemPurchaseRequest(const ItemPurchaseRequest& src);
-    ItemPurchaseRequest(ItemPurchaseRequest&& src);
-    ItemPurchaseRequest(const PFPlayerItemManagementItemPurchaseRequest& src);
-    ItemPurchaseRequest& operator=(const ItemPurchaseRequest&) = delete;
-    ~ItemPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementItemPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementItemPurchaseRequest& input);
 
-private:
-    String m_annotation;
-    String m_itemId;
-    PointerArrayModel<char, String> m_upgradeFromItems;
 };
 
-struct StartPurchaseRequest : public PFPlayerItemManagementStartPurchaseRequest, public BaseModel
+class StartPurchaseRequest : public Wrappers::PFPlayerItemManagementStartPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    StartPurchaseRequest();
-    StartPurchaseRequest(const StartPurchaseRequest& src);
-    StartPurchaseRequest(StartPurchaseRequest&& src);
-    StartPurchaseRequest(const PFPlayerItemManagementStartPurchaseRequest& src);
-    StartPurchaseRequest& operator=(const StartPurchaseRequest&) = delete;
-    ~StartPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementStartPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementStartPurchaseRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFPlayerItemManagementItemPurchaseRequest, ItemPurchaseRequest> m_items;
-    String m_storeId;
 };
 
-struct CartItem : public PFPlayerItemManagementCartItem, public BaseModel
+class CartItem : public Wrappers::PFPlayerItemManagementCartItemWrapper<Allocator>, public OutputModel<PFPlayerItemManagementCartItem>
 {
-    CartItem();
-    CartItem(const CartItem& src);
-    CartItem(CartItem&& src);
-    CartItem(const PFPlayerItemManagementCartItem& src);
-    CartItem& operator=(const CartItem&) = delete;
-    ~CartItem() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementCartItemWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementCartItem const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_description;
-    String m_displayName;
-    String m_itemClass;
-    String m_itemId;
-    String m_itemInstanceId;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_realCurrencyPrices;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_vCAmount;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_virtualCurrencyPrices;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementCartItem& model);
+    static HRESULT Copy(const PFPlayerItemManagementCartItem& input, PFPlayerItemManagementCartItem& output, ModelBuffer& buffer);
 };
 
-struct PaymentOption : public PFPlayerItemManagementPaymentOption, public SerializableModel
+class PaymentOption : public Wrappers::PFPlayerItemManagementPaymentOptionWrapper<Allocator>, public OutputModel<PFPlayerItemManagementPaymentOption>
 {
-    PaymentOption();
-    PaymentOption(const PaymentOption& src);
-    PaymentOption(PaymentOption&& src);
-    PaymentOption(const PFPlayerItemManagementPaymentOption& src);
-    PaymentOption& operator=(const PaymentOption&) = delete;
-    ~PaymentOption() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementPaymentOptionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementPaymentOption const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_currency;
-    String m_providerName;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementPaymentOption& model);
+    static HRESULT Copy(const PFPlayerItemManagementPaymentOption& input, PFPlayerItemManagementPaymentOption& output, ModelBuffer& buffer);
 };
 
-struct StartPurchaseResult : public PFPlayerItemManagementStartPurchaseResult, public BaseModel, public ApiResult
+class StartPurchaseResult : public Wrappers::PFPlayerItemManagementStartPurchaseResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementStartPurchaseResult>
 {
-    StartPurchaseResult();
-    StartPurchaseResult(const StartPurchaseResult& src);
-    StartPurchaseResult(StartPurchaseResult&& src);
-    StartPurchaseResult(const PFPlayerItemManagementStartPurchaseResult& src);
-    StartPurchaseResult& operator=(const StartPurchaseResult&) = delete;
-    ~StartPurchaseResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementStartPurchaseResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementStartPurchaseResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerItemManagementCartItem, CartItem> m_contents;
-    String m_orderId;
-    PointerArrayModel<PFPlayerItemManagementPaymentOption, PaymentOption> m_paymentOptions;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrencyBalances;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementStartPurchaseResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementStartPurchaseResult& input, PFPlayerItemManagementStartPurchaseResult& output, ModelBuffer& buffer);
 };
 
-struct ClientSubtractUserVirtualCurrencyRequest : public PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest, public BaseModel
+class ClientSubtractUserVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    ClientSubtractUserVirtualCurrencyRequest();
-    ClientSubtractUserVirtualCurrencyRequest(const ClientSubtractUserVirtualCurrencyRequest& src);
-    ClientSubtractUserVirtualCurrencyRequest(ClientSubtractUserVirtualCurrencyRequest&& src);
-    ClientSubtractUserVirtualCurrencyRequest(const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& src);
-    ClientSubtractUserVirtualCurrencyRequest& operator=(const ClientSubtractUserVirtualCurrencyRequest&) = delete;
-    ~ClientSubtractUserVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_virtualCurrency;
 };
 
-struct ClientUnlockContainerInstanceRequest : public PFPlayerItemManagementClientUnlockContainerInstanceRequest, public BaseModel
+class ClientUnlockContainerInstanceRequest : public Wrappers::PFPlayerItemManagementClientUnlockContainerInstanceRequestWrapper<Allocator>, public InputModel
 {
-    ClientUnlockContainerInstanceRequest();
-    ClientUnlockContainerInstanceRequest(const ClientUnlockContainerInstanceRequest& src);
-    ClientUnlockContainerInstanceRequest(ClientUnlockContainerInstanceRequest&& src);
-    ClientUnlockContainerInstanceRequest(const PFPlayerItemManagementClientUnlockContainerInstanceRequest& src);
-    ClientUnlockContainerInstanceRequest& operator=(const ClientUnlockContainerInstanceRequest&) = delete;
-    ~ClientUnlockContainerInstanceRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientUnlockContainerInstanceRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientUnlockContainerInstanceRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    String m_containerItemInstanceId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_keyItemInstanceId;
 };
 
-struct UnlockContainerItemResult : public PFPlayerItemManagementUnlockContainerItemResult, public BaseModel, public ApiResult
+class UnlockContainerItemResult : public Wrappers::PFPlayerItemManagementUnlockContainerItemResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementUnlockContainerItemResult>
 {
-    UnlockContainerItemResult();
-    UnlockContainerItemResult(const UnlockContainerItemResult& src);
-    UnlockContainerItemResult(UnlockContainerItemResult&& src);
-    UnlockContainerItemResult(const PFPlayerItemManagementUnlockContainerItemResult& src);
-    UnlockContainerItemResult& operator=(const UnlockContainerItemResult&) = delete;
-    ~UnlockContainerItemResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementUnlockContainerItemResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementUnlockContainerItemResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_grantedItems;
-    String m_unlockedItemInstanceId;
-    String m_unlockedWithItemInstanceId;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_virtualCurrency;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementUnlockContainerItemResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementUnlockContainerItemResult& input, PFPlayerItemManagementUnlockContainerItemResult& output, ModelBuffer& buffer);
 };
 
-struct ClientUnlockContainerItemRequest : public PFPlayerItemManagementClientUnlockContainerItemRequest, public BaseModel
+class ClientUnlockContainerItemRequest : public Wrappers::PFPlayerItemManagementClientUnlockContainerItemRequestWrapper<Allocator>, public InputModel
 {
-    ClientUnlockContainerItemRequest();
-    ClientUnlockContainerItemRequest(const ClientUnlockContainerItemRequest& src);
-    ClientUnlockContainerItemRequest(ClientUnlockContainerItemRequest&& src);
-    ClientUnlockContainerItemRequest(const PFPlayerItemManagementClientUnlockContainerItemRequest& src);
-    ClientUnlockContainerItemRequest& operator=(const ClientUnlockContainerItemRequest&) = delete;
-    ~ClientUnlockContainerItemRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementClientUnlockContainerItemRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementClientUnlockContainerItemRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    String m_containerItemId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct AddCharacterVirtualCurrencyRequest : public PFPlayerItemManagementAddCharacterVirtualCurrencyRequest, public BaseModel
+class AddCharacterVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementAddCharacterVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    AddCharacterVirtualCurrencyRequest();
-    AddCharacterVirtualCurrencyRequest(const AddCharacterVirtualCurrencyRequest& src);
-    AddCharacterVirtualCurrencyRequest(AddCharacterVirtualCurrencyRequest&& src);
-    AddCharacterVirtualCurrencyRequest(const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& src);
-    AddCharacterVirtualCurrencyRequest& operator=(const AddCharacterVirtualCurrencyRequest&) = delete;
-    ~AddCharacterVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementAddCharacterVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_virtualCurrency;
 };
 
-struct ModifyCharacterVirtualCurrencyResult : public PFPlayerItemManagementModifyCharacterVirtualCurrencyResult, public SerializableModel, public ApiResult
+class ModifyCharacterVirtualCurrencyResult : public Wrappers::PFPlayerItemManagementModifyCharacterVirtualCurrencyResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementModifyCharacterVirtualCurrencyResult>
 {
-    ModifyCharacterVirtualCurrencyResult();
-    ModifyCharacterVirtualCurrencyResult(const ModifyCharacterVirtualCurrencyResult& src);
-    ModifyCharacterVirtualCurrencyResult(ModifyCharacterVirtualCurrencyResult&& src);
-    ModifyCharacterVirtualCurrencyResult(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& src);
-    ModifyCharacterVirtualCurrencyResult& operator=(const ModifyCharacterVirtualCurrencyResult&) = delete;
-    ~ModifyCharacterVirtualCurrencyResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementModifyCharacterVirtualCurrencyResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementModifyCharacterVirtualCurrencyResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_virtualCurrency;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& input, PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& output, ModelBuffer& buffer);
 };
 
-struct ServerAddUserVirtualCurrencyRequest : public PFPlayerItemManagementServerAddUserVirtualCurrencyRequest, public BaseModel
+class ServerAddUserVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementServerAddUserVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    ServerAddUserVirtualCurrencyRequest();
-    ServerAddUserVirtualCurrencyRequest(const ServerAddUserVirtualCurrencyRequest& src);
-    ServerAddUserVirtualCurrencyRequest(ServerAddUserVirtualCurrencyRequest&& src);
-    ServerAddUserVirtualCurrencyRequest(const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& src);
-    ServerAddUserVirtualCurrencyRequest& operator=(const ServerAddUserVirtualCurrencyRequest&) = delete;
-    ~ServerAddUserVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerAddUserVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_virtualCurrency;
 };
 
-struct ServerConsumeItemRequest : public PFPlayerItemManagementServerConsumeItemRequest, public BaseModel
+class ServerConsumeItemRequest : public Wrappers::PFPlayerItemManagementServerConsumeItemRequestWrapper<Allocator>, public InputModel
 {
-    ServerConsumeItemRequest();
-    ServerConsumeItemRequest(const ServerConsumeItemRequest& src);
-    ServerConsumeItemRequest(ServerConsumeItemRequest&& src);
-    ServerConsumeItemRequest(const PFPlayerItemManagementServerConsumeItemRequest& src);
-    ServerConsumeItemRequest& operator=(const ServerConsumeItemRequest&) = delete;
-    ~ServerConsumeItemRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerConsumeItemRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerConsumeItemRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_itemInstanceId;
-    String m_playFabId;
 };
 
-struct EvaluateRandomResultTableRequest : public PFPlayerItemManagementEvaluateRandomResultTableRequest, public SerializableModel
+class EvaluateRandomResultTableRequest : public Wrappers::PFPlayerItemManagementEvaluateRandomResultTableRequestWrapper<Allocator>, public InputModel
 {
-    EvaluateRandomResultTableRequest();
-    EvaluateRandomResultTableRequest(const EvaluateRandomResultTableRequest& src);
-    EvaluateRandomResultTableRequest(EvaluateRandomResultTableRequest&& src);
-    EvaluateRandomResultTableRequest(const PFPlayerItemManagementEvaluateRandomResultTableRequest& src);
-    EvaluateRandomResultTableRequest& operator=(const EvaluateRandomResultTableRequest&) = delete;
-    ~EvaluateRandomResultTableRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementEvaluateRandomResultTableRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementEvaluateRandomResultTableRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_tableId;
 };
 
-struct EvaluateRandomResultTableResult : public PFPlayerItemManagementEvaluateRandomResultTableResult, public SerializableModel, public ApiResult
+class EvaluateRandomResultTableResult : public Wrappers::PFPlayerItemManagementEvaluateRandomResultTableResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementEvaluateRandomResultTableResult>
 {
-    EvaluateRandomResultTableResult();
-    EvaluateRandomResultTableResult(const EvaluateRandomResultTableResult& src);
-    EvaluateRandomResultTableResult(EvaluateRandomResultTableResult&& src);
-    EvaluateRandomResultTableResult(const PFPlayerItemManagementEvaluateRandomResultTableResult& src);
-    EvaluateRandomResultTableResult& operator=(const EvaluateRandomResultTableResult&) = delete;
-    ~EvaluateRandomResultTableResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementEvaluateRandomResultTableResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementEvaluateRandomResultTableResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_resultItemId;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementEvaluateRandomResultTableResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementEvaluateRandomResultTableResult& input, PFPlayerItemManagementEvaluateRandomResultTableResult& output, ModelBuffer& buffer);
 };
 
-struct ServerGetCharacterInventoryRequest : public PFPlayerItemManagementServerGetCharacterInventoryRequest, public BaseModel
+class ServerGetCharacterInventoryRequest : public Wrappers::PFPlayerItemManagementServerGetCharacterInventoryRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetCharacterInventoryRequest();
-    ServerGetCharacterInventoryRequest(const ServerGetCharacterInventoryRequest& src);
-    ServerGetCharacterInventoryRequest(ServerGetCharacterInventoryRequest&& src);
-    ServerGetCharacterInventoryRequest(const PFPlayerItemManagementServerGetCharacterInventoryRequest& src);
-    ServerGetCharacterInventoryRequest& operator=(const ServerGetCharacterInventoryRequest&) = delete;
-    ~ServerGetCharacterInventoryRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerGetCharacterInventoryRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerGetCharacterInventoryRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ServerGetCharacterInventoryResult : public PFPlayerItemManagementServerGetCharacterInventoryResult, public BaseModel, public ApiResult
+class ServerGetCharacterInventoryResult : public Wrappers::PFPlayerItemManagementServerGetCharacterInventoryResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementServerGetCharacterInventoryResult>
 {
-    ServerGetCharacterInventoryResult();
-    ServerGetCharacterInventoryResult(const ServerGetCharacterInventoryResult& src);
-    ServerGetCharacterInventoryResult(ServerGetCharacterInventoryResult&& src);
-    ServerGetCharacterInventoryResult(const PFPlayerItemManagementServerGetCharacterInventoryResult& src);
-    ServerGetCharacterInventoryResult& operator=(const ServerGetCharacterInventoryResult&) = delete;
-    ~ServerGetCharacterInventoryResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerGetCharacterInventoryResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementServerGetCharacterInventoryResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
-    String m_playFabId;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementServerGetCharacterInventoryResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementServerGetCharacterInventoryResult& input, PFPlayerItemManagementServerGetCharacterInventoryResult& output, ModelBuffer& buffer);
 };
 
-struct GetRandomResultTablesRequest : public PFPlayerItemManagementGetRandomResultTablesRequest, public BaseModel
+class GetRandomResultTablesRequest : public Wrappers::PFPlayerItemManagementGetRandomResultTablesRequestWrapper<Allocator>, public InputModel
 {
-    GetRandomResultTablesRequest();
-    GetRandomResultTablesRequest(const GetRandomResultTablesRequest& src);
-    GetRandomResultTablesRequest(GetRandomResultTablesRequest&& src);
-    GetRandomResultTablesRequest(const PFPlayerItemManagementGetRandomResultTablesRequest& src);
-    GetRandomResultTablesRequest& operator=(const GetRandomResultTablesRequest&) = delete;
-    ~GetRandomResultTablesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGetRandomResultTablesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementGetRandomResultTablesRequest& input);
 
-private:
-    String m_catalogVersion;
-    PointerArrayModel<char, String> m_tableIDs;
 };
 
-struct ServerGetUserInventoryRequest : public PFPlayerItemManagementServerGetUserInventoryRequest, public BaseModel
+class ServerGetUserInventoryRequest : public Wrappers::PFPlayerItemManagementServerGetUserInventoryRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetUserInventoryRequest();
-    ServerGetUserInventoryRequest(const ServerGetUserInventoryRequest& src);
-    ServerGetUserInventoryRequest(ServerGetUserInventoryRequest&& src);
-    ServerGetUserInventoryRequest(const PFPlayerItemManagementServerGetUserInventoryRequest& src);
-    ServerGetUserInventoryRequest& operator=(const ServerGetUserInventoryRequest&) = delete;
-    ~ServerGetUserInventoryRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerGetUserInventoryRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerGetUserInventoryRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ServerGetUserInventoryResult : public PFPlayerItemManagementServerGetUserInventoryResult, public BaseModel, public ApiResult
+class ServerGetUserInventoryResult : public Wrappers::PFPlayerItemManagementServerGetUserInventoryResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementServerGetUserInventoryResult>
 {
-    ServerGetUserInventoryResult();
-    ServerGetUserInventoryResult(const ServerGetUserInventoryResult& src);
-    ServerGetUserInventoryResult(ServerGetUserInventoryResult&& src);
-    ServerGetUserInventoryResult(const PFPlayerItemManagementServerGetUserInventoryResult& src);
-    ServerGetUserInventoryResult& operator=(const ServerGetUserInventoryResult&) = delete;
-    ~ServerGetUserInventoryResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerGetUserInventoryResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementServerGetUserInventoryResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
-    String m_playFabId;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementServerGetUserInventoryResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementServerGetUserInventoryResult& input, PFPlayerItemManagementServerGetUserInventoryResult& output, ModelBuffer& buffer);
 };
 
-struct GrantItemsToCharacterRequest : public PFPlayerItemManagementGrantItemsToCharacterRequest, public BaseModel
+class GrantItemsToCharacterRequest : public Wrappers::PFPlayerItemManagementGrantItemsToCharacterRequestWrapper<Allocator>, public InputModel
 {
-    GrantItemsToCharacterRequest();
-    GrantItemsToCharacterRequest(const GrantItemsToCharacterRequest& src);
-    GrantItemsToCharacterRequest(GrantItemsToCharacterRequest&& src);
-    GrantItemsToCharacterRequest(const PFPlayerItemManagementGrantItemsToCharacterRequest& src);
-    GrantItemsToCharacterRequest& operator=(const GrantItemsToCharacterRequest&) = delete;
-    ~GrantItemsToCharacterRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantItemsToCharacterRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementGrantItemsToCharacterRequest& input);
 
-private:
-    String m_annotation;
-    String m_catalogVersion;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<char, String> m_itemIds;
-    String m_playFabId;
 };
 
-struct GrantItemsToCharacterResult : public PFPlayerItemManagementGrantItemsToCharacterResult, public BaseModel, public ApiResult
+class GrantItemsToCharacterResult : public Wrappers::PFPlayerItemManagementGrantItemsToCharacterResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementGrantItemsToCharacterResult>
 {
-    GrantItemsToCharacterResult();
-    GrantItemsToCharacterResult(const GrantItemsToCharacterResult& src);
-    GrantItemsToCharacterResult(GrantItemsToCharacterResult&& src);
-    GrantItemsToCharacterResult(const PFPlayerItemManagementGrantItemsToCharacterResult& src);
-    GrantItemsToCharacterResult& operator=(const GrantItemsToCharacterResult&) = delete;
-    ~GrantItemsToCharacterResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantItemsToCharacterResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementGrantItemsToCharacterResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerItemManagementGrantedItemInstance, GrantedItemInstance> m_itemGrantResults;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementGrantItemsToCharacterResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementGrantItemsToCharacterResult& input, PFPlayerItemManagementGrantItemsToCharacterResult& output, ModelBuffer& buffer);
 };
 
-struct GrantItemsToUserRequest : public PFPlayerItemManagementGrantItemsToUserRequest, public BaseModel
+class GrantItemsToUserRequest : public Wrappers::PFPlayerItemManagementGrantItemsToUserRequestWrapper<Allocator>, public InputModel
 {
-    GrantItemsToUserRequest();
-    GrantItemsToUserRequest(const GrantItemsToUserRequest& src);
-    GrantItemsToUserRequest(GrantItemsToUserRequest&& src);
-    GrantItemsToUserRequest(const PFPlayerItemManagementGrantItemsToUserRequest& src);
-    GrantItemsToUserRequest& operator=(const GrantItemsToUserRequest&) = delete;
-    ~GrantItemsToUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantItemsToUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementGrantItemsToUserRequest& input);
 
-private:
-    String m_annotation;
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<char, String> m_itemIds;
-    String m_playFabId;
 };
 
-struct GrantItemsToUserResult : public PFPlayerItemManagementGrantItemsToUserResult, public BaseModel, public ApiResult
+class GrantItemsToUserResult : public Wrappers::PFPlayerItemManagementGrantItemsToUserResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementGrantItemsToUserResult>
 {
-    GrantItemsToUserResult();
-    GrantItemsToUserResult(const GrantItemsToUserResult& src);
-    GrantItemsToUserResult(GrantItemsToUserResult&& src);
-    GrantItemsToUserResult(const PFPlayerItemManagementGrantItemsToUserResult& src);
-    GrantItemsToUserResult& operator=(const GrantItemsToUserResult&) = delete;
-    ~GrantItemsToUserResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementGrantItemsToUserResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementGrantItemsToUserResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerItemManagementGrantedItemInstance, GrantedItemInstance> m_itemGrantResults;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementGrantItemsToUserResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementGrantItemsToUserResult& input, PFPlayerItemManagementGrantItemsToUserResult& output, ModelBuffer& buffer);
 };
 
-struct ModifyItemUsesRequest : public PFPlayerItemManagementModifyItemUsesRequest, public BaseModel
+class ModifyItemUsesRequest : public Wrappers::PFPlayerItemManagementModifyItemUsesRequestWrapper<Allocator>, public InputModel
 {
-    ModifyItemUsesRequest();
-    ModifyItemUsesRequest(const ModifyItemUsesRequest& src);
-    ModifyItemUsesRequest(ModifyItemUsesRequest&& src);
-    ModifyItemUsesRequest(const PFPlayerItemManagementModifyItemUsesRequest& src);
-    ModifyItemUsesRequest& operator=(const ModifyItemUsesRequest&) = delete;
-    ~ModifyItemUsesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementModifyItemUsesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementModifyItemUsesRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_itemInstanceId;
-    String m_playFabId;
 };
 
-struct ModifyItemUsesResult : public PFPlayerItemManagementModifyItemUsesResult, public SerializableModel, public ApiResult
+class ModifyItemUsesResult : public Wrappers::PFPlayerItemManagementModifyItemUsesResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementModifyItemUsesResult>
 {
-    ModifyItemUsesResult();
-    ModifyItemUsesResult(const ModifyItemUsesResult& src);
-    ModifyItemUsesResult(ModifyItemUsesResult&& src);
-    ModifyItemUsesResult(const PFPlayerItemManagementModifyItemUsesResult& src);
-    ModifyItemUsesResult& operator=(const ModifyItemUsesResult&) = delete;
-    ~ModifyItemUsesResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementModifyItemUsesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementModifyItemUsesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_itemInstanceId;
+    static size_t RequiredBufferSize(const PFPlayerItemManagementModifyItemUsesResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementModifyItemUsesResult& input, PFPlayerItemManagementModifyItemUsesResult& output, ModelBuffer& buffer);
 };
 
-struct MoveItemToCharacterFromCharacterRequest : public PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest, public SerializableModel
+class MoveItemToCharacterFromCharacterRequest : public Wrappers::PFPlayerItemManagementMoveItemToCharacterFromCharacterRequestWrapper<Allocator>, public InputModel
 {
-    MoveItemToCharacterFromCharacterRequest();
-    MoveItemToCharacterFromCharacterRequest(const MoveItemToCharacterFromCharacterRequest& src);
-    MoveItemToCharacterFromCharacterRequest(MoveItemToCharacterFromCharacterRequest&& src);
-    MoveItemToCharacterFromCharacterRequest(const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& src);
-    MoveItemToCharacterFromCharacterRequest& operator=(const MoveItemToCharacterFromCharacterRequest&) = delete;
-    ~MoveItemToCharacterFromCharacterRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementMoveItemToCharacterFromCharacterRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& input);
 
-private:
-    String m_givingCharacterId;
-    String m_itemInstanceId;
-    String m_playFabId;
-    String m_receivingCharacterId;
 };
 
-struct MoveItemToCharacterFromUserRequest : public PFPlayerItemManagementMoveItemToCharacterFromUserRequest, public SerializableModel
+class MoveItemToCharacterFromUserRequest : public Wrappers::PFPlayerItemManagementMoveItemToCharacterFromUserRequestWrapper<Allocator>, public InputModel
 {
-    MoveItemToCharacterFromUserRequest();
-    MoveItemToCharacterFromUserRequest(const MoveItemToCharacterFromUserRequest& src);
-    MoveItemToCharacterFromUserRequest(MoveItemToCharacterFromUserRequest&& src);
-    MoveItemToCharacterFromUserRequest(const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& src);
-    MoveItemToCharacterFromUserRequest& operator=(const MoveItemToCharacterFromUserRequest&) = delete;
-    ~MoveItemToCharacterFromUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementMoveItemToCharacterFromUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& input);
 
-private:
-    String m_characterId;
-    String m_itemInstanceId;
-    String m_playFabId;
 };
 
-struct MoveItemToUserFromCharacterRequest : public PFPlayerItemManagementMoveItemToUserFromCharacterRequest, public SerializableModel
+class MoveItemToUserFromCharacterRequest : public Wrappers::PFPlayerItemManagementMoveItemToUserFromCharacterRequestWrapper<Allocator>, public InputModel
 {
-    MoveItemToUserFromCharacterRequest();
-    MoveItemToUserFromCharacterRequest(const MoveItemToUserFromCharacterRequest& src);
-    MoveItemToUserFromCharacterRequest(MoveItemToUserFromCharacterRequest&& src);
-    MoveItemToUserFromCharacterRequest(const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& src);
-    MoveItemToUserFromCharacterRequest& operator=(const MoveItemToUserFromCharacterRequest&) = delete;
-    ~MoveItemToUserFromCharacterRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementMoveItemToUserFromCharacterRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& input);
 
-private:
-    String m_characterId;
-    String m_itemInstanceId;
-    String m_playFabId;
 };
 
-struct ServerRedeemCouponRequest : public PFPlayerItemManagementServerRedeemCouponRequest, public BaseModel
+class ServerRedeemCouponRequest : public Wrappers::PFPlayerItemManagementServerRedeemCouponRequestWrapper<Allocator>, public InputModel
 {
-    ServerRedeemCouponRequest();
-    ServerRedeemCouponRequest(const ServerRedeemCouponRequest& src);
-    ServerRedeemCouponRequest(ServerRedeemCouponRequest&& src);
-    ServerRedeemCouponRequest(const PFPlayerItemManagementServerRedeemCouponRequest& src);
-    ServerRedeemCouponRequest& operator=(const ServerRedeemCouponRequest&) = delete;
-    ~ServerRedeemCouponRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerRedeemCouponRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerRedeemCouponRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    String m_couponCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ReportPlayerServerRequest : public PFPlayerItemManagementReportPlayerServerRequest, public BaseModel
+class ReportPlayerServerRequest : public Wrappers::PFPlayerItemManagementReportPlayerServerRequestWrapper<Allocator>, public InputModel
 {
-    ReportPlayerServerRequest();
-    ReportPlayerServerRequest(const ReportPlayerServerRequest& src);
-    ReportPlayerServerRequest(ReportPlayerServerRequest&& src);
-    ReportPlayerServerRequest(const PFPlayerItemManagementReportPlayerServerRequest& src);
-    ReportPlayerServerRequest& operator=(const ReportPlayerServerRequest&) = delete;
-    ~ReportPlayerServerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementReportPlayerServerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementReportPlayerServerRequest& input);
 
-private:
-    String m_comment;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_reporteeId;
-    String m_reporterId;
 };
 
-struct ReportPlayerServerResult : public PFPlayerItemManagementReportPlayerServerResult, public SerializableModel, public ApiResult
+class ReportPlayerServerResult : public Wrappers::PFPlayerItemManagementReportPlayerServerResultWrapper<Allocator>, public OutputModel<PFPlayerItemManagementReportPlayerServerResult>
 {
-    ReportPlayerServerResult();
-    ReportPlayerServerResult(const ReportPlayerServerResult&) = default;
-    ReportPlayerServerResult(ReportPlayerServerResult&&) = default;
-    ReportPlayerServerResult(const PFPlayerItemManagementReportPlayerServerResult& src);
-    ReportPlayerServerResult& operator=(const ReportPlayerServerResult&) = delete;
-    ~ReportPlayerServerResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementReportPlayerServerResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerItemManagementReportPlayerServerResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
+    static size_t RequiredBufferSize(const PFPlayerItemManagementReportPlayerServerResult& model);
+    static HRESULT Copy(const PFPlayerItemManagementReportPlayerServerResult& input, PFPlayerItemManagementReportPlayerServerResult& output, ModelBuffer& buffer);
 };
 
-struct SubtractCharacterVirtualCurrencyRequest : public PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest, public BaseModel
+class SubtractCharacterVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    SubtractCharacterVirtualCurrencyRequest();
-    SubtractCharacterVirtualCurrencyRequest(const SubtractCharacterVirtualCurrencyRequest& src);
-    SubtractCharacterVirtualCurrencyRequest(SubtractCharacterVirtualCurrencyRequest&& src);
-    SubtractCharacterVirtualCurrencyRequest(const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& src);
-    SubtractCharacterVirtualCurrencyRequest& operator=(const SubtractCharacterVirtualCurrencyRequest&) = delete;
-    ~SubtractCharacterVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_virtualCurrency;
 };
 
-struct ServerSubtractUserVirtualCurrencyRequest : public PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest, public BaseModel
+class ServerSubtractUserVirtualCurrencyRequest : public Wrappers::PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequestWrapper<Allocator>, public InputModel
 {
-    ServerSubtractUserVirtualCurrencyRequest();
-    ServerSubtractUserVirtualCurrencyRequest(const ServerSubtractUserVirtualCurrencyRequest& src);
-    ServerSubtractUserVirtualCurrencyRequest(ServerSubtractUserVirtualCurrencyRequest&& src);
-    ServerSubtractUserVirtualCurrencyRequest(const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& src);
-    ServerSubtractUserVirtualCurrencyRequest& operator=(const ServerSubtractUserVirtualCurrencyRequest&) = delete;
-    ~ServerSubtractUserVirtualCurrencyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_virtualCurrency;
 };
 
-struct ServerUnlockContainerInstanceRequest : public PFPlayerItemManagementServerUnlockContainerInstanceRequest, public BaseModel
+class ServerUnlockContainerInstanceRequest : public Wrappers::PFPlayerItemManagementServerUnlockContainerInstanceRequestWrapper<Allocator>, public InputModel
 {
-    ServerUnlockContainerInstanceRequest();
-    ServerUnlockContainerInstanceRequest(const ServerUnlockContainerInstanceRequest& src);
-    ServerUnlockContainerInstanceRequest(ServerUnlockContainerInstanceRequest&& src);
-    ServerUnlockContainerInstanceRequest(const PFPlayerItemManagementServerUnlockContainerInstanceRequest& src);
-    ServerUnlockContainerInstanceRequest& operator=(const ServerUnlockContainerInstanceRequest&) = delete;
-    ~ServerUnlockContainerInstanceRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerUnlockContainerInstanceRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerUnlockContainerInstanceRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    String m_containerItemInstanceId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_keyItemInstanceId;
-    String m_playFabId;
 };
 
-struct ServerUnlockContainerItemRequest : public PFPlayerItemManagementServerUnlockContainerItemRequest, public BaseModel
+class ServerUnlockContainerItemRequest : public Wrappers::PFPlayerItemManagementServerUnlockContainerItemRequestWrapper<Allocator>, public InputModel
 {
-    ServerUnlockContainerItemRequest();
-    ServerUnlockContainerItemRequest(const ServerUnlockContainerItemRequest& src);
-    ServerUnlockContainerItemRequest(ServerUnlockContainerItemRequest&& src);
-    ServerUnlockContainerItemRequest(const PFPlayerItemManagementServerUnlockContainerItemRequest& src);
-    ServerUnlockContainerItemRequest& operator=(const ServerUnlockContainerItemRequest&) = delete;
-    ~ServerUnlockContainerItemRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementServerUnlockContainerItemRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementServerUnlockContainerItemRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterId;
-    String m_containerItemId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct UpdateUserInventoryItemDataRequest : public PFPlayerItemManagementUpdateUserInventoryItemDataRequest, public BaseModel
+class UpdateUserInventoryItemDataRequest : public Wrappers::PFPlayerItemManagementUpdateUserInventoryItemDataRequestWrapper<Allocator>, public InputModel
 {
-    UpdateUserInventoryItemDataRequest();
-    UpdateUserInventoryItemDataRequest(const UpdateUserInventoryItemDataRequest& src);
-    UpdateUserInventoryItemDataRequest(UpdateUserInventoryItemDataRequest&& src);
-    UpdateUserInventoryItemDataRequest(const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& src);
-    UpdateUserInventoryItemDataRequest& operator=(const UpdateUserInventoryItemDataRequest&) = delete;
-    ~UpdateUserInventoryItemDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerItemManagementUpdateUserInventoryItemDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    String m_itemInstanceId;
-    PointerArrayModel<char, String> m_keysToRemove;
-    String m_playFabId;
-};
-
-} // namespace PlayerItemManagementModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementAdminGetUserInventoryRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementAdminGetUserInventoryResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementItemGrant& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUsersRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantedItemInstance& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUsersResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItemRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItem& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItemsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeItemError& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItemsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementConfirmPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementConfirmPurchaseResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientConsumeItemRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementConsumeItemResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetCharacterInventoryRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetCharacterInventoryResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGetPaymentTokenRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGetPaymentTokenResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGetPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGetPurchaseResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetUserInventoryRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetUserInventoryResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementPayForPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementPayForPurchaseResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementPurchaseItemRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementPurchaseItemResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientRedeemCouponRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementRedeemCouponResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementItemPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementStartPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementCartItem& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementPaymentOption& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementStartPurchaseResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientUnlockContainerInstanceRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementUnlockContainerItemResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementClientUnlockContainerItemRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerConsumeItemRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementEvaluateRandomResultTableRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementEvaluateRandomResultTableResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetCharacterInventoryRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetCharacterInventoryResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGetRandomResultTablesRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetUserInventoryRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetUserInventoryResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToCharacterRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToCharacterResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUserResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementModifyItemUsesRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementModifyItemUsesResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerRedeemCouponRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementReportPlayerServerRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementReportPlayerServerResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerUnlockContainerInstanceRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementServerUnlockContainerItemRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& input);
-} // namespace JsonUtils
+};
 
+} // namespace PlayerItemManagement
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

@@ -4,512 +4,222 @@
 
 namespace PlayFab
 {
-namespace SharedGroupsModels
+namespace SharedGroups
 {
-
-AddSharedGroupMembersRequest::AddSharedGroupMembersRequest() :
-    PFSharedGroupsAddSharedGroupMembersRequest{}
-{
-}
-
-AddSharedGroupMembersRequest::AddSharedGroupMembersRequest(const AddSharedGroupMembersRequest& src) :
-    PFSharedGroupsAddSharedGroupMembersRequest{ src },
-    m_playFabIds{ src.m_playFabIds },
-    m_sharedGroupId{ src.m_sharedGroupId }
-{
-    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-AddSharedGroupMembersRequest::AddSharedGroupMembersRequest(AddSharedGroupMembersRequest&& src) :
-    PFSharedGroupsAddSharedGroupMembersRequest{ src },
-    m_playFabIds{ std::move(src.m_playFabIds) },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
-{
-    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-AddSharedGroupMembersRequest::AddSharedGroupMembersRequest(const PFSharedGroupsAddSharedGroupMembersRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AddSharedGroupMembersRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PlayFabIds", m_playFabIds, playFabIds, playFabIdsCount);
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
-}
 
 JsonValue AddSharedGroupMembersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsAddSharedGroupMembersRequest>(*this);
+    return AddSharedGroupMembersRequest::ToJson(this->Model());
 }
 
-CreateSharedGroupRequest::CreateSharedGroupRequest() :
-    PFSharedGroupsCreateSharedGroupRequest{}
+JsonValue AddSharedGroupMembersRequest::ToJson(const PFSharedGroupsAddSharedGroupMembersRequest& input)
 {
-}
-
-CreateSharedGroupRequest::CreateSharedGroupRequest(const CreateSharedGroupRequest& src) :
-    PFSharedGroupsCreateSharedGroupRequest{ src },
-    m_sharedGroupId{ src.m_sharedGroupId }
-{
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-CreateSharedGroupRequest::CreateSharedGroupRequest(CreateSharedGroupRequest&& src) :
-    PFSharedGroupsCreateSharedGroupRequest{ src },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
-{
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-CreateSharedGroupRequest::CreateSharedGroupRequest(const PFSharedGroupsCreateSharedGroupRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CreateSharedGroupRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberArray(output, "PlayFabIds", input.playFabIds, input.playFabIdsCount);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
 }
 
 JsonValue CreateSharedGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsCreateSharedGroupRequest>(*this);
+    return CreateSharedGroupRequest::ToJson(this->Model());
 }
 
-size_t CreateSharedGroupRequest::SerializedSize() const
+JsonValue CreateSharedGroupRequest::ToJson(const PFSharedGroupsCreateSharedGroupRequest& input)
 {
-    size_t serializedSize{ sizeof(PFSharedGroupsCreateSharedGroupRequest) };
-    serializedSize += (m_sharedGroupId.size() + 1);
-    return serializedSize;
-}
-
-void CreateSharedGroupRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSharedGroupsCreateSharedGroupRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSharedGroupsCreateSharedGroupRequest);
-    memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
-    serializedStruct->sharedGroupId = stringBuffer;
-    stringBuffer += m_sharedGroupId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-CreateSharedGroupResult::CreateSharedGroupResult() :
-    PFSharedGroupsCreateSharedGroupResult{}
-{
-}
-
-CreateSharedGroupResult::CreateSharedGroupResult(const CreateSharedGroupResult& src) :
-    PFSharedGroupsCreateSharedGroupResult{ src },
-    m_sharedGroupId{ src.m_sharedGroupId }
-{
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-CreateSharedGroupResult::CreateSharedGroupResult(CreateSharedGroupResult&& src) :
-    PFSharedGroupsCreateSharedGroupResult{ src },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
-{
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-CreateSharedGroupResult::CreateSharedGroupResult(const PFSharedGroupsCreateSharedGroupResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
 }
 
 void CreateSharedGroupResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+    String sharedGroupId{};
+    JsonUtils::ObjectGetMember(input, "SharedGroupId", sharedGroupId);
+    this->SetSharedGroupId(std::move(sharedGroupId));
 }
 
-JsonValue CreateSharedGroupResult::ToJson() const
+size_t CreateSharedGroupResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsCreateSharedGroupResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-size_t CreateSharedGroupResult::SerializedSize() const
+Result<PFSharedGroupsCreateSharedGroupResult const*> CreateSharedGroupResult::Copy(ModelBuffer& buffer) const
 {
-    size_t serializedSize{ sizeof(PFSharedGroupsCreateSharedGroupResult) };
-    serializedSize += (m_sharedGroupId.size() + 1);
-    return serializedSize;
+    return buffer.CopyTo<CreateSharedGroupResult>(&this->Model());
 }
 
-void CreateSharedGroupResult::Serialize(void* buffer, size_t bufferSize) const
+size_t CreateSharedGroupResult::RequiredBufferSize(const PFSharedGroupsCreateSharedGroupResult& model)
 {
-    auto serializedStruct = new (buffer) PFSharedGroupsCreateSharedGroupResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSharedGroupsCreateSharedGroupResult);
-    memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
-    serializedStruct->sharedGroupId = stringBuffer;
-    stringBuffer += m_sharedGroupId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.sharedGroupId)
+    {
+        requiredSize += (std::strlen(model.sharedGroupId) + 1);
+    }
+    return requiredSize;
 }
 
-GetSharedGroupDataRequest::GetSharedGroupDataRequest() :
-    PFSharedGroupsGetSharedGroupDataRequest{}
+HRESULT CreateSharedGroupResult::Copy(const PFSharedGroupsCreateSharedGroupResult& input, PFSharedGroupsCreateSharedGroupResult& output, ModelBuffer& buffer)
 {
-}
-
-GetSharedGroupDataRequest::GetSharedGroupDataRequest(const GetSharedGroupDataRequest& src) :
-    PFSharedGroupsGetSharedGroupDataRequest{ src },
-    m_getMembers{ src.m_getMembers },
-    m_keys{ src.m_keys },
-    m_sharedGroupId{ src.m_sharedGroupId }
-{
-    getMembers = m_getMembers ? m_getMembers.operator->() : nullptr;
-    keys = m_keys.Empty() ? nullptr : m_keys.Data();
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-GetSharedGroupDataRequest::GetSharedGroupDataRequest(GetSharedGroupDataRequest&& src) :
-    PFSharedGroupsGetSharedGroupDataRequest{ src },
-    m_getMembers{ std::move(src.m_getMembers) },
-    m_keys{ std::move(src.m_keys) },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
-{
-    getMembers = m_getMembers ? m_getMembers.operator->() : nullptr;
-    keys = m_keys.Empty() ? nullptr : m_keys.Data();
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-GetSharedGroupDataRequest::GetSharedGroupDataRequest(const PFSharedGroupsGetSharedGroupDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetSharedGroupDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "GetMembers", m_getMembers, getMembers);
-    JsonUtils::ObjectGetMember(input, "Keys", m_keys, keys, keysCount);
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+    output = input;
+    output.sharedGroupId = buffer.CopyTo(input.sharedGroupId);
+    return S_OK;
 }
 
 JsonValue GetSharedGroupDataRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsGetSharedGroupDataRequest>(*this);
+    return GetSharedGroupDataRequest::ToJson(this->Model());
 }
 
-SharedGroupDataRecord::SharedGroupDataRecord() :
-    PFSharedGroupsSharedGroupDataRecord{}
+JsonValue GetSharedGroupDataRequest::ToJson(const PFSharedGroupsGetSharedGroupDataRequest& input)
 {
-}
-
-SharedGroupDataRecord::SharedGroupDataRecord(const SharedGroupDataRecord& src) :
-    PFSharedGroupsSharedGroupDataRecord{ src },
-    m_lastUpdatedBy{ src.m_lastUpdatedBy },
-    m_permission{ src.m_permission },
-    m_value{ src.m_value }
-{
-    lastUpdatedBy = m_lastUpdatedBy.empty() ? nullptr : m_lastUpdatedBy.data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    value = m_value.empty() ? nullptr : m_value.data();
-}
-
-SharedGroupDataRecord::SharedGroupDataRecord(SharedGroupDataRecord&& src) :
-    PFSharedGroupsSharedGroupDataRecord{ src },
-    m_lastUpdatedBy{ std::move(src.m_lastUpdatedBy) },
-    m_permission{ std::move(src.m_permission) },
-    m_value{ std::move(src.m_value) }
-{
-    lastUpdatedBy = m_lastUpdatedBy.empty() ? nullptr : m_lastUpdatedBy.data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    value = m_value.empty() ? nullptr : m_value.data();
-}
-
-SharedGroupDataRecord::SharedGroupDataRecord(const PFSharedGroupsSharedGroupDataRecord& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "GetMembers", input.getMembers);
+    JsonUtils::ObjectAddMemberArray(output, "Keys", input.keys, input.keysCount);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
 }
 
 void SharedGroupDataRecord::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "LastUpdated", lastUpdated, true);
-    JsonUtils::ObjectGetMember(input, "LastUpdatedBy", m_lastUpdatedBy, lastUpdatedBy);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-    JsonUtils::ObjectGetMember(input, "Value", m_value, value);
+    JsonUtils::ObjectGetMemberTime(input, "LastUpdated", this->m_model.lastUpdated);
+
+    String lastUpdatedBy{};
+    JsonUtils::ObjectGetMember(input, "LastUpdatedBy", lastUpdatedBy);
+    this->SetLastUpdatedBy(std::move(lastUpdatedBy));
+
+    StdExtra::optional<PFUserDataPermission> permission{};
+    JsonUtils::ObjectGetMember(input, "Permission", permission);
+    this->SetPermission(std::move(permission));
+
+    String value{};
+    JsonUtils::ObjectGetMember(input, "Value", value);
+    this->SetValue(std::move(value));
 }
 
-JsonValue SharedGroupDataRecord::ToJson() const
+size_t SharedGroupDataRecord::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsSharedGroupDataRecord>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetSharedGroupDataResult::GetSharedGroupDataResult() :
-    PFSharedGroupsGetSharedGroupDataResult{}
+Result<PFSharedGroupsSharedGroupDataRecord const*> SharedGroupDataRecord::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<SharedGroupDataRecord>(&this->Model());
 }
 
-GetSharedGroupDataResult::GetSharedGroupDataResult(const GetSharedGroupDataResult& src) :
-    PFSharedGroupsGetSharedGroupDataResult{ src },
-    m_data{ src.m_data },
-    m_members{ src.m_members }
+size_t SharedGroupDataRecord::RequiredBufferSize(const PFSharedGroupsSharedGroupDataRecord& model)
 {
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    members = m_members.Empty() ? nullptr : m_members.Data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.lastUpdatedBy)
+    {
+        requiredSize += (std::strlen(model.lastUpdatedBy) + 1);
+    }
+    if (model.permission)
+    {
+        requiredSize += (alignof(PFUserDataPermission) + sizeof(PFUserDataPermission));
+    }
+    if (model.value)
+    {
+        requiredSize += (std::strlen(model.value) + 1);
+    }
+    return requiredSize;
 }
 
-GetSharedGroupDataResult::GetSharedGroupDataResult(GetSharedGroupDataResult&& src) :
-    PFSharedGroupsGetSharedGroupDataResult{ src },
-    m_data{ std::move(src.m_data) },
-    m_members{ std::move(src.m_members) }
+HRESULT SharedGroupDataRecord::Copy(const PFSharedGroupsSharedGroupDataRecord& input, PFSharedGroupsSharedGroupDataRecord& output, ModelBuffer& buffer)
 {
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    members = m_members.Empty() ? nullptr : m_members.Data();
-}
-
-GetSharedGroupDataResult::GetSharedGroupDataResult(const PFSharedGroupsGetSharedGroupDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.lastUpdatedBy = buffer.CopyTo(input.lastUpdatedBy);
+    output.permission = buffer.CopyTo(input.permission);
+    output.value = buffer.CopyTo(input.value);
+    return S_OK;
 }
 
 void GetSharedGroupDataResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "Members", m_members, members, membersCount);
+    ModelDictionaryEntryVector<SharedGroupDataRecord> data{};
+    JsonUtils::ObjectGetMember<SharedGroupDataRecord>(input, "Data", data);
+    this->SetData(std::move(data));
+
+    CStringVector members{};
+    JsonUtils::ObjectGetMember(input, "Members", members);
+    this->SetMembers(std::move(members));
 }
 
-JsonValue GetSharedGroupDataResult::ToJson() const
+size_t GetSharedGroupDataResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsGetSharedGroupDataResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest() :
-    PFSharedGroupsRemoveSharedGroupMembersRequest{}
+Result<PFSharedGroupsGetSharedGroupDataResult const*> GetSharedGroupDataResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<GetSharedGroupDataResult>(&this->Model());
 }
 
-RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest(const RemoveSharedGroupMembersRequest& src) :
-    PFSharedGroupsRemoveSharedGroupMembersRequest{ src },
-    m_playFabIds{ src.m_playFabIds },
-    m_sharedGroupId{ src.m_sharedGroupId }
+size_t GetSharedGroupDataResult::RequiredBufferSize(const PFSharedGroupsGetSharedGroupDataResult& model)
 {
-    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFSharedGroupsSharedGroupDataRecordDictionaryEntry) + sizeof(PFSharedGroupsSharedGroupDataRecordDictionaryEntry) * model.dataCount);
+    for (size_t i = 0; i < model.dataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.data[i].key) + 1);
+        requiredSize += SharedGroupDataRecord::RequiredBufferSize(*model.data[i].value);
+    }
+    requiredSize += (alignof(char*) + sizeof(char*) * model.membersCount);
+    for (size_t i = 0; i < model.membersCount; ++i)
+    {
+        requiredSize += (std::strlen(model.members[i]) + 1);
+    }
+    return requiredSize;
 }
 
-RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest(RemoveSharedGroupMembersRequest&& src) :
-    PFSharedGroupsRemoveSharedGroupMembersRequest{ src },
-    m_playFabIds{ std::move(src.m_playFabIds) },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
+HRESULT GetSharedGroupDataResult::Copy(const PFSharedGroupsGetSharedGroupDataResult& input, PFSharedGroupsGetSharedGroupDataResult& output, ModelBuffer& buffer)
 {
-    playFabIds = m_playFabIds.Empty() ? nullptr : m_playFabIds.Data();
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-RemoveSharedGroupMembersRequest::RemoveSharedGroupMembersRequest(const PFSharedGroupsRemoveSharedGroupMembersRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RemoveSharedGroupMembersRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PlayFabIds", m_playFabIds, playFabIds, playFabIdsCount);
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+    output = input;
+    output.data = buffer.CopyToDictionary<SharedGroupDataRecord>(input.data, input.dataCount);
+    output.members = buffer.CopyToArray(input.members, input.membersCount);
+    return S_OK;
 }
 
 JsonValue RemoveSharedGroupMembersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsRemoveSharedGroupMembersRequest>(*this);
+    return RemoveSharedGroupMembersRequest::ToJson(this->Model());
 }
 
-UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest() :
-    PFSharedGroupsUpdateSharedGroupDataRequest{}
+JsonValue RemoveSharedGroupMembersRequest::ToJson(const PFSharedGroupsRemoveSharedGroupMembersRequest& input)
 {
-}
-
-UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest(const UpdateSharedGroupDataRequest& src) :
-    PFSharedGroupsUpdateSharedGroupDataRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_permission{ src.m_permission },
-    m_sharedGroupId{ src.m_sharedGroupId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest(UpdateSharedGroupDataRequest&& src) :
-    PFSharedGroupsUpdateSharedGroupDataRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_permission{ std::move(src.m_permission) },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-UpdateSharedGroupDataRequest::UpdateSharedGroupDataRequest(const PFSharedGroupsUpdateSharedGroupDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateSharedGroupDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberArray(output, "PlayFabIds", input.playFabIds, input.playFabIdsCount);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
 }
 
 JsonValue UpdateSharedGroupDataRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsUpdateSharedGroupDataRequest>(*this);
+    return UpdateSharedGroupDataRequest::ToJson(this->Model());
 }
 
-DeleteSharedGroupRequest::DeleteSharedGroupRequest() :
-    PFSharedGroupsDeleteSharedGroupRequest{}
+JsonValue UpdateSharedGroupDataRequest::ToJson(const PFSharedGroupsUpdateSharedGroupDataRequest& input)
 {
-}
-
-DeleteSharedGroupRequest::DeleteSharedGroupRequest(const DeleteSharedGroupRequest& src) :
-    PFSharedGroupsDeleteSharedGroupRequest{ src },
-    m_sharedGroupId{ src.m_sharedGroupId }
-{
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-DeleteSharedGroupRequest::DeleteSharedGroupRequest(DeleteSharedGroupRequest&& src) :
-    PFSharedGroupsDeleteSharedGroupRequest{ src },
-    m_sharedGroupId{ std::move(src.m_sharedGroupId) }
-{
-    sharedGroupId = m_sharedGroupId.empty() ? nullptr : m_sharedGroupId.data();
-}
-
-DeleteSharedGroupRequest::DeleteSharedGroupRequest(const PFSharedGroupsDeleteSharedGroupRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeleteSharedGroupRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SharedGroupId", m_sharedGroupId, sharedGroupId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
+    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
+    return output;
 }
 
 JsonValue DeleteSharedGroupRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFSharedGroupsDeleteSharedGroupRequest>(*this);
+    return DeleteSharedGroupRequest::ToJson(this->Model());
 }
 
-size_t DeleteSharedGroupRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFSharedGroupsDeleteSharedGroupRequest) };
-    serializedSize += (m_sharedGroupId.size() + 1);
-    return serializedSize;
-}
-
-void DeleteSharedGroupRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFSharedGroupsDeleteSharedGroupRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFSharedGroupsDeleteSharedGroupRequest);
-    memcpy(stringBuffer, m_sharedGroupId.data(), m_sharedGroupId.size() + 1);
-    serializedStruct->sharedGroupId = stringBuffer;
-    stringBuffer += m_sharedGroupId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-} // namespace SharedGroupsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsAddSharedGroupMembersRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PlayFabIds", input.playFabIds, input.playFabIdsCount);
-    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsCreateSharedGroupRequest& input)
+JsonValue DeleteSharedGroupRequest::ToJson(const PFSharedGroupsDeleteSharedGroupRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsCreateSharedGroupResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsGetSharedGroupDataRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "GetMembers", input.getMembers);
-    JsonUtils::ObjectAddMember(output, "Keys", input.keys, input.keysCount);
-    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsSharedGroupDataRecord& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "LastUpdated", input.lastUpdated, true);
-    JsonUtils::ObjectAddMember(output, "LastUpdatedBy", input.lastUpdatedBy);
-    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
-    JsonUtils::ObjectAddMember(output, "Value", input.value);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsGetSharedGroupDataResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "Members", input.members, input.membersCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsRemoveSharedGroupMembersRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PlayFabIds", input.playFabIds, input.playFabIdsCount);
-    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsUpdateSharedGroupDataRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
-    JsonUtils::ObjectAddMember(output, "Permission", input.permission);
-    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFSharedGroupsDeleteSharedGroupRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SharedGroupId", input.sharedGroupId);
-    return output;
-}
-
-} // namespace JsonUtils
-
+} // namespace SharedGroups
 } // namespace PlayFab

@@ -1,485 +1,404 @@
 #pragma once
 
-#include <playfab/PFScheduledTaskDataModels.h>
+#include <playfab/cpp/PFScheduledTaskDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace ScheduledTaskModels
+namespace ScheduledTask
 {
 
 // ScheduledTask Classes
-struct AbortTaskInstanceRequest : public PFScheduledTaskAbortTaskInstanceRequest, public BaseModel
+class AbortTaskInstanceRequest : public Wrappers::PFScheduledTaskAbortTaskInstanceRequestWrapper<Allocator>, public InputModel
 {
-    AbortTaskInstanceRequest();
-    AbortTaskInstanceRequest(const AbortTaskInstanceRequest& src);
-    AbortTaskInstanceRequest(AbortTaskInstanceRequest&& src);
-    AbortTaskInstanceRequest(const PFScheduledTaskAbortTaskInstanceRequest& src);
-    AbortTaskInstanceRequest& operator=(const AbortTaskInstanceRequest&) = delete;
-    ~AbortTaskInstanceRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskAbortTaskInstanceRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskAbortTaskInstanceRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_taskInstanceId;
 };
 
-struct ActionsOnPlayersInSegmentTaskParameter : public PFScheduledTaskActionsOnPlayersInSegmentTaskParameter, public SerializableModel
+class ActionsOnPlayersInSegmentTaskParameter : public Wrappers::PFScheduledTaskActionsOnPlayersInSegmentTaskParameterWrapper<Allocator>, public InputModel, public OutputModel<PFScheduledTaskActionsOnPlayersInSegmentTaskParameter>
 {
-    ActionsOnPlayersInSegmentTaskParameter();
-    ActionsOnPlayersInSegmentTaskParameter(const ActionsOnPlayersInSegmentTaskParameter& src);
-    ActionsOnPlayersInSegmentTaskParameter(ActionsOnPlayersInSegmentTaskParameter&& src);
-    ActionsOnPlayersInSegmentTaskParameter(const PFScheduledTaskActionsOnPlayersInSegmentTaskParameter& src);
-    ActionsOnPlayersInSegmentTaskParameter& operator=(const ActionsOnPlayersInSegmentTaskParameter&) = delete;
-    ~ActionsOnPlayersInSegmentTaskParameter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskActionsOnPlayersInSegmentTaskParameterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskActionsOnPlayersInSegmentTaskParameter& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskActionsOnPlayersInSegmentTaskParameter const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_actionId;
-    String m_segmentId;
+    static size_t RequiredBufferSize(const PFScheduledTaskActionsOnPlayersInSegmentTaskParameter& model);
+    static HRESULT Copy(const PFScheduledTaskActionsOnPlayersInSegmentTaskParameter& input, PFScheduledTaskActionsOnPlayersInSegmentTaskParameter& output, ModelBuffer& buffer);
 };
 
-struct CreateActionsOnPlayerSegmentTaskRequest : public PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest, public BaseModel
+class CreateActionsOnPlayerSegmentTaskRequest : public Wrappers::PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequestWrapper<Allocator>, public InputModel
 {
-    CreateActionsOnPlayerSegmentTaskRequest();
-    CreateActionsOnPlayerSegmentTaskRequest(const CreateActionsOnPlayerSegmentTaskRequest& src);
-    CreateActionsOnPlayerSegmentTaskRequest(CreateActionsOnPlayerSegmentTaskRequest&& src);
-    CreateActionsOnPlayerSegmentTaskRequest(const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& src);
-    CreateActionsOnPlayerSegmentTaskRequest& operator=(const CreateActionsOnPlayerSegmentTaskRequest&) = delete;
-    ~CreateActionsOnPlayerSegmentTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    String m_name;
-    ActionsOnPlayersInSegmentTaskParameter m_parameter;
-    String m_schedule;
 };
 
-struct CreateTaskResult : public PFScheduledTaskCreateTaskResult, public SerializableModel, public ApiResult
+class CreateTaskResult : public Wrappers::PFScheduledTaskCreateTaskResultWrapper<Allocator>, public OutputModel<PFScheduledTaskCreateTaskResult>
 {
-    CreateTaskResult();
-    CreateTaskResult(const CreateTaskResult& src);
-    CreateTaskResult(CreateTaskResult&& src);
-    CreateTaskResult(const PFScheduledTaskCreateTaskResult& src);
-    CreateTaskResult& operator=(const CreateTaskResult&) = delete;
-    ~CreateTaskResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskCreateTaskResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskCreateTaskResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_taskId;
+    static size_t RequiredBufferSize(const PFScheduledTaskCreateTaskResult& model);
+    static HRESULT Copy(const PFScheduledTaskCreateTaskResult& input, PFScheduledTaskCreateTaskResult& output, ModelBuffer& buffer);
 };
 
-struct CloudScriptTaskParameter : public PFScheduledTaskCloudScriptTaskParameter, public BaseModel
+class CloudScriptTaskParameter : public Wrappers::PFScheduledTaskCloudScriptTaskParameterWrapper<Allocator>, public InputModel, public OutputModel<PFScheduledTaskCloudScriptTaskParameter>
 {
-    CloudScriptTaskParameter();
-    CloudScriptTaskParameter(const CloudScriptTaskParameter& src);
-    CloudScriptTaskParameter(CloudScriptTaskParameter&& src);
-    CloudScriptTaskParameter(const PFScheduledTaskCloudScriptTaskParameter& src);
-    CloudScriptTaskParameter& operator=(const CloudScriptTaskParameter&) = delete;
-    ~CloudScriptTaskParameter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskCloudScriptTaskParameterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskCloudScriptTaskParameter& input);
 
-private:
-    JsonObject m_argument;
-    String m_functionName;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskCloudScriptTaskParameter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFScheduledTaskCloudScriptTaskParameter& model);
+    static HRESULT Copy(const PFScheduledTaskCloudScriptTaskParameter& input, PFScheduledTaskCloudScriptTaskParameter& output, ModelBuffer& buffer);
 };
 
-struct CreateCloudScriptTaskRequest : public PFScheduledTaskCreateCloudScriptTaskRequest, public BaseModel
+class CreateCloudScriptTaskRequest : public Wrappers::PFScheduledTaskCreateCloudScriptTaskRequestWrapper<Allocator>, public InputModel
 {
-    CreateCloudScriptTaskRequest();
-    CreateCloudScriptTaskRequest(const CreateCloudScriptTaskRequest& src);
-    CreateCloudScriptTaskRequest(CreateCloudScriptTaskRequest&& src);
-    CreateCloudScriptTaskRequest(const PFScheduledTaskCreateCloudScriptTaskRequest& src);
-    CreateCloudScriptTaskRequest& operator=(const CreateCloudScriptTaskRequest&) = delete;
-    ~CreateCloudScriptTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskCreateCloudScriptTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskCreateCloudScriptTaskRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    String m_name;
-    CloudScriptTaskParameter m_parameter;
-    String m_schedule;
 };
 
-struct InsightsScalingTaskParameter : public PFScheduledTaskInsightsScalingTaskParameter, public SerializableModel
+class InsightsScalingTaskParameter : public Wrappers::PFScheduledTaskInsightsScalingTaskParameterWrapper<Allocator>, public InputModel
 {
-    InsightsScalingTaskParameter();
-    InsightsScalingTaskParameter(const InsightsScalingTaskParameter&) = default;
-    InsightsScalingTaskParameter(InsightsScalingTaskParameter&&) = default;
-    InsightsScalingTaskParameter(const PFScheduledTaskInsightsScalingTaskParameter& src);
-    InsightsScalingTaskParameter& operator=(const InsightsScalingTaskParameter&) = delete;
-    ~InsightsScalingTaskParameter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskInsightsScalingTaskParameterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskInsightsScalingTaskParameter& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
 };
 
-struct CreateInsightsScheduledScalingTaskRequest : public PFScheduledTaskCreateInsightsScheduledScalingTaskRequest, public BaseModel
+class CreateInsightsScheduledScalingTaskRequest : public Wrappers::PFScheduledTaskCreateInsightsScheduledScalingTaskRequestWrapper<Allocator>, public InputModel
 {
-    CreateInsightsScheduledScalingTaskRequest();
-    CreateInsightsScheduledScalingTaskRequest(const CreateInsightsScheduledScalingTaskRequest& src);
-    CreateInsightsScheduledScalingTaskRequest(CreateInsightsScheduledScalingTaskRequest&& src);
-    CreateInsightsScheduledScalingTaskRequest(const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& src);
-    CreateInsightsScheduledScalingTaskRequest& operator=(const CreateInsightsScheduledScalingTaskRequest&) = delete;
-    ~CreateInsightsScheduledScalingTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskCreateInsightsScheduledScalingTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    String m_name;
-    InsightsScalingTaskParameter m_parameter;
-    String m_schedule;
 };
 
-struct DeleteTaskRequest : public PFScheduledTaskDeleteTaskRequest, public BaseModel
+class DeleteTaskRequest : public Wrappers::PFScheduledTaskDeleteTaskRequestWrapper<Allocator>, public InputModel
 {
-    DeleteTaskRequest();
-    DeleteTaskRequest(const DeleteTaskRequest& src);
-    DeleteTaskRequest(DeleteTaskRequest&& src);
-    DeleteTaskRequest(const PFScheduledTaskDeleteTaskRequest& src);
-    DeleteTaskRequest& operator=(const DeleteTaskRequest&) = delete;
-    ~DeleteTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskDeleteTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskDeleteTaskRequest& input);
 
-private:
-    StdExtra::optional<NameIdentifier> m_identifier;
 };
 
-struct GetTaskInstanceRequest : public PFScheduledTaskGetTaskInstanceRequest, public SerializableModel
+class GetTaskInstanceRequest : public Wrappers::PFScheduledTaskGetTaskInstanceRequestWrapper<Allocator>, public InputModel
 {
-    GetTaskInstanceRequest();
-    GetTaskInstanceRequest(const GetTaskInstanceRequest& src);
-    GetTaskInstanceRequest(GetTaskInstanceRequest&& src);
-    GetTaskInstanceRequest(const PFScheduledTaskGetTaskInstanceRequest& src);
-    GetTaskInstanceRequest& operator=(const GetTaskInstanceRequest&) = delete;
-    ~GetTaskInstanceRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetTaskInstanceRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskGetTaskInstanceRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_taskInstanceId;
 };
 
-struct ActionsOnPlayersInSegmentTaskSummary : public PFScheduledTaskActionsOnPlayersInSegmentTaskSummary, public BaseModel
+class ActionsOnPlayersInSegmentTaskSummary : public Wrappers::PFScheduledTaskActionsOnPlayersInSegmentTaskSummaryWrapper<Allocator>, public OutputModel<PFScheduledTaskActionsOnPlayersInSegmentTaskSummary>
 {
-    ActionsOnPlayersInSegmentTaskSummary();
-    ActionsOnPlayersInSegmentTaskSummary(const ActionsOnPlayersInSegmentTaskSummary& src);
-    ActionsOnPlayersInSegmentTaskSummary(ActionsOnPlayersInSegmentTaskSummary&& src);
-    ActionsOnPlayersInSegmentTaskSummary(const PFScheduledTaskActionsOnPlayersInSegmentTaskSummary& src);
-    ActionsOnPlayersInSegmentTaskSummary& operator=(const ActionsOnPlayersInSegmentTaskSummary&) = delete;
-    ~ActionsOnPlayersInSegmentTaskSummary() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskActionsOnPlayersInSegmentTaskSummaryWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskActionsOnPlayersInSegmentTaskSummary const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<time_t> m_completedAt;
-    String m_errorMessage;
-    StdExtra::optional<bool> m_errorWasFatal;
-    StdExtra::optional<double> m_estimatedSecondsRemaining;
-    StdExtra::optional<double> m_percentComplete;
-    String m_scheduledByUserId;
-    StdExtra::optional<PFScheduledTaskTaskInstanceStatus> m_status;
-    StdExtra::optional<NameIdentifier> m_taskIdentifier;
-    String m_taskInstanceId;
-    StdExtra::optional<int32_t> m_totalPlayersInSegment;
-    StdExtra::optional<int32_t> m_totalPlayersProcessed;
+    static size_t RequiredBufferSize(const PFScheduledTaskActionsOnPlayersInSegmentTaskSummary& model);
+    static HRESULT Copy(const PFScheduledTaskActionsOnPlayersInSegmentTaskSummary& input, PFScheduledTaskActionsOnPlayersInSegmentTaskSummary& output, ModelBuffer& buffer);
 };
 
-struct GetActionsOnPlayersInSegmentTaskInstanceResult : public PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult, public BaseModel, public ApiResult
+class GetActionsOnPlayersInSegmentTaskInstanceResult : public Wrappers::PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResultWrapper<Allocator>, public OutputModel<PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult>
 {
-    GetActionsOnPlayersInSegmentTaskInstanceResult();
-    GetActionsOnPlayersInSegmentTaskInstanceResult(const GetActionsOnPlayersInSegmentTaskInstanceResult& src);
-    GetActionsOnPlayersInSegmentTaskInstanceResult(GetActionsOnPlayersInSegmentTaskInstanceResult&& src);
-    GetActionsOnPlayersInSegmentTaskInstanceResult(const PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult& src);
-    GetActionsOnPlayersInSegmentTaskInstanceResult& operator=(const GetActionsOnPlayersInSegmentTaskInstanceResult&) = delete;
-    ~GetActionsOnPlayersInSegmentTaskInstanceResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<ActionsOnPlayersInSegmentTaskParameter> m_parameter;
-    StdExtra::optional<ActionsOnPlayersInSegmentTaskSummary> m_summary;
+    static size_t RequiredBufferSize(const PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult& model);
+    static HRESULT Copy(const PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult& input, PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult& output, ModelBuffer& buffer);
 };
 
-struct CloudScriptTaskSummary : public PFScheduledTaskCloudScriptTaskSummary, public BaseModel
+class CloudScriptTaskSummary : public Wrappers::PFScheduledTaskCloudScriptTaskSummaryWrapper<Allocator>, public OutputModel<PFScheduledTaskCloudScriptTaskSummary>
 {
-    CloudScriptTaskSummary();
-    CloudScriptTaskSummary(const CloudScriptTaskSummary& src);
-    CloudScriptTaskSummary(CloudScriptTaskSummary&& src);
-    CloudScriptTaskSummary(const PFScheduledTaskCloudScriptTaskSummary& src);
-    CloudScriptTaskSummary& operator=(const CloudScriptTaskSummary&) = delete;
-    ~CloudScriptTaskSummary() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskCloudScriptTaskSummaryWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskCloudScriptTaskSummary const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<time_t> m_completedAt;
-    StdExtra::optional<double> m_estimatedSecondsRemaining;
-    StdExtra::optional<double> m_percentComplete;
-    StdExtra::optional<ExecuteCloudScriptResult> m_result;
-    String m_scheduledByUserId;
-    StdExtra::optional<PFScheduledTaskTaskInstanceStatus> m_status;
-    StdExtra::optional<NameIdentifier> m_taskIdentifier;
-    String m_taskInstanceId;
+    static size_t RequiredBufferSize(const PFScheduledTaskCloudScriptTaskSummary& model);
+    static HRESULT Copy(const PFScheduledTaskCloudScriptTaskSummary& input, PFScheduledTaskCloudScriptTaskSummary& output, ModelBuffer& buffer);
 };
 
-struct GetCloudScriptTaskInstanceResult : public PFScheduledTaskGetCloudScriptTaskInstanceResult, public BaseModel, public ApiResult
+class GetCloudScriptTaskInstanceResult : public Wrappers::PFScheduledTaskGetCloudScriptTaskInstanceResultWrapper<Allocator>, public OutputModel<PFScheduledTaskGetCloudScriptTaskInstanceResult>
 {
-    GetCloudScriptTaskInstanceResult();
-    GetCloudScriptTaskInstanceResult(const GetCloudScriptTaskInstanceResult& src);
-    GetCloudScriptTaskInstanceResult(GetCloudScriptTaskInstanceResult&& src);
-    GetCloudScriptTaskInstanceResult(const PFScheduledTaskGetCloudScriptTaskInstanceResult& src);
-    GetCloudScriptTaskInstanceResult& operator=(const GetCloudScriptTaskInstanceResult&) = delete;
-    ~GetCloudScriptTaskInstanceResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetCloudScriptTaskInstanceResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskGetCloudScriptTaskInstanceResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<CloudScriptTaskParameter> m_parameter;
-    StdExtra::optional<CloudScriptTaskSummary> m_summary;
+    static size_t RequiredBufferSize(const PFScheduledTaskGetCloudScriptTaskInstanceResult& model);
+    static HRESULT Copy(const PFScheduledTaskGetCloudScriptTaskInstanceResult& input, PFScheduledTaskGetCloudScriptTaskInstanceResult& output, ModelBuffer& buffer);
 };
 
-struct GetTaskInstancesRequest : public PFScheduledTaskGetTaskInstancesRequest, public BaseModel
+class GetTaskInstancesRequest : public Wrappers::PFScheduledTaskGetTaskInstancesRequestWrapper<Allocator>, public InputModel
 {
-    GetTaskInstancesRequest();
-    GetTaskInstancesRequest(const GetTaskInstancesRequest& src);
-    GetTaskInstancesRequest(GetTaskInstancesRequest&& src);
-    GetTaskInstancesRequest(const PFScheduledTaskGetTaskInstancesRequest& src);
-    GetTaskInstancesRequest& operator=(const GetTaskInstancesRequest&) = delete;
-    ~GetTaskInstancesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetTaskInstancesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskGetTaskInstancesRequest& input);
 
-private:
-    StdExtra::optional<time_t> m_startedAtRangeFrom;
-    StdExtra::optional<time_t> m_startedAtRangeTo;
-    StdExtra::optional<PFScheduledTaskTaskInstanceStatus> m_statusFilter;
-    StdExtra::optional<NameIdentifier> m_taskIdentifier;
 };
 
-struct TaskInstanceBasicSummary : public PFScheduledTaskTaskInstanceBasicSummary, public BaseModel
+class TaskInstanceBasicSummary : public Wrappers::PFScheduledTaskTaskInstanceBasicSummaryWrapper<Allocator>, public OutputModel<PFScheduledTaskTaskInstanceBasicSummary>
 {
-    TaskInstanceBasicSummary();
-    TaskInstanceBasicSummary(const TaskInstanceBasicSummary& src);
-    TaskInstanceBasicSummary(TaskInstanceBasicSummary&& src);
-    TaskInstanceBasicSummary(const PFScheduledTaskTaskInstanceBasicSummary& src);
-    TaskInstanceBasicSummary& operator=(const TaskInstanceBasicSummary&) = delete;
-    ~TaskInstanceBasicSummary() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskTaskInstanceBasicSummaryWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskTaskInstanceBasicSummary const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<time_t> m_completedAt;
-    String m_errorMessage;
-    StdExtra::optional<double> m_estimatedSecondsRemaining;
-    StdExtra::optional<double> m_percentComplete;
-    String m_scheduledByUserId;
-    StdExtra::optional<PFScheduledTaskTaskInstanceStatus> m_status;
-    StdExtra::optional<NameIdentifier> m_taskIdentifier;
-    String m_taskInstanceId;
-    StdExtra::optional<PFScheduledTaskScheduledTaskType> m_type;
+    static size_t RequiredBufferSize(const PFScheduledTaskTaskInstanceBasicSummary& model);
+    static HRESULT Copy(const PFScheduledTaskTaskInstanceBasicSummary& input, PFScheduledTaskTaskInstanceBasicSummary& output, ModelBuffer& buffer);
 };
 
-struct GetTaskInstancesResult : public PFScheduledTaskGetTaskInstancesResult, public BaseModel, public ApiResult
+class GetTaskInstancesResult : public Wrappers::PFScheduledTaskGetTaskInstancesResultWrapper<Allocator>, public OutputModel<PFScheduledTaskGetTaskInstancesResult>
 {
-    GetTaskInstancesResult();
-    GetTaskInstancesResult(const GetTaskInstancesResult& src);
-    GetTaskInstancesResult(GetTaskInstancesResult&& src);
-    GetTaskInstancesResult(const PFScheduledTaskGetTaskInstancesResult& src);
-    GetTaskInstancesResult& operator=(const GetTaskInstancesResult&) = delete;
-    ~GetTaskInstancesResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetTaskInstancesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskGetTaskInstancesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFScheduledTaskTaskInstanceBasicSummary, TaskInstanceBasicSummary> m_summaries;
+    static size_t RequiredBufferSize(const PFScheduledTaskGetTaskInstancesResult& model);
+    static HRESULT Copy(const PFScheduledTaskGetTaskInstancesResult& input, PFScheduledTaskGetTaskInstancesResult& output, ModelBuffer& buffer);
 };
 
-struct GetTasksRequest : public PFScheduledTaskGetTasksRequest, public BaseModel
+class GetTasksRequest : public Wrappers::PFScheduledTaskGetTasksRequestWrapper<Allocator>, public InputModel
 {
-    GetTasksRequest();
-    GetTasksRequest(const GetTasksRequest& src);
-    GetTasksRequest(GetTasksRequest&& src);
-    GetTasksRequest(const PFScheduledTaskGetTasksRequest& src);
-    GetTasksRequest& operator=(const GetTasksRequest&) = delete;
-    ~GetTasksRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetTasksRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskGetTasksRequest& input);
 
-private:
-    StdExtra::optional<NameIdentifier> m_identifier;
 };
 
-struct ScheduledTask : public PFScheduledTaskScheduledTask, public BaseModel
+class ScheduledTask : public Wrappers::PFScheduledTaskScheduledTaskWrapper<Allocator>, public OutputModel<PFScheduledTaskScheduledTask>
 {
-    ScheduledTask();
-    ScheduledTask(const ScheduledTask& src);
-    ScheduledTask(ScheduledTask&& src);
-    ScheduledTask(const PFScheduledTaskScheduledTask& src);
-    ScheduledTask& operator=(const ScheduledTask&) = delete;
-    ~ScheduledTask() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskScheduledTaskWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskScheduledTask const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_description;
-    StdExtra::optional<time_t> m_lastRunTime;
-    String m_name;
-    StdExtra::optional<time_t> m_nextRunTime;
-    JsonObject m_parameter;
-    String m_schedule;
-    String m_taskId;
-    StdExtra::optional<PFScheduledTaskScheduledTaskType> m_type;
+    static size_t RequiredBufferSize(const PFScheduledTaskScheduledTask& model);
+    static HRESULT Copy(const PFScheduledTaskScheduledTask& input, PFScheduledTaskScheduledTask& output, ModelBuffer& buffer);
 };
 
-struct GetTasksResult : public PFScheduledTaskGetTasksResult, public BaseModel, public ApiResult
+class GetTasksResult : public Wrappers::PFScheduledTaskGetTasksResultWrapper<Allocator>, public OutputModel<PFScheduledTaskGetTasksResult>
 {
-    GetTasksResult();
-    GetTasksResult(const GetTasksResult& src);
-    GetTasksResult(GetTasksResult&& src);
-    GetTasksResult(const PFScheduledTaskGetTasksResult& src);
-    GetTasksResult& operator=(const GetTasksResult&) = delete;
-    ~GetTasksResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskGetTasksResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskGetTasksResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFScheduledTaskScheduledTask, ScheduledTask> m_tasks;
+    static size_t RequiredBufferSize(const PFScheduledTaskGetTasksResult& model);
+    static HRESULT Copy(const PFScheduledTaskGetTasksResult& input, PFScheduledTaskGetTasksResult& output, ModelBuffer& buffer);
 };
 
-struct RunTaskRequest : public PFScheduledTaskRunTaskRequest, public BaseModel
+class RunTaskRequest : public Wrappers::PFScheduledTaskRunTaskRequestWrapper<Allocator>, public InputModel
 {
-    RunTaskRequest();
-    RunTaskRequest(const RunTaskRequest& src);
-    RunTaskRequest(RunTaskRequest&& src);
-    RunTaskRequest(const PFScheduledTaskRunTaskRequest& src);
-    RunTaskRequest& operator=(const RunTaskRequest&) = delete;
-    ~RunTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskRunTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskRunTaskRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<NameIdentifier> m_identifier;
 };
 
-struct RunTaskResult : public PFScheduledTaskRunTaskResult, public SerializableModel, public ApiResult
+class RunTaskResult : public Wrappers::PFScheduledTaskRunTaskResultWrapper<Allocator>, public OutputModel<PFScheduledTaskRunTaskResult>
 {
-    RunTaskResult();
-    RunTaskResult(const RunTaskResult& src);
-    RunTaskResult(RunTaskResult&& src);
-    RunTaskResult(const PFScheduledTaskRunTaskResult& src);
-    RunTaskResult& operator=(const RunTaskResult&) = delete;
-    ~RunTaskResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskRunTaskResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScheduledTaskRunTaskResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_taskInstanceId;
+    static size_t RequiredBufferSize(const PFScheduledTaskRunTaskResult& model);
+    static HRESULT Copy(const PFScheduledTaskRunTaskResult& input, PFScheduledTaskRunTaskResult& output, ModelBuffer& buffer);
 };
 
-struct UpdateTaskRequest : public PFScheduledTaskUpdateTaskRequest, public BaseModel
+class UpdateTaskRequest : public Wrappers::PFScheduledTaskUpdateTaskRequestWrapper<Allocator>, public InputModel
 {
-    UpdateTaskRequest();
-    UpdateTaskRequest(const UpdateTaskRequest& src);
-    UpdateTaskRequest(UpdateTaskRequest&& src);
-    UpdateTaskRequest(const PFScheduledTaskUpdateTaskRequest& src);
-    UpdateTaskRequest& operator=(const UpdateTaskRequest&) = delete;
-    ~UpdateTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScheduledTaskUpdateTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFScheduledTaskUpdateTaskRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    StdExtra::optional<NameIdentifier> m_identifier;
-    String m_name;
-    JsonObject m_parameter;
-    String m_schedule;
 };
 
-} // namespace ScheduledTaskModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFScheduledTaskAbortTaskInstanceRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskActionsOnPlayersInSegmentTaskParameter& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskCreateTaskResult& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskCloudScriptTaskParameter& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskCreateCloudScriptTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskInsightsScalingTaskParameter& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskDeleteTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetTaskInstanceRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskActionsOnPlayersInSegmentTaskSummary& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskCloudScriptTaskSummary& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetCloudScriptTaskInstanceResult& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetTaskInstancesRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskTaskInstanceBasicSummary& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetTaskInstancesResult& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetTasksRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskScheduledTask& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskGetTasksResult& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskRunTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskRunTaskResult& input);
-template<> inline JsonValue ToJson<>(const PFScheduledTaskUpdateTaskRequest& input);
-} // namespace JsonUtils
-
+} // namespace ScheduledTask
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

@@ -16,8 +16,8 @@ class QoSAPI;
 class EntityToken : public PFEntityToken
 {
 public:
-    EntityToken(const AuthenticationModels::EntityTokenResponse& tokenResponse);
-    EntityToken(const AuthenticationModels::GetEntityTokenResponse& tokenResponse);
+    EntityToken(const Authentication::EntityTokenResponse& tokenResponse);
+    EntityToken(const Authentication::GetEntityTokenResponse& tokenResponse);
     EntityToken(const EntityToken& src);
     EntityToken(EntityToken&& src);
     ~EntityToken() = default;
@@ -32,8 +32,8 @@ private:
 class Entity : public std::enable_shared_from_this<Entity>
 {
 public:
-    Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const AuthenticationModels::EntityTokenResponse& entityTokenResponse);
-    Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const AuthenticationModels::GetEntityTokenResponse& entityTokenResponse);
+    Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const Authentication::EntityTokenResponse& entityTokenResponse);
+    Entity(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, const Authentication::GetEntityTokenResponse& entityTokenResponse);
 
     Entity(const Entity&) = delete;
     Entity& operator=(const Entity&) = delete;
@@ -57,7 +57,7 @@ public:
     // call will be authenticated with the EntityToken. If the Entity Token requested if for the calling Entity (aka just refreshing our token),
     // our cached token will be updated and a SharedPtr to 'this' will be returned. If the token requested is for another entity, a new Entity
     // object will be created and returned.
-    AsyncOp<SharedPtr<Entity>> GetEntityToken(const PFAuthenticationGetEntityTokenRequest& request, const TaskQueue& queue);
+    AsyncOp<SharedPtr<Entity>> GetEntityToken(const Authentication::GetEntityTokenRequest& request, const TaskQueue& queue);
 
     // TokenRefreshedCallbacks exist to support PlayFab Party & PlayFab Lobby interfaces which require titles to provide and manually update a raw 
     // entity token. Whenever the Entity token is silently refreshed these callbacks will be invoked.

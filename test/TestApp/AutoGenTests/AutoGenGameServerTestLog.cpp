@@ -157,7 +157,7 @@ HRESULT AutoGenGameServerTests::LogPFGameServerGetServerBuildUploadURLResult(PFG
     ss << "Response:"; Log(ss);
 
     // Found PlayFabGameServerGetServerBuildUploadURLResult
-    if( result->uRL ) { ss << "  uRL " << result->uRL; Log(ss); } else { ss << "  uRL = nullptr"; Log(ss); } // Class: const char* 
+    if( result->URL ) { ss << "  URL " << result->URL; Log(ss); } else { ss << "  URL = nullptr"; Log(ss); } // Class: const char* 
     return S_OK;
 }
 

@@ -1,594 +1,501 @@
 #pragma once
 
-#include <playfab/PFCloudScriptDataModels.h>
+#include <playfab/cpp/PFCloudScriptDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace CloudScriptModels
+namespace CloudScript
 {
 
 // CloudScript Classes
-struct GetCloudScriptRevisionRequest : public PFCloudScriptGetCloudScriptRevisionRequest, public BaseModel
+class GetCloudScriptRevisionRequest : public Wrappers::PFCloudScriptGetCloudScriptRevisionRequestWrapper<Allocator>, public InputModel
 {
-    GetCloudScriptRevisionRequest();
-    GetCloudScriptRevisionRequest(const GetCloudScriptRevisionRequest& src);
-    GetCloudScriptRevisionRequest(GetCloudScriptRevisionRequest&& src);
-    GetCloudScriptRevisionRequest(const PFCloudScriptGetCloudScriptRevisionRequest& src);
-    GetCloudScriptRevisionRequest& operator=(const GetCloudScriptRevisionRequest&) = delete;
-    ~GetCloudScriptRevisionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptGetCloudScriptRevisionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptGetCloudScriptRevisionRequest& input);
 
-private:
-    StdExtra::optional<int32_t> m_revision;
-    StdExtra::optional<int32_t> m_version;
 };
 
-struct CloudScriptFile : public PFCloudScriptCloudScriptFile, public SerializableModel
+class CloudScriptFile : public Wrappers::PFCloudScriptCloudScriptFileWrapper<Allocator>, public InputModel, public OutputModel<PFCloudScriptCloudScriptFile>
 {
-    CloudScriptFile();
-    CloudScriptFile(const CloudScriptFile& src);
-    CloudScriptFile(CloudScriptFile&& src);
-    CloudScriptFile(const PFCloudScriptCloudScriptFile& src);
-    CloudScriptFile& operator=(const CloudScriptFile&) = delete;
-    ~CloudScriptFile() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptCloudScriptFileWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptCloudScriptFile& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptCloudScriptFile const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_fileContents;
-    String m_filename;
+    static size_t RequiredBufferSize(const PFCloudScriptCloudScriptFile& model);
+    static HRESULT Copy(const PFCloudScriptCloudScriptFile& input, PFCloudScriptCloudScriptFile& output, ModelBuffer& buffer);
 };
 
-struct GetCloudScriptRevisionResult : public PFCloudScriptGetCloudScriptRevisionResult, public BaseModel, public ApiResult
+class GetCloudScriptRevisionResult : public Wrappers::PFCloudScriptGetCloudScriptRevisionResultWrapper<Allocator>, public OutputModel<PFCloudScriptGetCloudScriptRevisionResult>
 {
-    GetCloudScriptRevisionResult();
-    GetCloudScriptRevisionResult(const GetCloudScriptRevisionResult& src);
-    GetCloudScriptRevisionResult(GetCloudScriptRevisionResult&& src);
-    GetCloudScriptRevisionResult(const PFCloudScriptGetCloudScriptRevisionResult& src);
-    GetCloudScriptRevisionResult& operator=(const GetCloudScriptRevisionResult&) = delete;
-    ~GetCloudScriptRevisionResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptGetCloudScriptRevisionResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptGetCloudScriptRevisionResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCloudScriptCloudScriptFile, CloudScriptFile> m_files;
+    static size_t RequiredBufferSize(const PFCloudScriptGetCloudScriptRevisionResult& model);
+    static HRESULT Copy(const PFCloudScriptGetCloudScriptRevisionResult& input, PFCloudScriptGetCloudScriptRevisionResult& output, ModelBuffer& buffer);
 };
 
-struct CloudScriptVersionStatus : public PFCloudScriptCloudScriptVersionStatus, public SerializableModel
+class CloudScriptVersionStatus : public Wrappers::PFCloudScriptCloudScriptVersionStatusWrapper<Allocator>, public OutputModel<PFCloudScriptCloudScriptVersionStatus>
 {
-    CloudScriptVersionStatus();
-    CloudScriptVersionStatus(const CloudScriptVersionStatus&) = default;
-    CloudScriptVersionStatus(CloudScriptVersionStatus&&) = default;
-    CloudScriptVersionStatus(const PFCloudScriptCloudScriptVersionStatus& src);
-    CloudScriptVersionStatus& operator=(const CloudScriptVersionStatus&) = delete;
-    ~CloudScriptVersionStatus() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptCloudScriptVersionStatusWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptCloudScriptVersionStatus const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFCloudScriptCloudScriptVersionStatus& model);
+    static HRESULT Copy(const PFCloudScriptCloudScriptVersionStatus& input, PFCloudScriptCloudScriptVersionStatus& output, ModelBuffer& buffer);
 };
 
-struct GetCloudScriptVersionsResult : public PFCloudScriptGetCloudScriptVersionsResult, public BaseModel, public ApiResult
+class GetCloudScriptVersionsResult : public Wrappers::PFCloudScriptGetCloudScriptVersionsResultWrapper<Allocator>, public OutputModel<PFCloudScriptGetCloudScriptVersionsResult>
 {
-    GetCloudScriptVersionsResult();
-    GetCloudScriptVersionsResult(const GetCloudScriptVersionsResult& src);
-    GetCloudScriptVersionsResult(GetCloudScriptVersionsResult&& src);
-    GetCloudScriptVersionsResult(const PFCloudScriptGetCloudScriptVersionsResult& src);
-    GetCloudScriptVersionsResult& operator=(const GetCloudScriptVersionsResult&) = delete;
-    ~GetCloudScriptVersionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptGetCloudScriptVersionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptGetCloudScriptVersionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCloudScriptCloudScriptVersionStatus, CloudScriptVersionStatus> m_versions;
+    static size_t RequiredBufferSize(const PFCloudScriptGetCloudScriptVersionsResult& model);
+    static HRESULT Copy(const PFCloudScriptGetCloudScriptVersionsResult& input, PFCloudScriptGetCloudScriptVersionsResult& output, ModelBuffer& buffer);
 };
 
-struct SetPublishedRevisionRequest : public PFCloudScriptSetPublishedRevisionRequest, public BaseModel
+class SetPublishedRevisionRequest : public Wrappers::PFCloudScriptSetPublishedRevisionRequestWrapper<Allocator>, public InputModel
 {
-    SetPublishedRevisionRequest();
-    SetPublishedRevisionRequest(const SetPublishedRevisionRequest& src);
-    SetPublishedRevisionRequest(SetPublishedRevisionRequest&& src);
-    SetPublishedRevisionRequest(const PFCloudScriptSetPublishedRevisionRequest& src);
-    SetPublishedRevisionRequest& operator=(const SetPublishedRevisionRequest&) = delete;
-    ~SetPublishedRevisionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptSetPublishedRevisionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptSetPublishedRevisionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UpdateCloudScriptRequest : public PFCloudScriptUpdateCloudScriptRequest, public BaseModel
+class UpdateCloudScriptRequest : public Wrappers::PFCloudScriptUpdateCloudScriptRequestWrapper<Allocator>, public InputModel
 {
-    UpdateCloudScriptRequest();
-    UpdateCloudScriptRequest(const UpdateCloudScriptRequest& src);
-    UpdateCloudScriptRequest(UpdateCloudScriptRequest&& src);
-    UpdateCloudScriptRequest(const PFCloudScriptUpdateCloudScriptRequest& src);
-    UpdateCloudScriptRequest& operator=(const UpdateCloudScriptRequest&) = delete;
-    ~UpdateCloudScriptRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptUpdateCloudScriptRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptUpdateCloudScriptRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_developerPlayFabId;
-    PointerArrayModel<PFCloudScriptCloudScriptFile, CloudScriptFile> m_files;
 };
 
-struct UpdateCloudScriptResult : public PFCloudScriptUpdateCloudScriptResult, public SerializableModel, public ApiResult
+class UpdateCloudScriptResult : public Wrappers::PFCloudScriptUpdateCloudScriptResultWrapper<Allocator>, public OutputModel<PFCloudScriptUpdateCloudScriptResult>
 {
-    UpdateCloudScriptResult();
-    UpdateCloudScriptResult(const UpdateCloudScriptResult&) = default;
-    UpdateCloudScriptResult(UpdateCloudScriptResult&&) = default;
-    UpdateCloudScriptResult(const PFCloudScriptUpdateCloudScriptResult& src);
-    UpdateCloudScriptResult& operator=(const UpdateCloudScriptResult&) = delete;
-    ~UpdateCloudScriptResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptUpdateCloudScriptResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptUpdateCloudScriptResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFCloudScriptUpdateCloudScriptResult& model);
+    static HRESULT Copy(const PFCloudScriptUpdateCloudScriptResult& input, PFCloudScriptUpdateCloudScriptResult& output, ModelBuffer& buffer);
 };
 
-struct ExecuteCloudScriptRequest : public PFCloudScriptExecuteCloudScriptRequest, public BaseModel
+class ExecuteCloudScriptRequest : public Wrappers::PFCloudScriptExecuteCloudScriptRequestWrapper<Allocator>, public InputModel
 {
-    ExecuteCloudScriptRequest();
-    ExecuteCloudScriptRequest(const ExecuteCloudScriptRequest& src);
-    ExecuteCloudScriptRequest(ExecuteCloudScriptRequest&& src);
-    ExecuteCloudScriptRequest(const PFCloudScriptExecuteCloudScriptRequest& src);
-    ExecuteCloudScriptRequest& operator=(const ExecuteCloudScriptRequest&) = delete;
-    ~ExecuteCloudScriptRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptExecuteCloudScriptRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptExecuteCloudScriptRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_functionName;
-    JsonObject m_functionParameter;
-    StdExtra::optional<bool> m_generatePlayStreamEvent;
-    StdExtra::optional<PFCloudScriptCloudScriptRevisionOption> m_revisionSelection;
-    StdExtra::optional<int32_t> m_specificRevision;
 };
 
-struct ExecuteCloudScriptServerRequest : public PFCloudScriptExecuteCloudScriptServerRequest, public BaseModel
+class ExecuteCloudScriptServerRequest : public Wrappers::PFCloudScriptExecuteCloudScriptServerRequestWrapper<Allocator>, public InputModel
 {
-    ExecuteCloudScriptServerRequest();
-    ExecuteCloudScriptServerRequest(const ExecuteCloudScriptServerRequest& src);
-    ExecuteCloudScriptServerRequest(ExecuteCloudScriptServerRequest&& src);
-    ExecuteCloudScriptServerRequest(const PFCloudScriptExecuteCloudScriptServerRequest& src);
-    ExecuteCloudScriptServerRequest& operator=(const ExecuteCloudScriptServerRequest&) = delete;
-    ~ExecuteCloudScriptServerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptExecuteCloudScriptServerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptExecuteCloudScriptServerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_functionName;
-    JsonObject m_functionParameter;
-    StdExtra::optional<bool> m_generatePlayStreamEvent;
-    String m_playFabId;
-    StdExtra::optional<PFCloudScriptCloudScriptRevisionOption> m_revisionSelection;
-    StdExtra::optional<int32_t> m_specificRevision;
 };
 
-struct ExecuteEntityCloudScriptRequest : public PFCloudScriptExecuteEntityCloudScriptRequest, public BaseModel
+class ExecuteEntityCloudScriptRequest : public Wrappers::PFCloudScriptExecuteEntityCloudScriptRequestWrapper<Allocator>, public InputModel
 {
-    ExecuteEntityCloudScriptRequest();
-    ExecuteEntityCloudScriptRequest(const ExecuteEntityCloudScriptRequest& src);
-    ExecuteEntityCloudScriptRequest(ExecuteEntityCloudScriptRequest&& src);
-    ExecuteEntityCloudScriptRequest(const PFCloudScriptExecuteEntityCloudScriptRequest& src);
-    ExecuteEntityCloudScriptRequest& operator=(const ExecuteEntityCloudScriptRequest&) = delete;
-    ~ExecuteEntityCloudScriptRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptExecuteEntityCloudScriptRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptExecuteEntityCloudScriptRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_functionName;
-    JsonObject m_functionParameter;
-    StdExtra::optional<bool> m_generatePlayStreamEvent;
-    StdExtra::optional<PFCloudScriptCloudScriptRevisionOption> m_revisionSelection;
-    StdExtra::optional<int32_t> m_specificRevision;
 };
 
-struct ExecuteFunctionRequest : public PFCloudScriptExecuteFunctionRequest, public BaseModel
+class ExecuteFunctionRequest : public Wrappers::PFCloudScriptExecuteFunctionRequestWrapper<Allocator>, public InputModel
 {
-    ExecuteFunctionRequest();
-    ExecuteFunctionRequest(const ExecuteFunctionRequest& src);
-    ExecuteFunctionRequest(ExecuteFunctionRequest&& src);
-    ExecuteFunctionRequest(const PFCloudScriptExecuteFunctionRequest& src);
-    ExecuteFunctionRequest& operator=(const ExecuteFunctionRequest&) = delete;
-    ~ExecuteFunctionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptExecuteFunctionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptExecuteFunctionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_functionName;
-    JsonObject m_functionParameter;
-    StdExtra::optional<bool> m_generatePlayStreamEvent;
 };
 
-struct FunctionExecutionError : public PFCloudScriptFunctionExecutionError, public SerializableModel
+class FunctionExecutionError : public Wrappers::PFCloudScriptFunctionExecutionErrorWrapper<Allocator>, public InputModel, public OutputModel<PFCloudScriptFunctionExecutionError>
 {
-    FunctionExecutionError();
-    FunctionExecutionError(const FunctionExecutionError& src);
-    FunctionExecutionError(FunctionExecutionError&& src);
-    FunctionExecutionError(const PFCloudScriptFunctionExecutionError& src);
-    FunctionExecutionError& operator=(const FunctionExecutionError&) = delete;
-    ~FunctionExecutionError() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptFunctionExecutionErrorWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptFunctionExecutionError& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptFunctionExecutionError const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_error;
-    String m_message;
-    String m_stackTrace;
+    static size_t RequiredBufferSize(const PFCloudScriptFunctionExecutionError& model);
+    static HRESULT Copy(const PFCloudScriptFunctionExecutionError& input, PFCloudScriptFunctionExecutionError& output, ModelBuffer& buffer);
 };
 
-struct ExecuteFunctionResult : public PFCloudScriptExecuteFunctionResult, public BaseModel, public ApiResult
+class ExecuteFunctionResult : public Wrappers::PFCloudScriptExecuteFunctionResultWrapper<Allocator>, public InputModel, public OutputModel<PFCloudScriptExecuteFunctionResult>
 {
-    ExecuteFunctionResult();
-    ExecuteFunctionResult(const ExecuteFunctionResult& src);
-    ExecuteFunctionResult(ExecuteFunctionResult&& src);
-    ExecuteFunctionResult(const PFCloudScriptExecuteFunctionResult& src);
-    ExecuteFunctionResult& operator=(const ExecuteFunctionResult&) = delete;
-    ~ExecuteFunctionResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptExecuteFunctionResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptExecuteFunctionResult& input);
 
-private:
-    StdExtra::optional<FunctionExecutionError> m_error;
-    String m_functionName;
-    JsonObject m_functionResult;
-    StdExtra::optional<bool> m_functionResultTooLarge;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptExecuteFunctionResult const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFCloudScriptExecuteFunctionResult& model);
+    static HRESULT Copy(const PFCloudScriptExecuteFunctionResult& input, PFCloudScriptExecuteFunctionResult& output, ModelBuffer& buffer);
 };
 
-struct ListFunctionsRequest : public PFCloudScriptListFunctionsRequest, public BaseModel
+class ListFunctionsRequest : public Wrappers::PFCloudScriptListFunctionsRequestWrapper<Allocator>, public InputModel
 {
-    ListFunctionsRequest();
-    ListFunctionsRequest(const ListFunctionsRequest& src);
-    ListFunctionsRequest(ListFunctionsRequest&& src);
-    ListFunctionsRequest(const PFCloudScriptListFunctionsRequest& src);
-    ListFunctionsRequest& operator=(const ListFunctionsRequest&) = delete;
-    ~ListFunctionsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptListFunctionsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptListFunctionsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct FunctionModel : public PFCloudScriptFunctionModel, public SerializableModel
+class FunctionModel : public Wrappers::PFCloudScriptFunctionModelWrapper<Allocator>, public OutputModel<PFCloudScriptFunctionModel>
 {
-    FunctionModel();
-    FunctionModel(const FunctionModel& src);
-    FunctionModel(FunctionModel&& src);
-    FunctionModel(const PFCloudScriptFunctionModel& src);
-    FunctionModel& operator=(const FunctionModel&) = delete;
-    ~FunctionModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptFunctionModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptFunctionModel const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_functionAddress;
-    String m_functionName;
-    String m_triggerType;
+    static size_t RequiredBufferSize(const PFCloudScriptFunctionModel& model);
+    static HRESULT Copy(const PFCloudScriptFunctionModel& input, PFCloudScriptFunctionModel& output, ModelBuffer& buffer);
 };
 
-struct ListFunctionsResult : public PFCloudScriptListFunctionsResult, public BaseModel, public ApiResult
+class ListFunctionsResult : public Wrappers::PFCloudScriptListFunctionsResultWrapper<Allocator>, public OutputModel<PFCloudScriptListFunctionsResult>
 {
-    ListFunctionsResult();
-    ListFunctionsResult(const ListFunctionsResult& src);
-    ListFunctionsResult(ListFunctionsResult&& src);
-    ListFunctionsResult(const PFCloudScriptListFunctionsResult& src);
-    ListFunctionsResult& operator=(const ListFunctionsResult&) = delete;
-    ~ListFunctionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptListFunctionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptListFunctionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCloudScriptFunctionModel, FunctionModel> m_functions;
+    static size_t RequiredBufferSize(const PFCloudScriptListFunctionsResult& model);
+    static HRESULT Copy(const PFCloudScriptListFunctionsResult& input, PFCloudScriptListFunctionsResult& output, ModelBuffer& buffer);
 };
 
-struct HttpFunctionModel : public PFCloudScriptHttpFunctionModel, public SerializableModel
+class HttpFunctionModel : public Wrappers::PFCloudScriptHttpFunctionModelWrapper<Allocator>, public OutputModel<PFCloudScriptHttpFunctionModel>
 {
-    HttpFunctionModel();
-    HttpFunctionModel(const HttpFunctionModel& src);
-    HttpFunctionModel(HttpFunctionModel&& src);
-    HttpFunctionModel(const PFCloudScriptHttpFunctionModel& src);
-    HttpFunctionModel& operator=(const HttpFunctionModel&) = delete;
-    ~HttpFunctionModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptHttpFunctionModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptHttpFunctionModel const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_functionName;
-    String m_functionUrl;
+    static size_t RequiredBufferSize(const PFCloudScriptHttpFunctionModel& model);
+    static HRESULT Copy(const PFCloudScriptHttpFunctionModel& input, PFCloudScriptHttpFunctionModel& output, ModelBuffer& buffer);
 };
 
-struct ListHttpFunctionsResult : public PFCloudScriptListHttpFunctionsResult, public BaseModel, public ApiResult
+class ListHttpFunctionsResult : public Wrappers::PFCloudScriptListHttpFunctionsResultWrapper<Allocator>, public OutputModel<PFCloudScriptListHttpFunctionsResult>
 {
-    ListHttpFunctionsResult();
-    ListHttpFunctionsResult(const ListHttpFunctionsResult& src);
-    ListHttpFunctionsResult(ListHttpFunctionsResult&& src);
-    ListHttpFunctionsResult(const PFCloudScriptListHttpFunctionsResult& src);
-    ListHttpFunctionsResult& operator=(const ListHttpFunctionsResult&) = delete;
-    ~ListHttpFunctionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptListHttpFunctionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptListHttpFunctionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCloudScriptHttpFunctionModel, HttpFunctionModel> m_functions;
+    static size_t RequiredBufferSize(const PFCloudScriptListHttpFunctionsResult& model);
+    static HRESULT Copy(const PFCloudScriptListHttpFunctionsResult& input, PFCloudScriptListHttpFunctionsResult& output, ModelBuffer& buffer);
 };
 
-struct QueuedFunctionModel : public PFCloudScriptQueuedFunctionModel, public SerializableModel
+class QueuedFunctionModel : public Wrappers::PFCloudScriptQueuedFunctionModelWrapper<Allocator>, public OutputModel<PFCloudScriptQueuedFunctionModel>
 {
-    QueuedFunctionModel();
-    QueuedFunctionModel(const QueuedFunctionModel& src);
-    QueuedFunctionModel(QueuedFunctionModel&& src);
-    QueuedFunctionModel(const PFCloudScriptQueuedFunctionModel& src);
-    QueuedFunctionModel& operator=(const QueuedFunctionModel&) = delete;
-    ~QueuedFunctionModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptQueuedFunctionModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptQueuedFunctionModel const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_connectionString;
-    String m_functionName;
-    String m_queueName;
+    static size_t RequiredBufferSize(const PFCloudScriptQueuedFunctionModel& model);
+    static HRESULT Copy(const PFCloudScriptQueuedFunctionModel& input, PFCloudScriptQueuedFunctionModel& output, ModelBuffer& buffer);
 };
 
-struct ListQueuedFunctionsResult : public PFCloudScriptListQueuedFunctionsResult, public BaseModel, public ApiResult
+class ListQueuedFunctionsResult : public Wrappers::PFCloudScriptListQueuedFunctionsResultWrapper<Allocator>, public OutputModel<PFCloudScriptListQueuedFunctionsResult>
 {
-    ListQueuedFunctionsResult();
-    ListQueuedFunctionsResult(const ListQueuedFunctionsResult& src);
-    ListQueuedFunctionsResult(ListQueuedFunctionsResult&& src);
-    ListQueuedFunctionsResult(const PFCloudScriptListQueuedFunctionsResult& src);
-    ListQueuedFunctionsResult& operator=(const ListQueuedFunctionsResult&) = delete;
-    ~ListQueuedFunctionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptListQueuedFunctionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCloudScriptListQueuedFunctionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCloudScriptQueuedFunctionModel, QueuedFunctionModel> m_functions;
+    static size_t RequiredBufferSize(const PFCloudScriptListQueuedFunctionsResult& model);
+    static HRESULT Copy(const PFCloudScriptListQueuedFunctionsResult& input, PFCloudScriptListQueuedFunctionsResult& output, ModelBuffer& buffer);
 };
 
-struct PostFunctionResultForEntityTriggeredActionRequest : public PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest, public BaseModel
+class PostFunctionResultForEntityTriggeredActionRequest : public Wrappers::PFCloudScriptPostFunctionResultForEntityTriggeredActionRequestWrapper<Allocator>, public InputModel
 {
-    PostFunctionResultForEntityTriggeredActionRequest();
-    PostFunctionResultForEntityTriggeredActionRequest(const PostFunctionResultForEntityTriggeredActionRequest& src);
-    PostFunctionResultForEntityTriggeredActionRequest(PostFunctionResultForEntityTriggeredActionRequest&& src);
-    PostFunctionResultForEntityTriggeredActionRequest(const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& src);
-    PostFunctionResultForEntityTriggeredActionRequest& operator=(const PostFunctionResultForEntityTriggeredActionRequest&) = delete;
-    ~PostFunctionResultForEntityTriggeredActionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptPostFunctionResultForEntityTriggeredActionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    ExecuteFunctionResult m_functionResult;
 };
 
-struct PostFunctionResultForFunctionExecutionRequest : public PFCloudScriptPostFunctionResultForFunctionExecutionRequest, public BaseModel
+class PostFunctionResultForFunctionExecutionRequest : public Wrappers::PFCloudScriptPostFunctionResultForFunctionExecutionRequestWrapper<Allocator>, public InputModel
 {
-    PostFunctionResultForFunctionExecutionRequest();
-    PostFunctionResultForFunctionExecutionRequest(const PostFunctionResultForFunctionExecutionRequest& src);
-    PostFunctionResultForFunctionExecutionRequest(PostFunctionResultForFunctionExecutionRequest&& src);
-    PostFunctionResultForFunctionExecutionRequest(const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& src);
-    PostFunctionResultForFunctionExecutionRequest& operator=(const PostFunctionResultForFunctionExecutionRequest&) = delete;
-    ~PostFunctionResultForFunctionExecutionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptPostFunctionResultForFunctionExecutionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    ExecuteFunctionResult m_functionResult;
 };
 
-struct PlayStreamEventEnvelopeModel : public PFCloudScriptPlayStreamEventEnvelopeModel, public SerializableModel
+class PlayStreamEventEnvelopeModel : public Wrappers::PFCloudScriptPlayStreamEventEnvelopeModelWrapper<Allocator>, public InputModel
 {
-    PlayStreamEventEnvelopeModel();
-    PlayStreamEventEnvelopeModel(const PlayStreamEventEnvelopeModel& src);
-    PlayStreamEventEnvelopeModel(PlayStreamEventEnvelopeModel&& src);
-    PlayStreamEventEnvelopeModel(const PFCloudScriptPlayStreamEventEnvelopeModel& src);
-    PlayStreamEventEnvelopeModel& operator=(const PlayStreamEventEnvelopeModel&) = delete;
-    ~PlayStreamEventEnvelopeModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptPlayStreamEventEnvelopeModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptPlayStreamEventEnvelopeModel& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_entityId;
-    String m_entityType;
-    String m_eventData;
-    String m_eventName;
-    String m_eventNamespace;
-    String m_eventSettings;
 };
 
-struct PostFunctionResultForPlayerTriggeredActionRequest : public PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest, public BaseModel
+class PostFunctionResultForPlayerTriggeredActionRequest : public Wrappers::PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequestWrapper<Allocator>, public InputModel
 {
-    PostFunctionResultForPlayerTriggeredActionRequest();
-    PostFunctionResultForPlayerTriggeredActionRequest(const PostFunctionResultForPlayerTriggeredActionRequest& src);
-    PostFunctionResultForPlayerTriggeredActionRequest(PostFunctionResultForPlayerTriggeredActionRequest&& src);
-    PostFunctionResultForPlayerTriggeredActionRequest(const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& src);
-    PostFunctionResultForPlayerTriggeredActionRequest& operator=(const PostFunctionResultForPlayerTriggeredActionRequest&) = delete;
-    ~PostFunctionResultForPlayerTriggeredActionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    ExecuteFunctionResult m_functionResult;
-    PlayerProfileModel m_playerProfile;
-    StdExtra::optional<PlayStreamEventEnvelopeModel> m_playStreamEventEnvelope;
 };
 
-struct PostFunctionResultForScheduledTaskRequest : public PFCloudScriptPostFunctionResultForScheduledTaskRequest, public BaseModel
+class PostFunctionResultForScheduledTaskRequest : public Wrappers::PFCloudScriptPostFunctionResultForScheduledTaskRequestWrapper<Allocator>, public InputModel
 {
-    PostFunctionResultForScheduledTaskRequest();
-    PostFunctionResultForScheduledTaskRequest(const PostFunctionResultForScheduledTaskRequest& src);
-    PostFunctionResultForScheduledTaskRequest(PostFunctionResultForScheduledTaskRequest&& src);
-    PostFunctionResultForScheduledTaskRequest(const PFCloudScriptPostFunctionResultForScheduledTaskRequest& src);
-    PostFunctionResultForScheduledTaskRequest& operator=(const PostFunctionResultForScheduledTaskRequest&) = delete;
-    ~PostFunctionResultForScheduledTaskRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptPostFunctionResultForScheduledTaskRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptPostFunctionResultForScheduledTaskRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    ExecuteFunctionResult m_functionResult;
-    NameIdentifier m_scheduledTaskId;
 };
 
-struct RegisterHttpFunctionRequest : public PFCloudScriptRegisterHttpFunctionRequest, public BaseModel
+class RegisterHttpFunctionRequest : public Wrappers::PFCloudScriptRegisterHttpFunctionRequestWrapper<Allocator>, public InputModel
 {
-    RegisterHttpFunctionRequest();
-    RegisterHttpFunctionRequest(const RegisterHttpFunctionRequest& src);
-    RegisterHttpFunctionRequest(RegisterHttpFunctionRequest&& src);
-    RegisterHttpFunctionRequest(const PFCloudScriptRegisterHttpFunctionRequest& src);
-    RegisterHttpFunctionRequest& operator=(const RegisterHttpFunctionRequest&) = delete;
-    ~RegisterHttpFunctionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptRegisterHttpFunctionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptRegisterHttpFunctionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_functionName;
-    String m_functionUrl;
 };
 
-struct RegisterQueuedFunctionRequest : public PFCloudScriptRegisterQueuedFunctionRequest, public BaseModel
+class RegisterQueuedFunctionRequest : public Wrappers::PFCloudScriptRegisterQueuedFunctionRequestWrapper<Allocator>, public InputModel
 {
-    RegisterQueuedFunctionRequest();
-    RegisterQueuedFunctionRequest(const RegisterQueuedFunctionRequest& src);
-    RegisterQueuedFunctionRequest(RegisterQueuedFunctionRequest&& src);
-    RegisterQueuedFunctionRequest(const PFCloudScriptRegisterQueuedFunctionRequest& src);
-    RegisterQueuedFunctionRequest& operator=(const RegisterQueuedFunctionRequest&) = delete;
-    ~RegisterQueuedFunctionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptRegisterQueuedFunctionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptRegisterQueuedFunctionRequest& input);
 
-private:
-    String m_connectionString;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_functionName;
-    String m_queueName;
 };
 
-struct UnregisterFunctionRequest : public PFCloudScriptUnregisterFunctionRequest, public BaseModel
+class UnregisterFunctionRequest : public Wrappers::PFCloudScriptUnregisterFunctionRequestWrapper<Allocator>, public InputModel
 {
-    UnregisterFunctionRequest();
-    UnregisterFunctionRequest(const UnregisterFunctionRequest& src);
-    UnregisterFunctionRequest(UnregisterFunctionRequest&& src);
-    UnregisterFunctionRequest(const PFCloudScriptUnregisterFunctionRequest& src);
-    UnregisterFunctionRequest& operator=(const UnregisterFunctionRequest&) = delete;
-    ~UnregisterFunctionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCloudScriptUnregisterFunctionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCloudScriptUnregisterFunctionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_functionName;
 };
 
-} // namespace CloudScriptModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFCloudScriptGetCloudScriptRevisionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptCloudScriptFile& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptGetCloudScriptRevisionResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptCloudScriptVersionStatus& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptGetCloudScriptVersionsResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptSetPublishedRevisionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptUpdateCloudScriptRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptUpdateCloudScriptResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteCloudScriptRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteCloudScriptServerRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteEntityCloudScriptRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteFunctionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptFunctionExecutionError& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptExecuteFunctionResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptListFunctionsRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptFunctionModel& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptListFunctionsResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptHttpFunctionModel& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptListHttpFunctionsResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptQueuedFunctionModel& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptListQueuedFunctionsResult& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptPlayStreamEventEnvelopeModel& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptPostFunctionResultForScheduledTaskRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptRegisterHttpFunctionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptRegisterQueuedFunctionRequest& input);
-template<> inline JsonValue ToJson<>(const PFCloudScriptUnregisterFunctionRequest& input);
-} // namespace JsonUtils
-
+} // namespace CloudScript
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

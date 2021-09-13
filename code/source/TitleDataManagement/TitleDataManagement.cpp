@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace TitleDataManagementModels;
+namespace TitleDataManagement
+{
 
 
 AsyncOp<void> TitleDataManagementAPI::AdminAddLocalizedNews(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementAddLocalizedNewsRequest& request,
+    const AddLocalizedNewsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminAddLocalizedNews(
     }
 
     const char* path{ "/Admin/AddLocalizedNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -50,7 +50,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminAddLocalizedNews(
 
 AsyncOp<AddNewsResult> TitleDataManagementAPI::AdminAddNews(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementAddNewsRequest& request,
+    const AddNewsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -61,7 +61,7 @@ AsyncOp<AddNewsResult> TitleDataManagementAPI::AdminAddNews(
     }
 
     const char* path{ "/Admin/AddNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -91,7 +91,7 @@ AsyncOp<AddNewsResult> TitleDataManagementAPI::AdminAddNews(
 
 AsyncOp<void> TitleDataManagementAPI::AdminAddVirtualCurrencyTypes(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementAddVirtualCurrencyTypesRequest& request,
+    const AddVirtualCurrencyTypesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -102,7 +102,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminAddVirtualCurrencyTypes(
     }
 
     const char* path{ "/Admin/AddVirtualCurrencyTypes" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -130,7 +130,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminAddVirtualCurrencyTypes(
 
 AsyncOp<void> TitleDataManagementAPI::AdminDeleteStore(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementDeleteStoreRequest& request,
+    const DeleteStoreRequest& request,
     const TaskQueue& queue
 )
 {
@@ -141,7 +141,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminDeleteStore(
     }
 
     const char* path{ "/Admin/DeleteStore" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -169,7 +169,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminDeleteStore(
 
 AsyncOp<void> TitleDataManagementAPI::AdminDeleteTitleDataOverride(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementDeleteTitleDataOverrideRequest& request,
+    const DeleteTitleDataOverrideRequest& request,
     const TaskQueue& queue
 )
 {
@@ -180,7 +180,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminDeleteTitleDataOverride(
     }
 
     const char* path{ "/Admin/DeleteTitleDataOverride" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -208,7 +208,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminDeleteTitleDataOverride(
 
 AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::AdminGetCatalogItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetCatalogItemsRequest& request,
+    const GetCatalogItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -219,7 +219,7 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::AdminGetCatalogItems(
     }
 
     const char* path{ "/Admin/GetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -249,7 +249,7 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::AdminGetCatalogItems(
 
 AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::AdminGetPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetPublisherDataRequest& request,
+    const GetPublisherDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -260,7 +260,7 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::AdminGetPublisherData(
     }
 
     const char* path{ "/Admin/GetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -290,7 +290,7 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::AdminGetPublisherData(
 
 AsyncOp<GetRandomResultTablesResult> TitleDataManagementAPI::AdminGetRandomResultTables(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetRandomResultTablesRequest& request,
+    const GetRandomResultTablesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -301,7 +301,7 @@ AsyncOp<GetRandomResultTablesResult> TitleDataManagementAPI::AdminGetRandomResul
     }
 
     const char* path{ "/Admin/GetRandomResultTables" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -331,7 +331,7 @@ AsyncOp<GetRandomResultTablesResult> TitleDataManagementAPI::AdminGetRandomResul
 
 AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::AdminGetStoreItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetStoreItemsRequest& request,
+    const GetStoreItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -342,7 +342,7 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::AdminGetStoreItems(
     }
 
     const char* path{ "/Admin/GetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -372,7 +372,7 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::AdminGetStoreItems(
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetTitleDataRequest& request,
+    const GetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -383,7 +383,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleData(
     }
 
     const char* path{ "/Admin/GetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -413,7 +413,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleData(
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleInternalData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetTitleDataRequest& request,
+    const GetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -424,7 +424,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::AdminGetTitleInternalData(
     }
 
     const char* path{ "/Admin/GetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -494,7 +494,7 @@ AsyncOp<ListVirtualCurrencyTypesResult> TitleDataManagementAPI::AdminListVirtual
 
 AsyncOp<void> TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementRemoveVirtualCurrencyTypesRequest& request,
+    const RemoveVirtualCurrencyTypesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -505,7 +505,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes(
     }
 
     const char* path{ "/Admin/RemoveVirtualCurrencyTypes" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -533,7 +533,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminRemoveVirtualCurrencyTypes(
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetCatalogItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementUpdateCatalogItemsRequest& request,
+    const UpdateCatalogItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -544,7 +544,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetCatalogItems(
     }
 
     const char* path{ "/Admin/SetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -572,7 +572,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetCatalogItems(
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetStoreItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementUpdateStoreItemsRequest& request,
+    const UpdateStoreItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -583,7 +583,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetStoreItems(
     }
 
     const char* path{ "/Admin/SetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -611,7 +611,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetStoreItems(
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetTitleData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementSetTitleDataRequest& request,
+    const SetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -622,7 +622,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleData(
     }
 
     const char* path{ "/Admin/SetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -650,7 +650,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleData(
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetTitleDataAndOverrides(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementSetTitleDataAndOverridesRequest& request,
+    const SetTitleDataAndOverridesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -661,7 +661,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleDataAndOverrides(
     }
 
     const char* path{ "/Admin/SetTitleDataAndOverrides" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -689,7 +689,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleDataAndOverrides(
 
 AsyncOp<void> TitleDataManagementAPI::AdminSetTitleInternalData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementSetTitleDataRequest& request,
+    const SetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -700,7 +700,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleInternalData(
     }
 
     const char* path{ "/Admin/SetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -728,7 +728,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminSetTitleInternalData(
 
 AsyncOp<SetupPushNotificationResult> TitleDataManagementAPI::AdminSetupPushNotification(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementSetupPushNotificationRequest& request,
+    const SetupPushNotificationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -739,7 +739,7 @@ AsyncOp<SetupPushNotificationResult> TitleDataManagementAPI::AdminSetupPushNotif
     }
 
     const char* path{ "/Admin/SetupPushNotification" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -769,7 +769,7 @@ AsyncOp<SetupPushNotificationResult> TitleDataManagementAPI::AdminSetupPushNotif
 
 AsyncOp<void> TitleDataManagementAPI::AdminUpdateCatalogItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementUpdateCatalogItemsRequest& request,
+    const UpdateCatalogItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -780,7 +780,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateCatalogItems(
     }
 
     const char* path{ "/Admin/UpdateCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -808,7 +808,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateCatalogItems(
 
 AsyncOp<void> TitleDataManagementAPI::AdminUpdateRandomResultTables(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementUpdateRandomResultTablesRequest& request,
+    const UpdateRandomResultTablesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -819,7 +819,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateRandomResultTables(
     }
 
     const char* path{ "/Admin/UpdateRandomResultTables" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -847,7 +847,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateRandomResultTables(
 
 AsyncOp<void> TitleDataManagementAPI::AdminUpdateStoreItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementUpdateStoreItemsRequest& request,
+    const UpdateStoreItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -858,7 +858,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateStoreItems(
     }
 
     const char* path{ "/Admin/UpdateStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -886,7 +886,7 @@ AsyncOp<void> TitleDataManagementAPI::AdminUpdateStoreItems(
 
 AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ClientGetCatalogItems(
     SharedPtr<TitlePlayer> entity,
-    const PFTitleDataManagementGetCatalogItemsRequest& request,
+    const GetCatalogItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -897,7 +897,7 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ClientGetCatalogItems(
     }
 
     const char* path{ "/Client/GetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -928,7 +928,7 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ClientGetCatalogItems(
 
 AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ClientGetPublisherData(
     SharedPtr<TitlePlayer> entity,
-    const PFTitleDataManagementGetPublisherDataRequest& request,
+    const GetPublisherDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -939,7 +939,7 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ClientGetPublisherData(
     }
 
     const char* path{ "/Client/GetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -970,7 +970,7 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ClientGetPublisherData(
 
 AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ClientGetStoreItems(
     SharedPtr<TitlePlayer> entity,
-    const PFTitleDataManagementGetStoreItemsRequest& request,
+    const GetStoreItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -981,7 +981,7 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ClientGetStoreItems(
     }
 
     const char* path{ "/Client/GetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1053,7 +1053,7 @@ AsyncOp<GetTimeResult> TitleDataManagementAPI::ClientGetTime(
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ClientGetTitleData(
     SharedPtr<TitlePlayer> entity,
-    const PFTitleDataManagementGetTitleDataRequest& request,
+    const GetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1064,7 +1064,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ClientGetTitleData(
     }
 
     const char* path{ "/Client/GetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1095,7 +1095,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ClientGetTitleData(
 
 AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ClientGetTitleNews(
     SharedPtr<TitlePlayer> entity,
-    const PFTitleDataManagementGetTitleNewsRequest& request,
+    const GetTitleNewsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1106,7 +1106,7 @@ AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ClientGetTitleNews(
     }
 
     const char* path{ "/Client/GetTitleNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1137,7 +1137,7 @@ AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ClientGetTitleNews(
 
 AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ServerGetCatalogItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetCatalogItemsRequest& request,
+    const GetCatalogItemsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1148,7 +1148,7 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ServerGetCatalogItems(
     }
 
     const char* path{ "/Server/GetCatalogItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1178,7 +1178,7 @@ AsyncOp<GetCatalogItemsResult> TitleDataManagementAPI::ServerGetCatalogItems(
 
 AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ServerGetPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetPublisherDataRequest& request,
+    const GetPublisherDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1189,7 +1189,7 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ServerGetPublisherData(
     }
 
     const char* path{ "/Server/GetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1219,7 +1219,7 @@ AsyncOp<GetPublisherDataResult> TitleDataManagementAPI::ServerGetPublisherData(
 
 AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ServerGetStoreItems(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetStoreItemsServerRequest& request,
+    const GetStoreItemsServerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1230,7 +1230,7 @@ AsyncOp<GetStoreItemsResult> TitleDataManagementAPI::ServerGetStoreItems(
     }
 
     const char* path{ "/Server/GetStoreItems" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1300,7 +1300,7 @@ AsyncOp<GetTimeResult> TitleDataManagementAPI::ServerGetTime(
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetTitleDataRequest& request,
+    const GetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1311,7 +1311,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleData(
     }
 
     const char* path{ "/Server/GetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1341,7 +1341,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleData(
 
 AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleInternalData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetTitleDataRequest& request,
+    const GetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1352,7 +1352,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleInternalData(
     }
 
     const char* path{ "/Server/GetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1382,7 +1382,7 @@ AsyncOp<GetTitleDataResult> TitleDataManagementAPI::ServerGetTitleInternalData(
 
 AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ServerGetTitleNews(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementGetTitleNewsRequest& request,
+    const GetTitleNewsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1393,7 +1393,7 @@ AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ServerGetTitleNews(
     }
 
     const char* path{ "/Server/GetTitleNews" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1423,7 +1423,7 @@ AsyncOp<GetTitleNewsResult> TitleDataManagementAPI::ServerGetTitleNews(
 
 AsyncOp<void> TitleDataManagementAPI::ServerSetPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFSetPublisherDataRequest& request,
+    const SetPublisherDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1434,7 +1434,7 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetPublisherData(
     }
 
     const char* path{ "/Server/SetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1462,7 +1462,7 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetPublisherData(
 
 AsyncOp<void> TitleDataManagementAPI::ServerSetTitleData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementSetTitleDataRequest& request,
+    const SetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1473,7 +1473,7 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetTitleData(
     }
 
     const char* path{ "/Server/SetTitleData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1501,7 +1501,7 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetTitleData(
 
 AsyncOp<void> TitleDataManagementAPI::ServerSetTitleInternalData(
     SharedPtr<GlobalState const> state,
-    const PFTitleDataManagementSetTitleDataRequest& request,
+    const SetTitleDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1512,7 +1512,7 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetTitleInternalData(
     }
 
     const char* path{ "/Server/SetTitleInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1538,5 +1538,5 @@ AsyncOp<void> TitleDataManagementAPI::ServerSetTitleInternalData(
     });
 }
 
-
-}
+} // namespace TitleDataManagement
+} // namespace PlayFab

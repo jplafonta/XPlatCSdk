@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace MatchmakingModels;
+namespace Matchmaking
+{
 
 
 AsyncOp<GetMatchmakerGameInfoResult> MatchmakingAPI::AdminGetMatchmakerGameInfo(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingGetMatchmakerGameInfoRequest& request,
+    const GetMatchmakerGameInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<GetMatchmakerGameInfoResult> MatchmakingAPI::AdminGetMatchmakerGameInfo(
     }
 
     const char* path{ "/Admin/GetMatchmakerGameInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -52,7 +52,7 @@ AsyncOp<GetMatchmakerGameInfoResult> MatchmakingAPI::AdminGetMatchmakerGameInfo(
 
 AsyncOp<GetMatchmakerGameModesResult> MatchmakingAPI::AdminGetMatchmakerGameModes(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingGetMatchmakerGameModesRequest& request,
+    const GetMatchmakerGameModesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -63,7 +63,7 @@ AsyncOp<GetMatchmakerGameModesResult> MatchmakingAPI::AdminGetMatchmakerGameMode
     }
 
     const char* path{ "/Admin/GetMatchmakerGameModes" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -93,7 +93,7 @@ AsyncOp<GetMatchmakerGameModesResult> MatchmakingAPI::AdminGetMatchmakerGameMode
 
 AsyncOp<void> MatchmakingAPI::AdminModifyMatchmakerGameModes(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingModifyMatchmakerGameModesRequest& request,
+    const ModifyMatchmakerGameModesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<void> MatchmakingAPI::AdminModifyMatchmakerGameModes(
     }
 
     const char* path{ "/Admin/ModifyMatchmakerGameModes" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -132,7 +132,7 @@ AsyncOp<void> MatchmakingAPI::AdminModifyMatchmakerGameModes(
 
 AsyncOp<CurrentGamesResult> MatchmakingAPI::ClientGetCurrentGames(
     SharedPtr<TitlePlayer> entity,
-    const PFMatchmakingCurrentGamesRequest& request,
+    const CurrentGamesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -143,7 +143,7 @@ AsyncOp<CurrentGamesResult> MatchmakingAPI::ClientGetCurrentGames(
     }
 
     const char* path{ "/Client/GetCurrentGames" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -174,7 +174,7 @@ AsyncOp<CurrentGamesResult> MatchmakingAPI::ClientGetCurrentGames(
 
 AsyncOp<GameServerRegionsResult> MatchmakingAPI::ClientGetGameServerRegions(
     SharedPtr<TitlePlayer> entity,
-    const PFMatchmakingGameServerRegionsRequest& request,
+    const GameServerRegionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -185,7 +185,7 @@ AsyncOp<GameServerRegionsResult> MatchmakingAPI::ClientGetGameServerRegions(
     }
 
     const char* path{ "/Client/GetGameServerRegions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -216,7 +216,7 @@ AsyncOp<GameServerRegionsResult> MatchmakingAPI::ClientGetGameServerRegions(
 
 AsyncOp<MatchmakeResult> MatchmakingAPI::ClientMatchmake(
     SharedPtr<TitlePlayer> entity,
-    const PFMatchmakingMatchmakeRequest& request,
+    const MatchmakeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -227,7 +227,7 @@ AsyncOp<MatchmakeResult> MatchmakingAPI::ClientMatchmake(
     }
 
     const char* path{ "/Client/Matchmake" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -258,7 +258,7 @@ AsyncOp<MatchmakeResult> MatchmakingAPI::ClientMatchmake(
 
 AsyncOp<StartGameResult> MatchmakingAPI::ClientStartGame(
     SharedPtr<TitlePlayer> entity,
-    const PFMatchmakingClientStartGameRequest& request,
+    const ClientStartGameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -269,7 +269,7 @@ AsyncOp<StartGameResult> MatchmakingAPI::ClientStartGame(
     }
 
     const char* path{ "/Client/StartGame" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -300,7 +300,7 @@ AsyncOp<StartGameResult> MatchmakingAPI::ClientStartGame(
 
 AsyncOp<AuthUserResponse> MatchmakingAPI::AuthUser(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingAuthUserRequest& request,
+    const AuthUserRequest& request,
     const TaskQueue& queue
 )
 {
@@ -311,7 +311,7 @@ AsyncOp<AuthUserResponse> MatchmakingAPI::AuthUser(
     }
 
     const char* path{ "/Matchmaker/AuthUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -341,7 +341,7 @@ AsyncOp<AuthUserResponse> MatchmakingAPI::AuthUser(
 
 AsyncOp<void> MatchmakingAPI::PlayerJoined(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingPlayerJoinedRequest& request,
+    const PlayerJoinedRequest& request,
     const TaskQueue& queue
 )
 {
@@ -352,7 +352,7 @@ AsyncOp<void> MatchmakingAPI::PlayerJoined(
     }
 
     const char* path{ "/Matchmaker/PlayerJoined" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -380,7 +380,7 @@ AsyncOp<void> MatchmakingAPI::PlayerJoined(
 
 AsyncOp<void> MatchmakingAPI::PlayerLeft(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingPlayerLeftRequest& request,
+    const PlayerLeftRequest& request,
     const TaskQueue& queue
 )
 {
@@ -391,7 +391,7 @@ AsyncOp<void> MatchmakingAPI::PlayerLeft(
     }
 
     const char* path{ "/Matchmaker/PlayerLeft" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -419,7 +419,7 @@ AsyncOp<void> MatchmakingAPI::PlayerLeft(
 
 AsyncOp<StartGameResponse> MatchmakingAPI::StartGame(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingMatchmakerStartGameRequest& request,
+    const MatchmakerStartGameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -430,7 +430,7 @@ AsyncOp<StartGameResponse> MatchmakingAPI::StartGame(
     }
 
     const char* path{ "/Matchmaker/StartGame" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -460,7 +460,7 @@ AsyncOp<StartGameResponse> MatchmakingAPI::StartGame(
 
 AsyncOp<UserInfoResponse> MatchmakingAPI::UserInfo(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingUserInfoRequest& request,
+    const UserInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -471,7 +471,7 @@ AsyncOp<UserInfoResponse> MatchmakingAPI::UserInfo(
     }
 
     const char* path{ "/Matchmaker/UserInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -501,7 +501,7 @@ AsyncOp<UserInfoResponse> MatchmakingAPI::UserInfo(
 
 AsyncOp<void> MatchmakingAPI::ServerDeregisterGame(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingDeregisterGameRequest& request,
+    const DeregisterGameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -512,7 +512,7 @@ AsyncOp<void> MatchmakingAPI::ServerDeregisterGame(
     }
 
     const char* path{ "/Server/DeregisterGame" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -540,7 +540,7 @@ AsyncOp<void> MatchmakingAPI::ServerDeregisterGame(
 
 AsyncOp<NotifyMatchmakerPlayerLeftResult> MatchmakingAPI::ServerNotifyMatchmakerPlayerLeft(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingNotifyMatchmakerPlayerLeftRequest& request,
+    const NotifyMatchmakerPlayerLeftRequest& request,
     const TaskQueue& queue
 )
 {
@@ -551,7 +551,7 @@ AsyncOp<NotifyMatchmakerPlayerLeftResult> MatchmakingAPI::ServerNotifyMatchmaker
     }
 
     const char* path{ "/Server/NotifyMatchmakerPlayerLeft" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -581,7 +581,7 @@ AsyncOp<NotifyMatchmakerPlayerLeftResult> MatchmakingAPI::ServerNotifyMatchmaker
 
 AsyncOp<RedeemMatchmakerTicketResult> MatchmakingAPI::ServerRedeemMatchmakerTicket(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingRedeemMatchmakerTicketRequest& request,
+    const RedeemMatchmakerTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -592,7 +592,7 @@ AsyncOp<RedeemMatchmakerTicketResult> MatchmakingAPI::ServerRedeemMatchmakerTick
     }
 
     const char* path{ "/Server/RedeemMatchmakerTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -622,7 +622,7 @@ AsyncOp<RedeemMatchmakerTicketResult> MatchmakingAPI::ServerRedeemMatchmakerTick
 
 AsyncOp<void> MatchmakingAPI::ServerRefreshGameServerInstanceHeartbeat(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingRefreshGameServerInstanceHeartbeatRequest& request,
+    const RefreshGameServerInstanceHeartbeatRequest& request,
     const TaskQueue& queue
 )
 {
@@ -633,7 +633,7 @@ AsyncOp<void> MatchmakingAPI::ServerRefreshGameServerInstanceHeartbeat(
     }
 
     const char* path{ "/Server/RefreshGameServerInstanceHeartbeat" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -661,7 +661,7 @@ AsyncOp<void> MatchmakingAPI::ServerRefreshGameServerInstanceHeartbeat(
 
 AsyncOp<RegisterGameResponse> MatchmakingAPI::ServerRegisterGame(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingRegisterGameRequest& request,
+    const RegisterGameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -672,7 +672,7 @@ AsyncOp<RegisterGameResponse> MatchmakingAPI::ServerRegisterGame(
     }
 
     const char* path{ "/Server/RegisterGame" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -702,7 +702,7 @@ AsyncOp<RegisterGameResponse> MatchmakingAPI::ServerRegisterGame(
 
 AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceData(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingSetGameServerInstanceDataRequest& request,
+    const SetGameServerInstanceDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -713,7 +713,7 @@ AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceData(
     }
 
     const char* path{ "/Server/SetGameServerInstanceData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -741,7 +741,7 @@ AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceData(
 
 AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceState(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingSetGameServerInstanceStateRequest& request,
+    const SetGameServerInstanceStateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -752,7 +752,7 @@ AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceState(
     }
 
     const char* path{ "/Server/SetGameServerInstanceState" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -780,7 +780,7 @@ AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceState(
 
 AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceTags(
     SharedPtr<GlobalState const> state,
-    const PFMatchmakingSetGameServerInstanceTagsRequest& request,
+    const SetGameServerInstanceTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -791,7 +791,7 @@ AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceTags(
     }
 
     const char* path{ "/Server/SetGameServerInstanceTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -819,7 +819,7 @@ AsyncOp<void> MatchmakingAPI::ServerSetGameServerInstanceTags(
 
 AsyncOp<void> MatchmakingAPI::CancelAllMatchmakingTicketsForPlayer(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest& request,
+    const CancelAllMatchmakingTicketsForPlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -830,7 +830,7 @@ AsyncOp<void> MatchmakingAPI::CancelAllMatchmakingTicketsForPlayer(
     }
 
     const char* path{ "/Match/CancelAllMatchmakingTicketsForPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -859,7 +859,7 @@ AsyncOp<void> MatchmakingAPI::CancelAllMatchmakingTicketsForPlayer(
 
 AsyncOp<void> MatchmakingAPI::CancelAllServerBackfillTicketsForPlayer(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest& request,
+    const CancelAllServerBackfillTicketsForPlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -870,7 +870,7 @@ AsyncOp<void> MatchmakingAPI::CancelAllServerBackfillTicketsForPlayer(
     }
 
     const char* path{ "/Match/CancelAllServerBackfillTicketsForPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -899,7 +899,7 @@ AsyncOp<void> MatchmakingAPI::CancelAllServerBackfillTicketsForPlayer(
 
 AsyncOp<void> MatchmakingAPI::CancelMatchmakingTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCancelMatchmakingTicketRequest& request,
+    const CancelMatchmakingTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -910,7 +910,7 @@ AsyncOp<void> MatchmakingAPI::CancelMatchmakingTicket(
     }
 
     const char* path{ "/Match/CancelMatchmakingTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -939,7 +939,7 @@ AsyncOp<void> MatchmakingAPI::CancelMatchmakingTicket(
 
 AsyncOp<void> MatchmakingAPI::CancelServerBackfillTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCancelServerBackfillTicketRequest& request,
+    const CancelServerBackfillTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -950,7 +950,7 @@ AsyncOp<void> MatchmakingAPI::CancelServerBackfillTicket(
     }
 
     const char* path{ "/Match/CancelServerBackfillTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -979,7 +979,7 @@ AsyncOp<void> MatchmakingAPI::CancelServerBackfillTicket(
 
 AsyncOp<CreateMatchmakingTicketResult> MatchmakingAPI::CreateMatchmakingTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCreateMatchmakingTicketRequest& request,
+    const CreateMatchmakingTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -990,7 +990,7 @@ AsyncOp<CreateMatchmakingTicketResult> MatchmakingAPI::CreateMatchmakingTicket(
     }
 
     const char* path{ "/Match/CreateMatchmakingTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1021,7 +1021,7 @@ AsyncOp<CreateMatchmakingTicketResult> MatchmakingAPI::CreateMatchmakingTicket(
 
 AsyncOp<CreateServerBackfillTicketResult> MatchmakingAPI::CreateServerBackfillTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCreateServerBackfillTicketRequest& request,
+    const CreateServerBackfillTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1032,7 +1032,7 @@ AsyncOp<CreateServerBackfillTicketResult> MatchmakingAPI::CreateServerBackfillTi
     }
 
     const char* path{ "/Match/CreateServerBackfillTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1063,7 +1063,7 @@ AsyncOp<CreateServerBackfillTicketResult> MatchmakingAPI::CreateServerBackfillTi
 
 AsyncOp<CreateMatchmakingTicketResult> MatchmakingAPI::CreateServerMatchmakingTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingCreateServerMatchmakingTicketRequest& request,
+    const CreateServerMatchmakingTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1074,7 +1074,7 @@ AsyncOp<CreateMatchmakingTicketResult> MatchmakingAPI::CreateServerMatchmakingTi
     }
 
     const char* path{ "/Match/CreateServerMatchmakingTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1105,7 +1105,7 @@ AsyncOp<CreateMatchmakingTicketResult> MatchmakingAPI::CreateServerMatchmakingTi
 
 AsyncOp<GetMatchResult> MatchmakingAPI::GetMatch(
     SharedPtr<Entity> entity,
-    const PFMatchmakingGetMatchRequest& request,
+    const GetMatchRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1116,7 +1116,7 @@ AsyncOp<GetMatchResult> MatchmakingAPI::GetMatch(
     }
 
     const char* path{ "/Match/GetMatch" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1147,7 +1147,7 @@ AsyncOp<GetMatchResult> MatchmakingAPI::GetMatch(
 
 AsyncOp<GetMatchmakingTicketResult> MatchmakingAPI::GetMatchmakingTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingGetMatchmakingTicketRequest& request,
+    const GetMatchmakingTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1158,7 +1158,7 @@ AsyncOp<GetMatchmakingTicketResult> MatchmakingAPI::GetMatchmakingTicket(
     }
 
     const char* path{ "/Match/GetMatchmakingTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1189,7 +1189,7 @@ AsyncOp<GetMatchmakingTicketResult> MatchmakingAPI::GetMatchmakingTicket(
 
 AsyncOp<GetQueueStatisticsResult> MatchmakingAPI::GetQueueStatistics(
     SharedPtr<Entity> entity,
-    const PFMatchmakingGetQueueStatisticsRequest& request,
+    const GetQueueStatisticsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1200,7 +1200,7 @@ AsyncOp<GetQueueStatisticsResult> MatchmakingAPI::GetQueueStatistics(
     }
 
     const char* path{ "/Match/GetQueueStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1231,7 +1231,7 @@ AsyncOp<GetQueueStatisticsResult> MatchmakingAPI::GetQueueStatistics(
 
 AsyncOp<GetServerBackfillTicketResult> MatchmakingAPI::GetServerBackfillTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingGetServerBackfillTicketRequest& request,
+    const GetServerBackfillTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1242,7 +1242,7 @@ AsyncOp<GetServerBackfillTicketResult> MatchmakingAPI::GetServerBackfillTicket(
     }
 
     const char* path{ "/Match/GetServerBackfillTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1273,7 +1273,7 @@ AsyncOp<GetServerBackfillTicketResult> MatchmakingAPI::GetServerBackfillTicket(
 
 AsyncOp<void> MatchmakingAPI::JoinMatchmakingTicket(
     SharedPtr<Entity> entity,
-    const PFMatchmakingJoinMatchmakingTicketRequest& request,
+    const JoinMatchmakingTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1284,7 +1284,7 @@ AsyncOp<void> MatchmakingAPI::JoinMatchmakingTicket(
     }
 
     const char* path{ "/Match/JoinMatchmakingTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1313,7 +1313,7 @@ AsyncOp<void> MatchmakingAPI::JoinMatchmakingTicket(
 
 AsyncOp<ListMatchmakingTicketsForPlayerResult> MatchmakingAPI::ListMatchmakingTicketsForPlayer(
     SharedPtr<Entity> entity,
-    const PFMatchmakingListMatchmakingTicketsForPlayerRequest& request,
+    const ListMatchmakingTicketsForPlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1324,7 +1324,7 @@ AsyncOp<ListMatchmakingTicketsForPlayerResult> MatchmakingAPI::ListMatchmakingTi
     }
 
     const char* path{ "/Match/ListMatchmakingTicketsForPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1355,7 +1355,7 @@ AsyncOp<ListMatchmakingTicketsForPlayerResult> MatchmakingAPI::ListMatchmakingTi
 
 AsyncOp<ListServerBackfillTicketsForPlayerResult> MatchmakingAPI::ListServerBackfillTicketsForPlayer(
     SharedPtr<Entity> entity,
-    const PFMatchmakingListServerBackfillTicketsForPlayerRequest& request,
+    const ListServerBackfillTicketsForPlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1366,7 +1366,7 @@ AsyncOp<ListServerBackfillTicketsForPlayerResult> MatchmakingAPI::ListServerBack
     }
 
     const char* path{ "/Match/ListServerBackfillTicketsForPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1395,5 +1395,5 @@ AsyncOp<ListServerBackfillTicketsForPlayerResult> MatchmakingAPI::ListServerBack
     });
 }
 
-
-}
+} // namespace Matchmaking
+} // namespace PlayFab

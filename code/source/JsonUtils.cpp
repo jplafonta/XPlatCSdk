@@ -10,7 +10,7 @@ namespace JsonUtils
 JsonAllocator allocator{};
 
 // Helper class for writing JsonValue directly into a PlayFab::String. Implements rapidjson write-only stream
-// concept (see rapidjson/stream.h for details). Avoids additional copy needed when first writing to rapidjons::StringBuffer
+// concept (see rapidjson/stream.h for details). Avoids additional copy needed when first writing to rapidjson::StringBuffer
 class StringOutputStream
 {
 public:
@@ -81,13 +81,9 @@ JsonValue ToJson(const PFJsonObject& jsonObject)
     return JsonValue{ document, allocator };
 }
 
-JsonValue ToJson(time_t value, bool convertToIso8601String)
+JsonValue ToJsonTime(time_t value)
 {
-    if (convertToIso8601String)
-    {
-        return JsonValue{ TimeTToIso8601String(value).data(), allocator };
-    }
-    return JsonValue{ value };
+    return JsonValue{ TimeTToIso8601String(value).data(), allocator };
 }
 
 void FromJson(const JsonValue& input, String& output)
@@ -120,6 +116,11 @@ void FromJson(const JsonValue& input, uint32_t& output)
     output = static_cast<uint32_t>(input.GetUint());
 }
 
+void FromJson(const JsonValue& input, int64_t& output)
+{
+    output = input.GetInt64();
+}
+
 void FromJson(const JsonValue& input, uint64_t& output)
 {
     output = input.GetUint64();
@@ -135,16 +136,14 @@ void FromJson(const JsonValue& input, double& output)
     output = input.GetDouble();
 }
 
-void FromJson(const JsonValue& input, time_t& output, bool convertFromIso8601String)
+void FromJsonTime(const JsonValue& input, time_t& output)
 {
-    if (convertFromIso8601String)
-    {
-        output = Iso8601StringToTimeT(input.GetString());
-    }
-    else
-    {
-        output = input.GetInt64();
-    }
+    output = Iso8601StringToTimeT(input.GetString());
+}
+
+void FromJson(const JsonValue& input, JsonObject& output)
+{
+    output.stringValue = JsonUtils::WriteToString(input);
 }
 
 void FromJson(const JsonValue& input, JsonValue& output)
@@ -162,16 +161,16 @@ void ObjectAddMember(JsonValue& jsonObject, JsonValue&& name, JsonValue&& value)
     jsonObject.AddMember(name, value, allocator);
 }
 
-void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, time_t value, bool convertToIso8601String)
+void ObjectAddMemberTime(JsonValue& jsonObject, JsonValue::StringRefType name, time_t value)
 {
-    ObjectAddMember(jsonObject, name, ToJson(value, convertToIso8601String));
+    ObjectAddMember(jsonObject, name, ToJsonTime(value));
 }
 
-void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, const time_t* value, bool convertToIso8601String)
+void ObjectAddMemberTime(JsonValue& jsonObject, JsonValue::StringRefType name, const time_t* value)
 {
     if (value != nullptr)
     {
-        ObjectAddMember(jsonObject, name, ToJson(*value, convertToIso8601String));
+        ObjectAddMember(jsonObject, name, ToJsonTime(*value));
     }
     else
     {
@@ -179,40 +178,23 @@ void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, const
     }
 }
 
-void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, const StdExtra::optional<time_t>& value, bool convertToIso8601String)
-{
-    if (value.has_value())
-    {
-        ObjectAddMember(jsonObject, name, ToJson(*value, convertToIso8601String));
-    }
-    else
-    {
-        ObjectAddMember(jsonObject, name, JsonValue{ rapidjson::kNullType });
-    }
-}
-
-void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, const time_t* array, uint32_t arrayCount, bool convertToIso8601String)
+void ObjectAddMemberTime(JsonValue& jsonObject, JsonValue::StringRefType name, const time_t* array, uint32_t arrayCount)
 {
     JsonValue member{ rapidjson::kArrayType };
     for (auto i = 0u; i < arrayCount; ++i)
     {
-        member.PushBack(ToJson(array[i], convertToIso8601String), allocator);
+        member.PushBack(ToJsonTime(array[i]), allocator);
     }
     ObjectAddMember(jsonObject, name, std::move(member));
 }
 
-void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, const Vector<time_t>& vector, bool convertToIso8601String)
-{
-    ObjectAddMember(jsonObject, name, vector.data(), static_cast<uint32_t>(vector.size()), convertToIso8601String);
-}
-
-void ObjectAddMember(JsonValue& jsonObject, JsonValue::StringRefType name, const PFDateTimeDictionaryEntry* associativeArray, uint32_t arrayCount, bool convertToIso8601String)
+void ObjectAddMemberTime(JsonValue& jsonObject, JsonValue::StringRefType name, const PFDateTimeDictionaryEntry* associativeArray, uint32_t arrayCount)
 {
     JsonValue member{ rapidjson::kObjectType };
     for (auto i = 0u; i < arrayCount; ++i)
     {
         auto& entry{ associativeArray[i] };
-        ObjectAddMember(member, ToJson(entry.key), ToJson(entry.value, convertToIso8601String));
+        ObjectAddMember(member, ToJson(entry.key), ToJsonTime(entry.value));
     }
     ObjectAddMember(jsonObject, name, std::move(member));
 }
@@ -226,25 +208,14 @@ void ObjectGetMember(const JsonValue& jsonObject, const char* name, String& outp
     }
 }
 
-void ObjectGetMember(const JsonValue& jsonObject, const char* name, String& output, const char*& outputPtr)
+void ObjectGetMember(const JsonValue& jsonObject, const char* name, JsonObject& output)
 {
-    output.clear();
-    auto iter = jsonObject.FindMember(name);
-    if (iter != jsonObject.MemberEnd() && iter->value.IsString())
-    {
-        FromJson(iter->value, output);
-    }
-    outputPtr = output.empty() ? nullptr : output.data();
-}
-
-void ObjectGetMember(const JsonValue& jsonObject, const char* name, JsonObject& output, PFJsonObject& outputPtr)
-{
+    output.stringValue.clear();
     auto iter = jsonObject.FindMember(name);
     if (iter != jsonObject.MemberEnd())
     {
         FromJson(iter->value, output);
     }
-    outputPtr.stringValue = output.StringValue();
 }
 
 void ObjectGetMember(const JsonValue& jsonObject, const char* name, JsonValue& output)
@@ -254,18 +225,22 @@ void ObjectGetMember(const JsonValue& jsonObject, const char* name, JsonValue& o
     {
         FromJson(iter->value, output);
     }
+    else
+    {
+        output.SetNull();
+    }
 }
 
-void ObjectGetMember(const JsonValue& jsonObject, const char* name, time_t& output, bool convertFromIso8601String)
+void ObjectGetMemberTime(const JsonValue& jsonObject, const char* name, time_t& output)
 {
     auto iter = jsonObject.FindMember(name);
     if (iter != jsonObject.MemberEnd())
     {
-        FromJson(iter->value, output, convertFromIso8601String);
+        FromJsonTime(iter->value, output);
     }
 }
 
-void ObjectGetMember(const JsonValue& jsonObject, const char* name, StdExtra::optional<time_t>& output, bool convertFromIso8601String)
+void ObjectGetMemberTime(const JsonValue& jsonObject, const char* name, StdExtra::optional<time_t>& output)
 {
     output.reset();
     if (jsonObject.IsObject())
@@ -274,18 +249,12 @@ void ObjectGetMember(const JsonValue& jsonObject, const char* name, StdExtra::op
         if (iter != jsonObject.MemberEnd())
         {
             output.emplace();
-            FromJson(iter->value, *output, convertFromIso8601String);
+            FromJsonTime(iter->value, *output);
         }
     }
 }
 
-void ObjectGetMember(const JsonValue& jsonObject, const char* name, StdExtra::optional<time_t>& output, time_t const*& outputPtr, bool convertFromIso8601String)
-{
-    ObjectGetMember(jsonObject, name, output, convertFromIso8601String);
-    outputPtr = output ? output.operator->() : nullptr;
-}
-
-void ObjectGetMember(const JsonValue& jsonObject, const char* name, Vector<time_t>& output, time_t const*& outputPtr, uint32_t& outputCount, bool convertFromIso8601String)
+void ObjectGetMemberTime(const JsonValue& jsonObject, const char* name, Vector<time_t>& output)
 {
     output.clear();
     if (jsonObject.IsObject())
@@ -298,13 +267,54 @@ void ObjectGetMember(const JsonValue& jsonObject, const char* name, Vector<time_
             for (auto& value : jsonArray)
             {
                 output.emplace_back();
-                FromJson(value, output.back(), convertFromIso8601String);
+                FromJsonTime(value, output.back());
             }
         }
     }
+}
 
-    outputPtr = output.data();
-    outputCount = static_cast<uint32_t>(output.size());
+void ObjectGetMember(const JsonValue& jsonObject, const char* name, CStringVector& output)
+{
+    output.clear();
+    if (jsonObject.IsObject())
+    {
+        auto iter = jsonObject.FindMember(name);
+        if (iter != jsonObject.MemberEnd() && iter->value.IsArray())
+        {
+            auto jsonArray{ iter->value.GetArray() };
+
+            output.reserve(jsonArray.Size());
+
+            for (auto& value : jsonArray)
+            {
+                String stringValue;
+                FromJson(value, stringValue);
+                output.push_back(std::move(stringValue));
+            }
+        }
+    }
+}
+
+void ObjectGetMember(const JsonValue& jsonObject, const char* name, StringDictionaryEntryVector& output)
+{
+    output.clear();
+    if (jsonObject.IsObject())
+    {
+        auto iter = jsonObject.FindMember(name);
+        if (iter != jsonObject.MemberEnd() && iter->value.IsObject())
+        {
+            auto memberObject{ iter->value.GetObject() };
+
+            output.reserve(memberObject.MemberCount());
+
+            for (auto& pair : memberObject)
+            {
+                String stringValue{};
+                FromJson(pair.value, stringValue);
+                output.insert_or_assign(pair.name.GetString(), std::move(stringValue));
+            }
+        }
+    }
 }
 
 } // namespace JsonUtils

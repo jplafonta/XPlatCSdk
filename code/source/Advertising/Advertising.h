@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Advertising
+{
 
 class AdvertisingAPI
 {
@@ -16,10 +18,11 @@ public:
     ~AdvertisingAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<void> ClientAttributeInstall(SharedPtr<TitlePlayer> entity, const PFAdvertisingAttributeInstallRequest& request, const TaskQueue& queue);
-    static AsyncOp<AdvertisingModels::GetAdPlacementsResult> ClientGetAdPlacements(SharedPtr<TitlePlayer> entity, const PFAdvertisingGetAdPlacementsRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> ClientReportAdActivity(SharedPtr<TitlePlayer> entity, const PFAdvertisingReportAdActivityRequest& request, const TaskQueue& queue);
-    static AsyncOp<AdvertisingModels::RewardAdActivityResult> ClientRewardAdActivity(SharedPtr<TitlePlayer> entity, const PFAdvertisingRewardAdActivityRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ClientAttributeInstall(SharedPtr<TitlePlayer> entity, const AttributeInstallRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetAdPlacementsResult> ClientGetAdPlacements(SharedPtr<TitlePlayer> entity, const GetAdPlacementsRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ClientReportAdActivity(SharedPtr<TitlePlayer> entity, const ReportAdActivityRequest& request, const TaskQueue& queue);
+    static AsyncOp<RewardAdActivityResult> ClientRewardAdActivity(SharedPtr<TitlePlayer> entity, const RewardAdActivityRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Advertising
+} // namespace PlayFab

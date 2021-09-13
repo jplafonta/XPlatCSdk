@@ -1,232 +1,180 @@
 #pragma once
 
-#include <playfab/PFGameServerDataModels.h>
+#include <playfab/cpp/PFGameServerDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace GameServerModels
+namespace GameServer
 {
 
 // GameServer Classes
-struct AddServerBuildRequest : public PFGameServerAddServerBuildRequest, public BaseModel
+class AddServerBuildRequest : public Wrappers::PFGameServerAddServerBuildRequestWrapper<Allocator>, public InputModel
 {
-    AddServerBuildRequest();
-    AddServerBuildRequest(const AddServerBuildRequest& src);
-    AddServerBuildRequest(AddServerBuildRequest&& src);
-    AddServerBuildRequest(const PFGameServerAddServerBuildRequest& src);
-    AddServerBuildRequest& operator=(const AddServerBuildRequest&) = delete;
-    ~AddServerBuildRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerAddServerBuildRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGameServerAddServerBuildRequest& input);
 
-private:
-    Vector<PFRegion> m_activeRegions;
-    String m_buildId;
-    String m_commandLineTemplate;
-    String m_comment;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_executablePath;
 };
 
-struct AddServerBuildResult : public PFGameServerAddServerBuildResult, public BaseModel, public ApiResult
+class AddServerBuildResult : public Wrappers::PFGameServerAddServerBuildResultWrapper<Allocator>, public OutputModel<PFGameServerAddServerBuildResult>
 {
-    AddServerBuildResult();
-    AddServerBuildResult(const AddServerBuildResult& src);
-    AddServerBuildResult(AddServerBuildResult&& src);
-    AddServerBuildResult(const PFGameServerAddServerBuildResult& src);
-    AddServerBuildResult& operator=(const AddServerBuildResult&) = delete;
-    ~AddServerBuildResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerAddServerBuildResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGameServerAddServerBuildResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    Vector<PFRegion> m_activeRegions;
-    String m_buildId;
-    String m_commandLineTemplate;
-    String m_comment;
-    String m_executablePath;
-    StdExtra::optional<PFGameServerGameBuildStatus> m_status;
-    String m_titleId;
+    static size_t RequiredBufferSize(const PFGameServerAddServerBuildResult& model);
+    static HRESULT Copy(const PFGameServerAddServerBuildResult& input, PFGameServerAddServerBuildResult& output, ModelBuffer& buffer);
 };
 
-struct GetServerBuildInfoRequest : public PFGameServerGetServerBuildInfoRequest, public SerializableModel
+class GetServerBuildInfoRequest : public Wrappers::PFGameServerGetServerBuildInfoRequestWrapper<Allocator>, public InputModel
 {
-    GetServerBuildInfoRequest();
-    GetServerBuildInfoRequest(const GetServerBuildInfoRequest& src);
-    GetServerBuildInfoRequest(GetServerBuildInfoRequest&& src);
-    GetServerBuildInfoRequest(const PFGameServerGetServerBuildInfoRequest& src);
-    GetServerBuildInfoRequest& operator=(const GetServerBuildInfoRequest&) = delete;
-    ~GetServerBuildInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerGetServerBuildInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGameServerGetServerBuildInfoRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_buildId;
 };
 
-struct GetServerBuildInfoResult : public PFGameServerGetServerBuildInfoResult, public BaseModel, public ApiResult
+class GetServerBuildInfoResult : public Wrappers::PFGameServerGetServerBuildInfoResultWrapper<Allocator>, public OutputModel<PFGameServerGetServerBuildInfoResult>
 {
-    GetServerBuildInfoResult();
-    GetServerBuildInfoResult(const GetServerBuildInfoResult& src);
-    GetServerBuildInfoResult(GetServerBuildInfoResult&& src);
-    GetServerBuildInfoResult(const PFGameServerGetServerBuildInfoResult& src);
-    GetServerBuildInfoResult& operator=(const GetServerBuildInfoResult&) = delete;
-    ~GetServerBuildInfoResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerGetServerBuildInfoResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGameServerGetServerBuildInfoResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    Vector<PFRegion> m_activeRegions;
-    String m_buildId;
-    String m_comment;
-    String m_errorMessage;
-    StdExtra::optional<PFGameServerGameBuildStatus> m_status;
-    String m_titleId;
+    static size_t RequiredBufferSize(const PFGameServerGetServerBuildInfoResult& model);
+    static HRESULT Copy(const PFGameServerGetServerBuildInfoResult& input, PFGameServerGetServerBuildInfoResult& output, ModelBuffer& buffer);
 };
 
-struct GetServerBuildUploadURLRequest : public PFGameServerGetServerBuildUploadURLRequest, public SerializableModel
+class GetServerBuildUploadURLRequest : public Wrappers::PFGameServerGetServerBuildUploadURLRequestWrapper<Allocator>, public InputModel
 {
-    GetServerBuildUploadURLRequest();
-    GetServerBuildUploadURLRequest(const GetServerBuildUploadURLRequest& src);
-    GetServerBuildUploadURLRequest(GetServerBuildUploadURLRequest&& src);
-    GetServerBuildUploadURLRequest(const PFGameServerGetServerBuildUploadURLRequest& src);
-    GetServerBuildUploadURLRequest& operator=(const GetServerBuildUploadURLRequest&) = delete;
-    ~GetServerBuildUploadURLRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerGetServerBuildUploadURLRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGameServerGetServerBuildUploadURLRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_buildId;
 };
 
-struct GetServerBuildUploadURLResult : public PFGameServerGetServerBuildUploadURLResult, public SerializableModel, public ApiResult
+class GetServerBuildUploadURLResult : public Wrappers::PFGameServerGetServerBuildUploadURLResultWrapper<Allocator>, public OutputModel<PFGameServerGetServerBuildUploadURLResult>
 {
-    GetServerBuildUploadURLResult();
-    GetServerBuildUploadURLResult(const GetServerBuildUploadURLResult& src);
-    GetServerBuildUploadURLResult(GetServerBuildUploadURLResult&& src);
-    GetServerBuildUploadURLResult(const PFGameServerGetServerBuildUploadURLResult& src);
-    GetServerBuildUploadURLResult& operator=(const GetServerBuildUploadURLResult&) = delete;
-    ~GetServerBuildUploadURLResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerGetServerBuildUploadURLResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGameServerGetServerBuildUploadURLResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_uRL;
+    static size_t RequiredBufferSize(const PFGameServerGetServerBuildUploadURLResult& model);
+    static HRESULT Copy(const PFGameServerGetServerBuildUploadURLResult& input, PFGameServerGetServerBuildUploadURLResult& output, ModelBuffer& buffer);
 };
 
-struct ListBuildsResult : public PFGameServerListBuildsResult, public BaseModel, public ApiResult
+class ListBuildsResult : public Wrappers::PFGameServerListBuildsResultWrapper<Allocator>, public OutputModel<PFGameServerListBuildsResult>
 {
-    ListBuildsResult();
-    ListBuildsResult(const ListBuildsResult& src);
-    ListBuildsResult(ListBuildsResult&& src);
-    ListBuildsResult(const PFGameServerListBuildsResult& src);
-    ListBuildsResult& operator=(const ListBuildsResult&) = delete;
-    ~ListBuildsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerListBuildsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGameServerListBuildsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGameServerGetServerBuildInfoResult, GetServerBuildInfoResult> m_builds;
+    static size_t RequiredBufferSize(const PFGameServerListBuildsResult& model);
+    static HRESULT Copy(const PFGameServerListBuildsResult& input, PFGameServerListBuildsResult& output, ModelBuffer& buffer);
 };
 
-struct ModifyServerBuildRequest : public PFGameServerModifyServerBuildRequest, public BaseModel
+class ModifyServerBuildRequest : public Wrappers::PFGameServerModifyServerBuildRequestWrapper<Allocator>, public InputModel
 {
-    ModifyServerBuildRequest();
-    ModifyServerBuildRequest(const ModifyServerBuildRequest& src);
-    ModifyServerBuildRequest(ModifyServerBuildRequest&& src);
-    ModifyServerBuildRequest(const PFGameServerModifyServerBuildRequest& src);
-    ModifyServerBuildRequest& operator=(const ModifyServerBuildRequest&) = delete;
-    ~ModifyServerBuildRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerModifyServerBuildRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGameServerModifyServerBuildRequest& input);
 
-private:
-    Vector<PFRegion> m_activeRegions;
-    String m_buildId;
-    String m_commandLineTemplate;
-    String m_comment;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_executablePath;
-    StdExtra::optional<time_t> m_timestamp;
 };
 
-struct ModifyServerBuildResult : public PFGameServerModifyServerBuildResult, public BaseModel, public ApiResult
+class ModifyServerBuildResult : public Wrappers::PFGameServerModifyServerBuildResultWrapper<Allocator>, public OutputModel<PFGameServerModifyServerBuildResult>
 {
-    ModifyServerBuildResult();
-    ModifyServerBuildResult(const ModifyServerBuildResult& src);
-    ModifyServerBuildResult(ModifyServerBuildResult&& src);
-    ModifyServerBuildResult(const PFGameServerModifyServerBuildResult& src);
-    ModifyServerBuildResult& operator=(const ModifyServerBuildResult&) = delete;
-    ~ModifyServerBuildResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerModifyServerBuildResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGameServerModifyServerBuildResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    Vector<PFRegion> m_activeRegions;
-    String m_buildId;
-    String m_commandLineTemplate;
-    String m_comment;
-    String m_executablePath;
-    StdExtra::optional<PFGameServerGameBuildStatus> m_status;
-    String m_titleId;
+    static size_t RequiredBufferSize(const PFGameServerModifyServerBuildResult& model);
+    static HRESULT Copy(const PFGameServerModifyServerBuildResult& input, PFGameServerModifyServerBuildResult& output, ModelBuffer& buffer);
 };
 
-struct RemoveServerBuildRequest : public PFGameServerRemoveServerBuildRequest, public SerializableModel
+class RemoveServerBuildRequest : public Wrappers::PFGameServerRemoveServerBuildRequestWrapper<Allocator>, public InputModel
 {
-    RemoveServerBuildRequest();
-    RemoveServerBuildRequest(const RemoveServerBuildRequest& src);
-    RemoveServerBuildRequest(RemoveServerBuildRequest&& src);
-    RemoveServerBuildRequest(const PFGameServerRemoveServerBuildRequest& src);
-    RemoveServerBuildRequest& operator=(const RemoveServerBuildRequest&) = delete;
-    ~RemoveServerBuildRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGameServerRemoveServerBuildRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGameServerRemoveServerBuildRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_buildId;
 };
 
-} // namespace GameServerModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFGameServerAddServerBuildRequest& input);
-template<> inline JsonValue ToJson<>(const PFGameServerAddServerBuildResult& input);
-template<> inline JsonValue ToJson<>(const PFGameServerGetServerBuildInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFGameServerGetServerBuildInfoResult& input);
-template<> inline JsonValue ToJson<>(const PFGameServerGetServerBuildUploadURLRequest& input);
-template<> inline JsonValue ToJson<>(const PFGameServerGetServerBuildUploadURLResult& input);
-template<> inline JsonValue ToJson<>(const PFGameServerListBuildsResult& input);
-template<> inline JsonValue ToJson<>(const PFGameServerModifyServerBuildRequest& input);
-template<> inline JsonValue ToJson<>(const PFGameServerModifyServerBuildResult& input);
-template<> inline JsonValue ToJson<>(const PFGameServerRemoveServerBuildRequest& input);
-} // namespace JsonUtils
-
+} // namespace GameServer
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

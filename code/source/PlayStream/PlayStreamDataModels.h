@@ -1,424 +1,355 @@
 #pragma once
 
-#include <playfab/PFPlayStreamDataModels.h>
+#include <playfab/cpp/PFPlayStreamDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace PlayStreamModels
+namespace PlayStream
 {
 
 // PlayStream Classes
-struct AddPlayerTagRequest : public PFPlayStreamAddPlayerTagRequest, public BaseModel
+class AddPlayerTagRequest : public Wrappers::PFPlayStreamAddPlayerTagRequestWrapper<Allocator>, public InputModel
 {
-    AddPlayerTagRequest();
-    AddPlayerTagRequest(const AddPlayerTagRequest& src);
-    AddPlayerTagRequest(AddPlayerTagRequest&& src);
-    AddPlayerTagRequest(const PFPlayStreamAddPlayerTagRequest& src);
-    AddPlayerTagRequest& operator=(const AddPlayerTagRequest&) = delete;
-    ~AddPlayerTagRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamAddPlayerTagRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamAddPlayerTagRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_tagName;
 };
 
-struct GetSegmentResult : public PFPlayStreamGetSegmentResult, public SerializableModel, public ApiResult
+class GetSegmentResult : public Wrappers::PFPlayStreamGetSegmentResultWrapper<Allocator>, public OutputModel<PFPlayStreamGetSegmentResult>
 {
-    GetSegmentResult();
-    GetSegmentResult(const GetSegmentResult& src);
-    GetSegmentResult(GetSegmentResult&& src);
-    GetSegmentResult(const PFPlayStreamGetSegmentResult& src);
-    GetSegmentResult& operator=(const GetSegmentResult&) = delete;
-    ~GetSegmentResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetSegmentResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamGetSegmentResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_aBTestParent;
-    String m_id;
-    String m_name;
+    static size_t RequiredBufferSize(const PFPlayStreamGetSegmentResult& model);
+    static HRESULT Copy(const PFPlayStreamGetSegmentResult& input, PFPlayStreamGetSegmentResult& output, ModelBuffer& buffer);
 };
 
-struct GetAllSegmentsResult : public PFPlayStreamGetAllSegmentsResult, public BaseModel, public ApiResult
+class GetAllSegmentsResult : public Wrappers::PFPlayStreamGetAllSegmentsResultWrapper<Allocator>, public OutputModel<PFPlayStreamGetAllSegmentsResult>
 {
-    GetAllSegmentsResult();
-    GetAllSegmentsResult(const GetAllSegmentsResult& src);
-    GetAllSegmentsResult(GetAllSegmentsResult&& src);
-    GetAllSegmentsResult(const PFPlayStreamGetAllSegmentsResult& src);
-    GetAllSegmentsResult& operator=(const GetAllSegmentsResult&) = delete;
-    ~GetAllSegmentsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetAllSegmentsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamGetAllSegmentsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayStreamGetSegmentResult, GetSegmentResult> m_segments;
+    static size_t RequiredBufferSize(const PFPlayStreamGetAllSegmentsResult& model);
+    static HRESULT Copy(const PFPlayStreamGetAllSegmentsResult& input, PFPlayStreamGetAllSegmentsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayersSegmentsRequest : public PFPlayStreamGetPlayersSegmentsRequest, public BaseModel
+class GetPlayersSegmentsRequest : public Wrappers::PFPlayStreamGetPlayersSegmentsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayersSegmentsRequest();
-    GetPlayersSegmentsRequest(const GetPlayersSegmentsRequest& src);
-    GetPlayersSegmentsRequest(GetPlayersSegmentsRequest&& src);
-    GetPlayersSegmentsRequest(const PFPlayStreamGetPlayersSegmentsRequest& src);
-    GetPlayersSegmentsRequest& operator=(const GetPlayersSegmentsRequest&) = delete;
-    ~GetPlayersSegmentsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetPlayersSegmentsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamGetPlayersSegmentsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct GetPlayerSegmentsResult : public PFPlayStreamGetPlayerSegmentsResult, public BaseModel, public ApiResult
+class GetPlayerSegmentsResult : public Wrappers::PFPlayStreamGetPlayerSegmentsResultWrapper<Allocator>, public OutputModel<PFPlayStreamGetPlayerSegmentsResult>
 {
-    GetPlayerSegmentsResult();
-    GetPlayerSegmentsResult(const GetPlayerSegmentsResult& src);
-    GetPlayerSegmentsResult(GetPlayerSegmentsResult&& src);
-    GetPlayerSegmentsResult(const PFPlayStreamGetPlayerSegmentsResult& src);
-    GetPlayerSegmentsResult& operator=(const GetPlayerSegmentsResult&) = delete;
-    ~GetPlayerSegmentsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetPlayerSegmentsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamGetPlayerSegmentsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayStreamGetSegmentResult, GetSegmentResult> m_segments;
+    static size_t RequiredBufferSize(const PFPlayStreamGetPlayerSegmentsResult& model);
+    static HRESULT Copy(const PFPlayStreamGetPlayerSegmentsResult& input, PFPlayStreamGetPlayerSegmentsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayersInSegmentRequest : public PFPlayStreamGetPlayersInSegmentRequest, public BaseModel
+class GetPlayersInSegmentRequest : public Wrappers::PFPlayStreamGetPlayersInSegmentRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayersInSegmentRequest();
-    GetPlayersInSegmentRequest(const GetPlayersInSegmentRequest& src);
-    GetPlayersInSegmentRequest(GetPlayersInSegmentRequest&& src);
-    GetPlayersInSegmentRequest(const PFPlayStreamGetPlayersInSegmentRequest& src);
-    GetPlayersInSegmentRequest& operator=(const GetPlayersInSegmentRequest&) = delete;
-    ~GetPlayersInSegmentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetPlayersInSegmentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamGetPlayersInSegmentRequest& input);
 
-private:
-    String m_continuationToken;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<uint32_t> m_maxBatchSize;
-    StdExtra::optional<uint32_t> m_secondsToLive;
-    String m_segmentId;
 };
 
-struct AdCampaignAttribution : public PFPlayStreamAdCampaignAttribution, public SerializableModel
+class AdCampaignAttribution : public Wrappers::PFPlayStreamAdCampaignAttributionWrapper<Allocator>, public OutputModel<PFPlayStreamAdCampaignAttribution>
 {
-    AdCampaignAttribution();
-    AdCampaignAttribution(const AdCampaignAttribution& src);
-    AdCampaignAttribution(AdCampaignAttribution&& src);
-    AdCampaignAttribution(const PFPlayStreamAdCampaignAttribution& src);
-    AdCampaignAttribution& operator=(const AdCampaignAttribution&) = delete;
-    ~AdCampaignAttribution() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamAdCampaignAttributionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamAdCampaignAttribution const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_campaignId;
-    String m_platform;
+    static size_t RequiredBufferSize(const PFPlayStreamAdCampaignAttribution& model);
+    static HRESULT Copy(const PFPlayStreamAdCampaignAttribution& input, PFPlayStreamAdCampaignAttribution& output, ModelBuffer& buffer);
 };
 
-struct ContactEmailInfo : public PFPlayStreamContactEmailInfo, public BaseModel
+class ContactEmailInfo : public Wrappers::PFPlayStreamContactEmailInfoWrapper<Allocator>, public OutputModel<PFPlayStreamContactEmailInfo>
 {
-    ContactEmailInfo();
-    ContactEmailInfo(const ContactEmailInfo& src);
-    ContactEmailInfo(ContactEmailInfo&& src);
-    ContactEmailInfo(const PFPlayStreamContactEmailInfo& src);
-    ContactEmailInfo& operator=(const ContactEmailInfo&) = delete;
-    ~ContactEmailInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamContactEmailInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamContactEmailInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_emailAddress;
-    String m_name;
-    StdExtra::optional<PFEmailVerificationStatus> m_verificationStatus;
+    static size_t RequiredBufferSize(const PFPlayStreamContactEmailInfo& model);
+    static HRESULT Copy(const PFPlayStreamContactEmailInfo& input, PFPlayStreamContactEmailInfo& output, ModelBuffer& buffer);
 };
 
-struct PlayerLinkedAccount : public PFPlayStreamPlayerLinkedAccount, public BaseModel
+class PlayerLinkedAccount : public Wrappers::PFPlayStreamPlayerLinkedAccountWrapper<Allocator>, public OutputModel<PFPlayStreamPlayerLinkedAccount>
 {
-    PlayerLinkedAccount();
-    PlayerLinkedAccount(const PlayerLinkedAccount& src);
-    PlayerLinkedAccount(PlayerLinkedAccount&& src);
-    PlayerLinkedAccount(const PFPlayStreamPlayerLinkedAccount& src);
-    PlayerLinkedAccount& operator=(const PlayerLinkedAccount&) = delete;
-    ~PlayerLinkedAccount() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamPlayerLinkedAccountWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamPlayerLinkedAccount const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_email;
-    StdExtra::optional<PFLoginIdentityProvider> m_platform;
-    String m_platformUserId;
-    String m_username;
+    static size_t RequiredBufferSize(const PFPlayStreamPlayerLinkedAccount& model);
+    static HRESULT Copy(const PFPlayStreamPlayerLinkedAccount& input, PFPlayStreamPlayerLinkedAccount& output, ModelBuffer& buffer);
 };
 
-struct PlayerLocation : public PFPlayStreamPlayerLocation, public BaseModel
+class PlayerLocation : public Wrappers::PFPlayStreamPlayerLocationWrapper<Allocator>, public OutputModel<PFPlayStreamPlayerLocation>
 {
-    PlayerLocation();
-    PlayerLocation(const PlayerLocation& src);
-    PlayerLocation(PlayerLocation&& src);
-    PlayerLocation(const PFPlayStreamPlayerLocation& src);
-    PlayerLocation& operator=(const PlayerLocation&) = delete;
-    ~PlayerLocation() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamPlayerLocationWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamPlayerLocation const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_city;
-    StdExtra::optional<double> m_latitude;
-    StdExtra::optional<double> m_longitude;
+    static size_t RequiredBufferSize(const PFPlayStreamPlayerLocation& model);
+    static HRESULT Copy(const PFPlayStreamPlayerLocation& input, PFPlayStreamPlayerLocation& output, ModelBuffer& buffer);
 };
 
-struct PlayerStatistic : public PFPlayStreamPlayerStatistic, public SerializableModel
+class PlayerStatistic : public Wrappers::PFPlayStreamPlayerStatisticWrapper<Allocator>, public OutputModel<PFPlayStreamPlayerStatistic>
 {
-    PlayerStatistic();
-    PlayerStatistic(const PlayerStatistic& src);
-    PlayerStatistic(PlayerStatistic&& src);
-    PlayerStatistic(const PFPlayStreamPlayerStatistic& src);
-    PlayerStatistic& operator=(const PlayerStatistic&) = delete;
-    ~PlayerStatistic() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamPlayerStatisticWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamPlayerStatistic const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_id;
-    String m_name;
+    static size_t RequiredBufferSize(const PFPlayStreamPlayerStatistic& model);
+    static HRESULT Copy(const PFPlayStreamPlayerStatistic& input, PFPlayStreamPlayerStatistic& output, ModelBuffer& buffer);
 };
 
-struct PushNotificationRegistration : public PFPlayStreamPushNotificationRegistration, public BaseModel
+class PushNotificationRegistration : public Wrappers::PFPlayStreamPushNotificationRegistrationWrapper<Allocator>, public OutputModel<PFPlayStreamPushNotificationRegistration>
 {
-    PushNotificationRegistration();
-    PushNotificationRegistration(const PushNotificationRegistration& src);
-    PushNotificationRegistration(PushNotificationRegistration&& src);
-    PushNotificationRegistration(const PFPlayStreamPushNotificationRegistration& src);
-    PushNotificationRegistration& operator=(const PushNotificationRegistration&) = delete;
-    ~PushNotificationRegistration() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamPushNotificationRegistrationWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamPushNotificationRegistration const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_notificationEndpointARN;
-    StdExtra::optional<PFPushNotificationPlatform> m_platform;
+    static size_t RequiredBufferSize(const PFPlayStreamPushNotificationRegistration& model);
+    static HRESULT Copy(const PFPlayStreamPushNotificationRegistration& input, PFPlayStreamPushNotificationRegistration& output, ModelBuffer& buffer);
 };
 
-struct PlayerProfile : public PFPlayStreamPlayerProfile, public BaseModel
+class PlayerProfile : public Wrappers::PFPlayStreamPlayerProfileWrapper<Allocator>, public OutputModel<PFPlayStreamPlayerProfile>
 {
-    PlayerProfile();
-    PlayerProfile(const PlayerProfile& src);
-    PlayerProfile(PlayerProfile&& src);
-    PlayerProfile(const PFPlayStreamPlayerProfile& src);
-    PlayerProfile& operator=(const PlayerProfile&) = delete;
-    ~PlayerProfile() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamPlayerProfileWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamPlayerProfile const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayStreamAdCampaignAttribution, AdCampaignAttribution> m_adCampaignAttributions;
-    String m_avatarUrl;
-    StdExtra::optional<time_t> m_bannedUntil;
-    PointerArrayModel<PFPlayStreamContactEmailInfo, ContactEmailInfo> m_contactEmailAddresses;
-    StdExtra::optional<time_t> m_created;
-    String m_displayName;
-    StdExtra::optional<time_t> m_lastLogin;
-    PointerArrayModel<PFPlayStreamPlayerLinkedAccount, PlayerLinkedAccount> m_linkedAccounts;
-    AssociativeArrayModel<PFPlayStreamPlayerLocationDictionaryEntry, PlayerLocation> m_locations;
-    StdExtra::optional<PFLoginIdentityProvider> m_origination;
-    PointerArrayModel<char, String> m_playerExperimentVariants;
-    String m_playerId;
-    PointerArrayModel<PFPlayStreamPlayerStatistic, PlayerStatistic> m_playerStatistics;
-    String m_publisherId;
-    PointerArrayModel<PFPlayStreamPushNotificationRegistration, PushNotificationRegistration> m_pushNotificationRegistrations;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_statistics;
-    PointerArrayModel<char, String> m_tags;
-    String m_titleId;
-    StdExtra::optional<uint32_t> m_totalValueToDateInUSD;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_valuesToDate;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrencyBalances;
+    static size_t RequiredBufferSize(const PFPlayStreamPlayerProfile& model);
+    static HRESULT Copy(const PFPlayStreamPlayerProfile& input, PFPlayStreamPlayerProfile& output, ModelBuffer& buffer);
 };
 
-struct GetPlayersInSegmentResult : public PFPlayStreamGetPlayersInSegmentResult, public BaseModel, public ApiResult
+class GetPlayersInSegmentResult : public Wrappers::PFPlayStreamGetPlayersInSegmentResultWrapper<Allocator>, public OutputModel<PFPlayStreamGetPlayersInSegmentResult>
 {
-    GetPlayersInSegmentResult();
-    GetPlayersInSegmentResult(const GetPlayersInSegmentResult& src);
-    GetPlayersInSegmentResult(GetPlayersInSegmentResult&& src);
-    GetPlayersInSegmentResult(const PFPlayStreamGetPlayersInSegmentResult& src);
-    GetPlayersInSegmentResult& operator=(const GetPlayersInSegmentResult&) = delete;
-    ~GetPlayersInSegmentResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetPlayersInSegmentResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamGetPlayersInSegmentResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_continuationToken;
-    PointerArrayModel<PFPlayStreamPlayerProfile, PlayerProfile> m_playerProfiles;
+    static size_t RequiredBufferSize(const PFPlayStreamGetPlayersInSegmentResult& model);
+    static HRESULT Copy(const PFPlayStreamGetPlayersInSegmentResult& input, PFPlayStreamGetPlayersInSegmentResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerTagsRequest : public PFPlayStreamGetPlayerTagsRequest, public BaseModel
+class GetPlayerTagsRequest : public Wrappers::PFPlayStreamGetPlayerTagsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayerTagsRequest();
-    GetPlayerTagsRequest(const GetPlayerTagsRequest& src);
-    GetPlayerTagsRequest(GetPlayerTagsRequest&& src);
-    GetPlayerTagsRequest(const PFPlayStreamGetPlayerTagsRequest& src);
-    GetPlayerTagsRequest& operator=(const GetPlayerTagsRequest&) = delete;
-    ~GetPlayerTagsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetPlayerTagsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamGetPlayerTagsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playfabNamespace;
-    String m_playFabId;
 };
 
-struct GetPlayerTagsResult : public PFPlayStreamGetPlayerTagsResult, public BaseModel, public ApiResult
+class GetPlayerTagsResult : public Wrappers::PFPlayStreamGetPlayerTagsResultWrapper<Allocator>, public OutputModel<PFPlayStreamGetPlayerTagsResult>
 {
-    GetPlayerTagsResult();
-    GetPlayerTagsResult(const GetPlayerTagsResult& src);
-    GetPlayerTagsResult(GetPlayerTagsResult&& src);
-    GetPlayerTagsResult(const PFPlayStreamGetPlayerTagsResult& src);
-    GetPlayerTagsResult& operator=(const GetPlayerTagsResult&) = delete;
-    ~GetPlayerTagsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamGetPlayerTagsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamGetPlayerTagsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    PointerArrayModel<char, String> m_tags;
+    static size_t RequiredBufferSize(const PFPlayStreamGetPlayerTagsResult& model);
+    static HRESULT Copy(const PFPlayStreamGetPlayerTagsResult& input, PFPlayStreamGetPlayerTagsResult& output, ModelBuffer& buffer);
 };
 
-struct RemovePlayerTagRequest : public PFPlayStreamRemovePlayerTagRequest, public BaseModel
+class RemovePlayerTagRequest : public Wrappers::PFPlayStreamRemovePlayerTagRequestWrapper<Allocator>, public InputModel
 {
-    RemovePlayerTagRequest();
-    RemovePlayerTagRequest(const RemovePlayerTagRequest& src);
-    RemovePlayerTagRequest(RemovePlayerTagRequest&& src);
-    RemovePlayerTagRequest(const PFPlayStreamRemovePlayerTagRequest& src);
-    RemovePlayerTagRequest& operator=(const RemovePlayerTagRequest&) = delete;
-    ~RemovePlayerTagRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamRemovePlayerTagRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamRemovePlayerTagRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_tagName;
 };
 
-struct EventContents : public PFPlayStreamEventContents, public BaseModel
+class EventContents : public Wrappers::PFPlayStreamEventContentsWrapper<Allocator>, public InputModel
 {
-    EventContents();
-    EventContents(const EventContents& src);
-    EventContents(EventContents&& src);
-    EventContents(const PFPlayStreamEventContents& src);
-    EventContents& operator=(const EventContents&) = delete;
-    ~EventContents() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamEventContentsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamEventContents& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_eventNamespace;
-    String m_name;
-    String m_originalId;
-    StdExtra::optional<time_t> m_originalTimestamp;
-    JsonObject m_payload;
-    String m_payloadJSON;
 };
 
-struct WriteEventsRequest : public PFPlayStreamWriteEventsRequest, public BaseModel
+class WriteEventsRequest : public Wrappers::PFPlayStreamWriteEventsRequestWrapper<Allocator>, public InputModel
 {
-    WriteEventsRequest();
-    WriteEventsRequest(const WriteEventsRequest& src);
-    WriteEventsRequest(WriteEventsRequest&& src);
-    WriteEventsRequest(const PFPlayStreamWriteEventsRequest& src);
-    WriteEventsRequest& operator=(const WriteEventsRequest&) = delete;
-    ~WriteEventsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamWriteEventsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayStreamWriteEventsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFPlayStreamEventContents, EventContents> m_events;
 };
 
-struct WriteEventsResponse : public PFPlayStreamWriteEventsResponse, public BaseModel, public ApiResult
+class WriteEventsResponse : public Wrappers::PFPlayStreamWriteEventsResponseWrapper<Allocator>, public OutputModel<PFPlayStreamWriteEventsResponse>
 {
-    WriteEventsResponse();
-    WriteEventsResponse(const WriteEventsResponse& src);
-    WriteEventsResponse(WriteEventsResponse&& src);
-    WriteEventsResponse(const PFPlayStreamWriteEventsResponse& src);
-    WriteEventsResponse& operator=(const WriteEventsResponse&) = delete;
-    ~WriteEventsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayStreamWriteEventsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayStreamWriteEventsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<char, String> m_assignedEventIds;
+    static size_t RequiredBufferSize(const PFPlayStreamWriteEventsResponse& model);
+    static HRESULT Copy(const PFPlayStreamWriteEventsResponse& input, PFPlayStreamWriteEventsResponse& output, ModelBuffer& buffer);
 };
 
-} // namespace PlayStreamModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFPlayStreamAddPlayerTagRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetSegmentResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetAllSegmentsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetPlayersSegmentsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetPlayerSegmentsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetPlayersInSegmentRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamAdCampaignAttribution& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamContactEmailInfo& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamPlayerLinkedAccount& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamPlayerLocation& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamPlayerStatistic& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamPushNotificationRegistration& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamPlayerProfile& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetPlayersInSegmentResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetPlayerTagsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamGetPlayerTagsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamRemovePlayerTagRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamEventContents& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamWriteEventsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayStreamWriteEventsResponse& input);
-} // namespace JsonUtils
-
+} // namespace PlayStream
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

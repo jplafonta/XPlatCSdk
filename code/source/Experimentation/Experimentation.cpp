@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace ExperimentationModels;
+namespace Experimentation
+{
 
 
 AsyncOp<CreateExclusionGroupResult> ExperimentationAPI::CreateExclusionGroup(
     SharedPtr<Entity> entity,
-    const PFExperimentationCreateExclusionGroupRequest& request,
+    const CreateExclusionGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<CreateExclusionGroupResult> ExperimentationAPI::CreateExclusionGroup(
     }
 
     const char* path{ "/Experimentation/CreateExclusionGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -53,7 +53,7 @@ AsyncOp<CreateExclusionGroupResult> ExperimentationAPI::CreateExclusionGroup(
 
 AsyncOp<CreateExperimentResult> ExperimentationAPI::CreateExperiment(
     SharedPtr<Entity> entity,
-    const PFExperimentationCreateExperimentRequest& request,
+    const CreateExperimentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -64,7 +64,7 @@ AsyncOp<CreateExperimentResult> ExperimentationAPI::CreateExperiment(
     }
 
     const char* path{ "/Experimentation/CreateExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -95,7 +95,7 @@ AsyncOp<CreateExperimentResult> ExperimentationAPI::CreateExperiment(
 
 AsyncOp<void> ExperimentationAPI::DeleteExclusionGroup(
     SharedPtr<Entity> entity,
-    const PFExperimentationDeleteExclusionGroupRequest& request,
+    const DeleteExclusionGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -106,7 +106,7 @@ AsyncOp<void> ExperimentationAPI::DeleteExclusionGroup(
     }
 
     const char* path{ "/Experimentation/DeleteExclusionGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -135,7 +135,7 @@ AsyncOp<void> ExperimentationAPI::DeleteExclusionGroup(
 
 AsyncOp<void> ExperimentationAPI::DeleteExperiment(
     SharedPtr<Entity> entity,
-    const PFExperimentationDeleteExperimentRequest& request,
+    const DeleteExperimentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -146,7 +146,7 @@ AsyncOp<void> ExperimentationAPI::DeleteExperiment(
     }
 
     const char* path{ "/Experimentation/DeleteExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -175,7 +175,7 @@ AsyncOp<void> ExperimentationAPI::DeleteExperiment(
 
 AsyncOp<GetExclusionGroupsResult> ExperimentationAPI::GetExclusionGroups(
     SharedPtr<Entity> entity,
-    const PFExperimentationGetExclusionGroupsRequest& request,
+    const GetExclusionGroupsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -186,7 +186,7 @@ AsyncOp<GetExclusionGroupsResult> ExperimentationAPI::GetExclusionGroups(
     }
 
     const char* path{ "/Experimentation/GetExclusionGroups" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -217,7 +217,7 @@ AsyncOp<GetExclusionGroupsResult> ExperimentationAPI::GetExclusionGroups(
 
 AsyncOp<GetExclusionGroupTrafficResult> ExperimentationAPI::GetExclusionGroupTraffic(
     SharedPtr<Entity> entity,
-    const PFExperimentationGetExclusionGroupTrafficRequest& request,
+    const GetExclusionGroupTrafficRequest& request,
     const TaskQueue& queue
 )
 {
@@ -228,7 +228,7 @@ AsyncOp<GetExclusionGroupTrafficResult> ExperimentationAPI::GetExclusionGroupTra
     }
 
     const char* path{ "/Experimentation/GetExclusionGroupTraffic" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -259,7 +259,7 @@ AsyncOp<GetExclusionGroupTrafficResult> ExperimentationAPI::GetExclusionGroupTra
 
 AsyncOp<GetExperimentsResult> ExperimentationAPI::GetExperiments(
     SharedPtr<Entity> entity,
-    const PFExperimentationGetExperimentsRequest& request,
+    const GetExperimentsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -270,7 +270,7 @@ AsyncOp<GetExperimentsResult> ExperimentationAPI::GetExperiments(
     }
 
     const char* path{ "/Experimentation/GetExperiments" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -301,7 +301,7 @@ AsyncOp<GetExperimentsResult> ExperimentationAPI::GetExperiments(
 
 AsyncOp<GetLatestScorecardResult> ExperimentationAPI::GetLatestScorecard(
     SharedPtr<Entity> entity,
-    const PFExperimentationGetLatestScorecardRequest& request,
+    const GetLatestScorecardRequest& request,
     const TaskQueue& queue
 )
 {
@@ -312,7 +312,7 @@ AsyncOp<GetLatestScorecardResult> ExperimentationAPI::GetLatestScorecard(
     }
 
     const char* path{ "/Experimentation/GetLatestScorecard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -343,7 +343,7 @@ AsyncOp<GetLatestScorecardResult> ExperimentationAPI::GetLatestScorecard(
 
 AsyncOp<GetTreatmentAssignmentResult> ExperimentationAPI::GetTreatmentAssignment(
     SharedPtr<Entity> entity,
-    const PFExperimentationGetTreatmentAssignmentRequest& request,
+    const GetTreatmentAssignmentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -354,7 +354,7 @@ AsyncOp<GetTreatmentAssignmentResult> ExperimentationAPI::GetTreatmentAssignment
     }
 
     const char* path{ "/Experimentation/GetTreatmentAssignment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -385,7 +385,7 @@ AsyncOp<GetTreatmentAssignmentResult> ExperimentationAPI::GetTreatmentAssignment
 
 AsyncOp<void> ExperimentationAPI::StartExperiment(
     SharedPtr<Entity> entity,
-    const PFExperimentationStartExperimentRequest& request,
+    const StartExperimentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -396,7 +396,7 @@ AsyncOp<void> ExperimentationAPI::StartExperiment(
     }
 
     const char* path{ "/Experimentation/StartExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -425,7 +425,7 @@ AsyncOp<void> ExperimentationAPI::StartExperiment(
 
 AsyncOp<void> ExperimentationAPI::StopExperiment(
     SharedPtr<Entity> entity,
-    const PFExperimentationStopExperimentRequest& request,
+    const StopExperimentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -436,7 +436,7 @@ AsyncOp<void> ExperimentationAPI::StopExperiment(
     }
 
     const char* path{ "/Experimentation/StopExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -465,7 +465,7 @@ AsyncOp<void> ExperimentationAPI::StopExperiment(
 
 AsyncOp<void> ExperimentationAPI::UpdateExclusionGroup(
     SharedPtr<Entity> entity,
-    const PFExperimentationUpdateExclusionGroupRequest& request,
+    const UpdateExclusionGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -476,7 +476,7 @@ AsyncOp<void> ExperimentationAPI::UpdateExclusionGroup(
     }
 
     const char* path{ "/Experimentation/UpdateExclusionGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -505,7 +505,7 @@ AsyncOp<void> ExperimentationAPI::UpdateExclusionGroup(
 
 AsyncOp<void> ExperimentationAPI::UpdateExperiment(
     SharedPtr<Entity> entity,
-    const PFExperimentationUpdateExperimentRequest& request,
+    const UpdateExperimentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -516,7 +516,7 @@ AsyncOp<void> ExperimentationAPI::UpdateExperiment(
     }
 
     const char* path{ "/Experimentation/UpdateExperiment" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -543,5 +543,5 @@ AsyncOp<void> ExperimentationAPI::UpdateExperiment(
     });
 }
 
-
-}
+} // namespace Experimentation
+} // namespace PlayFab

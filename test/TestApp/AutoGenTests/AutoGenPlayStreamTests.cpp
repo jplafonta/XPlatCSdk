@@ -220,7 +220,11 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetAllSegments(TestContext& test
         PFPlayStreamGetAllSegmentsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamAdminGetAllSegmentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamAdminGetAllSegmentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamAdminGetAllSegmentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -252,7 +256,11 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerSegments(TestContext& t
         PFPlayStreamGetPlayerSegmentsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamAdminGetPlayerSegmentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamAdminGetPlayerSegmentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamAdminGetPlayerSegmentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -287,7 +295,11 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayersInSegment(TestContext&
         PFPlayStreamGetPlayersInSegmentResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamAdminGetPlayersInSegmentGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamAdminGetPlayersInSegmentGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamAdminGetPlayersInSegmentGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -322,7 +334,11 @@ void AutoGenPlayStreamTests::TestPlayStreamAdminGetPlayerTags(TestContext& testC
         PFPlayStreamGetPlayerTagsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamAdminGetPlayerTagsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamAdminGetPlayerTagsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamAdminGetPlayerTagsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -391,7 +407,11 @@ void AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerSegments(TestContext& 
         PFPlayStreamGetPlayerSegmentsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamClientGetPlayerSegmentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamClientGetPlayerSegmentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamClientGetPlayerSegmentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -423,7 +443,11 @@ void AutoGenPlayStreamTests::TestPlayStreamClientGetPlayerTags(TestContext& test
         PFPlayStreamGetPlayerTagsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamClientGetPlayerTagsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamClientGetPlayerTagsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamClientGetPlayerTagsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -492,7 +516,11 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetAllSegments(TestContext& tes
         PFPlayStreamGetAllSegmentsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamServerGetAllSegmentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamServerGetAllSegmentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamServerGetAllSegmentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -524,7 +552,11 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerSegments(TestContext& 
         PFPlayStreamGetPlayerSegmentsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamServerGetPlayerSegmentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamServerGetPlayerSegmentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamServerGetPlayerSegmentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -559,7 +591,11 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayersInSegment(TestContext
         PFPlayStreamGetPlayersInSegmentResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamServerGetPlayersInSegmentGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamServerGetPlayersInSegmentGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamServerGetPlayersInSegmentGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -594,7 +630,11 @@ void AutoGenPlayStreamTests::TestPlayStreamServerGetPlayerTags(TestContext& test
         PFPlayStreamGetPlayerTagsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamServerGetPlayerTagsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamServerGetPlayerTagsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamServerGetPlayerTagsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -663,7 +703,11 @@ void AutoGenPlayStreamTests::TestPlayStreamWriteEvents(TestContext& testContext)
         PFPlayStreamWriteEventsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamWriteEventsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamWriteEventsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamWriteEventsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -698,7 +742,11 @@ void AutoGenPlayStreamTests::TestPlayStreamWriteTelemetryEvents(TestContext& tes
         PFPlayStreamWriteEventsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFPlayStreamWriteTelemetryEventsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFPlayStreamWriteTelemetryEventsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFPlayStreamWriteTelemetryEventsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

@@ -4,99 +4,55 @@
 
 namespace PlayFab
 {
-namespace LocalizationModels
+namespace Localization
 {
-
-GetLanguageListRequest::GetLanguageListRequest() :
-    PFLocalizationGetLanguageListRequest{}
-{
-}
-
-GetLanguageListRequest::GetLanguageListRequest(const GetLanguageListRequest& src) :
-    PFLocalizationGetLanguageListRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-GetLanguageListRequest::GetLanguageListRequest(GetLanguageListRequest&& src) :
-    PFLocalizationGetLanguageListRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-GetLanguageListRequest::GetLanguageListRequest(const PFLocalizationGetLanguageListRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLanguageListRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
 
 JsonValue GetLanguageListRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFLocalizationGetLanguageListRequest>(*this);
+    return GetLanguageListRequest::ToJson(this->Model());
 }
 
-GetLanguageListResponse::GetLanguageListResponse() :
-    PFLocalizationGetLanguageListResponse{}
+JsonValue GetLanguageListRequest::ToJson(const PFLocalizationGetLanguageListRequest& input)
 {
-}
-
-GetLanguageListResponse::GetLanguageListResponse(const GetLanguageListResponse& src) :
-    PFLocalizationGetLanguageListResponse{ src },
-    m_languageList{ src.m_languageList }
-{
-    languageList = m_languageList.Empty() ? nullptr : m_languageList.Data();
-}
-
-GetLanguageListResponse::GetLanguageListResponse(GetLanguageListResponse&& src) :
-    PFLocalizationGetLanguageListResponse{ src },
-    m_languageList{ std::move(src.m_languageList) }
-{
-    languageList = m_languageList.Empty() ? nullptr : m_languageList.Data();
-}
-
-GetLanguageListResponse::GetLanguageListResponse(const PFLocalizationGetLanguageListResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    return output;
 }
 
 void GetLanguageListResponse::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "LanguageList", m_languageList, languageList, languageListCount);
+    CStringVector languageList{};
+    JsonUtils::ObjectGetMember(input, "LanguageList", languageList);
+    this->SetLanguageList(std::move(languageList));
 }
 
-JsonValue GetLanguageListResponse::ToJson() const
+size_t GetLanguageListResponse::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFLocalizationGetLanguageListResponse>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-} // namespace LocalizationModels
-
-namespace JsonUtils
+Result<PFLocalizationGetLanguageListResponse const*> GetLanguageListResponse::Copy(ModelBuffer& buffer) const
 {
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFLocalizationGetLanguageListRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    return output;
+    return buffer.CopyTo<GetLanguageListResponse>(&this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFLocalizationGetLanguageListResponse& input)
+size_t GetLanguageListResponse::RequiredBufferSize(const PFLocalizationGetLanguageListResponse& model)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "LanguageList", input.languageList, input.languageListCount);
-    return output;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(char*) + sizeof(char*) * model.languageListCount);
+    for (size_t i = 0; i < model.languageListCount; ++i)
+    {
+        requiredSize += (std::strlen(model.languageList[i]) + 1);
+    }
+    return requiredSize;
 }
 
-} // namespace JsonUtils
+HRESULT GetLanguageListResponse::Copy(const PFLocalizationGetLanguageListResponse& input, PFLocalizationGetLanguageListResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.languageList = buffer.CopyToArray(input.languageList, input.languageListCount);
+    return S_OK;
+}
 
+} // namespace Localization
 } // namespace PlayFab

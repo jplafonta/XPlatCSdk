@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace FriendsModels;
+namespace Friends
+{
 
 
 AsyncOp<AddFriendResult> FriendsAPI::ClientAddFriend(
     SharedPtr<TitlePlayer> entity,
-    const PFFriendsClientAddFriendRequest& request,
+    const ClientAddFriendRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<AddFriendResult> FriendsAPI::ClientAddFriend(
     }
 
     const char* path{ "/Client/AddFriend" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -53,7 +53,7 @@ AsyncOp<AddFriendResult> FriendsAPI::ClientAddFriend(
 
 AsyncOp<GetFriendsListResult> FriendsAPI::ClientGetFriendsList(
     SharedPtr<TitlePlayer> entity,
-    const PFFriendsClientGetFriendsListRequest& request,
+    const ClientGetFriendsListRequest& request,
     const TaskQueue& queue
 )
 {
@@ -64,7 +64,7 @@ AsyncOp<GetFriendsListResult> FriendsAPI::ClientGetFriendsList(
     }
 
     const char* path{ "/Client/GetFriendsList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -95,7 +95,7 @@ AsyncOp<GetFriendsListResult> FriendsAPI::ClientGetFriendsList(
 
 AsyncOp<void> FriendsAPI::ClientRemoveFriend(
     SharedPtr<TitlePlayer> entity,
-    const PFFriendsClientRemoveFriendRequest& request,
+    const ClientRemoveFriendRequest& request,
     const TaskQueue& queue
 )
 {
@@ -106,7 +106,7 @@ AsyncOp<void> FriendsAPI::ClientRemoveFriend(
     }
 
     const char* path{ "/Client/RemoveFriend" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -135,7 +135,7 @@ AsyncOp<void> FriendsAPI::ClientRemoveFriend(
 
 AsyncOp<void> FriendsAPI::ClientSetFriendTags(
     SharedPtr<TitlePlayer> entity,
-    const PFFriendsClientSetFriendTagsRequest& request,
+    const ClientSetFriendTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -146,7 +146,7 @@ AsyncOp<void> FriendsAPI::ClientSetFriendTags(
     }
 
     const char* path{ "/Client/SetFriendTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -175,7 +175,7 @@ AsyncOp<void> FriendsAPI::ClientSetFriendTags(
 
 AsyncOp<void> FriendsAPI::ServerAddFriend(
     SharedPtr<GlobalState const> state,
-    const PFFriendsServerAddFriendRequest& request,
+    const ServerAddFriendRequest& request,
     const TaskQueue& queue
 )
 {
@@ -186,7 +186,7 @@ AsyncOp<void> FriendsAPI::ServerAddFriend(
     }
 
     const char* path{ "/Server/AddFriend" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -214,7 +214,7 @@ AsyncOp<void> FriendsAPI::ServerAddFriend(
 
 AsyncOp<GetFriendsListResult> FriendsAPI::ServerGetFriendsList(
     SharedPtr<GlobalState const> state,
-    const PFFriendsServerGetFriendsListRequest& request,
+    const ServerGetFriendsListRequest& request,
     const TaskQueue& queue
 )
 {
@@ -225,7 +225,7 @@ AsyncOp<GetFriendsListResult> FriendsAPI::ServerGetFriendsList(
     }
 
     const char* path{ "/Server/GetFriendsList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -255,7 +255,7 @@ AsyncOp<GetFriendsListResult> FriendsAPI::ServerGetFriendsList(
 
 AsyncOp<void> FriendsAPI::ServerRemoveFriend(
     SharedPtr<GlobalState const> state,
-    const PFFriendsServerRemoveFriendRequest& request,
+    const ServerRemoveFriendRequest& request,
     const TaskQueue& queue
 )
 {
@@ -266,7 +266,7 @@ AsyncOp<void> FriendsAPI::ServerRemoveFriend(
     }
 
     const char* path{ "/Server/RemoveFriend" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -294,7 +294,7 @@ AsyncOp<void> FriendsAPI::ServerRemoveFriend(
 
 AsyncOp<void> FriendsAPI::ServerSetFriendTags(
     SharedPtr<GlobalState const> state,
-    const PFFriendsServerSetFriendTagsRequest& request,
+    const ServerSetFriendTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -305,7 +305,7 @@ AsyncOp<void> FriendsAPI::ServerSetFriendTags(
     }
 
     const char* path{ "/Server/SetFriendTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -331,5 +331,5 @@ AsyncOp<void> FriendsAPI::ServerSetFriendTags(
     });
 }
 
-
-}
+} // namespace Friends
+} // namespace PlayFab

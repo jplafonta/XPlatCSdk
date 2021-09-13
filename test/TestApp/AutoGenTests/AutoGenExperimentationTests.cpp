@@ -326,7 +326,11 @@ void AutoGenExperimentationTests::TestExperimentationGetExclusionGroups(TestCont
         PFExperimentationGetExclusionGroupsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFExperimentationGetExclusionGroupsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFExperimentationGetExclusionGroupsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFExperimentationGetExclusionGroupsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -361,7 +365,11 @@ void AutoGenExperimentationTests::TestExperimentationGetExclusionGroupTraffic(Te
         PFExperimentationGetExclusionGroupTrafficResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFExperimentationGetExclusionGroupTrafficGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFExperimentationGetExclusionGroupTrafficGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFExperimentationGetExclusionGroupTrafficGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -396,7 +404,11 @@ void AutoGenExperimentationTests::TestExperimentationGetExperiments(TestContext&
         PFExperimentationGetExperimentsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFExperimentationGetExperimentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFExperimentationGetExperimentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFExperimentationGetExperimentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -431,7 +443,11 @@ void AutoGenExperimentationTests::TestExperimentationGetLatestScorecard(TestCont
         PFExperimentationGetLatestScorecardResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFExperimentationGetLatestScorecardGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFExperimentationGetLatestScorecardGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFExperimentationGetLatestScorecardGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -466,7 +482,11 @@ void AutoGenExperimentationTests::TestExperimentationGetTreatmentAssignment(Test
         PFExperimentationGetTreatmentAssignmentResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFExperimentationGetTreatmentAssignmentGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFExperimentationGetTreatmentAssignmentGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFExperimentationGetTreatmentAssignmentGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

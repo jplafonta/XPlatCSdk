@@ -13,8 +13,11 @@ struct Server
     String address;
 };
 
-struct RegionResult : public PFQoSRegionResult
+struct RegionResult : public Wrappers::ModelWrapper<PFQoSRegionResult, Allocator>
 {
+    using ModelWrapperType = RegionResult;
+    using ModelType = typename PFQoSRegionResult;
+
     RegionResult(const String& _region);
     RegionResult(const RegionResult& src);
     RegionResult(RegionResult&& src) = default;
@@ -24,23 +27,33 @@ struct RegionResult : public PFQoSRegionResult
 
     void AddPingResult(Result<uint32_t> pingResult);
 
+    static size_t RequiredBufferSize(const PFQoSRegionResult& model);
+    static HRESULT Copy(const PFQoSRegionResult& input, PFQoSRegionResult& output, ModelBuffer& buffer);
+
 private:
     String m_region;
     uint32_t m_totalLatencyMs;
 };
 
-struct Measurements : public PFQoSMeasurements, public ApiResult
+struct Measurements : public Wrappers::ModelWrapper<PFQoSMeasurements, Allocator>, public OutputModel<PFQoSMeasurements>
 {
-    Measurements();
+    using ModelWrapperType = Measurements;
+    using ModelType = typename PFQoSMeasurements;
+
+    Measurements() = default;
     Measurements(const UnorderedMap<String, RegionResult>& regionResultsMap);
     Measurements(const Measurements& src);
-    Measurements(Measurements&& src) = default;
+    Measurements(Measurements&& src);
     ~Measurements() = default;
+
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFQoSMeasurements const*> Copy(ModelBuffer& buffer) const override;
 
 private:
     static Vector<RegionResult> SortRegionResults(const UnorderedMap<String, RegionResult>& regionResultsMap);
 
-    PointerArray<PFQoSRegionResult, RegionResult> m_regionResults;
+    ModelVector<RegionResult> m_regionResults;
 };
 
 } // namespace QoS

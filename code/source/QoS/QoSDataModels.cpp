@@ -7,29 +7,29 @@ namespace QoS
 {
 
 RegionResult::RegionResult(const String& _region) :
-    PFQoSRegionResult{},
+    ModelWrapper<PFQoSRegionResult, Allocator>{},
     m_region{ _region },
     m_totalLatencyMs{ 0 }
 {
-    region = m_region.data();
+    m_model.region = m_region.data();
 }
 
 RegionResult::RegionResult(const RegionResult& src) :
-    PFQoSRegionResult{ src },
-    m_region{ src.region },
+    ModelWrapper<PFQoSRegionResult, Allocator>{ src },
+    m_region{ src.m_region },
     m_totalLatencyMs{ src.m_totalLatencyMs }
 {
-    region = m_region.data();
+    m_model.region = m_region.data();
 }
 
 RegionResult& RegionResult::operator=(const RegionResult& src)
 {
     m_region = src.m_region;
     m_totalLatencyMs = src.m_totalLatencyMs;
-    region = m_region.data();
-    averageLatencyMs = src.averageLatencyMs;
-    successfulPingCount = src.successfulPingCount;
-    failedPingCount = src.failedPingCount;
+    m_model.region = m_region.data();
+    m_model.averageLatencyMs = src.m_model.averageLatencyMs;
+    m_model.successfulPingCount = src.m_model.successfulPingCount;
+    m_model.failedPingCount = src.m_model.failedPingCount;
     return *this;
 }
 
@@ -37,33 +37,83 @@ void RegionResult::AddPingResult(Result<uint32_t> pingResult)
 {
     if (Succeeded(pingResult))
     {
-        ++successfulPingCount;
+        ++m_model.successfulPingCount;
         m_totalLatencyMs += pingResult.Payload();
-        averageLatencyMs = m_totalLatencyMs / successfulPingCount;
+        m_model.averageLatencyMs = m_totalLatencyMs / m_model.successfulPingCount;
     }
     else
     {
-        ++failedPingCount;
+        ++m_model.failedPingCount;
     }
 }
 
-Measurements::Measurements() : PFQoSMeasurements {}
+size_t RegionResult::RequiredBufferSize(const PFQoSRegionResult& model)
 {
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.region)
+    {
+        requiredSize += (std::strlen(model.region) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT RegionResult::Copy(const PFQoSRegionResult& input, PFQoSRegionResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.region = buffer.CopyTo(input.region);
+    return S_OK;
 }
 
 Measurements::Measurements(const UnorderedMap<String, RegionResult>& regionResultsMap) :
-    PFQoSMeasurements{},
-    m_regionResults{ SortRegionResults(regionResultsMap) }
+    ModelWrapper<PFQoSMeasurements, Allocator>{}
 {
-    regionResults = m_regionResults.Empty() ? nullptr : m_regionResults.Data();
-    regionResultsCount = static_cast<uint32_t>(m_regionResults.Size());
+    auto sortedRegionResults = SortRegionResults(regionResultsMap);
+    for (auto&& regionResult : sortedRegionResults)
+    {
+        m_regionResults.push_back(std::move(regionResult));
+    }
+
+    m_model.regionResults = m_regionResults.empty() ? nullptr : m_regionResults.data();
+    m_model.regionResultsCount = static_cast<uint32_t>(m_regionResults.size());
 }
 
 Measurements::Measurements(const Measurements& src) :
-    PFQoSMeasurements{ src },
+    ModelWrapper<PFQoSMeasurements, Allocator>{ src },
     m_regionResults{ src.m_regionResults }
 {
-    regionResults = m_regionResults.Empty() ? nullptr : m_regionResults.Data();
+    m_model.regionResults = m_regionResults.empty() ? nullptr : m_regionResults.data();
+}
+
+Measurements::Measurements(Measurements&& src) :
+    ModelWrapper<PFQoSMeasurements, Allocator>{ src },
+    m_regionResults{ std::move(src.m_regionResults) }
+{
+    m_model.regionResults = m_regionResults.empty() ? nullptr : m_regionResults.data();
+}
+
+void Measurements::FromJson(const JsonValue&)
+{
+    // Should never be called
+    assert(false);
+}
+
+size_t Measurements::RequiredBufferSize() const
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFQoSRegionResult*) + sizeof(PFQoSRegionResult*) * m_model.regionResultsCount);
+    for (size_t i = 0; i < m_regionResults.size(); ++i)
+    {
+        requiredSize += RegionResult::RequiredBufferSize(*m_model.regionResults[i]);
+    }
+    return requiredSize;
+}
+
+Result<PFQoSMeasurements const*> Measurements::Copy(ModelBuffer& buffer) const
+{
+    auto output = buffer.Alloc<PFQoSMeasurements>(1);
+    *output = m_model;
+    output->regionResults = buffer.CopyToArray<RegionResult>(m_model.regionResults, m_model.regionResultsCount);
+    return output;
 }
 
 Vector<RegionResult> Measurements::SortRegionResults(const UnorderedMap<String, RegionResult>& regionResultsMap)
@@ -78,7 +128,7 @@ Vector<RegionResult> Measurements::SortRegionResults(const UnorderedMap<String, 
 
     std::sort(regionResults.begin(), regionResults.end(), [](const RegionResult& r, const RegionResult& l)
     {
-        return r.averageLatencyMs < l.averageLatencyMs && r.successfulPingCount > 0;
+        return r.Model().averageLatencyMs < l.Model().averageLatencyMs && r.Model().successfulPingCount > 0;
     });
 
     return regionResults;

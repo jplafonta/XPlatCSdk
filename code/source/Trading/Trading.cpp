@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace TradingModels;
+namespace Trading
+{
 
 
 AsyncOp<AcceptTradeResponse> TradingAPI::ClientAcceptTrade(
     SharedPtr<TitlePlayer> entity,
-    const PFTradingAcceptTradeRequest& request,
+    const AcceptTradeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<AcceptTradeResponse> TradingAPI::ClientAcceptTrade(
     }
 
     const char* path{ "/Client/AcceptTrade" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -53,7 +53,7 @@ AsyncOp<AcceptTradeResponse> TradingAPI::ClientAcceptTrade(
 
 AsyncOp<CancelTradeResponse> TradingAPI::ClientCancelTrade(
     SharedPtr<TitlePlayer> entity,
-    const PFTradingCancelTradeRequest& request,
+    const CancelTradeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -64,7 +64,7 @@ AsyncOp<CancelTradeResponse> TradingAPI::ClientCancelTrade(
     }
 
     const char* path{ "/Client/CancelTrade" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -95,7 +95,7 @@ AsyncOp<CancelTradeResponse> TradingAPI::ClientCancelTrade(
 
 AsyncOp<GetPlayerTradesResponse> TradingAPI::ClientGetPlayerTrades(
     SharedPtr<TitlePlayer> entity,
-    const PFTradingGetPlayerTradesRequest& request,
+    const GetPlayerTradesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -106,7 +106,7 @@ AsyncOp<GetPlayerTradesResponse> TradingAPI::ClientGetPlayerTrades(
     }
 
     const char* path{ "/Client/GetPlayerTrades" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -137,7 +137,7 @@ AsyncOp<GetPlayerTradesResponse> TradingAPI::ClientGetPlayerTrades(
 
 AsyncOp<GetTradeStatusResponse> TradingAPI::ClientGetTradeStatus(
     SharedPtr<TitlePlayer> entity,
-    const PFTradingGetTradeStatusRequest& request,
+    const GetTradeStatusRequest& request,
     const TaskQueue& queue
 )
 {
@@ -148,7 +148,7 @@ AsyncOp<GetTradeStatusResponse> TradingAPI::ClientGetTradeStatus(
     }
 
     const char* path{ "/Client/GetTradeStatus" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -179,7 +179,7 @@ AsyncOp<GetTradeStatusResponse> TradingAPI::ClientGetTradeStatus(
 
 AsyncOp<OpenTradeResponse> TradingAPI::ClientOpenTrade(
     SharedPtr<TitlePlayer> entity,
-    const PFTradingOpenTradeRequest& request,
+    const OpenTradeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -190,7 +190,7 @@ AsyncOp<OpenTradeResponse> TradingAPI::ClientOpenTrade(
     }
 
     const char* path{ "/Client/OpenTrade" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -219,5 +219,5 @@ AsyncOp<OpenTradeResponse> TradingAPI::ClientOpenTrade(
     });
 }
 
-
-}
+} // namespace Trading
+} // namespace PlayFab

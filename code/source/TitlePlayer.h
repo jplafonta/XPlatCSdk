@@ -29,9 +29,9 @@ private:
 class TitlePlayer : public Entity
 {
 public:
-    TitlePlayer(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::LoginResult& loginResult);
-    TitlePlayer(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::ServerLoginResult& loginResult);
-    TitlePlayer(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, SharedPtr<LoginContext const> loginContext, const AuthenticationModels::RegisterPlayFabUserResult& registerResult);
+    TitlePlayer(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, SharedPtr<LoginContext const> loginContext, const Authentication::LoginResult& loginResult);
+    TitlePlayer(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, SharedPtr<LoginContext const> loginContext, const Authentication::ServerLoginResult& loginResult);
+    TitlePlayer(SharedPtr<PlayFab::HttpClient const> httpClient, SharedPtr<QoS::QoSAPI const> qosAPI, SharedPtr<LoginContext const> loginContext, const Authentication::RegisterPlayFabUserResult& registerResult);
 
     TitlePlayer(const TitlePlayer&) = delete;
     TitlePlayer& operator=(const TitlePlayer&) = delete;
@@ -48,7 +48,7 @@ public:
     // to Entity object.
     GetPlayerCombinedInfoResultPayload const* PlayerCombinedInfo() const;
     time_t const* LastLoginTime() const;
-    AuthenticationModels::UserSettings const* UserSettings() const;
+    Authentication::UserSettings const* UserSettings() const;
     TreatmentAssignment const* TreatmentAssignment() const;
 
     // Refresh the cached Entity token by replaying login request
@@ -62,7 +62,7 @@ private:
 
     UniquePtr<GetPlayerCombinedInfoResultPayload> m_playerCombinedInfo;
     StdExtra::optional<time_t const> m_lastLoginTime;
-    StdExtra::optional<AuthenticationModels::UserSettings const> m_userSettings;
+    StdExtra::optional<Authentication::UserSettings const> m_userSettings;
     UniquePtr<PlayFab::TreatmentAssignment> m_treatmentAssignment;
 };
 

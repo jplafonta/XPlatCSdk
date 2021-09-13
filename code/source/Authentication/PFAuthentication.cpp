@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::AuthenticationModels;
+using namespace PlayFab::Authentication;
 
 HRESULT PFAuthenticationAdminCreateOpenIdConnectionAsync(
     _In_ PFStateHandle contextHandle,
@@ -95,16 +95,26 @@ HRESULT PFAuthenticationAdminGetPlayerSharedSecretsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationAdminGetPlayerSharedSecretsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAuthenticationAdminGetPlayerSharedSecretsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAuthenticationGetPlayerSharedSecretsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAuthenticationGetPlayerSharedSecretsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAuthenticationGetPlayerSharedSecretsResult*)(std::dynamic_pointer_cast<GetPlayerSharedSecretsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAuthenticationGetPlayerSharedSecretsResult*>(buffer);
 
     return S_OK;
 }
@@ -122,16 +132,26 @@ HRESULT PFAuthenticationAdminGetPolicyAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationAdminGetPolicyGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAuthenticationAdminGetPolicyGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAuthenticationGetPolicyResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAuthenticationGetPolicyResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAuthenticationGetPolicyResponse*)(std::dynamic_pointer_cast<GetPolicyResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAuthenticationGetPolicyResponse*>(buffer);
 
     return S_OK;
 }
@@ -147,16 +167,26 @@ HRESULT PFAuthenticationAdminListOpenIdConnectionAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationAdminListOpenIdConnectionGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAuthenticationAdminListOpenIdConnectionGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAuthenticationListOpenIdConnectionResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAuthenticationListOpenIdConnectionResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAuthenticationListOpenIdConnectionResponse*)(std::dynamic_pointer_cast<ListOpenIdConnectionResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAuthenticationListOpenIdConnectionResponse*>(buffer);
 
     return S_OK;
 }
@@ -213,16 +243,26 @@ HRESULT PFAuthenticationAdminUpdatePolicyAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationAdminUpdatePolicyGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAuthenticationAdminUpdatePolicyGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAuthenticationUpdatePolicyResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAuthenticationUpdatePolicyResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAuthenticationUpdatePolicyResponse*)(std::dynamic_pointer_cast<UpdatePolicyResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAuthenticationUpdatePolicyResponse*>(buffer);
 
     return S_OK;
 }
@@ -605,16 +645,26 @@ HRESULT PFAuthenticationServerAuthenticateSessionTicketAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationServerAuthenticateSessionTicketGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAuthenticationServerAuthenticateSessionTicketGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAuthenticationAuthenticateSessionTicketResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAuthenticationAuthenticateSessionTicketResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAuthenticationAuthenticateSessionTicketResult*)(std::dynamic_pointer_cast<AuthenticateSessionTicketResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAuthenticationAuthenticateSessionTicketResult*>(buffer);
 
     return S_OK;
 }
@@ -726,16 +776,26 @@ HRESULT PFAuthenticationValidateEntityTokenAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFAuthenticationValidateEntityTokenGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFAuthenticationValidateEntityTokenGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFAuthenticationValidateEntityTokenResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFAuthenticationValidateEntityTokenResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFAuthenticationValidateEntityTokenResponse*)(std::dynamic_pointer_cast<ValidateEntityTokenResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFAuthenticationValidateEntityTokenResponse*>(buffer);
 
     return S_OK;
 }

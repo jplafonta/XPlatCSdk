@@ -4,1051 +4,500 @@
 
 namespace PlayFab
 {
-namespace AnalyticsModels
+namespace Analytics
 {
-
-DeviceInfoRequest::DeviceInfoRequest() :
-    PFAnalyticsDeviceInfoRequest{}
-{
-}
-
-DeviceInfoRequest::DeviceInfoRequest(const DeviceInfoRequest& src) :
-    PFAnalyticsDeviceInfoRequest{ src },
-    m_info{ src.m_info }
-{
-    info.stringValue = m_info.StringValue();
-}
-
-DeviceInfoRequest::DeviceInfoRequest(DeviceInfoRequest&& src) :
-    PFAnalyticsDeviceInfoRequest{ src },
-    m_info{ std::move(src.m_info) }
-{
-    info.stringValue = m_info.StringValue();
-}
-
-DeviceInfoRequest::DeviceInfoRequest(const PFAnalyticsDeviceInfoRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void DeviceInfoRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Info", m_info, info);
-}
 
 JsonValue DeviceInfoRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFAnalyticsDeviceInfoRequest>(*this);
+    return DeviceInfoRequest::ToJson(this->Model());
 }
 
-WriteClientCharacterEventRequest::WriteClientCharacterEventRequest() :
-    PFAnalyticsWriteClientCharacterEventRequest{}
-{
-}
-
-WriteClientCharacterEventRequest::WriteClientCharacterEventRequest(const WriteClientCharacterEventRequest& src) :
-    PFAnalyticsWriteClientCharacterEventRequest{ src },
-    m_body{ src.m_body },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_eventName{ src.m_eventName },
-    m_timestamp{ src.m_timestamp }
-{
-    body.stringValue = m_body.StringValue();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteClientCharacterEventRequest::WriteClientCharacterEventRequest(WriteClientCharacterEventRequest&& src) :
-    PFAnalyticsWriteClientCharacterEventRequest{ src },
-    m_body{ std::move(src.m_body) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_eventName{ std::move(src.m_eventName) },
-    m_timestamp{ std::move(src.m_timestamp) }
-{
-    body.stringValue = m_body.StringValue();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteClientCharacterEventRequest::WriteClientCharacterEventRequest(const PFAnalyticsWriteClientCharacterEventRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void WriteClientCharacterEventRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Body", m_body, body);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "EventName", m_eventName, eventName);
-    JsonUtils::ObjectGetMember(input, "Timestamp", m_timestamp, timestamp, true);
-}
-
-JsonValue WriteClientCharacterEventRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsWriteClientCharacterEventRequest>(*this);
-}
-
-WriteEventResponse::WriteEventResponse() :
-    PFAnalyticsWriteEventResponse{}
-{
-}
-
-WriteEventResponse::WriteEventResponse(const WriteEventResponse& src) :
-    PFAnalyticsWriteEventResponse{ src },
-    m_eventId{ src.m_eventId }
-{
-    eventId = m_eventId.empty() ? nullptr : m_eventId.data();
-}
-
-WriteEventResponse::WriteEventResponse(WriteEventResponse&& src) :
-    PFAnalyticsWriteEventResponse{ src },
-    m_eventId{ std::move(src.m_eventId) }
-{
-    eventId = m_eventId.empty() ? nullptr : m_eventId.data();
-}
-
-WriteEventResponse::WriteEventResponse(const PFAnalyticsWriteEventResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void WriteEventResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "EventId", m_eventId, eventId);
-}
-
-JsonValue WriteEventResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsWriteEventResponse>(*this);
-}
-
-size_t WriteEventResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFAnalyticsWriteEventResponse) };
-    serializedSize += (m_eventId.size() + 1);
-    return serializedSize;
-}
-
-void WriteEventResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFAnalyticsWriteEventResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFAnalyticsWriteEventResponse);
-    memcpy(stringBuffer, m_eventId.data(), m_eventId.size() + 1);
-    serializedStruct->eventId = stringBuffer;
-    stringBuffer += m_eventId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-WriteClientPlayerEventRequest::WriteClientPlayerEventRequest() :
-    PFAnalyticsWriteClientPlayerEventRequest{}
-{
-}
-
-WriteClientPlayerEventRequest::WriteClientPlayerEventRequest(const WriteClientPlayerEventRequest& src) :
-    PFAnalyticsWriteClientPlayerEventRequest{ src },
-    m_body{ src.m_body },
-    m_customTags{ src.m_customTags },
-    m_eventName{ src.m_eventName },
-    m_timestamp{ src.m_timestamp }
-{
-    body.stringValue = m_body.StringValue();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteClientPlayerEventRequest::WriteClientPlayerEventRequest(WriteClientPlayerEventRequest&& src) :
-    PFAnalyticsWriteClientPlayerEventRequest{ src },
-    m_body{ std::move(src.m_body) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_eventName{ std::move(src.m_eventName) },
-    m_timestamp{ std::move(src.m_timestamp) }
-{
-    body.stringValue = m_body.StringValue();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteClientPlayerEventRequest::WriteClientPlayerEventRequest(const PFAnalyticsWriteClientPlayerEventRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void WriteClientPlayerEventRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Body", m_body, body);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "EventName", m_eventName, eventName);
-    JsonUtils::ObjectGetMember(input, "Timestamp", m_timestamp, timestamp, true);
-}
-
-JsonValue WriteClientPlayerEventRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsWriteClientPlayerEventRequest>(*this);
-}
-
-WriteTitleEventRequest::WriteTitleEventRequest() :
-    PFAnalyticsWriteTitleEventRequest{}
-{
-}
-
-WriteTitleEventRequest::WriteTitleEventRequest(const WriteTitleEventRequest& src) :
-    PFAnalyticsWriteTitleEventRequest{ src },
-    m_body{ src.m_body },
-    m_customTags{ src.m_customTags },
-    m_eventName{ src.m_eventName },
-    m_timestamp{ src.m_timestamp }
-{
-    body.stringValue = m_body.StringValue();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteTitleEventRequest::WriteTitleEventRequest(WriteTitleEventRequest&& src) :
-    PFAnalyticsWriteTitleEventRequest{ src },
-    m_body{ std::move(src.m_body) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_eventName{ std::move(src.m_eventName) },
-    m_timestamp{ std::move(src.m_timestamp) }
-{
-    body.stringValue = m_body.StringValue();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteTitleEventRequest::WriteTitleEventRequest(const PFAnalyticsWriteTitleEventRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void WriteTitleEventRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Body", m_body, body);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "EventName", m_eventName, eventName);
-    JsonUtils::ObjectGetMember(input, "Timestamp", m_timestamp, timestamp, true);
-}
-
-JsonValue WriteTitleEventRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsWriteTitleEventRequest>(*this);
-}
-
-WriteServerCharacterEventRequest::WriteServerCharacterEventRequest() :
-    PFAnalyticsWriteServerCharacterEventRequest{}
-{
-}
-
-WriteServerCharacterEventRequest::WriteServerCharacterEventRequest(const WriteServerCharacterEventRequest& src) :
-    PFAnalyticsWriteServerCharacterEventRequest{ src },
-    m_body{ src.m_body },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_eventName{ src.m_eventName },
-    m_playFabId{ src.m_playFabId },
-    m_timestamp{ src.m_timestamp }
-{
-    body.stringValue = m_body.StringValue();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteServerCharacterEventRequest::WriteServerCharacterEventRequest(WriteServerCharacterEventRequest&& src) :
-    PFAnalyticsWriteServerCharacterEventRequest{ src },
-    m_body{ std::move(src.m_body) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_eventName{ std::move(src.m_eventName) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_timestamp{ std::move(src.m_timestamp) }
-{
-    body.stringValue = m_body.StringValue();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteServerCharacterEventRequest::WriteServerCharacterEventRequest(const PFAnalyticsWriteServerCharacterEventRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void WriteServerCharacterEventRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Body", m_body, body);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "EventName", m_eventName, eventName);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Timestamp", m_timestamp, timestamp, true);
-}
-
-JsonValue WriteServerCharacterEventRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsWriteServerCharacterEventRequest>(*this);
-}
-
-WriteServerPlayerEventRequest::WriteServerPlayerEventRequest() :
-    PFAnalyticsWriteServerPlayerEventRequest{}
-{
-}
-
-WriteServerPlayerEventRequest::WriteServerPlayerEventRequest(const WriteServerPlayerEventRequest& src) :
-    PFAnalyticsWriteServerPlayerEventRequest{ src },
-    m_body{ src.m_body },
-    m_customTags{ src.m_customTags },
-    m_eventName{ src.m_eventName },
-    m_playFabId{ src.m_playFabId },
-    m_timestamp{ src.m_timestamp }
-{
-    body.stringValue = m_body.StringValue();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteServerPlayerEventRequest::WriteServerPlayerEventRequest(WriteServerPlayerEventRequest&& src) :
-    PFAnalyticsWriteServerPlayerEventRequest{ src },
-    m_body{ std::move(src.m_body) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_eventName{ std::move(src.m_eventName) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_timestamp{ std::move(src.m_timestamp) }
-{
-    body.stringValue = m_body.StringValue();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    eventName = m_eventName.empty() ? nullptr : m_eventName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-WriteServerPlayerEventRequest::WriteServerPlayerEventRequest(const PFAnalyticsWriteServerPlayerEventRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void WriteServerPlayerEventRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Body", m_body, body);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "EventName", m_eventName, eventName);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Timestamp", m_timestamp, timestamp, true);
-}
-
-JsonValue WriteServerPlayerEventRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsWriteServerPlayerEventRequest>(*this);
-}
-
-InsightsEmptyRequest::InsightsEmptyRequest() :
-    PFAnalyticsInsightsEmptyRequest{}
-{
-}
-
-InsightsEmptyRequest::InsightsEmptyRequest(const InsightsEmptyRequest& src) :
-    PFAnalyticsInsightsEmptyRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-InsightsEmptyRequest::InsightsEmptyRequest(InsightsEmptyRequest&& src) :
-    PFAnalyticsInsightsEmptyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-InsightsEmptyRequest::InsightsEmptyRequest(const PFAnalyticsInsightsEmptyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsEmptyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue InsightsEmptyRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsEmptyRequest>(*this);
-}
-
-InsightsPerformanceLevel::InsightsPerformanceLevel() :
-    PFAnalyticsInsightsPerformanceLevel{}
-{
-}
-
-
-InsightsPerformanceLevel::InsightsPerformanceLevel(const PFAnalyticsInsightsPerformanceLevel& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsPerformanceLevel::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ActiveEventExports", activeEventExports);
-    JsonUtils::ObjectGetMember(input, "CacheSizeMB", cacheSizeMB);
-    JsonUtils::ObjectGetMember(input, "Concurrency", concurrency);
-    JsonUtils::ObjectGetMember(input, "CreditsPerMinute", creditsPerMinute);
-    JsonUtils::ObjectGetMember(input, "EventsPerSecond", eventsPerSecond);
-    JsonUtils::ObjectGetMember(input, "Level", level);
-    JsonUtils::ObjectGetMember(input, "MaxMemoryPerQueryMB", maxMemoryPerQueryMB);
-    JsonUtils::ObjectGetMember(input, "VirtualCpuCores", virtualCpuCores);
-}
-
-JsonValue InsightsPerformanceLevel::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsPerformanceLevel>(*this);
-}
-
-size_t InsightsPerformanceLevel::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFAnalyticsInsightsPerformanceLevel) };
-    return serializedSize;
-}
-
-void InsightsPerformanceLevel::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFAnalyticsInsightsPerformanceLevel{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFAnalyticsInsightsPerformanceLevel);
-    UNREFERENCED_PARAMETER(serializedStruct);
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-InsightsGetLimitsResponse::InsightsGetLimitsResponse() :
-    PFAnalyticsInsightsGetLimitsResponse{}
-{
-}
-
-InsightsGetLimitsResponse::InsightsGetLimitsResponse(const InsightsGetLimitsResponse& src) :
-    PFAnalyticsInsightsGetLimitsResponse{ src },
-    m_subMeters{ src.m_subMeters }
-{
-    subMeters = m_subMeters.Empty() ? nullptr : m_subMeters.Data();
-}
-
-InsightsGetLimitsResponse::InsightsGetLimitsResponse(InsightsGetLimitsResponse&& src) :
-    PFAnalyticsInsightsGetLimitsResponse{ src },
-    m_subMeters{ std::move(src.m_subMeters) }
-{
-    subMeters = m_subMeters.Empty() ? nullptr : m_subMeters.Data();
-}
-
-InsightsGetLimitsResponse::InsightsGetLimitsResponse(const PFAnalyticsInsightsGetLimitsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsGetLimitsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DefaultPerformanceLevel", defaultPerformanceLevel);
-    JsonUtils::ObjectGetMember(input, "DefaultStorageRetentionDays", defaultStorageRetentionDays);
-    JsonUtils::ObjectGetMember(input, "StorageMaxRetentionDays", storageMaxRetentionDays);
-    JsonUtils::ObjectGetMember(input, "StorageMinRetentionDays", storageMinRetentionDays);
-    JsonUtils::ObjectGetMember(input, "SubMeters", m_subMeters, subMeters, subMetersCount);
-}
-
-JsonValue InsightsGetLimitsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsGetLimitsResponse>(*this);
-}
-
-InsightsGetOperationStatusResponse::InsightsGetOperationStatusResponse() :
-    PFAnalyticsInsightsGetOperationStatusResponse{}
-{
-}
-
-InsightsGetOperationStatusResponse::InsightsGetOperationStatusResponse(const InsightsGetOperationStatusResponse& src) :
-    PFAnalyticsInsightsGetOperationStatusResponse{ src },
-    m_message{ src.m_message },
-    m_operationId{ src.m_operationId },
-    m_operationType{ src.m_operationType },
-    m_status{ src.m_status }
-{
-    message = m_message.empty() ? nullptr : m_message.data();
-    operationId = m_operationId.empty() ? nullptr : m_operationId.data();
-    operationType = m_operationType.empty() ? nullptr : m_operationType.data();
-    status = m_status.empty() ? nullptr : m_status.data();
-}
-
-InsightsGetOperationStatusResponse::InsightsGetOperationStatusResponse(InsightsGetOperationStatusResponse&& src) :
-    PFAnalyticsInsightsGetOperationStatusResponse{ src },
-    m_message{ std::move(src.m_message) },
-    m_operationId{ std::move(src.m_operationId) },
-    m_operationType{ std::move(src.m_operationType) },
-    m_status{ std::move(src.m_status) }
-{
-    message = m_message.empty() ? nullptr : m_message.data();
-    operationId = m_operationId.empty() ? nullptr : m_operationId.data();
-    operationType = m_operationType.empty() ? nullptr : m_operationType.data();
-    status = m_status.empty() ? nullptr : m_status.data();
-}
-
-InsightsGetOperationStatusResponse::InsightsGetOperationStatusResponse(const PFAnalyticsInsightsGetOperationStatusResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsGetOperationStatusResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Message", m_message, message);
-    JsonUtils::ObjectGetMember(input, "OperationCompletedTime", operationCompletedTime, true);
-    JsonUtils::ObjectGetMember(input, "OperationId", m_operationId, operationId);
-    JsonUtils::ObjectGetMember(input, "OperationLastUpdated", operationLastUpdated, true);
-    JsonUtils::ObjectGetMember(input, "OperationStartedTime", operationStartedTime, true);
-    JsonUtils::ObjectGetMember(input, "OperationType", m_operationType, operationType);
-    JsonUtils::ObjectGetMember(input, "OperationValue", operationValue);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-}
-
-JsonValue InsightsGetOperationStatusResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsGetOperationStatusResponse>(*this);
-}
-
-size_t InsightsGetOperationStatusResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFAnalyticsInsightsGetOperationStatusResponse) };
-    serializedSize += (m_message.size() + 1);
-    serializedSize += (m_operationId.size() + 1);
-    serializedSize += (m_operationType.size() + 1);
-    serializedSize += (m_status.size() + 1);
-    return serializedSize;
-}
-
-void InsightsGetOperationStatusResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFAnalyticsInsightsGetOperationStatusResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFAnalyticsInsightsGetOperationStatusResponse);
-    memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
-    serializedStruct->message = stringBuffer;
-    stringBuffer += m_message.size() + 1;
-    memcpy(stringBuffer, m_operationId.data(), m_operationId.size() + 1);
-    serializedStruct->operationId = stringBuffer;
-    stringBuffer += m_operationId.size() + 1;
-    memcpy(stringBuffer, m_operationType.data(), m_operationType.size() + 1);
-    serializedStruct->operationType = stringBuffer;
-    stringBuffer += m_operationType.size() + 1;
-    memcpy(stringBuffer, m_status.data(), m_status.size() + 1);
-    serializedStruct->status = stringBuffer;
-    stringBuffer += m_status.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-InsightsGetDetailsResponse::InsightsGetDetailsResponse() :
-    PFAnalyticsInsightsGetDetailsResponse{}
-{
-}
-
-InsightsGetDetailsResponse::InsightsGetDetailsResponse(const InsightsGetDetailsResponse& src) :
-    PFAnalyticsInsightsGetDetailsResponse{ src },
-    m_errorMessage{ src.m_errorMessage },
-    m_limits{ src.m_limits },
-    m_pendingOperations{ src.m_pendingOperations }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    limits = m_limits ? m_limits.operator->() : nullptr;
-    pendingOperations = m_pendingOperations.Empty() ? nullptr : m_pendingOperations.Data();
-}
-
-InsightsGetDetailsResponse::InsightsGetDetailsResponse(InsightsGetDetailsResponse&& src) :
-    PFAnalyticsInsightsGetDetailsResponse{ src },
-    m_errorMessage{ std::move(src.m_errorMessage) },
-    m_limits{ std::move(src.m_limits) },
-    m_pendingOperations{ std::move(src.m_pendingOperations) }
-{
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    limits = m_limits ? m_limits.operator->() : nullptr;
-    pendingOperations = m_pendingOperations.Empty() ? nullptr : m_pendingOperations.Data();
-}
-
-InsightsGetDetailsResponse::InsightsGetDetailsResponse(const PFAnalyticsInsightsGetDetailsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsGetDetailsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DataUsageMb", dataUsageMb);
-    JsonUtils::ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
-    JsonUtils::ObjectGetMember(input, "Limits", m_limits, limits);
-    JsonUtils::ObjectGetMember(input, "PendingOperations", m_pendingOperations, pendingOperations, pendingOperationsCount);
-    JsonUtils::ObjectGetMember(input, "PerformanceLevel", performanceLevel);
-    JsonUtils::ObjectGetMember(input, "RetentionDays", retentionDays);
-}
-
-JsonValue InsightsGetDetailsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsGetDetailsResponse>(*this);
-}
-
-InsightsGetOperationStatusRequest::InsightsGetOperationStatusRequest() :
-    PFAnalyticsInsightsGetOperationStatusRequest{}
-{
-}
-
-InsightsGetOperationStatusRequest::InsightsGetOperationStatusRequest(const InsightsGetOperationStatusRequest& src) :
-    PFAnalyticsInsightsGetOperationStatusRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_operationId{ src.m_operationId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    operationId = m_operationId.empty() ? nullptr : m_operationId.data();
-}
-
-InsightsGetOperationStatusRequest::InsightsGetOperationStatusRequest(InsightsGetOperationStatusRequest&& src) :
-    PFAnalyticsInsightsGetOperationStatusRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_operationId{ std::move(src.m_operationId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    operationId = m_operationId.empty() ? nullptr : m_operationId.data();
-}
-
-InsightsGetOperationStatusRequest::InsightsGetOperationStatusRequest(const PFAnalyticsInsightsGetOperationStatusRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsGetOperationStatusRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "OperationId", m_operationId, operationId);
-}
-
-JsonValue InsightsGetOperationStatusRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsGetOperationStatusRequest>(*this);
-}
-
-InsightsGetPendingOperationsRequest::InsightsGetPendingOperationsRequest() :
-    PFAnalyticsInsightsGetPendingOperationsRequest{}
-{
-}
-
-InsightsGetPendingOperationsRequest::InsightsGetPendingOperationsRequest(const InsightsGetPendingOperationsRequest& src) :
-    PFAnalyticsInsightsGetPendingOperationsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_operationType{ src.m_operationType }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    operationType = m_operationType.empty() ? nullptr : m_operationType.data();
-}
-
-InsightsGetPendingOperationsRequest::InsightsGetPendingOperationsRequest(InsightsGetPendingOperationsRequest&& src) :
-    PFAnalyticsInsightsGetPendingOperationsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_operationType{ std::move(src.m_operationType) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    operationType = m_operationType.empty() ? nullptr : m_operationType.data();
-}
-
-InsightsGetPendingOperationsRequest::InsightsGetPendingOperationsRequest(const PFAnalyticsInsightsGetPendingOperationsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsGetPendingOperationsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "OperationType", m_operationType, operationType);
-}
-
-JsonValue InsightsGetPendingOperationsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsGetPendingOperationsRequest>(*this);
-}
-
-InsightsGetPendingOperationsResponse::InsightsGetPendingOperationsResponse() :
-    PFAnalyticsInsightsGetPendingOperationsResponse{}
-{
-}
-
-InsightsGetPendingOperationsResponse::InsightsGetPendingOperationsResponse(const InsightsGetPendingOperationsResponse& src) :
-    PFAnalyticsInsightsGetPendingOperationsResponse{ src },
-    m_pendingOperations{ src.m_pendingOperations }
-{
-    pendingOperations = m_pendingOperations.Empty() ? nullptr : m_pendingOperations.Data();
-}
-
-InsightsGetPendingOperationsResponse::InsightsGetPendingOperationsResponse(InsightsGetPendingOperationsResponse&& src) :
-    PFAnalyticsInsightsGetPendingOperationsResponse{ src },
-    m_pendingOperations{ std::move(src.m_pendingOperations) }
-{
-    pendingOperations = m_pendingOperations.Empty() ? nullptr : m_pendingOperations.Data();
-}
-
-InsightsGetPendingOperationsResponse::InsightsGetPendingOperationsResponse(const PFAnalyticsInsightsGetPendingOperationsResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsGetPendingOperationsResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PendingOperations", m_pendingOperations, pendingOperations, pendingOperationsCount);
-}
-
-JsonValue InsightsGetPendingOperationsResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsGetPendingOperationsResponse>(*this);
-}
-
-InsightsSetPerformanceRequest::InsightsSetPerformanceRequest() :
-    PFAnalyticsInsightsSetPerformanceRequest{}
-{
-}
-
-InsightsSetPerformanceRequest::InsightsSetPerformanceRequest(const InsightsSetPerformanceRequest& src) :
-    PFAnalyticsInsightsSetPerformanceRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-InsightsSetPerformanceRequest::InsightsSetPerformanceRequest(InsightsSetPerformanceRequest&& src) :
-    PFAnalyticsInsightsSetPerformanceRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-InsightsSetPerformanceRequest::InsightsSetPerformanceRequest(const PFAnalyticsInsightsSetPerformanceRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsSetPerformanceRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PerformanceLevel", performanceLevel);
-}
-
-JsonValue InsightsSetPerformanceRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsSetPerformanceRequest>(*this);
-}
-
-InsightsOperationResponse::InsightsOperationResponse() :
-    PFAnalyticsInsightsOperationResponse{}
-{
-}
-
-InsightsOperationResponse::InsightsOperationResponse(const InsightsOperationResponse& src) :
-    PFAnalyticsInsightsOperationResponse{ src },
-    m_message{ src.m_message },
-    m_operationId{ src.m_operationId },
-    m_operationType{ src.m_operationType }
-{
-    message = m_message.empty() ? nullptr : m_message.data();
-    operationId = m_operationId.empty() ? nullptr : m_operationId.data();
-    operationType = m_operationType.empty() ? nullptr : m_operationType.data();
-}
-
-InsightsOperationResponse::InsightsOperationResponse(InsightsOperationResponse&& src) :
-    PFAnalyticsInsightsOperationResponse{ src },
-    m_message{ std::move(src.m_message) },
-    m_operationId{ std::move(src.m_operationId) },
-    m_operationType{ std::move(src.m_operationType) }
-{
-    message = m_message.empty() ? nullptr : m_message.data();
-    operationId = m_operationId.empty() ? nullptr : m_operationId.data();
-    operationType = m_operationType.empty() ? nullptr : m_operationType.data();
-}
-
-InsightsOperationResponse::InsightsOperationResponse(const PFAnalyticsInsightsOperationResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsOperationResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Message", m_message, message);
-    JsonUtils::ObjectGetMember(input, "OperationId", m_operationId, operationId);
-    JsonUtils::ObjectGetMember(input, "OperationType", m_operationType, operationType);
-}
-
-JsonValue InsightsOperationResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsOperationResponse>(*this);
-}
-
-size_t InsightsOperationResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFAnalyticsInsightsOperationResponse) };
-    serializedSize += (m_message.size() + 1);
-    serializedSize += (m_operationId.size() + 1);
-    serializedSize += (m_operationType.size() + 1);
-    return serializedSize;
-}
-
-void InsightsOperationResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFAnalyticsInsightsOperationResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFAnalyticsInsightsOperationResponse);
-    memcpy(stringBuffer, m_message.data(), m_message.size() + 1);
-    serializedStruct->message = stringBuffer;
-    stringBuffer += m_message.size() + 1;
-    memcpy(stringBuffer, m_operationId.data(), m_operationId.size() + 1);
-    serializedStruct->operationId = stringBuffer;
-    stringBuffer += m_operationId.size() + 1;
-    memcpy(stringBuffer, m_operationType.data(), m_operationType.size() + 1);
-    serializedStruct->operationType = stringBuffer;
-    stringBuffer += m_operationType.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-InsightsSetStorageRetentionRequest::InsightsSetStorageRetentionRequest() :
-    PFAnalyticsInsightsSetStorageRetentionRequest{}
-{
-}
-
-InsightsSetStorageRetentionRequest::InsightsSetStorageRetentionRequest(const InsightsSetStorageRetentionRequest& src) :
-    PFAnalyticsInsightsSetStorageRetentionRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-InsightsSetStorageRetentionRequest::InsightsSetStorageRetentionRequest(InsightsSetStorageRetentionRequest&& src) :
-    PFAnalyticsInsightsSetStorageRetentionRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-InsightsSetStorageRetentionRequest::InsightsSetStorageRetentionRequest(const PFAnalyticsInsightsSetStorageRetentionRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void InsightsSetStorageRetentionRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "RetentionDays", retentionDays);
-}
-
-JsonValue InsightsSetStorageRetentionRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFAnalyticsInsightsSetStorageRetentionRequest>(*this);
-}
-
-} // namespace AnalyticsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsDeviceInfoRequest& input)
+JsonValue DeviceInfoRequest::ToJson(const PFAnalyticsDeviceInfoRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Info", input.info);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsWriteClientCharacterEventRequest& input)
+JsonValue WriteClientCharacterEventRequest::ToJson() const
+{
+    return WriteClientCharacterEventRequest::ToJson(this->Model());
+}
+
+JsonValue WriteClientCharacterEventRequest::ToJson(const PFAnalyticsWriteClientCharacterEventRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Body", input.body);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "EventName", input.eventName);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
+    JsonUtils::ObjectAddMemberTime(output, "Timestamp", input.timestamp);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsWriteEventResponse& input)
+void WriteEventResponse::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "EventId", input.eventId);
-    return output;
+    String eventId{};
+    JsonUtils::ObjectGetMember(input, "EventId", eventId);
+    this->SetEventId(std::move(eventId));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsWriteClientPlayerEventRequest& input)
+size_t WriteEventResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFAnalyticsWriteEventResponse const*> WriteEventResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<WriteEventResponse>(&this->Model());
+}
+
+size_t WriteEventResponse::RequiredBufferSize(const PFAnalyticsWriteEventResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.eventId)
+    {
+        requiredSize += (std::strlen(model.eventId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT WriteEventResponse::Copy(const PFAnalyticsWriteEventResponse& input, PFAnalyticsWriteEventResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.eventId = buffer.CopyTo(input.eventId);
+    return S_OK;
+}
+
+JsonValue WriteClientPlayerEventRequest::ToJson() const
+{
+    return WriteClientPlayerEventRequest::ToJson(this->Model());
+}
+
+JsonValue WriteClientPlayerEventRequest::ToJson(const PFAnalyticsWriteClientPlayerEventRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Body", input.body);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "EventName", input.eventName);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
+    JsonUtils::ObjectAddMemberTime(output, "Timestamp", input.timestamp);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsWriteTitleEventRequest& input)
+JsonValue WriteTitleEventRequest::ToJson() const
+{
+    return WriteTitleEventRequest::ToJson(this->Model());
+}
+
+JsonValue WriteTitleEventRequest::ToJson(const PFAnalyticsWriteTitleEventRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Body", input.body);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "EventName", input.eventName);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
+    JsonUtils::ObjectAddMemberTime(output, "Timestamp", input.timestamp);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsWriteServerCharacterEventRequest& input)
+JsonValue WriteServerCharacterEventRequest::ToJson() const
+{
+    return WriteServerCharacterEventRequest::ToJson(this->Model());
+}
+
+JsonValue WriteServerCharacterEventRequest::ToJson(const PFAnalyticsWriteServerCharacterEventRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Body", input.body);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "EventName", input.eventName);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
+    JsonUtils::ObjectAddMemberTime(output, "Timestamp", input.timestamp);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsWriteServerPlayerEventRequest& input)
+JsonValue WriteServerPlayerEventRequest::ToJson() const
+{
+    return WriteServerPlayerEventRequest::ToJson(this->Model());
+}
+
+JsonValue WriteServerPlayerEventRequest::ToJson(const PFAnalyticsWriteServerPlayerEventRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Body", input.body);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "EventName", input.eventName);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
+    JsonUtils::ObjectAddMemberTime(output, "Timestamp", input.timestamp);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsEmptyRequest& input)
+JsonValue InsightsEmptyRequest::ToJson() const
+{
+    return InsightsEmptyRequest::ToJson(this->Model());
+}
+
+JsonValue InsightsEmptyRequest::ToJson(const PFAnalyticsInsightsEmptyRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsPerformanceLevel& input)
+void InsightsPerformanceLevel::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActiveEventExports", input.activeEventExports);
-    JsonUtils::ObjectAddMember(output, "CacheSizeMB", input.cacheSizeMB);
-    JsonUtils::ObjectAddMember(output, "Concurrency", input.concurrency);
-    JsonUtils::ObjectAddMember(output, "CreditsPerMinute", input.creditsPerMinute);
-    JsonUtils::ObjectAddMember(output, "EventsPerSecond", input.eventsPerSecond);
-    JsonUtils::ObjectAddMember(output, "Level", input.level);
-    JsonUtils::ObjectAddMember(output, "MaxMemoryPerQueryMB", input.maxMemoryPerQueryMB);
-    JsonUtils::ObjectAddMember(output, "VirtualCpuCores", input.virtualCpuCores);
-    return output;
+    JsonUtils::ObjectGetMember(input, "ActiveEventExports", this->m_model.activeEventExports);
+
+    JsonUtils::ObjectGetMember(input, "CacheSizeMB", this->m_model.cacheSizeMB);
+
+    JsonUtils::ObjectGetMember(input, "Concurrency", this->m_model.concurrency);
+
+    JsonUtils::ObjectGetMember(input, "CreditsPerMinute", this->m_model.creditsPerMinute);
+
+    JsonUtils::ObjectGetMember(input, "EventsPerSecond", this->m_model.eventsPerSecond);
+
+    JsonUtils::ObjectGetMember(input, "Level", this->m_model.level);
+
+    JsonUtils::ObjectGetMember(input, "MaxMemoryPerQueryMB", this->m_model.maxMemoryPerQueryMB);
+
+    JsonUtils::ObjectGetMember(input, "VirtualCpuCores", this->m_model.virtualCpuCores);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsGetLimitsResponse& input)
+size_t InsightsPerformanceLevel::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DefaultPerformanceLevel", input.defaultPerformanceLevel);
-    JsonUtils::ObjectAddMember(output, "DefaultStorageRetentionDays", input.defaultStorageRetentionDays);
-    JsonUtils::ObjectAddMember(output, "StorageMaxRetentionDays", input.storageMaxRetentionDays);
-    JsonUtils::ObjectAddMember(output, "StorageMinRetentionDays", input.storageMinRetentionDays);
-    JsonUtils::ObjectAddMember(output, "SubMeters", input.subMeters, input.subMetersCount);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsGetOperationStatusResponse& input)
+Result<PFAnalyticsInsightsPerformanceLevel const*> InsightsPerformanceLevel::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InsightsPerformanceLevel>(&this->Model());
+}
+
+size_t InsightsPerformanceLevel::RequiredBufferSize(const PFAnalyticsInsightsPerformanceLevel& model)
+{
+    UNREFERENCED_PARAMETER(model); // Fixed size
+    return sizeof(ModelType);
+}
+
+HRESULT InsightsPerformanceLevel::Copy(const PFAnalyticsInsightsPerformanceLevel& input, PFAnalyticsInsightsPerformanceLevel& output, ModelBuffer& buffer)
+{
+    output = input;
+    UNREFERENCED_PARAMETER(buffer); // Fixed size
+    return S_OK;
+}
+
+void InsightsGetLimitsResponse::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "DefaultPerformanceLevel", this->m_model.defaultPerformanceLevel);
+
+    JsonUtils::ObjectGetMember(input, "DefaultStorageRetentionDays", this->m_model.defaultStorageRetentionDays);
+
+    JsonUtils::ObjectGetMember(input, "StorageMaxRetentionDays", this->m_model.storageMaxRetentionDays);
+
+    JsonUtils::ObjectGetMember(input, "StorageMinRetentionDays", this->m_model.storageMinRetentionDays);
+
+    ModelVector<InsightsPerformanceLevel> subMeters{};
+    JsonUtils::ObjectGetMember<InsightsPerformanceLevel>(input, "SubMeters", subMeters);
+    this->SetSubMeters(std::move(subMeters));
+}
+
+size_t InsightsGetLimitsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFAnalyticsInsightsGetLimitsResponse const*> InsightsGetLimitsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InsightsGetLimitsResponse>(&this->Model());
+}
+
+size_t InsightsGetLimitsResponse::RequiredBufferSize(const PFAnalyticsInsightsGetLimitsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFAnalyticsInsightsPerformanceLevel*) + sizeof(PFAnalyticsInsightsPerformanceLevel*) * model.subMetersCount);
+    for (size_t i = 0; i < model.subMetersCount; ++i)
+    {
+        requiredSize += InsightsPerformanceLevel::RequiredBufferSize(*model.subMeters[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT InsightsGetLimitsResponse::Copy(const PFAnalyticsInsightsGetLimitsResponse& input, PFAnalyticsInsightsGetLimitsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.subMeters = buffer.CopyToArray<InsightsPerformanceLevel>(input.subMeters, input.subMetersCount);
+    return S_OK;
+}
+
+void InsightsGetOperationStatusResponse::FromJson(const JsonValue& input)
+{
+    String message{};
+    JsonUtils::ObjectGetMember(input, "Message", message);
+    this->SetMessage(std::move(message));
+
+    JsonUtils::ObjectGetMemberTime(input, "OperationCompletedTime", this->m_model.operationCompletedTime);
+
+    String operationId{};
+    JsonUtils::ObjectGetMember(input, "OperationId", operationId);
+    this->SetOperationId(std::move(operationId));
+
+    JsonUtils::ObjectGetMemberTime(input, "OperationLastUpdated", this->m_model.operationLastUpdated);
+
+    JsonUtils::ObjectGetMemberTime(input, "OperationStartedTime", this->m_model.operationStartedTime);
+
+    String operationType{};
+    JsonUtils::ObjectGetMember(input, "OperationType", operationType);
+    this->SetOperationType(std::move(operationType));
+
+    JsonUtils::ObjectGetMember(input, "OperationValue", this->m_model.operationValue);
+
+    String status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+}
+
+size_t InsightsGetOperationStatusResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFAnalyticsInsightsGetOperationStatusResponse const*> InsightsGetOperationStatusResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InsightsGetOperationStatusResponse>(&this->Model());
+}
+
+size_t InsightsGetOperationStatusResponse::RequiredBufferSize(const PFAnalyticsInsightsGetOperationStatusResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.message)
+    {
+        requiredSize += (std::strlen(model.message) + 1);
+    }
+    if (model.operationId)
+    {
+        requiredSize += (std::strlen(model.operationId) + 1);
+    }
+    if (model.operationType)
+    {
+        requiredSize += (std::strlen(model.operationType) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (std::strlen(model.status) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT InsightsGetOperationStatusResponse::Copy(const PFAnalyticsInsightsGetOperationStatusResponse& input, PFAnalyticsInsightsGetOperationStatusResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.message = buffer.CopyTo(input.message);
+    output.operationId = buffer.CopyTo(input.operationId);
+    output.operationType = buffer.CopyTo(input.operationType);
+    output.status = buffer.CopyTo(input.status);
+    return S_OK;
+}
+
+void InsightsGetDetailsResponse::FromJson(const JsonValue& input)
+{
+    JsonUtils::ObjectGetMember(input, "DataUsageMb", this->m_model.dataUsageMb);
+
+    String errorMessage{};
+    JsonUtils::ObjectGetMember(input, "ErrorMessage", errorMessage);
+    this->SetErrorMessage(std::move(errorMessage));
+
+    StdExtra::optional<InsightsGetLimitsResponse> limits{};
+    JsonUtils::ObjectGetMember(input, "Limits", limits);
+    if (limits)
+    {
+        this->SetLimits(std::move(*limits));
+    }
+
+    ModelVector<InsightsGetOperationStatusResponse> pendingOperations{};
+    JsonUtils::ObjectGetMember<InsightsGetOperationStatusResponse>(input, "PendingOperations", pendingOperations);
+    this->SetPendingOperations(std::move(pendingOperations));
+
+    JsonUtils::ObjectGetMember(input, "PerformanceLevel", this->m_model.performanceLevel);
+
+    JsonUtils::ObjectGetMember(input, "RetentionDays", this->m_model.retentionDays);
+}
+
+size_t InsightsGetDetailsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFAnalyticsInsightsGetDetailsResponse const*> InsightsGetDetailsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InsightsGetDetailsResponse>(&this->Model());
+}
+
+size_t InsightsGetDetailsResponse::RequiredBufferSize(const PFAnalyticsInsightsGetDetailsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.errorMessage)
+    {
+        requiredSize += (std::strlen(model.errorMessage) + 1);
+    }
+    if (model.limits)
+    {
+        requiredSize += InsightsGetLimitsResponse::RequiredBufferSize(*model.limits);
+    }
+    requiredSize += (alignof(PFAnalyticsInsightsGetOperationStatusResponse*) + sizeof(PFAnalyticsInsightsGetOperationStatusResponse*) * model.pendingOperationsCount);
+    for (size_t i = 0; i < model.pendingOperationsCount; ++i)
+    {
+        requiredSize += InsightsGetOperationStatusResponse::RequiredBufferSize(*model.pendingOperations[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT InsightsGetDetailsResponse::Copy(const PFAnalyticsInsightsGetDetailsResponse& input, PFAnalyticsInsightsGetDetailsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.errorMessage = buffer.CopyTo(input.errorMessage);
+    output.limits = buffer.CopyTo<InsightsGetLimitsResponse>(input.limits);
+    output.pendingOperations = buffer.CopyToArray<InsightsGetOperationStatusResponse>(input.pendingOperations, input.pendingOperationsCount);
+    return S_OK;
+}
+
+JsonValue InsightsGetOperationStatusRequest::ToJson() const
+{
+    return InsightsGetOperationStatusRequest::ToJson(this->Model());
+}
+
+JsonValue InsightsGetOperationStatusRequest::ToJson(const PFAnalyticsInsightsGetOperationStatusRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Message", input.message);
-    JsonUtils::ObjectAddMember(output, "OperationCompletedTime", input.operationCompletedTime, true);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "OperationId", input.operationId);
-    JsonUtils::ObjectAddMember(output, "OperationLastUpdated", input.operationLastUpdated, true);
-    JsonUtils::ObjectAddMember(output, "OperationStartedTime", input.operationStartedTime, true);
-    JsonUtils::ObjectAddMember(output, "OperationType", input.operationType);
-    JsonUtils::ObjectAddMember(output, "OperationValue", input.operationValue);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsGetDetailsResponse& input)
+JsonValue InsightsGetPendingOperationsRequest::ToJson() const
+{
+    return InsightsGetPendingOperationsRequest::ToJson(this->Model());
+}
+
+JsonValue InsightsGetPendingOperationsRequest::ToJson(const PFAnalyticsInsightsGetPendingOperationsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DataUsageMb", input.dataUsageMb);
-    JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
-    JsonUtils::ObjectAddMember(output, "Limits", input.limits);
-    JsonUtils::ObjectAddMember(output, "PendingOperations", input.pendingOperations, input.pendingOperationsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "OperationType", input.operationType);
+    return output;
+}
+
+void InsightsGetPendingOperationsResponse::FromJson(const JsonValue& input)
+{
+    ModelVector<InsightsGetOperationStatusResponse> pendingOperations{};
+    JsonUtils::ObjectGetMember<InsightsGetOperationStatusResponse>(input, "PendingOperations", pendingOperations);
+    this->SetPendingOperations(std::move(pendingOperations));
+}
+
+size_t InsightsGetPendingOperationsResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFAnalyticsInsightsGetPendingOperationsResponse const*> InsightsGetPendingOperationsResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InsightsGetPendingOperationsResponse>(&this->Model());
+}
+
+size_t InsightsGetPendingOperationsResponse::RequiredBufferSize(const PFAnalyticsInsightsGetPendingOperationsResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFAnalyticsInsightsGetOperationStatusResponse*) + sizeof(PFAnalyticsInsightsGetOperationStatusResponse*) * model.pendingOperationsCount);
+    for (size_t i = 0; i < model.pendingOperationsCount; ++i)
+    {
+        requiredSize += InsightsGetOperationStatusResponse::RequiredBufferSize(*model.pendingOperations[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT InsightsGetPendingOperationsResponse::Copy(const PFAnalyticsInsightsGetPendingOperationsResponse& input, PFAnalyticsInsightsGetPendingOperationsResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.pendingOperations = buffer.CopyToArray<InsightsGetOperationStatusResponse>(input.pendingOperations, input.pendingOperationsCount);
+    return S_OK;
+}
+
+JsonValue InsightsSetPerformanceRequest::ToJson() const
+{
+    return InsightsSetPerformanceRequest::ToJson(this->Model());
+}
+
+JsonValue InsightsSetPerformanceRequest::ToJson(const PFAnalyticsInsightsSetPerformanceRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PerformanceLevel", input.performanceLevel);
+    return output;
+}
+
+void InsightsOperationResponse::FromJson(const JsonValue& input)
+{
+    String message{};
+    JsonUtils::ObjectGetMember(input, "Message", message);
+    this->SetMessage(std::move(message));
+
+    String operationId{};
+    JsonUtils::ObjectGetMember(input, "OperationId", operationId);
+    this->SetOperationId(std::move(operationId));
+
+    String operationType{};
+    JsonUtils::ObjectGetMember(input, "OperationType", operationType);
+    this->SetOperationType(std::move(operationType));
+}
+
+size_t InsightsOperationResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFAnalyticsInsightsOperationResponse const*> InsightsOperationResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<InsightsOperationResponse>(&this->Model());
+}
+
+size_t InsightsOperationResponse::RequiredBufferSize(const PFAnalyticsInsightsOperationResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.message)
+    {
+        requiredSize += (std::strlen(model.message) + 1);
+    }
+    if (model.operationId)
+    {
+        requiredSize += (std::strlen(model.operationId) + 1);
+    }
+    if (model.operationType)
+    {
+        requiredSize += (std::strlen(model.operationType) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT InsightsOperationResponse::Copy(const PFAnalyticsInsightsOperationResponse& input, PFAnalyticsInsightsOperationResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.message = buffer.CopyTo(input.message);
+    output.operationId = buffer.CopyTo(input.operationId);
+    output.operationType = buffer.CopyTo(input.operationType);
+    return S_OK;
+}
+
+JsonValue InsightsSetStorageRetentionRequest::ToJson() const
+{
+    return InsightsSetStorageRetentionRequest::ToJson(this->Model());
+}
+
+JsonValue InsightsSetStorageRetentionRequest::ToJson(const PFAnalyticsInsightsSetStorageRetentionRequest& input)
+{
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "RetentionDays", input.retentionDays);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsGetOperationStatusRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "OperationId", input.operationId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsGetPendingOperationsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "OperationType", input.operationType);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsGetPendingOperationsResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PendingOperations", input.pendingOperations, input.pendingOperationsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsSetPerformanceRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "PerformanceLevel", input.performanceLevel);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsOperationResponse& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Message", input.message);
-    JsonUtils::ObjectAddMember(output, "OperationId", input.operationId);
-    JsonUtils::ObjectAddMember(output, "OperationType", input.operationType);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFAnalyticsInsightsSetStorageRetentionRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "RetentionDays", input.retentionDays);
-    return output;
-}
-
-} // namespace JsonUtils
-
+} // namespace Analytics
 } // namespace PlayFab

@@ -1,56 +1,48 @@
 #pragma once
 
-#include <playfab/PFLocalizationDataModels.h>
+#include <playfab/cpp/PFLocalizationDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace LocalizationModels
+namespace Localization
 {
 
 // Localization Classes
-struct GetLanguageListRequest : public PFLocalizationGetLanguageListRequest, public BaseModel
+class GetLanguageListRequest : public Wrappers::PFLocalizationGetLanguageListRequestWrapper<Allocator>, public InputModel
 {
-    GetLanguageListRequest();
-    GetLanguageListRequest(const GetLanguageListRequest& src);
-    GetLanguageListRequest(GetLanguageListRequest&& src);
-    GetLanguageListRequest(const PFLocalizationGetLanguageListRequest& src);
-    GetLanguageListRequest& operator=(const GetLanguageListRequest&) = delete;
-    ~GetLanguageListRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFLocalizationGetLanguageListRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFLocalizationGetLanguageListRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct GetLanguageListResponse : public PFLocalizationGetLanguageListResponse, public BaseModel, public ApiResult
+class GetLanguageListResponse : public Wrappers::PFLocalizationGetLanguageListResponseWrapper<Allocator>, public OutputModel<PFLocalizationGetLanguageListResponse>
 {
-    GetLanguageListResponse();
-    GetLanguageListResponse(const GetLanguageListResponse& src);
-    GetLanguageListResponse(GetLanguageListResponse&& src);
-    GetLanguageListResponse(const PFLocalizationGetLanguageListResponse& src);
-    GetLanguageListResponse& operator=(const GetLanguageListResponse&) = delete;
-    ~GetLanguageListResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFLocalizationGetLanguageListResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFLocalizationGetLanguageListResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<char, String> m_languageList;
+    static size_t RequiredBufferSize(const PFLocalizationGetLanguageListResponse& model);
+    static HRESULT Copy(const PFLocalizationGetLanguageListResponse& input, PFLocalizationGetLanguageListResponse& output, ModelBuffer& buffer);
 };
 
-} // namespace LocalizationModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFLocalizationGetLanguageListRequest& input);
-template<> inline JsonValue ToJson<>(const PFLocalizationGetLanguageListResponse& input);
-} // namespace JsonUtils
-
+} // namespace Localization
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

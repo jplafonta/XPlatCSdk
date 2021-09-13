@@ -1,1160 +1,1039 @@
 #pragma once
 
-#include <playfab/PFSharedDataModels.h>
+#include <playfab/cpp/PFSharedDataModelWrappers.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
 
 // Shared Classes
-struct ItemInstance : public PFItemInstance, public BaseModel
+class ItemInstance : public Wrappers::PFItemInstanceWrapper<Allocator>, public OutputModel<PFItemInstance>
 {
-    ItemInstance();
-    ItemInstance(const ItemInstance& src);
-    ItemInstance(ItemInstance&& src);
-    ItemInstance(const PFItemInstance& src);
-    ItemInstance& operator=(const ItemInstance&) = delete;
-    ~ItemInstance() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFItemInstanceWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFItemInstance const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_annotation;
-    PointerArrayModel<char, String> m_bundleContents;
-    String m_bundleParent;
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customData;
-    String m_displayName;
-    StdExtra::optional<time_t> m_expiration;
-    String m_itemClass;
-    String m_itemId;
-    String m_itemInstanceId;
-    StdExtra::optional<time_t> m_purchaseDate;
-    StdExtra::optional<int32_t> m_remainingUses;
-    String m_unitCurrency;
-    StdExtra::optional<int32_t> m_usesIncrementedBy;
+    static size_t RequiredBufferSize(const PFItemInstance& model);
+    static HRESULT Copy(const PFItemInstance& input, PFItemInstance& output, ModelBuffer& buffer);
 };
 
-struct ScriptExecutionError : public PFScriptExecutionError, public SerializableModel
+class ScriptExecutionError : public Wrappers::PFScriptExecutionErrorWrapper<Allocator>, public OutputModel<PFScriptExecutionError>
 {
-    ScriptExecutionError();
-    ScriptExecutionError(const ScriptExecutionError& src);
-    ScriptExecutionError(ScriptExecutionError&& src);
-    ScriptExecutionError(const PFScriptExecutionError& src);
-    ScriptExecutionError& operator=(const ScriptExecutionError&) = delete;
-    ~ScriptExecutionError() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFScriptExecutionErrorWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFScriptExecutionError const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_error;
-    String m_message;
-    String m_stackTrace;
+    static size_t RequiredBufferSize(const PFScriptExecutionError& model);
+    static HRESULT Copy(const PFScriptExecutionError& input, PFScriptExecutionError& output, ModelBuffer& buffer);
 };
 
-struct LogStatement : public PFLogStatement, public BaseModel
+class LogStatement : public Wrappers::PFLogStatementWrapper<Allocator>, public OutputModel<PFLogStatement>
 {
-    LogStatement();
-    LogStatement(const LogStatement& src);
-    LogStatement(LogStatement&& src);
-    LogStatement(const PFLogStatement& src);
-    LogStatement& operator=(const LogStatement&) = delete;
-    ~LogStatement() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFLogStatementWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFLogStatement const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    JsonObject m_data;
-    String m_level;
-    String m_message;
+    static size_t RequiredBufferSize(const PFLogStatement& model);
+    static HRESULT Copy(const PFLogStatement& input, PFLogStatement& output, ModelBuffer& buffer);
 };
 
-struct ExecuteCloudScriptResult : public PFExecuteCloudScriptResult, public BaseModel, public ApiResult
+class ExecuteCloudScriptResult : public Wrappers::PFExecuteCloudScriptResultWrapper<Allocator>, public OutputModel<PFExecuteCloudScriptResult>
 {
-    ExecuteCloudScriptResult();
-    ExecuteCloudScriptResult(const ExecuteCloudScriptResult& src);
-    ExecuteCloudScriptResult(ExecuteCloudScriptResult&& src);
-    ExecuteCloudScriptResult(const PFExecuteCloudScriptResult& src);
-    ExecuteCloudScriptResult& operator=(const ExecuteCloudScriptResult&) = delete;
-    ~ExecuteCloudScriptResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExecuteCloudScriptResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExecuteCloudScriptResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<ScriptExecutionError> m_error;
-    String m_functionName;
-    JsonObject m_functionResult;
-    StdExtra::optional<bool> m_functionResultTooLarge;
-    PointerArrayModel<PFLogStatement, LogStatement> m_logs;
-    StdExtra::optional<bool> m_logsTooLarge;
+    static size_t RequiredBufferSize(const PFExecuteCloudScriptResult& model);
+    static HRESULT Copy(const PFExecuteCloudScriptResult& input, PFExecuteCloudScriptResult& output, ModelBuffer& buffer);
 };
 
-struct NameIdentifier : public PFNameIdentifier, public SerializableModel
+class NameIdentifier : public Wrappers::PFNameIdentifierWrapper<Allocator>, public InputModel, public OutputModel<PFNameIdentifier>
 {
-    NameIdentifier();
-    NameIdentifier(const NameIdentifier& src);
-    NameIdentifier(NameIdentifier&& src);
-    NameIdentifier(const PFNameIdentifier& src);
-    NameIdentifier& operator=(const NameIdentifier&) = delete;
-    ~NameIdentifier() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFNameIdentifierWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFNameIdentifier& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFNameIdentifier const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_id;
-    String m_name;
+    static size_t RequiredBufferSize(const PFNameIdentifier& model);
+    static HRESULT Copy(const PFNameIdentifier& input, PFNameIdentifier& output, ModelBuffer& buffer);
 };
 
-struct UserDataRecord : public PFUserDataRecord, public BaseModel
+class UserDataRecord : public Wrappers::PFUserDataRecordWrapper<Allocator>, public OutputModel<PFUserDataRecord>
 {
-    UserDataRecord();
-    UserDataRecord(const UserDataRecord& src);
-    UserDataRecord(UserDataRecord&& src);
-    UserDataRecord(const PFUserDataRecord& src);
-    UserDataRecord& operator=(const UserDataRecord&) = delete;
-    ~UserDataRecord() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserDataRecordWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserDataRecord const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PFUserDataPermission> m_permission;
-    String m_value;
+    static size_t RequiredBufferSize(const PFUserDataRecord& model);
+    static HRESULT Copy(const PFUserDataRecord& input, PFUserDataRecord& output, ModelBuffer& buffer);
 };
 
-struct PlayerProfileViewConstraints : public PFPlayerProfileViewConstraints, public SerializableModel
+class PlayerProfileViewConstraints : public Wrappers::PFPlayerProfileViewConstraintsWrapper<Allocator>, public InputModel
 {
-    PlayerProfileViewConstraints();
-    PlayerProfileViewConstraints(const PlayerProfileViewConstraints&) = default;
-    PlayerProfileViewConstraints(PlayerProfileViewConstraints&&) = default;
-    PlayerProfileViewConstraints(const PFPlayerProfileViewConstraints& src);
-    PlayerProfileViewConstraints& operator=(const PlayerProfileViewConstraints&) = delete;
-    ~PlayerProfileViewConstraints() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerProfileViewConstraintsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerProfileViewConstraints& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
 };
 
-struct AdCampaignAttributionModel : public PFAdCampaignAttributionModel, public SerializableModel
+class AdCampaignAttributionModel : public Wrappers::PFAdCampaignAttributionModelWrapper<Allocator>, public InputModel, public OutputModel<PFAdCampaignAttributionModel>
 {
-    AdCampaignAttributionModel();
-    AdCampaignAttributionModel(const AdCampaignAttributionModel& src);
-    AdCampaignAttributionModel(AdCampaignAttributionModel&& src);
-    AdCampaignAttributionModel(const PFAdCampaignAttributionModel& src);
-    AdCampaignAttributionModel& operator=(const AdCampaignAttributionModel&) = delete;
-    ~AdCampaignAttributionModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdCampaignAttributionModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAdCampaignAttributionModel& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAdCampaignAttributionModel const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_campaignId;
-    String m_platform;
+    static size_t RequiredBufferSize(const PFAdCampaignAttributionModel& model);
+    static HRESULT Copy(const PFAdCampaignAttributionModel& input, PFAdCampaignAttributionModel& output, ModelBuffer& buffer);
 };
 
-struct ContactEmailInfoModel : public PFContactEmailInfoModel, public BaseModel
+class ContactEmailInfoModel : public Wrappers::PFContactEmailInfoModelWrapper<Allocator>, public InputModel, public OutputModel<PFContactEmailInfoModel>
 {
-    ContactEmailInfoModel();
-    ContactEmailInfoModel(const ContactEmailInfoModel& src);
-    ContactEmailInfoModel(ContactEmailInfoModel&& src);
-    ContactEmailInfoModel(const PFContactEmailInfoModel& src);
-    ContactEmailInfoModel& operator=(const ContactEmailInfoModel&) = delete;
-    ~ContactEmailInfoModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFContactEmailInfoModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFContactEmailInfoModel& input);
 
-private:
-    String m_emailAddress;
-    String m_name;
-    StdExtra::optional<PFEmailVerificationStatus> m_verificationStatus;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFContactEmailInfoModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFContactEmailInfoModel& model);
+    static HRESULT Copy(const PFContactEmailInfoModel& input, PFContactEmailInfoModel& output, ModelBuffer& buffer);
 };
 
-struct LinkedPlatformAccountModel : public PFLinkedPlatformAccountModel, public BaseModel
+class LinkedPlatformAccountModel : public Wrappers::PFLinkedPlatformAccountModelWrapper<Allocator>, public InputModel, public OutputModel<PFLinkedPlatformAccountModel>
 {
-    LinkedPlatformAccountModel();
-    LinkedPlatformAccountModel(const LinkedPlatformAccountModel& src);
-    LinkedPlatformAccountModel(LinkedPlatformAccountModel&& src);
-    LinkedPlatformAccountModel(const PFLinkedPlatformAccountModel& src);
-    LinkedPlatformAccountModel& operator=(const LinkedPlatformAccountModel&) = delete;
-    ~LinkedPlatformAccountModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFLinkedPlatformAccountModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFLinkedPlatformAccountModel& input);
 
-private:
-    String m_email;
-    StdExtra::optional<PFLoginIdentityProvider> m_platform;
-    String m_platformUserId;
-    String m_username;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFLinkedPlatformAccountModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFLinkedPlatformAccountModel& model);
+    static HRESULT Copy(const PFLinkedPlatformAccountModel& input, PFLinkedPlatformAccountModel& output, ModelBuffer& buffer);
 };
 
-struct LocationModel : public PFLocationModel, public BaseModel
+class LocationModel : public Wrappers::PFLocationModelWrapper<Allocator>, public InputModel, public OutputModel<PFLocationModel>
 {
-    LocationModel();
-    LocationModel(const LocationModel& src);
-    LocationModel(LocationModel&& src);
-    LocationModel(const PFLocationModel& src);
-    LocationModel& operator=(const LocationModel&) = delete;
-    ~LocationModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFLocationModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFLocationModel& input);
 
-private:
-    String m_city;
-    StdExtra::optional<PFContinentCode> m_continentCode;
-    StdExtra::optional<PFCountryCode> m_countryCode;
-    StdExtra::optional<double> m_latitude;
-    StdExtra::optional<double> m_longitude;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFLocationModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFLocationModel& model);
+    static HRESULT Copy(const PFLocationModel& input, PFLocationModel& output, ModelBuffer& buffer);
 };
 
-struct SubscriptionModel : public PFSubscriptionModel, public BaseModel
+class SubscriptionModel : public Wrappers::PFSubscriptionModelWrapper<Allocator>, public InputModel, public OutputModel<PFSubscriptionModel>
 {
-    SubscriptionModel();
-    SubscriptionModel(const SubscriptionModel& src);
-    SubscriptionModel(SubscriptionModel&& src);
-    SubscriptionModel(const PFSubscriptionModel& src);
-    SubscriptionModel& operator=(const SubscriptionModel&) = delete;
-    ~SubscriptionModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSubscriptionModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSubscriptionModel& input);
 
-private:
-    StdExtra::optional<PFSubscriptionProviderStatus> m_status;
-    String m_subscriptionId;
-    String m_subscriptionItemId;
-    String m_subscriptionProvider;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSubscriptionModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSubscriptionModel& model);
+    static HRESULT Copy(const PFSubscriptionModel& input, PFSubscriptionModel& output, ModelBuffer& buffer);
 };
 
-struct MembershipModel : public PFMembershipModel, public BaseModel
+class MembershipModel : public Wrappers::PFMembershipModelWrapper<Allocator>, public InputModel, public OutputModel<PFMembershipModel>
 {
-    MembershipModel();
-    MembershipModel(const MembershipModel& src);
-    MembershipModel(MembershipModel&& src);
-    MembershipModel(const PFMembershipModel& src);
-    MembershipModel& operator=(const MembershipModel&) = delete;
-    ~MembershipModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMembershipModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMembershipModel& input);
 
-private:
-    String m_membershipId;
-    StdExtra::optional<time_t> m_overrideExpiration;
-    PointerArrayModel<PFSubscriptionModel, SubscriptionModel> m_subscriptions;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMembershipModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFMembershipModel& model);
+    static HRESULT Copy(const PFMembershipModel& input, PFMembershipModel& output, ModelBuffer& buffer);
 };
 
-struct PushNotificationRegistrationModel : public PFPushNotificationRegistrationModel, public BaseModel
+class PushNotificationRegistrationModel : public Wrappers::PFPushNotificationRegistrationModelWrapper<Allocator>, public InputModel, public OutputModel<PFPushNotificationRegistrationModel>
 {
-    PushNotificationRegistrationModel();
-    PushNotificationRegistrationModel(const PushNotificationRegistrationModel& src);
-    PushNotificationRegistrationModel(PushNotificationRegistrationModel&& src);
-    PushNotificationRegistrationModel(const PFPushNotificationRegistrationModel& src);
-    PushNotificationRegistrationModel& operator=(const PushNotificationRegistrationModel&) = delete;
-    ~PushNotificationRegistrationModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPushNotificationRegistrationModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPushNotificationRegistrationModel& input);
 
-private:
-    String m_notificationEndpointARN;
-    StdExtra::optional<PFPushNotificationPlatform> m_platform;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPushNotificationRegistrationModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFPushNotificationRegistrationModel& model);
+    static HRESULT Copy(const PFPushNotificationRegistrationModel& input, PFPushNotificationRegistrationModel& output, ModelBuffer& buffer);
 };
 
-struct StatisticModel : public PFStatisticModel, public SerializableModel
+class StatisticModel : public Wrappers::PFStatisticModelWrapper<Allocator>, public InputModel, public OutputModel<PFStatisticModel>
 {
-    StatisticModel();
-    StatisticModel(const StatisticModel& src);
-    StatisticModel(StatisticModel&& src);
-    StatisticModel(const PFStatisticModel& src);
-    StatisticModel& operator=(const StatisticModel&) = delete;
-    ~StatisticModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFStatisticModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFStatisticModel& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFStatisticModel const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_name;
+    static size_t RequiredBufferSize(const PFStatisticModel& model);
+    static HRESULT Copy(const PFStatisticModel& input, PFStatisticModel& output, ModelBuffer& buffer);
 };
 
-struct TagModel : public PFTagModel, public SerializableModel
+class TagModel : public Wrappers::PFTagModelWrapper<Allocator>, public InputModel, public OutputModel<PFTagModel>
 {
-    TagModel();
-    TagModel(const TagModel& src);
-    TagModel(TagModel&& src);
-    TagModel(const PFTagModel& src);
-    TagModel& operator=(const TagModel&) = delete;
-    ~TagModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTagModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTagModel& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTagModel const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_tagValue;
+    static size_t RequiredBufferSize(const PFTagModel& model);
+    static HRESULT Copy(const PFTagModel& input, PFTagModel& output, ModelBuffer& buffer);
 };
 
-struct ValueToDateModel : public PFValueToDateModel, public SerializableModel
+class ValueToDateModel : public Wrappers::PFValueToDateModelWrapper<Allocator>, public InputModel, public OutputModel<PFValueToDateModel>
 {
-    ValueToDateModel();
-    ValueToDateModel(const ValueToDateModel& src);
-    ValueToDateModel(ValueToDateModel&& src);
-    ValueToDateModel(const PFValueToDateModel& src);
-    ValueToDateModel& operator=(const ValueToDateModel&) = delete;
-    ~ValueToDateModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFValueToDateModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFValueToDateModel& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFValueToDateModel const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_currency;
-    String m_totalValueAsDecimal;
+    static size_t RequiredBufferSize(const PFValueToDateModel& model);
+    static HRESULT Copy(const PFValueToDateModel& input, PFValueToDateModel& output, ModelBuffer& buffer);
 };
 
-struct PlayerProfileModel : public PFPlayerProfileModel, public BaseModel
+class PlayerProfileModel : public Wrappers::PFPlayerProfileModelWrapper<Allocator>, public InputModel, public OutputModel<PFPlayerProfileModel>
 {
-    PlayerProfileModel();
-    PlayerProfileModel(const PlayerProfileModel& src);
-    PlayerProfileModel(PlayerProfileModel&& src);
-    PlayerProfileModel(const PFPlayerProfileModel& src);
-    PlayerProfileModel& operator=(const PlayerProfileModel&) = delete;
-    ~PlayerProfileModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerProfileModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerProfileModel& input);
 
-private:
-    PointerArrayModel<PFAdCampaignAttributionModel, AdCampaignAttributionModel> m_adCampaignAttributions;
-    String m_avatarUrl;
-    StdExtra::optional<time_t> m_bannedUntil;
-    PointerArrayModel<PFContactEmailInfoModel, ContactEmailInfoModel> m_contactEmailAddresses;
-    StdExtra::optional<time_t> m_created;
-    String m_displayName;
-    PointerArrayModel<char, String> m_experimentVariants;
-    StdExtra::optional<time_t> m_lastLogin;
-    PointerArrayModel<PFLinkedPlatformAccountModel, LinkedPlatformAccountModel> m_linkedAccounts;
-    PointerArrayModel<PFLocationModel, LocationModel> m_locations;
-    PointerArrayModel<PFMembershipModel, MembershipModel> m_memberships;
-    StdExtra::optional<PFLoginIdentityProvider> m_origination;
-    String m_playerId;
-    String m_publisherId;
-    PointerArrayModel<PFPushNotificationRegistrationModel, PushNotificationRegistrationModel> m_pushNotificationRegistrations;
-    PointerArrayModel<PFStatisticModel, StatisticModel> m_statistics;
-    PointerArrayModel<PFTagModel, TagModel> m_tags;
-    String m_titleId;
-    StdExtra::optional<uint32_t> m_totalValueToDateInUSD;
-    PointerArrayModel<PFValueToDateModel, ValueToDateModel> m_valuesToDate;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerProfileModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFPlayerProfileModel& model);
+    static HRESULT Copy(const PFPlayerProfileModel& input, PFPlayerProfileModel& output, ModelBuffer& buffer);
 };
 
-struct UserFacebookInfo : public PFUserFacebookInfo, public SerializableModel
+class UserFacebookInfo : public Wrappers::PFUserFacebookInfoWrapper<Allocator>, public OutputModel<PFUserFacebookInfo>
 {
-    UserFacebookInfo();
-    UserFacebookInfo(const UserFacebookInfo& src);
-    UserFacebookInfo(UserFacebookInfo&& src);
-    UserFacebookInfo(const PFUserFacebookInfo& src);
-    UserFacebookInfo& operator=(const UserFacebookInfo&) = delete;
-    ~UserFacebookInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserFacebookInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserFacebookInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_facebookId;
-    String m_fullName;
+    static size_t RequiredBufferSize(const PFUserFacebookInfo& model);
+    static HRESULT Copy(const PFUserFacebookInfo& input, PFUserFacebookInfo& output, ModelBuffer& buffer);
 };
 
-struct UserGameCenterInfo : public PFUserGameCenterInfo, public SerializableModel
+class UserGameCenterInfo : public Wrappers::PFUserGameCenterInfoWrapper<Allocator>, public OutputModel<PFUserGameCenterInfo>
 {
-    UserGameCenterInfo();
-    UserGameCenterInfo(const UserGameCenterInfo& src);
-    UserGameCenterInfo(UserGameCenterInfo&& src);
-    UserGameCenterInfo(const PFUserGameCenterInfo& src);
-    UserGameCenterInfo& operator=(const UserGameCenterInfo&) = delete;
-    ~UserGameCenterInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserGameCenterInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserGameCenterInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_gameCenterId;
+    static size_t RequiredBufferSize(const PFUserGameCenterInfo& model);
+    static HRESULT Copy(const PFUserGameCenterInfo& input, PFUserGameCenterInfo& output, ModelBuffer& buffer);
 };
 
-struct UserPsnInfo : public PFUserPsnInfo, public SerializableModel
+class UserPsnInfo : public Wrappers::PFUserPsnInfoWrapper<Allocator>, public OutputModel<PFUserPsnInfo>
 {
-    UserPsnInfo();
-    UserPsnInfo(const UserPsnInfo& src);
-    UserPsnInfo(UserPsnInfo&& src);
-    UserPsnInfo(const PFUserPsnInfo& src);
-    UserPsnInfo& operator=(const UserPsnInfo&) = delete;
-    ~UserPsnInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserPsnInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserPsnInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_psnAccountId;
-    String m_psnOnlineId;
+    static size_t RequiredBufferSize(const PFUserPsnInfo& model);
+    static HRESULT Copy(const PFUserPsnInfo& input, PFUserPsnInfo& output, ModelBuffer& buffer);
 };
 
-struct UserSteamInfo : public PFUserSteamInfo, public BaseModel
+class UserSteamInfo : public Wrappers::PFUserSteamInfoWrapper<Allocator>, public OutputModel<PFUserSteamInfo>
 {
-    UserSteamInfo();
-    UserSteamInfo(const UserSteamInfo& src);
-    UserSteamInfo(UserSteamInfo&& src);
-    UserSteamInfo(const PFUserSteamInfo& src);
-    UserSteamInfo& operator=(const UserSteamInfo&) = delete;
-    ~UserSteamInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserSteamInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserSteamInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PFTitleActivationStatus> m_steamActivationStatus;
-    String m_steamCountry;
-    StdExtra::optional<PFCurrency> m_steamCurrency;
-    String m_steamId;
-    String m_steamName;
+    static size_t RequiredBufferSize(const PFUserSteamInfo& model);
+    static HRESULT Copy(const PFUserSteamInfo& input, PFUserSteamInfo& output, ModelBuffer& buffer);
 };
 
-struct UserXboxInfo : public PFUserXboxInfo, public SerializableModel
+class UserXboxInfo : public Wrappers::PFUserXboxInfoWrapper<Allocator>, public OutputModel<PFUserXboxInfo>
 {
-    UserXboxInfo();
-    UserXboxInfo(const UserXboxInfo& src);
-    UserXboxInfo(UserXboxInfo&& src);
-    UserXboxInfo(const PFUserXboxInfo& src);
-    UserXboxInfo& operator=(const UserXboxInfo&) = delete;
-    ~UserXboxInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserXboxInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserXboxInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_xboxUserId;
+    static size_t RequiredBufferSize(const PFUserXboxInfo& model);
+    static HRESULT Copy(const PFUserXboxInfo& input, PFUserXboxInfo& output, ModelBuffer& buffer);
 };
 
-struct CharacterResult : public PFCharacterResult, public SerializableModel, public ApiResult
+class CharacterResult : public Wrappers::PFCharacterResultWrapper<Allocator>, public OutputModel<PFCharacterResult>
 {
-    CharacterResult();
-    CharacterResult(const CharacterResult& src);
-    CharacterResult(CharacterResult&& src);
-    CharacterResult(const PFCharacterResult& src);
-    CharacterResult& operator=(const CharacterResult&) = delete;
-    ~CharacterResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
-    String m_characterName;
-    String m_characterType;
+    static size_t RequiredBufferSize(const PFCharacterResult& model);
+    static HRESULT Copy(const PFCharacterResult& input, PFCharacterResult& output, ModelBuffer& buffer);
 };
 
-struct VirtualCurrencyRechargeTime : public PFVirtualCurrencyRechargeTime, public SerializableModel
+class VirtualCurrencyRechargeTime : public Wrappers::PFVirtualCurrencyRechargeTimeWrapper<Allocator>, public OutputModel<PFVirtualCurrencyRechargeTime>
 {
-    VirtualCurrencyRechargeTime();
-    VirtualCurrencyRechargeTime(const VirtualCurrencyRechargeTime&) = default;
-    VirtualCurrencyRechargeTime(VirtualCurrencyRechargeTime&&) = default;
-    VirtualCurrencyRechargeTime(const PFVirtualCurrencyRechargeTime& src);
-    VirtualCurrencyRechargeTime& operator=(const VirtualCurrencyRechargeTime&) = delete;
-    ~VirtualCurrencyRechargeTime() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFVirtualCurrencyRechargeTimeWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFVirtualCurrencyRechargeTime const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFVirtualCurrencyRechargeTime& model);
+    static HRESULT Copy(const PFVirtualCurrencyRechargeTime& input, PFVirtualCurrencyRechargeTime& output, ModelBuffer& buffer);
 };
 
-struct StatisticValue : public PFStatisticValue, public SerializableModel
+class StatisticValue : public Wrappers::PFStatisticValueWrapper<Allocator>, public OutputModel<PFStatisticValue>
 {
-    StatisticValue();
-    StatisticValue(const StatisticValue& src);
-    StatisticValue(StatisticValue&& src);
-    StatisticValue(const PFStatisticValue& src);
-    StatisticValue& operator=(const StatisticValue&) = delete;
-    ~StatisticValue() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFStatisticValueWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFStatisticValue const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_statisticName;
+    static size_t RequiredBufferSize(const PFStatisticValue& model);
+    static HRESULT Copy(const PFStatisticValue& input, PFStatisticValue& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerCombinedInfoRequestParams : public PFGetPlayerCombinedInfoRequestParams, public BaseModel
+class GetPlayerCombinedInfoRequestParams : public Wrappers::PFGetPlayerCombinedInfoRequestParamsWrapper<Allocator>, public InputModel
 {
-    GetPlayerCombinedInfoRequestParams();
-    GetPlayerCombinedInfoRequestParams(const GetPlayerCombinedInfoRequestParams& src);
-    GetPlayerCombinedInfoRequestParams(GetPlayerCombinedInfoRequestParams&& src);
-    GetPlayerCombinedInfoRequestParams(const PFGetPlayerCombinedInfoRequestParams& src);
-    GetPlayerCombinedInfoRequestParams& operator=(const GetPlayerCombinedInfoRequestParams&) = delete;
-    ~GetPlayerCombinedInfoRequestParams() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGetPlayerCombinedInfoRequestParamsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGetPlayerCombinedInfoRequestParams& input);
 
-private:
-    PointerArrayModel<char, String> m_playerStatisticNames;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    PointerArrayModel<char, String> m_titleDataKeys;
-    PointerArrayModel<char, String> m_userDataKeys;
-    PointerArrayModel<char, String> m_userReadOnlyDataKeys;
 };
 
-struct EntityKey : public PFEntityKey, public SerializableModel
+class EntityKey : public Wrappers::PFEntityKeyWrapper<Allocator>, public InputModel, public OutputModel<PFEntityKey>
 {
-    EntityKey();
-    EntityKey(const EntityKey& src);
-    EntityKey(EntityKey&& src);
-    EntityKey(const PFEntityKey& src);
-    EntityKey& operator=(const EntityKey&) = delete;
-    ~EntityKey() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFEntityKeyWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFEntityKey& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFEntityKey const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_id;
-    String m_type;
+    static size_t RequiredBufferSize(const PFEntityKey& model);
+    static HRESULT Copy(const PFEntityKey& input, PFEntityKey& output, ModelBuffer& buffer);
 };
 
-struct UserAndroidDeviceInfo : public PFUserAndroidDeviceInfo, public SerializableModel
+class UserAndroidDeviceInfo : public Wrappers::PFUserAndroidDeviceInfoWrapper<Allocator>, public OutputModel<PFUserAndroidDeviceInfo>
 {
-    UserAndroidDeviceInfo();
-    UserAndroidDeviceInfo(const UserAndroidDeviceInfo& src);
-    UserAndroidDeviceInfo(UserAndroidDeviceInfo&& src);
-    UserAndroidDeviceInfo(const PFUserAndroidDeviceInfo& src);
-    UserAndroidDeviceInfo& operator=(const UserAndroidDeviceInfo&) = delete;
-    ~UserAndroidDeviceInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserAndroidDeviceInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserAndroidDeviceInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_androidDeviceId;
+    static size_t RequiredBufferSize(const PFUserAndroidDeviceInfo& model);
+    static HRESULT Copy(const PFUserAndroidDeviceInfo& input, PFUserAndroidDeviceInfo& output, ModelBuffer& buffer);
 };
 
-struct UserAppleIdInfo : public PFUserAppleIdInfo, public SerializableModel
+class UserAppleIdInfo : public Wrappers::PFUserAppleIdInfoWrapper<Allocator>, public OutputModel<PFUserAppleIdInfo>
 {
-    UserAppleIdInfo();
-    UserAppleIdInfo(const UserAppleIdInfo& src);
-    UserAppleIdInfo(UserAppleIdInfo&& src);
-    UserAppleIdInfo(const PFUserAppleIdInfo& src);
-    UserAppleIdInfo& operator=(const UserAppleIdInfo&) = delete;
-    ~UserAppleIdInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserAppleIdInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserAppleIdInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_appleSubjectId;
+    static size_t RequiredBufferSize(const PFUserAppleIdInfo& model);
+    static HRESULT Copy(const PFUserAppleIdInfo& input, PFUserAppleIdInfo& output, ModelBuffer& buffer);
 };
 
-struct UserCustomIdInfo : public PFUserCustomIdInfo, public SerializableModel
+class UserCustomIdInfo : public Wrappers::PFUserCustomIdInfoWrapper<Allocator>, public OutputModel<PFUserCustomIdInfo>
 {
-    UserCustomIdInfo();
-    UserCustomIdInfo(const UserCustomIdInfo& src);
-    UserCustomIdInfo(UserCustomIdInfo&& src);
-    UserCustomIdInfo(const PFUserCustomIdInfo& src);
-    UserCustomIdInfo& operator=(const UserCustomIdInfo&) = delete;
-    ~UserCustomIdInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserCustomIdInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserCustomIdInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_customId;
+    static size_t RequiredBufferSize(const PFUserCustomIdInfo& model);
+    static HRESULT Copy(const PFUserCustomIdInfo& input, PFUserCustomIdInfo& output, ModelBuffer& buffer);
 };
 
-struct UserFacebookInstantGamesIdInfo : public PFUserFacebookInstantGamesIdInfo, public SerializableModel
+class UserFacebookInstantGamesIdInfo : public Wrappers::PFUserFacebookInstantGamesIdInfoWrapper<Allocator>, public OutputModel<PFUserFacebookInstantGamesIdInfo>
 {
-    UserFacebookInstantGamesIdInfo();
-    UserFacebookInstantGamesIdInfo(const UserFacebookInstantGamesIdInfo& src);
-    UserFacebookInstantGamesIdInfo(UserFacebookInstantGamesIdInfo&& src);
-    UserFacebookInstantGamesIdInfo(const PFUserFacebookInstantGamesIdInfo& src);
-    UserFacebookInstantGamesIdInfo& operator=(const UserFacebookInstantGamesIdInfo&) = delete;
-    ~UserFacebookInstantGamesIdInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserFacebookInstantGamesIdInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserFacebookInstantGamesIdInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_facebookInstantGamesId;
+    static size_t RequiredBufferSize(const PFUserFacebookInstantGamesIdInfo& model);
+    static HRESULT Copy(const PFUserFacebookInstantGamesIdInfo& input, PFUserFacebookInstantGamesIdInfo& output, ModelBuffer& buffer);
 };
 
-struct UserGoogleInfo : public PFUserGoogleInfo, public SerializableModel
+class UserGoogleInfo : public Wrappers::PFUserGoogleInfoWrapper<Allocator>, public OutputModel<PFUserGoogleInfo>
 {
-    UserGoogleInfo();
-    UserGoogleInfo(const UserGoogleInfo& src);
-    UserGoogleInfo(UserGoogleInfo&& src);
-    UserGoogleInfo(const PFUserGoogleInfo& src);
-    UserGoogleInfo& operator=(const UserGoogleInfo&) = delete;
-    ~UserGoogleInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserGoogleInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserGoogleInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_googleEmail;
-    String m_googleGender;
-    String m_googleId;
-    String m_googleLocale;
-    String m_googleName;
+    static size_t RequiredBufferSize(const PFUserGoogleInfo& model);
+    static HRESULT Copy(const PFUserGoogleInfo& input, PFUserGoogleInfo& output, ModelBuffer& buffer);
 };
 
-struct UserIosDeviceInfo : public PFUserIosDeviceInfo, public SerializableModel
+class UserIosDeviceInfo : public Wrappers::PFUserIosDeviceInfoWrapper<Allocator>, public OutputModel<PFUserIosDeviceInfo>
 {
-    UserIosDeviceInfo();
-    UserIosDeviceInfo(const UserIosDeviceInfo& src);
-    UserIosDeviceInfo(UserIosDeviceInfo&& src);
-    UserIosDeviceInfo(const PFUserIosDeviceInfo& src);
-    UserIosDeviceInfo& operator=(const UserIosDeviceInfo&) = delete;
-    ~UserIosDeviceInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserIosDeviceInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserIosDeviceInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_iosDeviceId;
+    static size_t RequiredBufferSize(const PFUserIosDeviceInfo& model);
+    static HRESULT Copy(const PFUserIosDeviceInfo& input, PFUserIosDeviceInfo& output, ModelBuffer& buffer);
 };
 
-struct UserKongregateInfo : public PFUserKongregateInfo, public SerializableModel
+class UserKongregateInfo : public Wrappers::PFUserKongregateInfoWrapper<Allocator>, public OutputModel<PFUserKongregateInfo>
 {
-    UserKongregateInfo();
-    UserKongregateInfo(const UserKongregateInfo& src);
-    UserKongregateInfo(UserKongregateInfo&& src);
-    UserKongregateInfo(const PFUserKongregateInfo& src);
-    UserKongregateInfo& operator=(const UserKongregateInfo&) = delete;
-    ~UserKongregateInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserKongregateInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserKongregateInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_kongregateId;
-    String m_kongregateName;
+    static size_t RequiredBufferSize(const PFUserKongregateInfo& model);
+    static HRESULT Copy(const PFUserKongregateInfo& input, PFUserKongregateInfo& output, ModelBuffer& buffer);
 };
 
-struct UserNintendoSwitchAccountIdInfo : public PFUserNintendoSwitchAccountIdInfo, public SerializableModel
+class UserNintendoSwitchAccountIdInfo : public Wrappers::PFUserNintendoSwitchAccountIdInfoWrapper<Allocator>, public OutputModel<PFUserNintendoSwitchAccountIdInfo>
 {
-    UserNintendoSwitchAccountIdInfo();
-    UserNintendoSwitchAccountIdInfo(const UserNintendoSwitchAccountIdInfo& src);
-    UserNintendoSwitchAccountIdInfo(UserNintendoSwitchAccountIdInfo&& src);
-    UserNintendoSwitchAccountIdInfo(const PFUserNintendoSwitchAccountIdInfo& src);
-    UserNintendoSwitchAccountIdInfo& operator=(const UserNintendoSwitchAccountIdInfo&) = delete;
-    ~UserNintendoSwitchAccountIdInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserNintendoSwitchAccountIdInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserNintendoSwitchAccountIdInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_nintendoSwitchAccountSubjectId;
+    static size_t RequiredBufferSize(const PFUserNintendoSwitchAccountIdInfo& model);
+    static HRESULT Copy(const PFUserNintendoSwitchAccountIdInfo& input, PFUserNintendoSwitchAccountIdInfo& output, ModelBuffer& buffer);
 };
 
-struct UserNintendoSwitchDeviceIdInfo : public PFUserNintendoSwitchDeviceIdInfo, public SerializableModel
+class UserNintendoSwitchDeviceIdInfo : public Wrappers::PFUserNintendoSwitchDeviceIdInfoWrapper<Allocator>, public OutputModel<PFUserNintendoSwitchDeviceIdInfo>
 {
-    UserNintendoSwitchDeviceIdInfo();
-    UserNintendoSwitchDeviceIdInfo(const UserNintendoSwitchDeviceIdInfo& src);
-    UserNintendoSwitchDeviceIdInfo(UserNintendoSwitchDeviceIdInfo&& src);
-    UserNintendoSwitchDeviceIdInfo(const PFUserNintendoSwitchDeviceIdInfo& src);
-    UserNintendoSwitchDeviceIdInfo& operator=(const UserNintendoSwitchDeviceIdInfo&) = delete;
-    ~UserNintendoSwitchDeviceIdInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserNintendoSwitchDeviceIdInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserNintendoSwitchDeviceIdInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_nintendoSwitchDeviceId;
+    static size_t RequiredBufferSize(const PFUserNintendoSwitchDeviceIdInfo& model);
+    static HRESULT Copy(const PFUserNintendoSwitchDeviceIdInfo& input, PFUserNintendoSwitchDeviceIdInfo& output, ModelBuffer& buffer);
 };
 
-struct UserOpenIdInfo : public PFUserOpenIdInfo, public SerializableModel
+class UserOpenIdInfo : public Wrappers::PFUserOpenIdInfoWrapper<Allocator>, public OutputModel<PFUserOpenIdInfo>
 {
-    UserOpenIdInfo();
-    UserOpenIdInfo(const UserOpenIdInfo& src);
-    UserOpenIdInfo(UserOpenIdInfo&& src);
-    UserOpenIdInfo(const PFUserOpenIdInfo& src);
-    UserOpenIdInfo& operator=(const UserOpenIdInfo&) = delete;
-    ~UserOpenIdInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserOpenIdInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserOpenIdInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_connectionId;
-    String m_issuer;
-    String m_subject;
+    static size_t RequiredBufferSize(const PFUserOpenIdInfo& model);
+    static HRESULT Copy(const PFUserOpenIdInfo& input, PFUserOpenIdInfo& output, ModelBuffer& buffer);
 };
 
-struct UserPrivateAccountInfo : public PFUserPrivateAccountInfo, public SerializableModel
+class UserPrivateAccountInfo : public Wrappers::PFUserPrivateAccountInfoWrapper<Allocator>, public OutputModel<PFUserPrivateAccountInfo>
 {
-    UserPrivateAccountInfo();
-    UserPrivateAccountInfo(const UserPrivateAccountInfo& src);
-    UserPrivateAccountInfo(UserPrivateAccountInfo&& src);
-    UserPrivateAccountInfo(const PFUserPrivateAccountInfo& src);
-    UserPrivateAccountInfo& operator=(const UserPrivateAccountInfo&) = delete;
-    ~UserPrivateAccountInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserPrivateAccountInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserPrivateAccountInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_email;
+    static size_t RequiredBufferSize(const PFUserPrivateAccountInfo& model);
+    static HRESULT Copy(const PFUserPrivateAccountInfo& input, PFUserPrivateAccountInfo& output, ModelBuffer& buffer);
 };
 
-struct UserTitleInfo : public PFUserTitleInfo, public BaseModel
+class UserTitleInfo : public Wrappers::PFUserTitleInfoWrapper<Allocator>, public OutputModel<PFUserTitleInfo>
 {
-    UserTitleInfo();
-    UserTitleInfo(const UserTitleInfo& src);
-    UserTitleInfo(UserTitleInfo&& src);
-    UserTitleInfo(const PFUserTitleInfo& src);
-    UserTitleInfo& operator=(const UserTitleInfo&) = delete;
-    ~UserTitleInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserTitleInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserTitleInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_avatarUrl;
-    String m_displayName;
-    StdExtra::optional<time_t> m_firstLogin;
-    StdExtra::optional<bool> m_isBanned;
-    StdExtra::optional<time_t> m_lastLogin;
-    StdExtra::optional<PFUserOrigination> m_origination;
-    StdExtra::optional<EntityKey> m_titlePlayerAccount;
+    static size_t RequiredBufferSize(const PFUserTitleInfo& model);
+    static HRESULT Copy(const PFUserTitleInfo& input, PFUserTitleInfo& output, ModelBuffer& buffer);
 };
 
-struct UserTwitchInfo : public PFUserTwitchInfo, public SerializableModel
+class UserTwitchInfo : public Wrappers::PFUserTwitchInfoWrapper<Allocator>, public OutputModel<PFUserTwitchInfo>
 {
-    UserTwitchInfo();
-    UserTwitchInfo(const UserTwitchInfo& src);
-    UserTwitchInfo(UserTwitchInfo&& src);
-    UserTwitchInfo(const PFUserTwitchInfo& src);
-    UserTwitchInfo& operator=(const UserTwitchInfo&) = delete;
-    ~UserTwitchInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserTwitchInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserTwitchInfo const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_twitchId;
-    String m_twitchUserName;
+    static size_t RequiredBufferSize(const PFUserTwitchInfo& model);
+    static HRESULT Copy(const PFUserTwitchInfo& input, PFUserTwitchInfo& output, ModelBuffer& buffer);
 };
 
-struct UserAccountInfo : public PFUserAccountInfo, public BaseModel
+class UserAccountInfo : public Wrappers::PFUserAccountInfoWrapper<Allocator>, public OutputModel<PFUserAccountInfo>
 {
-    UserAccountInfo();
-    UserAccountInfo(const UserAccountInfo& src);
-    UserAccountInfo(UserAccountInfo&& src);
-    UserAccountInfo(const PFUserAccountInfo& src);
-    UserAccountInfo& operator=(const UserAccountInfo&) = delete;
-    ~UserAccountInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFUserAccountInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFUserAccountInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<UserAndroidDeviceInfo> m_androidDeviceInfo;
-    StdExtra::optional<UserAppleIdInfo> m_appleAccountInfo;
-    StdExtra::optional<UserCustomIdInfo> m_customIdInfo;
-    StdExtra::optional<UserFacebookInfo> m_facebookInfo;
-    StdExtra::optional<UserFacebookInstantGamesIdInfo> m_facebookInstantGamesIdInfo;
-    StdExtra::optional<UserGameCenterInfo> m_gameCenterInfo;
-    StdExtra::optional<UserGoogleInfo> m_googleInfo;
-    StdExtra::optional<UserIosDeviceInfo> m_iosDeviceInfo;
-    StdExtra::optional<UserKongregateInfo> m_kongregateInfo;
-    StdExtra::optional<UserNintendoSwitchAccountIdInfo> m_nintendoSwitchAccountInfo;
-    StdExtra::optional<UserNintendoSwitchDeviceIdInfo> m_nintendoSwitchDeviceIdInfo;
-    PointerArrayModel<PFUserOpenIdInfo, UserOpenIdInfo> m_openIdInfo;
-    String m_playFabId;
-    StdExtra::optional<UserPrivateAccountInfo> m_privateInfo;
-    StdExtra::optional<UserPsnInfo> m_psnInfo;
-    StdExtra::optional<UserSteamInfo> m_steamInfo;
-    StdExtra::optional<UserTitleInfo> m_titleInfo;
-    StdExtra::optional<UserTwitchInfo> m_twitchInfo;
-    String m_username;
-    StdExtra::optional<UserXboxInfo> m_xboxInfo;
+    static size_t RequiredBufferSize(const PFUserAccountInfo& model);
+    static HRESULT Copy(const PFUserAccountInfo& input, PFUserAccountInfo& output, ModelBuffer& buffer);
 };
 
-struct CharacterInventory : public PFCharacterInventory, public BaseModel
+class CharacterInventory : public Wrappers::PFCharacterInventoryWrapper<Allocator>, public OutputModel<PFCharacterInventory>
 {
-    CharacterInventory();
-    CharacterInventory(const CharacterInventory& src);
-    CharacterInventory(CharacterInventory&& src);
-    CharacterInventory(const PFCharacterInventory& src);
-    CharacterInventory& operator=(const CharacterInventory&) = delete;
-    ~CharacterInventory() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterInventoryWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterInventory const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
+    static size_t RequiredBufferSize(const PFCharacterInventory& model);
+    static HRESULT Copy(const PFCharacterInventory& input, PFCharacterInventory& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerCombinedInfoResultPayload : public PFGetPlayerCombinedInfoResultPayload, public BaseModel
+class GetPlayerCombinedInfoResultPayload : public Wrappers::PFGetPlayerCombinedInfoResultPayloadWrapper<Allocator>, public OutputModel<PFGetPlayerCombinedInfoResultPayload>
 {
-    GetPlayerCombinedInfoResultPayload();
-    GetPlayerCombinedInfoResultPayload(const GetPlayerCombinedInfoResultPayload& src);
-    GetPlayerCombinedInfoResultPayload(GetPlayerCombinedInfoResultPayload&& src);
-    GetPlayerCombinedInfoResultPayload(const PFGetPlayerCombinedInfoResultPayload& src);
-    GetPlayerCombinedInfoResultPayload& operator=(const GetPlayerCombinedInfoResultPayload&) = delete;
-    ~GetPlayerCombinedInfoResultPayload() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGetPlayerCombinedInfoResultPayloadWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGetPlayerCombinedInfoResultPayload const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<UserAccountInfo> m_accountInfo;
-    PointerArrayModel<PFCharacterInventory, CharacterInventory> m_characterInventories;
-    PointerArrayModel<PFCharacterResult, CharacterResult> m_characterList;
-    StdExtra::optional<PlayerProfileModel> m_playerProfile;
-    PointerArrayModel<PFStatisticValue, StatisticValue> m_playerStatistics;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_titleData;
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_userData;
-    PointerArrayModel<PFItemInstance, ItemInstance> m_userInventory;
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_userReadOnlyData;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_userVirtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_userVirtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFGetPlayerCombinedInfoResultPayload& model);
+    static HRESULT Copy(const PFGetPlayerCombinedInfoResultPayload& input, PFGetPlayerCombinedInfoResultPayload& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerCombinedInfoRequest : public PFGetPlayerCombinedInfoRequest, public BaseModel
+class GetPlayerCombinedInfoRequest : public Wrappers::PFGetPlayerCombinedInfoRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayerCombinedInfoRequest();
-    GetPlayerCombinedInfoRequest(const GetPlayerCombinedInfoRequest& src);
-    GetPlayerCombinedInfoRequest(GetPlayerCombinedInfoRequest&& src);
-    GetPlayerCombinedInfoRequest(const PFGetPlayerCombinedInfoRequest& src);
-    GetPlayerCombinedInfoRequest& operator=(const GetPlayerCombinedInfoRequest&) = delete;
-    ~GetPlayerCombinedInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGetPlayerCombinedInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGetPlayerCombinedInfoRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    GetPlayerCombinedInfoRequestParams m_infoRequestParameters;
-    String m_playFabId;
 };
 
-struct GetPlayerCombinedInfoResult : public PFGetPlayerCombinedInfoResult, public BaseModel, public ApiResult
+class GetPlayerCombinedInfoResult : public Wrappers::PFGetPlayerCombinedInfoResultWrapper<Allocator>, public OutputModel<PFGetPlayerCombinedInfoResult>
 {
-    GetPlayerCombinedInfoResult();
-    GetPlayerCombinedInfoResult(const GetPlayerCombinedInfoResult& src);
-    GetPlayerCombinedInfoResult(GetPlayerCombinedInfoResult&& src);
-    GetPlayerCombinedInfoResult(const PFGetPlayerCombinedInfoResult& src);
-    GetPlayerCombinedInfoResult& operator=(const GetPlayerCombinedInfoResult&) = delete;
-    ~GetPlayerCombinedInfoResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGetPlayerCombinedInfoResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGetPlayerCombinedInfoResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<GetPlayerCombinedInfoResultPayload> m_infoResultPayload;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFGetPlayerCombinedInfoResult& model);
+    static HRESULT Copy(const PFGetPlayerCombinedInfoResult& input, PFGetPlayerCombinedInfoResult& output, ModelBuffer& buffer);
 };
 
-struct ResultTableNode : public PFResultTableNode, public SerializableModel
+class ResultTableNode : public Wrappers::PFResultTableNodeWrapper<Allocator>, public InputModel, public OutputModel<PFResultTableNode>
 {
-    ResultTableNode();
-    ResultTableNode(const ResultTableNode& src);
-    ResultTableNode(ResultTableNode&& src);
-    ResultTableNode(const PFResultTableNode& src);
-    ResultTableNode& operator=(const ResultTableNode&) = delete;
-    ~ResultTableNode() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFResultTableNodeWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFResultTableNode& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFResultTableNode const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_resultItem;
+    static size_t RequiredBufferSize(const PFResultTableNode& model);
+    static HRESULT Copy(const PFResultTableNode& input, PFResultTableNode& output, ModelBuffer& buffer);
 };
 
-struct RandomResultTableListing : public PFRandomResultTableListing, public BaseModel
+class RandomResultTableListing : public Wrappers::PFRandomResultTableListingWrapper<Allocator>, public OutputModel<PFRandomResultTableListing>
 {
-    RandomResultTableListing();
-    RandomResultTableListing(const RandomResultTableListing& src);
-    RandomResultTableListing(RandomResultTableListing&& src);
-    RandomResultTableListing(const PFRandomResultTableListing& src);
-    RandomResultTableListing& operator=(const RandomResultTableListing&) = delete;
-    ~RandomResultTableListing() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFRandomResultTableListingWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFRandomResultTableListing const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_catalogVersion;
-    PointerArrayModel<PFResultTableNode, ResultTableNode> m_nodes;
-    String m_tableId;
+    static size_t RequiredBufferSize(const PFRandomResultTableListing& model);
+    static HRESULT Copy(const PFRandomResultTableListing& input, PFRandomResultTableListing& output, ModelBuffer& buffer);
 };
 
-struct GetRandomResultTablesResult : public PFGetRandomResultTablesResult, public BaseModel, public ApiResult
+class GetRandomResultTablesResult : public Wrappers::PFGetRandomResultTablesResultWrapper<Allocator>, public OutputModel<PFGetRandomResultTablesResult>
 {
-    GetRandomResultTablesResult();
-    GetRandomResultTablesResult(const GetRandomResultTablesResult& src);
-    GetRandomResultTablesResult(GetRandomResultTablesResult&& src);
-    GetRandomResultTablesResult(const PFGetRandomResultTablesResult& src);
-    GetRandomResultTablesResult& operator=(const GetRandomResultTablesResult&) = delete;
-    ~GetRandomResultTablesResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGetRandomResultTablesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGetRandomResultTablesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFRandomResultTableListingDictionaryEntry, RandomResultTableListing> m_tables;
+    static size_t RequiredBufferSize(const PFGetRandomResultTablesResult& model);
+    static HRESULT Copy(const PFGetRandomResultTablesResult& input, PFGetRandomResultTablesResult& output, ModelBuffer& buffer);
 };
 
-struct SetPublisherDataRequest : public PFSetPublisherDataRequest, public SerializableModel
+class SetPublisherDataRequest : public Wrappers::PFSetPublisherDataRequestWrapper<Allocator>, public InputModel
 {
-    SetPublisherDataRequest();
-    SetPublisherDataRequest(const SetPublisherDataRequest& src);
-    SetPublisherDataRequest(SetPublisherDataRequest&& src);
-    SetPublisherDataRequest(const PFSetPublisherDataRequest& src);
-    SetPublisherDataRequest& operator=(const SetPublisherDataRequest&) = delete;
-    ~SetPublisherDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSetPublisherDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSetPublisherDataRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_key;
-    String m_value;
 };
 
-struct Variable : public PFVariable, public SerializableModel
+class Variable : public Wrappers::PFVariableWrapper<Allocator>, public InputModel, public OutputModel<PFVariable>
 {
-    Variable();
-    Variable(const Variable& src);
-    Variable(Variable&& src);
-    Variable(const PFVariable& src);
-    Variable& operator=(const Variable&) = delete;
-    ~Variable() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFVariableWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFVariable& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFVariable const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_name;
-    String m_value;
+    static size_t RequiredBufferSize(const PFVariable& model);
+    static HRESULT Copy(const PFVariable& input, PFVariable& output, ModelBuffer& buffer);
 };
 
-struct TreatmentAssignment : public PFTreatmentAssignment, public BaseModel
+class TreatmentAssignment : public Wrappers::PFTreatmentAssignmentWrapper<Allocator>, public OutputModel<PFTreatmentAssignment>
 {
-    TreatmentAssignment();
-    TreatmentAssignment(const TreatmentAssignment& src);
-    TreatmentAssignment(TreatmentAssignment&& src);
-    TreatmentAssignment(const PFTreatmentAssignment& src);
-    TreatmentAssignment& operator=(const TreatmentAssignment&) = delete;
-    ~TreatmentAssignment() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTreatmentAssignmentWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTreatmentAssignment const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFVariable, Variable> m_variables;
-    PointerArrayModel<char, String> m_variants;
+    static size_t RequiredBufferSize(const PFTreatmentAssignment& model);
+    static HRESULT Copy(const PFTreatmentAssignment& input, PFTreatmentAssignment& output, ModelBuffer& buffer);
 };
 
-struct Port : public PFPort, public SerializableModel
+class Port : public Wrappers::PFPortWrapper<Allocator>, public InputModel, public OutputModel<PFPort>
 {
-    Port();
-    Port(const Port& src);
-    Port(Port&& src);
-    Port(const PFPort& src);
-    Port& operator=(const Port&) = delete;
-    ~Port() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPortWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPort& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPort const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_name;
+    static size_t RequiredBufferSize(const PFPort& model);
+    static HRESULT Copy(const PFPort& input, PFPort& output, ModelBuffer& buffer);
 };
 
-struct EntityLineage : public PFEntityLineage, public SerializableModel
+class EntityLineage : public Wrappers::PFEntityLineageWrapper<Allocator>, public OutputModel<PFEntityLineage>
 {
-    EntityLineage();
-    EntityLineage(const EntityLineage& src);
-    EntityLineage(EntityLineage&& src);
-    EntityLineage(const PFEntityLineage& src);
-    EntityLineage& operator=(const EntityLineage&) = delete;
-    ~EntityLineage() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFEntityLineageWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFEntityLineage const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
-    String m_groupId;
-    String m_masterPlayerAccountId;
-    String m_namespaceId;
-    String m_titleId;
-    String m_titlePlayerAccountId;
+    static size_t RequiredBufferSize(const PFEntityLineage& model);
+    static HRESULT Copy(const PFEntityLineage& input, PFEntityLineage& output, ModelBuffer& buffer);
 };
-
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFItemInstance& input);
-template<> inline JsonValue ToJson<>(const PFScriptExecutionError& input);
-template<> inline JsonValue ToJson<>(const PFLogStatement& input);
-template<> inline JsonValue ToJson<>(const PFExecuteCloudScriptResult& input);
-template<> inline JsonValue ToJson<>(const PFNameIdentifier& input);
-template<> inline JsonValue ToJson<>(const PFUserDataRecord& input);
-template<> inline JsonValue ToJson<>(const PFPlayerProfileViewConstraints& input);
-template<> inline JsonValue ToJson<>(const PFAdCampaignAttributionModel& input);
-template<> inline JsonValue ToJson<>(const PFContactEmailInfoModel& input);
-template<> inline JsonValue ToJson<>(const PFLinkedPlatformAccountModel& input);
-template<> inline JsonValue ToJson<>(const PFLocationModel& input);
-template<> inline JsonValue ToJson<>(const PFSubscriptionModel& input);
-template<> inline JsonValue ToJson<>(const PFMembershipModel& input);
-template<> inline JsonValue ToJson<>(const PFPushNotificationRegistrationModel& input);
-template<> inline JsonValue ToJson<>(const PFStatisticModel& input);
-template<> inline JsonValue ToJson<>(const PFTagModel& input);
-template<> inline JsonValue ToJson<>(const PFValueToDateModel& input);
-template<> inline JsonValue ToJson<>(const PFPlayerProfileModel& input);
-template<> inline JsonValue ToJson<>(const PFUserFacebookInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserGameCenterInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserPsnInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserSteamInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserXboxInfo& input);
-template<> inline JsonValue ToJson<>(const PFCharacterResult& input);
-template<> inline JsonValue ToJson<>(const PFVirtualCurrencyRechargeTime& input);
-template<> inline JsonValue ToJson<>(const PFStatisticValue& input);
-template<> inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoRequestParams& input);
-template<> inline JsonValue ToJson<>(const PFEntityKey& input);
-template<> inline JsonValue ToJson<>(const PFUserAndroidDeviceInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserAppleIdInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserCustomIdInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserFacebookInstantGamesIdInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserGoogleInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserIosDeviceInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserKongregateInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserNintendoSwitchAccountIdInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserNintendoSwitchDeviceIdInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserOpenIdInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserPrivateAccountInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserTitleInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserTwitchInfo& input);
-template<> inline JsonValue ToJson<>(const PFUserAccountInfo& input);
-template<> inline JsonValue ToJson<>(const PFCharacterInventory& input);
-template<> inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoResultPayload& input);
-template<> inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFGetPlayerCombinedInfoResult& input);
-template<> inline JsonValue ToJson<>(const PFResultTableNode& input);
-template<> inline JsonValue ToJson<>(const PFRandomResultTableListing& input);
-template<> inline JsonValue ToJson<>(const PFGetRandomResultTablesResult& input);
-template<> inline JsonValue ToJson<>(const PFSetPublisherDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFVariable& input);
-template<> inline JsonValue ToJson<>(const PFTreatmentAssignment& input);
-template<> inline JsonValue ToJson<>(const PFPort& input);
-template<> inline JsonValue ToJson<>(const PFEntityLineage& input);
-} // namespace JsonUtils
 
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

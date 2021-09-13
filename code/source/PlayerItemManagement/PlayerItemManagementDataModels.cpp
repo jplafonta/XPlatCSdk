@@ -4,4064 +4,1166 @@
 
 namespace PlayFab
 {
-namespace PlayerItemManagementModels
+namespace PlayerItemManagement
 {
-
-AdminAddUserVirtualCurrencyRequest::AdminAddUserVirtualCurrencyRequest() :
-    PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest{}
-{
-}
-
-AdminAddUserVirtualCurrencyRequest::AdminAddUserVirtualCurrencyRequest(const AdminAddUserVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-AdminAddUserVirtualCurrencyRequest::AdminAddUserVirtualCurrencyRequest(AdminAddUserVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-AdminAddUserVirtualCurrencyRequest::AdminAddUserVirtualCurrencyRequest(const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AdminAddUserVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
 
 JsonValue AdminAddUserVirtualCurrencyRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest>(*this);
+    return AdminAddUserVirtualCurrencyRequest::ToJson(this->Model());
 }
 
-ModifyUserVirtualCurrencyResult::ModifyUserVirtualCurrencyResult() :
-    PFPlayerItemManagementModifyUserVirtualCurrencyResult{}
+JsonValue AdminAddUserVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& input)
 {
-}
-
-ModifyUserVirtualCurrencyResult::ModifyUserVirtualCurrencyResult(const ModifyUserVirtualCurrencyResult& src) :
-    PFPlayerItemManagementModifyUserVirtualCurrencyResult{ src },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ModifyUserVirtualCurrencyResult::ModifyUserVirtualCurrencyResult(ModifyUserVirtualCurrencyResult&& src) :
-    PFPlayerItemManagementModifyUserVirtualCurrencyResult{ src },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ModifyUserVirtualCurrencyResult::ModifyUserVirtualCurrencyResult(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
+    return output;
 }
 
 void ModifyUserVirtualCurrencyResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Balance", balance);
-    JsonUtils::ObjectGetMember(input, "BalanceChange", balanceChange);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
+    JsonUtils::ObjectGetMember(input, "Balance", this->m_model.balance);
+
+    JsonUtils::ObjectGetMember(input, "BalanceChange", this->m_model.balanceChange);
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    String virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
 }
 
-JsonValue ModifyUserVirtualCurrencyResult::ToJson() const
+size_t ModifyUserVirtualCurrencyResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementModifyUserVirtualCurrencyResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-size_t ModifyUserVirtualCurrencyResult::SerializedSize() const
+Result<PFPlayerItemManagementModifyUserVirtualCurrencyResult const*> ModifyUserVirtualCurrencyResult::Copy(ModelBuffer& buffer) const
 {
-    size_t serializedSize{ sizeof(PFPlayerItemManagementModifyUserVirtualCurrencyResult) };
-    serializedSize += (m_playFabId.size() + 1);
-    serializedSize += (m_virtualCurrency.size() + 1);
-    return serializedSize;
+    return buffer.CopyTo<ModifyUserVirtualCurrencyResult>(&this->Model());
 }
 
-void ModifyUserVirtualCurrencyResult::Serialize(void* buffer, size_t bufferSize) const
+size_t ModifyUserVirtualCurrencyResult::RequiredBufferSize(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& model)
 {
-    auto serializedStruct = new (buffer) PFPlayerItemManagementModifyUserVirtualCurrencyResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementModifyUserVirtualCurrencyResult);
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    memcpy(stringBuffer, m_virtualCurrency.data(), m_virtualCurrency.size() + 1);
-    serializedStruct->virtualCurrency = stringBuffer;
-    stringBuffer += m_virtualCurrency.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    if (model.virtualCurrency)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency) + 1);
+    }
+    return requiredSize;
 }
 
-CheckLimitedEditionItemAvailabilityRequest::CheckLimitedEditionItemAvailabilityRequest() :
-    PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest{}
+HRESULT ModifyUserVirtualCurrencyResult::Copy(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& input, PFPlayerItemManagementModifyUserVirtualCurrencyResult& output, ModelBuffer& buffer)
 {
-}
-
-CheckLimitedEditionItemAvailabilityRequest::CheckLimitedEditionItemAvailabilityRequest(const CheckLimitedEditionItemAvailabilityRequest& src) :
-    PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_itemId{ src.m_itemId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-CheckLimitedEditionItemAvailabilityRequest::CheckLimitedEditionItemAvailabilityRequest(CheckLimitedEditionItemAvailabilityRequest&& src) :
-    PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_itemId{ std::move(src.m_itemId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-CheckLimitedEditionItemAvailabilityRequest::CheckLimitedEditionItemAvailabilityRequest(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CheckLimitedEditionItemAvailabilityRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
+    output = input;
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.virtualCurrency = buffer.CopyTo(input.virtualCurrency);
+    return S_OK;
 }
 
 JsonValue CheckLimitedEditionItemAvailabilityRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest>(*this);
+    return CheckLimitedEditionItemAvailabilityRequest::ToJson(this->Model());
 }
 
-size_t CheckLimitedEditionItemAvailabilityRequest::SerializedSize() const
+JsonValue CheckLimitedEditionItemAvailabilityRequest::ToJson(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& input)
 {
-    size_t serializedSize{ sizeof(PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest) };
-    serializedSize += (m_catalogVersion.size() + 1);
-    serializedSize += (m_itemId.size() + 1);
-    return serializedSize;
-}
-
-void CheckLimitedEditionItemAvailabilityRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest);
-    memcpy(stringBuffer, m_catalogVersion.data(), m_catalogVersion.size() + 1);
-    serializedStruct->catalogVersion = stringBuffer;
-    stringBuffer += m_catalogVersion.size() + 1;
-    memcpy(stringBuffer, m_itemId.data(), m_itemId.size() + 1);
-    serializedStruct->itemId = stringBuffer;
-    stringBuffer += m_itemId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-CheckLimitedEditionItemAvailabilityResult::CheckLimitedEditionItemAvailabilityResult() :
-    PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult{}
-{
-}
-
-
-CheckLimitedEditionItemAvailabilityResult::CheckLimitedEditionItemAvailabilityResult(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
+    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
+    return output;
 }
 
 void CheckLimitedEditionItemAvailabilityResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
+    JsonUtils::ObjectGetMember(input, "Amount", this->m_model.amount);
 }
 
-JsonValue CheckLimitedEditionItemAvailabilityResult::ToJson() const
+size_t CheckLimitedEditionItemAvailabilityResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-size_t CheckLimitedEditionItemAvailabilityResult::SerializedSize() const
+Result<PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult const*> CheckLimitedEditionItemAvailabilityResult::Copy(ModelBuffer& buffer) const
 {
-    size_t serializedSize{ sizeof(PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult) };
-    return serializedSize;
+    return buffer.CopyTo<CheckLimitedEditionItemAvailabilityResult>(&this->Model());
 }
 
-void CheckLimitedEditionItemAvailabilityResult::Serialize(void* buffer, size_t bufferSize) const
+size_t CheckLimitedEditionItemAvailabilityResult::RequiredBufferSize(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& model)
 {
-    auto serializedStruct = new (buffer) PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult);
-    UNREFERENCED_PARAMETER(serializedStruct);
-    assert(stringBuffer - bufferSize == buffer);
+    UNREFERENCED_PARAMETER(model); // Fixed size
+    return sizeof(ModelType);
 }
 
-AdminGetUserInventoryRequest::AdminGetUserInventoryRequest() :
-    PFPlayerItemManagementAdminGetUserInventoryRequest{}
+HRESULT CheckLimitedEditionItemAvailabilityResult::Copy(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& input, PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& output, ModelBuffer& buffer)
 {
-}
-
-AdminGetUserInventoryRequest::AdminGetUserInventoryRequest(const AdminGetUserInventoryRequest& src) :
-    PFPlayerItemManagementAdminGetUserInventoryRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-AdminGetUserInventoryRequest::AdminGetUserInventoryRequest(AdminGetUserInventoryRequest&& src) :
-    PFPlayerItemManagementAdminGetUserInventoryRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-AdminGetUserInventoryRequest::AdminGetUserInventoryRequest(const PFPlayerItemManagementAdminGetUserInventoryRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AdminGetUserInventoryRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    output = input;
+    UNREFERENCED_PARAMETER(buffer); // Fixed size
+    return S_OK;
 }
 
 JsonValue AdminGetUserInventoryRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementAdminGetUserInventoryRequest>(*this);
+    return AdminGetUserInventoryRequest::ToJson(this->Model());
 }
 
-AdminGetUserInventoryResult::AdminGetUserInventoryResult() :
-    PFPlayerItemManagementAdminGetUserInventoryResult{}
+JsonValue AdminGetUserInventoryRequest::ToJson(const PFPlayerItemManagementAdminGetUserInventoryRequest& input)
 {
-}
-
-AdminGetUserInventoryResult::AdminGetUserInventoryResult(const AdminGetUserInventoryResult& src) :
-    PFPlayerItemManagementAdminGetUserInventoryResult{ src },
-    m_inventory{ src.m_inventory },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency },
-    m_virtualCurrencyRechargeTimes{ src.m_virtualCurrencyRechargeTimes }
-{
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-AdminGetUserInventoryResult::AdminGetUserInventoryResult(AdminGetUserInventoryResult&& src) :
-    PFPlayerItemManagementAdminGetUserInventoryResult{ src },
-    m_inventory{ std::move(src.m_inventory) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) },
-    m_virtualCurrencyRechargeTimes{ std::move(src.m_virtualCurrencyRechargeTimes) }
-{
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-AdminGetUserInventoryResult::AdminGetUserInventoryResult(const PFPlayerItemManagementAdminGetUserInventoryResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
 }
 
 void AdminGetUserInventoryResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyRechargeTimes", m_virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimesCount);
+    ModelVector<ItemInstance> inventory{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Inventory", inventory);
+    this->SetInventory(std::move(inventory));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
+
+    ModelDictionaryEntryVector<VirtualCurrencyRechargeTime> virtualCurrencyRechargeTimes{};
+    JsonUtils::ObjectGetMember<VirtualCurrencyRechargeTime>(input, "VirtualCurrencyRechargeTimes", virtualCurrencyRechargeTimes);
+    this->SetVirtualCurrencyRechargeTimes(std::move(virtualCurrencyRechargeTimes));
 }
 
-JsonValue AdminGetUserInventoryResult::ToJson() const
+size_t AdminGetUserInventoryResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementAdminGetUserInventoryResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-ItemGrant::ItemGrant() :
-    PFPlayerItemManagementItemGrant{}
+Result<PFPlayerItemManagementAdminGetUserInventoryResult const*> AdminGetUserInventoryResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<AdminGetUserInventoryResult>(&this->Model());
 }
 
-ItemGrant::ItemGrant(const ItemGrant& src) :
-    PFPlayerItemManagementItemGrant{ src },
-    m_annotation{ src.m_annotation },
-    m_characterId{ src.m_characterId },
-    m_data{ src.m_data },
-    m_itemId{ src.m_itemId },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_playFabId{ src.m_playFabId }
+size_t AdminGetUserInventoryResult::RequiredBufferSize(const PFPlayerItemManagementAdminGetUserInventoryResult& model)
 {
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.inventoryCount);
+    for (size_t i = 0; i < model.inventoryCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.inventory[i]);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    requiredSize += (alignof(PFVirtualCurrencyRechargeTimeDictionaryEntry) + sizeof(PFVirtualCurrencyRechargeTimeDictionaryEntry) * model.virtualCurrencyRechargeTimesCount);
+    for (size_t i = 0; i < model.virtualCurrencyRechargeTimesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyRechargeTimes[i].key) + 1);
+        requiredSize += VirtualCurrencyRechargeTime::RequiredBufferSize(*model.virtualCurrencyRechargeTimes[i].value);
+    }
+    return requiredSize;
 }
 
-ItemGrant::ItemGrant(ItemGrant&& src) :
-    PFPlayerItemManagementItemGrant{ src },
-    m_annotation{ std::move(src.m_annotation) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_data{ std::move(src.m_data) },
-    m_itemId{ std::move(src.m_itemId) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_playFabId{ std::move(src.m_playFabId) }
+HRESULT AdminGetUserInventoryResult::Copy(const PFPlayerItemManagementAdminGetUserInventoryResult& input, PFPlayerItemManagementAdminGetUserInventoryResult& output, ModelBuffer& buffer)
 {
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ItemGrant::ItemGrant(const PFPlayerItemManagementItemGrant& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ItemGrant::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Annotation", m_annotation, annotation);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    output = input;
+    output.inventory = buffer.CopyToArray<ItemInstance>(input.inventory, input.inventoryCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    output.virtualCurrencyRechargeTimes = buffer.CopyToDictionary<VirtualCurrencyRechargeTime>(input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
+    return S_OK;
 }
 
 JsonValue ItemGrant::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementItemGrant>(*this);
+    return ItemGrant::ToJson(this->Model());
 }
 
-GrantItemsToUsersRequest::GrantItemsToUsersRequest() :
-    PFPlayerItemManagementGrantItemsToUsersRequest{}
+JsonValue ItemGrant::ToJson(const PFPlayerItemManagementItemGrant& input)
 {
-}
-
-GrantItemsToUsersRequest::GrantItemsToUsersRequest(const GrantItemsToUsersRequest& src) :
-    PFPlayerItemManagementGrantItemsToUsersRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_customTags{ src.m_customTags },
-    m_itemGrants{ src.m_itemGrants }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemGrants = m_itemGrants.Empty() ? nullptr : m_itemGrants.Data();
-}
-
-GrantItemsToUsersRequest::GrantItemsToUsersRequest(GrantItemsToUsersRequest&& src) :
-    PFPlayerItemManagementGrantItemsToUsersRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemGrants{ std::move(src.m_itemGrants) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemGrants = m_itemGrants.Empty() ? nullptr : m_itemGrants.Data();
-}
-
-GrantItemsToUsersRequest::GrantItemsToUsersRequest(const PFPlayerItemManagementGrantItemsToUsersRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantItemsToUsersRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemGrants", m_itemGrants, itemGrants, itemGrantsCount);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
 }
 
 JsonValue GrantItemsToUsersRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantItemsToUsersRequest>(*this);
+    return GrantItemsToUsersRequest::ToJson(this->Model());
 }
 
-GrantedItemInstance::GrantedItemInstance() :
-    PFPlayerItemManagementGrantedItemInstance{}
+JsonValue GrantItemsToUsersRequest::ToJson(const PFPlayerItemManagementGrantItemsToUsersRequest& input)
 {
-}
-
-GrantedItemInstance::GrantedItemInstance(const GrantedItemInstance& src) :
-    PFPlayerItemManagementGrantedItemInstance{ src },
-    m_annotation{ src.m_annotation },
-    m_bundleContents{ src.m_bundleContents },
-    m_bundleParent{ src.m_bundleParent },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_customData{ src.m_customData },
-    m_displayName{ src.m_displayName },
-    m_expiration{ src.m_expiration },
-    m_itemClass{ src.m_itemClass },
-    m_itemId{ src.m_itemId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId },
-    m_purchaseDate{ src.m_purchaseDate },
-    m_remainingUses{ src.m_remainingUses },
-    m_unitCurrency{ src.m_unitCurrency },
-    m_usesIncrementedBy{ src.m_usesIncrementedBy }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    bundleContents = m_bundleContents.Empty() ? nullptr : m_bundleContents.Data();
-    bundleParent = m_bundleParent.empty() ? nullptr : m_bundleParent.data();
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customData = m_customData.Empty() ? nullptr : m_customData.Data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    expiration = m_expiration ? m_expiration.operator->() : nullptr;
-    itemClass = m_itemClass.empty() ? nullptr : m_itemClass.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    purchaseDate = m_purchaseDate ? m_purchaseDate.operator->() : nullptr;
-    remainingUses = m_remainingUses ? m_remainingUses.operator->() : nullptr;
-    unitCurrency = m_unitCurrency.empty() ? nullptr : m_unitCurrency.data();
-    usesIncrementedBy = m_usesIncrementedBy ? m_usesIncrementedBy.operator->() : nullptr;
-}
-
-GrantedItemInstance::GrantedItemInstance(GrantedItemInstance&& src) :
-    PFPlayerItemManagementGrantedItemInstance{ src },
-    m_annotation{ std::move(src.m_annotation) },
-    m_bundleContents{ std::move(src.m_bundleContents) },
-    m_bundleParent{ std::move(src.m_bundleParent) },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customData{ std::move(src.m_customData) },
-    m_displayName{ std::move(src.m_displayName) },
-    m_expiration{ std::move(src.m_expiration) },
-    m_itemClass{ std::move(src.m_itemClass) },
-    m_itemId{ std::move(src.m_itemId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_purchaseDate{ std::move(src.m_purchaseDate) },
-    m_remainingUses{ std::move(src.m_remainingUses) },
-    m_unitCurrency{ std::move(src.m_unitCurrency) },
-    m_usesIncrementedBy{ std::move(src.m_usesIncrementedBy) }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    bundleContents = m_bundleContents.Empty() ? nullptr : m_bundleContents.Data();
-    bundleParent = m_bundleParent.empty() ? nullptr : m_bundleParent.data();
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customData = m_customData.Empty() ? nullptr : m_customData.Data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    expiration = m_expiration ? m_expiration.operator->() : nullptr;
-    itemClass = m_itemClass.empty() ? nullptr : m_itemClass.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    purchaseDate = m_purchaseDate ? m_purchaseDate.operator->() : nullptr;
-    remainingUses = m_remainingUses ? m_remainingUses.operator->() : nullptr;
-    unitCurrency = m_unitCurrency.empty() ? nullptr : m_unitCurrency.data();
-    usesIncrementedBy = m_usesIncrementedBy ? m_usesIncrementedBy.operator->() : nullptr;
-}
-
-GrantedItemInstance::GrantedItemInstance(const PFPlayerItemManagementGrantedItemInstance& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberArray<ItemGrant>(output, "ItemGrants", input.itemGrants, input.itemGrantsCount);
+    return output;
 }
 
 void GrantedItemInstance::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Annotation", m_annotation, annotation);
-    JsonUtils::ObjectGetMember(input, "BundleContents", m_bundleContents, bundleContents, bundleContentsCount);
-    JsonUtils::ObjectGetMember(input, "BundleParent", m_bundleParent, bundleParent);
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomData", m_customData, customData, customDataCount);
-    JsonUtils::ObjectGetMember(input, "DisplayName", m_displayName, displayName);
-    JsonUtils::ObjectGetMember(input, "Expiration", m_expiration, expiration, true);
-    JsonUtils::ObjectGetMember(input, "ItemClass", m_itemClass, itemClass);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "PurchaseDate", m_purchaseDate, purchaseDate, true);
-    JsonUtils::ObjectGetMember(input, "RemainingUses", m_remainingUses, remainingUses);
-    JsonUtils::ObjectGetMember(input, "Result", result);
-    JsonUtils::ObjectGetMember(input, "UnitCurrency", m_unitCurrency, unitCurrency);
-    JsonUtils::ObjectGetMember(input, "UnitPrice", unitPrice);
-    JsonUtils::ObjectGetMember(input, "UsesIncrementedBy", m_usesIncrementedBy, usesIncrementedBy);
+    String annotation{};
+    JsonUtils::ObjectGetMember(input, "Annotation", annotation);
+    this->SetAnnotation(std::move(annotation));
+
+    CStringVector bundleContents{};
+    JsonUtils::ObjectGetMember(input, "BundleContents", bundleContents);
+    this->SetBundleContents(std::move(bundleContents));
+
+    String bundleParent{};
+    JsonUtils::ObjectGetMember(input, "BundleParent", bundleParent);
+    this->SetBundleParent(std::move(bundleParent));
+
+    String catalogVersion{};
+    JsonUtils::ObjectGetMember(input, "CatalogVersion", catalogVersion);
+    this->SetCatalogVersion(std::move(catalogVersion));
+
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    StringDictionaryEntryVector customData{};
+    JsonUtils::ObjectGetMember(input, "CustomData", customData);
+    this->SetCustomData(std::move(customData));
+
+    String displayName{};
+    JsonUtils::ObjectGetMember(input, "DisplayName", displayName);
+    this->SetDisplayName(std::move(displayName));
+
+    StdExtra::optional<time_t> expiration{};
+    JsonUtils::ObjectGetMemberTime(input, "Expiration", expiration);
+    this->SetExpiration(std::move(expiration));
+
+    String itemClass{};
+    JsonUtils::ObjectGetMember(input, "ItemClass", itemClass);
+    this->SetItemClass(std::move(itemClass));
+
+    String itemId{};
+    JsonUtils::ObjectGetMember(input, "ItemId", itemId);
+    this->SetItemId(std::move(itemId));
+
+    String itemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "ItemInstanceId", itemInstanceId);
+    this->SetItemInstanceId(std::move(itemInstanceId));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    StdExtra::optional<time_t> purchaseDate{};
+    JsonUtils::ObjectGetMemberTime(input, "PurchaseDate", purchaseDate);
+    this->SetPurchaseDate(std::move(purchaseDate));
+
+    StdExtra::optional<int32_t> remainingUses{};
+    JsonUtils::ObjectGetMember(input, "RemainingUses", remainingUses);
+    this->SetRemainingUses(std::move(remainingUses));
+
+    JsonUtils::ObjectGetMember(input, "Result", this->m_model.result);
+
+    String unitCurrency{};
+    JsonUtils::ObjectGetMember(input, "UnitCurrency", unitCurrency);
+    this->SetUnitCurrency(std::move(unitCurrency));
+
+    JsonUtils::ObjectGetMember(input, "UnitPrice", this->m_model.unitPrice);
+
+    StdExtra::optional<int32_t> usesIncrementedBy{};
+    JsonUtils::ObjectGetMember(input, "UsesIncrementedBy", usesIncrementedBy);
+    this->SetUsesIncrementedBy(std::move(usesIncrementedBy));
 }
 
-JsonValue GrantedItemInstance::ToJson() const
+size_t GrantedItemInstance::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantedItemInstance>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GrantItemsToUsersResult::GrantItemsToUsersResult() :
-    PFPlayerItemManagementGrantItemsToUsersResult{}
+Result<PFPlayerItemManagementGrantedItemInstance const*> GrantedItemInstance::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<GrantedItemInstance>(&this->Model());
 }
 
-GrantItemsToUsersResult::GrantItemsToUsersResult(const GrantItemsToUsersResult& src) :
-    PFPlayerItemManagementGrantItemsToUsersResult{ src },
-    m_itemGrantResults{ src.m_itemGrantResults }
+size_t GrantedItemInstance::RequiredBufferSize(const PFPlayerItemManagementGrantedItemInstance& model)
 {
-    itemGrantResults = m_itemGrantResults.Empty() ? nullptr : m_itemGrantResults.Data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.annotation)
+    {
+        requiredSize += (std::strlen(model.annotation) + 1);
+    }
+    requiredSize += (alignof(char*) + sizeof(char*) * model.bundleContentsCount);
+    for (size_t i = 0; i < model.bundleContentsCount; ++i)
+    {
+        requiredSize += (std::strlen(model.bundleContents[i]) + 1);
+    }
+    if (model.bundleParent)
+    {
+        requiredSize += (std::strlen(model.bundleParent) + 1);
+    }
+    if (model.catalogVersion)
+    {
+        requiredSize += (std::strlen(model.catalogVersion) + 1);
+    }
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    requiredSize += (alignof(PFStringDictionaryEntry) + sizeof(PFStringDictionaryEntry) * model.customDataCount);
+    for (size_t i = 0; i < model.customDataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.customData[i].key) + 1);
+        requiredSize += (std::strlen(model.customData[i].value) + 1);
+    }
+    if (model.displayName)
+    {
+        requiredSize += (std::strlen(model.displayName) + 1);
+    }
+    if (model.expiration)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.itemClass)
+    {
+        requiredSize += (std::strlen(model.itemClass) + 1);
+    }
+    if (model.itemId)
+    {
+        requiredSize += (std::strlen(model.itemId) + 1);
+    }
+    if (model.itemInstanceId)
+    {
+        requiredSize += (std::strlen(model.itemInstanceId) + 1);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    if (model.purchaseDate)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.remainingUses)
+    {
+        requiredSize += (alignof(int32_t) + sizeof(int32_t));
+    }
+    if (model.unitCurrency)
+    {
+        requiredSize += (std::strlen(model.unitCurrency) + 1);
+    }
+    if (model.usesIncrementedBy)
+    {
+        requiredSize += (alignof(int32_t) + sizeof(int32_t));
+    }
+    return requiredSize;
 }
 
-GrantItemsToUsersResult::GrantItemsToUsersResult(GrantItemsToUsersResult&& src) :
-    PFPlayerItemManagementGrantItemsToUsersResult{ src },
-    m_itemGrantResults{ std::move(src.m_itemGrantResults) }
+HRESULT GrantedItemInstance::Copy(const PFPlayerItemManagementGrantedItemInstance& input, PFPlayerItemManagementGrantedItemInstance& output, ModelBuffer& buffer)
 {
-    itemGrantResults = m_itemGrantResults.Empty() ? nullptr : m_itemGrantResults.Data();
-}
-
-GrantItemsToUsersResult::GrantItemsToUsersResult(const PFPlayerItemManagementGrantItemsToUsersResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.annotation = buffer.CopyTo(input.annotation);
+    output.bundleContents = buffer.CopyToArray(input.bundleContents, input.bundleContentsCount);
+    output.bundleParent = buffer.CopyTo(input.bundleParent);
+    output.catalogVersion = buffer.CopyTo(input.catalogVersion);
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.customData = buffer.CopyToDictionary(input.customData, input.customDataCount);
+    output.displayName = buffer.CopyTo(input.displayName);
+    output.expiration = buffer.CopyTo(input.expiration);
+    output.itemClass = buffer.CopyTo(input.itemClass);
+    output.itemId = buffer.CopyTo(input.itemId);
+    output.itemInstanceId = buffer.CopyTo(input.itemInstanceId);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.purchaseDate = buffer.CopyTo(input.purchaseDate);
+    output.remainingUses = buffer.CopyTo(input.remainingUses);
+    output.unitCurrency = buffer.CopyTo(input.unitCurrency);
+    output.usesIncrementedBy = buffer.CopyTo(input.usesIncrementedBy);
+    return S_OK;
 }
 
 void GrantItemsToUsersResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "ItemGrantResults", m_itemGrantResults, itemGrantResults, itemGrantResultsCount);
+    ModelVector<GrantedItemInstance> itemGrantResults{};
+    JsonUtils::ObjectGetMember<GrantedItemInstance>(input, "ItemGrantResults", itemGrantResults);
+    this->SetItemGrantResults(std::move(itemGrantResults));
 }
 
-JsonValue GrantItemsToUsersResult::ToJson() const
+size_t GrantItemsToUsersResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantItemsToUsersResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-IncrementLimitedEditionItemAvailabilityRequest::IncrementLimitedEditionItemAvailabilityRequest() :
-    PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest{}
+Result<PFPlayerItemManagementGrantItemsToUsersResult const*> GrantItemsToUsersResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<GrantItemsToUsersResult>(&this->Model());
 }
 
-IncrementLimitedEditionItemAvailabilityRequest::IncrementLimitedEditionItemAvailabilityRequest(const IncrementLimitedEditionItemAvailabilityRequest& src) :
-    PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_customTags{ src.m_customTags },
-    m_itemId{ src.m_itemId }
+size_t GrantItemsToUsersResult::RequiredBufferSize(const PFPlayerItemManagementGrantItemsToUsersResult& model)
 {
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerItemManagementGrantedItemInstance*) + sizeof(PFPlayerItemManagementGrantedItemInstance*) * model.itemGrantResultsCount);
+    for (size_t i = 0; i < model.itemGrantResultsCount; ++i)
+    {
+        requiredSize += GrantedItemInstance::RequiredBufferSize(*model.itemGrantResults[i]);
+    }
+    return requiredSize;
 }
 
-IncrementLimitedEditionItemAvailabilityRequest::IncrementLimitedEditionItemAvailabilityRequest(IncrementLimitedEditionItemAvailabilityRequest&& src) :
-    PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemId{ std::move(src.m_itemId) }
+HRESULT GrantItemsToUsersResult::Copy(const PFPlayerItemManagementGrantItemsToUsersResult& input, PFPlayerItemManagementGrantItemsToUsersResult& output, ModelBuffer& buffer)
 {
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-}
-
-IncrementLimitedEditionItemAvailabilityRequest::IncrementLimitedEditionItemAvailabilityRequest(const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void IncrementLimitedEditionItemAvailabilityRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
+    output = input;
+    output.itemGrantResults = buffer.CopyToArray<GrantedItemInstance>(input.itemGrantResults, input.itemGrantResultsCount);
+    return S_OK;
 }
 
 JsonValue IncrementLimitedEditionItemAvailabilityRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest>(*this);
+    return IncrementLimitedEditionItemAvailabilityRequest::ToJson(this->Model());
 }
 
-RevokeInventoryItemRequest::RevokeInventoryItemRequest() :
-    PFPlayerItemManagementRevokeInventoryItemRequest{}
+JsonValue IncrementLimitedEditionItemAvailabilityRequest::ToJson(const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& input)
 {
-}
-
-RevokeInventoryItemRequest::RevokeInventoryItemRequest(const RevokeInventoryItemRequest& src) :
-    PFPlayerItemManagementRevokeInventoryItemRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-RevokeInventoryItemRequest::RevokeInventoryItemRequest(RevokeInventoryItemRequest&& src) :
-    PFPlayerItemManagementRevokeInventoryItemRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-RevokeInventoryItemRequest::RevokeInventoryItemRequest(const PFPlayerItemManagementRevokeInventoryItemRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RevokeInventoryItemRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
+    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
+    return output;
 }
 
 JsonValue RevokeInventoryItemRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementRevokeInventoryItemRequest>(*this);
+    return RevokeInventoryItemRequest::ToJson(this->Model());
 }
 
-size_t RevokeInventoryItemRequest::SerializedSize() const
+JsonValue RevokeInventoryItemRequest::ToJson(const PFPlayerItemManagementRevokeInventoryItemRequest& input)
 {
-    size_t serializedSize{ sizeof(PFPlayerItemManagementRevokeInventoryItemRequest) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_itemInstanceId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
-}
-
-void RevokeInventoryItemRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementRevokeInventoryItemRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementRevokeInventoryItemRequest);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-RevokeInventoryItem::RevokeInventoryItem() :
-    PFPlayerItemManagementRevokeInventoryItem{}
-{
-}
-
-RevokeInventoryItem::RevokeInventoryItem(const RevokeInventoryItem& src) :
-    PFPlayerItemManagementRevokeInventoryItem{ src },
-    m_characterId{ src.m_characterId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-RevokeInventoryItem::RevokeInventoryItem(RevokeInventoryItem&& src) :
-    PFPlayerItemManagementRevokeInventoryItem{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-RevokeInventoryItem::RevokeInventoryItem(const PFPlayerItemManagementRevokeInventoryItem& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RevokeInventoryItem::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
 }
 
 JsonValue RevokeInventoryItem::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementRevokeInventoryItem>(*this);
+    return RevokeInventoryItem::ToJson(this->Model());
 }
 
-size_t RevokeInventoryItem::SerializedSize() const
+JsonValue RevokeInventoryItem::ToJson(const PFPlayerItemManagementRevokeInventoryItem& input)
 {
-    size_t serializedSize{ sizeof(PFPlayerItemManagementRevokeInventoryItem) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_itemInstanceId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
+    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    return output;
 }
 
-void RevokeInventoryItem::Serialize(void* buffer, size_t bufferSize) const
+void RevokeInventoryItem::FromJson(const JsonValue& input)
 {
-    auto serializedStruct = new (buffer) PFPlayerItemManagementRevokeInventoryItem{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementRevokeInventoryItem);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    String itemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "ItemInstanceId", itemInstanceId);
+    this->SetItemInstanceId(std::move(itemInstanceId));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
 }
 
-RevokeInventoryItemsRequest::RevokeInventoryItemsRequest() :
-    PFPlayerItemManagementRevokeInventoryItemsRequest{}
+size_t RevokeInventoryItem::RequiredBufferSize() const
 {
+    return RequiredBufferSize(this->Model());
 }
 
-RevokeInventoryItemsRequest::RevokeInventoryItemsRequest(const RevokeInventoryItemsRequest& src) :
-    PFPlayerItemManagementRevokeInventoryItemsRequest{ src },
-    m_items{ src.m_items }
+Result<PFPlayerItemManagementRevokeInventoryItem const*> RevokeInventoryItem::Copy(ModelBuffer& buffer) const
 {
-    items = m_items.Empty() ? nullptr : m_items.Data();
+    return buffer.CopyTo<RevokeInventoryItem>(&this->Model());
 }
 
-RevokeInventoryItemsRequest::RevokeInventoryItemsRequest(RevokeInventoryItemsRequest&& src) :
-    PFPlayerItemManagementRevokeInventoryItemsRequest{ src },
-    m_items{ std::move(src.m_items) }
+size_t RevokeInventoryItem::RequiredBufferSize(const PFPlayerItemManagementRevokeInventoryItem& model)
 {
-    items = m_items.Empty() ? nullptr : m_items.Data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    if (model.itemInstanceId)
+    {
+        requiredSize += (std::strlen(model.itemInstanceId) + 1);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    return requiredSize;
 }
 
-RevokeInventoryItemsRequest::RevokeInventoryItemsRequest(const PFPlayerItemManagementRevokeInventoryItemsRequest& src)
+HRESULT RevokeInventoryItem::Copy(const PFPlayerItemManagementRevokeInventoryItem& input, PFPlayerItemManagementRevokeInventoryItem& output, ModelBuffer& buffer)
 {
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RevokeInventoryItemsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Items", m_items, items, itemsCount);
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.itemInstanceId = buffer.CopyTo(input.itemInstanceId);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    return S_OK;
 }
 
 JsonValue RevokeInventoryItemsRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementRevokeInventoryItemsRequest>(*this);
+    return RevokeInventoryItemsRequest::ToJson(this->Model());
 }
 
-RevokeItemError::RevokeItemError() :
-    PFPlayerItemManagementRevokeItemError{}
+JsonValue RevokeInventoryItemsRequest::ToJson(const PFPlayerItemManagementRevokeInventoryItemsRequest& input)
 {
-}
-
-RevokeItemError::RevokeItemError(const RevokeItemError& src) :
-    PFPlayerItemManagementRevokeItemError{ src },
-    m_error{ src.m_error },
-    m_item{ src.m_item }
-{
-    error = m_error ? m_error.operator->() : nullptr;
-    item = m_item ? m_item.operator->() : nullptr;
-}
-
-RevokeItemError::RevokeItemError(RevokeItemError&& src) :
-    PFPlayerItemManagementRevokeItemError{ src },
-    m_error{ std::move(src.m_error) },
-    m_item{ std::move(src.m_item) }
-{
-    error = m_error ? m_error.operator->() : nullptr;
-    item = m_item ? m_item.operator->() : nullptr;
-}
-
-RevokeItemError::RevokeItemError(const PFPlayerItemManagementRevokeItemError& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberArray<RevokeInventoryItem>(output, "Items", input.items, input.itemsCount);
+    return output;
 }
 
 void RevokeItemError::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Error", m_error, error);
-    JsonUtils::ObjectGetMember(input, "Item", m_item, item);
+    StdExtra::optional<PFPlayerItemManagementGenericErrorCodes> error{};
+    JsonUtils::ObjectGetMember(input, "Error", error);
+    this->SetError(std::move(error));
+
+    StdExtra::optional<RevokeInventoryItem> item{};
+    JsonUtils::ObjectGetMember(input, "Item", item);
+    if (item)
+    {
+        this->SetItem(std::move(*item));
+    }
 }
 
-JsonValue RevokeItemError::ToJson() const
+size_t RevokeItemError::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementRevokeItemError>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-RevokeInventoryItemsResult::RevokeInventoryItemsResult() :
-    PFPlayerItemManagementRevokeInventoryItemsResult{}
+Result<PFPlayerItemManagementRevokeItemError const*> RevokeItemError::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<RevokeItemError>(&this->Model());
 }
 
-RevokeInventoryItemsResult::RevokeInventoryItemsResult(const RevokeInventoryItemsResult& src) :
-    PFPlayerItemManagementRevokeInventoryItemsResult{ src },
-    m_errors{ src.m_errors }
+size_t RevokeItemError::RequiredBufferSize(const PFPlayerItemManagementRevokeItemError& model)
 {
-    errors = m_errors.Empty() ? nullptr : m_errors.Data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.error)
+    {
+        requiredSize += (alignof(PFPlayerItemManagementGenericErrorCodes) + sizeof(PFPlayerItemManagementGenericErrorCodes));
+    }
+    if (model.item)
+    {
+        requiredSize += RevokeInventoryItem::RequiredBufferSize(*model.item);
+    }
+    return requiredSize;
 }
 
-RevokeInventoryItemsResult::RevokeInventoryItemsResult(RevokeInventoryItemsResult&& src) :
-    PFPlayerItemManagementRevokeInventoryItemsResult{ src },
-    m_errors{ std::move(src.m_errors) }
+HRESULT RevokeItemError::Copy(const PFPlayerItemManagementRevokeItemError& input, PFPlayerItemManagementRevokeItemError& output, ModelBuffer& buffer)
 {
-    errors = m_errors.Empty() ? nullptr : m_errors.Data();
-}
-
-RevokeInventoryItemsResult::RevokeInventoryItemsResult(const PFPlayerItemManagementRevokeInventoryItemsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.error = buffer.CopyTo(input.error);
+    output.item = buffer.CopyTo<RevokeInventoryItem>(input.item);
+    return S_OK;
 }
 
 void RevokeInventoryItemsResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Errors", m_errors, errors, errorsCount);
+    ModelVector<RevokeItemError> errors{};
+    JsonUtils::ObjectGetMember<RevokeItemError>(input, "Errors", errors);
+    this->SetErrors(std::move(errors));
 }
 
-JsonValue RevokeInventoryItemsResult::ToJson() const
+size_t RevokeInventoryItemsResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementRevokeInventoryItemsResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-AdminSubtractUserVirtualCurrencyRequest::AdminSubtractUserVirtualCurrencyRequest() :
-    PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest{}
+Result<PFPlayerItemManagementRevokeInventoryItemsResult const*> RevokeInventoryItemsResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<RevokeInventoryItemsResult>(&this->Model());
 }
 
-AdminSubtractUserVirtualCurrencyRequest::AdminSubtractUserVirtualCurrencyRequest(const AdminSubtractUserVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
+size_t RevokeInventoryItemsResult::RequiredBufferSize(const PFPlayerItemManagementRevokeInventoryItemsResult& model)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerItemManagementRevokeItemError*) + sizeof(PFPlayerItemManagementRevokeItemError*) * model.errorsCount);
+    for (size_t i = 0; i < model.errorsCount; ++i)
+    {
+        requiredSize += RevokeItemError::RequiredBufferSize(*model.errors[i]);
+    }
+    return requiredSize;
 }
 
-AdminSubtractUserVirtualCurrencyRequest::AdminSubtractUserVirtualCurrencyRequest(AdminSubtractUserVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
+HRESULT RevokeInventoryItemsResult::Copy(const PFPlayerItemManagementRevokeInventoryItemsResult& input, PFPlayerItemManagementRevokeInventoryItemsResult& output, ModelBuffer& buffer)
 {
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-AdminSubtractUserVirtualCurrencyRequest::AdminSubtractUserVirtualCurrencyRequest(const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AdminSubtractUserVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
+    output = input;
+    output.errors = buffer.CopyToArray<RevokeItemError>(input.errors, input.errorsCount);
+    return S_OK;
 }
 
 JsonValue AdminSubtractUserVirtualCurrencyRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest>(*this);
+    return AdminSubtractUserVirtualCurrencyRequest::ToJson(this->Model());
 }
 
-ClientAddUserVirtualCurrencyRequest::ClientAddUserVirtualCurrencyRequest() :
-    PFPlayerItemManagementClientAddUserVirtualCurrencyRequest{}
+JsonValue AdminSubtractUserVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& input)
 {
-}
-
-ClientAddUserVirtualCurrencyRequest::ClientAddUserVirtualCurrencyRequest(const ClientAddUserVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementClientAddUserVirtualCurrencyRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ClientAddUserVirtualCurrencyRequest::ClientAddUserVirtualCurrencyRequest(ClientAddUserVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementClientAddUserVirtualCurrencyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ClientAddUserVirtualCurrencyRequest::ClientAddUserVirtualCurrencyRequest(const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientAddUserVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
+    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
+    return output;
 }
 
 JsonValue ClientAddUserVirtualCurrencyRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementClientAddUserVirtualCurrencyRequest>(*this);
+    return ClientAddUserVirtualCurrencyRequest::ToJson(this->Model());
 }
 
-ConfirmPurchaseRequest::ConfirmPurchaseRequest() :
-    PFPlayerItemManagementConfirmPurchaseRequest{}
+JsonValue ClientAddUserVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& input)
 {
-}
-
-ConfirmPurchaseRequest::ConfirmPurchaseRequest(const ConfirmPurchaseRequest& src) :
-    PFPlayerItemManagementConfirmPurchaseRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_orderId{ src.m_orderId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-}
-
-ConfirmPurchaseRequest::ConfirmPurchaseRequest(ConfirmPurchaseRequest&& src) :
-    PFPlayerItemManagementConfirmPurchaseRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_orderId{ std::move(src.m_orderId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-}
-
-ConfirmPurchaseRequest::ConfirmPurchaseRequest(const PFPlayerItemManagementConfirmPurchaseRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ConfirmPurchaseRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
+    return output;
 }
 
 JsonValue ConfirmPurchaseRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementConfirmPurchaseRequest>(*this);
+    return ConfirmPurchaseRequest::ToJson(this->Model());
 }
 
-ConfirmPurchaseResult::ConfirmPurchaseResult() :
-    PFPlayerItemManagementConfirmPurchaseResult{}
+JsonValue ConfirmPurchaseRequest::ToJson(const PFPlayerItemManagementConfirmPurchaseRequest& input)
 {
-}
-
-ConfirmPurchaseResult::ConfirmPurchaseResult(const ConfirmPurchaseResult& src) :
-    PFPlayerItemManagementConfirmPurchaseResult{ src },
-    m_items{ src.m_items },
-    m_orderId{ src.m_orderId }
-{
-    items = m_items.Empty() ? nullptr : m_items.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-}
-
-ConfirmPurchaseResult::ConfirmPurchaseResult(ConfirmPurchaseResult&& src) :
-    PFPlayerItemManagementConfirmPurchaseResult{ src },
-    m_items{ std::move(src.m_items) },
-    m_orderId{ std::move(src.m_orderId) }
-{
-    items = m_items.Empty() ? nullptr : m_items.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-}
-
-ConfirmPurchaseResult::ConfirmPurchaseResult(const PFPlayerItemManagementConfirmPurchaseResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
+    return output;
 }
 
 void ConfirmPurchaseResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Items", m_items, items, itemsCount);
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "PurchaseDate", purchaseDate, true);
+    ModelVector<ItemInstance> items{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Items", items);
+    this->SetItems(std::move(items));
+
+    String orderId{};
+    JsonUtils::ObjectGetMember(input, "OrderId", orderId);
+    this->SetOrderId(std::move(orderId));
+
+    JsonUtils::ObjectGetMemberTime(input, "PurchaseDate", this->m_model.purchaseDate);
 }
 
-JsonValue ConfirmPurchaseResult::ToJson() const
+size_t ConfirmPurchaseResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementConfirmPurchaseResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-ClientConsumeItemRequest::ClientConsumeItemRequest() :
-    PFPlayerItemManagementClientConsumeItemRequest{}
+Result<PFPlayerItemManagementConfirmPurchaseResult const*> ConfirmPurchaseResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<ConfirmPurchaseResult>(&this->Model());
 }
 
-ClientConsumeItemRequest::ClientConsumeItemRequest(const ClientConsumeItemRequest& src) :
-    PFPlayerItemManagementClientConsumeItemRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_itemInstanceId{ src.m_itemInstanceId }
+size_t ConfirmPurchaseResult::RequiredBufferSize(const PFPlayerItemManagementConfirmPurchaseResult& model)
 {
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.itemsCount);
+    for (size_t i = 0; i < model.itemsCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.items[i]);
+    }
+    if (model.orderId)
+    {
+        requiredSize += (std::strlen(model.orderId) + 1);
+    }
+    return requiredSize;
 }
 
-ClientConsumeItemRequest::ClientConsumeItemRequest(ClientConsumeItemRequest&& src) :
-    PFPlayerItemManagementClientConsumeItemRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) }
+HRESULT ConfirmPurchaseResult::Copy(const PFPlayerItemManagementConfirmPurchaseResult& input, PFPlayerItemManagementConfirmPurchaseResult& output, ModelBuffer& buffer)
 {
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-}
-
-ClientConsumeItemRequest::ClientConsumeItemRequest(const PFPlayerItemManagementClientConsumeItemRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientConsumeItemRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ConsumeCount", consumeCount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
+    output = input;
+    output.items = buffer.CopyToArray<ItemInstance>(input.items, input.itemsCount);
+    output.orderId = buffer.CopyTo(input.orderId);
+    return S_OK;
 }
 
 JsonValue ClientConsumeItemRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerItemManagementClientConsumeItemRequest>(*this);
+    return ClientConsumeItemRequest::ToJson(this->Model());
 }
 
-ConsumeItemResult::ConsumeItemResult() :
-    PFPlayerItemManagementConsumeItemResult{}
-{
-}
-
-ConsumeItemResult::ConsumeItemResult(const ConsumeItemResult& src) :
-    PFPlayerItemManagementConsumeItemResult{ src },
-    m_itemInstanceId{ src.m_itemInstanceId }
-{
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-}
-
-ConsumeItemResult::ConsumeItemResult(ConsumeItemResult&& src) :
-    PFPlayerItemManagementConsumeItemResult{ src },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) }
-{
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-}
-
-ConsumeItemResult::ConsumeItemResult(const PFPlayerItemManagementConsumeItemResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ConsumeItemResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "RemainingUses", remainingUses);
-}
-
-JsonValue ConsumeItemResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementConsumeItemResult>(*this);
-}
-
-size_t ConsumeItemResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementConsumeItemResult) };
-    serializedSize += (m_itemInstanceId.size() + 1);
-    return serializedSize;
-}
-
-void ConsumeItemResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementConsumeItemResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementConsumeItemResult);
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ClientGetCharacterInventoryRequest::ClientGetCharacterInventoryRequest() :
-    PFPlayerItemManagementClientGetCharacterInventoryRequest{}
-{
-}
-
-ClientGetCharacterInventoryRequest::ClientGetCharacterInventoryRequest(const ClientGetCharacterInventoryRequest& src) :
-    PFPlayerItemManagementClientGetCharacterInventoryRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientGetCharacterInventoryRequest::ClientGetCharacterInventoryRequest(ClientGetCharacterInventoryRequest&& src) :
-    PFPlayerItemManagementClientGetCharacterInventoryRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientGetCharacterInventoryRequest::ClientGetCharacterInventoryRequest(const PFPlayerItemManagementClientGetCharacterInventoryRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetCharacterInventoryRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue ClientGetCharacterInventoryRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientGetCharacterInventoryRequest>(*this);
-}
-
-ClientGetCharacterInventoryResult::ClientGetCharacterInventoryResult() :
-    PFPlayerItemManagementClientGetCharacterInventoryResult{}
-{
-}
-
-ClientGetCharacterInventoryResult::ClientGetCharacterInventoryResult(const ClientGetCharacterInventoryResult& src) :
-    PFPlayerItemManagementClientGetCharacterInventoryResult{ src },
-    m_characterId{ src.m_characterId },
-    m_inventory{ src.m_inventory },
-    m_virtualCurrency{ src.m_virtualCurrency },
-    m_virtualCurrencyRechargeTimes{ src.m_virtualCurrencyRechargeTimes }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ClientGetCharacterInventoryResult::ClientGetCharacterInventoryResult(ClientGetCharacterInventoryResult&& src) :
-    PFPlayerItemManagementClientGetCharacterInventoryResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_inventory{ std::move(src.m_inventory) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) },
-    m_virtualCurrencyRechargeTimes{ std::move(src.m_virtualCurrencyRechargeTimes) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ClientGetCharacterInventoryResult::ClientGetCharacterInventoryResult(const PFPlayerItemManagementClientGetCharacterInventoryResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetCharacterInventoryResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyRechargeTimes", m_virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimesCount);
-}
-
-JsonValue ClientGetCharacterInventoryResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientGetCharacterInventoryResult>(*this);
-}
-
-GetPaymentTokenRequest::GetPaymentTokenRequest() :
-    PFPlayerItemManagementGetPaymentTokenRequest{}
-{
-}
-
-GetPaymentTokenRequest::GetPaymentTokenRequest(const GetPaymentTokenRequest& src) :
-    PFPlayerItemManagementGetPaymentTokenRequest{ src },
-    m_tokenProvider{ src.m_tokenProvider }
-{
-    tokenProvider = m_tokenProvider.empty() ? nullptr : m_tokenProvider.data();
-}
-
-GetPaymentTokenRequest::GetPaymentTokenRequest(GetPaymentTokenRequest&& src) :
-    PFPlayerItemManagementGetPaymentTokenRequest{ src },
-    m_tokenProvider{ std::move(src.m_tokenProvider) }
-{
-    tokenProvider = m_tokenProvider.empty() ? nullptr : m_tokenProvider.data();
-}
-
-GetPaymentTokenRequest::GetPaymentTokenRequest(const PFPlayerItemManagementGetPaymentTokenRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPaymentTokenRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "TokenProvider", m_tokenProvider, tokenProvider);
-}
-
-JsonValue GetPaymentTokenRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGetPaymentTokenRequest>(*this);
-}
-
-size_t GetPaymentTokenRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementGetPaymentTokenRequest) };
-    serializedSize += (m_tokenProvider.size() + 1);
-    return serializedSize;
-}
-
-void GetPaymentTokenRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementGetPaymentTokenRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementGetPaymentTokenRequest);
-    memcpy(stringBuffer, m_tokenProvider.data(), m_tokenProvider.size() + 1);
-    serializedStruct->tokenProvider = stringBuffer;
-    stringBuffer += m_tokenProvider.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetPaymentTokenResult::GetPaymentTokenResult() :
-    PFPlayerItemManagementGetPaymentTokenResult{}
-{
-}
-
-GetPaymentTokenResult::GetPaymentTokenResult(const GetPaymentTokenResult& src) :
-    PFPlayerItemManagementGetPaymentTokenResult{ src },
-    m_orderId{ src.m_orderId },
-    m_providerToken{ src.m_providerToken }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    providerToken = m_providerToken.empty() ? nullptr : m_providerToken.data();
-}
-
-GetPaymentTokenResult::GetPaymentTokenResult(GetPaymentTokenResult&& src) :
-    PFPlayerItemManagementGetPaymentTokenResult{ src },
-    m_orderId{ std::move(src.m_orderId) },
-    m_providerToken{ std::move(src.m_providerToken) }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    providerToken = m_providerToken.empty() ? nullptr : m_providerToken.data();
-}
-
-GetPaymentTokenResult::GetPaymentTokenResult(const PFPlayerItemManagementGetPaymentTokenResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPaymentTokenResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "ProviderToken", m_providerToken, providerToken);
-}
-
-JsonValue GetPaymentTokenResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGetPaymentTokenResult>(*this);
-}
-
-size_t GetPaymentTokenResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementGetPaymentTokenResult) };
-    serializedSize += (m_orderId.size() + 1);
-    serializedSize += (m_providerToken.size() + 1);
-    return serializedSize;
-}
-
-void GetPaymentTokenResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementGetPaymentTokenResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementGetPaymentTokenResult);
-    memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
-    serializedStruct->orderId = stringBuffer;
-    stringBuffer += m_orderId.size() + 1;
-    memcpy(stringBuffer, m_providerToken.data(), m_providerToken.size() + 1);
-    serializedStruct->providerToken = stringBuffer;
-    stringBuffer += m_providerToken.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetPurchaseRequest::GetPurchaseRequest() :
-    PFPlayerItemManagementGetPurchaseRequest{}
-{
-}
-
-GetPurchaseRequest::GetPurchaseRequest(const GetPurchaseRequest& src) :
-    PFPlayerItemManagementGetPurchaseRequest{ src },
-    m_orderId{ src.m_orderId }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-}
-
-GetPurchaseRequest::GetPurchaseRequest(GetPurchaseRequest&& src) :
-    PFPlayerItemManagementGetPurchaseRequest{ src },
-    m_orderId{ std::move(src.m_orderId) }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-}
-
-GetPurchaseRequest::GetPurchaseRequest(const PFPlayerItemManagementGetPurchaseRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPurchaseRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-}
-
-JsonValue GetPurchaseRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGetPurchaseRequest>(*this);
-}
-
-size_t GetPurchaseRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementGetPurchaseRequest) };
-    serializedSize += (m_orderId.size() + 1);
-    return serializedSize;
-}
-
-void GetPurchaseRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementGetPurchaseRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementGetPurchaseRequest);
-    memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
-    serializedStruct->orderId = stringBuffer;
-    stringBuffer += m_orderId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetPurchaseResult::GetPurchaseResult() :
-    PFPlayerItemManagementGetPurchaseResult{}
-{
-}
-
-GetPurchaseResult::GetPurchaseResult(const GetPurchaseResult& src) :
-    PFPlayerItemManagementGetPurchaseResult{ src },
-    m_orderId{ src.m_orderId },
-    m_paymentProvider{ src.m_paymentProvider },
-    m_transactionId{ src.m_transactionId },
-    m_transactionStatus{ src.m_transactionStatus }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    paymentProvider = m_paymentProvider.empty() ? nullptr : m_paymentProvider.data();
-    transactionId = m_transactionId.empty() ? nullptr : m_transactionId.data();
-    transactionStatus = m_transactionStatus.empty() ? nullptr : m_transactionStatus.data();
-}
-
-GetPurchaseResult::GetPurchaseResult(GetPurchaseResult&& src) :
-    PFPlayerItemManagementGetPurchaseResult{ src },
-    m_orderId{ std::move(src.m_orderId) },
-    m_paymentProvider{ std::move(src.m_paymentProvider) },
-    m_transactionId{ std::move(src.m_transactionId) },
-    m_transactionStatus{ std::move(src.m_transactionStatus) }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    paymentProvider = m_paymentProvider.empty() ? nullptr : m_paymentProvider.data();
-    transactionId = m_transactionId.empty() ? nullptr : m_transactionId.data();
-    transactionStatus = m_transactionStatus.empty() ? nullptr : m_transactionStatus.data();
-}
-
-GetPurchaseResult::GetPurchaseResult(const PFPlayerItemManagementGetPurchaseResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPurchaseResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "PaymentProvider", m_paymentProvider, paymentProvider);
-    JsonUtils::ObjectGetMember(input, "PurchaseDate", purchaseDate, true);
-    JsonUtils::ObjectGetMember(input, "TransactionId", m_transactionId, transactionId);
-    JsonUtils::ObjectGetMember(input, "TransactionStatus", m_transactionStatus, transactionStatus);
-}
-
-JsonValue GetPurchaseResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGetPurchaseResult>(*this);
-}
-
-size_t GetPurchaseResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementGetPurchaseResult) };
-    serializedSize += (m_orderId.size() + 1);
-    serializedSize += (m_paymentProvider.size() + 1);
-    serializedSize += (m_transactionId.size() + 1);
-    serializedSize += (m_transactionStatus.size() + 1);
-    return serializedSize;
-}
-
-void GetPurchaseResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementGetPurchaseResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementGetPurchaseResult);
-    memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
-    serializedStruct->orderId = stringBuffer;
-    stringBuffer += m_orderId.size() + 1;
-    memcpy(stringBuffer, m_paymentProvider.data(), m_paymentProvider.size() + 1);
-    serializedStruct->paymentProvider = stringBuffer;
-    stringBuffer += m_paymentProvider.size() + 1;
-    memcpy(stringBuffer, m_transactionId.data(), m_transactionId.size() + 1);
-    serializedStruct->transactionId = stringBuffer;
-    stringBuffer += m_transactionId.size() + 1;
-    memcpy(stringBuffer, m_transactionStatus.data(), m_transactionStatus.size() + 1);
-    serializedStruct->transactionStatus = stringBuffer;
-    stringBuffer += m_transactionStatus.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ClientGetUserInventoryRequest::ClientGetUserInventoryRequest() :
-    PFPlayerItemManagementClientGetUserInventoryRequest{}
-{
-}
-
-ClientGetUserInventoryRequest::ClientGetUserInventoryRequest(const ClientGetUserInventoryRequest& src) :
-    PFPlayerItemManagementClientGetUserInventoryRequest{ src },
-    m_customTags{ src.m_customTags }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientGetUserInventoryRequest::ClientGetUserInventoryRequest(ClientGetUserInventoryRequest&& src) :
-    PFPlayerItemManagementClientGetUserInventoryRequest{ src },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientGetUserInventoryRequest::ClientGetUserInventoryRequest(const PFPlayerItemManagementClientGetUserInventoryRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetUserInventoryRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue ClientGetUserInventoryRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientGetUserInventoryRequest>(*this);
-}
-
-ClientGetUserInventoryResult::ClientGetUserInventoryResult() :
-    PFPlayerItemManagementClientGetUserInventoryResult{}
-{
-}
-
-ClientGetUserInventoryResult::ClientGetUserInventoryResult(const ClientGetUserInventoryResult& src) :
-    PFPlayerItemManagementClientGetUserInventoryResult{ src },
-    m_inventory{ src.m_inventory },
-    m_virtualCurrency{ src.m_virtualCurrency },
-    m_virtualCurrencyRechargeTimes{ src.m_virtualCurrencyRechargeTimes }
-{
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ClientGetUserInventoryResult::ClientGetUserInventoryResult(ClientGetUserInventoryResult&& src) :
-    PFPlayerItemManagementClientGetUserInventoryResult{ src },
-    m_inventory{ std::move(src.m_inventory) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) },
-    m_virtualCurrencyRechargeTimes{ std::move(src.m_virtualCurrencyRechargeTimes) }
-{
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ClientGetUserInventoryResult::ClientGetUserInventoryResult(const PFPlayerItemManagementClientGetUserInventoryResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetUserInventoryResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyRechargeTimes", m_virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimesCount);
-}
-
-JsonValue ClientGetUserInventoryResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientGetUserInventoryResult>(*this);
-}
-
-PayForPurchaseRequest::PayForPurchaseRequest() :
-    PFPlayerItemManagementPayForPurchaseRequest{}
-{
-}
-
-PayForPurchaseRequest::PayForPurchaseRequest(const PayForPurchaseRequest& src) :
-    PFPlayerItemManagementPayForPurchaseRequest{ src },
-    m_currency{ src.m_currency },
-    m_customTags{ src.m_customTags },
-    m_orderId{ src.m_orderId },
-    m_providerName{ src.m_providerName },
-    m_providerTransactionId{ src.m_providerTransactionId }
-{
-    currency = m_currency.empty() ? nullptr : m_currency.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    providerName = m_providerName.empty() ? nullptr : m_providerName.data();
-    providerTransactionId = m_providerTransactionId.empty() ? nullptr : m_providerTransactionId.data();
-}
-
-PayForPurchaseRequest::PayForPurchaseRequest(PayForPurchaseRequest&& src) :
-    PFPlayerItemManagementPayForPurchaseRequest{ src },
-    m_currency{ std::move(src.m_currency) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_orderId{ std::move(src.m_orderId) },
-    m_providerName{ std::move(src.m_providerName) },
-    m_providerTransactionId{ std::move(src.m_providerTransactionId) }
-{
-    currency = m_currency.empty() ? nullptr : m_currency.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    providerName = m_providerName.empty() ? nullptr : m_providerName.data();
-    providerTransactionId = m_providerTransactionId.empty() ? nullptr : m_providerTransactionId.data();
-}
-
-PayForPurchaseRequest::PayForPurchaseRequest(const PFPlayerItemManagementPayForPurchaseRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PayForPurchaseRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Currency", m_currency, currency);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "ProviderName", m_providerName, providerName);
-    JsonUtils::ObjectGetMember(input, "ProviderTransactionId", m_providerTransactionId, providerTransactionId);
-}
-
-JsonValue PayForPurchaseRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementPayForPurchaseRequest>(*this);
-}
-
-PayForPurchaseResult::PayForPurchaseResult() :
-    PFPlayerItemManagementPayForPurchaseResult{}
-{
-}
-
-PayForPurchaseResult::PayForPurchaseResult(const PayForPurchaseResult& src) :
-    PFPlayerItemManagementPayForPurchaseResult{ src },
-    m_orderId{ src.m_orderId },
-    m_providerData{ src.m_providerData },
-    m_providerToken{ src.m_providerToken },
-    m_purchaseConfirmationPageURL{ src.m_purchaseConfirmationPageURL },
-    m_purchaseCurrency{ src.m_purchaseCurrency },
-    m_status{ src.m_status },
-    m_vCAmount{ src.m_vCAmount },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    providerData = m_providerData.empty() ? nullptr : m_providerData.data();
-    providerToken = m_providerToken.empty() ? nullptr : m_providerToken.data();
-    purchaseConfirmationPageURL = m_purchaseConfirmationPageURL.empty() ? nullptr : m_purchaseConfirmationPageURL.data();
-    purchaseCurrency = m_purchaseCurrency.empty() ? nullptr : m_purchaseCurrency.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    vCAmount = m_vCAmount.Empty() ? nullptr : m_vCAmount.Data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-}
-
-PayForPurchaseResult::PayForPurchaseResult(PayForPurchaseResult&& src) :
-    PFPlayerItemManagementPayForPurchaseResult{ src },
-    m_orderId{ std::move(src.m_orderId) },
-    m_providerData{ std::move(src.m_providerData) },
-    m_providerToken{ std::move(src.m_providerToken) },
-    m_purchaseConfirmationPageURL{ std::move(src.m_purchaseConfirmationPageURL) },
-    m_purchaseCurrency{ std::move(src.m_purchaseCurrency) },
-    m_status{ std::move(src.m_status) },
-    m_vCAmount{ std::move(src.m_vCAmount) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    providerData = m_providerData.empty() ? nullptr : m_providerData.data();
-    providerToken = m_providerToken.empty() ? nullptr : m_providerToken.data();
-    purchaseConfirmationPageURL = m_purchaseConfirmationPageURL.empty() ? nullptr : m_purchaseConfirmationPageURL.data();
-    purchaseCurrency = m_purchaseCurrency.empty() ? nullptr : m_purchaseCurrency.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    vCAmount = m_vCAmount.Empty() ? nullptr : m_vCAmount.Data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-}
-
-PayForPurchaseResult::PayForPurchaseResult(const PFPlayerItemManagementPayForPurchaseResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PayForPurchaseResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CreditApplied", creditApplied);
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "ProviderData", m_providerData, providerData);
-    JsonUtils::ObjectGetMember(input, "ProviderToken", m_providerToken, providerToken);
-    JsonUtils::ObjectGetMember(input, "PurchaseConfirmationPageURL", m_purchaseConfirmationPageURL, purchaseConfirmationPageURL);
-    JsonUtils::ObjectGetMember(input, "PurchaseCurrency", m_purchaseCurrency, purchaseCurrency);
-    JsonUtils::ObjectGetMember(input, "PurchasePrice", purchasePrice);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-    JsonUtils::ObjectGetMember(input, "VCAmount", m_vCAmount, vCAmount, vCAmountCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-}
-
-JsonValue PayForPurchaseResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementPayForPurchaseResult>(*this);
-}
-
-PurchaseItemRequest::PurchaseItemRequest() :
-    PFPlayerItemManagementPurchaseItemRequest{}
-{
-}
-
-PurchaseItemRequest::PurchaseItemRequest(const PurchaseItemRequest& src) :
-    PFPlayerItemManagementPurchaseItemRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_itemId{ src.m_itemId },
-    m_storeId{ src.m_storeId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    storeId = m_storeId.empty() ? nullptr : m_storeId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-PurchaseItemRequest::PurchaseItemRequest(PurchaseItemRequest&& src) :
-    PFPlayerItemManagementPurchaseItemRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemId{ std::move(src.m_itemId) },
-    m_storeId{ std::move(src.m_storeId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    storeId = m_storeId.empty() ? nullptr : m_storeId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-PurchaseItemRequest::PurchaseItemRequest(const PFPlayerItemManagementPurchaseItemRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PurchaseItemRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-    JsonUtils::ObjectGetMember(input, "Price", price);
-    JsonUtils::ObjectGetMember(input, "StoreId", m_storeId, storeId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue PurchaseItemRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementPurchaseItemRequest>(*this);
-}
-
-PurchaseItemResult::PurchaseItemResult() :
-    PFPlayerItemManagementPurchaseItemResult{}
-{
-}
-
-PurchaseItemResult::PurchaseItemResult(const PurchaseItemResult& src) :
-    PFPlayerItemManagementPurchaseItemResult{ src },
-    m_items{ src.m_items }
-{
-    items = m_items.Empty() ? nullptr : m_items.Data();
-}
-
-PurchaseItemResult::PurchaseItemResult(PurchaseItemResult&& src) :
-    PFPlayerItemManagementPurchaseItemResult{ src },
-    m_items{ std::move(src.m_items) }
-{
-    items = m_items.Empty() ? nullptr : m_items.Data();
-}
-
-PurchaseItemResult::PurchaseItemResult(const PFPlayerItemManagementPurchaseItemResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PurchaseItemResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Items", m_items, items, itemsCount);
-}
-
-JsonValue PurchaseItemResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementPurchaseItemResult>(*this);
-}
-
-ClientRedeemCouponRequest::ClientRedeemCouponRequest() :
-    PFPlayerItemManagementClientRedeemCouponRequest{}
-{
-}
-
-ClientRedeemCouponRequest::ClientRedeemCouponRequest(const ClientRedeemCouponRequest& src) :
-    PFPlayerItemManagementClientRedeemCouponRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_couponCode{ src.m_couponCode },
-    m_customTags{ src.m_customTags }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    couponCode = m_couponCode.empty() ? nullptr : m_couponCode.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientRedeemCouponRequest::ClientRedeemCouponRequest(ClientRedeemCouponRequest&& src) :
-    PFPlayerItemManagementClientRedeemCouponRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_couponCode{ std::move(src.m_couponCode) },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    couponCode = m_couponCode.empty() ? nullptr : m_couponCode.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientRedeemCouponRequest::ClientRedeemCouponRequest(const PFPlayerItemManagementClientRedeemCouponRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientRedeemCouponRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CouponCode", m_couponCode, couponCode);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue ClientRedeemCouponRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientRedeemCouponRequest>(*this);
-}
-
-RedeemCouponResult::RedeemCouponResult() :
-    PFPlayerItemManagementRedeemCouponResult{}
-{
-}
-
-RedeemCouponResult::RedeemCouponResult(const RedeemCouponResult& src) :
-    PFPlayerItemManagementRedeemCouponResult{ src },
-    m_grantedItems{ src.m_grantedItems }
-{
-    grantedItems = m_grantedItems.Empty() ? nullptr : m_grantedItems.Data();
-}
-
-RedeemCouponResult::RedeemCouponResult(RedeemCouponResult&& src) :
-    PFPlayerItemManagementRedeemCouponResult{ src },
-    m_grantedItems{ std::move(src.m_grantedItems) }
-{
-    grantedItems = m_grantedItems.Empty() ? nullptr : m_grantedItems.Data();
-}
-
-RedeemCouponResult::RedeemCouponResult(const PFPlayerItemManagementRedeemCouponResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RedeemCouponResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "GrantedItems", m_grantedItems, grantedItems, grantedItemsCount);
-}
-
-JsonValue RedeemCouponResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementRedeemCouponResult>(*this);
-}
-
-ItemPurchaseRequest::ItemPurchaseRequest() :
-    PFPlayerItemManagementItemPurchaseRequest{}
-{
-}
-
-ItemPurchaseRequest::ItemPurchaseRequest(const ItemPurchaseRequest& src) :
-    PFPlayerItemManagementItemPurchaseRequest{ src },
-    m_annotation{ src.m_annotation },
-    m_itemId{ src.m_itemId },
-    m_upgradeFromItems{ src.m_upgradeFromItems }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    upgradeFromItems = m_upgradeFromItems.Empty() ? nullptr : m_upgradeFromItems.Data();
-}
-
-ItemPurchaseRequest::ItemPurchaseRequest(ItemPurchaseRequest&& src) :
-    PFPlayerItemManagementItemPurchaseRequest{ src },
-    m_annotation{ std::move(src.m_annotation) },
-    m_itemId{ std::move(src.m_itemId) },
-    m_upgradeFromItems{ std::move(src.m_upgradeFromItems) }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    upgradeFromItems = m_upgradeFromItems.Empty() ? nullptr : m_upgradeFromItems.Data();
-}
-
-ItemPurchaseRequest::ItemPurchaseRequest(const PFPlayerItemManagementItemPurchaseRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ItemPurchaseRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Annotation", m_annotation, annotation);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-    JsonUtils::ObjectGetMember(input, "Quantity", quantity);
-    JsonUtils::ObjectGetMember(input, "UpgradeFromItems", m_upgradeFromItems, upgradeFromItems, upgradeFromItemsCount);
-}
-
-JsonValue ItemPurchaseRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementItemPurchaseRequest>(*this);
-}
-
-StartPurchaseRequest::StartPurchaseRequest() :
-    PFPlayerItemManagementStartPurchaseRequest{}
-{
-}
-
-StartPurchaseRequest::StartPurchaseRequest(const StartPurchaseRequest& src) :
-    PFPlayerItemManagementStartPurchaseRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_customTags{ src.m_customTags },
-    m_items{ src.m_items },
-    m_storeId{ src.m_storeId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    items = m_items.Empty() ? nullptr : m_items.Data();
-    storeId = m_storeId.empty() ? nullptr : m_storeId.data();
-}
-
-StartPurchaseRequest::StartPurchaseRequest(StartPurchaseRequest&& src) :
-    PFPlayerItemManagementStartPurchaseRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_items{ std::move(src.m_items) },
-    m_storeId{ std::move(src.m_storeId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    items = m_items.Empty() ? nullptr : m_items.Data();
-    storeId = m_storeId.empty() ? nullptr : m_storeId.data();
-}
-
-StartPurchaseRequest::StartPurchaseRequest(const PFPlayerItemManagementStartPurchaseRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void StartPurchaseRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Items", m_items, items, itemsCount);
-    JsonUtils::ObjectGetMember(input, "StoreId", m_storeId, storeId);
-}
-
-JsonValue StartPurchaseRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementStartPurchaseRequest>(*this);
-}
-
-CartItem::CartItem() :
-    PFPlayerItemManagementCartItem{}
-{
-}
-
-CartItem::CartItem(const CartItem& src) :
-    PFPlayerItemManagementCartItem{ src },
-    m_description{ src.m_description },
-    m_displayName{ src.m_displayName },
-    m_itemClass{ src.m_itemClass },
-    m_itemId{ src.m_itemId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_realCurrencyPrices{ src.m_realCurrencyPrices },
-    m_vCAmount{ src.m_vCAmount },
-    m_virtualCurrencyPrices{ src.m_virtualCurrencyPrices }
-{
-    description = m_description.empty() ? nullptr : m_description.data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    itemClass = m_itemClass.empty() ? nullptr : m_itemClass.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    realCurrencyPrices = m_realCurrencyPrices.Empty() ? nullptr : m_realCurrencyPrices.Data();
-    vCAmount = m_vCAmount.Empty() ? nullptr : m_vCAmount.Data();
-    virtualCurrencyPrices = m_virtualCurrencyPrices.Empty() ? nullptr : m_virtualCurrencyPrices.Data();
-}
-
-CartItem::CartItem(CartItem&& src) :
-    PFPlayerItemManagementCartItem{ src },
-    m_description{ std::move(src.m_description) },
-    m_displayName{ std::move(src.m_displayName) },
-    m_itemClass{ std::move(src.m_itemClass) },
-    m_itemId{ std::move(src.m_itemId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_realCurrencyPrices{ std::move(src.m_realCurrencyPrices) },
-    m_vCAmount{ std::move(src.m_vCAmount) },
-    m_virtualCurrencyPrices{ std::move(src.m_virtualCurrencyPrices) }
-{
-    description = m_description.empty() ? nullptr : m_description.data();
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    itemClass = m_itemClass.empty() ? nullptr : m_itemClass.data();
-    itemId = m_itemId.empty() ? nullptr : m_itemId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    realCurrencyPrices = m_realCurrencyPrices.Empty() ? nullptr : m_realCurrencyPrices.Data();
-    vCAmount = m_vCAmount.Empty() ? nullptr : m_vCAmount.Data();
-    virtualCurrencyPrices = m_virtualCurrencyPrices.Empty() ? nullptr : m_virtualCurrencyPrices.Data();
-}
-
-CartItem::CartItem(const PFPlayerItemManagementCartItem& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CartItem::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Description", m_description, description);
-    JsonUtils::ObjectGetMember(input, "DisplayName", m_displayName, displayName);
-    JsonUtils::ObjectGetMember(input, "ItemClass", m_itemClass, itemClass);
-    JsonUtils::ObjectGetMember(input, "ItemId", m_itemId, itemId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "RealCurrencyPrices", m_realCurrencyPrices, realCurrencyPrices, realCurrencyPricesCount);
-    JsonUtils::ObjectGetMember(input, "VCAmount", m_vCAmount, vCAmount, vCAmountCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyPrices", m_virtualCurrencyPrices, virtualCurrencyPrices, virtualCurrencyPricesCount);
-}
-
-JsonValue CartItem::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementCartItem>(*this);
-}
-
-PaymentOption::PaymentOption() :
-    PFPlayerItemManagementPaymentOption{}
-{
-}
-
-PaymentOption::PaymentOption(const PaymentOption& src) :
-    PFPlayerItemManagementPaymentOption{ src },
-    m_currency{ src.m_currency },
-    m_providerName{ src.m_providerName }
-{
-    currency = m_currency.empty() ? nullptr : m_currency.data();
-    providerName = m_providerName.empty() ? nullptr : m_providerName.data();
-}
-
-PaymentOption::PaymentOption(PaymentOption&& src) :
-    PFPlayerItemManagementPaymentOption{ src },
-    m_currency{ std::move(src.m_currency) },
-    m_providerName{ std::move(src.m_providerName) }
-{
-    currency = m_currency.empty() ? nullptr : m_currency.data();
-    providerName = m_providerName.empty() ? nullptr : m_providerName.data();
-}
-
-PaymentOption::PaymentOption(const PFPlayerItemManagementPaymentOption& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PaymentOption::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Currency", m_currency, currency);
-    JsonUtils::ObjectGetMember(input, "Price", price);
-    JsonUtils::ObjectGetMember(input, "ProviderName", m_providerName, providerName);
-    JsonUtils::ObjectGetMember(input, "StoreCredit", storeCredit);
-}
-
-JsonValue PaymentOption::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementPaymentOption>(*this);
-}
-
-size_t PaymentOption::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementPaymentOption) };
-    serializedSize += (m_currency.size() + 1);
-    serializedSize += (m_providerName.size() + 1);
-    return serializedSize;
-}
-
-void PaymentOption::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementPaymentOption{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementPaymentOption);
-    memcpy(stringBuffer, m_currency.data(), m_currency.size() + 1);
-    serializedStruct->currency = stringBuffer;
-    stringBuffer += m_currency.size() + 1;
-    memcpy(stringBuffer, m_providerName.data(), m_providerName.size() + 1);
-    serializedStruct->providerName = stringBuffer;
-    stringBuffer += m_providerName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-StartPurchaseResult::StartPurchaseResult() :
-    PFPlayerItemManagementStartPurchaseResult{}
-{
-}
-
-StartPurchaseResult::StartPurchaseResult(const StartPurchaseResult& src) :
-    PFPlayerItemManagementStartPurchaseResult{ src },
-    m_contents{ src.m_contents },
-    m_orderId{ src.m_orderId },
-    m_paymentOptions{ src.m_paymentOptions },
-    m_virtualCurrencyBalances{ src.m_virtualCurrencyBalances }
-{
-    contents = m_contents.Empty() ? nullptr : m_contents.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    paymentOptions = m_paymentOptions.Empty() ? nullptr : m_paymentOptions.Data();
-    virtualCurrencyBalances = m_virtualCurrencyBalances.Empty() ? nullptr : m_virtualCurrencyBalances.Data();
-}
-
-StartPurchaseResult::StartPurchaseResult(StartPurchaseResult&& src) :
-    PFPlayerItemManagementStartPurchaseResult{ src },
-    m_contents{ std::move(src.m_contents) },
-    m_orderId{ std::move(src.m_orderId) },
-    m_paymentOptions{ std::move(src.m_paymentOptions) },
-    m_virtualCurrencyBalances{ std::move(src.m_virtualCurrencyBalances) }
-{
-    contents = m_contents.Empty() ? nullptr : m_contents.Data();
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    paymentOptions = m_paymentOptions.Empty() ? nullptr : m_paymentOptions.Data();
-    virtualCurrencyBalances = m_virtualCurrencyBalances.Empty() ? nullptr : m_virtualCurrencyBalances.Data();
-}
-
-StartPurchaseResult::StartPurchaseResult(const PFPlayerItemManagementStartPurchaseResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void StartPurchaseResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Contents", m_contents, contents, contentsCount);
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "PaymentOptions", m_paymentOptions, paymentOptions, paymentOptionsCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyBalances", m_virtualCurrencyBalances, virtualCurrencyBalances, virtualCurrencyBalancesCount);
-}
-
-JsonValue StartPurchaseResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementStartPurchaseResult>(*this);
-}
-
-ClientSubtractUserVirtualCurrencyRequest::ClientSubtractUserVirtualCurrencyRequest() :
-    PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest{}
-{
-}
-
-ClientSubtractUserVirtualCurrencyRequest::ClientSubtractUserVirtualCurrencyRequest(const ClientSubtractUserVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ClientSubtractUserVirtualCurrencyRequest::ClientSubtractUserVirtualCurrencyRequest(ClientSubtractUserVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ClientSubtractUserVirtualCurrencyRequest::ClientSubtractUserVirtualCurrencyRequest(const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientSubtractUserVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue ClientSubtractUserVirtualCurrencyRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest>(*this);
-}
-
-ClientUnlockContainerInstanceRequest::ClientUnlockContainerInstanceRequest() :
-    PFPlayerItemManagementClientUnlockContainerInstanceRequest{}
-{
-}
-
-ClientUnlockContainerInstanceRequest::ClientUnlockContainerInstanceRequest(const ClientUnlockContainerInstanceRequest& src) :
-    PFPlayerItemManagementClientUnlockContainerInstanceRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_containerItemInstanceId{ src.m_containerItemInstanceId },
-    m_customTags{ src.m_customTags },
-    m_keyItemInstanceId{ src.m_keyItemInstanceId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemInstanceId = m_containerItemInstanceId.empty() ? nullptr : m_containerItemInstanceId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    keyItemInstanceId = m_keyItemInstanceId.empty() ? nullptr : m_keyItemInstanceId.data();
-}
-
-ClientUnlockContainerInstanceRequest::ClientUnlockContainerInstanceRequest(ClientUnlockContainerInstanceRequest&& src) :
-    PFPlayerItemManagementClientUnlockContainerInstanceRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_containerItemInstanceId{ std::move(src.m_containerItemInstanceId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_keyItemInstanceId{ std::move(src.m_keyItemInstanceId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemInstanceId = m_containerItemInstanceId.empty() ? nullptr : m_containerItemInstanceId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    keyItemInstanceId = m_keyItemInstanceId.empty() ? nullptr : m_keyItemInstanceId.data();
-}
-
-ClientUnlockContainerInstanceRequest::ClientUnlockContainerInstanceRequest(const PFPlayerItemManagementClientUnlockContainerInstanceRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientUnlockContainerInstanceRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ContainerItemInstanceId", m_containerItemInstanceId, containerItemInstanceId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "KeyItemInstanceId", m_keyItemInstanceId, keyItemInstanceId);
-}
-
-JsonValue ClientUnlockContainerInstanceRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientUnlockContainerInstanceRequest>(*this);
-}
-
-UnlockContainerItemResult::UnlockContainerItemResult() :
-    PFPlayerItemManagementUnlockContainerItemResult{}
-{
-}
-
-UnlockContainerItemResult::UnlockContainerItemResult(const UnlockContainerItemResult& src) :
-    PFPlayerItemManagementUnlockContainerItemResult{ src },
-    m_grantedItems{ src.m_grantedItems },
-    m_unlockedItemInstanceId{ src.m_unlockedItemInstanceId },
-    m_unlockedWithItemInstanceId{ src.m_unlockedWithItemInstanceId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    grantedItems = m_grantedItems.Empty() ? nullptr : m_grantedItems.Data();
-    unlockedItemInstanceId = m_unlockedItemInstanceId.empty() ? nullptr : m_unlockedItemInstanceId.data();
-    unlockedWithItemInstanceId = m_unlockedWithItemInstanceId.empty() ? nullptr : m_unlockedWithItemInstanceId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-}
-
-UnlockContainerItemResult::UnlockContainerItemResult(UnlockContainerItemResult&& src) :
-    PFPlayerItemManagementUnlockContainerItemResult{ src },
-    m_grantedItems{ std::move(src.m_grantedItems) },
-    m_unlockedItemInstanceId{ std::move(src.m_unlockedItemInstanceId) },
-    m_unlockedWithItemInstanceId{ std::move(src.m_unlockedWithItemInstanceId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    grantedItems = m_grantedItems.Empty() ? nullptr : m_grantedItems.Data();
-    unlockedItemInstanceId = m_unlockedItemInstanceId.empty() ? nullptr : m_unlockedItemInstanceId.data();
-    unlockedWithItemInstanceId = m_unlockedWithItemInstanceId.empty() ? nullptr : m_unlockedWithItemInstanceId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-}
-
-UnlockContainerItemResult::UnlockContainerItemResult(const PFPlayerItemManagementUnlockContainerItemResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UnlockContainerItemResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "GrantedItems", m_grantedItems, grantedItems, grantedItemsCount);
-    JsonUtils::ObjectGetMember(input, "UnlockedItemInstanceId", m_unlockedItemInstanceId, unlockedItemInstanceId);
-    JsonUtils::ObjectGetMember(input, "UnlockedWithItemInstanceId", m_unlockedWithItemInstanceId, unlockedWithItemInstanceId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-}
-
-JsonValue UnlockContainerItemResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementUnlockContainerItemResult>(*this);
-}
-
-ClientUnlockContainerItemRequest::ClientUnlockContainerItemRequest() :
-    PFPlayerItemManagementClientUnlockContainerItemRequest{}
-{
-}
-
-ClientUnlockContainerItemRequest::ClientUnlockContainerItemRequest(const ClientUnlockContainerItemRequest& src) :
-    PFPlayerItemManagementClientUnlockContainerItemRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_containerItemId{ src.m_containerItemId },
-    m_customTags{ src.m_customTags }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemId = m_containerItemId.empty() ? nullptr : m_containerItemId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientUnlockContainerItemRequest::ClientUnlockContainerItemRequest(ClientUnlockContainerItemRequest&& src) :
-    PFPlayerItemManagementClientUnlockContainerItemRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_containerItemId{ std::move(src.m_containerItemId) },
-    m_customTags{ std::move(src.m_customTags) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemId = m_containerItemId.empty() ? nullptr : m_containerItemId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-}
-
-ClientUnlockContainerItemRequest::ClientUnlockContainerItemRequest(const PFPlayerItemManagementClientUnlockContainerItemRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientUnlockContainerItemRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ContainerItemId", m_containerItemId, containerItemId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-}
-
-JsonValue ClientUnlockContainerItemRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementClientUnlockContainerItemRequest>(*this);
-}
-
-AddCharacterVirtualCurrencyRequest::AddCharacterVirtualCurrencyRequest() :
-    PFPlayerItemManagementAddCharacterVirtualCurrencyRequest{}
-{
-}
-
-AddCharacterVirtualCurrencyRequest::AddCharacterVirtualCurrencyRequest(const AddCharacterVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementAddCharacterVirtualCurrencyRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-AddCharacterVirtualCurrencyRequest::AddCharacterVirtualCurrencyRequest(AddCharacterVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementAddCharacterVirtualCurrencyRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-AddCharacterVirtualCurrencyRequest::AddCharacterVirtualCurrencyRequest(const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AddCharacterVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue AddCharacterVirtualCurrencyRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementAddCharacterVirtualCurrencyRequest>(*this);
-}
-
-ModifyCharacterVirtualCurrencyResult::ModifyCharacterVirtualCurrencyResult() :
-    PFPlayerItemManagementModifyCharacterVirtualCurrencyResult{}
-{
-}
-
-ModifyCharacterVirtualCurrencyResult::ModifyCharacterVirtualCurrencyResult(const ModifyCharacterVirtualCurrencyResult& src) :
-    PFPlayerItemManagementModifyCharacterVirtualCurrencyResult{ src },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ModifyCharacterVirtualCurrencyResult::ModifyCharacterVirtualCurrencyResult(ModifyCharacterVirtualCurrencyResult&& src) :
-    PFPlayerItemManagementModifyCharacterVirtualCurrencyResult{ src },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ModifyCharacterVirtualCurrencyResult::ModifyCharacterVirtualCurrencyResult(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ModifyCharacterVirtualCurrencyResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Balance", balance);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue ModifyCharacterVirtualCurrencyResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementModifyCharacterVirtualCurrencyResult>(*this);
-}
-
-size_t ModifyCharacterVirtualCurrencyResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementModifyCharacterVirtualCurrencyResult) };
-    serializedSize += (m_virtualCurrency.size() + 1);
-    return serializedSize;
-}
-
-void ModifyCharacterVirtualCurrencyResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementModifyCharacterVirtualCurrencyResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementModifyCharacterVirtualCurrencyResult);
-    memcpy(stringBuffer, m_virtualCurrency.data(), m_virtualCurrency.size() + 1);
-    serializedStruct->virtualCurrency = stringBuffer;
-    stringBuffer += m_virtualCurrency.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerAddUserVirtualCurrencyRequest::ServerAddUserVirtualCurrencyRequest() :
-    PFPlayerItemManagementServerAddUserVirtualCurrencyRequest{}
-{
-}
-
-ServerAddUserVirtualCurrencyRequest::ServerAddUserVirtualCurrencyRequest(const ServerAddUserVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementServerAddUserVirtualCurrencyRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ServerAddUserVirtualCurrencyRequest::ServerAddUserVirtualCurrencyRequest(ServerAddUserVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementServerAddUserVirtualCurrencyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ServerAddUserVirtualCurrencyRequest::ServerAddUserVirtualCurrencyRequest(const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerAddUserVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue ServerAddUserVirtualCurrencyRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerAddUserVirtualCurrencyRequest>(*this);
-}
-
-ServerConsumeItemRequest::ServerConsumeItemRequest() :
-    PFPlayerItemManagementServerConsumeItemRequest{}
-{
-}
-
-ServerConsumeItemRequest::ServerConsumeItemRequest(const ServerConsumeItemRequest& src) :
-    PFPlayerItemManagementServerConsumeItemRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerConsumeItemRequest::ServerConsumeItemRequest(ServerConsumeItemRequest&& src) :
-    PFPlayerItemManagementServerConsumeItemRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerConsumeItemRequest::ServerConsumeItemRequest(const PFPlayerItemManagementServerConsumeItemRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerConsumeItemRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ConsumeCount", consumeCount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerConsumeItemRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerConsumeItemRequest>(*this);
-}
-
-EvaluateRandomResultTableRequest::EvaluateRandomResultTableRequest() :
-    PFPlayerItemManagementEvaluateRandomResultTableRequest{}
-{
-}
-
-EvaluateRandomResultTableRequest::EvaluateRandomResultTableRequest(const EvaluateRandomResultTableRequest& src) :
-    PFPlayerItemManagementEvaluateRandomResultTableRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_tableId{ src.m_tableId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    tableId = m_tableId.empty() ? nullptr : m_tableId.data();
-}
-
-EvaluateRandomResultTableRequest::EvaluateRandomResultTableRequest(EvaluateRandomResultTableRequest&& src) :
-    PFPlayerItemManagementEvaluateRandomResultTableRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_tableId{ std::move(src.m_tableId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    tableId = m_tableId.empty() ? nullptr : m_tableId.data();
-}
-
-EvaluateRandomResultTableRequest::EvaluateRandomResultTableRequest(const PFPlayerItemManagementEvaluateRandomResultTableRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void EvaluateRandomResultTableRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "TableId", m_tableId, tableId);
-}
-
-JsonValue EvaluateRandomResultTableRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementEvaluateRandomResultTableRequest>(*this);
-}
-
-size_t EvaluateRandomResultTableRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementEvaluateRandomResultTableRequest) };
-    serializedSize += (m_catalogVersion.size() + 1);
-    serializedSize += (m_tableId.size() + 1);
-    return serializedSize;
-}
-
-void EvaluateRandomResultTableRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementEvaluateRandomResultTableRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementEvaluateRandomResultTableRequest);
-    memcpy(stringBuffer, m_catalogVersion.data(), m_catalogVersion.size() + 1);
-    serializedStruct->catalogVersion = stringBuffer;
-    stringBuffer += m_catalogVersion.size() + 1;
-    memcpy(stringBuffer, m_tableId.data(), m_tableId.size() + 1);
-    serializedStruct->tableId = stringBuffer;
-    stringBuffer += m_tableId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-EvaluateRandomResultTableResult::EvaluateRandomResultTableResult() :
-    PFPlayerItemManagementEvaluateRandomResultTableResult{}
-{
-}
-
-EvaluateRandomResultTableResult::EvaluateRandomResultTableResult(const EvaluateRandomResultTableResult& src) :
-    PFPlayerItemManagementEvaluateRandomResultTableResult{ src },
-    m_resultItemId{ src.m_resultItemId }
-{
-    resultItemId = m_resultItemId.empty() ? nullptr : m_resultItemId.data();
-}
-
-EvaluateRandomResultTableResult::EvaluateRandomResultTableResult(EvaluateRandomResultTableResult&& src) :
-    PFPlayerItemManagementEvaluateRandomResultTableResult{ src },
-    m_resultItemId{ std::move(src.m_resultItemId) }
-{
-    resultItemId = m_resultItemId.empty() ? nullptr : m_resultItemId.data();
-}
-
-EvaluateRandomResultTableResult::EvaluateRandomResultTableResult(const PFPlayerItemManagementEvaluateRandomResultTableResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void EvaluateRandomResultTableResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ResultItemId", m_resultItemId, resultItemId);
-}
-
-JsonValue EvaluateRandomResultTableResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementEvaluateRandomResultTableResult>(*this);
-}
-
-size_t EvaluateRandomResultTableResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementEvaluateRandomResultTableResult) };
-    serializedSize += (m_resultItemId.size() + 1);
-    return serializedSize;
-}
-
-void EvaluateRandomResultTableResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementEvaluateRandomResultTableResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementEvaluateRandomResultTableResult);
-    memcpy(stringBuffer, m_resultItemId.data(), m_resultItemId.size() + 1);
-    serializedStruct->resultItemId = stringBuffer;
-    stringBuffer += m_resultItemId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerGetCharacterInventoryRequest::ServerGetCharacterInventoryRequest() :
-    PFPlayerItemManagementServerGetCharacterInventoryRequest{}
-{
-}
-
-ServerGetCharacterInventoryRequest::ServerGetCharacterInventoryRequest(const ServerGetCharacterInventoryRequest& src) :
-    PFPlayerItemManagementServerGetCharacterInventoryRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterInventoryRequest::ServerGetCharacterInventoryRequest(ServerGetCharacterInventoryRequest&& src) :
-    PFPlayerItemManagementServerGetCharacterInventoryRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetCharacterInventoryRequest::ServerGetCharacterInventoryRequest(const PFPlayerItemManagementServerGetCharacterInventoryRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetCharacterInventoryRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGetCharacterInventoryRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerGetCharacterInventoryRequest>(*this);
-}
-
-ServerGetCharacterInventoryResult::ServerGetCharacterInventoryResult() :
-    PFPlayerItemManagementServerGetCharacterInventoryResult{}
-{
-}
-
-ServerGetCharacterInventoryResult::ServerGetCharacterInventoryResult(const ServerGetCharacterInventoryResult& src) :
-    PFPlayerItemManagementServerGetCharacterInventoryResult{ src },
-    m_characterId{ src.m_characterId },
-    m_inventory{ src.m_inventory },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency },
-    m_virtualCurrencyRechargeTimes{ src.m_virtualCurrencyRechargeTimes }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ServerGetCharacterInventoryResult::ServerGetCharacterInventoryResult(ServerGetCharacterInventoryResult&& src) :
-    PFPlayerItemManagementServerGetCharacterInventoryResult{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_inventory{ std::move(src.m_inventory) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) },
-    m_virtualCurrencyRechargeTimes{ std::move(src.m_virtualCurrencyRechargeTimes) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ServerGetCharacterInventoryResult::ServerGetCharacterInventoryResult(const PFPlayerItemManagementServerGetCharacterInventoryResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetCharacterInventoryResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyRechargeTimes", m_virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimesCount);
-}
-
-JsonValue ServerGetCharacterInventoryResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerGetCharacterInventoryResult>(*this);
-}
-
-GetRandomResultTablesRequest::GetRandomResultTablesRequest() :
-    PFPlayerItemManagementGetRandomResultTablesRequest{}
-{
-}
-
-GetRandomResultTablesRequest::GetRandomResultTablesRequest(const GetRandomResultTablesRequest& src) :
-    PFPlayerItemManagementGetRandomResultTablesRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_tableIDs{ src.m_tableIDs }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    tableIDs = m_tableIDs.Empty() ? nullptr : m_tableIDs.Data();
-}
-
-GetRandomResultTablesRequest::GetRandomResultTablesRequest(GetRandomResultTablesRequest&& src) :
-    PFPlayerItemManagementGetRandomResultTablesRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_tableIDs{ std::move(src.m_tableIDs) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    tableIDs = m_tableIDs.Empty() ? nullptr : m_tableIDs.Data();
-}
-
-GetRandomResultTablesRequest::GetRandomResultTablesRequest(const PFPlayerItemManagementGetRandomResultTablesRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetRandomResultTablesRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "TableIDs", m_tableIDs, tableIDs, tableIDsCount);
-}
-
-JsonValue GetRandomResultTablesRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGetRandomResultTablesRequest>(*this);
-}
-
-ServerGetUserInventoryRequest::ServerGetUserInventoryRequest() :
-    PFPlayerItemManagementServerGetUserInventoryRequest{}
-{
-}
-
-ServerGetUserInventoryRequest::ServerGetUserInventoryRequest(const ServerGetUserInventoryRequest& src) :
-    PFPlayerItemManagementServerGetUserInventoryRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetUserInventoryRequest::ServerGetUserInventoryRequest(ServerGetUserInventoryRequest&& src) :
-    PFPlayerItemManagementServerGetUserInventoryRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetUserInventoryRequest::ServerGetUserInventoryRequest(const PFPlayerItemManagementServerGetUserInventoryRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetUserInventoryRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGetUserInventoryRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerGetUserInventoryRequest>(*this);
-}
-
-ServerGetUserInventoryResult::ServerGetUserInventoryResult() :
-    PFPlayerItemManagementServerGetUserInventoryResult{}
-{
-}
-
-ServerGetUserInventoryResult::ServerGetUserInventoryResult(const ServerGetUserInventoryResult& src) :
-    PFPlayerItemManagementServerGetUserInventoryResult{ src },
-    m_inventory{ src.m_inventory },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency },
-    m_virtualCurrencyRechargeTimes{ src.m_virtualCurrencyRechargeTimes }
-{
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ServerGetUserInventoryResult::ServerGetUserInventoryResult(ServerGetUserInventoryResult&& src) :
-    PFPlayerItemManagementServerGetUserInventoryResult{ src },
-    m_inventory{ std::move(src.m_inventory) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) },
-    m_virtualCurrencyRechargeTimes{ std::move(src.m_virtualCurrencyRechargeTimes) }
-{
-    inventory = m_inventory.Empty() ? nullptr : m_inventory.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.Empty() ? nullptr : m_virtualCurrency.Data();
-    virtualCurrencyRechargeTimes = m_virtualCurrencyRechargeTimes.Empty() ? nullptr : m_virtualCurrencyRechargeTimes.Data();
-}
-
-ServerGetUserInventoryResult::ServerGetUserInventoryResult(const PFPlayerItemManagementServerGetUserInventoryResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetUserInventoryResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Inventory", m_inventory, inventory, inventoryCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency, virtualCurrencyCount);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrencyRechargeTimes", m_virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimes, virtualCurrencyRechargeTimesCount);
-}
-
-JsonValue ServerGetUserInventoryResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerGetUserInventoryResult>(*this);
-}
-
-GrantItemsToCharacterRequest::GrantItemsToCharacterRequest() :
-    PFPlayerItemManagementGrantItemsToCharacterRequest{}
-{
-}
-
-GrantItemsToCharacterRequest::GrantItemsToCharacterRequest(const GrantItemsToCharacterRequest& src) :
-    PFPlayerItemManagementGrantItemsToCharacterRequest{ src },
-    m_annotation{ src.m_annotation },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_itemIds{ src.m_itemIds },
-    m_playFabId{ src.m_playFabId }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemIds = m_itemIds.Empty() ? nullptr : m_itemIds.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GrantItemsToCharacterRequest::GrantItemsToCharacterRequest(GrantItemsToCharacterRequest&& src) :
-    PFPlayerItemManagementGrantItemsToCharacterRequest{ src },
-    m_annotation{ std::move(src.m_annotation) },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemIds{ std::move(src.m_itemIds) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemIds = m_itemIds.Empty() ? nullptr : m_itemIds.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GrantItemsToCharacterRequest::GrantItemsToCharacterRequest(const PFPlayerItemManagementGrantItemsToCharacterRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantItemsToCharacterRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Annotation", m_annotation, annotation);
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemIds", m_itemIds, itemIds, itemIdsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue GrantItemsToCharacterRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantItemsToCharacterRequest>(*this);
-}
-
-GrantItemsToCharacterResult::GrantItemsToCharacterResult() :
-    PFPlayerItemManagementGrantItemsToCharacterResult{}
-{
-}
-
-GrantItemsToCharacterResult::GrantItemsToCharacterResult(const GrantItemsToCharacterResult& src) :
-    PFPlayerItemManagementGrantItemsToCharacterResult{ src },
-    m_itemGrantResults{ src.m_itemGrantResults }
-{
-    itemGrantResults = m_itemGrantResults.Empty() ? nullptr : m_itemGrantResults.Data();
-}
-
-GrantItemsToCharacterResult::GrantItemsToCharacterResult(GrantItemsToCharacterResult&& src) :
-    PFPlayerItemManagementGrantItemsToCharacterResult{ src },
-    m_itemGrantResults{ std::move(src.m_itemGrantResults) }
-{
-    itemGrantResults = m_itemGrantResults.Empty() ? nullptr : m_itemGrantResults.Data();
-}
-
-GrantItemsToCharacterResult::GrantItemsToCharacterResult(const PFPlayerItemManagementGrantItemsToCharacterResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantItemsToCharacterResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ItemGrantResults", m_itemGrantResults, itemGrantResults, itemGrantResultsCount);
-}
-
-JsonValue GrantItemsToCharacterResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantItemsToCharacterResult>(*this);
-}
-
-GrantItemsToUserRequest::GrantItemsToUserRequest() :
-    PFPlayerItemManagementGrantItemsToUserRequest{}
-{
-}
-
-GrantItemsToUserRequest::GrantItemsToUserRequest(const GrantItemsToUserRequest& src) :
-    PFPlayerItemManagementGrantItemsToUserRequest{ src },
-    m_annotation{ src.m_annotation },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_customTags{ src.m_customTags },
-    m_itemIds{ src.m_itemIds },
-    m_playFabId{ src.m_playFabId }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemIds = m_itemIds.Empty() ? nullptr : m_itemIds.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GrantItemsToUserRequest::GrantItemsToUserRequest(GrantItemsToUserRequest&& src) :
-    PFPlayerItemManagementGrantItemsToUserRequest{ src },
-    m_annotation{ std::move(src.m_annotation) },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemIds{ std::move(src.m_itemIds) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    annotation = m_annotation.empty() ? nullptr : m_annotation.data();
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemIds = m_itemIds.Empty() ? nullptr : m_itemIds.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GrantItemsToUserRequest::GrantItemsToUserRequest(const PFPlayerItemManagementGrantItemsToUserRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantItemsToUserRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Annotation", m_annotation, annotation);
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemIds", m_itemIds, itemIds, itemIdsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue GrantItemsToUserRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantItemsToUserRequest>(*this);
-}
-
-GrantItemsToUserResult::GrantItemsToUserResult() :
-    PFPlayerItemManagementGrantItemsToUserResult{}
-{
-}
-
-GrantItemsToUserResult::GrantItemsToUserResult(const GrantItemsToUserResult& src) :
-    PFPlayerItemManagementGrantItemsToUserResult{ src },
-    m_itemGrantResults{ src.m_itemGrantResults }
-{
-    itemGrantResults = m_itemGrantResults.Empty() ? nullptr : m_itemGrantResults.Data();
-}
-
-GrantItemsToUserResult::GrantItemsToUserResult(GrantItemsToUserResult&& src) :
-    PFPlayerItemManagementGrantItemsToUserResult{ src },
-    m_itemGrantResults{ std::move(src.m_itemGrantResults) }
-{
-    itemGrantResults = m_itemGrantResults.Empty() ? nullptr : m_itemGrantResults.Data();
-}
-
-GrantItemsToUserResult::GrantItemsToUserResult(const PFPlayerItemManagementGrantItemsToUserResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GrantItemsToUserResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ItemGrantResults", m_itemGrantResults, itemGrantResults, itemGrantResultsCount);
-}
-
-JsonValue GrantItemsToUserResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementGrantItemsToUserResult>(*this);
-}
-
-ModifyItemUsesRequest::ModifyItemUsesRequest() :
-    PFPlayerItemManagementModifyItemUsesRequest{}
-{
-}
-
-ModifyItemUsesRequest::ModifyItemUsesRequest(const ModifyItemUsesRequest& src) :
-    PFPlayerItemManagementModifyItemUsesRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ModifyItemUsesRequest::ModifyItemUsesRequest(ModifyItemUsesRequest&& src) :
-    PFPlayerItemManagementModifyItemUsesRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ModifyItemUsesRequest::ModifyItemUsesRequest(const PFPlayerItemManagementModifyItemUsesRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ModifyItemUsesRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "UsesToAdd", usesToAdd);
-}
-
-JsonValue ModifyItemUsesRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementModifyItemUsesRequest>(*this);
-}
-
-ModifyItemUsesResult::ModifyItemUsesResult() :
-    PFPlayerItemManagementModifyItemUsesResult{}
-{
-}
-
-ModifyItemUsesResult::ModifyItemUsesResult(const ModifyItemUsesResult& src) :
-    PFPlayerItemManagementModifyItemUsesResult{ src },
-    m_itemInstanceId{ src.m_itemInstanceId }
-{
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-}
-
-ModifyItemUsesResult::ModifyItemUsesResult(ModifyItemUsesResult&& src) :
-    PFPlayerItemManagementModifyItemUsesResult{ src },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) }
-{
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-}
-
-ModifyItemUsesResult::ModifyItemUsesResult(const PFPlayerItemManagementModifyItemUsesResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ModifyItemUsesResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "RemainingUses", remainingUses);
-}
-
-JsonValue ModifyItemUsesResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementModifyItemUsesResult>(*this);
-}
-
-size_t ModifyItemUsesResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementModifyItemUsesResult) };
-    serializedSize += (m_itemInstanceId.size() + 1);
-    return serializedSize;
-}
-
-void ModifyItemUsesResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementModifyItemUsesResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementModifyItemUsesResult);
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-MoveItemToCharacterFromCharacterRequest::MoveItemToCharacterFromCharacterRequest() :
-    PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest{}
-{
-}
-
-MoveItemToCharacterFromCharacterRequest::MoveItemToCharacterFromCharacterRequest(const MoveItemToCharacterFromCharacterRequest& src) :
-    PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest{ src },
-    m_givingCharacterId{ src.m_givingCharacterId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId },
-    m_receivingCharacterId{ src.m_receivingCharacterId }
-{
-    givingCharacterId = m_givingCharacterId.empty() ? nullptr : m_givingCharacterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    receivingCharacterId = m_receivingCharacterId.empty() ? nullptr : m_receivingCharacterId.data();
-}
-
-MoveItemToCharacterFromCharacterRequest::MoveItemToCharacterFromCharacterRequest(MoveItemToCharacterFromCharacterRequest&& src) :
-    PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest{ src },
-    m_givingCharacterId{ std::move(src.m_givingCharacterId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_receivingCharacterId{ std::move(src.m_receivingCharacterId) }
-{
-    givingCharacterId = m_givingCharacterId.empty() ? nullptr : m_givingCharacterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    receivingCharacterId = m_receivingCharacterId.empty() ? nullptr : m_receivingCharacterId.data();
-}
-
-MoveItemToCharacterFromCharacterRequest::MoveItemToCharacterFromCharacterRequest(const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void MoveItemToCharacterFromCharacterRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "GivingCharacterId", m_givingCharacterId, givingCharacterId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "ReceivingCharacterId", m_receivingCharacterId, receivingCharacterId);
-}
-
-JsonValue MoveItemToCharacterFromCharacterRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest>(*this);
-}
-
-size_t MoveItemToCharacterFromCharacterRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest) };
-    serializedSize += (m_givingCharacterId.size() + 1);
-    serializedSize += (m_itemInstanceId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    serializedSize += (m_receivingCharacterId.size() + 1);
-    return serializedSize;
-}
-
-void MoveItemToCharacterFromCharacterRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest);
-    memcpy(stringBuffer, m_givingCharacterId.data(), m_givingCharacterId.size() + 1);
-    serializedStruct->givingCharacterId = stringBuffer;
-    stringBuffer += m_givingCharacterId.size() + 1;
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    memcpy(stringBuffer, m_receivingCharacterId.data(), m_receivingCharacterId.size() + 1);
-    serializedStruct->receivingCharacterId = stringBuffer;
-    stringBuffer += m_receivingCharacterId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-MoveItemToCharacterFromUserRequest::MoveItemToCharacterFromUserRequest() :
-    PFPlayerItemManagementMoveItemToCharacterFromUserRequest{}
-{
-}
-
-MoveItemToCharacterFromUserRequest::MoveItemToCharacterFromUserRequest(const MoveItemToCharacterFromUserRequest& src) :
-    PFPlayerItemManagementMoveItemToCharacterFromUserRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-MoveItemToCharacterFromUserRequest::MoveItemToCharacterFromUserRequest(MoveItemToCharacterFromUserRequest&& src) :
-    PFPlayerItemManagementMoveItemToCharacterFromUserRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-MoveItemToCharacterFromUserRequest::MoveItemToCharacterFromUserRequest(const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void MoveItemToCharacterFromUserRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue MoveItemToCharacterFromUserRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementMoveItemToCharacterFromUserRequest>(*this);
-}
-
-size_t MoveItemToCharacterFromUserRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementMoveItemToCharacterFromUserRequest) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_itemInstanceId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
-}
-
-void MoveItemToCharacterFromUserRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementMoveItemToCharacterFromUserRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementMoveItemToCharacterFromUserRequest);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-MoveItemToUserFromCharacterRequest::MoveItemToUserFromCharacterRequest() :
-    PFPlayerItemManagementMoveItemToUserFromCharacterRequest{}
-{
-}
-
-MoveItemToUserFromCharacterRequest::MoveItemToUserFromCharacterRequest(const MoveItemToUserFromCharacterRequest& src) :
-    PFPlayerItemManagementMoveItemToUserFromCharacterRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-MoveItemToUserFromCharacterRequest::MoveItemToUserFromCharacterRequest(MoveItemToUserFromCharacterRequest&& src) :
-    PFPlayerItemManagementMoveItemToUserFromCharacterRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-MoveItemToUserFromCharacterRequest::MoveItemToUserFromCharacterRequest(const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void MoveItemToUserFromCharacterRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue MoveItemToUserFromCharacterRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementMoveItemToUserFromCharacterRequest>(*this);
-}
-
-size_t MoveItemToUserFromCharacterRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementMoveItemToUserFromCharacterRequest) };
-    serializedSize += (m_characterId.size() + 1);
-    serializedSize += (m_itemInstanceId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    return serializedSize;
-}
-
-void MoveItemToUserFromCharacterRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementMoveItemToUserFromCharacterRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementMoveItemToUserFromCharacterRequest);
-    memcpy(stringBuffer, m_characterId.data(), m_characterId.size() + 1);
-    serializedStruct->characterId = stringBuffer;
-    stringBuffer += m_characterId.size() + 1;
-    memcpy(stringBuffer, m_itemInstanceId.data(), m_itemInstanceId.size() + 1);
-    serializedStruct->itemInstanceId = stringBuffer;
-    stringBuffer += m_itemInstanceId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ServerRedeemCouponRequest::ServerRedeemCouponRequest() :
-    PFPlayerItemManagementServerRedeemCouponRequest{}
-{
-}
-
-ServerRedeemCouponRequest::ServerRedeemCouponRequest(const ServerRedeemCouponRequest& src) :
-    PFPlayerItemManagementServerRedeemCouponRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_couponCode{ src.m_couponCode },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    couponCode = m_couponCode.empty() ? nullptr : m_couponCode.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerRedeemCouponRequest::ServerRedeemCouponRequest(ServerRedeemCouponRequest&& src) :
-    PFPlayerItemManagementServerRedeemCouponRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_couponCode{ std::move(src.m_couponCode) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    couponCode = m_couponCode.empty() ? nullptr : m_couponCode.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerRedeemCouponRequest::ServerRedeemCouponRequest(const PFPlayerItemManagementServerRedeemCouponRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerRedeemCouponRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CouponCode", m_couponCode, couponCode);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerRedeemCouponRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerRedeemCouponRequest>(*this);
-}
-
-ReportPlayerServerRequest::ReportPlayerServerRequest() :
-    PFPlayerItemManagementReportPlayerServerRequest{}
-{
-}
-
-ReportPlayerServerRequest::ReportPlayerServerRequest(const ReportPlayerServerRequest& src) :
-    PFPlayerItemManagementReportPlayerServerRequest{ src },
-    m_comment{ src.m_comment },
-    m_customTags{ src.m_customTags },
-    m_reporteeId{ src.m_reporteeId },
-    m_reporterId{ src.m_reporterId }
-{
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    reporteeId = m_reporteeId.empty() ? nullptr : m_reporteeId.data();
-    reporterId = m_reporterId.empty() ? nullptr : m_reporterId.data();
-}
-
-ReportPlayerServerRequest::ReportPlayerServerRequest(ReportPlayerServerRequest&& src) :
-    PFPlayerItemManagementReportPlayerServerRequest{ src },
-    m_comment{ std::move(src.m_comment) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_reporteeId{ std::move(src.m_reporteeId) },
-    m_reporterId{ std::move(src.m_reporterId) }
-{
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    reporteeId = m_reporteeId.empty() ? nullptr : m_reporteeId.data();
-    reporterId = m_reporterId.empty() ? nullptr : m_reporterId.data();
-}
-
-ReportPlayerServerRequest::ReportPlayerServerRequest(const PFPlayerItemManagementReportPlayerServerRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ReportPlayerServerRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Comment", m_comment, comment);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ReporteeId", m_reporteeId, reporteeId);
-    JsonUtils::ObjectGetMember(input, "ReporterId", m_reporterId, reporterId);
-}
-
-JsonValue ReportPlayerServerRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementReportPlayerServerRequest>(*this);
-}
-
-ReportPlayerServerResult::ReportPlayerServerResult() :
-    PFPlayerItemManagementReportPlayerServerResult{}
-{
-}
-
-
-ReportPlayerServerResult::ReportPlayerServerResult(const PFPlayerItemManagementReportPlayerServerResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ReportPlayerServerResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "SubmissionsRemaining", submissionsRemaining);
-}
-
-JsonValue ReportPlayerServerResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementReportPlayerServerResult>(*this);
-}
-
-size_t ReportPlayerServerResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerItemManagementReportPlayerServerResult) };
-    return serializedSize;
-}
-
-void ReportPlayerServerResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerItemManagementReportPlayerServerResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerItemManagementReportPlayerServerResult);
-    UNREFERENCED_PARAMETER(serializedStruct);
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-SubtractCharacterVirtualCurrencyRequest::SubtractCharacterVirtualCurrencyRequest() :
-    PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest{}
-{
-}
-
-SubtractCharacterVirtualCurrencyRequest::SubtractCharacterVirtualCurrencyRequest(const SubtractCharacterVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-SubtractCharacterVirtualCurrencyRequest::SubtractCharacterVirtualCurrencyRequest(SubtractCharacterVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-SubtractCharacterVirtualCurrencyRequest::SubtractCharacterVirtualCurrencyRequest(const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void SubtractCharacterVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue SubtractCharacterVirtualCurrencyRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest>(*this);
-}
-
-ServerSubtractUserVirtualCurrencyRequest::ServerSubtractUserVirtualCurrencyRequest() :
-    PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest{}
-{
-}
-
-ServerSubtractUserVirtualCurrencyRequest::ServerSubtractUserVirtualCurrencyRequest(const ServerSubtractUserVirtualCurrencyRequest& src) :
-    PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_virtualCurrency{ src.m_virtualCurrency }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ServerSubtractUserVirtualCurrencyRequest::ServerSubtractUserVirtualCurrencyRequest(ServerSubtractUserVirtualCurrencyRequest&& src) :
-    PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_virtualCurrency{ std::move(src.m_virtualCurrency) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    virtualCurrency = m_virtualCurrency.empty() ? nullptr : m_virtualCurrency.data();
-}
-
-ServerSubtractUserVirtualCurrencyRequest::ServerSubtractUserVirtualCurrencyRequest(const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerSubtractUserVirtualCurrencyRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Amount", amount);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "VirtualCurrency", m_virtualCurrency, virtualCurrency);
-}
-
-JsonValue ServerSubtractUserVirtualCurrencyRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest>(*this);
-}
-
-ServerUnlockContainerInstanceRequest::ServerUnlockContainerInstanceRequest() :
-    PFPlayerItemManagementServerUnlockContainerInstanceRequest{}
-{
-}
-
-ServerUnlockContainerInstanceRequest::ServerUnlockContainerInstanceRequest(const ServerUnlockContainerInstanceRequest& src) :
-    PFPlayerItemManagementServerUnlockContainerInstanceRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_containerItemInstanceId{ src.m_containerItemInstanceId },
-    m_customTags{ src.m_customTags },
-    m_keyItemInstanceId{ src.m_keyItemInstanceId },
-    m_playFabId{ src.m_playFabId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemInstanceId = m_containerItemInstanceId.empty() ? nullptr : m_containerItemInstanceId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    keyItemInstanceId = m_keyItemInstanceId.empty() ? nullptr : m_keyItemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUnlockContainerInstanceRequest::ServerUnlockContainerInstanceRequest(ServerUnlockContainerInstanceRequest&& src) :
-    PFPlayerItemManagementServerUnlockContainerInstanceRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_containerItemInstanceId{ std::move(src.m_containerItemInstanceId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_keyItemInstanceId{ std::move(src.m_keyItemInstanceId) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemInstanceId = m_containerItemInstanceId.empty() ? nullptr : m_containerItemInstanceId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    keyItemInstanceId = m_keyItemInstanceId.empty() ? nullptr : m_keyItemInstanceId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUnlockContainerInstanceRequest::ServerUnlockContainerInstanceRequest(const PFPlayerItemManagementServerUnlockContainerInstanceRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerUnlockContainerInstanceRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ContainerItemInstanceId", m_containerItemInstanceId, containerItemInstanceId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "KeyItemInstanceId", m_keyItemInstanceId, keyItemInstanceId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerUnlockContainerInstanceRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerUnlockContainerInstanceRequest>(*this);
-}
-
-ServerUnlockContainerItemRequest::ServerUnlockContainerItemRequest() :
-    PFPlayerItemManagementServerUnlockContainerItemRequest{}
-{
-}
-
-ServerUnlockContainerItemRequest::ServerUnlockContainerItemRequest(const ServerUnlockContainerItemRequest& src) :
-    PFPlayerItemManagementServerUnlockContainerItemRequest{ src },
-    m_catalogVersion{ src.m_catalogVersion },
-    m_characterId{ src.m_characterId },
-    m_containerItemId{ src.m_containerItemId },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemId = m_containerItemId.empty() ? nullptr : m_containerItemId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUnlockContainerItemRequest::ServerUnlockContainerItemRequest(ServerUnlockContainerItemRequest&& src) :
-    PFPlayerItemManagementServerUnlockContainerItemRequest{ src },
-    m_catalogVersion{ std::move(src.m_catalogVersion) },
-    m_characterId{ std::move(src.m_characterId) },
-    m_containerItemId{ std::move(src.m_containerItemId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    catalogVersion = m_catalogVersion.empty() ? nullptr : m_catalogVersion.data();
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    containerItemId = m_containerItemId.empty() ? nullptr : m_containerItemId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUnlockContainerItemRequest::ServerUnlockContainerItemRequest(const PFPlayerItemManagementServerUnlockContainerItemRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerUnlockContainerItemRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CatalogVersion", m_catalogVersion, catalogVersion);
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "ContainerItemId", m_containerItemId, containerItemId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerUnlockContainerItemRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementServerUnlockContainerItemRequest>(*this);
-}
-
-UpdateUserInventoryItemDataRequest::UpdateUserInventoryItemDataRequest() :
-    PFPlayerItemManagementUpdateUserInventoryItemDataRequest{}
-{
-}
-
-UpdateUserInventoryItemDataRequest::UpdateUserInventoryItemDataRequest(const UpdateUserInventoryItemDataRequest& src) :
-    PFPlayerItemManagementUpdateUserInventoryItemDataRequest{ src },
-    m_characterId{ src.m_characterId },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_itemInstanceId{ src.m_itemInstanceId },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_playFabId{ src.m_playFabId }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-UpdateUserInventoryItemDataRequest::UpdateUserInventoryItemDataRequest(UpdateUserInventoryItemDataRequest&& src) :
-    PFPlayerItemManagementUpdateUserInventoryItemDataRequest{ src },
-    m_characterId{ std::move(src.m_characterId) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_itemInstanceId{ std::move(src.m_itemInstanceId) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    characterId = m_characterId.empty() ? nullptr : m_characterId.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    itemInstanceId = m_itemInstanceId.empty() ? nullptr : m_itemInstanceId.data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-UpdateUserInventoryItemDataRequest::UpdateUserInventoryItemDataRequest(const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateUserInventoryItemDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CharacterId", m_characterId, characterId);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "ItemInstanceId", m_itemInstanceId, itemInstanceId);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue UpdateUserInventoryItemDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerItemManagementUpdateUserInventoryItemDataRequest>(*this);
-}
-
-} // namespace PlayerItemManagementModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementAdminAddUserVirtualCurrencyRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementModifyUserVirtualCurrencyResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Balance", input.balance);
-    JsonUtils::ObjectAddMember(output, "BalanceChange", input.balanceChange);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementCheckLimitedEditionItemAvailabilityResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementAdminGetUserInventoryRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementAdminGetUserInventoryResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyRechargeTimes", input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementItemGrant& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUsersRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ItemGrants", input.itemGrants, input.itemGrantsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantedItemInstance& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
-    JsonUtils::ObjectAddMember(output, "BundleContents", input.bundleContents, input.bundleContentsCount);
-    JsonUtils::ObjectAddMember(output, "BundleParent", input.bundleParent);
-    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomData", input.customData, input.customDataCount);
-    JsonUtils::ObjectAddMember(output, "DisplayName", input.displayName);
-    JsonUtils::ObjectAddMember(output, "Expiration", input.expiration, true);
-    JsonUtils::ObjectAddMember(output, "ItemClass", input.itemClass);
-    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
-    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "PurchaseDate", input.purchaseDate, true);
-    JsonUtils::ObjectAddMember(output, "RemainingUses", input.remainingUses);
-    JsonUtils::ObjectAddMember(output, "Result", input.result);
-    JsonUtils::ObjectAddMember(output, "UnitCurrency", input.unitCurrency);
-    JsonUtils::ObjectAddMember(output, "UnitPrice", input.unitPrice);
-    JsonUtils::ObjectAddMember(output, "UsesIncrementedBy", input.usesIncrementedBy);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUsersResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ItemGrantResults", input.itemGrantResults, input.itemGrantResultsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementIncrementLimitedEditionItemAvailabilityRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItemRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItem& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItemsRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Items", input.items, input.itemsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeItemError& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Error", input.error);
-    JsonUtils::ObjectAddMember(output, "Item", input.item);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementRevokeInventoryItemsResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Errors", input.errors, input.errorsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementAdminSubtractUserVirtualCurrencyRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientAddUserVirtualCurrencyRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementConfirmPurchaseRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementConfirmPurchaseResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Items", input.items, input.itemsCount);
-    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
-    JsonUtils::ObjectAddMember(output, "PurchaseDate", input.purchaseDate, true);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientConsumeItemRequest& input)
+JsonValue ClientConsumeItemRequest::ToJson(const PFPlayerItemManagementClientConsumeItemRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "ConsumeCount", input.consumeCount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementConsumeItemResult& input)
+void ConsumeItemResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "RemainingUses", input.remainingUses);
-    return output;
+    String itemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "ItemInstanceId", itemInstanceId);
+    this->SetItemInstanceId(std::move(itemInstanceId));
+
+    JsonUtils::ObjectGetMember(input, "RemainingUses", this->m_model.remainingUses);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetCharacterInventoryRequest& input)
+size_t ConsumeItemResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementConsumeItemResult const*> ConsumeItemResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ConsumeItemResult>(&this->Model());
+}
+
+size_t ConsumeItemResult::RequiredBufferSize(const PFPlayerItemManagementConsumeItemResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.itemInstanceId)
+    {
+        requiredSize += (std::strlen(model.itemInstanceId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ConsumeItemResult::Copy(const PFPlayerItemManagementConsumeItemResult& input, PFPlayerItemManagementConsumeItemResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.itemInstanceId = buffer.CopyTo(input.itemInstanceId);
+    return S_OK;
+}
+
+JsonValue ClientGetCharacterInventoryRequest::ToJson() const
+{
+    return ClientGetCharacterInventoryRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetCharacterInventoryRequest::ToJson(const PFPlayerItemManagementClientGetCharacterInventoryRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetCharacterInventoryResult& input)
+void ClientGetCharacterInventoryResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyRechargeTimes", input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
-    return output;
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    ModelVector<ItemInstance> inventory{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Inventory", inventory);
+    this->SetInventory(std::move(inventory));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
+
+    ModelDictionaryEntryVector<VirtualCurrencyRechargeTime> virtualCurrencyRechargeTimes{};
+    JsonUtils::ObjectGetMember<VirtualCurrencyRechargeTime>(input, "VirtualCurrencyRechargeTimes", virtualCurrencyRechargeTimes);
+    this->SetVirtualCurrencyRechargeTimes(std::move(virtualCurrencyRechargeTimes));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGetPaymentTokenRequest& input)
+size_t ClientGetCharacterInventoryResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementClientGetCharacterInventoryResult const*> ClientGetCharacterInventoryResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ClientGetCharacterInventoryResult>(&this->Model());
+}
+
+size_t ClientGetCharacterInventoryResult::RequiredBufferSize(const PFPlayerItemManagementClientGetCharacterInventoryResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.inventoryCount);
+    for (size_t i = 0; i < model.inventoryCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.inventory[i]);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    requiredSize += (alignof(PFVirtualCurrencyRechargeTimeDictionaryEntry) + sizeof(PFVirtualCurrencyRechargeTimeDictionaryEntry) * model.virtualCurrencyRechargeTimesCount);
+    for (size_t i = 0; i < model.virtualCurrencyRechargeTimesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyRechargeTimes[i].key) + 1);
+        requiredSize += VirtualCurrencyRechargeTime::RequiredBufferSize(*model.virtualCurrencyRechargeTimes[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGetCharacterInventoryResult::Copy(const PFPlayerItemManagementClientGetCharacterInventoryResult& input, PFPlayerItemManagementClientGetCharacterInventoryResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.inventory = buffer.CopyToArray<ItemInstance>(input.inventory, input.inventoryCount);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    output.virtualCurrencyRechargeTimes = buffer.CopyToDictionary<VirtualCurrencyRechargeTime>(input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
+    return S_OK;
+}
+
+JsonValue GetPaymentTokenRequest::ToJson() const
+{
+    return GetPaymentTokenRequest::ToJson(this->Model());
+}
+
+JsonValue GetPaymentTokenRequest::ToJson(const PFPlayerItemManagementGetPaymentTokenRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "TokenProvider", input.tokenProvider);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGetPaymentTokenResult& input)
+void GetPaymentTokenResult::FromJson(const JsonValue& input)
+{
+    String orderId{};
+    JsonUtils::ObjectGetMember(input, "OrderId", orderId);
+    this->SetOrderId(std::move(orderId));
+
+    String providerToken{};
+    JsonUtils::ObjectGetMember(input, "ProviderToken", providerToken);
+    this->SetProviderToken(std::move(providerToken));
+}
+
+size_t GetPaymentTokenResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementGetPaymentTokenResult const*> GetPaymentTokenResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetPaymentTokenResult>(&this->Model());
+}
+
+size_t GetPaymentTokenResult::RequiredBufferSize(const PFPlayerItemManagementGetPaymentTokenResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.orderId)
+    {
+        requiredSize += (std::strlen(model.orderId) + 1);
+    }
+    if (model.providerToken)
+    {
+        requiredSize += (std::strlen(model.providerToken) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT GetPaymentTokenResult::Copy(const PFPlayerItemManagementGetPaymentTokenResult& input, PFPlayerItemManagementGetPaymentTokenResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.orderId = buffer.CopyTo(input.orderId);
+    output.providerToken = buffer.CopyTo(input.providerToken);
+    return S_OK;
+}
+
+JsonValue GetPurchaseRequest::ToJson() const
+{
+    return GetPurchaseRequest::ToJson(this->Model());
+}
+
+JsonValue GetPurchaseRequest::ToJson(const PFPlayerItemManagementGetPurchaseRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
-    JsonUtils::ObjectAddMember(output, "ProviderToken", input.providerToken);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGetPurchaseRequest& input)
+void GetPurchaseResult::FromJson(const JsonValue& input)
+{
+    String orderId{};
+    JsonUtils::ObjectGetMember(input, "OrderId", orderId);
+    this->SetOrderId(std::move(orderId));
+
+    String paymentProvider{};
+    JsonUtils::ObjectGetMember(input, "PaymentProvider", paymentProvider);
+    this->SetPaymentProvider(std::move(paymentProvider));
+
+    JsonUtils::ObjectGetMemberTime(input, "PurchaseDate", this->m_model.purchaseDate);
+
+    String transactionId{};
+    JsonUtils::ObjectGetMember(input, "TransactionId", transactionId);
+    this->SetTransactionId(std::move(transactionId));
+
+    String transactionStatus{};
+    JsonUtils::ObjectGetMember(input, "TransactionStatus", transactionStatus);
+    this->SetTransactionStatus(std::move(transactionStatus));
+}
+
+size_t GetPurchaseResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementGetPurchaseResult const*> GetPurchaseResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetPurchaseResult>(&this->Model());
+}
+
+size_t GetPurchaseResult::RequiredBufferSize(const PFPlayerItemManagementGetPurchaseResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.orderId)
+    {
+        requiredSize += (std::strlen(model.orderId) + 1);
+    }
+    if (model.paymentProvider)
+    {
+        requiredSize += (std::strlen(model.paymentProvider) + 1);
+    }
+    if (model.transactionId)
+    {
+        requiredSize += (std::strlen(model.transactionId) + 1);
+    }
+    if (model.transactionStatus)
+    {
+        requiredSize += (std::strlen(model.transactionStatus) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT GetPurchaseResult::Copy(const PFPlayerItemManagementGetPurchaseResult& input, PFPlayerItemManagementGetPurchaseResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.orderId = buffer.CopyTo(input.orderId);
+    output.paymentProvider = buffer.CopyTo(input.paymentProvider);
+    output.transactionId = buffer.CopyTo(input.transactionId);
+    output.transactionStatus = buffer.CopyTo(input.transactionStatus);
+    return S_OK;
+}
+
+JsonValue ClientGetUserInventoryRequest::ToJson() const
+{
+    return ClientGetUserInventoryRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetUserInventoryRequest::ToJson(const PFPlayerItemManagementClientGetUserInventoryRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGetPurchaseResult& input)
+void ClientGetUserInventoryResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
-    JsonUtils::ObjectAddMember(output, "PaymentProvider", input.paymentProvider);
-    JsonUtils::ObjectAddMember(output, "PurchaseDate", input.purchaseDate, true);
-    JsonUtils::ObjectAddMember(output, "TransactionId", input.transactionId);
-    JsonUtils::ObjectAddMember(output, "TransactionStatus", input.transactionStatus);
-    return output;
+    ModelVector<ItemInstance> inventory{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Inventory", inventory);
+    this->SetInventory(std::move(inventory));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
+
+    ModelDictionaryEntryVector<VirtualCurrencyRechargeTime> virtualCurrencyRechargeTimes{};
+    JsonUtils::ObjectGetMember<VirtualCurrencyRechargeTime>(input, "VirtualCurrencyRechargeTimes", virtualCurrencyRechargeTimes);
+    this->SetVirtualCurrencyRechargeTimes(std::move(virtualCurrencyRechargeTimes));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetUserInventoryRequest& input)
+size_t ClientGetUserInventoryResult::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientGetUserInventoryResult& input)
+Result<PFPlayerItemManagementClientGetUserInventoryResult const*> ClientGetUserInventoryResult::Copy(ModelBuffer& buffer) const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyRechargeTimes", input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
-    return output;
+    return buffer.CopyTo<ClientGetUserInventoryResult>(&this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementPayForPurchaseRequest& input)
+size_t ClientGetUserInventoryResult::RequiredBufferSize(const PFPlayerItemManagementClientGetUserInventoryResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.inventoryCount);
+    for (size_t i = 0; i < model.inventoryCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.inventory[i]);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    requiredSize += (alignof(PFVirtualCurrencyRechargeTimeDictionaryEntry) + sizeof(PFVirtualCurrencyRechargeTimeDictionaryEntry) * model.virtualCurrencyRechargeTimesCount);
+    for (size_t i = 0; i < model.virtualCurrencyRechargeTimesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyRechargeTimes[i].key) + 1);
+        requiredSize += VirtualCurrencyRechargeTime::RequiredBufferSize(*model.virtualCurrencyRechargeTimes[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGetUserInventoryResult::Copy(const PFPlayerItemManagementClientGetUserInventoryResult& input, PFPlayerItemManagementClientGetUserInventoryResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.inventory = buffer.CopyToArray<ItemInstance>(input.inventory, input.inventoryCount);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    output.virtualCurrencyRechargeTimes = buffer.CopyToDictionary<VirtualCurrencyRechargeTime>(input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
+    return S_OK;
+}
+
+JsonValue PayForPurchaseRequest::ToJson() const
+{
+    return PayForPurchaseRequest::ToJson(this->Model());
+}
+
+JsonValue PayForPurchaseRequest::ToJson(const PFPlayerItemManagementPayForPurchaseRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Currency", input.currency);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
     JsonUtils::ObjectAddMember(output, "ProviderName", input.providerName);
     JsonUtils::ObjectAddMember(output, "ProviderTransactionId", input.providerTransactionId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementPayForPurchaseResult& input)
+void PayForPurchaseResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CreditApplied", input.creditApplied);
-    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
-    JsonUtils::ObjectAddMember(output, "ProviderData", input.providerData);
-    JsonUtils::ObjectAddMember(output, "ProviderToken", input.providerToken);
-    JsonUtils::ObjectAddMember(output, "PurchaseConfirmationPageURL", input.purchaseConfirmationPageURL);
-    JsonUtils::ObjectAddMember(output, "PurchaseCurrency", input.purchaseCurrency);
-    JsonUtils::ObjectAddMember(output, "PurchasePrice", input.purchasePrice);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
-    JsonUtils::ObjectAddMember(output, "VCAmount", input.vCAmount, input.vCAmountCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    return output;
+    JsonUtils::ObjectGetMember(input, "CreditApplied", this->m_model.creditApplied);
+
+    String orderId{};
+    JsonUtils::ObjectGetMember(input, "OrderId", orderId);
+    this->SetOrderId(std::move(orderId));
+
+    String providerData{};
+    JsonUtils::ObjectGetMember(input, "ProviderData", providerData);
+    this->SetProviderData(std::move(providerData));
+
+    String providerToken{};
+    JsonUtils::ObjectGetMember(input, "ProviderToken", providerToken);
+    this->SetProviderToken(std::move(providerToken));
+
+    String purchaseConfirmationPageURL{};
+    JsonUtils::ObjectGetMember(input, "PurchaseConfirmationPageURL", purchaseConfirmationPageURL);
+    this->SetPurchaseConfirmationPageURL(std::move(purchaseConfirmationPageURL));
+
+    String purchaseCurrency{};
+    JsonUtils::ObjectGetMember(input, "PurchaseCurrency", purchaseCurrency);
+    this->SetPurchaseCurrency(std::move(purchaseCurrency));
+
+    JsonUtils::ObjectGetMember(input, "PurchasePrice", this->m_model.purchasePrice);
+
+    StdExtra::optional<PFPlayerItemManagementTransactionStatus> status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> vCAmount{};
+    JsonUtils::ObjectGetMember(input, "VCAmount", vCAmount);
+    this->SetVCAmount(std::move(vCAmount));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementPurchaseItemRequest& input)
+size_t PayForPurchaseResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementPayForPurchaseResult const*> PayForPurchaseResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PayForPurchaseResult>(&this->Model());
+}
+
+size_t PayForPurchaseResult::RequiredBufferSize(const PFPlayerItemManagementPayForPurchaseResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.orderId)
+    {
+        requiredSize += (std::strlen(model.orderId) + 1);
+    }
+    if (model.providerData)
+    {
+        requiredSize += (std::strlen(model.providerData) + 1);
+    }
+    if (model.providerToken)
+    {
+        requiredSize += (std::strlen(model.providerToken) + 1);
+    }
+    if (model.purchaseConfirmationPageURL)
+    {
+        requiredSize += (std::strlen(model.purchaseConfirmationPageURL) + 1);
+    }
+    if (model.purchaseCurrency)
+    {
+        requiredSize += (std::strlen(model.purchaseCurrency) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (alignof(PFPlayerItemManagementTransactionStatus) + sizeof(PFPlayerItemManagementTransactionStatus));
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.vCAmountCount);
+    for (size_t i = 0; i < model.vCAmountCount; ++i)
+    {
+        requiredSize += (std::strlen(model.vCAmount[i].key) + 1);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT PayForPurchaseResult::Copy(const PFPlayerItemManagementPayForPurchaseResult& input, PFPlayerItemManagementPayForPurchaseResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.orderId = buffer.CopyTo(input.orderId);
+    output.providerData = buffer.CopyTo(input.providerData);
+    output.providerToken = buffer.CopyTo(input.providerToken);
+    output.purchaseConfirmationPageURL = buffer.CopyTo(input.purchaseConfirmationPageURL);
+    output.purchaseCurrency = buffer.CopyTo(input.purchaseCurrency);
+    output.status = buffer.CopyTo(input.status);
+    output.vCAmount = buffer.CopyToDictionary(input.vCAmount, input.vCAmountCount);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    return S_OK;
+}
+
+JsonValue PurchaseItemRequest::ToJson() const
+{
+    return PurchaseItemRequest::ToJson(this->Model());
+}
+
+JsonValue PurchaseItemRequest::ToJson(const PFPlayerItemManagementPurchaseItemRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
     JsonUtils::ObjectAddMember(output, "Price", input.price);
     JsonUtils::ObjectAddMember(output, "StoreId", input.storeId);
@@ -4069,182 +1171,529 @@ inline JsonValue ToJson<>(const PFPlayerItemManagementPurchaseItemRequest& input
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementPurchaseItemResult& input)
+void PurchaseItemResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Items", input.items, input.itemsCount);
-    return output;
+    ModelVector<ItemInstance> items{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Items", items);
+    this->SetItems(std::move(items));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientRedeemCouponRequest& input)
+size_t PurchaseItemResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementPurchaseItemResult const*> PurchaseItemResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PurchaseItemResult>(&this->Model());
+}
+
+size_t PurchaseItemResult::RequiredBufferSize(const PFPlayerItemManagementPurchaseItemResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.itemsCount);
+    for (size_t i = 0; i < model.itemsCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.items[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT PurchaseItemResult::Copy(const PFPlayerItemManagementPurchaseItemResult& input, PFPlayerItemManagementPurchaseItemResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.items = buffer.CopyToArray<ItemInstance>(input.items, input.itemsCount);
+    return S_OK;
+}
+
+JsonValue ClientRedeemCouponRequest::ToJson() const
+{
+    return ClientRedeemCouponRequest::ToJson(this->Model());
+}
+
+JsonValue ClientRedeemCouponRequest::ToJson(const PFPlayerItemManagementClientRedeemCouponRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "CouponCode", input.couponCode);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementRedeemCouponResult& input)
+void RedeemCouponResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "GrantedItems", input.grantedItems, input.grantedItemsCount);
-    return output;
+    ModelVector<ItemInstance> grantedItems{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "GrantedItems", grantedItems);
+    this->SetGrantedItems(std::move(grantedItems));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementItemPurchaseRequest& input)
+size_t RedeemCouponResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementRedeemCouponResult const*> RedeemCouponResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<RedeemCouponResult>(&this->Model());
+}
+
+size_t RedeemCouponResult::RequiredBufferSize(const PFPlayerItemManagementRedeemCouponResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.grantedItemsCount);
+    for (size_t i = 0; i < model.grantedItemsCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.grantedItems[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT RedeemCouponResult::Copy(const PFPlayerItemManagementRedeemCouponResult& input, PFPlayerItemManagementRedeemCouponResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.grantedItems = buffer.CopyToArray<ItemInstance>(input.grantedItems, input.grantedItemsCount);
+    return S_OK;
+}
+
+JsonValue ItemPurchaseRequest::ToJson() const
+{
+    return ItemPurchaseRequest::ToJson(this->Model());
+}
+
+JsonValue ItemPurchaseRequest::ToJson(const PFPlayerItemManagementItemPurchaseRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
     JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
     JsonUtils::ObjectAddMember(output, "Quantity", input.quantity);
-    JsonUtils::ObjectAddMember(output, "UpgradeFromItems", input.upgradeFromItems, input.upgradeFromItemsCount);
+    JsonUtils::ObjectAddMemberArray(output, "UpgradeFromItems", input.upgradeFromItems, input.upgradeFromItemsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementStartPurchaseRequest& input)
+JsonValue StartPurchaseRequest::ToJson() const
+{
+    return StartPurchaseRequest::ToJson(this->Model());
+}
+
+JsonValue StartPurchaseRequest::ToJson(const PFPlayerItemManagementStartPurchaseRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Items", input.items, input.itemsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberArray<ItemPurchaseRequest>(output, "Items", input.items, input.itemsCount);
     JsonUtils::ObjectAddMember(output, "StoreId", input.storeId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementCartItem& input)
+void CartItem::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Description", input.description);
-    JsonUtils::ObjectAddMember(output, "DisplayName", input.displayName);
-    JsonUtils::ObjectAddMember(output, "ItemClass", input.itemClass);
-    JsonUtils::ObjectAddMember(output, "ItemId", input.itemId);
-    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "RealCurrencyPrices", input.realCurrencyPrices, input.realCurrencyPricesCount);
-    JsonUtils::ObjectAddMember(output, "VCAmount", input.vCAmount, input.vCAmountCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyPrices", input.virtualCurrencyPrices, input.virtualCurrencyPricesCount);
-    return output;
+    String description{};
+    JsonUtils::ObjectGetMember(input, "Description", description);
+    this->SetDescription(std::move(description));
+
+    String displayName{};
+    JsonUtils::ObjectGetMember(input, "DisplayName", displayName);
+    this->SetDisplayName(std::move(displayName));
+
+    String itemClass{};
+    JsonUtils::ObjectGetMember(input, "ItemClass", itemClass);
+    this->SetItemClass(std::move(itemClass));
+
+    String itemId{};
+    JsonUtils::ObjectGetMember(input, "ItemId", itemId);
+    this->SetItemId(std::move(itemId));
+
+    String itemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "ItemInstanceId", itemInstanceId);
+    this->SetItemInstanceId(std::move(itemInstanceId));
+
+    DictionaryEntryVector<PFUint32DictionaryEntry> realCurrencyPrices{};
+    JsonUtils::ObjectGetMember(input, "RealCurrencyPrices", realCurrencyPrices);
+    this->SetRealCurrencyPrices(std::move(realCurrencyPrices));
+
+    DictionaryEntryVector<PFUint32DictionaryEntry> vCAmount{};
+    JsonUtils::ObjectGetMember(input, "VCAmount", vCAmount);
+    this->SetVCAmount(std::move(vCAmount));
+
+    DictionaryEntryVector<PFUint32DictionaryEntry> virtualCurrencyPrices{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrencyPrices", virtualCurrencyPrices);
+    this->SetVirtualCurrencyPrices(std::move(virtualCurrencyPrices));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementPaymentOption& input)
+size_t CartItem::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Currency", input.currency);
-    JsonUtils::ObjectAddMember(output, "Price", input.price);
-    JsonUtils::ObjectAddMember(output, "ProviderName", input.providerName);
-    JsonUtils::ObjectAddMember(output, "StoreCredit", input.storeCredit);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementStartPurchaseResult& input)
+Result<PFPlayerItemManagementCartItem const*> CartItem::Copy(ModelBuffer& buffer) const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Contents", input.contents, input.contentsCount);
-    JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
-    JsonUtils::ObjectAddMember(output, "PaymentOptions", input.paymentOptions, input.paymentOptionsCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyBalances", input.virtualCurrencyBalances, input.virtualCurrencyBalancesCount);
-    return output;
+    return buffer.CopyTo<CartItem>(&this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& input)
+size_t CartItem::RequiredBufferSize(const PFPlayerItemManagementCartItem& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.description)
+    {
+        requiredSize += (std::strlen(model.description) + 1);
+    }
+    if (model.displayName)
+    {
+        requiredSize += (std::strlen(model.displayName) + 1);
+    }
+    if (model.itemClass)
+    {
+        requiredSize += (std::strlen(model.itemClass) + 1);
+    }
+    if (model.itemId)
+    {
+        requiredSize += (std::strlen(model.itemId) + 1);
+    }
+    if (model.itemInstanceId)
+    {
+        requiredSize += (std::strlen(model.itemInstanceId) + 1);
+    }
+    requiredSize += (alignof(PFUint32DictionaryEntry) + sizeof(PFUint32DictionaryEntry) * model.realCurrencyPricesCount);
+    for (size_t i = 0; i < model.realCurrencyPricesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.realCurrencyPrices[i].key) + 1);
+    }
+    requiredSize += (alignof(PFUint32DictionaryEntry) + sizeof(PFUint32DictionaryEntry) * model.vCAmountCount);
+    for (size_t i = 0; i < model.vCAmountCount; ++i)
+    {
+        requiredSize += (std::strlen(model.vCAmount[i].key) + 1);
+    }
+    requiredSize += (alignof(PFUint32DictionaryEntry) + sizeof(PFUint32DictionaryEntry) * model.virtualCurrencyPricesCount);
+    for (size_t i = 0; i < model.virtualCurrencyPricesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyPrices[i].key) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT CartItem::Copy(const PFPlayerItemManagementCartItem& input, PFPlayerItemManagementCartItem& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.description = buffer.CopyTo(input.description);
+    output.displayName = buffer.CopyTo(input.displayName);
+    output.itemClass = buffer.CopyTo(input.itemClass);
+    output.itemId = buffer.CopyTo(input.itemId);
+    output.itemInstanceId = buffer.CopyTo(input.itemInstanceId);
+    output.realCurrencyPrices = buffer.CopyToDictionary(input.realCurrencyPrices, input.realCurrencyPricesCount);
+    output.vCAmount = buffer.CopyToDictionary(input.vCAmount, input.vCAmountCount);
+    output.virtualCurrencyPrices = buffer.CopyToDictionary(input.virtualCurrencyPrices, input.virtualCurrencyPricesCount);
+    return S_OK;
+}
+
+void PaymentOption::FromJson(const JsonValue& input)
+{
+    String currency{};
+    JsonUtils::ObjectGetMember(input, "Currency", currency);
+    this->SetCurrency(std::move(currency));
+
+    JsonUtils::ObjectGetMember(input, "Price", this->m_model.price);
+
+    String providerName{};
+    JsonUtils::ObjectGetMember(input, "ProviderName", providerName);
+    this->SetProviderName(std::move(providerName));
+
+    JsonUtils::ObjectGetMember(input, "StoreCredit", this->m_model.storeCredit);
+}
+
+size_t PaymentOption::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementPaymentOption const*> PaymentOption::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PaymentOption>(&this->Model());
+}
+
+size_t PaymentOption::RequiredBufferSize(const PFPlayerItemManagementPaymentOption& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.currency)
+    {
+        requiredSize += (std::strlen(model.currency) + 1);
+    }
+    if (model.providerName)
+    {
+        requiredSize += (std::strlen(model.providerName) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT PaymentOption::Copy(const PFPlayerItemManagementPaymentOption& input, PFPlayerItemManagementPaymentOption& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.currency = buffer.CopyTo(input.currency);
+    output.providerName = buffer.CopyTo(input.providerName);
+    return S_OK;
+}
+
+void StartPurchaseResult::FromJson(const JsonValue& input)
+{
+    ModelVector<CartItem> contents{};
+    JsonUtils::ObjectGetMember<CartItem>(input, "Contents", contents);
+    this->SetContents(std::move(contents));
+
+    String orderId{};
+    JsonUtils::ObjectGetMember(input, "OrderId", orderId);
+    this->SetOrderId(std::move(orderId));
+
+    ModelVector<PaymentOption> paymentOptions{};
+    JsonUtils::ObjectGetMember<PaymentOption>(input, "PaymentOptions", paymentOptions);
+    this->SetPaymentOptions(std::move(paymentOptions));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrencyBalances{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrencyBalances", virtualCurrencyBalances);
+    this->SetVirtualCurrencyBalances(std::move(virtualCurrencyBalances));
+}
+
+size_t StartPurchaseResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementStartPurchaseResult const*> StartPurchaseResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<StartPurchaseResult>(&this->Model());
+}
+
+size_t StartPurchaseResult::RequiredBufferSize(const PFPlayerItemManagementStartPurchaseResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerItemManagementCartItem*) + sizeof(PFPlayerItemManagementCartItem*) * model.contentsCount);
+    for (size_t i = 0; i < model.contentsCount; ++i)
+    {
+        requiredSize += CartItem::RequiredBufferSize(*model.contents[i]);
+    }
+    if (model.orderId)
+    {
+        requiredSize += (std::strlen(model.orderId) + 1);
+    }
+    requiredSize += (alignof(PFPlayerItemManagementPaymentOption*) + sizeof(PFPlayerItemManagementPaymentOption*) * model.paymentOptionsCount);
+    for (size_t i = 0; i < model.paymentOptionsCount; ++i)
+    {
+        requiredSize += PaymentOption::RequiredBufferSize(*model.paymentOptions[i]);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyBalancesCount);
+    for (size_t i = 0; i < model.virtualCurrencyBalancesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyBalances[i].key) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT StartPurchaseResult::Copy(const PFPlayerItemManagementStartPurchaseResult& input, PFPlayerItemManagementStartPurchaseResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.contents = buffer.CopyToArray<CartItem>(input.contents, input.contentsCount);
+    output.orderId = buffer.CopyTo(input.orderId);
+    output.paymentOptions = buffer.CopyToArray<PaymentOption>(input.paymentOptions, input.paymentOptionsCount);
+    output.virtualCurrencyBalances = buffer.CopyToDictionary(input.virtualCurrencyBalances, input.virtualCurrencyBalancesCount);
+    return S_OK;
+}
+
+JsonValue ClientSubtractUserVirtualCurrencyRequest::ToJson() const
+{
+    return ClientSubtractUserVirtualCurrencyRequest::ToJson(this->Model());
+}
+
+JsonValue ClientSubtractUserVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementClientSubtractUserVirtualCurrencyRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientUnlockContainerInstanceRequest& input)
+JsonValue ClientUnlockContainerInstanceRequest::ToJson() const
+{
+    return ClientUnlockContainerInstanceRequest::ToJson(this->Model());
+}
+
+JsonValue ClientUnlockContainerInstanceRequest::ToJson(const PFPlayerItemManagementClientUnlockContainerInstanceRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "ContainerItemInstanceId", input.containerItemInstanceId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "KeyItemInstanceId", input.keyItemInstanceId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementUnlockContainerItemResult& input)
+void UnlockContainerItemResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "GrantedItems", input.grantedItems, input.grantedItemsCount);
-    JsonUtils::ObjectAddMember(output, "UnlockedItemInstanceId", input.unlockedItemInstanceId);
-    JsonUtils::ObjectAddMember(output, "UnlockedWithItemInstanceId", input.unlockedWithItemInstanceId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    return output;
+    ModelVector<ItemInstance> grantedItems{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "GrantedItems", grantedItems);
+    this->SetGrantedItems(std::move(grantedItems));
+
+    String unlockedItemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "UnlockedItemInstanceId", unlockedItemInstanceId);
+    this->SetUnlockedItemInstanceId(std::move(unlockedItemInstanceId));
+
+    String unlockedWithItemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "UnlockedWithItemInstanceId", unlockedWithItemInstanceId);
+    this->SetUnlockedWithItemInstanceId(std::move(unlockedWithItemInstanceId));
+
+    DictionaryEntryVector<PFUint32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementClientUnlockContainerItemRequest& input)
+size_t UnlockContainerItemResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementUnlockContainerItemResult const*> UnlockContainerItemResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<UnlockContainerItemResult>(&this->Model());
+}
+
+size_t UnlockContainerItemResult::RequiredBufferSize(const PFPlayerItemManagementUnlockContainerItemResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.grantedItemsCount);
+    for (size_t i = 0; i < model.grantedItemsCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.grantedItems[i]);
+    }
+    if (model.unlockedItemInstanceId)
+    {
+        requiredSize += (std::strlen(model.unlockedItemInstanceId) + 1);
+    }
+    if (model.unlockedWithItemInstanceId)
+    {
+        requiredSize += (std::strlen(model.unlockedWithItemInstanceId) + 1);
+    }
+    requiredSize += (alignof(PFUint32DictionaryEntry) + sizeof(PFUint32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT UnlockContainerItemResult::Copy(const PFPlayerItemManagementUnlockContainerItemResult& input, PFPlayerItemManagementUnlockContainerItemResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.grantedItems = buffer.CopyToArray<ItemInstance>(input.grantedItems, input.grantedItemsCount);
+    output.unlockedItemInstanceId = buffer.CopyTo(input.unlockedItemInstanceId);
+    output.unlockedWithItemInstanceId = buffer.CopyTo(input.unlockedWithItemInstanceId);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    return S_OK;
+}
+
+JsonValue ClientUnlockContainerItemRequest::ToJson() const
+{
+    return ClientUnlockContainerItemRequest::ToJson(this->Model());
+}
+
+JsonValue ClientUnlockContainerItemRequest::ToJson(const PFPlayerItemManagementClientUnlockContainerItemRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "ContainerItemId", input.containerItemId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& input)
+JsonValue AddCharacterVirtualCurrencyRequest::ToJson() const
+{
+    return AddCharacterVirtualCurrencyRequest::ToJson(this->Model());
+}
+
+JsonValue AddCharacterVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementAddCharacterVirtualCurrencyRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& input)
+void ModifyCharacterVirtualCurrencyResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Balance", input.balance);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
-    return output;
+    JsonUtils::ObjectGetMember(input, "Balance", this->m_model.balance);
+
+    String virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& input)
+size_t ModifyCharacterVirtualCurrencyResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementModifyCharacterVirtualCurrencyResult const*> ModifyCharacterVirtualCurrencyResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ModifyCharacterVirtualCurrencyResult>(&this->Model());
+}
+
+size_t ModifyCharacterVirtualCurrencyResult::RequiredBufferSize(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.virtualCurrency)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ModifyCharacterVirtualCurrencyResult::Copy(const PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& input, PFPlayerItemManagementModifyCharacterVirtualCurrencyResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.virtualCurrency = buffer.CopyTo(input.virtualCurrency);
+    return S_OK;
+}
+
+JsonValue ServerAddUserVirtualCurrencyRequest::ToJson() const
+{
+    return ServerAddUserVirtualCurrencyRequest::ToJson(this->Model());
+}
+
+JsonValue ServerAddUserVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementServerAddUserVirtualCurrencyRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerConsumeItemRequest& input)
+JsonValue ServerConsumeItemRequest::ToJson() const
+{
+    return ServerConsumeItemRequest::ToJson(this->Model());
+}
+
+JsonValue ServerConsumeItemRequest::ToJson(const PFPlayerItemManagementServerConsumeItemRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "ConsumeCount", input.consumeCount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementEvaluateRandomResultTableRequest& input)
+JsonValue EvaluateRandomResultTableRequest::ToJson() const
+{
+    return EvaluateRandomResultTableRequest::ToJson(this->Model());
+}
+
+JsonValue EvaluateRandomResultTableRequest::ToJson(const PFPlayerItemManagementEvaluateRandomResultTableRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
@@ -4252,129 +1701,380 @@ inline JsonValue ToJson<>(const PFPlayerItemManagementEvaluateRandomResultTableR
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementEvaluateRandomResultTableResult& input)
+void EvaluateRandomResultTableResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ResultItemId", input.resultItemId);
-    return output;
+    String resultItemId{};
+    JsonUtils::ObjectGetMember(input, "ResultItemId", resultItemId);
+    this->SetResultItemId(std::move(resultItemId));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetCharacterInventoryRequest& input)
+size_t EvaluateRandomResultTableResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementEvaluateRandomResultTableResult const*> EvaluateRandomResultTableResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<EvaluateRandomResultTableResult>(&this->Model());
+}
+
+size_t EvaluateRandomResultTableResult::RequiredBufferSize(const PFPlayerItemManagementEvaluateRandomResultTableResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.resultItemId)
+    {
+        requiredSize += (std::strlen(model.resultItemId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT EvaluateRandomResultTableResult::Copy(const PFPlayerItemManagementEvaluateRandomResultTableResult& input, PFPlayerItemManagementEvaluateRandomResultTableResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.resultItemId = buffer.CopyTo(input.resultItemId);
+    return S_OK;
+}
+
+JsonValue ServerGetCharacterInventoryRequest::ToJson() const
+{
+    return ServerGetCharacterInventoryRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetCharacterInventoryRequest::ToJson(const PFPlayerItemManagementServerGetCharacterInventoryRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetCharacterInventoryResult& input)
+void ServerGetCharacterInventoryResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyRechargeTimes", input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
-    return output;
+    String characterId{};
+    JsonUtils::ObjectGetMember(input, "CharacterId", characterId);
+    this->SetCharacterId(std::move(characterId));
+
+    ModelVector<ItemInstance> inventory{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Inventory", inventory);
+    this->SetInventory(std::move(inventory));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
+
+    ModelDictionaryEntryVector<VirtualCurrencyRechargeTime> virtualCurrencyRechargeTimes{};
+    JsonUtils::ObjectGetMember<VirtualCurrencyRechargeTime>(input, "VirtualCurrencyRechargeTimes", virtualCurrencyRechargeTimes);
+    this->SetVirtualCurrencyRechargeTimes(std::move(virtualCurrencyRechargeTimes));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGetRandomResultTablesRequest& input)
+size_t ServerGetCharacterInventoryResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementServerGetCharacterInventoryResult const*> ServerGetCharacterInventoryResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGetCharacterInventoryResult>(&this->Model());
+}
+
+size_t ServerGetCharacterInventoryResult::RequiredBufferSize(const PFPlayerItemManagementServerGetCharacterInventoryResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.characterId)
+    {
+        requiredSize += (std::strlen(model.characterId) + 1);
+    }
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.inventoryCount);
+    for (size_t i = 0; i < model.inventoryCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.inventory[i]);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    requiredSize += (alignof(PFVirtualCurrencyRechargeTimeDictionaryEntry) + sizeof(PFVirtualCurrencyRechargeTimeDictionaryEntry) * model.virtualCurrencyRechargeTimesCount);
+    for (size_t i = 0; i < model.virtualCurrencyRechargeTimesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyRechargeTimes[i].key) + 1);
+        requiredSize += VirtualCurrencyRechargeTime::RequiredBufferSize(*model.virtualCurrencyRechargeTimes[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGetCharacterInventoryResult::Copy(const PFPlayerItemManagementServerGetCharacterInventoryResult& input, PFPlayerItemManagementServerGetCharacterInventoryResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.characterId = buffer.CopyTo(input.characterId);
+    output.inventory = buffer.CopyToArray<ItemInstance>(input.inventory, input.inventoryCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    output.virtualCurrencyRechargeTimes = buffer.CopyToDictionary<VirtualCurrencyRechargeTime>(input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
+    return S_OK;
+}
+
+JsonValue GetRandomResultTablesRequest::ToJson() const
+{
+    return GetRandomResultTablesRequest::ToJson(this->Model());
+}
+
+JsonValue GetRandomResultTablesRequest::ToJson(const PFPlayerItemManagementGetRandomResultTablesRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "TableIDs", input.tableIDs, input.tableIDsCount);
+    JsonUtils::ObjectAddMemberArray(output, "TableIDs", input.tableIDs, input.tableIDsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetUserInventoryRequest& input)
+JsonValue ServerGetUserInventoryRequest::ToJson() const
+{
+    return ServerGetUserInventoryRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetUserInventoryRequest::ToJson(const PFPlayerItemManagementServerGetUserInventoryRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerGetUserInventoryResult& input)
+void ServerGetUserInventoryResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Inventory", input.inventory, input.inventoryCount);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency, input.virtualCurrencyCount);
-    JsonUtils::ObjectAddMember(output, "VirtualCurrencyRechargeTimes", input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
-    return output;
+    ModelVector<ItemInstance> inventory{};
+    JsonUtils::ObjectGetMember<ItemInstance>(input, "Inventory", inventory);
+    this->SetInventory(std::move(inventory));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    DictionaryEntryVector<PFInt32DictionaryEntry> virtualCurrency{};
+    JsonUtils::ObjectGetMember(input, "VirtualCurrency", virtualCurrency);
+    this->SetVirtualCurrency(std::move(virtualCurrency));
+
+    ModelDictionaryEntryVector<VirtualCurrencyRechargeTime> virtualCurrencyRechargeTimes{};
+    JsonUtils::ObjectGetMember<VirtualCurrencyRechargeTime>(input, "VirtualCurrencyRechargeTimes", virtualCurrencyRechargeTimes);
+    this->SetVirtualCurrencyRechargeTimes(std::move(virtualCurrencyRechargeTimes));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToCharacterRequest& input)
+size_t ServerGetUserInventoryResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementServerGetUserInventoryResult const*> ServerGetUserInventoryResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGetUserInventoryResult>(&this->Model());
+}
+
+size_t ServerGetUserInventoryResult::RequiredBufferSize(const PFPlayerItemManagementServerGetUserInventoryResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFItemInstance*) + sizeof(PFItemInstance*) * model.inventoryCount);
+    for (size_t i = 0; i < model.inventoryCount; ++i)
+    {
+        requiredSize += ItemInstance::RequiredBufferSize(*model.inventory[i]);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    requiredSize += (alignof(PFInt32DictionaryEntry) + sizeof(PFInt32DictionaryEntry) * model.virtualCurrencyCount);
+    for (size_t i = 0; i < model.virtualCurrencyCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrency[i].key) + 1);
+    }
+    requiredSize += (alignof(PFVirtualCurrencyRechargeTimeDictionaryEntry) + sizeof(PFVirtualCurrencyRechargeTimeDictionaryEntry) * model.virtualCurrencyRechargeTimesCount);
+    for (size_t i = 0; i < model.virtualCurrencyRechargeTimesCount; ++i)
+    {
+        requiredSize += (std::strlen(model.virtualCurrencyRechargeTimes[i].key) + 1);
+        requiredSize += VirtualCurrencyRechargeTime::RequiredBufferSize(*model.virtualCurrencyRechargeTimes[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGetUserInventoryResult::Copy(const PFPlayerItemManagementServerGetUserInventoryResult& input, PFPlayerItemManagementServerGetUserInventoryResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.inventory = buffer.CopyToArray<ItemInstance>(input.inventory, input.inventoryCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.virtualCurrency = buffer.CopyToDictionary(input.virtualCurrency, input.virtualCurrencyCount);
+    output.virtualCurrencyRechargeTimes = buffer.CopyToDictionary<VirtualCurrencyRechargeTime>(input.virtualCurrencyRechargeTimes, input.virtualCurrencyRechargeTimesCount);
+    return S_OK;
+}
+
+JsonValue GrantItemsToCharacterRequest::ToJson() const
+{
+    return GrantItemsToCharacterRequest::ToJson(this->Model());
+}
+
+JsonValue GrantItemsToCharacterRequest::ToJson(const PFPlayerItemManagementGrantItemsToCharacterRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ItemIds", input.itemIds, input.itemIdsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberArray(output, "ItemIds", input.itemIds, input.itemIdsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToCharacterResult& input)
+void GrantItemsToCharacterResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ItemGrantResults", input.itemGrantResults, input.itemGrantResultsCount);
-    return output;
+    ModelVector<GrantedItemInstance> itemGrantResults{};
+    JsonUtils::ObjectGetMember<GrantedItemInstance>(input, "ItemGrantResults", itemGrantResults);
+    this->SetItemGrantResults(std::move(itemGrantResults));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUserRequest& input)
+size_t GrantItemsToCharacterResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementGrantItemsToCharacterResult const*> GrantItemsToCharacterResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GrantItemsToCharacterResult>(&this->Model());
+}
+
+size_t GrantItemsToCharacterResult::RequiredBufferSize(const PFPlayerItemManagementGrantItemsToCharacterResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerItemManagementGrantedItemInstance*) + sizeof(PFPlayerItemManagementGrantedItemInstance*) * model.itemGrantResultsCount);
+    for (size_t i = 0; i < model.itemGrantResultsCount; ++i)
+    {
+        requiredSize += GrantedItemInstance::RequiredBufferSize(*model.itemGrantResults[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GrantItemsToCharacterResult::Copy(const PFPlayerItemManagementGrantItemsToCharacterResult& input, PFPlayerItemManagementGrantItemsToCharacterResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.itemGrantResults = buffer.CopyToArray<GrantedItemInstance>(input.itemGrantResults, input.itemGrantResultsCount);
+    return S_OK;
+}
+
+JsonValue GrantItemsToUserRequest::ToJson() const
+{
+    return GrantItemsToUserRequest::ToJson(this->Model());
+}
+
+JsonValue GrantItemsToUserRequest::ToJson(const PFPlayerItemManagementGrantItemsToUserRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Annotation", input.annotation);
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ItemIds", input.itemIds, input.itemIdsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberArray(output, "ItemIds", input.itemIds, input.itemIdsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementGrantItemsToUserResult& input)
+void GrantItemsToUserResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ItemGrantResults", input.itemGrantResults, input.itemGrantResultsCount);
-    return output;
+    ModelVector<GrantedItemInstance> itemGrantResults{};
+    JsonUtils::ObjectGetMember<GrantedItemInstance>(input, "ItemGrantResults", itemGrantResults);
+    this->SetItemGrantResults(std::move(itemGrantResults));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementModifyItemUsesRequest& input)
+size_t GrantItemsToUserResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementGrantItemsToUserResult const*> GrantItemsToUserResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GrantItemsToUserResult>(&this->Model());
+}
+
+size_t GrantItemsToUserResult::RequiredBufferSize(const PFPlayerItemManagementGrantItemsToUserResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerItemManagementGrantedItemInstance*) + sizeof(PFPlayerItemManagementGrantedItemInstance*) * model.itemGrantResultsCount);
+    for (size_t i = 0; i < model.itemGrantResultsCount; ++i)
+    {
+        requiredSize += GrantedItemInstance::RequiredBufferSize(*model.itemGrantResults[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GrantItemsToUserResult::Copy(const PFPlayerItemManagementGrantItemsToUserResult& input, PFPlayerItemManagementGrantItemsToUserResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.itemGrantResults = buffer.CopyToArray<GrantedItemInstance>(input.itemGrantResults, input.itemGrantResultsCount);
+    return S_OK;
+}
+
+JsonValue ModifyItemUsesRequest::ToJson() const
+{
+    return ModifyItemUsesRequest::ToJson(this->Model());
+}
+
+JsonValue ModifyItemUsesRequest::ToJson(const PFPlayerItemManagementModifyItemUsesRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "UsesToAdd", input.usesToAdd);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementModifyItemUsesResult& input)
+void ModifyItemUsesResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "RemainingUses", input.remainingUses);
-    return output;
+    String itemInstanceId{};
+    JsonUtils::ObjectGetMember(input, "ItemInstanceId", itemInstanceId);
+    this->SetItemInstanceId(std::move(itemInstanceId));
+
+    JsonUtils::ObjectGetMember(input, "RemainingUses", this->m_model.remainingUses);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& input)
+size_t ModifyItemUsesResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementModifyItemUsesResult const*> ModifyItemUsesResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ModifyItemUsesResult>(&this->Model());
+}
+
+size_t ModifyItemUsesResult::RequiredBufferSize(const PFPlayerItemManagementModifyItemUsesResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.itemInstanceId)
+    {
+        requiredSize += (std::strlen(model.itemInstanceId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ModifyItemUsesResult::Copy(const PFPlayerItemManagementModifyItemUsesResult& input, PFPlayerItemManagementModifyItemUsesResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.itemInstanceId = buffer.CopyTo(input.itemInstanceId);
+    return S_OK;
+}
+
+JsonValue MoveItemToCharacterFromCharacterRequest::ToJson() const
+{
+    return MoveItemToCharacterFromCharacterRequest::ToJson(this->Model());
+}
+
+JsonValue MoveItemToCharacterFromCharacterRequest::ToJson(const PFPlayerItemManagementMoveItemToCharacterFromCharacterRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "GivingCharacterId", input.givingCharacterId);
@@ -4384,8 +2084,12 @@ inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToCharacterFromCha
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& input)
+JsonValue MoveItemToCharacterFromUserRequest::ToJson() const
+{
+    return MoveItemToCharacterFromUserRequest::ToJson(this->Model());
+}
+
+JsonValue MoveItemToCharacterFromUserRequest::ToJson(const PFPlayerItemManagementMoveItemToCharacterFromUserRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
@@ -4394,8 +2098,12 @@ inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToCharacterFromUse
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& input)
+JsonValue MoveItemToUserFromCharacterRequest::ToJson() const
+{
+    return MoveItemToUserFromCharacterRequest::ToJson(this->Model());
+}
+
+JsonValue MoveItemToUserFromCharacterRequest::ToJson(const PFPlayerItemManagementMoveItemToUserFromCharacterRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
@@ -4404,98 +2112,145 @@ inline JsonValue ToJson<>(const PFPlayerItemManagementMoveItemToUserFromCharacte
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerRedeemCouponRequest& input)
+JsonValue ServerRedeemCouponRequest::ToJson() const
+{
+    return ServerRedeemCouponRequest::ToJson(this->Model());
+}
+
+JsonValue ServerRedeemCouponRequest::ToJson(const PFPlayerItemManagementServerRedeemCouponRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "CouponCode", input.couponCode);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementReportPlayerServerRequest& input)
+JsonValue ReportPlayerServerRequest::ToJson() const
+{
+    return ReportPlayerServerRequest::ToJson(this->Model());
+}
+
+JsonValue ReportPlayerServerRequest::ToJson(const PFPlayerItemManagementReportPlayerServerRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Comment", input.comment);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ReporteeId", input.reporteeId);
     JsonUtils::ObjectAddMember(output, "ReporterId", input.reporterId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementReportPlayerServerResult& input)
+void ReportPlayerServerResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "SubmissionsRemaining", input.submissionsRemaining);
-    return output;
+    JsonUtils::ObjectGetMember(input, "SubmissionsRemaining", this->m_model.submissionsRemaining);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& input)
+size_t ReportPlayerServerResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerItemManagementReportPlayerServerResult const*> ReportPlayerServerResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ReportPlayerServerResult>(&this->Model());
+}
+
+size_t ReportPlayerServerResult::RequiredBufferSize(const PFPlayerItemManagementReportPlayerServerResult& model)
+{
+    UNREFERENCED_PARAMETER(model); // Fixed size
+    return sizeof(ModelType);
+}
+
+HRESULT ReportPlayerServerResult::Copy(const PFPlayerItemManagementReportPlayerServerResult& input, PFPlayerItemManagementReportPlayerServerResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    UNREFERENCED_PARAMETER(buffer); // Fixed size
+    return S_OK;
+}
+
+JsonValue SubtractCharacterVirtualCurrencyRequest::ToJson() const
+{
+    return SubtractCharacterVirtualCurrencyRequest::ToJson(this->Model());
+}
+
+JsonValue SubtractCharacterVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementSubtractCharacterVirtualCurrencyRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& input)
+JsonValue ServerSubtractUserVirtualCurrencyRequest::ToJson() const
+{
+    return ServerSubtractUserVirtualCurrencyRequest::ToJson(this->Model());
+}
+
+JsonValue ServerSubtractUserVirtualCurrencyRequest::ToJson(const PFPlayerItemManagementServerSubtractUserVirtualCurrencyRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Amount", input.amount);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     JsonUtils::ObjectAddMember(output, "VirtualCurrency", input.virtualCurrency);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerUnlockContainerInstanceRequest& input)
+JsonValue ServerUnlockContainerInstanceRequest::ToJson() const
+{
+    return ServerUnlockContainerInstanceRequest::ToJson(this->Model());
+}
+
+JsonValue ServerUnlockContainerInstanceRequest::ToJson(const PFPlayerItemManagementServerUnlockContainerInstanceRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "ContainerItemInstanceId", input.containerItemInstanceId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "KeyItemInstanceId", input.keyItemInstanceId);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementServerUnlockContainerItemRequest& input)
+JsonValue ServerUnlockContainerItemRequest::ToJson() const
+{
+    return ServerUnlockContainerItemRequest::ToJson(this->Model());
+}
+
+JsonValue ServerUnlockContainerItemRequest::ToJson(const PFPlayerItemManagementServerUnlockContainerItemRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CatalogVersion", input.catalogVersion);
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
     JsonUtils::ObjectAddMember(output, "ContainerItemId", input.containerItemId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& input)
+JsonValue UpdateUserInventoryItemDataRequest::ToJson() const
+{
+    return UpdateUserInventoryItemDataRequest::ToJson(this->Model());
+}
+
+JsonValue UpdateUserInventoryItemDataRequest::ToJson(const PFPlayerItemManagementUpdateUserInventoryItemDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "CharacterId", input.characterId);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
     JsonUtils::ObjectAddMember(output, "ItemInstanceId", input.itemInstanceId);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-} // namespace JsonUtils
-
+} // namespace PlayerItemManagement
 } // namespace PlayFab

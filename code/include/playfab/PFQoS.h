@@ -69,7 +69,7 @@ typedef struct PFQoSMeasurements
 /// <remarks>
 /// If successful, call <see cref="PFQoSGetMeasurementsGetResult"/> to get the result.
 /// </remarks>
-HRESULT PFQoSGetMeasurmentsAsync(
+HRESULT PFQoSGetMeasurementsAsync(
     _In_ PFEntityHandle entityHandle,
     _In_ uint32_t pingIterations,
     _In_ uint32_t timeoutMs,
@@ -77,20 +77,34 @@ HRESULT PFQoSGetMeasurmentsAsync(
 ) noexcept;
 
 /// <summary>
-/// Gets the result of a successful PFQoSGetMeasurmentsAsync call.
+/// Get the size in bytes needed to store the result of a PFQoSGetMeasurmentsAsync call.
 /// </summary>
 /// <param name="async">XAsyncBlock for the async operation.</param>
-/// <param name="resultHandle">Opaque handle to the result object.</param>
+/// <param name="bufferSize">The buffer size in bytes required for the result.</param>
+/// <returns>Result code for this API operation.</returns>
+HRESULT PFQoSGetMeasurementsGetResultSize(
+    _Inout_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept;
+
+/// <summary>
+/// Gets the result of a successful PFQoSGetMeasurementsAsync call.
+/// </summary>
+/// <param name="async">XAsyncBlock for the async operation.</param>
+/// <param name="bufferSize">The size of the buffer for the result object.</param>
+/// <param name="buffer">Byte buffer used for the result value and its fields.</param>
 /// <param name="result">Pointer to the result object.</param>
+/// <param name="bufferUsed">The number of bytes in the provided buffer that were used.</param>
 /// <returns>Result code for this API operation.</returns>
 /// <remarks>
-/// The lifetime of the result object is tied to the result handle. When the result is no longer needed, call
-/// PFResultCloseHandle to release the result object.
+/// result is a pointer within buffer and does not need to be freed separately.
 /// </remarks>
 HRESULT PFQoSGetMeasurementsGetResult(
-    _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFQoSMeasurements** result
+    _Inout_ XAsyncBlock* async,
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFQoSMeasurements** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept;
 
 }

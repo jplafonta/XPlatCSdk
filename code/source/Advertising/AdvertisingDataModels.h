@@ -1,205 +1,165 @@
 #pragma once
 
-#include <playfab/PFAdvertisingDataModels.h>
+#include <playfab/cpp/PFAdvertisingDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace AdvertisingModels
+namespace Advertising
 {
 
 // Advertising Classes
-struct AttributeInstallRequest : public PFAdvertisingAttributeInstallRequest, public SerializableModel
+class AttributeInstallRequest : public Wrappers::PFAdvertisingAttributeInstallRequestWrapper<Allocator>, public InputModel
 {
-    AttributeInstallRequest();
-    AttributeInstallRequest(const AttributeInstallRequest& src);
-    AttributeInstallRequest(AttributeInstallRequest&& src);
-    AttributeInstallRequest(const PFAdvertisingAttributeInstallRequest& src);
-    AttributeInstallRequest& operator=(const AttributeInstallRequest&) = delete;
-    ~AttributeInstallRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingAttributeInstallRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAdvertisingAttributeInstallRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_adid;
-    String m_idfa;
 };
 
-struct GetAdPlacementsRequest : public PFAdvertisingGetAdPlacementsRequest, public BaseModel
+class GetAdPlacementsRequest : public Wrappers::PFAdvertisingGetAdPlacementsRequestWrapper<Allocator>, public InputModel
 {
-    GetAdPlacementsRequest();
-    GetAdPlacementsRequest(const GetAdPlacementsRequest& src);
-    GetAdPlacementsRequest(GetAdPlacementsRequest&& src);
-    GetAdPlacementsRequest(const PFAdvertisingGetAdPlacementsRequest& src);
-    GetAdPlacementsRequest& operator=(const GetAdPlacementsRequest&) = delete;
-    ~GetAdPlacementsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingGetAdPlacementsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAdvertisingGetAdPlacementsRequest& input);
 
-private:
-    String m_appId;
-    StdExtra::optional<NameIdentifier> m_identifier;
 };
 
-struct AdPlacementDetails : public PFAdvertisingAdPlacementDetails, public BaseModel
+class AdPlacementDetails : public Wrappers::PFAdvertisingAdPlacementDetailsWrapper<Allocator>, public OutputModel<PFAdvertisingAdPlacementDetails>
 {
-    AdPlacementDetails();
-    AdPlacementDetails(const AdPlacementDetails& src);
-    AdPlacementDetails(AdPlacementDetails&& src);
-    AdPlacementDetails(const PFAdvertisingAdPlacementDetails& src);
-    AdPlacementDetails& operator=(const AdPlacementDetails&) = delete;
-    ~AdPlacementDetails() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingAdPlacementDetailsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAdvertisingAdPlacementDetails const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_placementId;
-    String m_placementName;
-    StdExtra::optional<int32_t> m_placementViewsRemaining;
-    StdExtra::optional<double> m_placementViewsResetMinutes;
-    String m_rewardAssetUrl;
-    String m_rewardDescription;
-    String m_rewardId;
-    String m_rewardName;
+    static size_t RequiredBufferSize(const PFAdvertisingAdPlacementDetails& model);
+    static HRESULT Copy(const PFAdvertisingAdPlacementDetails& input, PFAdvertisingAdPlacementDetails& output, ModelBuffer& buffer);
 };
 
-struct GetAdPlacementsResult : public PFAdvertisingGetAdPlacementsResult, public BaseModel, public ApiResult
+class GetAdPlacementsResult : public Wrappers::PFAdvertisingGetAdPlacementsResultWrapper<Allocator>, public OutputModel<PFAdvertisingGetAdPlacementsResult>
 {
-    GetAdPlacementsResult();
-    GetAdPlacementsResult(const GetAdPlacementsResult& src);
-    GetAdPlacementsResult(GetAdPlacementsResult&& src);
-    GetAdPlacementsResult(const PFAdvertisingGetAdPlacementsResult& src);
-    GetAdPlacementsResult& operator=(const GetAdPlacementsResult&) = delete;
-    ~GetAdPlacementsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingGetAdPlacementsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAdvertisingGetAdPlacementsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAdvertisingAdPlacementDetails, AdPlacementDetails> m_adPlacements;
+    static size_t RequiredBufferSize(const PFAdvertisingGetAdPlacementsResult& model);
+    static HRESULT Copy(const PFAdvertisingGetAdPlacementsResult& input, PFAdvertisingGetAdPlacementsResult& output, ModelBuffer& buffer);
 };
 
-struct ReportAdActivityRequest : public PFAdvertisingReportAdActivityRequest, public BaseModel
+class ReportAdActivityRequest : public Wrappers::PFAdvertisingReportAdActivityRequestWrapper<Allocator>, public InputModel
 {
-    ReportAdActivityRequest();
-    ReportAdActivityRequest(const ReportAdActivityRequest& src);
-    ReportAdActivityRequest(ReportAdActivityRequest&& src);
-    ReportAdActivityRequest(const PFAdvertisingReportAdActivityRequest& src);
-    ReportAdActivityRequest& operator=(const ReportAdActivityRequest&) = delete;
-    ~ReportAdActivityRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingReportAdActivityRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAdvertisingReportAdActivityRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_placementId;
-    String m_rewardId;
 };
 
-struct RewardAdActivityRequest : public PFAdvertisingRewardAdActivityRequest, public BaseModel
+class RewardAdActivityRequest : public Wrappers::PFAdvertisingRewardAdActivityRequestWrapper<Allocator>, public InputModel
 {
-    RewardAdActivityRequest();
-    RewardAdActivityRequest(const RewardAdActivityRequest& src);
-    RewardAdActivityRequest(RewardAdActivityRequest&& src);
-    RewardAdActivityRequest(const PFAdvertisingRewardAdActivityRequest& src);
-    RewardAdActivityRequest& operator=(const RewardAdActivityRequest&) = delete;
-    ~RewardAdActivityRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingRewardAdActivityRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAdvertisingRewardAdActivityRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_placementId;
-    String m_rewardId;
 };
 
-struct AdRewardItemGranted : public PFAdvertisingAdRewardItemGranted, public SerializableModel
+class AdRewardItemGranted : public Wrappers::PFAdvertisingAdRewardItemGrantedWrapper<Allocator>, public OutputModel<PFAdvertisingAdRewardItemGranted>
 {
-    AdRewardItemGranted();
-    AdRewardItemGranted(const AdRewardItemGranted& src);
-    AdRewardItemGranted(AdRewardItemGranted&& src);
-    AdRewardItemGranted(const PFAdvertisingAdRewardItemGranted& src);
-    AdRewardItemGranted& operator=(const AdRewardItemGranted&) = delete;
-    ~AdRewardItemGranted() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingAdRewardItemGrantedWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAdvertisingAdRewardItemGranted const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_catalogId;
-    String m_displayName;
-    String m_instanceId;
-    String m_itemId;
+    static size_t RequiredBufferSize(const PFAdvertisingAdRewardItemGranted& model);
+    static HRESULT Copy(const PFAdvertisingAdRewardItemGranted& input, PFAdvertisingAdRewardItemGranted& output, ModelBuffer& buffer);
 };
 
-struct AdRewardResults : public PFAdvertisingAdRewardResults, public BaseModel
+class AdRewardResults : public Wrappers::PFAdvertisingAdRewardResultsWrapper<Allocator>, public OutputModel<PFAdvertisingAdRewardResults>
 {
-    AdRewardResults();
-    AdRewardResults(const AdRewardResults& src);
-    AdRewardResults(AdRewardResults&& src);
-    AdRewardResults(const PFAdvertisingAdRewardResults& src);
-    AdRewardResults& operator=(const AdRewardResults&) = delete;
-    ~AdRewardResults() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingAdRewardResultsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAdvertisingAdRewardResults const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAdvertisingAdRewardItemGranted, AdRewardItemGranted> m_grantedItems;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_grantedVirtualCurrencies;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_incrementedStatistics;
+    static size_t RequiredBufferSize(const PFAdvertisingAdRewardResults& model);
+    static HRESULT Copy(const PFAdvertisingAdRewardResults& input, PFAdvertisingAdRewardResults& output, ModelBuffer& buffer);
 };
 
-struct RewardAdActivityResult : public PFAdvertisingRewardAdActivityResult, public BaseModel, public ApiResult
+class RewardAdActivityResult : public Wrappers::PFAdvertisingRewardAdActivityResultWrapper<Allocator>, public OutputModel<PFAdvertisingRewardAdActivityResult>
 {
-    RewardAdActivityResult();
-    RewardAdActivityResult(const RewardAdActivityResult& src);
-    RewardAdActivityResult(RewardAdActivityResult&& src);
-    RewardAdActivityResult(const PFAdvertisingRewardAdActivityResult& src);
-    RewardAdActivityResult& operator=(const RewardAdActivityResult&) = delete;
-    ~RewardAdActivityResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAdvertisingRewardAdActivityResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAdvertisingRewardAdActivityResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_adActivityEventId;
-    PointerArrayModel<char, String> m_debugResults;
-    String m_placementId;
-    String m_placementName;
-    StdExtra::optional<int32_t> m_placementViewsRemaining;
-    StdExtra::optional<double> m_placementViewsResetMinutes;
-    StdExtra::optional<AdRewardResults> m_rewardResults;
+    static size_t RequiredBufferSize(const PFAdvertisingRewardAdActivityResult& model);
+    static HRESULT Copy(const PFAdvertisingRewardAdActivityResult& input, PFAdvertisingRewardAdActivityResult& output, ModelBuffer& buffer);
 };
 
-} // namespace AdvertisingModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFAdvertisingAttributeInstallRequest& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingGetAdPlacementsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingAdPlacementDetails& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingGetAdPlacementsResult& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingReportAdActivityRequest& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingRewardAdActivityRequest& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingAdRewardItemGranted& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingAdRewardResults& input);
-template<> inline JsonValue ToJson<>(const PFAdvertisingRewardAdActivityResult& input);
-} // namespace JsonUtils
-
+} // namespace Advertising
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace GroupsModels;
+namespace Groups
+{
 
 
 AsyncOp<void> GroupsAPI::AcceptGroupApplication(
     SharedPtr<Entity> entity,
-    const PFGroupsAcceptGroupApplicationRequest& request,
+    const AcceptGroupApplicationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> GroupsAPI::AcceptGroupApplication(
     }
 
     const char* path{ "/Group/AcceptGroupApplication" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -51,7 +51,7 @@ AsyncOp<void> GroupsAPI::AcceptGroupApplication(
 
 AsyncOp<void> GroupsAPI::AcceptGroupInvitation(
     SharedPtr<Entity> entity,
-    const PFGroupsAcceptGroupInvitationRequest& request,
+    const AcceptGroupInvitationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -62,7 +62,7 @@ AsyncOp<void> GroupsAPI::AcceptGroupInvitation(
     }
 
     const char* path{ "/Group/AcceptGroupInvitation" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -91,7 +91,7 @@ AsyncOp<void> GroupsAPI::AcceptGroupInvitation(
 
 AsyncOp<void> GroupsAPI::AddMembers(
     SharedPtr<Entity> entity,
-    const PFGroupsAddMembersRequest& request,
+    const AddMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -102,7 +102,7 @@ AsyncOp<void> GroupsAPI::AddMembers(
     }
 
     const char* path{ "/Group/AddMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -131,7 +131,7 @@ AsyncOp<void> GroupsAPI::AddMembers(
 
 AsyncOp<ApplyToGroupResponse> GroupsAPI::ApplyToGroup(
     SharedPtr<Entity> entity,
-    const PFGroupsApplyToGroupRequest& request,
+    const ApplyToGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -142,7 +142,7 @@ AsyncOp<ApplyToGroupResponse> GroupsAPI::ApplyToGroup(
     }
 
     const char* path{ "/Group/ApplyToGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -173,7 +173,7 @@ AsyncOp<ApplyToGroupResponse> GroupsAPI::ApplyToGroup(
 
 AsyncOp<void> GroupsAPI::BlockEntity(
     SharedPtr<Entity> entity,
-    const PFGroupsBlockEntityRequest& request,
+    const BlockEntityRequest& request,
     const TaskQueue& queue
 )
 {
@@ -184,7 +184,7 @@ AsyncOp<void> GroupsAPI::BlockEntity(
     }
 
     const char* path{ "/Group/BlockEntity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -213,7 +213,7 @@ AsyncOp<void> GroupsAPI::BlockEntity(
 
 AsyncOp<void> GroupsAPI::ChangeMemberRole(
     SharedPtr<Entity> entity,
-    const PFGroupsChangeMemberRoleRequest& request,
+    const ChangeMemberRoleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -224,7 +224,7 @@ AsyncOp<void> GroupsAPI::ChangeMemberRole(
     }
 
     const char* path{ "/Group/ChangeMemberRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -253,7 +253,7 @@ AsyncOp<void> GroupsAPI::ChangeMemberRole(
 
 AsyncOp<CreateGroupResponse> GroupsAPI::CreateGroup(
     SharedPtr<Entity> entity,
-    const PFGroupsCreateGroupRequest& request,
+    const CreateGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -264,7 +264,7 @@ AsyncOp<CreateGroupResponse> GroupsAPI::CreateGroup(
     }
 
     const char* path{ "/Group/CreateGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -295,7 +295,7 @@ AsyncOp<CreateGroupResponse> GroupsAPI::CreateGroup(
 
 AsyncOp<CreateGroupRoleResponse> GroupsAPI::CreateRole(
     SharedPtr<Entity> entity,
-    const PFGroupsCreateGroupRoleRequest& request,
+    const CreateGroupRoleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -306,7 +306,7 @@ AsyncOp<CreateGroupRoleResponse> GroupsAPI::CreateRole(
     }
 
     const char* path{ "/Group/CreateRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -337,7 +337,7 @@ AsyncOp<CreateGroupRoleResponse> GroupsAPI::CreateRole(
 
 AsyncOp<void> GroupsAPI::DeleteGroup(
     SharedPtr<Entity> entity,
-    const PFGroupsDeleteGroupRequest& request,
+    const DeleteGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -348,7 +348,7 @@ AsyncOp<void> GroupsAPI::DeleteGroup(
     }
 
     const char* path{ "/Group/DeleteGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -377,7 +377,7 @@ AsyncOp<void> GroupsAPI::DeleteGroup(
 
 AsyncOp<void> GroupsAPI::DeleteRole(
     SharedPtr<Entity> entity,
-    const PFGroupsDeleteRoleRequest& request,
+    const DeleteRoleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -388,7 +388,7 @@ AsyncOp<void> GroupsAPI::DeleteRole(
     }
 
     const char* path{ "/Group/DeleteRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -417,7 +417,7 @@ AsyncOp<void> GroupsAPI::DeleteRole(
 
 AsyncOp<GetGroupResponse> GroupsAPI::GetGroup(
     SharedPtr<Entity> entity,
-    const PFGroupsGetGroupRequest& request,
+    const GetGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -428,7 +428,7 @@ AsyncOp<GetGroupResponse> GroupsAPI::GetGroup(
     }
 
     const char* path{ "/Group/GetGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -459,7 +459,7 @@ AsyncOp<GetGroupResponse> GroupsAPI::GetGroup(
 
 AsyncOp<InviteToGroupResponse> GroupsAPI::InviteToGroup(
     SharedPtr<Entity> entity,
-    const PFGroupsInviteToGroupRequest& request,
+    const InviteToGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -470,7 +470,7 @@ AsyncOp<InviteToGroupResponse> GroupsAPI::InviteToGroup(
     }
 
     const char* path{ "/Group/InviteToGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -501,7 +501,7 @@ AsyncOp<InviteToGroupResponse> GroupsAPI::InviteToGroup(
 
 AsyncOp<IsMemberResponse> GroupsAPI::IsMember(
     SharedPtr<Entity> entity,
-    const PFGroupsIsMemberRequest& request,
+    const IsMemberRequest& request,
     const TaskQueue& queue
 )
 {
@@ -512,7 +512,7 @@ AsyncOp<IsMemberResponse> GroupsAPI::IsMember(
     }
 
     const char* path{ "/Group/IsMember" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -543,7 +543,7 @@ AsyncOp<IsMemberResponse> GroupsAPI::IsMember(
 
 AsyncOp<ListGroupApplicationsResponse> GroupsAPI::ListGroupApplications(
     SharedPtr<Entity> entity,
-    const PFGroupsListGroupApplicationsRequest& request,
+    const ListGroupApplicationsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -554,7 +554,7 @@ AsyncOp<ListGroupApplicationsResponse> GroupsAPI::ListGroupApplications(
     }
 
     const char* path{ "/Group/ListGroupApplications" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -585,7 +585,7 @@ AsyncOp<ListGroupApplicationsResponse> GroupsAPI::ListGroupApplications(
 
 AsyncOp<ListGroupBlocksResponse> GroupsAPI::ListGroupBlocks(
     SharedPtr<Entity> entity,
-    const PFGroupsListGroupBlocksRequest& request,
+    const ListGroupBlocksRequest& request,
     const TaskQueue& queue
 )
 {
@@ -596,7 +596,7 @@ AsyncOp<ListGroupBlocksResponse> GroupsAPI::ListGroupBlocks(
     }
 
     const char* path{ "/Group/ListGroupBlocks" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -627,7 +627,7 @@ AsyncOp<ListGroupBlocksResponse> GroupsAPI::ListGroupBlocks(
 
 AsyncOp<ListGroupInvitationsResponse> GroupsAPI::ListGroupInvitations(
     SharedPtr<Entity> entity,
-    const PFGroupsListGroupInvitationsRequest& request,
+    const ListGroupInvitationsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -638,7 +638,7 @@ AsyncOp<ListGroupInvitationsResponse> GroupsAPI::ListGroupInvitations(
     }
 
     const char* path{ "/Group/ListGroupInvitations" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -669,7 +669,7 @@ AsyncOp<ListGroupInvitationsResponse> GroupsAPI::ListGroupInvitations(
 
 AsyncOp<ListGroupMembersResponse> GroupsAPI::ListGroupMembers(
     SharedPtr<Entity> entity,
-    const PFGroupsListGroupMembersRequest& request,
+    const ListGroupMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -680,7 +680,7 @@ AsyncOp<ListGroupMembersResponse> GroupsAPI::ListGroupMembers(
     }
 
     const char* path{ "/Group/ListGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -711,7 +711,7 @@ AsyncOp<ListGroupMembersResponse> GroupsAPI::ListGroupMembers(
 
 AsyncOp<ListMembershipResponse> GroupsAPI::ListMembership(
     SharedPtr<Entity> entity,
-    const PFGroupsListMembershipRequest& request,
+    const ListMembershipRequest& request,
     const TaskQueue& queue
 )
 {
@@ -722,7 +722,7 @@ AsyncOp<ListMembershipResponse> GroupsAPI::ListMembership(
     }
 
     const char* path{ "/Group/ListMembership" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -753,7 +753,7 @@ AsyncOp<ListMembershipResponse> GroupsAPI::ListMembership(
 
 AsyncOp<ListMembershipOpportunitiesResponse> GroupsAPI::ListMembershipOpportunities(
     SharedPtr<Entity> entity,
-    const PFGroupsListMembershipOpportunitiesRequest& request,
+    const ListMembershipOpportunitiesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -764,7 +764,7 @@ AsyncOp<ListMembershipOpportunitiesResponse> GroupsAPI::ListMembershipOpportunit
     }
 
     const char* path{ "/Group/ListMembershipOpportunities" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -795,7 +795,7 @@ AsyncOp<ListMembershipOpportunitiesResponse> GroupsAPI::ListMembershipOpportunit
 
 AsyncOp<void> GroupsAPI::RemoveGroupApplication(
     SharedPtr<Entity> entity,
-    const PFGroupsRemoveGroupApplicationRequest& request,
+    const RemoveGroupApplicationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -806,7 +806,7 @@ AsyncOp<void> GroupsAPI::RemoveGroupApplication(
     }
 
     const char* path{ "/Group/RemoveGroupApplication" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -835,7 +835,7 @@ AsyncOp<void> GroupsAPI::RemoveGroupApplication(
 
 AsyncOp<void> GroupsAPI::RemoveGroupInvitation(
     SharedPtr<Entity> entity,
-    const PFGroupsRemoveGroupInvitationRequest& request,
+    const RemoveGroupInvitationRequest& request,
     const TaskQueue& queue
 )
 {
@@ -846,7 +846,7 @@ AsyncOp<void> GroupsAPI::RemoveGroupInvitation(
     }
 
     const char* path{ "/Group/RemoveGroupInvitation" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -875,7 +875,7 @@ AsyncOp<void> GroupsAPI::RemoveGroupInvitation(
 
 AsyncOp<void> GroupsAPI::RemoveMembers(
     SharedPtr<Entity> entity,
-    const PFGroupsRemoveMembersRequest& request,
+    const RemoveMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -886,7 +886,7 @@ AsyncOp<void> GroupsAPI::RemoveMembers(
     }
 
     const char* path{ "/Group/RemoveMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -915,7 +915,7 @@ AsyncOp<void> GroupsAPI::RemoveMembers(
 
 AsyncOp<void> GroupsAPI::UnblockEntity(
     SharedPtr<Entity> entity,
-    const PFGroupsUnblockEntityRequest& request,
+    const UnblockEntityRequest& request,
     const TaskQueue& queue
 )
 {
@@ -926,7 +926,7 @@ AsyncOp<void> GroupsAPI::UnblockEntity(
     }
 
     const char* path{ "/Group/UnblockEntity" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -955,7 +955,7 @@ AsyncOp<void> GroupsAPI::UnblockEntity(
 
 AsyncOp<UpdateGroupResponse> GroupsAPI::UpdateGroup(
     SharedPtr<Entity> entity,
-    const PFGroupsUpdateGroupRequest& request,
+    const UpdateGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -966,7 +966,7 @@ AsyncOp<UpdateGroupResponse> GroupsAPI::UpdateGroup(
     }
 
     const char* path{ "/Group/UpdateGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -997,7 +997,7 @@ AsyncOp<UpdateGroupResponse> GroupsAPI::UpdateGroup(
 
 AsyncOp<UpdateGroupRoleResponse> GroupsAPI::UpdateRole(
     SharedPtr<Entity> entity,
-    const PFGroupsUpdateGroupRoleRequest& request,
+    const UpdateGroupRoleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1008,7 +1008,7 @@ AsyncOp<UpdateGroupRoleResponse> GroupsAPI::UpdateRole(
     }
 
     const char* path{ "/Group/UpdateRole" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1037,5 +1037,5 @@ AsyncOp<UpdateGroupRoleResponse> GroupsAPI::UpdateRole(
     });
 }
 
-
-}
+} // namespace Groups
+} // namespace PlayFab

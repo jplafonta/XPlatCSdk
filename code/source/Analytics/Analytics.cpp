@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace AnalyticsModels;
+namespace Analytics
+{
 
 
 AsyncOp<void> AnalyticsAPI::ClientReportDeviceInfo(
     SharedPtr<TitlePlayer> entity,
-    const PFAnalyticsDeviceInfoRequest& request,
+    const DeviceInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> AnalyticsAPI::ClientReportDeviceInfo(
     }
 
     const char* path{ "/Client/ReportDeviceInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -51,7 +51,7 @@ AsyncOp<void> AnalyticsAPI::ClientReportDeviceInfo(
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteCharacterEvent(
     SharedPtr<TitlePlayer> entity,
-    const PFAnalyticsWriteClientCharacterEventRequest& request,
+    const WriteClientCharacterEventRequest& request,
     const TaskQueue& queue
 )
 {
@@ -62,7 +62,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteCharacterEvent(
     }
 
     const char* path{ "/Client/WriteCharacterEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -93,7 +93,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteCharacterEvent(
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWritePlayerEvent(
     SharedPtr<TitlePlayer> entity,
-    const PFAnalyticsWriteClientPlayerEventRequest& request,
+    const WriteClientPlayerEventRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWritePlayerEvent(
     }
 
     const char* path{ "/Client/WritePlayerEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -135,7 +135,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWritePlayerEvent(
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteTitleEvent(
     SharedPtr<TitlePlayer> entity,
-    const PFAnalyticsWriteTitleEventRequest& request,
+    const WriteTitleEventRequest& request,
     const TaskQueue& queue
 )
 {
@@ -146,7 +146,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteTitleEvent(
     }
 
     const char* path{ "/Client/WriteTitleEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -177,7 +177,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ClientWriteTitleEvent(
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteCharacterEvent(
     SharedPtr<GlobalState const> state,
-    const PFAnalyticsWriteServerCharacterEventRequest& request,
+    const WriteServerCharacterEventRequest& request,
     const TaskQueue& queue
 )
 {
@@ -188,7 +188,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteCharacterEvent(
     }
 
     const char* path{ "/Server/WriteCharacterEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -218,7 +218,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteCharacterEvent(
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWritePlayerEvent(
     SharedPtr<GlobalState const> state,
-    const PFAnalyticsWriteServerPlayerEventRequest& request,
+    const WriteServerPlayerEventRequest& request,
     const TaskQueue& queue
 )
 {
@@ -229,7 +229,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWritePlayerEvent(
     }
 
     const char* path{ "/Server/WritePlayerEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -259,7 +259,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWritePlayerEvent(
 
 AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteTitleEvent(
     SharedPtr<GlobalState const> state,
-    const PFAnalyticsWriteTitleEventRequest& request,
+    const WriteTitleEventRequest& request,
     const TaskQueue& queue
 )
 {
@@ -270,7 +270,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteTitleEvent(
     }
 
     const char* path{ "/Server/WriteTitleEvent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -300,7 +300,7 @@ AsyncOp<WriteEventResponse> AnalyticsAPI::ServerWriteTitleEvent(
 
 AsyncOp<InsightsGetDetailsResponse> AnalyticsAPI::GetDetails(
     SharedPtr<Entity> entity,
-    const PFAnalyticsInsightsEmptyRequest& request,
+    const InsightsEmptyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -311,7 +311,7 @@ AsyncOp<InsightsGetDetailsResponse> AnalyticsAPI::GetDetails(
     }
 
     const char* path{ "/Insights/GetDetails" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -342,7 +342,7 @@ AsyncOp<InsightsGetDetailsResponse> AnalyticsAPI::GetDetails(
 
 AsyncOp<InsightsGetLimitsResponse> AnalyticsAPI::GetLimits(
     SharedPtr<Entity> entity,
-    const PFAnalyticsInsightsEmptyRequest& request,
+    const InsightsEmptyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -353,7 +353,7 @@ AsyncOp<InsightsGetLimitsResponse> AnalyticsAPI::GetLimits(
     }
 
     const char* path{ "/Insights/GetLimits" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -384,7 +384,7 @@ AsyncOp<InsightsGetLimitsResponse> AnalyticsAPI::GetLimits(
 
 AsyncOp<InsightsGetOperationStatusResponse> AnalyticsAPI::GetOperationStatus(
     SharedPtr<Entity> entity,
-    const PFAnalyticsInsightsGetOperationStatusRequest& request,
+    const InsightsGetOperationStatusRequest& request,
     const TaskQueue& queue
 )
 {
@@ -395,7 +395,7 @@ AsyncOp<InsightsGetOperationStatusResponse> AnalyticsAPI::GetOperationStatus(
     }
 
     const char* path{ "/Insights/GetOperationStatus" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -426,7 +426,7 @@ AsyncOp<InsightsGetOperationStatusResponse> AnalyticsAPI::GetOperationStatus(
 
 AsyncOp<InsightsGetPendingOperationsResponse> AnalyticsAPI::GetPendingOperations(
     SharedPtr<Entity> entity,
-    const PFAnalyticsInsightsGetPendingOperationsRequest& request,
+    const InsightsGetPendingOperationsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -437,7 +437,7 @@ AsyncOp<InsightsGetPendingOperationsResponse> AnalyticsAPI::GetPendingOperations
     }
 
     const char* path{ "/Insights/GetPendingOperations" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -468,7 +468,7 @@ AsyncOp<InsightsGetPendingOperationsResponse> AnalyticsAPI::GetPendingOperations
 
 AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetPerformance(
     SharedPtr<Entity> entity,
-    const PFAnalyticsInsightsSetPerformanceRequest& request,
+    const InsightsSetPerformanceRequest& request,
     const TaskQueue& queue
 )
 {
@@ -479,7 +479,7 @@ AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetPerformance(
     }
 
     const char* path{ "/Insights/SetPerformance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -510,7 +510,7 @@ AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetPerformance(
 
 AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetStorageRetention(
     SharedPtr<Entity> entity,
-    const PFAnalyticsInsightsSetStorageRetentionRequest& request,
+    const InsightsSetStorageRetentionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -521,7 +521,7 @@ AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetStorageRetention(
     }
 
     const char* path{ "/Insights/SetStorageRetention" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -550,5 +550,5 @@ AsyncOp<InsightsOperationResponse> AnalyticsAPI::SetStorageRetention(
     });
 }
 
-
-}
+} // namespace Analytics
+} // namespace PlayFab

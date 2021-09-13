@@ -1,896 +1,768 @@
 #pragma once
 
-#include <playfab/PFGroupsDataModels.h>
+#include <playfab/cpp/PFGroupsDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace GroupsModels
+namespace Groups
 {
 
 // Groups Classes
-struct AcceptGroupApplicationRequest : public PFGroupsAcceptGroupApplicationRequest, public BaseModel
+class AcceptGroupApplicationRequest : public Wrappers::PFGroupsAcceptGroupApplicationRequestWrapper<Allocator>, public InputModel
 {
-    AcceptGroupApplicationRequest();
-    AcceptGroupApplicationRequest(const AcceptGroupApplicationRequest& src);
-    AcceptGroupApplicationRequest(AcceptGroupApplicationRequest&& src);
-    AcceptGroupApplicationRequest(const PFGroupsAcceptGroupApplicationRequest& src);
-    AcceptGroupApplicationRequest& operator=(const AcceptGroupApplicationRequest&) = delete;
-    ~AcceptGroupApplicationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsAcceptGroupApplicationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsAcceptGroupApplicationRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
 };
 
-struct AcceptGroupInvitationRequest : public PFGroupsAcceptGroupInvitationRequest, public BaseModel
+class AcceptGroupInvitationRequest : public Wrappers::PFGroupsAcceptGroupInvitationRequestWrapper<Allocator>, public InputModel
 {
-    AcceptGroupInvitationRequest();
-    AcceptGroupInvitationRequest(const AcceptGroupInvitationRequest& src);
-    AcceptGroupInvitationRequest(AcceptGroupInvitationRequest&& src);
-    AcceptGroupInvitationRequest(const PFGroupsAcceptGroupInvitationRequest& src);
-    AcceptGroupInvitationRequest& operator=(const AcceptGroupInvitationRequest&) = delete;
-    ~AcceptGroupInvitationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsAcceptGroupInvitationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsAcceptGroupInvitationRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    EntityKey m_group;
 };
 
-struct AddMembersRequest : public PFGroupsAddMembersRequest, public BaseModel
+class AddMembersRequest : public Wrappers::PFGroupsAddMembersRequestWrapper<Allocator>, public InputModel
 {
-    AddMembersRequest();
-    AddMembersRequest(const AddMembersRequest& src);
-    AddMembersRequest(AddMembersRequest&& src);
-    AddMembersRequest(const PFGroupsAddMembersRequest& src);
-    AddMembersRequest& operator=(const AddMembersRequest&) = delete;
-    ~AddMembersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsAddMembersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsAddMembersRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
-    PointerArrayModel<PFEntityKey, EntityKey> m_members;
-    String m_roleId;
 };
 
-struct ApplyToGroupRequest : public PFGroupsApplyToGroupRequest, public BaseModel
+class ApplyToGroupRequest : public Wrappers::PFGroupsApplyToGroupRequestWrapper<Allocator>, public InputModel
 {
-    ApplyToGroupRequest();
-    ApplyToGroupRequest(const ApplyToGroupRequest& src);
-    ApplyToGroupRequest(ApplyToGroupRequest&& src);
-    ApplyToGroupRequest(const PFGroupsApplyToGroupRequest& src);
-    ApplyToGroupRequest& operator=(const ApplyToGroupRequest&) = delete;
-    ~ApplyToGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsApplyToGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsApplyToGroupRequest& input);
 
-private:
-    StdExtra::optional<bool> m_autoAcceptOutstandingInvite;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    EntityKey m_group;
 };
 
-struct EntityWithLineage : public PFGroupsEntityWithLineage, public BaseModel
+class EntityWithLineage : public Wrappers::PFGroupsEntityWithLineageWrapper<Allocator>, public OutputModel<PFGroupsEntityWithLineage>
 {
-    EntityWithLineage();
-    EntityWithLineage(const EntityWithLineage& src);
-    EntityWithLineage(EntityWithLineage&& src);
-    EntityWithLineage(const PFGroupsEntityWithLineage& src);
-    EntityWithLineage& operator=(const EntityWithLineage&) = delete;
-    ~EntityWithLineage() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsEntityWithLineageWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsEntityWithLineage const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_key;
-    AssociativeArrayModel<PFEntityKeyDictionaryEntry, EntityKey> m_lineage;
+    static size_t RequiredBufferSize(const PFGroupsEntityWithLineage& model);
+    static HRESULT Copy(const PFGroupsEntityWithLineage& input, PFGroupsEntityWithLineage& output, ModelBuffer& buffer);
 };
 
-struct ApplyToGroupResponse : public PFGroupsApplyToGroupResponse, public BaseModel, public ApiResult
+class ApplyToGroupResponse : public Wrappers::PFGroupsApplyToGroupResponseWrapper<Allocator>, public OutputModel<PFGroupsApplyToGroupResponse>
 {
-    ApplyToGroupResponse();
-    ApplyToGroupResponse(const ApplyToGroupResponse& src);
-    ApplyToGroupResponse(ApplyToGroupResponse&& src);
-    ApplyToGroupResponse(const PFGroupsApplyToGroupResponse& src);
-    ApplyToGroupResponse& operator=(const ApplyToGroupResponse&) = delete;
-    ~ApplyToGroupResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsApplyToGroupResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsApplyToGroupResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityWithLineage> m_entity;
-    StdExtra::optional<EntityKey> m_group;
+    static size_t RequiredBufferSize(const PFGroupsApplyToGroupResponse& model);
+    static HRESULT Copy(const PFGroupsApplyToGroupResponse& input, PFGroupsApplyToGroupResponse& output, ModelBuffer& buffer);
 };
 
-struct BlockEntityRequest : public PFGroupsBlockEntityRequest, public BaseModel
+class BlockEntityRequest : public Wrappers::PFGroupsBlockEntityRequestWrapper<Allocator>, public InputModel
 {
-    BlockEntityRequest();
-    BlockEntityRequest(const BlockEntityRequest& src);
-    BlockEntityRequest(BlockEntityRequest&& src);
-    BlockEntityRequest(const PFGroupsBlockEntityRequest& src);
-    BlockEntityRequest& operator=(const BlockEntityRequest&) = delete;
-    ~BlockEntityRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsBlockEntityRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsBlockEntityRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
 };
 
-struct ChangeMemberRoleRequest : public PFGroupsChangeMemberRoleRequest, public BaseModel
+class ChangeMemberRoleRequest : public Wrappers::PFGroupsChangeMemberRoleRequestWrapper<Allocator>, public InputModel
 {
-    ChangeMemberRoleRequest();
-    ChangeMemberRoleRequest(const ChangeMemberRoleRequest& src);
-    ChangeMemberRoleRequest(ChangeMemberRoleRequest&& src);
-    ChangeMemberRoleRequest(const PFGroupsChangeMemberRoleRequest& src);
-    ChangeMemberRoleRequest& operator=(const ChangeMemberRoleRequest&) = delete;
-    ~ChangeMemberRoleRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsChangeMemberRoleRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsChangeMemberRoleRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_destinationRoleId;
-    EntityKey m_group;
-    PointerArrayModel<PFEntityKey, EntityKey> m_members;
-    String m_originRoleId;
 };
 
-struct CreateGroupRequest : public PFGroupsCreateGroupRequest, public BaseModel
+class CreateGroupRequest : public Wrappers::PFGroupsCreateGroupRequestWrapper<Allocator>, public InputModel
 {
-    CreateGroupRequest();
-    CreateGroupRequest(const CreateGroupRequest& src);
-    CreateGroupRequest(CreateGroupRequest&& src);
-    CreateGroupRequest(const PFGroupsCreateGroupRequest& src);
-    CreateGroupRequest& operator=(const CreateGroupRequest&) = delete;
-    ~CreateGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsCreateGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsCreateGroupRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_groupName;
 };
 
-struct CreateGroupResponse : public PFGroupsCreateGroupResponse, public BaseModel, public ApiResult
+class CreateGroupResponse : public Wrappers::PFGroupsCreateGroupResponseWrapper<Allocator>, public OutputModel<PFGroupsCreateGroupResponse>
 {
-    CreateGroupResponse();
-    CreateGroupResponse(const CreateGroupResponse& src);
-    CreateGroupResponse(CreateGroupResponse&& src);
-    CreateGroupResponse(const PFGroupsCreateGroupResponse& src);
-    CreateGroupResponse& operator=(const CreateGroupResponse&) = delete;
-    ~CreateGroupResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsCreateGroupResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsCreateGroupResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_adminRoleId;
-    EntityKey m_group;
-    String m_groupName;
-    String m_memberRoleId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_roles;
+    static size_t RequiredBufferSize(const PFGroupsCreateGroupResponse& model);
+    static HRESULT Copy(const PFGroupsCreateGroupResponse& input, PFGroupsCreateGroupResponse& output, ModelBuffer& buffer);
 };
 
-struct CreateGroupRoleRequest : public PFGroupsCreateGroupRoleRequest, public BaseModel
+class CreateGroupRoleRequest : public Wrappers::PFGroupsCreateGroupRoleRequestWrapper<Allocator>, public InputModel
 {
-    CreateGroupRoleRequest();
-    CreateGroupRoleRequest(const CreateGroupRoleRequest& src);
-    CreateGroupRoleRequest(CreateGroupRoleRequest&& src);
-    CreateGroupRoleRequest(const PFGroupsCreateGroupRoleRequest& src);
-    CreateGroupRoleRequest& operator=(const CreateGroupRoleRequest&) = delete;
-    ~CreateGroupRoleRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsCreateGroupRoleRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsCreateGroupRoleRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
-    String m_roleId;
-    String m_roleName;
 };
 
-struct CreateGroupRoleResponse : public PFGroupsCreateGroupRoleResponse, public SerializableModel, public ApiResult
+class CreateGroupRoleResponse : public Wrappers::PFGroupsCreateGroupRoleResponseWrapper<Allocator>, public OutputModel<PFGroupsCreateGroupRoleResponse>
 {
-    CreateGroupRoleResponse();
-    CreateGroupRoleResponse(const CreateGroupRoleResponse& src);
-    CreateGroupRoleResponse(CreateGroupRoleResponse&& src);
-    CreateGroupRoleResponse(const PFGroupsCreateGroupRoleResponse& src);
-    CreateGroupRoleResponse& operator=(const CreateGroupRoleResponse&) = delete;
-    ~CreateGroupRoleResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsCreateGroupRoleResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsCreateGroupRoleResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_roleId;
-    String m_roleName;
+    static size_t RequiredBufferSize(const PFGroupsCreateGroupRoleResponse& model);
+    static HRESULT Copy(const PFGroupsCreateGroupRoleResponse& input, PFGroupsCreateGroupRoleResponse& output, ModelBuffer& buffer);
 };
 
-struct DeleteGroupRequest : public PFGroupsDeleteGroupRequest, public BaseModel
+class DeleteGroupRequest : public Wrappers::PFGroupsDeleteGroupRequestWrapper<Allocator>, public InputModel
 {
-    DeleteGroupRequest();
-    DeleteGroupRequest(const DeleteGroupRequest& src);
-    DeleteGroupRequest(DeleteGroupRequest&& src);
-    DeleteGroupRequest(const PFGroupsDeleteGroupRequest& src);
-    DeleteGroupRequest& operator=(const DeleteGroupRequest&) = delete;
-    ~DeleteGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsDeleteGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsDeleteGroupRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
 };
 
-struct DeleteRoleRequest : public PFGroupsDeleteRoleRequest, public BaseModel
+class DeleteRoleRequest : public Wrappers::PFGroupsDeleteRoleRequestWrapper<Allocator>, public InputModel
 {
-    DeleteRoleRequest();
-    DeleteRoleRequest(const DeleteRoleRequest& src);
-    DeleteRoleRequest(DeleteRoleRequest&& src);
-    DeleteRoleRequest(const PFGroupsDeleteRoleRequest& src);
-    DeleteRoleRequest& operator=(const DeleteRoleRequest&) = delete;
-    ~DeleteRoleRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsDeleteRoleRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsDeleteRoleRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
-    String m_roleId;
 };
 
-struct GetGroupRequest : public PFGroupsGetGroupRequest, public BaseModel
+class GetGroupRequest : public Wrappers::PFGroupsGetGroupRequestWrapper<Allocator>, public InputModel
 {
-    GetGroupRequest();
-    GetGroupRequest(const GetGroupRequest& src);
-    GetGroupRequest(GetGroupRequest&& src);
-    GetGroupRequest(const PFGroupsGetGroupRequest& src);
-    GetGroupRequest& operator=(const GetGroupRequest&) = delete;
-    ~GetGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGetGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsGetGroupRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_group;
-    String m_groupName;
 };
 
-struct GetGroupResponse : public PFGroupsGetGroupResponse, public BaseModel, public ApiResult
+class GetGroupResponse : public Wrappers::PFGroupsGetGroupResponseWrapper<Allocator>, public OutputModel<PFGroupsGetGroupResponse>
 {
-    GetGroupResponse();
-    GetGroupResponse(const GetGroupResponse& src);
-    GetGroupResponse(GetGroupResponse&& src);
-    GetGroupResponse(const PFGroupsGetGroupResponse& src);
-    GetGroupResponse& operator=(const GetGroupResponse&) = delete;
-    ~GetGroupResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGetGroupResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsGetGroupResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_adminRoleId;
-    EntityKey m_group;
-    String m_groupName;
-    String m_memberRoleId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_roles;
+    static size_t RequiredBufferSize(const PFGroupsGetGroupResponse& model);
+    static HRESULT Copy(const PFGroupsGetGroupResponse& input, PFGroupsGetGroupResponse& output, ModelBuffer& buffer);
 };
 
-struct InviteToGroupRequest : public PFGroupsInviteToGroupRequest, public BaseModel
+class InviteToGroupRequest : public Wrappers::PFGroupsInviteToGroupRequestWrapper<Allocator>, public InputModel
 {
-    InviteToGroupRequest();
-    InviteToGroupRequest(const InviteToGroupRequest& src);
-    InviteToGroupRequest(InviteToGroupRequest&& src);
-    InviteToGroupRequest(const PFGroupsInviteToGroupRequest& src);
-    InviteToGroupRequest& operator=(const InviteToGroupRequest&) = delete;
-    ~InviteToGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsInviteToGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsInviteToGroupRequest& input);
 
-private:
-    StdExtra::optional<bool> m_autoAcceptOutstandingApplication;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
-    String m_roleId;
 };
 
-struct InviteToGroupResponse : public PFGroupsInviteToGroupResponse, public BaseModel, public ApiResult
+class InviteToGroupResponse : public Wrappers::PFGroupsInviteToGroupResponseWrapper<Allocator>, public OutputModel<PFGroupsInviteToGroupResponse>
 {
-    InviteToGroupResponse();
-    InviteToGroupResponse(const InviteToGroupResponse& src);
-    InviteToGroupResponse(InviteToGroupResponse&& src);
-    InviteToGroupResponse(const PFGroupsInviteToGroupResponse& src);
-    InviteToGroupResponse& operator=(const InviteToGroupResponse&) = delete;
-    ~InviteToGroupResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsInviteToGroupResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsInviteToGroupResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_group;
-    StdExtra::optional<EntityWithLineage> m_invitedByEntity;
-    StdExtra::optional<EntityWithLineage> m_invitedEntity;
-    String m_roleId;
+    static size_t RequiredBufferSize(const PFGroupsInviteToGroupResponse& model);
+    static HRESULT Copy(const PFGroupsInviteToGroupResponse& input, PFGroupsInviteToGroupResponse& output, ModelBuffer& buffer);
 };
 
-struct IsMemberRequest : public PFGroupsIsMemberRequest, public BaseModel
+class IsMemberRequest : public Wrappers::PFGroupsIsMemberRequestWrapper<Allocator>, public InputModel
 {
-    IsMemberRequest();
-    IsMemberRequest(const IsMemberRequest& src);
-    IsMemberRequest(IsMemberRequest&& src);
-    IsMemberRequest(const PFGroupsIsMemberRequest& src);
-    IsMemberRequest& operator=(const IsMemberRequest&) = delete;
-    ~IsMemberRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsIsMemberRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsIsMemberRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
-    String m_roleId;
 };
 
-struct IsMemberResponse : public PFGroupsIsMemberResponse, public SerializableModel, public ApiResult
+class IsMemberResponse : public Wrappers::PFGroupsIsMemberResponseWrapper<Allocator>, public OutputModel<PFGroupsIsMemberResponse>
 {
-    IsMemberResponse();
-    IsMemberResponse(const IsMemberResponse&) = default;
-    IsMemberResponse(IsMemberResponse&&) = default;
-    IsMemberResponse(const PFGroupsIsMemberResponse& src);
-    IsMemberResponse& operator=(const IsMemberResponse&) = delete;
-    ~IsMemberResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsIsMemberResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsIsMemberResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFGroupsIsMemberResponse& model);
+    static HRESULT Copy(const PFGroupsIsMemberResponse& input, PFGroupsIsMemberResponse& output, ModelBuffer& buffer);
 };
 
-struct ListGroupApplicationsRequest : public PFGroupsListGroupApplicationsRequest, public BaseModel
+class ListGroupApplicationsRequest : public Wrappers::PFGroupsListGroupApplicationsRequestWrapper<Allocator>, public InputModel
 {
-    ListGroupApplicationsRequest();
-    ListGroupApplicationsRequest(const ListGroupApplicationsRequest& src);
-    ListGroupApplicationsRequest(ListGroupApplicationsRequest&& src);
-    ListGroupApplicationsRequest(const PFGroupsListGroupApplicationsRequest& src);
-    ListGroupApplicationsRequest& operator=(const ListGroupApplicationsRequest&) = delete;
-    ~ListGroupApplicationsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupApplicationsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsListGroupApplicationsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
 };
 
-struct GroupApplication : public PFGroupsGroupApplication, public BaseModel
+class GroupApplication : public Wrappers::PFGroupsGroupApplicationWrapper<Allocator>, public OutputModel<PFGroupsGroupApplication>
 {
-    GroupApplication();
-    GroupApplication(const GroupApplication& src);
-    GroupApplication(GroupApplication&& src);
-    GroupApplication(const PFGroupsGroupApplication& src);
-    GroupApplication& operator=(const GroupApplication&) = delete;
-    ~GroupApplication() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGroupApplicationWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsGroupApplication const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityWithLineage> m_entity;
-    StdExtra::optional<EntityKey> m_group;
+    static size_t RequiredBufferSize(const PFGroupsGroupApplication& model);
+    static HRESULT Copy(const PFGroupsGroupApplication& input, PFGroupsGroupApplication& output, ModelBuffer& buffer);
 };
 
-struct ListGroupApplicationsResponse : public PFGroupsListGroupApplicationsResponse, public BaseModel, public ApiResult
+class ListGroupApplicationsResponse : public Wrappers::PFGroupsListGroupApplicationsResponseWrapper<Allocator>, public OutputModel<PFGroupsListGroupApplicationsResponse>
 {
-    ListGroupApplicationsResponse();
-    ListGroupApplicationsResponse(const ListGroupApplicationsResponse& src);
-    ListGroupApplicationsResponse(ListGroupApplicationsResponse&& src);
-    ListGroupApplicationsResponse(const PFGroupsListGroupApplicationsResponse& src);
-    ListGroupApplicationsResponse& operator=(const ListGroupApplicationsResponse&) = delete;
-    ~ListGroupApplicationsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupApplicationsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsListGroupApplicationsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsGroupApplication, GroupApplication> m_applications;
+    static size_t RequiredBufferSize(const PFGroupsListGroupApplicationsResponse& model);
+    static HRESULT Copy(const PFGroupsListGroupApplicationsResponse& input, PFGroupsListGroupApplicationsResponse& output, ModelBuffer& buffer);
 };
 
-struct ListGroupBlocksRequest : public PFGroupsListGroupBlocksRequest, public BaseModel
+class ListGroupBlocksRequest : public Wrappers::PFGroupsListGroupBlocksRequestWrapper<Allocator>, public InputModel
 {
-    ListGroupBlocksRequest();
-    ListGroupBlocksRequest(const ListGroupBlocksRequest& src);
-    ListGroupBlocksRequest(ListGroupBlocksRequest&& src);
-    ListGroupBlocksRequest(const PFGroupsListGroupBlocksRequest& src);
-    ListGroupBlocksRequest& operator=(const ListGroupBlocksRequest&) = delete;
-    ~ListGroupBlocksRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupBlocksRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsListGroupBlocksRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
 };
 
-struct GroupBlock : public PFGroupsGroupBlock, public BaseModel
+class GroupBlock : public Wrappers::PFGroupsGroupBlockWrapper<Allocator>, public OutputModel<PFGroupsGroupBlock>
 {
-    GroupBlock();
-    GroupBlock(const GroupBlock& src);
-    GroupBlock(GroupBlock&& src);
-    GroupBlock(const PFGroupsGroupBlock& src);
-    GroupBlock& operator=(const GroupBlock&) = delete;
-    ~GroupBlock() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGroupBlockWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsGroupBlock const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityWithLineage> m_entity;
-    EntityKey m_group;
+    static size_t RequiredBufferSize(const PFGroupsGroupBlock& model);
+    static HRESULT Copy(const PFGroupsGroupBlock& input, PFGroupsGroupBlock& output, ModelBuffer& buffer);
 };
 
-struct ListGroupBlocksResponse : public PFGroupsListGroupBlocksResponse, public BaseModel, public ApiResult
+class ListGroupBlocksResponse : public Wrappers::PFGroupsListGroupBlocksResponseWrapper<Allocator>, public OutputModel<PFGroupsListGroupBlocksResponse>
 {
-    ListGroupBlocksResponse();
-    ListGroupBlocksResponse(const ListGroupBlocksResponse& src);
-    ListGroupBlocksResponse(ListGroupBlocksResponse&& src);
-    ListGroupBlocksResponse(const PFGroupsListGroupBlocksResponse& src);
-    ListGroupBlocksResponse& operator=(const ListGroupBlocksResponse&) = delete;
-    ~ListGroupBlocksResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupBlocksResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsListGroupBlocksResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsGroupBlock, GroupBlock> m_blockedEntities;
+    static size_t RequiredBufferSize(const PFGroupsListGroupBlocksResponse& model);
+    static HRESULT Copy(const PFGroupsListGroupBlocksResponse& input, PFGroupsListGroupBlocksResponse& output, ModelBuffer& buffer);
 };
 
-struct ListGroupInvitationsRequest : public PFGroupsListGroupInvitationsRequest, public BaseModel
+class ListGroupInvitationsRequest : public Wrappers::PFGroupsListGroupInvitationsRequestWrapper<Allocator>, public InputModel
 {
-    ListGroupInvitationsRequest();
-    ListGroupInvitationsRequest(const ListGroupInvitationsRequest& src);
-    ListGroupInvitationsRequest(ListGroupInvitationsRequest&& src);
-    ListGroupInvitationsRequest(const PFGroupsListGroupInvitationsRequest& src);
-    ListGroupInvitationsRequest& operator=(const ListGroupInvitationsRequest&) = delete;
-    ~ListGroupInvitationsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupInvitationsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsListGroupInvitationsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
 };
 
-struct GroupInvitation : public PFGroupsGroupInvitation, public BaseModel
+class GroupInvitation : public Wrappers::PFGroupsGroupInvitationWrapper<Allocator>, public OutputModel<PFGroupsGroupInvitation>
 {
-    GroupInvitation();
-    GroupInvitation(const GroupInvitation& src);
-    GroupInvitation(GroupInvitation&& src);
-    GroupInvitation(const PFGroupsGroupInvitation& src);
-    GroupInvitation& operator=(const GroupInvitation&) = delete;
-    ~GroupInvitation() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGroupInvitationWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsGroupInvitation const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_group;
-    StdExtra::optional<EntityWithLineage> m_invitedByEntity;
-    StdExtra::optional<EntityWithLineage> m_invitedEntity;
-    String m_roleId;
+    static size_t RequiredBufferSize(const PFGroupsGroupInvitation& model);
+    static HRESULT Copy(const PFGroupsGroupInvitation& input, PFGroupsGroupInvitation& output, ModelBuffer& buffer);
 };
 
-struct ListGroupInvitationsResponse : public PFGroupsListGroupInvitationsResponse, public BaseModel, public ApiResult
+class ListGroupInvitationsResponse : public Wrappers::PFGroupsListGroupInvitationsResponseWrapper<Allocator>, public OutputModel<PFGroupsListGroupInvitationsResponse>
 {
-    ListGroupInvitationsResponse();
-    ListGroupInvitationsResponse(const ListGroupInvitationsResponse& src);
-    ListGroupInvitationsResponse(ListGroupInvitationsResponse&& src);
-    ListGroupInvitationsResponse(const PFGroupsListGroupInvitationsResponse& src);
-    ListGroupInvitationsResponse& operator=(const ListGroupInvitationsResponse&) = delete;
-    ~ListGroupInvitationsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupInvitationsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsListGroupInvitationsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsGroupInvitation, GroupInvitation> m_invitations;
+    static size_t RequiredBufferSize(const PFGroupsListGroupInvitationsResponse& model);
+    static HRESULT Copy(const PFGroupsListGroupInvitationsResponse& input, PFGroupsListGroupInvitationsResponse& output, ModelBuffer& buffer);
 };
 
-struct ListGroupMembersRequest : public PFGroupsListGroupMembersRequest, public BaseModel
+class ListGroupMembersRequest : public Wrappers::PFGroupsListGroupMembersRequestWrapper<Allocator>, public InputModel
 {
-    ListGroupMembersRequest();
-    ListGroupMembersRequest(const ListGroupMembersRequest& src);
-    ListGroupMembersRequest(ListGroupMembersRequest&& src);
-    ListGroupMembersRequest(const PFGroupsListGroupMembersRequest& src);
-    ListGroupMembersRequest& operator=(const ListGroupMembersRequest&) = delete;
-    ~ListGroupMembersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupMembersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsListGroupMembersRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
 };
 
-struct EntityMemberRole : public PFGroupsEntityMemberRole, public BaseModel
+class EntityMemberRole : public Wrappers::PFGroupsEntityMemberRoleWrapper<Allocator>, public OutputModel<PFGroupsEntityMemberRole>
 {
-    EntityMemberRole();
-    EntityMemberRole(const EntityMemberRole& src);
-    EntityMemberRole(EntityMemberRole&& src);
-    EntityMemberRole(const PFGroupsEntityMemberRole& src);
-    EntityMemberRole& operator=(const EntityMemberRole&) = delete;
-    ~EntityMemberRole() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsEntityMemberRoleWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsEntityMemberRole const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsEntityWithLineage, EntityWithLineage> m_members;
-    String m_roleId;
-    String m_roleName;
+    static size_t RequiredBufferSize(const PFGroupsEntityMemberRole& model);
+    static HRESULT Copy(const PFGroupsEntityMemberRole& input, PFGroupsEntityMemberRole& output, ModelBuffer& buffer);
 };
 
-struct ListGroupMembersResponse : public PFGroupsListGroupMembersResponse, public BaseModel, public ApiResult
+class ListGroupMembersResponse : public Wrappers::PFGroupsListGroupMembersResponseWrapper<Allocator>, public OutputModel<PFGroupsListGroupMembersResponse>
 {
-    ListGroupMembersResponse();
-    ListGroupMembersResponse(const ListGroupMembersResponse& src);
-    ListGroupMembersResponse(ListGroupMembersResponse&& src);
-    ListGroupMembersResponse(const PFGroupsListGroupMembersResponse& src);
-    ListGroupMembersResponse& operator=(const ListGroupMembersResponse&) = delete;
-    ~ListGroupMembersResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListGroupMembersResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsListGroupMembersResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsEntityMemberRole, EntityMemberRole> m_members;
+    static size_t RequiredBufferSize(const PFGroupsListGroupMembersResponse& model);
+    static HRESULT Copy(const PFGroupsListGroupMembersResponse& input, PFGroupsListGroupMembersResponse& output, ModelBuffer& buffer);
 };
 
-struct ListMembershipRequest : public PFGroupsListMembershipRequest, public BaseModel
+class ListMembershipRequest : public Wrappers::PFGroupsListMembershipRequestWrapper<Allocator>, public InputModel
 {
-    ListMembershipRequest();
-    ListMembershipRequest(const ListMembershipRequest& src);
-    ListMembershipRequest(ListMembershipRequest&& src);
-    ListMembershipRequest(const PFGroupsListMembershipRequest& src);
-    ListMembershipRequest& operator=(const ListMembershipRequest&) = delete;
-    ~ListMembershipRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListMembershipRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsListMembershipRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
 };
 
-struct GroupRole : public PFGroupsGroupRole, public SerializableModel
+class GroupRole : public Wrappers::PFGroupsGroupRoleWrapper<Allocator>, public OutputModel<PFGroupsGroupRole>
 {
-    GroupRole();
-    GroupRole(const GroupRole& src);
-    GroupRole(GroupRole&& src);
-    GroupRole(const PFGroupsGroupRole& src);
-    GroupRole& operator=(const GroupRole&) = delete;
-    ~GroupRole() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGroupRoleWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsGroupRole const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_roleId;
-    String m_roleName;
+    static size_t RequiredBufferSize(const PFGroupsGroupRole& model);
+    static HRESULT Copy(const PFGroupsGroupRole& input, PFGroupsGroupRole& output, ModelBuffer& buffer);
 };
 
-struct GroupWithRoles : public PFGroupsGroupWithRoles, public BaseModel
+class GroupWithRoles : public Wrappers::PFGroupsGroupWithRolesWrapper<Allocator>, public OutputModel<PFGroupsGroupWithRoles>
 {
-    GroupWithRoles();
-    GroupWithRoles(const GroupWithRoles& src);
-    GroupWithRoles(GroupWithRoles&& src);
-    GroupWithRoles(const PFGroupsGroupWithRoles& src);
-    GroupWithRoles& operator=(const GroupWithRoles&) = delete;
-    ~GroupWithRoles() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsGroupWithRolesWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsGroupWithRoles const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_group;
-    String m_groupName;
-    PointerArrayModel<PFGroupsGroupRole, GroupRole> m_roles;
+    static size_t RequiredBufferSize(const PFGroupsGroupWithRoles& model);
+    static HRESULT Copy(const PFGroupsGroupWithRoles& input, PFGroupsGroupWithRoles& output, ModelBuffer& buffer);
 };
 
-struct ListMembershipResponse : public PFGroupsListMembershipResponse, public BaseModel, public ApiResult
+class ListMembershipResponse : public Wrappers::PFGroupsListMembershipResponseWrapper<Allocator>, public OutputModel<PFGroupsListMembershipResponse>
 {
-    ListMembershipResponse();
-    ListMembershipResponse(const ListMembershipResponse& src);
-    ListMembershipResponse(ListMembershipResponse&& src);
-    ListMembershipResponse(const PFGroupsListMembershipResponse& src);
-    ListMembershipResponse& operator=(const ListMembershipResponse&) = delete;
-    ~ListMembershipResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListMembershipResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsListMembershipResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsGroupWithRoles, GroupWithRoles> m_groups;
+    static size_t RequiredBufferSize(const PFGroupsListMembershipResponse& model);
+    static HRESULT Copy(const PFGroupsListMembershipResponse& input, PFGroupsListMembershipResponse& output, ModelBuffer& buffer);
 };
 
-struct ListMembershipOpportunitiesRequest : public PFGroupsListMembershipOpportunitiesRequest, public BaseModel
+class ListMembershipOpportunitiesRequest : public Wrappers::PFGroupsListMembershipOpportunitiesRequestWrapper<Allocator>, public InputModel
 {
-    ListMembershipOpportunitiesRequest();
-    ListMembershipOpportunitiesRequest(const ListMembershipOpportunitiesRequest& src);
-    ListMembershipOpportunitiesRequest(ListMembershipOpportunitiesRequest&& src);
-    ListMembershipOpportunitiesRequest(const PFGroupsListMembershipOpportunitiesRequest& src);
-    ListMembershipOpportunitiesRequest& operator=(const ListMembershipOpportunitiesRequest&) = delete;
-    ~ListMembershipOpportunitiesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListMembershipOpportunitiesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsListMembershipOpportunitiesRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
 };
 
-struct ListMembershipOpportunitiesResponse : public PFGroupsListMembershipOpportunitiesResponse, public BaseModel, public ApiResult
+class ListMembershipOpportunitiesResponse : public Wrappers::PFGroupsListMembershipOpportunitiesResponseWrapper<Allocator>, public OutputModel<PFGroupsListMembershipOpportunitiesResponse>
 {
-    ListMembershipOpportunitiesResponse();
-    ListMembershipOpportunitiesResponse(const ListMembershipOpportunitiesResponse& src);
-    ListMembershipOpportunitiesResponse(ListMembershipOpportunitiesResponse&& src);
-    ListMembershipOpportunitiesResponse(const PFGroupsListMembershipOpportunitiesResponse& src);
-    ListMembershipOpportunitiesResponse& operator=(const ListMembershipOpportunitiesResponse&) = delete;
-    ~ListMembershipOpportunitiesResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsListMembershipOpportunitiesResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsListMembershipOpportunitiesResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFGroupsGroupApplication, GroupApplication> m_applications;
-    PointerArrayModel<PFGroupsGroupInvitation, GroupInvitation> m_invitations;
+    static size_t RequiredBufferSize(const PFGroupsListMembershipOpportunitiesResponse& model);
+    static HRESULT Copy(const PFGroupsListMembershipOpportunitiesResponse& input, PFGroupsListMembershipOpportunitiesResponse& output, ModelBuffer& buffer);
 };
 
-struct RemoveGroupApplicationRequest : public PFGroupsRemoveGroupApplicationRequest, public BaseModel
+class RemoveGroupApplicationRequest : public Wrappers::PFGroupsRemoveGroupApplicationRequestWrapper<Allocator>, public InputModel
 {
-    RemoveGroupApplicationRequest();
-    RemoveGroupApplicationRequest(const RemoveGroupApplicationRequest& src);
-    RemoveGroupApplicationRequest(RemoveGroupApplicationRequest&& src);
-    RemoveGroupApplicationRequest(const PFGroupsRemoveGroupApplicationRequest& src);
-    RemoveGroupApplicationRequest& operator=(const RemoveGroupApplicationRequest&) = delete;
-    ~RemoveGroupApplicationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsRemoveGroupApplicationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsRemoveGroupApplicationRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
 };
 
-struct RemoveGroupInvitationRequest : public PFGroupsRemoveGroupInvitationRequest, public BaseModel
+class RemoveGroupInvitationRequest : public Wrappers::PFGroupsRemoveGroupInvitationRequestWrapper<Allocator>, public InputModel
 {
-    RemoveGroupInvitationRequest();
-    RemoveGroupInvitationRequest(const RemoveGroupInvitationRequest& src);
-    RemoveGroupInvitationRequest(RemoveGroupInvitationRequest&& src);
-    RemoveGroupInvitationRequest(const PFGroupsRemoveGroupInvitationRequest& src);
-    RemoveGroupInvitationRequest& operator=(const RemoveGroupInvitationRequest&) = delete;
-    ~RemoveGroupInvitationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsRemoveGroupInvitationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsRemoveGroupInvitationRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
 };
 
-struct RemoveMembersRequest : public PFGroupsRemoveMembersRequest, public BaseModel
+class RemoveMembersRequest : public Wrappers::PFGroupsRemoveMembersRequestWrapper<Allocator>, public InputModel
 {
-    RemoveMembersRequest();
-    RemoveMembersRequest(const RemoveMembersRequest& src);
-    RemoveMembersRequest(RemoveMembersRequest&& src);
-    RemoveMembersRequest(const PFGroupsRemoveMembersRequest& src);
-    RemoveMembersRequest& operator=(const RemoveMembersRequest&) = delete;
-    ~RemoveMembersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsRemoveMembersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsRemoveMembersRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_group;
-    PointerArrayModel<PFEntityKey, EntityKey> m_members;
-    String m_roleId;
 };
 
-struct UnblockEntityRequest : public PFGroupsUnblockEntityRequest, public BaseModel
+class UnblockEntityRequest : public Wrappers::PFGroupsUnblockEntityRequestWrapper<Allocator>, public InputModel
 {
-    UnblockEntityRequest();
-    UnblockEntityRequest(const UnblockEntityRequest& src);
-    UnblockEntityRequest(UnblockEntityRequest&& src);
-    UnblockEntityRequest(const PFGroupsUnblockEntityRequest& src);
-    UnblockEntityRequest& operator=(const UnblockEntityRequest&) = delete;
-    ~UnblockEntityRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsUnblockEntityRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsUnblockEntityRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    EntityKey m_group;
 };
 
-struct UpdateGroupRequest : public PFGroupsUpdateGroupRequest, public BaseModel
+class UpdateGroupRequest : public Wrappers::PFGroupsUpdateGroupRequestWrapper<Allocator>, public InputModel
 {
-    UpdateGroupRequest();
-    UpdateGroupRequest(const UpdateGroupRequest& src);
-    UpdateGroupRequest(UpdateGroupRequest&& src);
-    UpdateGroupRequest(const PFGroupsUpdateGroupRequest& src);
-    UpdateGroupRequest& operator=(const UpdateGroupRequest&) = delete;
-    ~UpdateGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsUpdateGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsUpdateGroupRequest& input);
 
-private:
-    String m_adminRoleId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<int32_t> m_expectedProfileVersion;
-    EntityKey m_group;
-    String m_groupName;
-    String m_memberRoleId;
 };
 
-struct UpdateGroupResponse : public PFGroupsUpdateGroupResponse, public BaseModel, public ApiResult
+class UpdateGroupResponse : public Wrappers::PFGroupsUpdateGroupResponseWrapper<Allocator>, public OutputModel<PFGroupsUpdateGroupResponse>
 {
-    UpdateGroupResponse();
-    UpdateGroupResponse(const UpdateGroupResponse& src);
-    UpdateGroupResponse(UpdateGroupResponse&& src);
-    UpdateGroupResponse(const PFGroupsUpdateGroupResponse& src);
-    UpdateGroupResponse& operator=(const UpdateGroupResponse&) = delete;
-    ~UpdateGroupResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsUpdateGroupResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsUpdateGroupResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_operationReason;
-    StdExtra::optional<PFOperationTypes> m_setResult;
+    static size_t RequiredBufferSize(const PFGroupsUpdateGroupResponse& model);
+    static HRESULT Copy(const PFGroupsUpdateGroupResponse& input, PFGroupsUpdateGroupResponse& output, ModelBuffer& buffer);
 };
 
-struct UpdateGroupRoleRequest : public PFGroupsUpdateGroupRoleRequest, public BaseModel
+class UpdateGroupRoleRequest : public Wrappers::PFGroupsUpdateGroupRoleRequestWrapper<Allocator>, public InputModel
 {
-    UpdateGroupRoleRequest();
-    UpdateGroupRoleRequest(const UpdateGroupRoleRequest& src);
-    UpdateGroupRoleRequest(UpdateGroupRoleRequest&& src);
-    UpdateGroupRoleRequest(const PFGroupsUpdateGroupRoleRequest& src);
-    UpdateGroupRoleRequest& operator=(const UpdateGroupRoleRequest&) = delete;
-    ~UpdateGroupRoleRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsUpdateGroupRoleRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFGroupsUpdateGroupRoleRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<int32_t> m_expectedProfileVersion;
-    EntityKey m_group;
-    String m_roleId;
-    String m_roleName;
 };
 
-struct UpdateGroupRoleResponse : public PFGroupsUpdateGroupRoleResponse, public BaseModel, public ApiResult
+class UpdateGroupRoleResponse : public Wrappers::PFGroupsUpdateGroupRoleResponseWrapper<Allocator>, public OutputModel<PFGroupsUpdateGroupRoleResponse>
 {
-    UpdateGroupRoleResponse();
-    UpdateGroupRoleResponse(const UpdateGroupRoleResponse& src);
-    UpdateGroupRoleResponse(UpdateGroupRoleResponse&& src);
-    UpdateGroupRoleResponse(const PFGroupsUpdateGroupRoleResponse& src);
-    UpdateGroupRoleResponse& operator=(const UpdateGroupRoleResponse&) = delete;
-    ~UpdateGroupRoleResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFGroupsUpdateGroupRoleResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFGroupsUpdateGroupRoleResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_operationReason;
-    StdExtra::optional<PFOperationTypes> m_setResult;
+    static size_t RequiredBufferSize(const PFGroupsUpdateGroupRoleResponse& model);
+    static HRESULT Copy(const PFGroupsUpdateGroupRoleResponse& input, PFGroupsUpdateGroupRoleResponse& output, ModelBuffer& buffer);
 };
 
-} // namespace GroupsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFGroupsAcceptGroupApplicationRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsAcceptGroupInvitationRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsAddMembersRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsApplyToGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsEntityWithLineage& input);
-template<> inline JsonValue ToJson<>(const PFGroupsApplyToGroupResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsBlockEntityRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsChangeMemberRoleRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsCreateGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsCreateGroupResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsCreateGroupRoleRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsCreateGroupRoleResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsDeleteGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsDeleteRoleRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGetGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGetGroupResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsInviteToGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsInviteToGroupResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsIsMemberRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsIsMemberResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupApplicationsRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGroupApplication& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupApplicationsResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupBlocksRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGroupBlock& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupBlocksResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupInvitationsRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGroupInvitation& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupInvitationsResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupMembersRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsEntityMemberRole& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListGroupMembersResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListMembershipRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGroupRole& input);
-template<> inline JsonValue ToJson<>(const PFGroupsGroupWithRoles& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListMembershipResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListMembershipOpportunitiesRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsListMembershipOpportunitiesResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsRemoveGroupApplicationRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsRemoveGroupInvitationRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsRemoveMembersRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsUnblockEntityRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsUpdateGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsUpdateGroupResponse& input);
-template<> inline JsonValue ToJson<>(const PFGroupsUpdateGroupRoleRequest& input);
-template<> inline JsonValue ToJson<>(const PFGroupsUpdateGroupRoleResponse& input);
-} // namespace JsonUtils
-
+} // namespace Groups
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

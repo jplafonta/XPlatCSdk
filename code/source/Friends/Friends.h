@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Friends
+{
 
 class FriendsAPI
 {
@@ -16,14 +18,15 @@ public:
     ~FriendsAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<FriendsModels::AddFriendResult> ClientAddFriend(SharedPtr<TitlePlayer> entity, const PFFriendsClientAddFriendRequest& request, const TaskQueue& queue);
-    static AsyncOp<FriendsModels::GetFriendsListResult> ClientGetFriendsList(SharedPtr<TitlePlayer> entity, const PFFriendsClientGetFriendsListRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> ClientRemoveFriend(SharedPtr<TitlePlayer> entity, const PFFriendsClientRemoveFriendRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> ClientSetFriendTags(SharedPtr<TitlePlayer> entity, const PFFriendsClientSetFriendTagsRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> ServerAddFriend(SharedPtr<GlobalState const> state, const PFFriendsServerAddFriendRequest& request, const TaskQueue& queue);
-    static AsyncOp<FriendsModels::GetFriendsListResult> ServerGetFriendsList(SharedPtr<GlobalState const> state, const PFFriendsServerGetFriendsListRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> ServerRemoveFriend(SharedPtr<GlobalState const> state, const PFFriendsServerRemoveFriendRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> ServerSetFriendTags(SharedPtr<GlobalState const> state, const PFFriendsServerSetFriendTagsRequest& request, const TaskQueue& queue);
+    static AsyncOp<AddFriendResult> ClientAddFriend(SharedPtr<TitlePlayer> entity, const ClientAddFriendRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetFriendsListResult> ClientGetFriendsList(SharedPtr<TitlePlayer> entity, const ClientGetFriendsListRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ClientRemoveFriend(SharedPtr<TitlePlayer> entity, const ClientRemoveFriendRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ClientSetFriendTags(SharedPtr<TitlePlayer> entity, const ClientSetFriendTagsRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerAddFriend(SharedPtr<GlobalState const> state, const ServerAddFriendRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetFriendsListResult> ServerGetFriendsList(SharedPtr<GlobalState const> state, const ServerGetFriendsListRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerRemoveFriend(SharedPtr<GlobalState const> state, const ServerRemoveFriendRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> ServerSetFriendTags(SharedPtr<GlobalState const> state, const ServerSetFriendTagsRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Friends
+} // namespace PlayFab

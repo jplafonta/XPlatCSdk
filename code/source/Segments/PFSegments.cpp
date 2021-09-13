@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::SegmentsModels;
+using namespace PlayFab::Segments;
 
 HRESULT PFSegmentsAdminCreateSegmentAsync(
     _In_ PFStateHandle contextHandle,
@@ -95,16 +95,26 @@ HRESULT PFSegmentsAdminGetSegmentsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFSegmentsAdminGetSegmentsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFSegmentsAdminGetSegmentsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFSegmentsGetSegmentsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFSegmentsGetSegmentsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFSegmentsGetSegmentsResponse*)(std::dynamic_pointer_cast<GetSegmentsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFSegmentsGetSegmentsResponse*>(buffer);
 
     return S_OK;
 }

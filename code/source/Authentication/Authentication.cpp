@@ -6,13 +6,13 @@
 
 namespace PlayFab
 {
-
-using namespace AuthenticationModels;
+namespace Authentication
+{
 
 
 AsyncOp<void> AuthenticationAPI::AdminCreateOpenIdConnection(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationCreateOpenIdConnectionRequest& request,
+    const CreateOpenIdConnectionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -23,7 +23,7 @@ AsyncOp<void> AuthenticationAPI::AdminCreateOpenIdConnection(
     }
 
     const char* path{ "/Admin/CreateOpenIdConnection" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -51,7 +51,7 @@ AsyncOp<void> AuthenticationAPI::AdminCreateOpenIdConnection(
 
 AsyncOp<CreatePlayerSharedSecretResult> AuthenticationAPI::AdminCreatePlayerSharedSecret(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationCreatePlayerSharedSecretRequest& request,
+    const CreatePlayerSharedSecretRequest& request,
     const TaskQueue& queue
 )
 {
@@ -62,7 +62,7 @@ AsyncOp<CreatePlayerSharedSecretResult> AuthenticationAPI::AdminCreatePlayerShar
     }
 
     const char* path{ "/Admin/CreatePlayerSharedSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -92,7 +92,7 @@ AsyncOp<CreatePlayerSharedSecretResult> AuthenticationAPI::AdminCreatePlayerShar
 
 AsyncOp<void> AuthenticationAPI::AdminDeleteOpenIdConnection(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationDeleteOpenIdConnectionRequest& request,
+    const DeleteOpenIdConnectionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -103,7 +103,7 @@ AsyncOp<void> AuthenticationAPI::AdminDeleteOpenIdConnection(
     }
 
     const char* path{ "/Admin/DeleteOpenIdConnection" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -131,7 +131,7 @@ AsyncOp<void> AuthenticationAPI::AdminDeleteOpenIdConnection(
 
 AsyncOp<void> AuthenticationAPI::AdminDeletePlayerSharedSecret(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationDeletePlayerSharedSecretRequest& request,
+    const DeletePlayerSharedSecretRequest& request,
     const TaskQueue& queue
 )
 {
@@ -142,7 +142,7 @@ AsyncOp<void> AuthenticationAPI::AdminDeletePlayerSharedSecret(
     }
 
     const char* path{ "/Admin/DeletePlayerSharedSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -210,7 +210,7 @@ AsyncOp<GetPlayerSharedSecretsResult> AuthenticationAPI::AdminGetPlayerSharedSec
 
 AsyncOp<GetPolicyResponse> AuthenticationAPI::AdminGetPolicy(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationGetPolicyRequest& request,
+    const GetPolicyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -221,7 +221,7 @@ AsyncOp<GetPolicyResponse> AuthenticationAPI::AdminGetPolicy(
     }
 
     const char* path{ "/Admin/GetPolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -291,7 +291,7 @@ AsyncOp<ListOpenIdConnectionResponse> AuthenticationAPI::AdminListOpenIdConnecti
 
 AsyncOp<void> AuthenticationAPI::AdminSetPlayerSecret(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationAdminSetPlayerSecretRequest& request,
+    const AdminSetPlayerSecretRequest& request,
     const TaskQueue& queue
 )
 {
@@ -302,7 +302,7 @@ AsyncOp<void> AuthenticationAPI::AdminSetPlayerSecret(
     }
 
     const char* path{ "/Admin/SetPlayerSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -330,7 +330,7 @@ AsyncOp<void> AuthenticationAPI::AdminSetPlayerSecret(
 
 AsyncOp<void> AuthenticationAPI::AdminUpdateOpenIdConnection(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationUpdateOpenIdConnectionRequest& request,
+    const UpdateOpenIdConnectionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -341,7 +341,7 @@ AsyncOp<void> AuthenticationAPI::AdminUpdateOpenIdConnection(
     }
 
     const char* path{ "/Admin/UpdateOpenIdConnection" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -369,7 +369,7 @@ AsyncOp<void> AuthenticationAPI::AdminUpdateOpenIdConnection(
 
 AsyncOp<void> AuthenticationAPI::AdminUpdatePlayerSharedSecret(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationUpdatePlayerSharedSecretRequest& request,
+    const UpdatePlayerSharedSecretRequest& request,
     const TaskQueue& queue
 )
 {
@@ -380,7 +380,7 @@ AsyncOp<void> AuthenticationAPI::AdminUpdatePlayerSharedSecret(
     }
 
     const char* path{ "/Admin/UpdatePlayerSharedSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -408,7 +408,7 @@ AsyncOp<void> AuthenticationAPI::AdminUpdatePlayerSharedSecret(
 
 AsyncOp<UpdatePolicyResponse> AuthenticationAPI::AdminUpdatePolicy(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationUpdatePolicyRequest& request,
+    const UpdatePolicyRequest& request,
     const TaskQueue& queue
 )
 {
@@ -419,7 +419,7 @@ AsyncOp<UpdatePolicyResponse> AuthenticationAPI::AdminUpdatePolicy(
     }
 
     const char* path{ "/Admin/UpdatePolicy" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -449,7 +449,7 @@ AsyncOp<UpdatePolicyResponse> AuthenticationAPI::AdminUpdatePolicy(
 
 AsyncOp<GetPhotonAuthenticationTokenResult> AuthenticationAPI::ClientGetPhotonAuthenticationToken(
     SharedPtr<TitlePlayer> entity,
-    const PFAuthenticationGetPhotonAuthenticationTokenRequest& request,
+    const GetPhotonAuthenticationTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -460,7 +460,7 @@ AsyncOp<GetPhotonAuthenticationTokenResult> AuthenticationAPI::ClientGetPhotonAu
     }
 
     const char* path{ "/Client/GetPhotonAuthenticationToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -491,12 +491,12 @@ AsyncOp<GetPhotonAuthenticationTokenResult> AuthenticationAPI::ClientGetPhotonAu
 
 AsyncOp<GetTitlePublicKeyResult> AuthenticationAPI::ClientGetTitlePublicKey(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationGetTitlePublicKeyRequest& request,
+    const GetTitlePublicKeyRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/GetTitlePublicKey" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -526,12 +526,12 @@ AsyncOp<GetTitlePublicKeyResult> AuthenticationAPI::ClientGetTitlePublicKey(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithAndroidDeviceID(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithAndroidDeviceIDRequest& request,
+    const LoginWithAndroidDeviceIDRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithAndroidDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -563,12 +563,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithAndroidDeviceI
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithApple(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithAppleRequest& request,
+    const LoginWithAppleRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithApple" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -600,12 +600,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithApple(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithCustomID(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithCustomIDRequest& request,
+    const LoginWithCustomIDRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithCustomID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -637,12 +637,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithCustomID(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithEmailAddress(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithEmailAddressRequest& request,
+    const LoginWithEmailAddressRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithEmailAddress" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -674,12 +674,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithEmailAddress(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithFacebook(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithFacebookRequest& request,
+    const LoginWithFacebookRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithFacebook" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -711,12 +711,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithFacebook(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithFacebookInstantGamesId(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithFacebookInstantGamesIdRequest& request,
+    const LoginWithFacebookInstantGamesIdRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithFacebookInstantGamesId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -748,12 +748,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithFacebookInstan
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithGameCenter(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithGameCenterRequest& request,
+    const LoginWithGameCenterRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithGameCenter" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -785,12 +785,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithGameCenter(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithGoogleAccount(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithGoogleAccountRequest& request,
+    const LoginWithGoogleAccountRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithGoogleAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -822,12 +822,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithGoogleAccount(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithIOSDeviceID(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithIOSDeviceIDRequest& request,
+    const LoginWithIOSDeviceIDRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithIOSDeviceID" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -859,12 +859,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithIOSDeviceID(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithKongregate(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithKongregateRequest& request,
+    const LoginWithKongregateRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithKongregate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -896,12 +896,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithKongregate(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithNintendoServiceAccount(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithNintendoServiceAccountRequest& request,
+    const LoginWithNintendoServiceAccountRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithNintendoServiceAccount" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -933,12 +933,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithNintendoServic
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithNintendoSwitchDeviceId(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithNintendoSwitchDeviceIdRequest& request,
+    const LoginWithNintendoSwitchDeviceIdRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithNintendoSwitchDeviceId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -970,12 +970,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithNintendoSwitch
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithOpenIdConnect(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithOpenIdConnectRequest& request,
+    const LoginWithOpenIdConnectRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithOpenIdConnect" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1007,12 +1007,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithOpenIdConnect(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithPlayFab(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithPlayFabRequest& request,
+    const LoginWithPlayFabRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithPlayFab" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1044,12 +1044,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithPlayFab(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithPSN(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithPSNRequest& request,
+    const LoginWithPSNRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithPSN" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1081,12 +1081,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithPSN(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithSteam(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithSteamRequest& request,
+    const LoginWithSteamRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithSteam" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1118,12 +1118,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithSteam(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithTwitch(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithTwitchRequest& request,
+    const LoginWithTwitchRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithTwitch" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1155,12 +1155,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithTwitch(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientLoginWithXbox(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationClientLoginWithXboxRequest& request,
+    const ClientLoginWithXboxRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/LoginWithXbox" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1283,12 +1283,12 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::LoginWithXUser(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientRegisterPlayFabUser(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationRegisterPlayFabUserRequest& request,
+    const RegisterPlayFabUserRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/Client/RegisterPlayFabUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1320,7 +1320,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ClientRegisterPlayFabUser(
 
 AsyncOp<void> AuthenticationAPI::ClientSetPlayerSecret(
     SharedPtr<TitlePlayer> entity,
-    const PFAuthenticationClientSetPlayerSecretRequest& request,
+    const ClientSetPlayerSecretRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1331,7 +1331,7 @@ AsyncOp<void> AuthenticationAPI::ClientSetPlayerSecret(
     }
 
     const char* path{ "/Client/SetPlayerSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1360,7 +1360,7 @@ AsyncOp<void> AuthenticationAPI::ClientSetPlayerSecret(
 
 AsyncOp<AuthenticateSessionTicketResult> AuthenticationAPI::ServerAuthenticateSessionTicket(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationAuthenticateSessionTicketRequest& request,
+    const AuthenticateSessionTicketRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1371,7 +1371,7 @@ AsyncOp<AuthenticateSessionTicketResult> AuthenticationAPI::ServerAuthenticateSe
     }
 
     const char* path{ "/Server/AuthenticateSessionTicket" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1401,7 +1401,7 @@ AsyncOp<AuthenticateSessionTicketResult> AuthenticationAPI::ServerAuthenticateSe
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithServerCustomId(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithServerCustomIdRequest& request,
+    const LoginWithServerCustomIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1412,7 +1412,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithServerCustomId
     }
 
     const char* path{ "/Server/LoginWithServerCustomId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1444,7 +1444,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithServerCustomId
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithSteamId(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithSteamIdRequest& request,
+    const LoginWithSteamIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1455,7 +1455,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithSteamId(
     }
 
     const char* path{ "/Server/LoginWithSteamId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1487,7 +1487,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithSteamId(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXbox(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationServerLoginWithXboxRequest& request,
+    const ServerLoginWithXboxRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1498,7 +1498,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXbox(
     }
 
     const char* path{ "/Server/LoginWithXbox" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1530,7 +1530,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXbox(
 
 AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXboxId(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationLoginWithXboxIdRequest& request,
+    const LoginWithXboxIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1541,7 +1541,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXboxId(
     }
 
     const char* path{ "/Server/LoginWithXboxId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1573,7 +1573,7 @@ AsyncOp<SharedPtr<TitlePlayer>> AuthenticationAPI::ServerLoginWithXboxId(
 
 AsyncOp<void> AuthenticationAPI::ServerSetPlayerSecret(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationServerSetPlayerSecretRequest& request,
+    const ServerSetPlayerSecretRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1584,7 +1584,7 @@ AsyncOp<void> AuthenticationAPI::ServerSetPlayerSecret(
     }
 
     const char* path{ "/Server/SetPlayerSecret" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1612,7 +1612,7 @@ AsyncOp<void> AuthenticationAPI::ServerSetPlayerSecret(
 
 AsyncOp<SharedPtr<Entity>> AuthenticationAPI::GetEntityToken(
     SharedPtr<GlobalState const> state,
-    const PFAuthenticationGetEntityTokenRequest& request,
+    const GetEntityTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1623,7 +1623,7 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::GetEntityToken(
     }
 
     const char* path{ "/Authentication/GetEntityToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1653,7 +1653,7 @@ AsyncOp<SharedPtr<Entity>> AuthenticationAPI::GetEntityToken(
 
 AsyncOp<ValidateEntityTokenResponse> AuthenticationAPI::ValidateEntityToken(
     SharedPtr<Entity> entity,
-    const PFAuthenticationValidateEntityTokenRequest& request,
+    const ValidateEntityTokenRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1664,7 +1664,7 @@ AsyncOp<ValidateEntityTokenResponse> AuthenticationAPI::ValidateEntityToken(
     }
 
     const char* path{ "/Authentication/ValidateEntityToken" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1693,5 +1693,5 @@ AsyncOp<ValidateEntityTokenResponse> AuthenticationAPI::ValidateEntityToken(
     });
 }
 
-
-}
+} // namespace Authentication
+} // namespace PlayFab

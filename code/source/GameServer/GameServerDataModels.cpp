@@ -4,697 +4,416 @@
 
 namespace PlayFab
 {
-namespace GameServerModels
+namespace GameServer
 {
-
-AddServerBuildRequest::AddServerBuildRequest() :
-    PFGameServerAddServerBuildRequest{}
-{
-}
-
-AddServerBuildRequest::AddServerBuildRequest(const AddServerBuildRequest& src) :
-    PFGameServerAddServerBuildRequest{ src },
-    m_activeRegions{ src.m_activeRegions },
-    m_buildId{ src.m_buildId },
-    m_commandLineTemplate{ src.m_commandLineTemplate },
-    m_comment{ src.m_comment },
-    m_customTags{ src.m_customTags },
-    m_executablePath{ src.m_executablePath }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-}
-
-AddServerBuildRequest::AddServerBuildRequest(AddServerBuildRequest&& src) :
-    PFGameServerAddServerBuildRequest{ src },
-    m_activeRegions{ std::move(src.m_activeRegions) },
-    m_buildId{ std::move(src.m_buildId) },
-    m_commandLineTemplate{ std::move(src.m_commandLineTemplate) },
-    m_comment{ std::move(src.m_comment) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_executablePath{ std::move(src.m_executablePath) }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-}
-
-AddServerBuildRequest::AddServerBuildRequest(const PFGameServerAddServerBuildRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AddServerBuildRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ActiveRegions", m_activeRegions, activeRegions, activeRegionsCount);
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
-    JsonUtils::ObjectGetMember(input, "CommandLineTemplate", m_commandLineTemplate, commandLineTemplate);
-    JsonUtils::ObjectGetMember(input, "Comment", m_comment, comment);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ExecutablePath", m_executablePath, executablePath);
-    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", maxGamesPerHost);
-    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", minFreeGameSlots);
-}
 
 JsonValue AddServerBuildRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFGameServerAddServerBuildRequest>(*this);
+    return AddServerBuildRequest::ToJson(this->Model());
 }
 
-AddServerBuildResult::AddServerBuildResult() :
-    PFGameServerAddServerBuildResult{}
+JsonValue AddServerBuildRequest::ToJson(const PFGameServerAddServerBuildRequest& input)
 {
-}
-
-AddServerBuildResult::AddServerBuildResult(const AddServerBuildResult& src) :
-    PFGameServerAddServerBuildResult{ src },
-    m_activeRegions{ src.m_activeRegions },
-    m_buildId{ src.m_buildId },
-    m_commandLineTemplate{ src.m_commandLineTemplate },
-    m_comment{ src.m_comment },
-    m_executablePath{ src.m_executablePath },
-    m_status{ src.m_status },
-    m_titleId{ src.m_titleId }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
-}
-
-AddServerBuildResult::AddServerBuildResult(AddServerBuildResult&& src) :
-    PFGameServerAddServerBuildResult{ src },
-    m_activeRegions{ std::move(src.m_activeRegions) },
-    m_buildId{ std::move(src.m_buildId) },
-    m_commandLineTemplate{ std::move(src.m_commandLineTemplate) },
-    m_comment{ std::move(src.m_comment) },
-    m_executablePath{ std::move(src.m_executablePath) },
-    m_status{ std::move(src.m_status) },
-    m_titleId{ std::move(src.m_titleId) }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
-}
-
-AddServerBuildResult::AddServerBuildResult(const PFGameServerAddServerBuildResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberArray(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
+    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
+    JsonUtils::ObjectAddMember(output, "CommandLineTemplate", input.commandLineTemplate);
+    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "ExecutablePath", input.executablePath);
+    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
+    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
+    return output;
 }
 
 void AddServerBuildResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "ActiveRegions", m_activeRegions, activeRegions, activeRegionsCount);
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
-    JsonUtils::ObjectGetMember(input, "CommandLineTemplate", m_commandLineTemplate, commandLineTemplate);
-    JsonUtils::ObjectGetMember(input, "Comment", m_comment, comment);
-    JsonUtils::ObjectGetMember(input, "ExecutablePath", m_executablePath, executablePath);
-    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", maxGamesPerHost);
-    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", minFreeGameSlots);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-    JsonUtils::ObjectGetMember(input, "Timestamp", timestamp, true);
-    JsonUtils::ObjectGetMember(input, "TitleId", m_titleId, titleId);
+    Vector<PFRegion> activeRegions{};
+    JsonUtils::ObjectGetMember(input, "ActiveRegions", activeRegions);
+    this->SetActiveRegions(std::move(activeRegions));
+
+    String buildId{};
+    JsonUtils::ObjectGetMember(input, "BuildId", buildId);
+    this->SetBuildId(std::move(buildId));
+
+    String commandLineTemplate{};
+    JsonUtils::ObjectGetMember(input, "CommandLineTemplate", commandLineTemplate);
+    this->SetCommandLineTemplate(std::move(commandLineTemplate));
+
+    String comment{};
+    JsonUtils::ObjectGetMember(input, "Comment", comment);
+    this->SetComment(std::move(comment));
+
+    String executablePath{};
+    JsonUtils::ObjectGetMember(input, "ExecutablePath", executablePath);
+    this->SetExecutablePath(std::move(executablePath));
+
+    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", this->m_model.maxGamesPerHost);
+
+    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", this->m_model.minFreeGameSlots);
+
+    StdExtra::optional<PFGameServerGameBuildStatus> status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+
+    JsonUtils::ObjectGetMemberTime(input, "Timestamp", this->m_model.timestamp);
+
+    String titleId{};
+    JsonUtils::ObjectGetMember(input, "TitleId", titleId);
+    this->SetTitleId(std::move(titleId));
 }
 
-JsonValue AddServerBuildResult::ToJson() const
+size_t AddServerBuildResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFGameServerAddServerBuildResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetServerBuildInfoRequest::GetServerBuildInfoRequest() :
-    PFGameServerGetServerBuildInfoRequest{}
+Result<PFGameServerAddServerBuildResult const*> AddServerBuildResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<AddServerBuildResult>(&this->Model());
 }
 
-GetServerBuildInfoRequest::GetServerBuildInfoRequest(const GetServerBuildInfoRequest& src) :
-    PFGameServerGetServerBuildInfoRequest{ src },
-    m_buildId{ src.m_buildId }
+size_t AddServerBuildResult::RequiredBufferSize(const PFGameServerAddServerBuildResult& model)
 {
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFRegion) + sizeof(PFRegion) * model.activeRegionsCount);
+    if (model.buildId)
+    {
+        requiredSize += (std::strlen(model.buildId) + 1);
+    }
+    if (model.commandLineTemplate)
+    {
+        requiredSize += (std::strlen(model.commandLineTemplate) + 1);
+    }
+    if (model.comment)
+    {
+        requiredSize += (std::strlen(model.comment) + 1);
+    }
+    if (model.executablePath)
+    {
+        requiredSize += (std::strlen(model.executablePath) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (alignof(PFGameServerGameBuildStatus) + sizeof(PFGameServerGameBuildStatus));
+    }
+    if (model.titleId)
+    {
+        requiredSize += (std::strlen(model.titleId) + 1);
+    }
+    return requiredSize;
 }
 
-GetServerBuildInfoRequest::GetServerBuildInfoRequest(GetServerBuildInfoRequest&& src) :
-    PFGameServerGetServerBuildInfoRequest{ src },
-    m_buildId{ std::move(src.m_buildId) }
+HRESULT AddServerBuildResult::Copy(const PFGameServerAddServerBuildResult& input, PFGameServerAddServerBuildResult& output, ModelBuffer& buffer)
 {
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-}
-
-GetServerBuildInfoRequest::GetServerBuildInfoRequest(const PFGameServerGetServerBuildInfoRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetServerBuildInfoRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
+    output = input;
+    output.activeRegions = buffer.CopyToArray(input.activeRegions, input.activeRegionsCount);
+    output.buildId = buffer.CopyTo(input.buildId);
+    output.commandLineTemplate = buffer.CopyTo(input.commandLineTemplate);
+    output.comment = buffer.CopyTo(input.comment);
+    output.executablePath = buffer.CopyTo(input.executablePath);
+    output.status = buffer.CopyTo(input.status);
+    output.titleId = buffer.CopyTo(input.titleId);
+    return S_OK;
 }
 
 JsonValue GetServerBuildInfoRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFGameServerGetServerBuildInfoRequest>(*this);
+    return GetServerBuildInfoRequest::ToJson(this->Model());
 }
 
-size_t GetServerBuildInfoRequest::SerializedSize() const
+JsonValue GetServerBuildInfoRequest::ToJson(const PFGameServerGetServerBuildInfoRequest& input)
 {
-    size_t serializedSize{ sizeof(PFGameServerGetServerBuildInfoRequest) };
-    serializedSize += (m_buildId.size() + 1);
-    return serializedSize;
-}
-
-void GetServerBuildInfoRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFGameServerGetServerBuildInfoRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGameServerGetServerBuildInfoRequest);
-    memcpy(stringBuffer, m_buildId.data(), m_buildId.size() + 1);
-    serializedStruct->buildId = stringBuffer;
-    stringBuffer += m_buildId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetServerBuildInfoResult::GetServerBuildInfoResult() :
-    PFGameServerGetServerBuildInfoResult{}
-{
-}
-
-GetServerBuildInfoResult::GetServerBuildInfoResult(const GetServerBuildInfoResult& src) :
-    PFGameServerGetServerBuildInfoResult{ src },
-    m_activeRegions{ src.m_activeRegions },
-    m_buildId{ src.m_buildId },
-    m_comment{ src.m_comment },
-    m_errorMessage{ src.m_errorMessage },
-    m_status{ src.m_status },
-    m_titleId{ src.m_titleId }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
-}
-
-GetServerBuildInfoResult::GetServerBuildInfoResult(GetServerBuildInfoResult&& src) :
-    PFGameServerGetServerBuildInfoResult{ src },
-    m_activeRegions{ std::move(src.m_activeRegions) },
-    m_buildId{ std::move(src.m_buildId) },
-    m_comment{ std::move(src.m_comment) },
-    m_errorMessage{ std::move(src.m_errorMessage) },
-    m_status{ std::move(src.m_status) },
-    m_titleId{ std::move(src.m_titleId) }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    errorMessage = m_errorMessage.empty() ? nullptr : m_errorMessage.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
-}
-
-GetServerBuildInfoResult::GetServerBuildInfoResult(const PFGameServerGetServerBuildInfoResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
+    return output;
 }
 
 void GetServerBuildInfoResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "ActiveRegions", m_activeRegions, activeRegions, activeRegionsCount);
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
-    JsonUtils::ObjectGetMember(input, "Comment", m_comment, comment);
-    JsonUtils::ObjectGetMember(input, "ErrorMessage", m_errorMessage, errorMessage);
-    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", maxGamesPerHost);
-    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", minFreeGameSlots);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-    JsonUtils::ObjectGetMember(input, "Timestamp", timestamp, true);
-    JsonUtils::ObjectGetMember(input, "TitleId", m_titleId, titleId);
+    Vector<PFRegion> activeRegions{};
+    JsonUtils::ObjectGetMember(input, "ActiveRegions", activeRegions);
+    this->SetActiveRegions(std::move(activeRegions));
+
+    String buildId{};
+    JsonUtils::ObjectGetMember(input, "BuildId", buildId);
+    this->SetBuildId(std::move(buildId));
+
+    String comment{};
+    JsonUtils::ObjectGetMember(input, "Comment", comment);
+    this->SetComment(std::move(comment));
+
+    String errorMessage{};
+    JsonUtils::ObjectGetMember(input, "ErrorMessage", errorMessage);
+    this->SetErrorMessage(std::move(errorMessage));
+
+    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", this->m_model.maxGamesPerHost);
+
+    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", this->m_model.minFreeGameSlots);
+
+    StdExtra::optional<PFGameServerGameBuildStatus> status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+
+    JsonUtils::ObjectGetMemberTime(input, "Timestamp", this->m_model.timestamp);
+
+    String titleId{};
+    JsonUtils::ObjectGetMember(input, "TitleId", titleId);
+    this->SetTitleId(std::move(titleId));
 }
 
-JsonValue GetServerBuildInfoResult::ToJson() const
+size_t GetServerBuildInfoResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFGameServerGetServerBuildInfoResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetServerBuildUploadURLRequest::GetServerBuildUploadURLRequest() :
-    PFGameServerGetServerBuildUploadURLRequest{}
+Result<PFGameServerGetServerBuildInfoResult const*> GetServerBuildInfoResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<GetServerBuildInfoResult>(&this->Model());
 }
 
-GetServerBuildUploadURLRequest::GetServerBuildUploadURLRequest(const GetServerBuildUploadURLRequest& src) :
-    PFGameServerGetServerBuildUploadURLRequest{ src },
-    m_buildId{ src.m_buildId }
+size_t GetServerBuildInfoResult::RequiredBufferSize(const PFGameServerGetServerBuildInfoResult& model)
 {
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFRegion) + sizeof(PFRegion) * model.activeRegionsCount);
+    if (model.buildId)
+    {
+        requiredSize += (std::strlen(model.buildId) + 1);
+    }
+    if (model.comment)
+    {
+        requiredSize += (std::strlen(model.comment) + 1);
+    }
+    if (model.errorMessage)
+    {
+        requiredSize += (std::strlen(model.errorMessage) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (alignof(PFGameServerGameBuildStatus) + sizeof(PFGameServerGameBuildStatus));
+    }
+    if (model.titleId)
+    {
+        requiredSize += (std::strlen(model.titleId) + 1);
+    }
+    return requiredSize;
 }
 
-GetServerBuildUploadURLRequest::GetServerBuildUploadURLRequest(GetServerBuildUploadURLRequest&& src) :
-    PFGameServerGetServerBuildUploadURLRequest{ src },
-    m_buildId{ std::move(src.m_buildId) }
+HRESULT GetServerBuildInfoResult::Copy(const PFGameServerGetServerBuildInfoResult& input, PFGameServerGetServerBuildInfoResult& output, ModelBuffer& buffer)
 {
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-}
-
-GetServerBuildUploadURLRequest::GetServerBuildUploadURLRequest(const PFGameServerGetServerBuildUploadURLRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetServerBuildUploadURLRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
+    output = input;
+    output.activeRegions = buffer.CopyToArray(input.activeRegions, input.activeRegionsCount);
+    output.buildId = buffer.CopyTo(input.buildId);
+    output.comment = buffer.CopyTo(input.comment);
+    output.errorMessage = buffer.CopyTo(input.errorMessage);
+    output.status = buffer.CopyTo(input.status);
+    output.titleId = buffer.CopyTo(input.titleId);
+    return S_OK;
 }
 
 JsonValue GetServerBuildUploadURLRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFGameServerGetServerBuildUploadURLRequest>(*this);
+    return GetServerBuildUploadURLRequest::ToJson(this->Model());
 }
 
-size_t GetServerBuildUploadURLRequest::SerializedSize() const
+JsonValue GetServerBuildUploadURLRequest::ToJson(const PFGameServerGetServerBuildUploadURLRequest& input)
 {
-    size_t serializedSize{ sizeof(PFGameServerGetServerBuildUploadURLRequest) };
-    serializedSize += (m_buildId.size() + 1);
-    return serializedSize;
-}
-
-void GetServerBuildUploadURLRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFGameServerGetServerBuildUploadURLRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGameServerGetServerBuildUploadURLRequest);
-    memcpy(stringBuffer, m_buildId.data(), m_buildId.size() + 1);
-    serializedStruct->buildId = stringBuffer;
-    stringBuffer += m_buildId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetServerBuildUploadURLResult::GetServerBuildUploadURLResult() :
-    PFGameServerGetServerBuildUploadURLResult{}
-{
-}
-
-GetServerBuildUploadURLResult::GetServerBuildUploadURLResult(const GetServerBuildUploadURLResult& src) :
-    PFGameServerGetServerBuildUploadURLResult{ src },
-    m_uRL{ src.m_uRL }
-{
-    uRL = m_uRL.empty() ? nullptr : m_uRL.data();
-}
-
-GetServerBuildUploadURLResult::GetServerBuildUploadURLResult(GetServerBuildUploadURLResult&& src) :
-    PFGameServerGetServerBuildUploadURLResult{ src },
-    m_uRL{ std::move(src.m_uRL) }
-{
-    uRL = m_uRL.empty() ? nullptr : m_uRL.data();
-}
-
-GetServerBuildUploadURLResult::GetServerBuildUploadURLResult(const PFGameServerGetServerBuildUploadURLResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
+    return output;
 }
 
 void GetServerBuildUploadURLResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "URL", m_uRL, uRL);
+    String URL{};
+    JsonUtils::ObjectGetMember(input, "URL", URL);
+    this->SetURL(std::move(URL));
 }
 
-JsonValue GetServerBuildUploadURLResult::ToJson() const
+size_t GetServerBuildUploadURLResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFGameServerGetServerBuildUploadURLResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-size_t GetServerBuildUploadURLResult::SerializedSize() const
+Result<PFGameServerGetServerBuildUploadURLResult const*> GetServerBuildUploadURLResult::Copy(ModelBuffer& buffer) const
 {
-    size_t serializedSize{ sizeof(PFGameServerGetServerBuildUploadURLResult) };
-    serializedSize += (m_uRL.size() + 1);
-    return serializedSize;
+    return buffer.CopyTo<GetServerBuildUploadURLResult>(&this->Model());
 }
 
-void GetServerBuildUploadURLResult::Serialize(void* buffer, size_t bufferSize) const
+size_t GetServerBuildUploadURLResult::RequiredBufferSize(const PFGameServerGetServerBuildUploadURLResult& model)
 {
-    auto serializedStruct = new (buffer) PFGameServerGetServerBuildUploadURLResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGameServerGetServerBuildUploadURLResult);
-    memcpy(stringBuffer, m_uRL.data(), m_uRL.size() + 1);
-    serializedStruct->uRL = stringBuffer;
-    stringBuffer += m_uRL.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.URL)
+    {
+        requiredSize += (std::strlen(model.URL) + 1);
+    }
+    return requiredSize;
 }
 
-ListBuildsResult::ListBuildsResult() :
-    PFGameServerListBuildsResult{}
+HRESULT GetServerBuildUploadURLResult::Copy(const PFGameServerGetServerBuildUploadURLResult& input, PFGameServerGetServerBuildUploadURLResult& output, ModelBuffer& buffer)
 {
-}
-
-ListBuildsResult::ListBuildsResult(const ListBuildsResult& src) :
-    PFGameServerListBuildsResult{ src },
-    m_builds{ src.m_builds }
-{
-    builds = m_builds.Empty() ? nullptr : m_builds.Data();
-}
-
-ListBuildsResult::ListBuildsResult(ListBuildsResult&& src) :
-    PFGameServerListBuildsResult{ src },
-    m_builds{ std::move(src.m_builds) }
-{
-    builds = m_builds.Empty() ? nullptr : m_builds.Data();
-}
-
-ListBuildsResult::ListBuildsResult(const PFGameServerListBuildsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.URL = buffer.CopyTo(input.URL);
+    return S_OK;
 }
 
 void ListBuildsResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Builds", m_builds, builds, buildsCount);
+    ModelVector<GetServerBuildInfoResult> builds{};
+    JsonUtils::ObjectGetMember<GetServerBuildInfoResult>(input, "Builds", builds);
+    this->SetBuilds(std::move(builds));
 }
 
-JsonValue ListBuildsResult::ToJson() const
+size_t ListBuildsResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFGameServerListBuildsResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-ModifyServerBuildRequest::ModifyServerBuildRequest() :
-    PFGameServerModifyServerBuildRequest{}
+Result<PFGameServerListBuildsResult const*> ListBuildsResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<ListBuildsResult>(&this->Model());
 }
 
-ModifyServerBuildRequest::ModifyServerBuildRequest(const ModifyServerBuildRequest& src) :
-    PFGameServerModifyServerBuildRequest{ src },
-    m_activeRegions{ src.m_activeRegions },
-    m_buildId{ src.m_buildId },
-    m_commandLineTemplate{ src.m_commandLineTemplate },
-    m_comment{ src.m_comment },
-    m_customTags{ src.m_customTags },
-    m_executablePath{ src.m_executablePath },
-    m_timestamp{ src.m_timestamp }
+size_t ListBuildsResult::RequiredBufferSize(const PFGameServerListBuildsResult& model)
 {
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFGameServerGetServerBuildInfoResult*) + sizeof(PFGameServerGetServerBuildInfoResult*) * model.buildsCount);
+    for (size_t i = 0; i < model.buildsCount; ++i)
+    {
+        requiredSize += GetServerBuildInfoResult::RequiredBufferSize(*model.builds[i]);
+    }
+    return requiredSize;
 }
 
-ModifyServerBuildRequest::ModifyServerBuildRequest(ModifyServerBuildRequest&& src) :
-    PFGameServerModifyServerBuildRequest{ src },
-    m_activeRegions{ std::move(src.m_activeRegions) },
-    m_buildId{ std::move(src.m_buildId) },
-    m_commandLineTemplate{ std::move(src.m_commandLineTemplate) },
-    m_comment{ std::move(src.m_comment) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_executablePath{ std::move(src.m_executablePath) },
-    m_timestamp{ std::move(src.m_timestamp) }
+HRESULT ListBuildsResult::Copy(const PFGameServerListBuildsResult& input, PFGameServerListBuildsResult& output, ModelBuffer& buffer)
 {
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-    timestamp = m_timestamp ? m_timestamp.operator->() : nullptr;
-}
-
-ModifyServerBuildRequest::ModifyServerBuildRequest(const PFGameServerModifyServerBuildRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ModifyServerBuildRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ActiveRegions", m_activeRegions, activeRegions, activeRegionsCount);
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
-    JsonUtils::ObjectGetMember(input, "CommandLineTemplate", m_commandLineTemplate, commandLineTemplate);
-    JsonUtils::ObjectGetMember(input, "Comment", m_comment, comment);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ExecutablePath", m_executablePath, executablePath);
-    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", maxGamesPerHost);
-    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", minFreeGameSlots);
-    JsonUtils::ObjectGetMember(input, "Timestamp", m_timestamp, timestamp, true);
+    output = input;
+    output.builds = buffer.CopyToArray<GetServerBuildInfoResult>(input.builds, input.buildsCount);
+    return S_OK;
 }
 
 JsonValue ModifyServerBuildRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFGameServerModifyServerBuildRequest>(*this);
+    return ModifyServerBuildRequest::ToJson(this->Model());
 }
 
-ModifyServerBuildResult::ModifyServerBuildResult() :
-    PFGameServerModifyServerBuildResult{}
+JsonValue ModifyServerBuildRequest::ToJson(const PFGameServerModifyServerBuildRequest& input)
 {
-}
-
-ModifyServerBuildResult::ModifyServerBuildResult(const ModifyServerBuildResult& src) :
-    PFGameServerModifyServerBuildResult{ src },
-    m_activeRegions{ src.m_activeRegions },
-    m_buildId{ src.m_buildId },
-    m_commandLineTemplate{ src.m_commandLineTemplate },
-    m_comment{ src.m_comment },
-    m_executablePath{ src.m_executablePath },
-    m_status{ src.m_status },
-    m_titleId{ src.m_titleId }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
-}
-
-ModifyServerBuildResult::ModifyServerBuildResult(ModifyServerBuildResult&& src) :
-    PFGameServerModifyServerBuildResult{ src },
-    m_activeRegions{ std::move(src.m_activeRegions) },
-    m_buildId{ std::move(src.m_buildId) },
-    m_commandLineTemplate{ std::move(src.m_commandLineTemplate) },
-    m_comment{ std::move(src.m_comment) },
-    m_executablePath{ std::move(src.m_executablePath) },
-    m_status{ std::move(src.m_status) },
-    m_titleId{ std::move(src.m_titleId) }
-{
-    activeRegions = m_activeRegions.empty() ? nullptr : m_activeRegions.data();
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-    commandLineTemplate = m_commandLineTemplate.empty() ? nullptr : m_commandLineTemplate.data();
-    comment = m_comment.empty() ? nullptr : m_comment.data();
-    executablePath = m_executablePath.empty() ? nullptr : m_executablePath.data();
-    status = m_status ? m_status.operator->() : nullptr;
-    titleId = m_titleId.empty() ? nullptr : m_titleId.data();
-}
-
-ModifyServerBuildResult::ModifyServerBuildResult(const PFGameServerModifyServerBuildResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMemberArray(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
+    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
+    JsonUtils::ObjectAddMember(output, "CommandLineTemplate", input.commandLineTemplate);
+    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "ExecutablePath", input.executablePath);
+    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
+    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
+    JsonUtils::ObjectAddMemberTime(output, "Timestamp", input.timestamp);
+    return output;
 }
 
 void ModifyServerBuildResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "ActiveRegions", m_activeRegions, activeRegions, activeRegionsCount);
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
-    JsonUtils::ObjectGetMember(input, "CommandLineTemplate", m_commandLineTemplate, commandLineTemplate);
-    JsonUtils::ObjectGetMember(input, "Comment", m_comment, comment);
-    JsonUtils::ObjectGetMember(input, "ExecutablePath", m_executablePath, executablePath);
-    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", maxGamesPerHost);
-    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", minFreeGameSlots);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-    JsonUtils::ObjectGetMember(input, "Timestamp", timestamp, true);
-    JsonUtils::ObjectGetMember(input, "TitleId", m_titleId, titleId);
+    Vector<PFRegion> activeRegions{};
+    JsonUtils::ObjectGetMember(input, "ActiveRegions", activeRegions);
+    this->SetActiveRegions(std::move(activeRegions));
+
+    String buildId{};
+    JsonUtils::ObjectGetMember(input, "BuildId", buildId);
+    this->SetBuildId(std::move(buildId));
+
+    String commandLineTemplate{};
+    JsonUtils::ObjectGetMember(input, "CommandLineTemplate", commandLineTemplate);
+    this->SetCommandLineTemplate(std::move(commandLineTemplate));
+
+    String comment{};
+    JsonUtils::ObjectGetMember(input, "Comment", comment);
+    this->SetComment(std::move(comment));
+
+    String executablePath{};
+    JsonUtils::ObjectGetMember(input, "ExecutablePath", executablePath);
+    this->SetExecutablePath(std::move(executablePath));
+
+    JsonUtils::ObjectGetMember(input, "MaxGamesPerHost", this->m_model.maxGamesPerHost);
+
+    JsonUtils::ObjectGetMember(input, "MinFreeGameSlots", this->m_model.minFreeGameSlots);
+
+    StdExtra::optional<PFGameServerGameBuildStatus> status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+
+    JsonUtils::ObjectGetMemberTime(input, "Timestamp", this->m_model.timestamp);
+
+    String titleId{};
+    JsonUtils::ObjectGetMember(input, "TitleId", titleId);
+    this->SetTitleId(std::move(titleId));
 }
 
-JsonValue ModifyServerBuildResult::ToJson() const
+size_t ModifyServerBuildResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFGameServerModifyServerBuildResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-RemoveServerBuildRequest::RemoveServerBuildRequest() :
-    PFGameServerRemoveServerBuildRequest{}
+Result<PFGameServerModifyServerBuildResult const*> ModifyServerBuildResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<ModifyServerBuildResult>(&this->Model());
 }
 
-RemoveServerBuildRequest::RemoveServerBuildRequest(const RemoveServerBuildRequest& src) :
-    PFGameServerRemoveServerBuildRequest{ src },
-    m_buildId{ src.m_buildId }
+size_t ModifyServerBuildResult::RequiredBufferSize(const PFGameServerModifyServerBuildResult& model)
 {
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFRegion) + sizeof(PFRegion) * model.activeRegionsCount);
+    if (model.buildId)
+    {
+        requiredSize += (std::strlen(model.buildId) + 1);
+    }
+    if (model.commandLineTemplate)
+    {
+        requiredSize += (std::strlen(model.commandLineTemplate) + 1);
+    }
+    if (model.comment)
+    {
+        requiredSize += (std::strlen(model.comment) + 1);
+    }
+    if (model.executablePath)
+    {
+        requiredSize += (std::strlen(model.executablePath) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (alignof(PFGameServerGameBuildStatus) + sizeof(PFGameServerGameBuildStatus));
+    }
+    if (model.titleId)
+    {
+        requiredSize += (std::strlen(model.titleId) + 1);
+    }
+    return requiredSize;
 }
 
-RemoveServerBuildRequest::RemoveServerBuildRequest(RemoveServerBuildRequest&& src) :
-    PFGameServerRemoveServerBuildRequest{ src },
-    m_buildId{ std::move(src.m_buildId) }
+HRESULT ModifyServerBuildResult::Copy(const PFGameServerModifyServerBuildResult& input, PFGameServerModifyServerBuildResult& output, ModelBuffer& buffer)
 {
-    buildId = m_buildId.empty() ? nullptr : m_buildId.data();
-}
-
-RemoveServerBuildRequest::RemoveServerBuildRequest(const PFGameServerRemoveServerBuildRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RemoveServerBuildRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "BuildId", m_buildId, buildId);
+    output = input;
+    output.activeRegions = buffer.CopyToArray(input.activeRegions, input.activeRegionsCount);
+    output.buildId = buffer.CopyTo(input.buildId);
+    output.commandLineTemplate = buffer.CopyTo(input.commandLineTemplate);
+    output.comment = buffer.CopyTo(input.comment);
+    output.executablePath = buffer.CopyTo(input.executablePath);
+    output.status = buffer.CopyTo(input.status);
+    output.titleId = buffer.CopyTo(input.titleId);
+    return S_OK;
 }
 
 JsonValue RemoveServerBuildRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFGameServerRemoveServerBuildRequest>(*this);
+    return RemoveServerBuildRequest::ToJson(this->Model());
 }
 
-size_t RemoveServerBuildRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFGameServerRemoveServerBuildRequest) };
-    serializedSize += (m_buildId.size() + 1);
-    return serializedSize;
-}
-
-void RemoveServerBuildRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFGameServerRemoveServerBuildRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFGameServerRemoveServerBuildRequest);
-    memcpy(stringBuffer, m_buildId.data(), m_buildId.size() + 1);
-    serializedStruct->buildId = stringBuffer;
-    stringBuffer += m_buildId.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-} // namespace GameServerModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerAddServerBuildRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    JsonUtils::ObjectAddMember(output, "CommandLineTemplate", input.commandLineTemplate);
-    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ExecutablePath", input.executablePath);
-    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
-    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerAddServerBuildResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    JsonUtils::ObjectAddMember(output, "CommandLineTemplate", input.commandLineTemplate);
-    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
-    JsonUtils::ObjectAddMember(output, "ExecutablePath", input.executablePath);
-    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
-    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
-    JsonUtils::ObjectAddMember(output, "TitleId", input.titleId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerGetServerBuildInfoRequest& input)
+JsonValue RemoveServerBuildRequest::ToJson(const PFGameServerRemoveServerBuildRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFGameServerGetServerBuildInfoResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
-    JsonUtils::ObjectAddMember(output, "ErrorMessage", input.errorMessage);
-    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
-    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
-    JsonUtils::ObjectAddMember(output, "TitleId", input.titleId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerGetServerBuildUploadURLRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerGetServerBuildUploadURLResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "URL", input.uRL);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerListBuildsResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Builds", input.builds, input.buildsCount);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerModifyServerBuildRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    JsonUtils::ObjectAddMember(output, "CommandLineTemplate", input.commandLineTemplate);
-    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "ExecutablePath", input.executablePath);
-    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
-    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerModifyServerBuildResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActiveRegions", input.activeRegions, input.activeRegionsCount);
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    JsonUtils::ObjectAddMember(output, "CommandLineTemplate", input.commandLineTemplate);
-    JsonUtils::ObjectAddMember(output, "Comment", input.comment);
-    JsonUtils::ObjectAddMember(output, "ExecutablePath", input.executablePath);
-    JsonUtils::ObjectAddMember(output, "MaxGamesPerHost", input.maxGamesPerHost);
-    JsonUtils::ObjectAddMember(output, "MinFreeGameSlots", input.minFreeGameSlots);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
-    JsonUtils::ObjectAddMember(output, "Timestamp", input.timestamp, true);
-    JsonUtils::ObjectAddMember(output, "TitleId", input.titleId);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFGameServerRemoveServerBuildRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "BuildId", input.buildId);
-    return output;
-}
-
-} // namespace JsonUtils
-
+} // namespace GameServer
 } // namespace PlayFab

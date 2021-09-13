@@ -913,7 +913,7 @@ typedef struct PFExperimentationUpdateExperimentRequest
 typedef struct PFExperimentationMetricDataDictionaryEntry
 {
     const char* key;
-    PFExperimentationMetricData* value;
+    PFExperimentationMetricData const* value;
 } PFExperimentationMetricDataDictionaryEntry;
 
 #pragma pop_macro("IN")

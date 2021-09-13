@@ -125,14 +125,6 @@
     <ClCompile Include="$(PlayFabTestDir)\TestApp\TestAppPch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTests.h" />
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTestData.cpp" />
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTestLog.cpp" />
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenDataTests.cpp" /> 
-    <ClInclude Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.h" />
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestData.cpp" />
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTestLog.cpp" />
-    <ClCompile Include="$(PlayFabTestDir)\TestApp\AutoGenTests\AutoGenGroupsTests.cpp" /> 
     <ClCompile Include="$(PlayFabTestDir)\TestApp\Win32\MainWin32.cpp" />
     <ClCompile Include="$(PlayFabTestDir)\TestApp\Win32\TestAppWin32.cpp" />
   </ItemGroup>

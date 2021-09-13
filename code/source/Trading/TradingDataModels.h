@@ -1,233 +1,198 @@
 #pragma once
 
-#include <playfab/PFTradingDataModels.h>
+#include <playfab/cpp/PFTradingDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace TradingModels
+namespace Trading
 {
 
 // Trading Classes
-struct AcceptTradeRequest : public PFTradingAcceptTradeRequest, public BaseModel
+class AcceptTradeRequest : public Wrappers::PFTradingAcceptTradeRequestWrapper<Allocator>, public InputModel
 {
-    AcceptTradeRequest();
-    AcceptTradeRequest(const AcceptTradeRequest& src);
-    AcceptTradeRequest(AcceptTradeRequest&& src);
-    AcceptTradeRequest(const PFTradingAcceptTradeRequest& src);
-    AcceptTradeRequest& operator=(const AcceptTradeRequest&) = delete;
-    ~AcceptTradeRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingAcceptTradeRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTradingAcceptTradeRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_acceptedInventoryInstanceIds;
-    String m_offeringPlayerId;
-    String m_tradeId;
 };
 
-struct TradeInfo : public PFTradingTradeInfo, public BaseModel
+class TradeInfo : public Wrappers::PFTradingTradeInfoWrapper<Allocator>, public OutputModel<PFTradingTradeInfo>
 {
-    TradeInfo();
-    TradeInfo(const TradeInfo& src);
-    TradeInfo(TradeInfo&& src);
-    TradeInfo(const PFTradingTradeInfo& src);
-    TradeInfo& operator=(const TradeInfo&) = delete;
-    ~TradeInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingTradeInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTradingTradeInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<char, String> m_acceptedInventoryInstanceIds;
-    String m_acceptedPlayerId;
-    PointerArrayModel<char, String> m_allowedPlayerIds;
-    StdExtra::optional<time_t> m_cancelledAt;
-    StdExtra::optional<time_t> m_filledAt;
-    StdExtra::optional<time_t> m_invalidatedAt;
-    PointerArrayModel<char, String> m_offeredCatalogItemIds;
-    PointerArrayModel<char, String> m_offeredInventoryInstanceIds;
-    String m_offeringPlayerId;
-    StdExtra::optional<time_t> m_openedAt;
-    PointerArrayModel<char, String> m_requestedCatalogItemIds;
-    StdExtra::optional<PFTradingTradeStatus> m_status;
-    String m_tradeId;
+    static size_t RequiredBufferSize(const PFTradingTradeInfo& model);
+    static HRESULT Copy(const PFTradingTradeInfo& input, PFTradingTradeInfo& output, ModelBuffer& buffer);
 };
 
-struct AcceptTradeResponse : public PFTradingAcceptTradeResponse, public BaseModel, public ApiResult
+class AcceptTradeResponse : public Wrappers::PFTradingAcceptTradeResponseWrapper<Allocator>, public OutputModel<PFTradingAcceptTradeResponse>
 {
-    AcceptTradeResponse();
-    AcceptTradeResponse(const AcceptTradeResponse& src);
-    AcceptTradeResponse(AcceptTradeResponse&& src);
-    AcceptTradeResponse(const PFTradingAcceptTradeResponse& src);
-    AcceptTradeResponse& operator=(const AcceptTradeResponse&) = delete;
-    ~AcceptTradeResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingAcceptTradeResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTradingAcceptTradeResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<TradeInfo> m_trade;
+    static size_t RequiredBufferSize(const PFTradingAcceptTradeResponse& model);
+    static HRESULT Copy(const PFTradingAcceptTradeResponse& input, PFTradingAcceptTradeResponse& output, ModelBuffer& buffer);
 };
 
-struct CancelTradeRequest : public PFTradingCancelTradeRequest, public SerializableModel
+class CancelTradeRequest : public Wrappers::PFTradingCancelTradeRequestWrapper<Allocator>, public InputModel
 {
-    CancelTradeRequest();
-    CancelTradeRequest(const CancelTradeRequest& src);
-    CancelTradeRequest(CancelTradeRequest&& src);
-    CancelTradeRequest(const PFTradingCancelTradeRequest& src);
-    CancelTradeRequest& operator=(const CancelTradeRequest&) = delete;
-    ~CancelTradeRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingCancelTradeRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTradingCancelTradeRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_tradeId;
 };
 
-struct CancelTradeResponse : public PFTradingCancelTradeResponse, public BaseModel, public ApiResult
+class CancelTradeResponse : public Wrappers::PFTradingCancelTradeResponseWrapper<Allocator>, public OutputModel<PFTradingCancelTradeResponse>
 {
-    CancelTradeResponse();
-    CancelTradeResponse(const CancelTradeResponse& src);
-    CancelTradeResponse(CancelTradeResponse&& src);
-    CancelTradeResponse(const PFTradingCancelTradeResponse& src);
-    CancelTradeResponse& operator=(const CancelTradeResponse&) = delete;
-    ~CancelTradeResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingCancelTradeResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTradingCancelTradeResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<TradeInfo> m_trade;
+    static size_t RequiredBufferSize(const PFTradingCancelTradeResponse& model);
+    static HRESULT Copy(const PFTradingCancelTradeResponse& input, PFTradingCancelTradeResponse& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerTradesRequest : public PFTradingGetPlayerTradesRequest, public BaseModel
+class GetPlayerTradesRequest : public Wrappers::PFTradingGetPlayerTradesRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayerTradesRequest();
-    GetPlayerTradesRequest(const GetPlayerTradesRequest& src);
-    GetPlayerTradesRequest(GetPlayerTradesRequest&& src);
-    GetPlayerTradesRequest(const PFTradingGetPlayerTradesRequest& src);
-    GetPlayerTradesRequest& operator=(const GetPlayerTradesRequest&) = delete;
-    ~GetPlayerTradesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingGetPlayerTradesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTradingGetPlayerTradesRequest& input);
 
-private:
-    StdExtra::optional<PFTradingTradeStatus> m_statusFilter;
 };
 
-struct GetPlayerTradesResponse : public PFTradingGetPlayerTradesResponse, public BaseModel, public ApiResult
+class GetPlayerTradesResponse : public Wrappers::PFTradingGetPlayerTradesResponseWrapper<Allocator>, public OutputModel<PFTradingGetPlayerTradesResponse>
 {
-    GetPlayerTradesResponse();
-    GetPlayerTradesResponse(const GetPlayerTradesResponse& src);
-    GetPlayerTradesResponse(GetPlayerTradesResponse&& src);
-    GetPlayerTradesResponse(const PFTradingGetPlayerTradesResponse& src);
-    GetPlayerTradesResponse& operator=(const GetPlayerTradesResponse&) = delete;
-    ~GetPlayerTradesResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingGetPlayerTradesResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTradingGetPlayerTradesResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFTradingTradeInfo, TradeInfo> m_acceptedTrades;
-    PointerArrayModel<PFTradingTradeInfo, TradeInfo> m_openedTrades;
+    static size_t RequiredBufferSize(const PFTradingGetPlayerTradesResponse& model);
+    static HRESULT Copy(const PFTradingGetPlayerTradesResponse& input, PFTradingGetPlayerTradesResponse& output, ModelBuffer& buffer);
 };
 
-struct GetTradeStatusRequest : public PFTradingGetTradeStatusRequest, public SerializableModel
+class GetTradeStatusRequest : public Wrappers::PFTradingGetTradeStatusRequestWrapper<Allocator>, public InputModel
 {
-    GetTradeStatusRequest();
-    GetTradeStatusRequest(const GetTradeStatusRequest& src);
-    GetTradeStatusRequest(GetTradeStatusRequest&& src);
-    GetTradeStatusRequest(const PFTradingGetTradeStatusRequest& src);
-    GetTradeStatusRequest& operator=(const GetTradeStatusRequest&) = delete;
-    ~GetTradeStatusRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingGetTradeStatusRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTradingGetTradeStatusRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_offeringPlayerId;
-    String m_tradeId;
 };
 
-struct GetTradeStatusResponse : public PFTradingGetTradeStatusResponse, public BaseModel, public ApiResult
+class GetTradeStatusResponse : public Wrappers::PFTradingGetTradeStatusResponseWrapper<Allocator>, public OutputModel<PFTradingGetTradeStatusResponse>
 {
-    GetTradeStatusResponse();
-    GetTradeStatusResponse(const GetTradeStatusResponse& src);
-    GetTradeStatusResponse(GetTradeStatusResponse&& src);
-    GetTradeStatusResponse(const PFTradingGetTradeStatusResponse& src);
-    GetTradeStatusResponse& operator=(const GetTradeStatusResponse&) = delete;
-    ~GetTradeStatusResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingGetTradeStatusResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTradingGetTradeStatusResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<TradeInfo> m_trade;
+    static size_t RequiredBufferSize(const PFTradingGetTradeStatusResponse& model);
+    static HRESULT Copy(const PFTradingGetTradeStatusResponse& input, PFTradingGetTradeStatusResponse& output, ModelBuffer& buffer);
 };
 
-struct OpenTradeRequest : public PFTradingOpenTradeRequest, public BaseModel
+class OpenTradeRequest : public Wrappers::PFTradingOpenTradeRequestWrapper<Allocator>, public InputModel
 {
-    OpenTradeRequest();
-    OpenTradeRequest(const OpenTradeRequest& src);
-    OpenTradeRequest(OpenTradeRequest&& src);
-    OpenTradeRequest(const PFTradingOpenTradeRequest& src);
-    OpenTradeRequest& operator=(const OpenTradeRequest&) = delete;
-    ~OpenTradeRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingOpenTradeRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTradingOpenTradeRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_allowedPlayerIds;
-    PointerArrayModel<char, String> m_offeredInventoryInstanceIds;
-    PointerArrayModel<char, String> m_requestedCatalogItemIds;
 };
 
-struct OpenTradeResponse : public PFTradingOpenTradeResponse, public BaseModel, public ApiResult
+class OpenTradeResponse : public Wrappers::PFTradingOpenTradeResponseWrapper<Allocator>, public OutputModel<PFTradingOpenTradeResponse>
 {
-    OpenTradeResponse();
-    OpenTradeResponse(const OpenTradeResponse& src);
-    OpenTradeResponse(OpenTradeResponse&& src);
-    OpenTradeResponse(const PFTradingOpenTradeResponse& src);
-    OpenTradeResponse& operator=(const OpenTradeResponse&) = delete;
-    ~OpenTradeResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTradingOpenTradeResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTradingOpenTradeResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<TradeInfo> m_trade;
+    static size_t RequiredBufferSize(const PFTradingOpenTradeResponse& model);
+    static HRESULT Copy(const PFTradingOpenTradeResponse& input, PFTradingOpenTradeResponse& output, ModelBuffer& buffer);
 };
 
-} // namespace TradingModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFTradingAcceptTradeRequest& input);
-template<> inline JsonValue ToJson<>(const PFTradingTradeInfo& input);
-template<> inline JsonValue ToJson<>(const PFTradingAcceptTradeResponse& input);
-template<> inline JsonValue ToJson<>(const PFTradingCancelTradeRequest& input);
-template<> inline JsonValue ToJson<>(const PFTradingCancelTradeResponse& input);
-template<> inline JsonValue ToJson<>(const PFTradingGetPlayerTradesRequest& input);
-template<> inline JsonValue ToJson<>(const PFTradingGetPlayerTradesResponse& input);
-template<> inline JsonValue ToJson<>(const PFTradingGetTradeStatusRequest& input);
-template<> inline JsonValue ToJson<>(const PFTradingGetTradeStatusResponse& input);
-template<> inline JsonValue ToJson<>(const PFTradingOpenTradeRequest& input);
-template<> inline JsonValue ToJson<>(const PFTradingOpenTradeResponse& input);
-} // namespace JsonUtils
-
+} // namespace Trading
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

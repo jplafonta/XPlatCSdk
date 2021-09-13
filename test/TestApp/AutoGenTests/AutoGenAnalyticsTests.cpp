@@ -448,7 +448,11 @@ void AutoGenAnalyticsTests::TestAnalyticsGetDetails(TestContext& testContext)
         PFAnalyticsInsightsGetDetailsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAnalyticsGetDetailsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAnalyticsGetDetailsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAnalyticsGetDetailsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -483,7 +487,11 @@ void AutoGenAnalyticsTests::TestAnalyticsGetLimits(TestContext& testContext)
         PFAnalyticsInsightsGetLimitsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAnalyticsGetLimitsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAnalyticsGetLimitsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAnalyticsGetLimitsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -557,7 +565,11 @@ void AutoGenAnalyticsTests::TestAnalyticsGetPendingOperations(TestContext& testC
         PFAnalyticsInsightsGetPendingOperationsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAnalyticsGetPendingOperationsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAnalyticsGetPendingOperationsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAnalyticsGetPendingOperationsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

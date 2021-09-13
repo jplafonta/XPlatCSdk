@@ -129,7 +129,7 @@ HRESULT PFTitlePlayerGetPlayerCombinedInfo(
     RETURN_HR_INVALIDARG_IF_NULL(titlePlayerHandle);
     RETURN_HR_INVALIDARG_IF_NULL(playerCombinedInfo);
 
-    *playerCombinedInfo = titlePlayerHandle->titlePlayer->PlayerCombinedInfo(); 
+    *playerCombinedInfo = &titlePlayerHandle->titlePlayer->PlayerCombinedInfo()->Model(); 
     return S_OK;
 }
 
@@ -153,7 +153,7 @@ HRESULT PFTitlePlayerGetUserSettings(
     RETURN_HR_INVALIDARG_IF_NULL(titlePlayerHandle);
     RETURN_HR_INVALIDARG_IF_NULL(userSettings);
 
-    *userSettings = titlePlayerHandle->titlePlayer->UserSettings();
+    *userSettings = &titlePlayerHandle->titlePlayer->UserSettings()->Model();
     return S_OK;
 }
 
@@ -165,6 +165,6 @@ HRESULT PFTitlePlayerGetTreatmentAssignment(
     RETURN_HR_INVALIDARG_IF_NULL(titlePlayerHandle);
     RETURN_HR_INVALIDARG_IF_NULL(treatmentAssignment);
 
-    *treatmentAssignment = titlePlayerHandle->titlePlayer->TreatmentAssignment();
+    *treatmentAssignment = &titlePlayerHandle->titlePlayer->TreatmentAssignment()->Model();
     return S_OK;
 }

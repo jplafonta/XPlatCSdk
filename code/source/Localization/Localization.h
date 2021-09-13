@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Localization
+{
 
 class LocalizationAPI
 {
@@ -16,7 +18,8 @@ public:
     ~LocalizationAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<LocalizationModels::GetLanguageListResponse> GetLanguageList(SharedPtr<Entity> entity, const PFLocalizationGetLanguageListRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetLanguageListResponse> GetLanguageList(SharedPtr<Entity> entity, const GetLanguageListRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Localization
+} // namespace PlayFab

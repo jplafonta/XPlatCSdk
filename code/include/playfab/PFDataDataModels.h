@@ -567,7 +567,7 @@ typedef struct PFDataSetObjectsResponse
 typedef struct PFDataGetFileMetadataDictionaryEntry
 {
     const char* key;
-    PFDataGetFileMetadata* value;
+    PFDataGetFileMetadata const* value;
 } PFDataGetFileMetadataDictionaryEntry;
 
 /// <summary>
@@ -576,7 +576,7 @@ typedef struct PFDataGetFileMetadataDictionaryEntry
 typedef struct PFDataObjectResultDictionaryEntry
 {
     const char* key;
-    PFDataObjectResult* value;
+    PFDataObjectResult const* value;
 } PFDataObjectResultDictionaryEntry;
 
 #pragma pop_macro("IN")

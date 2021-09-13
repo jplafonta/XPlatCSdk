@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace ContentModels;
+namespace Content
+{
 
 
 AsyncOp<void> ContentAPI::AdminDeleteContent(
     SharedPtr<GlobalState const> state,
-    const PFContentDeleteContentRequest& request,
+    const DeleteContentRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> ContentAPI::AdminDeleteContent(
     }
 
     const char* path{ "/Admin/DeleteContent" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -50,7 +50,7 @@ AsyncOp<void> ContentAPI::AdminDeleteContent(
 
 AsyncOp<GetContentListResult> ContentAPI::AdminGetContentList(
     SharedPtr<GlobalState const> state,
-    const PFContentGetContentListRequest& request,
+    const GetContentListRequest& request,
     const TaskQueue& queue
 )
 {
@@ -61,7 +61,7 @@ AsyncOp<GetContentListResult> ContentAPI::AdminGetContentList(
     }
 
     const char* path{ "/Admin/GetContentList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -91,7 +91,7 @@ AsyncOp<GetContentListResult> ContentAPI::AdminGetContentList(
 
 AsyncOp<GetContentUploadUrlResult> ContentAPI::AdminGetContentUploadUrl(
     SharedPtr<GlobalState const> state,
-    const PFContentGetContentUploadUrlRequest& request,
+    const GetContentUploadUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -102,7 +102,7 @@ AsyncOp<GetContentUploadUrlResult> ContentAPI::AdminGetContentUploadUrl(
     }
 
     const char* path{ "/Admin/GetContentUploadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -132,7 +132,7 @@ AsyncOp<GetContentUploadUrlResult> ContentAPI::AdminGetContentUploadUrl(
 
 AsyncOp<GetContentDownloadUrlResult> ContentAPI::ClientGetContentDownloadUrl(
     SharedPtr<TitlePlayer> entity,
-    const PFContentGetContentDownloadUrlRequest& request,
+    const GetContentDownloadUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -143,7 +143,7 @@ AsyncOp<GetContentDownloadUrlResult> ContentAPI::ClientGetContentDownloadUrl(
     }
 
     const char* path{ "/Client/GetContentDownloadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -174,7 +174,7 @@ AsyncOp<GetContentDownloadUrlResult> ContentAPI::ClientGetContentDownloadUrl(
 
 AsyncOp<GetContentDownloadUrlResult> ContentAPI::ServerGetContentDownloadUrl(
     SharedPtr<GlobalState const> state,
-    const PFContentGetContentDownloadUrlRequest& request,
+    const GetContentDownloadUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -185,7 +185,7 @@ AsyncOp<GetContentDownloadUrlResult> ContentAPI::ServerGetContentDownloadUrl(
     }
 
     const char* path{ "/Server/GetContentDownloadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -213,5 +213,5 @@ AsyncOp<GetContentDownloadUrlResult> ContentAPI::ServerGetContentDownloadUrl(
     });
 }
 
-
-}
+} // namespace Content
+} // namespace PlayFab

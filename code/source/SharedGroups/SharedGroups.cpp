@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace SharedGroupsModels;
+namespace SharedGroups
+{
 
 
 AsyncOp<void> SharedGroupsAPI::AdminSetPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFSetPublisherDataRequest& request,
+    const SetPublisherDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> SharedGroupsAPI::AdminSetPublisherData(
     }
 
     const char* path{ "/Admin/SetPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -50,7 +50,7 @@ AsyncOp<void> SharedGroupsAPI::AdminSetPublisherData(
 
 AsyncOp<void> SharedGroupsAPI::ClientAddSharedGroupMembers(
     SharedPtr<TitlePlayer> entity,
-    const PFSharedGroupsAddSharedGroupMembersRequest& request,
+    const AddSharedGroupMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -61,7 +61,7 @@ AsyncOp<void> SharedGroupsAPI::ClientAddSharedGroupMembers(
     }
 
     const char* path{ "/Client/AddSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -90,7 +90,7 @@ AsyncOp<void> SharedGroupsAPI::ClientAddSharedGroupMembers(
 
 AsyncOp<CreateSharedGroupResult> SharedGroupsAPI::ClientCreateSharedGroup(
     SharedPtr<TitlePlayer> entity,
-    const PFSharedGroupsCreateSharedGroupRequest& request,
+    const CreateSharedGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -101,7 +101,7 @@ AsyncOp<CreateSharedGroupResult> SharedGroupsAPI::ClientCreateSharedGroup(
     }
 
     const char* path{ "/Client/CreateSharedGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -132,7 +132,7 @@ AsyncOp<CreateSharedGroupResult> SharedGroupsAPI::ClientCreateSharedGroup(
 
 AsyncOp<GetSharedGroupDataResult> SharedGroupsAPI::ClientGetSharedGroupData(
     SharedPtr<TitlePlayer> entity,
-    const PFSharedGroupsGetSharedGroupDataRequest& request,
+    const GetSharedGroupDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -143,7 +143,7 @@ AsyncOp<GetSharedGroupDataResult> SharedGroupsAPI::ClientGetSharedGroupData(
     }
 
     const char* path{ "/Client/GetSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -174,7 +174,7 @@ AsyncOp<GetSharedGroupDataResult> SharedGroupsAPI::ClientGetSharedGroupData(
 
 AsyncOp<void> SharedGroupsAPI::ClientRemoveSharedGroupMembers(
     SharedPtr<TitlePlayer> entity,
-    const PFSharedGroupsRemoveSharedGroupMembersRequest& request,
+    const RemoveSharedGroupMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -185,7 +185,7 @@ AsyncOp<void> SharedGroupsAPI::ClientRemoveSharedGroupMembers(
     }
 
     const char* path{ "/Client/RemoveSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -214,7 +214,7 @@ AsyncOp<void> SharedGroupsAPI::ClientRemoveSharedGroupMembers(
 
 AsyncOp<void> SharedGroupsAPI::ClientUpdateSharedGroupData(
     SharedPtr<TitlePlayer> entity,
-    const PFSharedGroupsUpdateSharedGroupDataRequest& request,
+    const UpdateSharedGroupDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -225,7 +225,7 @@ AsyncOp<void> SharedGroupsAPI::ClientUpdateSharedGroupData(
     }
 
     const char* path{ "/Client/UpdateSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -254,7 +254,7 @@ AsyncOp<void> SharedGroupsAPI::ClientUpdateSharedGroupData(
 
 AsyncOp<void> SharedGroupsAPI::ServerAddSharedGroupMembers(
     SharedPtr<GlobalState const> state,
-    const PFSharedGroupsAddSharedGroupMembersRequest& request,
+    const AddSharedGroupMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -265,7 +265,7 @@ AsyncOp<void> SharedGroupsAPI::ServerAddSharedGroupMembers(
     }
 
     const char* path{ "/Server/AddSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -293,7 +293,7 @@ AsyncOp<void> SharedGroupsAPI::ServerAddSharedGroupMembers(
 
 AsyncOp<CreateSharedGroupResult> SharedGroupsAPI::ServerCreateSharedGroup(
     SharedPtr<GlobalState const> state,
-    const PFSharedGroupsCreateSharedGroupRequest& request,
+    const CreateSharedGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -304,7 +304,7 @@ AsyncOp<CreateSharedGroupResult> SharedGroupsAPI::ServerCreateSharedGroup(
     }
 
     const char* path{ "/Server/CreateSharedGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -334,7 +334,7 @@ AsyncOp<CreateSharedGroupResult> SharedGroupsAPI::ServerCreateSharedGroup(
 
 AsyncOp<void> SharedGroupsAPI::ServerDeleteSharedGroup(
     SharedPtr<GlobalState const> state,
-    const PFSharedGroupsDeleteSharedGroupRequest& request,
+    const DeleteSharedGroupRequest& request,
     const TaskQueue& queue
 )
 {
@@ -345,7 +345,7 @@ AsyncOp<void> SharedGroupsAPI::ServerDeleteSharedGroup(
     }
 
     const char* path{ "/Server/DeleteSharedGroup" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -373,7 +373,7 @@ AsyncOp<void> SharedGroupsAPI::ServerDeleteSharedGroup(
 
 AsyncOp<GetSharedGroupDataResult> SharedGroupsAPI::ServerGetSharedGroupData(
     SharedPtr<GlobalState const> state,
-    const PFSharedGroupsGetSharedGroupDataRequest& request,
+    const GetSharedGroupDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -384,7 +384,7 @@ AsyncOp<GetSharedGroupDataResult> SharedGroupsAPI::ServerGetSharedGroupData(
     }
 
     const char* path{ "/Server/GetSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -414,7 +414,7 @@ AsyncOp<GetSharedGroupDataResult> SharedGroupsAPI::ServerGetSharedGroupData(
 
 AsyncOp<void> SharedGroupsAPI::ServerRemoveSharedGroupMembers(
     SharedPtr<GlobalState const> state,
-    const PFSharedGroupsRemoveSharedGroupMembersRequest& request,
+    const RemoveSharedGroupMembersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -425,7 +425,7 @@ AsyncOp<void> SharedGroupsAPI::ServerRemoveSharedGroupMembers(
     }
 
     const char* path{ "/Server/RemoveSharedGroupMembers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -453,7 +453,7 @@ AsyncOp<void> SharedGroupsAPI::ServerRemoveSharedGroupMembers(
 
 AsyncOp<void> SharedGroupsAPI::ServerUpdateSharedGroupData(
     SharedPtr<GlobalState const> state,
-    const PFSharedGroupsUpdateSharedGroupDataRequest& request,
+    const UpdateSharedGroupDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -464,7 +464,7 @@ AsyncOp<void> SharedGroupsAPI::ServerUpdateSharedGroupData(
     }
 
     const char* path{ "/Server/UpdateSharedGroupData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -490,5 +490,5 @@ AsyncOp<void> SharedGroupsAPI::ServerUpdateSharedGroupData(
     });
 }
 
-
-}
+} // namespace SharedGroups
+} // namespace PlayFab

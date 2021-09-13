@@ -4,2211 +4,121 @@
 
 namespace PlayFab
 {
-namespace PlayerDataManagementModels
+namespace PlayerDataManagement
 {
-
-CreatePlayerStatisticDefinitionRequest::CreatePlayerStatisticDefinitionRequest() :
-    PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest{}
-{
-}
-
-CreatePlayerStatisticDefinitionRequest::CreatePlayerStatisticDefinitionRequest(const CreatePlayerStatisticDefinitionRequest& src) :
-    PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest{ src },
-    m_aggregationMethod{ src.m_aggregationMethod },
-    m_customTags{ src.m_customTags },
-    m_statisticName{ src.m_statisticName },
-    m_versionChangeInterval{ src.m_versionChangeInterval }
-{
-    aggregationMethod = m_aggregationMethod ? m_aggregationMethod.operator->() : nullptr;
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    versionChangeInterval = m_versionChangeInterval ? m_versionChangeInterval.operator->() : nullptr;
-}
-
-CreatePlayerStatisticDefinitionRequest::CreatePlayerStatisticDefinitionRequest(CreatePlayerStatisticDefinitionRequest&& src) :
-    PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest{ src },
-    m_aggregationMethod{ std::move(src.m_aggregationMethod) },
-    m_customTags{ std::move(src.m_customTags) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_versionChangeInterval{ std::move(src.m_versionChangeInterval) }
-{
-    aggregationMethod = m_aggregationMethod ? m_aggregationMethod.operator->() : nullptr;
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    versionChangeInterval = m_versionChangeInterval ? m_versionChangeInterval.operator->() : nullptr;
-}
-
-CreatePlayerStatisticDefinitionRequest::CreatePlayerStatisticDefinitionRequest(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void CreatePlayerStatisticDefinitionRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AggregationMethod", m_aggregationMethod, aggregationMethod);
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "VersionChangeInterval", m_versionChangeInterval, versionChangeInterval);
-}
 
 JsonValue CreatePlayerStatisticDefinitionRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest>(*this);
+    return CreatePlayerStatisticDefinitionRequest::ToJson(this->Model());
 }
 
-PlayerStatisticDefinition::PlayerStatisticDefinition() :
-    PFPlayerDataManagementPlayerStatisticDefinition{}
+JsonValue CreatePlayerStatisticDefinitionRequest::ToJson(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& input)
 {
-}
-
-PlayerStatisticDefinition::PlayerStatisticDefinition(const PlayerStatisticDefinition& src) :
-    PFPlayerDataManagementPlayerStatisticDefinition{ src },
-    m_aggregationMethod{ src.m_aggregationMethod },
-    m_statisticName{ src.m_statisticName },
-    m_versionChangeInterval{ src.m_versionChangeInterval }
-{
-    aggregationMethod = m_aggregationMethod ? m_aggregationMethod.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    versionChangeInterval = m_versionChangeInterval ? m_versionChangeInterval.operator->() : nullptr;
-}
-
-PlayerStatisticDefinition::PlayerStatisticDefinition(PlayerStatisticDefinition&& src) :
-    PFPlayerDataManagementPlayerStatisticDefinition{ src },
-    m_aggregationMethod{ std::move(src.m_aggregationMethod) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_versionChangeInterval{ std::move(src.m_versionChangeInterval) }
-{
-    aggregationMethod = m_aggregationMethod ? m_aggregationMethod.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    versionChangeInterval = m_versionChangeInterval ? m_versionChangeInterval.operator->() : nullptr;
-}
-
-PlayerStatisticDefinition::PlayerStatisticDefinition(const PFPlayerDataManagementPlayerStatisticDefinition& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    JsonValue output{ rapidjson::kObjectType };
+    JsonUtils::ObjectAddMember(output, "AggregationMethod", input.aggregationMethod);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
+    JsonUtils::ObjectAddMember(output, "VersionChangeInterval", input.versionChangeInterval);
+    return output;
 }
 
 void PlayerStatisticDefinition::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "AggregationMethod", m_aggregationMethod, aggregationMethod);
-    JsonUtils::ObjectGetMember(input, "CurrentVersion", currentVersion);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "VersionChangeInterval", m_versionChangeInterval, versionChangeInterval);
+    StdExtra::optional<PFPlayerDataManagementStatisticAggregationMethod> aggregationMethod{};
+    JsonUtils::ObjectGetMember(input, "AggregationMethod", aggregationMethod);
+    this->SetAggregationMethod(std::move(aggregationMethod));
+
+    JsonUtils::ObjectGetMember(input, "CurrentVersion", this->m_model.currentVersion);
+
+    String statisticName{};
+    JsonUtils::ObjectGetMember(input, "StatisticName", statisticName);
+    this->SetStatisticName(std::move(statisticName));
+
+    StdExtra::optional<PFPlayerDataManagementStatisticResetIntervalOption> versionChangeInterval{};
+    JsonUtils::ObjectGetMember(input, "VersionChangeInterval", versionChangeInterval);
+    this->SetVersionChangeInterval(std::move(versionChangeInterval));
 }
 
-JsonValue PlayerStatisticDefinition::ToJson() const
+size_t PlayerStatisticDefinition::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerDataManagementPlayerStatisticDefinition>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-CreatePlayerStatisticDefinitionResult::CreatePlayerStatisticDefinitionResult() :
-    PFPlayerDataManagementCreatePlayerStatisticDefinitionResult{}
+Result<PFPlayerDataManagementPlayerStatisticDefinition const*> PlayerStatisticDefinition::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<PlayerStatisticDefinition>(&this->Model());
 }
 
-CreatePlayerStatisticDefinitionResult::CreatePlayerStatisticDefinitionResult(const CreatePlayerStatisticDefinitionResult& src) :
-    PFPlayerDataManagementCreatePlayerStatisticDefinitionResult{ src },
-    m_statistic{ src.m_statistic }
+size_t PlayerStatisticDefinition::RequiredBufferSize(const PFPlayerDataManagementPlayerStatisticDefinition& model)
 {
-    statistic = m_statistic ? m_statistic.operator->() : nullptr;
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.aggregationMethod)
+    {
+        requiredSize += (alignof(PFPlayerDataManagementStatisticAggregationMethod) + sizeof(PFPlayerDataManagementStatisticAggregationMethod));
+    }
+    if (model.statisticName)
+    {
+        requiredSize += (std::strlen(model.statisticName) + 1);
+    }
+    if (model.versionChangeInterval)
+    {
+        requiredSize += (alignof(PFPlayerDataManagementStatisticResetIntervalOption) + sizeof(PFPlayerDataManagementStatisticResetIntervalOption));
+    }
+    return requiredSize;
 }
 
-CreatePlayerStatisticDefinitionResult::CreatePlayerStatisticDefinitionResult(CreatePlayerStatisticDefinitionResult&& src) :
-    PFPlayerDataManagementCreatePlayerStatisticDefinitionResult{ src },
-    m_statistic{ std::move(src.m_statistic) }
+HRESULT PlayerStatisticDefinition::Copy(const PFPlayerDataManagementPlayerStatisticDefinition& input, PFPlayerDataManagementPlayerStatisticDefinition& output, ModelBuffer& buffer)
 {
-    statistic = m_statistic ? m_statistic.operator->() : nullptr;
-}
-
-CreatePlayerStatisticDefinitionResult::CreatePlayerStatisticDefinitionResult(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
+    output = input;
+    output.aggregationMethod = buffer.CopyTo(input.aggregationMethod);
+    output.statisticName = buffer.CopyTo(input.statisticName);
+    output.versionChangeInterval = buffer.CopyTo(input.versionChangeInterval);
+    return S_OK;
 }
 
 void CreatePlayerStatisticDefinitionResult::FromJson(const JsonValue& input)
 {
-    JsonUtils::ObjectGetMember(input, "Statistic", m_statistic, statistic);
+    StdExtra::optional<PlayerStatisticDefinition> statistic{};
+    JsonUtils::ObjectGetMember(input, "Statistic", statistic);
+    if (statistic)
+    {
+        this->SetStatistic(std::move(*statistic));
+    }
 }
 
-JsonValue CreatePlayerStatisticDefinitionResult::ToJson() const
+size_t CreatePlayerStatisticDefinitionResult::RequiredBufferSize() const
 {
-    return JsonUtils::ToJson<PFPlayerDataManagementCreatePlayerStatisticDefinitionResult>(*this);
+    return RequiredBufferSize(this->Model());
 }
 
-GetDataReportRequest::GetDataReportRequest() :
-    PFPlayerDataManagementGetDataReportRequest{}
+Result<PFPlayerDataManagementCreatePlayerStatisticDefinitionResult const*> CreatePlayerStatisticDefinitionResult::Copy(ModelBuffer& buffer) const
 {
+    return buffer.CopyTo<CreatePlayerStatisticDefinitionResult>(&this->Model());
 }
 
-GetDataReportRequest::GetDataReportRequest(const GetDataReportRequest& src) :
-    PFPlayerDataManagementGetDataReportRequest{ src },
-    m_reportName{ src.m_reportName }
+size_t CreatePlayerStatisticDefinitionResult::RequiredBufferSize(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& model)
 {
-    reportName = m_reportName.empty() ? nullptr : m_reportName.data();
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.statistic)
+    {
+        requiredSize += PlayerStatisticDefinition::RequiredBufferSize(*model.statistic);
+    }
+    return requiredSize;
 }
 
-GetDataReportRequest::GetDataReportRequest(GetDataReportRequest&& src) :
-    PFPlayerDataManagementGetDataReportRequest{ src },
-    m_reportName{ std::move(src.m_reportName) }
+HRESULT CreatePlayerStatisticDefinitionResult::Copy(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& input, PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& output, ModelBuffer& buffer)
 {
-    reportName = m_reportName.empty() ? nullptr : m_reportName.data();
-}
-
-GetDataReportRequest::GetDataReportRequest(const PFPlayerDataManagementGetDataReportRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetDataReportRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Day", day);
-    JsonUtils::ObjectGetMember(input, "Month", month);
-    JsonUtils::ObjectGetMember(input, "ReportName", m_reportName, reportName);
-    JsonUtils::ObjectGetMember(input, "Year", year);
+    output = input;
+    output.statistic = buffer.CopyTo<PlayerStatisticDefinition>(input.statistic);
+    return S_OK;
 }
 
 JsonValue GetDataReportRequest::ToJson() const
 {
-    return JsonUtils::ToJson<PFPlayerDataManagementGetDataReportRequest>(*this);
+    return GetDataReportRequest::ToJson(this->Model());
 }
 
-size_t GetDataReportRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementGetDataReportRequest) };
-    serializedSize += (m_reportName.size() + 1);
-    return serializedSize;
-}
-
-void GetDataReportRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementGetDataReportRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementGetDataReportRequest);
-    memcpy(stringBuffer, m_reportName.data(), m_reportName.size() + 1);
-    serializedStruct->reportName = stringBuffer;
-    stringBuffer += m_reportName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetDataReportResult::GetDataReportResult() :
-    PFPlayerDataManagementGetDataReportResult{}
-{
-}
-
-GetDataReportResult::GetDataReportResult(const GetDataReportResult& src) :
-    PFPlayerDataManagementGetDataReportResult{ src },
-    m_downloadUrl{ src.m_downloadUrl }
-{
-    downloadUrl = m_downloadUrl.empty() ? nullptr : m_downloadUrl.data();
-}
-
-GetDataReportResult::GetDataReportResult(GetDataReportResult&& src) :
-    PFPlayerDataManagementGetDataReportResult{ src },
-    m_downloadUrl{ std::move(src.m_downloadUrl) }
-{
-    downloadUrl = m_downloadUrl.empty() ? nullptr : m_downloadUrl.data();
-}
-
-GetDataReportResult::GetDataReportResult(const PFPlayerDataManagementGetDataReportResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetDataReportResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DownloadUrl", m_downloadUrl, downloadUrl);
-}
-
-JsonValue GetDataReportResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetDataReportResult>(*this);
-}
-
-size_t GetDataReportResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementGetDataReportResult) };
-    serializedSize += (m_downloadUrl.size() + 1);
-    return serializedSize;
-}
-
-void GetDataReportResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementGetDataReportResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementGetDataReportResult);
-    memcpy(stringBuffer, m_downloadUrl.data(), m_downloadUrl.size() + 1);
-    serializedStruct->downloadUrl = stringBuffer;
-    stringBuffer += m_downloadUrl.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-GetPlayerStatisticDefinitionsResult::GetPlayerStatisticDefinitionsResult() :
-    PFPlayerDataManagementGetPlayerStatisticDefinitionsResult{}
-{
-}
-
-GetPlayerStatisticDefinitionsResult::GetPlayerStatisticDefinitionsResult(const GetPlayerStatisticDefinitionsResult& src) :
-    PFPlayerDataManagementGetPlayerStatisticDefinitionsResult{ src },
-    m_statistics{ src.m_statistics }
-{
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-GetPlayerStatisticDefinitionsResult::GetPlayerStatisticDefinitionsResult(GetPlayerStatisticDefinitionsResult&& src) :
-    PFPlayerDataManagementGetPlayerStatisticDefinitionsResult{ src },
-    m_statistics{ std::move(src.m_statistics) }
-{
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-GetPlayerStatisticDefinitionsResult::GetPlayerStatisticDefinitionsResult(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPlayerStatisticDefinitionsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Statistics", m_statistics, statistics, statisticsCount);
-}
-
-JsonValue GetPlayerStatisticDefinitionsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetPlayerStatisticDefinitionsResult>(*this);
-}
-
-GetPlayerStatisticVersionsRequest::GetPlayerStatisticVersionsRequest() :
-    PFPlayerDataManagementGetPlayerStatisticVersionsRequest{}
-{
-}
-
-GetPlayerStatisticVersionsRequest::GetPlayerStatisticVersionsRequest(const GetPlayerStatisticVersionsRequest& src) :
-    PFPlayerDataManagementGetPlayerStatisticVersionsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_statisticName{ src.m_statisticName }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-GetPlayerStatisticVersionsRequest::GetPlayerStatisticVersionsRequest(GetPlayerStatisticVersionsRequest&& src) :
-    PFPlayerDataManagementGetPlayerStatisticVersionsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-GetPlayerStatisticVersionsRequest::GetPlayerStatisticVersionsRequest(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPlayerStatisticVersionsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue GetPlayerStatisticVersionsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetPlayerStatisticVersionsRequest>(*this);
-}
-
-PlayerStatisticVersion::PlayerStatisticVersion() :
-    PFPlayerDataManagementPlayerStatisticVersion{}
-{
-}
-
-PlayerStatisticVersion::PlayerStatisticVersion(const PlayerStatisticVersion& src) :
-    PFPlayerDataManagementPlayerStatisticVersion{ src },
-    m_archiveDownloadUrl{ src.m_archiveDownloadUrl },
-    m_deactivationTime{ src.m_deactivationTime },
-    m_scheduledActivationTime{ src.m_scheduledActivationTime },
-    m_scheduledDeactivationTime{ src.m_scheduledDeactivationTime },
-    m_statisticName{ src.m_statisticName },
-    m_status{ src.m_status }
-{
-    archiveDownloadUrl = m_archiveDownloadUrl.empty() ? nullptr : m_archiveDownloadUrl.data();
-    deactivationTime = m_deactivationTime ? m_deactivationTime.operator->() : nullptr;
-    scheduledActivationTime = m_scheduledActivationTime ? m_scheduledActivationTime.operator->() : nullptr;
-    scheduledDeactivationTime = m_scheduledDeactivationTime ? m_scheduledDeactivationTime.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    status = m_status ? m_status.operator->() : nullptr;
-}
-
-PlayerStatisticVersion::PlayerStatisticVersion(PlayerStatisticVersion&& src) :
-    PFPlayerDataManagementPlayerStatisticVersion{ src },
-    m_archiveDownloadUrl{ std::move(src.m_archiveDownloadUrl) },
-    m_deactivationTime{ std::move(src.m_deactivationTime) },
-    m_scheduledActivationTime{ std::move(src.m_scheduledActivationTime) },
-    m_scheduledDeactivationTime{ std::move(src.m_scheduledDeactivationTime) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_status{ std::move(src.m_status) }
-{
-    archiveDownloadUrl = m_archiveDownloadUrl.empty() ? nullptr : m_archiveDownloadUrl.data();
-    deactivationTime = m_deactivationTime ? m_deactivationTime.operator->() : nullptr;
-    scheduledActivationTime = m_scheduledActivationTime ? m_scheduledActivationTime.operator->() : nullptr;
-    scheduledDeactivationTime = m_scheduledDeactivationTime ? m_scheduledDeactivationTime.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    status = m_status ? m_status.operator->() : nullptr;
-}
-
-PlayerStatisticVersion::PlayerStatisticVersion(const PFPlayerDataManagementPlayerStatisticVersion& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PlayerStatisticVersion::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "ActivationTime", activationTime, true);
-    JsonUtils::ObjectGetMember(input, "ArchiveDownloadUrl", m_archiveDownloadUrl, archiveDownloadUrl);
-    JsonUtils::ObjectGetMember(input, "DeactivationTime", m_deactivationTime, deactivationTime, true);
-    JsonUtils::ObjectGetMember(input, "ScheduledActivationTime", m_scheduledActivationTime, scheduledActivationTime, true);
-    JsonUtils::ObjectGetMember(input, "ScheduledDeactivationTime", m_scheduledDeactivationTime, scheduledDeactivationTime, true);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Status", m_status, status);
-    JsonUtils::ObjectGetMember(input, "Version", version);
-}
-
-JsonValue PlayerStatisticVersion::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementPlayerStatisticVersion>(*this);
-}
-
-GetPlayerStatisticVersionsResult::GetPlayerStatisticVersionsResult() :
-    PFPlayerDataManagementGetPlayerStatisticVersionsResult{}
-{
-}
-
-GetPlayerStatisticVersionsResult::GetPlayerStatisticVersionsResult(const GetPlayerStatisticVersionsResult& src) :
-    PFPlayerDataManagementGetPlayerStatisticVersionsResult{ src },
-    m_statisticVersions{ src.m_statisticVersions }
-{
-    statisticVersions = m_statisticVersions.Empty() ? nullptr : m_statisticVersions.Data();
-}
-
-GetPlayerStatisticVersionsResult::GetPlayerStatisticVersionsResult(GetPlayerStatisticVersionsResult&& src) :
-    PFPlayerDataManagementGetPlayerStatisticVersionsResult{ src },
-    m_statisticVersions{ std::move(src.m_statisticVersions) }
-{
-    statisticVersions = m_statisticVersions.Empty() ? nullptr : m_statisticVersions.Data();
-}
-
-GetPlayerStatisticVersionsResult::GetPlayerStatisticVersionsResult(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetPlayerStatisticVersionsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatisticVersions", m_statisticVersions, statisticVersions, statisticVersionsCount);
-}
-
-JsonValue GetPlayerStatisticVersionsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetPlayerStatisticVersionsResult>(*this);
-}
-
-GetUserDataRequest::GetUserDataRequest() :
-    PFPlayerDataManagementGetUserDataRequest{}
-{
-}
-
-GetUserDataRequest::GetUserDataRequest(const GetUserDataRequest& src) :
-    PFPlayerDataManagementGetUserDataRequest{ src },
-    m_ifChangedFromDataVersion{ src.m_ifChangedFromDataVersion },
-    m_keys{ src.m_keys },
-    m_playFabId{ src.m_playFabId }
-{
-    ifChangedFromDataVersion = m_ifChangedFromDataVersion ? m_ifChangedFromDataVersion.operator->() : nullptr;
-    keys = m_keys.Empty() ? nullptr : m_keys.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GetUserDataRequest::GetUserDataRequest(GetUserDataRequest&& src) :
-    PFPlayerDataManagementGetUserDataRequest{ src },
-    m_ifChangedFromDataVersion{ std::move(src.m_ifChangedFromDataVersion) },
-    m_keys{ std::move(src.m_keys) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    ifChangedFromDataVersion = m_ifChangedFromDataVersion ? m_ifChangedFromDataVersion.operator->() : nullptr;
-    keys = m_keys.Empty() ? nullptr : m_keys.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-GetUserDataRequest::GetUserDataRequest(const PFPlayerDataManagementGetUserDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetUserDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "IfChangedFromDataVersion", m_ifChangedFromDataVersion, ifChangedFromDataVersion);
-    JsonUtils::ObjectGetMember(input, "Keys", m_keys, keys, keysCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue GetUserDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetUserDataRequest>(*this);
-}
-
-AdminGetUserDataResult::AdminGetUserDataResult() :
-    PFPlayerDataManagementAdminGetUserDataResult{}
-{
-}
-
-AdminGetUserDataResult::AdminGetUserDataResult(const AdminGetUserDataResult& src) :
-    PFPlayerDataManagementAdminGetUserDataResult{ src },
-    m_data{ src.m_data },
-    m_playFabId{ src.m_playFabId }
-{
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-AdminGetUserDataResult::AdminGetUserDataResult(AdminGetUserDataResult&& src) :
-    PFPlayerDataManagementAdminGetUserDataResult{ src },
-    m_data{ std::move(src.m_data) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-AdminGetUserDataResult::AdminGetUserDataResult(const PFPlayerDataManagementAdminGetUserDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AdminGetUserDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue AdminGetUserDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementAdminGetUserDataResult>(*this);
-}
-
-IncrementPlayerStatisticVersionRequest::IncrementPlayerStatisticVersionRequest() :
-    PFPlayerDataManagementIncrementPlayerStatisticVersionRequest{}
-{
-}
-
-IncrementPlayerStatisticVersionRequest::IncrementPlayerStatisticVersionRequest(const IncrementPlayerStatisticVersionRequest& src) :
-    PFPlayerDataManagementIncrementPlayerStatisticVersionRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_statisticName{ src.m_statisticName }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-IncrementPlayerStatisticVersionRequest::IncrementPlayerStatisticVersionRequest(IncrementPlayerStatisticVersionRequest&& src) :
-    PFPlayerDataManagementIncrementPlayerStatisticVersionRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-IncrementPlayerStatisticVersionRequest::IncrementPlayerStatisticVersionRequest(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void IncrementPlayerStatisticVersionRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-}
-
-JsonValue IncrementPlayerStatisticVersionRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementIncrementPlayerStatisticVersionRequest>(*this);
-}
-
-IncrementPlayerStatisticVersionResult::IncrementPlayerStatisticVersionResult() :
-    PFPlayerDataManagementIncrementPlayerStatisticVersionResult{}
-{
-}
-
-IncrementPlayerStatisticVersionResult::IncrementPlayerStatisticVersionResult(const IncrementPlayerStatisticVersionResult& src) :
-    PFPlayerDataManagementIncrementPlayerStatisticVersionResult{ src },
-    m_statisticVersion{ src.m_statisticVersion }
-{
-    statisticVersion = m_statisticVersion ? m_statisticVersion.operator->() : nullptr;
-}
-
-IncrementPlayerStatisticVersionResult::IncrementPlayerStatisticVersionResult(IncrementPlayerStatisticVersionResult&& src) :
-    PFPlayerDataManagementIncrementPlayerStatisticVersionResult{ src },
-    m_statisticVersion{ std::move(src.m_statisticVersion) }
-{
-    statisticVersion = m_statisticVersion ? m_statisticVersion.operator->() : nullptr;
-}
-
-IncrementPlayerStatisticVersionResult::IncrementPlayerStatisticVersionResult(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void IncrementPlayerStatisticVersionResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatisticVersion", m_statisticVersion, statisticVersion);
-}
-
-JsonValue IncrementPlayerStatisticVersionResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementIncrementPlayerStatisticVersionResult>(*this);
-}
-
-RefundPurchaseRequest::RefundPurchaseRequest() :
-    PFPlayerDataManagementRefundPurchaseRequest{}
-{
-}
-
-RefundPurchaseRequest::RefundPurchaseRequest(const RefundPurchaseRequest& src) :
-    PFPlayerDataManagementRefundPurchaseRequest{ src },
-    m_orderId{ src.m_orderId },
-    m_playFabId{ src.m_playFabId },
-    m_reason{ src.m_reason }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    reason = m_reason.empty() ? nullptr : m_reason.data();
-}
-
-RefundPurchaseRequest::RefundPurchaseRequest(RefundPurchaseRequest&& src) :
-    PFPlayerDataManagementRefundPurchaseRequest{ src },
-    m_orderId{ std::move(src.m_orderId) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_reason{ std::move(src.m_reason) }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    reason = m_reason.empty() ? nullptr : m_reason.data();
-}
-
-RefundPurchaseRequest::RefundPurchaseRequest(const PFPlayerDataManagementRefundPurchaseRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RefundPurchaseRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Reason", m_reason, reason);
-}
-
-JsonValue RefundPurchaseRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementRefundPurchaseRequest>(*this);
-}
-
-size_t RefundPurchaseRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementRefundPurchaseRequest) };
-    serializedSize += (m_orderId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    serializedSize += (m_reason.size() + 1);
-    return serializedSize;
-}
-
-void RefundPurchaseRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementRefundPurchaseRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementRefundPurchaseRequest);
-    memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
-    serializedStruct->orderId = stringBuffer;
-    stringBuffer += m_orderId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    memcpy(stringBuffer, m_reason.data(), m_reason.size() + 1);
-    serializedStruct->reason = stringBuffer;
-    stringBuffer += m_reason.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-RefundPurchaseResponse::RefundPurchaseResponse() :
-    PFPlayerDataManagementRefundPurchaseResponse{}
-{
-}
-
-RefundPurchaseResponse::RefundPurchaseResponse(const RefundPurchaseResponse& src) :
-    PFPlayerDataManagementRefundPurchaseResponse{ src },
-    m_purchaseStatus{ src.m_purchaseStatus }
-{
-    purchaseStatus = m_purchaseStatus.empty() ? nullptr : m_purchaseStatus.data();
-}
-
-RefundPurchaseResponse::RefundPurchaseResponse(RefundPurchaseResponse&& src) :
-    PFPlayerDataManagementRefundPurchaseResponse{ src },
-    m_purchaseStatus{ std::move(src.m_purchaseStatus) }
-{
-    purchaseStatus = m_purchaseStatus.empty() ? nullptr : m_purchaseStatus.data();
-}
-
-RefundPurchaseResponse::RefundPurchaseResponse(const PFPlayerDataManagementRefundPurchaseResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void RefundPurchaseResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PurchaseStatus", m_purchaseStatus, purchaseStatus);
-}
-
-JsonValue RefundPurchaseResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementRefundPurchaseResponse>(*this);
-}
-
-size_t RefundPurchaseResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementRefundPurchaseResponse) };
-    serializedSize += (m_purchaseStatus.size() + 1);
-    return serializedSize;
-}
-
-void RefundPurchaseResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementRefundPurchaseResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementRefundPurchaseResponse);
-    memcpy(stringBuffer, m_purchaseStatus.data(), m_purchaseStatus.size() + 1);
-    serializedStruct->purchaseStatus = stringBuffer;
-    stringBuffer += m_purchaseStatus.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ResetUserStatisticsRequest::ResetUserStatisticsRequest() :
-    PFPlayerDataManagementResetUserStatisticsRequest{}
-{
-}
-
-ResetUserStatisticsRequest::ResetUserStatisticsRequest(const ResetUserStatisticsRequest& src) :
-    PFPlayerDataManagementResetUserStatisticsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ResetUserStatisticsRequest::ResetUserStatisticsRequest(ResetUserStatisticsRequest&& src) :
-    PFPlayerDataManagementResetUserStatisticsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ResetUserStatisticsRequest::ResetUserStatisticsRequest(const PFPlayerDataManagementResetUserStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ResetUserStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ResetUserStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementResetUserStatisticsRequest>(*this);
-}
-
-ResolvePurchaseDisputeRequest::ResolvePurchaseDisputeRequest() :
-    PFPlayerDataManagementResolvePurchaseDisputeRequest{}
-{
-}
-
-ResolvePurchaseDisputeRequest::ResolvePurchaseDisputeRequest(const ResolvePurchaseDisputeRequest& src) :
-    PFPlayerDataManagementResolvePurchaseDisputeRequest{ src },
-    m_orderId{ src.m_orderId },
-    m_playFabId{ src.m_playFabId },
-    m_reason{ src.m_reason }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    reason = m_reason.empty() ? nullptr : m_reason.data();
-}
-
-ResolvePurchaseDisputeRequest::ResolvePurchaseDisputeRequest(ResolvePurchaseDisputeRequest&& src) :
-    PFPlayerDataManagementResolvePurchaseDisputeRequest{ src },
-    m_orderId{ std::move(src.m_orderId) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_reason{ std::move(src.m_reason) }
-{
-    orderId = m_orderId.empty() ? nullptr : m_orderId.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    reason = m_reason.empty() ? nullptr : m_reason.data();
-}
-
-ResolvePurchaseDisputeRequest::ResolvePurchaseDisputeRequest(const PFPlayerDataManagementResolvePurchaseDisputeRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ResolvePurchaseDisputeRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "OrderId", m_orderId, orderId);
-    JsonUtils::ObjectGetMember(input, "Outcome", outcome);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Reason", m_reason, reason);
-}
-
-JsonValue ResolvePurchaseDisputeRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementResolvePurchaseDisputeRequest>(*this);
-}
-
-size_t ResolvePurchaseDisputeRequest::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementResolvePurchaseDisputeRequest) };
-    serializedSize += (m_orderId.size() + 1);
-    serializedSize += (m_playFabId.size() + 1);
-    serializedSize += (m_reason.size() + 1);
-    return serializedSize;
-}
-
-void ResolvePurchaseDisputeRequest::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementResolvePurchaseDisputeRequest{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementResolvePurchaseDisputeRequest);
-    memcpy(stringBuffer, m_orderId.data(), m_orderId.size() + 1);
-    serializedStruct->orderId = stringBuffer;
-    stringBuffer += m_orderId.size() + 1;
-    memcpy(stringBuffer, m_playFabId.data(), m_playFabId.size() + 1);
-    serializedStruct->playFabId = stringBuffer;
-    stringBuffer += m_playFabId.size() + 1;
-    memcpy(stringBuffer, m_reason.data(), m_reason.size() + 1);
-    serializedStruct->reason = stringBuffer;
-    stringBuffer += m_reason.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ResolvePurchaseDisputeResponse::ResolvePurchaseDisputeResponse() :
-    PFPlayerDataManagementResolvePurchaseDisputeResponse{}
-{
-}
-
-ResolvePurchaseDisputeResponse::ResolvePurchaseDisputeResponse(const ResolvePurchaseDisputeResponse& src) :
-    PFPlayerDataManagementResolvePurchaseDisputeResponse{ src },
-    m_purchaseStatus{ src.m_purchaseStatus }
-{
-    purchaseStatus = m_purchaseStatus.empty() ? nullptr : m_purchaseStatus.data();
-}
-
-ResolvePurchaseDisputeResponse::ResolvePurchaseDisputeResponse(ResolvePurchaseDisputeResponse&& src) :
-    PFPlayerDataManagementResolvePurchaseDisputeResponse{ src },
-    m_purchaseStatus{ std::move(src.m_purchaseStatus) }
-{
-    purchaseStatus = m_purchaseStatus.empty() ? nullptr : m_purchaseStatus.data();
-}
-
-ResolvePurchaseDisputeResponse::ResolvePurchaseDisputeResponse(const PFPlayerDataManagementResolvePurchaseDisputeResponse& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ResolvePurchaseDisputeResponse::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PurchaseStatus", m_purchaseStatus, purchaseStatus);
-}
-
-JsonValue ResolvePurchaseDisputeResponse::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementResolvePurchaseDisputeResponse>(*this);
-}
-
-size_t ResolvePurchaseDisputeResponse::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementResolvePurchaseDisputeResponse) };
-    serializedSize += (m_purchaseStatus.size() + 1);
-    return serializedSize;
-}
-
-void ResolvePurchaseDisputeResponse::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementResolvePurchaseDisputeResponse{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementResolvePurchaseDisputeResponse);
-    memcpy(stringBuffer, m_purchaseStatus.data(), m_purchaseStatus.size() + 1);
-    serializedStruct->purchaseStatus = stringBuffer;
-    stringBuffer += m_purchaseStatus.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UpdatePlayerStatisticDefinitionRequest::UpdatePlayerStatisticDefinitionRequest() :
-    PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest{}
-{
-}
-
-UpdatePlayerStatisticDefinitionRequest::UpdatePlayerStatisticDefinitionRequest(const UpdatePlayerStatisticDefinitionRequest& src) :
-    PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest{ src },
-    m_aggregationMethod{ src.m_aggregationMethod },
-    m_statisticName{ src.m_statisticName },
-    m_versionChangeInterval{ src.m_versionChangeInterval }
-{
-    aggregationMethod = m_aggregationMethod ? m_aggregationMethod.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    versionChangeInterval = m_versionChangeInterval ? m_versionChangeInterval.operator->() : nullptr;
-}
-
-UpdatePlayerStatisticDefinitionRequest::UpdatePlayerStatisticDefinitionRequest(UpdatePlayerStatisticDefinitionRequest&& src) :
-    PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest{ src },
-    m_aggregationMethod{ std::move(src.m_aggregationMethod) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_versionChangeInterval{ std::move(src.m_versionChangeInterval) }
-{
-    aggregationMethod = m_aggregationMethod ? m_aggregationMethod.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    versionChangeInterval = m_versionChangeInterval ? m_versionChangeInterval.operator->() : nullptr;
-}
-
-UpdatePlayerStatisticDefinitionRequest::UpdatePlayerStatisticDefinitionRequest(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdatePlayerStatisticDefinitionRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "AggregationMethod", m_aggregationMethod, aggregationMethod);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "VersionChangeInterval", m_versionChangeInterval, versionChangeInterval);
-}
-
-JsonValue UpdatePlayerStatisticDefinitionRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest>(*this);
-}
-
-UpdatePlayerStatisticDefinitionResult::UpdatePlayerStatisticDefinitionResult() :
-    PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult{}
-{
-}
-
-UpdatePlayerStatisticDefinitionResult::UpdatePlayerStatisticDefinitionResult(const UpdatePlayerStatisticDefinitionResult& src) :
-    PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult{ src },
-    m_statistic{ src.m_statistic }
-{
-    statistic = m_statistic ? m_statistic.operator->() : nullptr;
-}
-
-UpdatePlayerStatisticDefinitionResult::UpdatePlayerStatisticDefinitionResult(UpdatePlayerStatisticDefinitionResult&& src) :
-    PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult{ src },
-    m_statistic{ std::move(src.m_statistic) }
-{
-    statistic = m_statistic ? m_statistic.operator->() : nullptr;
-}
-
-UpdatePlayerStatisticDefinitionResult::UpdatePlayerStatisticDefinitionResult(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdatePlayerStatisticDefinitionResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Statistic", m_statistic, statistic);
-}
-
-JsonValue UpdatePlayerStatisticDefinitionResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult>(*this);
-}
-
-AdminUpdateUserDataRequest::AdminUpdateUserDataRequest() :
-    PFPlayerDataManagementAdminUpdateUserDataRequest{}
-{
-}
-
-AdminUpdateUserDataRequest::AdminUpdateUserDataRequest(const AdminUpdateUserDataRequest& src) :
-    PFPlayerDataManagementAdminUpdateUserDataRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_permission{ src.m_permission },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-AdminUpdateUserDataRequest::AdminUpdateUserDataRequest(AdminUpdateUserDataRequest&& src) :
-    PFPlayerDataManagementAdminUpdateUserDataRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_permission{ std::move(src.m_permission) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-AdminUpdateUserDataRequest::AdminUpdateUserDataRequest(const PFPlayerDataManagementAdminUpdateUserDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void AdminUpdateUserDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue AdminUpdateUserDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementAdminUpdateUserDataRequest>(*this);
-}
-
-UpdateUserDataResult::UpdateUserDataResult() :
-    PFPlayerDataManagementUpdateUserDataResult{}
-{
-}
-
-
-UpdateUserDataResult::UpdateUserDataResult(const PFPlayerDataManagementUpdateUserDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateUserDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-}
-
-JsonValue UpdateUserDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementUpdateUserDataResult>(*this);
-}
-
-size_t UpdateUserDataResult::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementUpdateUserDataResult) };
-    return serializedSize;
-}
-
-void UpdateUserDataResult::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementUpdateUserDataResult{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementUpdateUserDataResult);
-    UNREFERENCED_PARAMETER(serializedStruct);
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-UpdateUserInternalDataRequest::UpdateUserInternalDataRequest() :
-    PFPlayerDataManagementUpdateUserInternalDataRequest{}
-{
-}
-
-UpdateUserInternalDataRequest::UpdateUserInternalDataRequest(const UpdateUserInternalDataRequest& src) :
-    PFPlayerDataManagementUpdateUserInternalDataRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-UpdateUserInternalDataRequest::UpdateUserInternalDataRequest(UpdateUserInternalDataRequest&& src) :
-    PFPlayerDataManagementUpdateUserInternalDataRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-UpdateUserInternalDataRequest::UpdateUserInternalDataRequest(const PFPlayerDataManagementUpdateUserInternalDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void UpdateUserInternalDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue UpdateUserInternalDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementUpdateUserInternalDataRequest>(*this);
-}
-
-ClientGetFriendLeaderboardRequest::ClientGetFriendLeaderboardRequest() :
-    PFPlayerDataManagementClientGetFriendLeaderboardRequest{}
-{
-}
-
-ClientGetFriendLeaderboardRequest::ClientGetFriendLeaderboardRequest(const ClientGetFriendLeaderboardRequest& src) :
-    PFPlayerDataManagementClientGetFriendLeaderboardRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_includeFacebookFriends{ src.m_includeFacebookFriends },
-    m_includeSteamFriends{ src.m_includeSteamFriends },
-    m_maxResultsCount{ src.m_maxResultsCount },
-    m_profileConstraints{ src.m_profileConstraints },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version },
-    m_xboxToken{ src.m_xboxToken }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    includeFacebookFriends = m_includeFacebookFriends ? m_includeFacebookFriends.operator->() : nullptr;
-    includeSteamFriends = m_includeSteamFriends ? m_includeSteamFriends.operator->() : nullptr;
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-    xboxToken = m_xboxToken.empty() ? nullptr : m_xboxToken.data();
-}
-
-ClientGetFriendLeaderboardRequest::ClientGetFriendLeaderboardRequest(ClientGetFriendLeaderboardRequest&& src) :
-    PFPlayerDataManagementClientGetFriendLeaderboardRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_includeFacebookFriends{ std::move(src.m_includeFacebookFriends) },
-    m_includeSteamFriends{ std::move(src.m_includeSteamFriends) },
-    m_maxResultsCount{ std::move(src.m_maxResultsCount) },
-    m_profileConstraints{ std::move(src.m_profileConstraints) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) },
-    m_xboxToken{ std::move(src.m_xboxToken) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    includeFacebookFriends = m_includeFacebookFriends ? m_includeFacebookFriends.operator->() : nullptr;
-    includeSteamFriends = m_includeSteamFriends ? m_includeSteamFriends.operator->() : nullptr;
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-    xboxToken = m_xboxToken.empty() ? nullptr : m_xboxToken.data();
-}
-
-ClientGetFriendLeaderboardRequest::ClientGetFriendLeaderboardRequest(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetFriendLeaderboardRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "IncludeFacebookFriends", m_includeFacebookFriends, includeFacebookFriends);
-    JsonUtils::ObjectGetMember(input, "IncludeSteamFriends", m_includeSteamFriends, includeSteamFriends);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", m_maxResultsCount, maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
-    JsonUtils::ObjectGetMember(input, "StartPosition", startPosition);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-    JsonUtils::ObjectGetMember(input, "XboxToken", m_xboxToken, xboxToken);
-}
-
-JsonValue ClientGetFriendLeaderboardRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementClientGetFriendLeaderboardRequest>(*this);
-}
-
-PlayerLeaderboardEntry::PlayerLeaderboardEntry() :
-    PFPlayerDataManagementPlayerLeaderboardEntry{}
-{
-}
-
-PlayerLeaderboardEntry::PlayerLeaderboardEntry(const PlayerLeaderboardEntry& src) :
-    PFPlayerDataManagementPlayerLeaderboardEntry{ src },
-    m_displayName{ src.m_displayName },
-    m_playFabId{ src.m_playFabId },
-    m_profile{ src.m_profile }
-{
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profile = m_profile ? m_profile.operator->() : nullptr;
-}
-
-PlayerLeaderboardEntry::PlayerLeaderboardEntry(PlayerLeaderboardEntry&& src) :
-    PFPlayerDataManagementPlayerLeaderboardEntry{ src },
-    m_displayName{ std::move(src.m_displayName) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_profile{ std::move(src.m_profile) }
-{
-    displayName = m_displayName.empty() ? nullptr : m_displayName.data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profile = m_profile ? m_profile.operator->() : nullptr;
-}
-
-PlayerLeaderboardEntry::PlayerLeaderboardEntry(const PFPlayerDataManagementPlayerLeaderboardEntry& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void PlayerLeaderboardEntry::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "DisplayName", m_displayName, displayName);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Position", position);
-    JsonUtils::ObjectGetMember(input, "Profile", m_profile, profile);
-    JsonUtils::ObjectGetMember(input, "StatValue", statValue);
-}
-
-JsonValue PlayerLeaderboardEntry::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementPlayerLeaderboardEntry>(*this);
-}
-
-GetLeaderboardResult::GetLeaderboardResult() :
-    PFPlayerDataManagementGetLeaderboardResult{}
-{
-}
-
-GetLeaderboardResult::GetLeaderboardResult(const GetLeaderboardResult& src) :
-    PFPlayerDataManagementGetLeaderboardResult{ src },
-    m_leaderboard{ src.m_leaderboard },
-    m_nextReset{ src.m_nextReset }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetLeaderboardResult::GetLeaderboardResult(GetLeaderboardResult&& src) :
-    PFPlayerDataManagementGetLeaderboardResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) },
-    m_nextReset{ std::move(src.m_nextReset) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetLeaderboardResult::GetLeaderboardResult(const PFPlayerDataManagementGetLeaderboardResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-    JsonUtils::ObjectGetMember(input, "NextReset", m_nextReset, nextReset, true);
-    JsonUtils::ObjectGetMember(input, "Version", version);
-}
-
-JsonValue GetLeaderboardResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetLeaderboardResult>(*this);
-}
-
-GetFriendLeaderboardAroundPlayerRequest::GetFriendLeaderboardAroundPlayerRequest() :
-    PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest{}
-{
-}
-
-GetFriendLeaderboardAroundPlayerRequest::GetFriendLeaderboardAroundPlayerRequest(const GetFriendLeaderboardAroundPlayerRequest& src) :
-    PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_includeFacebookFriends{ src.m_includeFacebookFriends },
-    m_includeSteamFriends{ src.m_includeSteamFriends },
-    m_maxResultsCount{ src.m_maxResultsCount },
-    m_playFabId{ src.m_playFabId },
-    m_profileConstraints{ src.m_profileConstraints },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version },
-    m_xboxToken{ src.m_xboxToken }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    includeFacebookFriends = m_includeFacebookFriends ? m_includeFacebookFriends.operator->() : nullptr;
-    includeSteamFriends = m_includeSteamFriends ? m_includeSteamFriends.operator->() : nullptr;
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-    xboxToken = m_xboxToken.empty() ? nullptr : m_xboxToken.data();
-}
-
-GetFriendLeaderboardAroundPlayerRequest::GetFriendLeaderboardAroundPlayerRequest(GetFriendLeaderboardAroundPlayerRequest&& src) :
-    PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_includeFacebookFriends{ std::move(src.m_includeFacebookFriends) },
-    m_includeSteamFriends{ std::move(src.m_includeSteamFriends) },
-    m_maxResultsCount{ std::move(src.m_maxResultsCount) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_profileConstraints{ std::move(src.m_profileConstraints) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) },
-    m_xboxToken{ std::move(src.m_xboxToken) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    includeFacebookFriends = m_includeFacebookFriends ? m_includeFacebookFriends.operator->() : nullptr;
-    includeSteamFriends = m_includeSteamFriends ? m_includeSteamFriends.operator->() : nullptr;
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-    xboxToken = m_xboxToken.empty() ? nullptr : m_xboxToken.data();
-}
-
-GetFriendLeaderboardAroundPlayerRequest::GetFriendLeaderboardAroundPlayerRequest(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetFriendLeaderboardAroundPlayerRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "IncludeFacebookFriends", m_includeFacebookFriends, includeFacebookFriends);
-    JsonUtils::ObjectGetMember(input, "IncludeSteamFriends", m_includeSteamFriends, includeSteamFriends);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", m_maxResultsCount, maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-    JsonUtils::ObjectGetMember(input, "XboxToken", m_xboxToken, xboxToken);
-}
-
-JsonValue GetFriendLeaderboardAroundPlayerRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest>(*this);
-}
-
-GetFriendLeaderboardAroundPlayerResult::GetFriendLeaderboardAroundPlayerResult() :
-    PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult{}
-{
-}
-
-GetFriendLeaderboardAroundPlayerResult::GetFriendLeaderboardAroundPlayerResult(const GetFriendLeaderboardAroundPlayerResult& src) :
-    PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult{ src },
-    m_leaderboard{ src.m_leaderboard },
-    m_nextReset{ src.m_nextReset }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetFriendLeaderboardAroundPlayerResult::GetFriendLeaderboardAroundPlayerResult(GetFriendLeaderboardAroundPlayerResult&& src) :
-    PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) },
-    m_nextReset{ std::move(src.m_nextReset) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetFriendLeaderboardAroundPlayerResult::GetFriendLeaderboardAroundPlayerResult(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetFriendLeaderboardAroundPlayerResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-    JsonUtils::ObjectGetMember(input, "NextReset", m_nextReset, nextReset, true);
-    JsonUtils::ObjectGetMember(input, "Version", version);
-}
-
-JsonValue GetFriendLeaderboardAroundPlayerResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult>(*this);
-}
-
-GetLeaderboardRequest::GetLeaderboardRequest() :
-    PFPlayerDataManagementGetLeaderboardRequest{}
-{
-}
-
-GetLeaderboardRequest::GetLeaderboardRequest(const GetLeaderboardRequest& src) :
-    PFPlayerDataManagementGetLeaderboardRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_profileConstraints{ src.m_profileConstraints },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-GetLeaderboardRequest::GetLeaderboardRequest(GetLeaderboardRequest&& src) :
-    PFPlayerDataManagementGetLeaderboardRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_profileConstraints{ std::move(src.m_profileConstraints) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-GetLeaderboardRequest::GetLeaderboardRequest(const PFPlayerDataManagementGetLeaderboardRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
-    JsonUtils::ObjectGetMember(input, "StartPosition", startPosition);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-}
-
-JsonValue GetLeaderboardRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetLeaderboardRequest>(*this);
-}
-
-GetLeaderboardAroundPlayerRequest::GetLeaderboardAroundPlayerRequest() :
-    PFPlayerDataManagementGetLeaderboardAroundPlayerRequest{}
-{
-}
-
-GetLeaderboardAroundPlayerRequest::GetLeaderboardAroundPlayerRequest(const GetLeaderboardAroundPlayerRequest& src) :
-    PFPlayerDataManagementGetLeaderboardAroundPlayerRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_maxResultsCount{ src.m_maxResultsCount },
-    m_playFabId{ src.m_playFabId },
-    m_profileConstraints{ src.m_profileConstraints },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-GetLeaderboardAroundPlayerRequest::GetLeaderboardAroundPlayerRequest(GetLeaderboardAroundPlayerRequest&& src) :
-    PFPlayerDataManagementGetLeaderboardAroundPlayerRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_maxResultsCount{ std::move(src.m_maxResultsCount) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_profileConstraints{ std::move(src.m_profileConstraints) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    maxResultsCount = m_maxResultsCount ? m_maxResultsCount.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-GetLeaderboardAroundPlayerRequest::GetLeaderboardAroundPlayerRequest(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardAroundPlayerRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", m_maxResultsCount, maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-}
-
-JsonValue GetLeaderboardAroundPlayerRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetLeaderboardAroundPlayerRequest>(*this);
-}
-
-GetLeaderboardAroundPlayerResult::GetLeaderboardAroundPlayerResult() :
-    PFPlayerDataManagementGetLeaderboardAroundPlayerResult{}
-{
-}
-
-GetLeaderboardAroundPlayerResult::GetLeaderboardAroundPlayerResult(const GetLeaderboardAroundPlayerResult& src) :
-    PFPlayerDataManagementGetLeaderboardAroundPlayerResult{ src },
-    m_leaderboard{ src.m_leaderboard },
-    m_nextReset{ src.m_nextReset }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetLeaderboardAroundPlayerResult::GetLeaderboardAroundPlayerResult(GetLeaderboardAroundPlayerResult&& src) :
-    PFPlayerDataManagementGetLeaderboardAroundPlayerResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) },
-    m_nextReset{ std::move(src.m_nextReset) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetLeaderboardAroundPlayerResult::GetLeaderboardAroundPlayerResult(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardAroundPlayerResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-    JsonUtils::ObjectGetMember(input, "NextReset", m_nextReset, nextReset, true);
-    JsonUtils::ObjectGetMember(input, "Version", version);
-}
-
-JsonValue GetLeaderboardAroundPlayerResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetLeaderboardAroundPlayerResult>(*this);
-}
-
-StatisticNameVersion::StatisticNameVersion() :
-    PFPlayerDataManagementStatisticNameVersion{}
-{
-}
-
-StatisticNameVersion::StatisticNameVersion(const StatisticNameVersion& src) :
-    PFPlayerDataManagementStatisticNameVersion{ src },
-    m_statisticName{ src.m_statisticName }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-StatisticNameVersion::StatisticNameVersion(StatisticNameVersion&& src) :
-    PFPlayerDataManagementStatisticNameVersion{ src },
-    m_statisticName{ std::move(src.m_statisticName) }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-}
-
-StatisticNameVersion::StatisticNameVersion(const PFPlayerDataManagementStatisticNameVersion& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void StatisticNameVersion::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", version);
-}
-
-JsonValue StatisticNameVersion::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementStatisticNameVersion>(*this);
-}
-
-size_t StatisticNameVersion::SerializedSize() const
-{
-    size_t serializedSize{ sizeof(PFPlayerDataManagementStatisticNameVersion) };
-    serializedSize += (m_statisticName.size() + 1);
-    return serializedSize;
-}
-
-void StatisticNameVersion::Serialize(void* buffer, size_t bufferSize) const
-{
-    auto serializedStruct = new (buffer) PFPlayerDataManagementStatisticNameVersion{ *this };
-    char* stringBuffer = static_cast<char*>(buffer) + sizeof(PFPlayerDataManagementStatisticNameVersion);
-    memcpy(stringBuffer, m_statisticName.data(), m_statisticName.size() + 1);
-    serializedStruct->statisticName = stringBuffer;
-    stringBuffer += m_statisticName.size() + 1;
-    assert(stringBuffer - bufferSize == buffer);
-}
-
-ClientGetPlayerStatisticsRequest::ClientGetPlayerStatisticsRequest() :
-    PFPlayerDataManagementClientGetPlayerStatisticsRequest{}
-{
-}
-
-ClientGetPlayerStatisticsRequest::ClientGetPlayerStatisticsRequest(const ClientGetPlayerStatisticsRequest& src) :
-    PFPlayerDataManagementClientGetPlayerStatisticsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_statisticNames{ src.m_statisticNames },
-    m_statisticNameVersions{ src.m_statisticNameVersions }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticNames = m_statisticNames.Empty() ? nullptr : m_statisticNames.Data();
-    statisticNameVersions = m_statisticNameVersions.Empty() ? nullptr : m_statisticNameVersions.Data();
-}
-
-ClientGetPlayerStatisticsRequest::ClientGetPlayerStatisticsRequest(ClientGetPlayerStatisticsRequest&& src) :
-    PFPlayerDataManagementClientGetPlayerStatisticsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_statisticNames{ std::move(src.m_statisticNames) },
-    m_statisticNameVersions{ std::move(src.m_statisticNameVersions) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statisticNames = m_statisticNames.Empty() ? nullptr : m_statisticNames.Data();
-    statisticNameVersions = m_statisticNameVersions.Empty() ? nullptr : m_statisticNameVersions.Data();
-}
-
-ClientGetPlayerStatisticsRequest::ClientGetPlayerStatisticsRequest(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetPlayerStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "StatisticNames", m_statisticNames, statisticNames, statisticNamesCount);
-    JsonUtils::ObjectGetMember(input, "StatisticNameVersions", m_statisticNameVersions, statisticNameVersions, statisticNameVersionsCount);
-}
-
-JsonValue ClientGetPlayerStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementClientGetPlayerStatisticsRequest>(*this);
-}
-
-ClientGetPlayerStatisticsResult::ClientGetPlayerStatisticsResult() :
-    PFPlayerDataManagementClientGetPlayerStatisticsResult{}
-{
-}
-
-ClientGetPlayerStatisticsResult::ClientGetPlayerStatisticsResult(const ClientGetPlayerStatisticsResult& src) :
-    PFPlayerDataManagementClientGetPlayerStatisticsResult{ src },
-    m_statistics{ src.m_statistics }
-{
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ClientGetPlayerStatisticsResult::ClientGetPlayerStatisticsResult(ClientGetPlayerStatisticsResult&& src) :
-    PFPlayerDataManagementClientGetPlayerStatisticsResult{ src },
-    m_statistics{ std::move(src.m_statistics) }
-{
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ClientGetPlayerStatisticsResult::ClientGetPlayerStatisticsResult(const PFPlayerDataManagementClientGetPlayerStatisticsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetPlayerStatisticsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Statistics", m_statistics, statistics, statisticsCount);
-}
-
-JsonValue ClientGetPlayerStatisticsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementClientGetPlayerStatisticsResult>(*this);
-}
-
-ClientGetUserDataResult::ClientGetUserDataResult() :
-    PFPlayerDataManagementClientGetUserDataResult{}
-{
-}
-
-ClientGetUserDataResult::ClientGetUserDataResult(const ClientGetUserDataResult& src) :
-    PFPlayerDataManagementClientGetUserDataResult{ src },
-    m_data{ src.m_data }
-{
-    data = m_data.Empty() ? nullptr : m_data.Data();
-}
-
-ClientGetUserDataResult::ClientGetUserDataResult(ClientGetUserDataResult&& src) :
-    PFPlayerDataManagementClientGetUserDataResult{ src },
-    m_data{ std::move(src.m_data) }
-{
-    data = m_data.Empty() ? nullptr : m_data.Data();
-}
-
-ClientGetUserDataResult::ClientGetUserDataResult(const PFPlayerDataManagementClientGetUserDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientGetUserDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-}
-
-JsonValue ClientGetUserDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementClientGetUserDataResult>(*this);
-}
-
-StatisticUpdate::StatisticUpdate() :
-    PFPlayerDataManagementStatisticUpdate{}
-{
-}
-
-StatisticUpdate::StatisticUpdate(const StatisticUpdate& src) :
-    PFPlayerDataManagementStatisticUpdate{ src },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-StatisticUpdate::StatisticUpdate(StatisticUpdate&& src) :
-    PFPlayerDataManagementStatisticUpdate{ src },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) }
-{
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-StatisticUpdate::StatisticUpdate(const PFPlayerDataManagementStatisticUpdate& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void StatisticUpdate::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Value", value);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-}
-
-JsonValue StatisticUpdate::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementStatisticUpdate>(*this);
-}
-
-ClientUpdatePlayerStatisticsRequest::ClientUpdatePlayerStatisticsRequest() :
-    PFPlayerDataManagementClientUpdatePlayerStatisticsRequest{}
-{
-}
-
-ClientUpdatePlayerStatisticsRequest::ClientUpdatePlayerStatisticsRequest(const ClientUpdatePlayerStatisticsRequest& src) :
-    PFPlayerDataManagementClientUpdatePlayerStatisticsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_statistics{ src.m_statistics }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ClientUpdatePlayerStatisticsRequest::ClientUpdatePlayerStatisticsRequest(ClientUpdatePlayerStatisticsRequest&& src) :
-    PFPlayerDataManagementClientUpdatePlayerStatisticsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_statistics{ std::move(src.m_statistics) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ClientUpdatePlayerStatisticsRequest::ClientUpdatePlayerStatisticsRequest(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientUpdatePlayerStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Statistics", m_statistics, statistics, statisticsCount);
-}
-
-JsonValue ClientUpdatePlayerStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementClientUpdatePlayerStatisticsRequest>(*this);
-}
-
-ClientUpdateUserDataRequest::ClientUpdateUserDataRequest() :
-    PFPlayerDataManagementClientUpdateUserDataRequest{}
-{
-}
-
-ClientUpdateUserDataRequest::ClientUpdateUserDataRequest(const ClientUpdateUserDataRequest& src) :
-    PFPlayerDataManagementClientUpdateUserDataRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_permission{ src.m_permission }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-}
-
-ClientUpdateUserDataRequest::ClientUpdateUserDataRequest(ClientUpdateUserDataRequest&& src) :
-    PFPlayerDataManagementClientUpdateUserDataRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_permission{ std::move(src.m_permission) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-}
-
-ClientUpdateUserDataRequest::ClientUpdateUserDataRequest(const PFPlayerDataManagementClientUpdateUserDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ClientUpdateUserDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-}
-
-JsonValue ClientUpdateUserDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementClientUpdateUserDataRequest>(*this);
-}
-
-ServerGetFriendLeaderboardRequest::ServerGetFriendLeaderboardRequest() :
-    PFPlayerDataManagementServerGetFriendLeaderboardRequest{}
-{
-}
-
-ServerGetFriendLeaderboardRequest::ServerGetFriendLeaderboardRequest(const ServerGetFriendLeaderboardRequest& src) :
-    PFPlayerDataManagementServerGetFriendLeaderboardRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_includeFacebookFriends{ src.m_includeFacebookFriends },
-    m_includeSteamFriends{ src.m_includeSteamFriends },
-    m_playFabId{ src.m_playFabId },
-    m_profileConstraints{ src.m_profileConstraints },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version },
-    m_xboxToken{ src.m_xboxToken }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    includeFacebookFriends = m_includeFacebookFriends ? m_includeFacebookFriends.operator->() : nullptr;
-    includeSteamFriends = m_includeSteamFriends ? m_includeSteamFriends.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-    xboxToken = m_xboxToken.empty() ? nullptr : m_xboxToken.data();
-}
-
-ServerGetFriendLeaderboardRequest::ServerGetFriendLeaderboardRequest(ServerGetFriendLeaderboardRequest&& src) :
-    PFPlayerDataManagementServerGetFriendLeaderboardRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_includeFacebookFriends{ std::move(src.m_includeFacebookFriends) },
-    m_includeSteamFriends{ std::move(src.m_includeSteamFriends) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_profileConstraints{ std::move(src.m_profileConstraints) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) },
-    m_xboxToken{ std::move(src.m_xboxToken) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    includeFacebookFriends = m_includeFacebookFriends ? m_includeFacebookFriends.operator->() : nullptr;
-    includeSteamFriends = m_includeSteamFriends ? m_includeSteamFriends.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-    xboxToken = m_xboxToken.empty() ? nullptr : m_xboxToken.data();
-}
-
-ServerGetFriendLeaderboardRequest::ServerGetFriendLeaderboardRequest(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetFriendLeaderboardRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "IncludeFacebookFriends", m_includeFacebookFriends, includeFacebookFriends);
-    JsonUtils::ObjectGetMember(input, "IncludeSteamFriends", m_includeSteamFriends, includeSteamFriends);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
-    JsonUtils::ObjectGetMember(input, "StartPosition", startPosition);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-    JsonUtils::ObjectGetMember(input, "XboxToken", m_xboxToken, xboxToken);
-}
-
-JsonValue ServerGetFriendLeaderboardRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementServerGetFriendLeaderboardRequest>(*this);
-}
-
-GetLeaderboardAroundUserRequest::GetLeaderboardAroundUserRequest() :
-    PFPlayerDataManagementGetLeaderboardAroundUserRequest{}
-{
-}
-
-GetLeaderboardAroundUserRequest::GetLeaderboardAroundUserRequest(const GetLeaderboardAroundUserRequest& src) :
-    PFPlayerDataManagementGetLeaderboardAroundUserRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_profileConstraints{ src.m_profileConstraints },
-    m_statisticName{ src.m_statisticName },
-    m_version{ src.m_version }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-GetLeaderboardAroundUserRequest::GetLeaderboardAroundUserRequest(GetLeaderboardAroundUserRequest&& src) :
-    PFPlayerDataManagementGetLeaderboardAroundUserRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_profileConstraints{ std::move(src.m_profileConstraints) },
-    m_statisticName{ std::move(src.m_statisticName) },
-    m_version{ std::move(src.m_version) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    profileConstraints = m_profileConstraints ? m_profileConstraints.operator->() : nullptr;
-    statisticName = m_statisticName.empty() ? nullptr : m_statisticName.data();
-    version = m_version ? m_version.operator->() : nullptr;
-}
-
-GetLeaderboardAroundUserRequest::GetLeaderboardAroundUserRequest(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardAroundUserRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "MaxResultsCount", maxResultsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "ProfileConstraints", m_profileConstraints, profileConstraints);
-    JsonUtils::ObjectGetMember(input, "StatisticName", m_statisticName, statisticName);
-    JsonUtils::ObjectGetMember(input, "Version", m_version, version);
-}
-
-JsonValue GetLeaderboardAroundUserRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetLeaderboardAroundUserRequest>(*this);
-}
-
-GetLeaderboardAroundUserResult::GetLeaderboardAroundUserResult() :
-    PFPlayerDataManagementGetLeaderboardAroundUserResult{}
-{
-}
-
-GetLeaderboardAroundUserResult::GetLeaderboardAroundUserResult(const GetLeaderboardAroundUserResult& src) :
-    PFPlayerDataManagementGetLeaderboardAroundUserResult{ src },
-    m_leaderboard{ src.m_leaderboard },
-    m_nextReset{ src.m_nextReset }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetLeaderboardAroundUserResult::GetLeaderboardAroundUserResult(GetLeaderboardAroundUserResult&& src) :
-    PFPlayerDataManagementGetLeaderboardAroundUserResult{ src },
-    m_leaderboard{ std::move(src.m_leaderboard) },
-    m_nextReset{ std::move(src.m_nextReset) }
-{
-    leaderboard = m_leaderboard.Empty() ? nullptr : m_leaderboard.Data();
-    nextReset = m_nextReset ? m_nextReset.operator->() : nullptr;
-}
-
-GetLeaderboardAroundUserResult::GetLeaderboardAroundUserResult(const PFPlayerDataManagementGetLeaderboardAroundUserResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void GetLeaderboardAroundUserResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Leaderboard", m_leaderboard, leaderboard, leaderboardCount);
-    JsonUtils::ObjectGetMember(input, "NextReset", m_nextReset, nextReset, true);
-    JsonUtils::ObjectGetMember(input, "Version", version);
-}
-
-JsonValue GetLeaderboardAroundUserResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementGetLeaderboardAroundUserResult>(*this);
-}
-
-ServerGetPlayerStatisticsRequest::ServerGetPlayerStatisticsRequest() :
-    PFPlayerDataManagementServerGetPlayerStatisticsRequest{}
-{
-}
-
-ServerGetPlayerStatisticsRequest::ServerGetPlayerStatisticsRequest(const ServerGetPlayerStatisticsRequest& src) :
-    PFPlayerDataManagementServerGetPlayerStatisticsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_playFabId{ src.m_playFabId },
-    m_statisticNames{ src.m_statisticNames },
-    m_statisticNameVersions{ src.m_statisticNameVersions }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statisticNames = m_statisticNames.Empty() ? nullptr : m_statisticNames.Data();
-    statisticNameVersions = m_statisticNameVersions.Empty() ? nullptr : m_statisticNameVersions.Data();
-}
-
-ServerGetPlayerStatisticsRequest::ServerGetPlayerStatisticsRequest(ServerGetPlayerStatisticsRequest&& src) :
-    PFPlayerDataManagementServerGetPlayerStatisticsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_statisticNames{ std::move(src.m_statisticNames) },
-    m_statisticNameVersions{ std::move(src.m_statisticNameVersions) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statisticNames = m_statisticNames.Empty() ? nullptr : m_statisticNames.Data();
-    statisticNameVersions = m_statisticNameVersions.Empty() ? nullptr : m_statisticNameVersions.Data();
-}
-
-ServerGetPlayerStatisticsRequest::ServerGetPlayerStatisticsRequest(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetPlayerStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "StatisticNames", m_statisticNames, statisticNames, statisticNamesCount);
-    JsonUtils::ObjectGetMember(input, "StatisticNameVersions", m_statisticNameVersions, statisticNameVersions, statisticNameVersionsCount);
-}
-
-JsonValue ServerGetPlayerStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementServerGetPlayerStatisticsRequest>(*this);
-}
-
-ServerGetPlayerStatisticsResult::ServerGetPlayerStatisticsResult() :
-    PFPlayerDataManagementServerGetPlayerStatisticsResult{}
-{
-}
-
-ServerGetPlayerStatisticsResult::ServerGetPlayerStatisticsResult(const ServerGetPlayerStatisticsResult& src) :
-    PFPlayerDataManagementServerGetPlayerStatisticsResult{ src },
-    m_playFabId{ src.m_playFabId },
-    m_statistics{ src.m_statistics }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ServerGetPlayerStatisticsResult::ServerGetPlayerStatisticsResult(ServerGetPlayerStatisticsResult&& src) :
-    PFPlayerDataManagementServerGetPlayerStatisticsResult{ src },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_statistics{ std::move(src.m_statistics) }
-{
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ServerGetPlayerStatisticsResult::ServerGetPlayerStatisticsResult(const PFPlayerDataManagementServerGetPlayerStatisticsResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetPlayerStatisticsResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Statistics", m_statistics, statistics, statisticsCount);
-}
-
-JsonValue ServerGetPlayerStatisticsResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementServerGetPlayerStatisticsResult>(*this);
-}
-
-ServerGetUserDataResult::ServerGetUserDataResult() :
-    PFPlayerDataManagementServerGetUserDataResult{}
-{
-}
-
-ServerGetUserDataResult::ServerGetUserDataResult(const ServerGetUserDataResult& src) :
-    PFPlayerDataManagementServerGetUserDataResult{ src },
-    m_data{ src.m_data },
-    m_playFabId{ src.m_playFabId }
-{
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetUserDataResult::ServerGetUserDataResult(ServerGetUserDataResult&& src) :
-    PFPlayerDataManagementServerGetUserDataResult{ src },
-    m_data{ std::move(src.m_data) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerGetUserDataResult::ServerGetUserDataResult(const PFPlayerDataManagementServerGetUserDataResult& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerGetUserDataResult::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "DataVersion", dataVersion);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerGetUserDataResult::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementServerGetUserDataResult>(*this);
-}
-
-ServerUpdatePlayerStatisticsRequest::ServerUpdatePlayerStatisticsRequest() :
-    PFPlayerDataManagementServerUpdatePlayerStatisticsRequest{}
-{
-}
-
-ServerUpdatePlayerStatisticsRequest::ServerUpdatePlayerStatisticsRequest(const ServerUpdatePlayerStatisticsRequest& src) :
-    PFPlayerDataManagementServerUpdatePlayerStatisticsRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_forceUpdate{ src.m_forceUpdate },
-    m_playFabId{ src.m_playFabId },
-    m_statistics{ src.m_statistics }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    forceUpdate = m_forceUpdate ? m_forceUpdate.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ServerUpdatePlayerStatisticsRequest::ServerUpdatePlayerStatisticsRequest(ServerUpdatePlayerStatisticsRequest&& src) :
-    PFPlayerDataManagementServerUpdatePlayerStatisticsRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_forceUpdate{ std::move(src.m_forceUpdate) },
-    m_playFabId{ std::move(src.m_playFabId) },
-    m_statistics{ std::move(src.m_statistics) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    forceUpdate = m_forceUpdate ? m_forceUpdate.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-    statistics = m_statistics.Empty() ? nullptr : m_statistics.Data();
-}
-
-ServerUpdatePlayerStatisticsRequest::ServerUpdatePlayerStatisticsRequest(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerUpdatePlayerStatisticsRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "ForceUpdate", m_forceUpdate, forceUpdate);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-    JsonUtils::ObjectGetMember(input, "Statistics", m_statistics, statistics, statisticsCount);
-}
-
-JsonValue ServerUpdatePlayerStatisticsRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementServerUpdatePlayerStatisticsRequest>(*this);
-}
-
-ServerUpdateUserDataRequest::ServerUpdateUserDataRequest() :
-    PFPlayerDataManagementServerUpdateUserDataRequest{}
-{
-}
-
-ServerUpdateUserDataRequest::ServerUpdateUserDataRequest(const ServerUpdateUserDataRequest& src) :
-    PFPlayerDataManagementServerUpdateUserDataRequest{ src },
-    m_customTags{ src.m_customTags },
-    m_data{ src.m_data },
-    m_keysToRemove{ src.m_keysToRemove },
-    m_permission{ src.m_permission },
-    m_playFabId{ src.m_playFabId }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUpdateUserDataRequest::ServerUpdateUserDataRequest(ServerUpdateUserDataRequest&& src) :
-    PFPlayerDataManagementServerUpdateUserDataRequest{ src },
-    m_customTags{ std::move(src.m_customTags) },
-    m_data{ std::move(src.m_data) },
-    m_keysToRemove{ std::move(src.m_keysToRemove) },
-    m_permission{ std::move(src.m_permission) },
-    m_playFabId{ std::move(src.m_playFabId) }
-{
-    customTags = m_customTags.Empty() ? nullptr : m_customTags.Data();
-    data = m_data.Empty() ? nullptr : m_data.Data();
-    keysToRemove = m_keysToRemove.Empty() ? nullptr : m_keysToRemove.Data();
-    permission = m_permission ? m_permission.operator->() : nullptr;
-    playFabId = m_playFabId.empty() ? nullptr : m_playFabId.data();
-}
-
-ServerUpdateUserDataRequest::ServerUpdateUserDataRequest(const PFPlayerDataManagementServerUpdateUserDataRequest& src)
-{
-    FromJson(JsonUtils::ToJson(src));
-}
-
-void ServerUpdateUserDataRequest::FromJson(const JsonValue& input)
-{
-    JsonUtils::ObjectGetMember(input, "CustomTags", m_customTags, customTags, customTagsCount);
-    JsonUtils::ObjectGetMember(input, "Data", m_data, data, dataCount);
-    JsonUtils::ObjectGetMember(input, "KeysToRemove", m_keysToRemove, keysToRemove, keysToRemoveCount);
-    JsonUtils::ObjectGetMember(input, "Permission", m_permission, permission);
-    JsonUtils::ObjectGetMember(input, "PlayFabId", m_playFabId, playFabId);
-}
-
-JsonValue ServerUpdateUserDataRequest::ToJson() const
-{
-    return JsonUtils::ToJson<PFPlayerDataManagementServerUpdateUserDataRequest>(*this);
-}
-
-} // namespace PlayerDataManagementModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AggregationMethod", input.aggregationMethod);
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
-    JsonUtils::ObjectAddMember(output, "VersionChangeInterval", input.versionChangeInterval);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementPlayerStatisticDefinition& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "AggregationMethod", input.aggregationMethod);
-    JsonUtils::ObjectAddMember(output, "CurrentVersion", input.currentVersion);
-    JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
-    JsonUtils::ObjectAddMember(output, "VersionChangeInterval", input.versionChangeInterval);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& input)
-{
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Statistic", input.statistic);
-    return output;
-}
-
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetDataReportRequest& input)
+JsonValue GetDataReportRequest::ToJson(const PFPlayerDataManagementGetDataReportRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "Day", input.day);
@@ -2218,93 +128,323 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementGetDataReportRequest& inpu
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetDataReportResult& input)
+void GetDataReportResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DownloadUrl", input.downloadUrl);
-    return output;
+    String downloadUrl{};
+    JsonUtils::ObjectGetMember(input, "DownloadUrl", downloadUrl);
+    this->SetDownloadUrl(std::move(downloadUrl));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& input)
+size_t GetDataReportResult::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Statistics", input.statistics, input.statisticsCount);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& input)
+Result<PFPlayerDataManagementGetDataReportResult const*> GetDataReportResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetDataReportResult>(&this->Model());
+}
+
+size_t GetDataReportResult::RequiredBufferSize(const PFPlayerDataManagementGetDataReportResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.downloadUrl)
+    {
+        requiredSize += (std::strlen(model.downloadUrl) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT GetDataReportResult::Copy(const PFPlayerDataManagementGetDataReportResult& input, PFPlayerDataManagementGetDataReportResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.downloadUrl = buffer.CopyTo(input.downloadUrl);
+    return S_OK;
+}
+
+void GetPlayerStatisticDefinitionsResult::FromJson(const JsonValue& input)
+{
+    ModelVector<PlayerStatisticDefinition> statistics{};
+    JsonUtils::ObjectGetMember<PlayerStatisticDefinition>(input, "Statistics", statistics);
+    this->SetStatistics(std::move(statistics));
+}
+
+size_t GetPlayerStatisticDefinitionsResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementGetPlayerStatisticDefinitionsResult const*> GetPlayerStatisticDefinitionsResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetPlayerStatisticDefinitionsResult>(&this->Model());
+}
+
+size_t GetPlayerStatisticDefinitionsResult::RequiredBufferSize(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerDataManagementPlayerStatisticDefinition*) + sizeof(PFPlayerDataManagementPlayerStatisticDefinition*) * model.statisticsCount);
+    for (size_t i = 0; i < model.statisticsCount; ++i)
+    {
+        requiredSize += PlayerStatisticDefinition::RequiredBufferSize(*model.statistics[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetPlayerStatisticDefinitionsResult::Copy(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& input, PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statistics = buffer.CopyToArray<PlayerStatisticDefinition>(input.statistics, input.statisticsCount);
+    return S_OK;
+}
+
+JsonValue GetPlayerStatisticVersionsRequest::ToJson() const
+{
+    return GetPlayerStatisticVersionsRequest::ToJson(this->Model());
+}
+
+JsonValue GetPlayerStatisticVersionsRequest::ToJson(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementPlayerStatisticVersion& input)
+void PlayerStatisticVersion::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "ActivationTime", input.activationTime, true);
-    JsonUtils::ObjectAddMember(output, "ArchiveDownloadUrl", input.archiveDownloadUrl);
-    JsonUtils::ObjectAddMember(output, "DeactivationTime", input.deactivationTime, true);
-    JsonUtils::ObjectAddMember(output, "ScheduledActivationTime", input.scheduledActivationTime, true);
-    JsonUtils::ObjectAddMember(output, "ScheduledDeactivationTime", input.scheduledDeactivationTime, true);
-    JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
-    JsonUtils::ObjectAddMember(output, "Status", input.status);
-    JsonUtils::ObjectAddMember(output, "Version", input.version);
-    return output;
+    JsonUtils::ObjectGetMemberTime(input, "ActivationTime", this->m_model.activationTime);
+
+    String archiveDownloadUrl{};
+    JsonUtils::ObjectGetMember(input, "ArchiveDownloadUrl", archiveDownloadUrl);
+    this->SetArchiveDownloadUrl(std::move(archiveDownloadUrl));
+
+    StdExtra::optional<time_t> deactivationTime{};
+    JsonUtils::ObjectGetMemberTime(input, "DeactivationTime", deactivationTime);
+    this->SetDeactivationTime(std::move(deactivationTime));
+
+    StdExtra::optional<time_t> scheduledActivationTime{};
+    JsonUtils::ObjectGetMemberTime(input, "ScheduledActivationTime", scheduledActivationTime);
+    this->SetScheduledActivationTime(std::move(scheduledActivationTime));
+
+    StdExtra::optional<time_t> scheduledDeactivationTime{};
+    JsonUtils::ObjectGetMemberTime(input, "ScheduledDeactivationTime", scheduledDeactivationTime);
+    this->SetScheduledDeactivationTime(std::move(scheduledDeactivationTime));
+
+    String statisticName{};
+    JsonUtils::ObjectGetMember(input, "StatisticName", statisticName);
+    this->SetStatisticName(std::move(statisticName));
+
+    StdExtra::optional<PFPlayerDataManagementStatisticVersionStatus> status{};
+    JsonUtils::ObjectGetMember(input, "Status", status);
+    this->SetStatus(std::move(status));
+
+    JsonUtils::ObjectGetMember(input, "Version", this->m_model.version);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& input)
+size_t PlayerStatisticVersion::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "StatisticVersions", input.statisticVersions, input.statisticVersionsCount);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetUserDataRequest& input)
+Result<PFPlayerDataManagementPlayerStatisticVersion const*> PlayerStatisticVersion::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PlayerStatisticVersion>(&this->Model());
+}
+
+size_t PlayerStatisticVersion::RequiredBufferSize(const PFPlayerDataManagementPlayerStatisticVersion& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.archiveDownloadUrl)
+    {
+        requiredSize += (std::strlen(model.archiveDownloadUrl) + 1);
+    }
+    if (model.deactivationTime)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.scheduledActivationTime)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.scheduledDeactivationTime)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    if (model.statisticName)
+    {
+        requiredSize += (std::strlen(model.statisticName) + 1);
+    }
+    if (model.status)
+    {
+        requiredSize += (alignof(PFPlayerDataManagementStatisticVersionStatus) + sizeof(PFPlayerDataManagementStatisticVersionStatus));
+    }
+    return requiredSize;
+}
+
+HRESULT PlayerStatisticVersion::Copy(const PFPlayerDataManagementPlayerStatisticVersion& input, PFPlayerDataManagementPlayerStatisticVersion& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.archiveDownloadUrl = buffer.CopyTo(input.archiveDownloadUrl);
+    output.deactivationTime = buffer.CopyTo(input.deactivationTime);
+    output.scheduledActivationTime = buffer.CopyTo(input.scheduledActivationTime);
+    output.scheduledDeactivationTime = buffer.CopyTo(input.scheduledDeactivationTime);
+    output.statisticName = buffer.CopyTo(input.statisticName);
+    output.status = buffer.CopyTo(input.status);
+    return S_OK;
+}
+
+void GetPlayerStatisticVersionsResult::FromJson(const JsonValue& input)
+{
+    ModelVector<PlayerStatisticVersion> statisticVersions{};
+    JsonUtils::ObjectGetMember<PlayerStatisticVersion>(input, "StatisticVersions", statisticVersions);
+    this->SetStatisticVersions(std::move(statisticVersions));
+}
+
+size_t GetPlayerStatisticVersionsResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementGetPlayerStatisticVersionsResult const*> GetPlayerStatisticVersionsResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetPlayerStatisticVersionsResult>(&this->Model());
+}
+
+size_t GetPlayerStatisticVersionsResult::RequiredBufferSize(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerDataManagementPlayerStatisticVersion*) + sizeof(PFPlayerDataManagementPlayerStatisticVersion*) * model.statisticVersionsCount);
+    for (size_t i = 0; i < model.statisticVersionsCount; ++i)
+    {
+        requiredSize += PlayerStatisticVersion::RequiredBufferSize(*model.statisticVersions[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT GetPlayerStatisticVersionsResult::Copy(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& input, PFPlayerDataManagementGetPlayerStatisticVersionsResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statisticVersions = buffer.CopyToArray<PlayerStatisticVersion>(input.statisticVersions, input.statisticVersionsCount);
+    return S_OK;
+}
+
+JsonValue GetUserDataRequest::ToJson() const
+{
+    return GetUserDataRequest::ToJson(this->Model());
+}
+
+JsonValue GetUserDataRequest::ToJson(const PFPlayerDataManagementGetUserDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "IfChangedFromDataVersion", input.ifChangedFromDataVersion);
-    JsonUtils::ObjectAddMember(output, "Keys", input.keys, input.keysCount);
+    JsonUtils::ObjectAddMemberArray(output, "Keys", input.keys, input.keysCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementAdminGetUserDataResult& input)
+void AdminGetUserDataResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
+    ModelDictionaryEntryVector<UserDataRecord> data{};
+    JsonUtils::ObjectGetMember<UserDataRecord>(input, "Data", data);
+    this->SetData(std::move(data));
+
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& input)
+size_t AdminGetUserDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementAdminGetUserDataResult const*> AdminGetUserDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<AdminGetUserDataResult>(&this->Model());
+}
+
+size_t AdminGetUserDataResult::RequiredBufferSize(const PFPlayerDataManagementAdminGetUserDataResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFUserDataRecordDictionaryEntry) + sizeof(PFUserDataRecordDictionaryEntry) * model.dataCount);
+    for (size_t i = 0; i < model.dataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.data[i].key) + 1);
+        requiredSize += UserDataRecord::RequiredBufferSize(*model.data[i].value);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT AdminGetUserDataResult::Copy(const PFPlayerDataManagementAdminGetUserDataResult& input, PFPlayerDataManagementAdminGetUserDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.data = buffer.CopyToDictionary<UserDataRecord>(input.data, input.dataCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    return S_OK;
+}
+
+JsonValue IncrementPlayerStatisticVersionRequest::ToJson() const
+{
+    return IncrementPlayerStatisticVersionRequest::ToJson(this->Model());
+}
+
+JsonValue IncrementPlayerStatisticVersionRequest::ToJson(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& input)
+void IncrementPlayerStatisticVersionResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "StatisticVersion", input.statisticVersion);
-    return output;
+    StdExtra::optional<PlayerStatisticVersion> statisticVersion{};
+    JsonUtils::ObjectGetMember(input, "StatisticVersion", statisticVersion);
+    if (statisticVersion)
+    {
+        this->SetStatisticVersion(std::move(*statisticVersion));
+    }
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementRefundPurchaseRequest& input)
+size_t IncrementPlayerStatisticVersionResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementIncrementPlayerStatisticVersionResult const*> IncrementPlayerStatisticVersionResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<IncrementPlayerStatisticVersionResult>(&this->Model());
+}
+
+size_t IncrementPlayerStatisticVersionResult::RequiredBufferSize(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.statisticVersion)
+    {
+        requiredSize += PlayerStatisticVersion::RequiredBufferSize(*model.statisticVersion);
+    }
+    return requiredSize;
+}
+
+HRESULT IncrementPlayerStatisticVersionResult::Copy(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& input, PFPlayerDataManagementIncrementPlayerStatisticVersionResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statisticVersion = buffer.CopyTo<PlayerStatisticVersion>(input.statisticVersion);
+    return S_OK;
+}
+
+JsonValue RefundPurchaseRequest::ToJson() const
+{
+    return RefundPurchaseRequest::ToJson(this->Model());
+}
+
+JsonValue RefundPurchaseRequest::ToJson(const PFPlayerDataManagementRefundPurchaseRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
@@ -2313,25 +453,59 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementRefundPurchaseRequest& inp
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementRefundPurchaseResponse& input)
+void RefundPurchaseResponse::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PurchaseStatus", input.purchaseStatus);
-    return output;
+    String purchaseStatus{};
+    JsonUtils::ObjectGetMember(input, "PurchaseStatus", purchaseStatus);
+    this->SetPurchaseStatus(std::move(purchaseStatus));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementResetUserStatisticsRequest& input)
+size_t RefundPurchaseResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementRefundPurchaseResponse const*> RefundPurchaseResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<RefundPurchaseResponse>(&this->Model());
+}
+
+size_t RefundPurchaseResponse::RequiredBufferSize(const PFPlayerDataManagementRefundPurchaseResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.purchaseStatus)
+    {
+        requiredSize += (std::strlen(model.purchaseStatus) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT RefundPurchaseResponse::Copy(const PFPlayerDataManagementRefundPurchaseResponse& input, PFPlayerDataManagementRefundPurchaseResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.purchaseStatus = buffer.CopyTo(input.purchaseStatus);
+    return S_OK;
+}
+
+JsonValue ResetUserStatisticsRequest::ToJson() const
+{
+    return ResetUserStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ResetUserStatisticsRequest::ToJson(const PFPlayerDataManagementResetUserStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementResolvePurchaseDisputeRequest& input)
+JsonValue ResolvePurchaseDisputeRequest::ToJson() const
+{
+    return ResolvePurchaseDisputeRequest::ToJson(this->Model());
+}
+
+JsonValue ResolvePurchaseDisputeRequest::ToJson(const PFPlayerDataManagementResolvePurchaseDisputeRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "OrderId", input.orderId);
@@ -2341,16 +515,46 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementResolvePurchaseDisputeRequ
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementResolvePurchaseDisputeResponse& input)
+void ResolvePurchaseDisputeResponse::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PurchaseStatus", input.purchaseStatus);
-    return output;
+    String purchaseStatus{};
+    JsonUtils::ObjectGetMember(input, "PurchaseStatus", purchaseStatus);
+    this->SetPurchaseStatus(std::move(purchaseStatus));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& input)
+size_t ResolvePurchaseDisputeResponse::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementResolvePurchaseDisputeResponse const*> ResolvePurchaseDisputeResponse::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ResolvePurchaseDisputeResponse>(&this->Model());
+}
+
+size_t ResolvePurchaseDisputeResponse::RequiredBufferSize(const PFPlayerDataManagementResolvePurchaseDisputeResponse& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.purchaseStatus)
+    {
+        requiredSize += (std::strlen(model.purchaseStatus) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ResolvePurchaseDisputeResponse::Copy(const PFPlayerDataManagementResolvePurchaseDisputeResponse& input, PFPlayerDataManagementResolvePurchaseDisputeResponse& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.purchaseStatus = buffer.CopyTo(input.purchaseStatus);
+    return S_OK;
+}
+
+JsonValue UpdatePlayerStatisticDefinitionRequest::ToJson() const
+{
+    return UpdatePlayerStatisticDefinitionRequest::ToJson(this->Model());
+}
+
+JsonValue UpdatePlayerStatisticDefinitionRequest::ToJson(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "AggregationMethod", input.aggregationMethod);
@@ -2359,54 +563,115 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementUpdatePlayerStatisticDefin
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& input)
+void UpdatePlayerStatisticDefinitionResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Statistic", input.statistic);
-    return output;
+    StdExtra::optional<PlayerStatisticDefinition> statistic{};
+    JsonUtils::ObjectGetMember(input, "Statistic", statistic);
+    if (statistic)
+    {
+        this->SetStatistic(std::move(*statistic));
+    }
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementAdminUpdateUserDataRequest& input)
+size_t UpdatePlayerStatisticDefinitionResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult const*> UpdatePlayerStatisticDefinitionResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<UpdatePlayerStatisticDefinitionResult>(&this->Model());
+}
+
+size_t UpdatePlayerStatisticDefinitionResult::RequiredBufferSize(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.statistic)
+    {
+        requiredSize += PlayerStatisticDefinition::RequiredBufferSize(*model.statistic);
+    }
+    return requiredSize;
+}
+
+HRESULT UpdatePlayerStatisticDefinitionResult::Copy(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& input, PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statistic = buffer.CopyTo<PlayerStatisticDefinition>(input.statistic);
+    return S_OK;
+}
+
+JsonValue AdminUpdateUserDataRequest::ToJson() const
+{
+    return AdminUpdateUserDataRequest::ToJson(this->Model());
+}
+
+JsonValue AdminUpdateUserDataRequest::ToJson(const PFPlayerDataManagementAdminUpdateUserDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "Permission", input.permission);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementUpdateUserDataResult& input)
+void UpdateUserDataResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
-    return output;
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementUpdateUserInternalDataRequest& input)
+size_t UpdateUserDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementUpdateUserDataResult const*> UpdateUserDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<UpdateUserDataResult>(&this->Model());
+}
+
+size_t UpdateUserDataResult::RequiredBufferSize(const PFPlayerDataManagementUpdateUserDataResult& model)
+{
+    UNREFERENCED_PARAMETER(model); // Fixed size
+    return sizeof(ModelType);
+}
+
+HRESULT UpdateUserDataResult::Copy(const PFPlayerDataManagementUpdateUserDataResult& input, PFPlayerDataManagementUpdateUserDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    UNREFERENCED_PARAMETER(buffer); // Fixed size
+    return S_OK;
+}
+
+JsonValue UpdateUserInternalDataRequest::ToJson() const
+{
+    return UpdateUserInternalDataRequest::ToJson(this->Model());
+}
+
+JsonValue UpdateUserInternalDataRequest::ToJson(const PFPlayerDataManagementUpdateUserInternalDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& input)
+JsonValue ClientGetFriendLeaderboardRequest::ToJson() const
+{
+    return ClientGetFriendLeaderboardRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetFriendLeaderboardRequest::ToJson(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "IncludeFacebookFriends", input.includeFacebookFriends);
     JsonUtils::ObjectAddMember(output, "IncludeSteamFriends", input.includeSteamFriends);
     JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
-    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember<PlayerProfileViewConstraints>(output, "ProfileConstraints", input.profileConstraints);
     JsonUtils::ObjectAddMember(output, "StartPosition", input.startPosition);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     JsonUtils::ObjectAddMember(output, "Version", input.version);
@@ -2414,92 +679,263 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetFriendLeaderboard
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementPlayerLeaderboardEntry& input)
+void PlayerLeaderboardEntry::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "DisplayName", input.displayName);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "Position", input.position);
-    JsonUtils::ObjectAddMember(output, "Profile", input.profile);
-    JsonUtils::ObjectAddMember(output, "StatValue", input.statValue);
-    return output;
+    String displayName{};
+    JsonUtils::ObjectGetMember(input, "DisplayName", displayName);
+    this->SetDisplayName(std::move(displayName));
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    JsonUtils::ObjectGetMember(input, "Position", this->m_model.position);
+
+    StdExtra::optional<PlayerProfileModel> profile{};
+    JsonUtils::ObjectGetMember(input, "Profile", profile);
+    if (profile)
+    {
+        this->SetProfile(std::move(*profile));
+    }
+
+    JsonUtils::ObjectGetMember(input, "StatValue", this->m_model.statValue);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardResult& input)
+size_t PlayerLeaderboardEntry::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    JsonUtils::ObjectAddMember(output, "NextReset", input.nextReset, true);
-    JsonUtils::ObjectAddMember(output, "Version", input.version);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& input)
+Result<PFPlayerDataManagementPlayerLeaderboardEntry const*> PlayerLeaderboardEntry::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<PlayerLeaderboardEntry>(&this->Model());
+}
+
+size_t PlayerLeaderboardEntry::RequiredBufferSize(const PFPlayerDataManagementPlayerLeaderboardEntry& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.displayName)
+    {
+        requiredSize += (std::strlen(model.displayName) + 1);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    if (model.profile)
+    {
+        requiredSize += PlayerProfileModel::RequiredBufferSize(*model.profile);
+    }
+    return requiredSize;
+}
+
+HRESULT PlayerLeaderboardEntry::Copy(const PFPlayerDataManagementPlayerLeaderboardEntry& input, PFPlayerDataManagementPlayerLeaderboardEntry& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.displayName = buffer.CopyTo(input.displayName);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.profile = buffer.CopyTo<PlayerProfileModel>(input.profile);
+    return S_OK;
+}
+
+void GetLeaderboardResult::FromJson(const JsonValue& input)
+{
+    ModelVector<PlayerLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<PlayerLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
+
+    StdExtra::optional<time_t> nextReset{};
+    JsonUtils::ObjectGetMemberTime(input, "NextReset", nextReset);
+    this->SetNextReset(std::move(nextReset));
+
+    JsonUtils::ObjectGetMember(input, "Version", this->m_model.version);
+}
+
+size_t GetLeaderboardResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementGetLeaderboardResult const*> GetLeaderboardResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetLeaderboardResult>(&this->Model());
+}
+
+size_t GetLeaderboardResult::RequiredBufferSize(const PFPlayerDataManagementGetLeaderboardResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerDataManagementPlayerLeaderboardEntry*) + sizeof(PFPlayerDataManagementPlayerLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += PlayerLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    if (model.nextReset)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    return requiredSize;
+}
+
+HRESULT GetLeaderboardResult::Copy(const PFPlayerDataManagementGetLeaderboardResult& input, PFPlayerDataManagementGetLeaderboardResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<PlayerLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    output.nextReset = buffer.CopyTo(input.nextReset);
+    return S_OK;
+}
+
+JsonValue GetFriendLeaderboardAroundPlayerRequest::ToJson() const
+{
+    return GetFriendLeaderboardAroundPlayerRequest::ToJson(this->Model());
+}
+
+JsonValue GetFriendLeaderboardAroundPlayerRequest::ToJson(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "IncludeFacebookFriends", input.includeFacebookFriends);
     JsonUtils::ObjectAddMember(output, "IncludeSteamFriends", input.includeSteamFriends);
     JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember<PlayerProfileViewConstraints>(output, "ProfileConstraints", input.profileConstraints);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     JsonUtils::ObjectAddMember(output, "Version", input.version);
     JsonUtils::ObjectAddMember(output, "XboxToken", input.xboxToken);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& input)
+void GetFriendLeaderboardAroundPlayerResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    JsonUtils::ObjectAddMember(output, "NextReset", input.nextReset, true);
-    JsonUtils::ObjectAddMember(output, "Version", input.version);
-    return output;
+    ModelVector<PlayerLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<PlayerLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
+
+    StdExtra::optional<time_t> nextReset{};
+    JsonUtils::ObjectGetMemberTime(input, "NextReset", nextReset);
+    this->SetNextReset(std::move(nextReset));
+
+    JsonUtils::ObjectGetMember(input, "Version", this->m_model.version);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardRequest& input)
+size_t GetFriendLeaderboardAroundPlayerResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult const*> GetFriendLeaderboardAroundPlayerResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetFriendLeaderboardAroundPlayerResult>(&this->Model());
+}
+
+size_t GetFriendLeaderboardAroundPlayerResult::RequiredBufferSize(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerDataManagementPlayerLeaderboardEntry*) + sizeof(PFPlayerDataManagementPlayerLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += PlayerLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    if (model.nextReset)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    return requiredSize;
+}
+
+HRESULT GetFriendLeaderboardAroundPlayerResult::Copy(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& input, PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<PlayerLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    output.nextReset = buffer.CopyTo(input.nextReset);
+    return S_OK;
+}
+
+JsonValue GetLeaderboardRequest::ToJson() const
+{
+    return GetLeaderboardRequest::ToJson(this->Model());
+}
+
+JsonValue GetLeaderboardRequest::ToJson(const PFPlayerDataManagementGetLeaderboardRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
-    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember<PlayerProfileViewConstraints>(output, "ProfileConstraints", input.profileConstraints);
     JsonUtils::ObjectAddMember(output, "StartPosition", input.startPosition);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     JsonUtils::ObjectAddMember(output, "Version", input.version);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& input)
+JsonValue GetLeaderboardAroundPlayerRequest::ToJson() const
+{
+    return GetLeaderboardAroundPlayerRequest::ToJson(this->Model());
+}
+
+JsonValue GetLeaderboardAroundPlayerRequest::ToJson(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember<PlayerProfileViewConstraints>(output, "ProfileConstraints", input.profileConstraints);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     JsonUtils::ObjectAddMember(output, "Version", input.version);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& input)
+void GetLeaderboardAroundPlayerResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    JsonUtils::ObjectAddMember(output, "NextReset", input.nextReset, true);
-    JsonUtils::ObjectAddMember(output, "Version", input.version);
-    return output;
+    ModelVector<PlayerLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<PlayerLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
+
+    StdExtra::optional<time_t> nextReset{};
+    JsonUtils::ObjectGetMemberTime(input, "NextReset", nextReset);
+    this->SetNextReset(std::move(nextReset));
+
+    JsonUtils::ObjectGetMember(input, "Version", this->m_model.version);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementStatisticNameVersion& input)
+size_t GetLeaderboardAroundPlayerResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementGetLeaderboardAroundPlayerResult const*> GetLeaderboardAroundPlayerResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetLeaderboardAroundPlayerResult>(&this->Model());
+}
+
+size_t GetLeaderboardAroundPlayerResult::RequiredBufferSize(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerDataManagementPlayerLeaderboardEntry*) + sizeof(PFPlayerDataManagementPlayerLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += PlayerLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    if (model.nextReset)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    return requiredSize;
+}
+
+HRESULT GetLeaderboardAroundPlayerResult::Copy(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& input, PFPlayerDataManagementGetLeaderboardAroundPlayerResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<PlayerLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    output.nextReset = buffer.CopyTo(input.nextReset);
+    return S_OK;
+}
+
+JsonValue StatisticNameVersion::ToJson() const
+{
+    return StatisticNameVersion::ToJson(this->Model());
+}
+
+JsonValue StatisticNameVersion::ToJson(const PFPlayerDataManagementStatisticNameVersion& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
@@ -2507,35 +943,99 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementStatisticNameVersion& inpu
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& input)
+JsonValue ClientGetPlayerStatisticsRequest::ToJson() const
+{
+    return ClientGetPlayerStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ClientGetPlayerStatisticsRequest::ToJson(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "StatisticNames", input.statisticNames, input.statisticNamesCount);
-    JsonUtils::ObjectAddMember(output, "StatisticNameVersions", input.statisticNameVersions, input.statisticNameVersionsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberArray(output, "StatisticNames", input.statisticNames, input.statisticNamesCount);
+    JsonUtils::ObjectAddMemberArray<StatisticNameVersion>(output, "StatisticNameVersions", input.statisticNameVersions, input.statisticNameVersionsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetPlayerStatisticsResult& input)
+void ClientGetPlayerStatisticsResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Statistics", input.statistics, input.statisticsCount);
-    return output;
+    ModelVector<StatisticValue> statistics{};
+    JsonUtils::ObjectGetMember<StatisticValue>(input, "Statistics", statistics);
+    this->SetStatistics(std::move(statistics));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetUserDataResult& input)
+size_t ClientGetPlayerStatisticsResult::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementStatisticUpdate& input)
+Result<PFPlayerDataManagementClientGetPlayerStatisticsResult const*> ClientGetPlayerStatisticsResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ClientGetPlayerStatisticsResult>(&this->Model());
+}
+
+size_t ClientGetPlayerStatisticsResult::RequiredBufferSize(const PFPlayerDataManagementClientGetPlayerStatisticsResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFStatisticValue*) + sizeof(PFStatisticValue*) * model.statisticsCount);
+    for (size_t i = 0; i < model.statisticsCount; ++i)
+    {
+        requiredSize += StatisticValue::RequiredBufferSize(*model.statistics[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGetPlayerStatisticsResult::Copy(const PFPlayerDataManagementClientGetPlayerStatisticsResult& input, PFPlayerDataManagementClientGetPlayerStatisticsResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.statistics = buffer.CopyToArray<StatisticValue>(input.statistics, input.statisticsCount);
+    return S_OK;
+}
+
+void ClientGetUserDataResult::FromJson(const JsonValue& input)
+{
+    ModelDictionaryEntryVector<UserDataRecord> data{};
+    JsonUtils::ObjectGetMember<UserDataRecord>(input, "Data", data);
+    this->SetData(std::move(data));
+
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
+}
+
+size_t ClientGetUserDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementClientGetUserDataResult const*> ClientGetUserDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ClientGetUserDataResult>(&this->Model());
+}
+
+size_t ClientGetUserDataResult::RequiredBufferSize(const PFPlayerDataManagementClientGetUserDataResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFUserDataRecordDictionaryEntry) + sizeof(PFUserDataRecordDictionaryEntry) * model.dataCount);
+    for (size_t i = 0; i < model.dataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.data[i].key) + 1);
+        requiredSize += UserDataRecord::RequiredBufferSize(*model.data[i].value);
+    }
+    return requiredSize;
+}
+
+HRESULT ClientGetUserDataResult::Copy(const PFPlayerDataManagementClientGetUserDataResult& input, PFPlayerDataManagementClientGetUserDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.data = buffer.CopyToDictionary<UserDataRecord>(input.data, input.dataCount);
+    return S_OK;
+}
+
+JsonValue StatisticUpdate::ToJson() const
+{
+    return StatisticUpdate::ToJson(this->Model());
+}
+
+JsonValue StatisticUpdate::ToJson(const PFPlayerDataManagementStatisticUpdate& input)
 {
     JsonValue output{ rapidjson::kObjectType };
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
@@ -2544,36 +1044,48 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementStatisticUpdate& input)
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& input)
+JsonValue ClientUpdatePlayerStatisticsRequest::ToJson() const
+{
+    return ClientUpdatePlayerStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ClientUpdatePlayerStatisticsRequest::ToJson(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Statistics", input.statistics, input.statisticsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberArray<StatisticUpdate>(output, "Statistics", input.statistics, input.statisticsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementClientUpdateUserDataRequest& input)
+JsonValue ClientUpdateUserDataRequest::ToJson() const
+{
+    return ClientUpdateUserDataRequest::ToJson(this->Model());
+}
+
+JsonValue ClientUpdateUserDataRequest::ToJson(const PFPlayerDataManagementClientUpdateUserDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "Permission", input.permission);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& input)
+JsonValue ServerGetFriendLeaderboardRequest::ToJson() const
+{
+    return ServerGetFriendLeaderboardRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetFriendLeaderboardRequest::ToJson(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "IncludeFacebookFriends", input.includeFacebookFriends);
     JsonUtils::ObjectAddMember(output, "IncludeSteamFriends", input.includeSteamFriends);
     JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember<PlayerProfileViewConstraints>(output, "ProfileConstraints", input.profileConstraints);
     JsonUtils::ObjectAddMember(output, "StartPosition", input.startPosition);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     JsonUtils::ObjectAddMember(output, "Version", input.version);
@@ -2581,82 +1093,205 @@ inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetFriendLeaderboard
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& input)
+JsonValue GetLeaderboardAroundUserRequest::ToJson() const
+{
+    return GetLeaderboardAroundUserRequest::ToJson(this->Model());
+}
+
+JsonValue GetLeaderboardAroundUserRequest::ToJson(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "MaxResultsCount", input.maxResultsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "ProfileConstraints", input.profileConstraints);
+    JsonUtils::ObjectAddMember<PlayerProfileViewConstraints>(output, "ProfileConstraints", input.profileConstraints);
     JsonUtils::ObjectAddMember(output, "StatisticName", input.statisticName);
     JsonUtils::ObjectAddMember(output, "Version", input.version);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundUserResult& input)
+void GetLeaderboardAroundUserResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Leaderboard", input.leaderboard, input.leaderboardCount);
-    JsonUtils::ObjectAddMember(output, "NextReset", input.nextReset, true);
-    JsonUtils::ObjectAddMember(output, "Version", input.version);
-    return output;
+    ModelVector<PlayerLeaderboardEntry> leaderboard{};
+    JsonUtils::ObjectGetMember<PlayerLeaderboardEntry>(input, "Leaderboard", leaderboard);
+    this->SetLeaderboard(std::move(leaderboard));
+
+    StdExtra::optional<time_t> nextReset{};
+    JsonUtils::ObjectGetMemberTime(input, "NextReset", nextReset);
+    this->SetNextReset(std::move(nextReset));
+
+    JsonUtils::ObjectGetMember(input, "Version", this->m_model.version);
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& input)
+size_t GetLeaderboardAroundUserResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementGetLeaderboardAroundUserResult const*> GetLeaderboardAroundUserResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<GetLeaderboardAroundUserResult>(&this->Model());
+}
+
+size_t GetLeaderboardAroundUserResult::RequiredBufferSize(const PFPlayerDataManagementGetLeaderboardAroundUserResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFPlayerDataManagementPlayerLeaderboardEntry*) + sizeof(PFPlayerDataManagementPlayerLeaderboardEntry*) * model.leaderboardCount);
+    for (size_t i = 0; i < model.leaderboardCount; ++i)
+    {
+        requiredSize += PlayerLeaderboardEntry::RequiredBufferSize(*model.leaderboard[i]);
+    }
+    if (model.nextReset)
+    {
+        requiredSize += (alignof(time_t) + sizeof(time_t));
+    }
+    return requiredSize;
+}
+
+HRESULT GetLeaderboardAroundUserResult::Copy(const PFPlayerDataManagementGetLeaderboardAroundUserResult& input, PFPlayerDataManagementGetLeaderboardAroundUserResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.leaderboard = buffer.CopyToArray<PlayerLeaderboardEntry>(input.leaderboard, input.leaderboardCount);
+    output.nextReset = buffer.CopyTo(input.nextReset);
+    return S_OK;
+}
+
+JsonValue ServerGetPlayerStatisticsRequest::ToJson() const
+{
+    return ServerGetPlayerStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ServerGetPlayerStatisticsRequest::ToJson(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "StatisticNames", input.statisticNames, input.statisticNamesCount);
-    JsonUtils::ObjectAddMember(output, "StatisticNameVersions", input.statisticNameVersions, input.statisticNameVersionsCount);
+    JsonUtils::ObjectAddMemberArray(output, "StatisticNames", input.statisticNames, input.statisticNamesCount);
+    JsonUtils::ObjectAddMemberArray<StatisticNameVersion>(output, "StatisticNameVersions", input.statisticNameVersions, input.statisticNameVersionsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetPlayerStatisticsResult& input)
+void ServerGetPlayerStatisticsResult::FromJson(const JsonValue& input)
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "Statistics", input.statistics, input.statisticsCount);
-    return output;
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+
+    ModelVector<StatisticValue> statistics{};
+    JsonUtils::ObjectGetMember<StatisticValue>(input, "Statistics", statistics);
+    this->SetStatistics(std::move(statistics));
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetUserDataResult& input)
+size_t ServerGetPlayerStatisticsResult::RequiredBufferSize() const
 {
-    JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "DataVersion", input.dataVersion);
-    JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    return output;
+    return RequiredBufferSize(this->Model());
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& input)
+Result<PFPlayerDataManagementServerGetPlayerStatisticsResult const*> ServerGetPlayerStatisticsResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGetPlayerStatisticsResult>(&this->Model());
+}
+
+size_t ServerGetPlayerStatisticsResult::RequiredBufferSize(const PFPlayerDataManagementServerGetPlayerStatisticsResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    requiredSize += (alignof(PFStatisticValue*) + sizeof(PFStatisticValue*) * model.statisticsCount);
+    for (size_t i = 0; i < model.statisticsCount; ++i)
+    {
+        requiredSize += StatisticValue::RequiredBufferSize(*model.statistics[i]);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGetPlayerStatisticsResult::Copy(const PFPlayerDataManagementServerGetPlayerStatisticsResult& input, PFPlayerDataManagementServerGetPlayerStatisticsResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    output.statistics = buffer.CopyToArray<StatisticValue>(input.statistics, input.statisticsCount);
+    return S_OK;
+}
+
+void ServerGetUserDataResult::FromJson(const JsonValue& input)
+{
+    ModelDictionaryEntryVector<UserDataRecord> data{};
+    JsonUtils::ObjectGetMember<UserDataRecord>(input, "Data", data);
+    this->SetData(std::move(data));
+
+    JsonUtils::ObjectGetMember(input, "DataVersion", this->m_model.dataVersion);
+
+    String playFabId{};
+    JsonUtils::ObjectGetMember(input, "PlayFabId", playFabId);
+    this->SetPlayFabId(std::move(playFabId));
+}
+
+size_t ServerGetUserDataResult::RequiredBufferSize() const
+{
+    return RequiredBufferSize(this->Model());
+}
+
+Result<PFPlayerDataManagementServerGetUserDataResult const*> ServerGetUserDataResult::Copy(ModelBuffer& buffer) const
+{
+    return buffer.CopyTo<ServerGetUserDataResult>(&this->Model());
+}
+
+size_t ServerGetUserDataResult::RequiredBufferSize(const PFPlayerDataManagementServerGetUserDataResult& model)
+{
+    size_t requiredSize{ alignof(ModelType) + sizeof(ModelType) };
+    requiredSize += (alignof(PFUserDataRecordDictionaryEntry) + sizeof(PFUserDataRecordDictionaryEntry) * model.dataCount);
+    for (size_t i = 0; i < model.dataCount; ++i)
+    {
+        requiredSize += (std::strlen(model.data[i].key) + 1);
+        requiredSize += UserDataRecord::RequiredBufferSize(*model.data[i].value);
+    }
+    if (model.playFabId)
+    {
+        requiredSize += (std::strlen(model.playFabId) + 1);
+    }
+    return requiredSize;
+}
+
+HRESULT ServerGetUserDataResult::Copy(const PFPlayerDataManagementServerGetUserDataResult& input, PFPlayerDataManagementServerGetUserDataResult& output, ModelBuffer& buffer)
+{
+    output = input;
+    output.data = buffer.CopyToDictionary<UserDataRecord>(input.data, input.dataCount);
+    output.playFabId = buffer.CopyTo(input.playFabId);
+    return S_OK;
+}
+
+JsonValue ServerUpdatePlayerStatisticsRequest::ToJson() const
+{
+    return ServerUpdatePlayerStatisticsRequest::ToJson(this->Model());
+}
+
+JsonValue ServerUpdatePlayerStatisticsRequest::ToJson(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
     JsonUtils::ObjectAddMember(output, "ForceUpdate", input.forceUpdate);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
-    JsonUtils::ObjectAddMember(output, "Statistics", input.statistics, input.statisticsCount);
+    JsonUtils::ObjectAddMemberArray<StatisticUpdate>(output, "Statistics", input.statistics, input.statisticsCount);
     return output;
 }
 
-template<>
-inline JsonValue ToJson<>(const PFPlayerDataManagementServerUpdateUserDataRequest& input)
+JsonValue ServerUpdateUserDataRequest::ToJson() const
+{
+    return ServerUpdateUserDataRequest::ToJson(this->Model());
+}
+
+JsonValue ServerUpdateUserDataRequest::ToJson(const PFPlayerDataManagementServerUpdateUserDataRequest& input)
 {
     JsonValue output{ rapidjson::kObjectType };
-    JsonUtils::ObjectAddMember(output, "CustomTags", input.customTags, input.customTagsCount);
-    JsonUtils::ObjectAddMember(output, "Data", input.data, input.dataCount);
-    JsonUtils::ObjectAddMember(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "CustomTags", input.customTags, input.customTagsCount);
+    JsonUtils::ObjectAddMemberDictionary(output, "Data", input.data, input.dataCount);
+    JsonUtils::ObjectAddMemberArray(output, "KeysToRemove", input.keysToRemove, input.keysToRemoveCount);
     JsonUtils::ObjectAddMember(output, "Permission", input.permission);
     JsonUtils::ObjectAddMember(output, "PlayFabId", input.playFabId);
     return output;
 }
 
-} // namespace JsonUtils
-
+} // namespace PlayerDataManagement
 } // namespace PlayFab

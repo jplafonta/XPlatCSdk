@@ -164,7 +164,11 @@ void AutoGenTradingTests::TestTradingClientAcceptTrade(TestContext& testContext)
         PFTradingAcceptTradeResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTradingClientAcceptTradeGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTradingClientAcceptTradeGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTradingClientAcceptTradeGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -199,7 +203,11 @@ void AutoGenTradingTests::TestTradingClientCancelTrade(TestContext& testContext)
         PFTradingCancelTradeResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTradingClientCancelTradeGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTradingClientCancelTradeGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTradingClientCancelTradeGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -234,7 +242,11 @@ void AutoGenTradingTests::TestTradingClientGetPlayerTrades(TestContext& testCont
         PFTradingGetPlayerTradesResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTradingClientGetPlayerTradesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTradingClientGetPlayerTradesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTradingClientGetPlayerTradesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -269,7 +281,11 @@ void AutoGenTradingTests::TestTradingClientGetTradeStatus(TestContext& testConte
         PFTradingGetTradeStatusResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTradingClientGetTradeStatusGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTradingClientGetTradeStatusGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTradingClientGetTradeStatusGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -304,7 +320,11 @@ void AutoGenTradingTests::TestTradingClientOpenTrade(TestContext& testContext)
         PFTradingOpenTradeResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTradingClientOpenTradeGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTradingClientOpenTradeGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTradingClientOpenTradeGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

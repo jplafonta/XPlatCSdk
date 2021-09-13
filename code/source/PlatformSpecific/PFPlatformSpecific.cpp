@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::PlatformSpecificModels;
+using namespace PlayFab::PlatformSpecific;
 
 HRESULT PFPlatformSpecificClientAndroidDevicePushNotificationRegistrationAsync(
     _In_ PFTitlePlayerHandle contextHandle,
@@ -34,16 +34,26 @@ HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientConsumeMicrosoftStoreEntitlementsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse*)(std::dynamic_pointer_cast<ConsumeMicrosoftStoreEntitlementsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse*>(buffer);
 
     return S_OK;
 }
@@ -61,16 +71,26 @@ HRESULT PFPlatformSpecificClientConsumePS5EntitlementsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientConsumePS5EntitlementsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumePS5EntitlementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumePS5EntitlementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificConsumePS5EntitlementsResult*)(std::dynamic_pointer_cast<ConsumePS5EntitlementsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificConsumePS5EntitlementsResult*>(buffer);
 
     return S_OK;
 }
@@ -88,16 +108,26 @@ HRESULT PFPlatformSpecificClientConsumePSNEntitlementsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientConsumePSNEntitlementsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumePSNEntitlementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumePSNEntitlementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificConsumePSNEntitlementsResult*)(std::dynamic_pointer_cast<ConsumePSNEntitlementsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificConsumePSNEntitlementsResult*>(buffer);
 
     return S_OK;
 }
@@ -115,16 +145,26 @@ HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientConsumeXboxEntitlementsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificConsumeXboxEntitlementsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificConsumeXboxEntitlementsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificConsumeXboxEntitlementsResult*)(std::dynamic_pointer_cast<ConsumeXboxEntitlementsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificConsumeXboxEntitlementsResult*>(buffer);
 
     return S_OK;
 }
@@ -168,16 +208,26 @@ HRESULT PFPlatformSpecificClientRestoreIOSPurchasesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientRestoreIOSPurchasesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificRestoreIOSPurchasesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificRestoreIOSPurchasesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificRestoreIOSPurchasesResult*)(std::dynamic_pointer_cast<RestoreIOSPurchasesResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificRestoreIOSPurchasesResult*>(buffer);
 
     return S_OK;
 }
@@ -195,16 +245,26 @@ HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientValidateAmazonIAPReceiptGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateAmazonReceiptResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateAmazonReceiptResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificValidateAmazonReceiptResult*)(std::dynamic_pointer_cast<ValidateAmazonReceiptResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificValidateAmazonReceiptResult*>(buffer);
 
     return S_OK;
 }
@@ -222,16 +282,26 @@ HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientValidateGooglePlayPurchaseGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateGooglePlayPurchaseResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateGooglePlayPurchaseResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificValidateGooglePlayPurchaseResult*)(std::dynamic_pointer_cast<ValidateGooglePlayPurchaseResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificValidateGooglePlayPurchaseResult*>(buffer);
 
     return S_OK;
 }
@@ -249,16 +319,26 @@ HRESULT PFPlatformSpecificClientValidateIOSReceiptAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientValidateIOSReceiptGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateIOSReceiptResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateIOSReceiptResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificValidateIOSReceiptResult*)(std::dynamic_pointer_cast<ValidateIOSReceiptResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificValidateIOSReceiptResult*>(buffer);
 
     return S_OK;
 }
@@ -276,16 +356,26 @@ HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificClientValidateWindowsStoreReceiptGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificValidateWindowsReceiptResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificValidateWindowsReceiptResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificValidateWindowsReceiptResult*)(std::dynamic_pointer_cast<ValidateWindowsReceiptResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificValidateWindowsReceiptResult*>(buffer);
 
     return S_OK;
 }
@@ -303,16 +393,26 @@ HRESULT PFPlatformSpecificServerAwardSteamAchievementAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlatformSpecificServerAwardSteamAchievementGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlatformSpecificServerAwardSteamAchievementGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlatformSpecificAwardSteamAchievementResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlatformSpecificAwardSteamAchievementResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlatformSpecificAwardSteamAchievementResult*)(std::dynamic_pointer_cast<AwardSteamAchievementResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlatformSpecificAwardSteamAchievementResult*>(buffer);
 
     return S_OK;
 }

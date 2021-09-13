@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace GameServerModels;
+namespace GameServer
+{
 
 
 AsyncOp<AddServerBuildResult> GameServerAPI::AdminAddServerBuild(
     SharedPtr<GlobalState const> state,
-    const PFGameServerAddServerBuildRequest& request,
+    const AddServerBuildRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<AddServerBuildResult> GameServerAPI::AdminAddServerBuild(
     }
 
     const char* path{ "/Admin/AddServerBuild" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -52,7 +52,7 @@ AsyncOp<AddServerBuildResult> GameServerAPI::AdminAddServerBuild(
 
 AsyncOp<GetServerBuildInfoResult> GameServerAPI::AdminGetServerBuildInfo(
     SharedPtr<GlobalState const> state,
-    const PFGameServerGetServerBuildInfoRequest& request,
+    const GetServerBuildInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -63,7 +63,7 @@ AsyncOp<GetServerBuildInfoResult> GameServerAPI::AdminGetServerBuildInfo(
     }
 
     const char* path{ "/Admin/GetServerBuildInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -93,7 +93,7 @@ AsyncOp<GetServerBuildInfoResult> GameServerAPI::AdminGetServerBuildInfo(
 
 AsyncOp<GetServerBuildUploadURLResult> GameServerAPI::AdminGetServerBuildUploadUrl(
     SharedPtr<GlobalState const> state,
-    const PFGameServerGetServerBuildUploadURLRequest& request,
+    const GetServerBuildUploadURLRequest& request,
     const TaskQueue& queue
 )
 {
@@ -104,7 +104,7 @@ AsyncOp<GetServerBuildUploadURLResult> GameServerAPI::AdminGetServerBuildUploadU
     }
 
     const char* path{ "/Admin/GetServerBuildUploadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -174,7 +174,7 @@ AsyncOp<ListBuildsResult> GameServerAPI::AdminListServerBuilds(
 
 AsyncOp<ModifyServerBuildResult> GameServerAPI::AdminModifyServerBuild(
     SharedPtr<GlobalState const> state,
-    const PFGameServerModifyServerBuildRequest& request,
+    const ModifyServerBuildRequest& request,
     const TaskQueue& queue
 )
 {
@@ -185,7 +185,7 @@ AsyncOp<ModifyServerBuildResult> GameServerAPI::AdminModifyServerBuild(
     }
 
     const char* path{ "/Admin/ModifyServerBuild" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -215,7 +215,7 @@ AsyncOp<ModifyServerBuildResult> GameServerAPI::AdminModifyServerBuild(
 
 AsyncOp<void> GameServerAPI::AdminRemoveServerBuild(
     SharedPtr<GlobalState const> state,
-    const PFGameServerRemoveServerBuildRequest& request,
+    const RemoveServerBuildRequest& request,
     const TaskQueue& queue
 )
 {
@@ -226,7 +226,7 @@ AsyncOp<void> GameServerAPI::AdminRemoveServerBuild(
     }
 
     const char* path{ "/Admin/RemoveServerBuild" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -252,5 +252,5 @@ AsyncOp<void> GameServerAPI::AdminRemoveServerBuild(
     });
 }
 
-
-}
+} // namespace GameServer
+} // namespace PlayFab

@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::MultiplayerServerModels;
+using namespace PlayFab::MultiplayerServer;
 
 HRESULT PFMultiplayerServerCreateBuildAliasAsync(
     _In_ PFEntityHandle contextHandle,
@@ -21,16 +21,26 @@ HRESULT PFMultiplayerServerCreateBuildAliasAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerCreateBuildAliasGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerCreateBuildAliasGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerBuildAliasDetailsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerBuildAliasDetailsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerBuildAliasDetailsResponse*)(std::dynamic_pointer_cast<BuildAliasDetailsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerBuildAliasDetailsResponse*>(buffer);
 
     return S_OK;
 }
@@ -48,16 +58,26 @@ HRESULT PFMultiplayerServerCreateBuildWithCustomContainerAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerCreateBuildWithCustomContainerGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerCreateBuildWithCustomContainerGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerCreateBuildWithCustomContainerResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerCreateBuildWithCustomContainerResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerCreateBuildWithCustomContainerResponse*)(std::dynamic_pointer_cast<CreateBuildWithCustomContainerResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerCreateBuildWithCustomContainerResponse*>(buffer);
 
     return S_OK;
 }
@@ -75,16 +95,26 @@ HRESULT PFMultiplayerServerCreateBuildWithManagedContainerAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerCreateBuildWithManagedContainerGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerCreateBuildWithManagedContainerGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerCreateBuildWithManagedContainerResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerCreateBuildWithManagedContainerResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerCreateBuildWithManagedContainerResponse*)(std::dynamic_pointer_cast<CreateBuildWithManagedContainerResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerCreateBuildWithManagedContainerResponse*>(buffer);
 
     return S_OK;
 }
@@ -102,16 +132,26 @@ HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerCreateBuildWithProcessBasedServerGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerCreateBuildWithProcessBasedServerResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerCreateBuildWithProcessBasedServerResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerCreateBuildWithProcessBasedServerResponse*)(std::dynamic_pointer_cast<CreateBuildWithProcessBasedServerResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerCreateBuildWithProcessBasedServerResponse*>(buffer);
 
     return S_OK;
 }
@@ -129,16 +169,26 @@ HRESULT PFMultiplayerServerCreateRemoteUserAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerCreateRemoteUserGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerCreateRemoteUserGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerCreateRemoteUserResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerCreateRemoteUserResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerCreateRemoteUserResponse*)(std::dynamic_pointer_cast<CreateRemoteUserResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerCreateRemoteUserResponse*>(buffer);
 
     return S_OK;
 }
@@ -284,16 +334,26 @@ HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerEnableMultiplayerServersForTitleGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerEnableMultiplayerServersForTitleResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerEnableMultiplayerServersForTitleResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerEnableMultiplayerServersForTitleResponse*)(std::dynamic_pointer_cast<EnableMultiplayerServersForTitleResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerEnableMultiplayerServersForTitleResponse*>(buffer);
 
     return S_OK;
 }
@@ -385,16 +445,26 @@ HRESULT PFMultiplayerServerGetBuildAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerGetBuildGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerGetBuildGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerGetBuildResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerGetBuildResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerGetBuildResponse*)(std::dynamic_pointer_cast<GetBuildResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerGetBuildResponse*>(buffer);
 
     return S_OK;
 }
@@ -412,16 +482,26 @@ HRESULT PFMultiplayerServerGetBuildAliasAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerGetBuildAliasGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerGetBuildAliasGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerBuildAliasDetailsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerBuildAliasDetailsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerBuildAliasDetailsResponse*)(std::dynamic_pointer_cast<BuildAliasDetailsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerBuildAliasDetailsResponse*>(buffer);
 
     return S_OK;
 }
@@ -476,16 +556,26 @@ HRESULT PFMultiplayerServerGetMultiplayerServerDetailsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerGetMultiplayerServerDetailsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerGetMultiplayerServerDetailsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerGetMultiplayerServerDetailsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerGetMultiplayerServerDetailsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerGetMultiplayerServerDetailsResponse*)(std::dynamic_pointer_cast<GetMultiplayerServerDetailsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerGetMultiplayerServerDetailsResponse*>(buffer);
 
     return S_OK;
 }
@@ -614,16 +704,26 @@ HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusResponse*)(std::dynamic_pointer_cast<GetTitleEnabledForMultiplayerServersStatusResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusResponse*>(buffer);
 
     return S_OK;
 }
@@ -641,16 +741,26 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeResponse*)(std::dynamic_pointer_cast<GetTitleMultiplayerServersQuotaChangeResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeResponse*>(buffer);
 
     return S_OK;
 }
@@ -668,16 +778,26 @@ HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerGetTitleMultiplayerServersQuotasGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerGetTitleMultiplayerServersQuotasResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerGetTitleMultiplayerServersQuotasResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerGetTitleMultiplayerServersQuotasResponse*)(std::dynamic_pointer_cast<GetTitleMultiplayerServersQuotasResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerGetTitleMultiplayerServersQuotasResponse*>(buffer);
 
     return S_OK;
 }
@@ -695,16 +815,26 @@ HRESULT PFMultiplayerServerListArchivedMultiplayerServersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListArchivedMultiplayerServersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListArchivedMultiplayerServersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListMultiplayerServersResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListMultiplayerServersResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListMultiplayerServersResponse*)(std::dynamic_pointer_cast<ListMultiplayerServersResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListMultiplayerServersResponse*>(buffer);
 
     return S_OK;
 }
@@ -722,16 +852,26 @@ HRESULT PFMultiplayerServerListAssetSummariesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListAssetSummariesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListAssetSummariesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListAssetSummariesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListAssetSummariesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListAssetSummariesResponse*)(std::dynamic_pointer_cast<ListAssetSummariesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListAssetSummariesResponse*>(buffer);
 
     return S_OK;
 }
@@ -749,16 +889,26 @@ HRESULT PFMultiplayerServerListBuildAliasesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListBuildAliasesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListBuildAliasesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListBuildAliasesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListBuildAliasesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListBuildAliasesResponse*)(std::dynamic_pointer_cast<ListBuildAliasesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListBuildAliasesResponse*>(buffer);
 
     return S_OK;
 }
@@ -776,16 +926,26 @@ HRESULT PFMultiplayerServerListBuildSummariesV2Async(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListBuildSummariesV2GetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListBuildSummariesV2GetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListBuildSummariesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListBuildSummariesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListBuildSummariesResponse*)(std::dynamic_pointer_cast<ListBuildSummariesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListBuildSummariesResponse*>(buffer);
 
     return S_OK;
 }
@@ -803,16 +963,26 @@ HRESULT PFMultiplayerServerListCertificateSummariesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListCertificateSummariesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListCertificateSummariesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListCertificateSummariesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListCertificateSummariesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListCertificateSummariesResponse*)(std::dynamic_pointer_cast<ListCertificateSummariesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListCertificateSummariesResponse*>(buffer);
 
     return S_OK;
 }
@@ -830,16 +1000,26 @@ HRESULT PFMultiplayerServerListContainerImagesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListContainerImagesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListContainerImagesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListContainerImagesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListContainerImagesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListContainerImagesResponse*)(std::dynamic_pointer_cast<ListContainerImagesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListContainerImagesResponse*>(buffer);
 
     return S_OK;
 }
@@ -857,16 +1037,26 @@ HRESULT PFMultiplayerServerListContainerImageTagsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListContainerImageTagsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListContainerImageTagsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListContainerImageTagsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListContainerImageTagsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListContainerImageTagsResponse*)(std::dynamic_pointer_cast<ListContainerImageTagsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListContainerImageTagsResponse*>(buffer);
 
     return S_OK;
 }
@@ -884,16 +1074,26 @@ HRESULT PFMultiplayerServerListMultiplayerServersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListMultiplayerServersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListMultiplayerServersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListMultiplayerServersResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListMultiplayerServersResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListMultiplayerServersResponse*)(std::dynamic_pointer_cast<ListMultiplayerServersResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListMultiplayerServersResponse*>(buffer);
 
     return S_OK;
 }
@@ -911,16 +1111,26 @@ HRESULT PFMultiplayerServerListPartyQosServersAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListPartyQosServersGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListPartyQosServersGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListPartyQosServersResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListPartyQosServersResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListPartyQosServersResponse*)(std::dynamic_pointer_cast<ListPartyQosServersResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListPartyQosServersResponse*>(buffer);
 
     return S_OK;
 }
@@ -938,16 +1148,26 @@ HRESULT PFMultiplayerServerListQosServersForTitleAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListQosServersForTitleGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListQosServersForTitleGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListQosServersForTitleResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListQosServersForTitleResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListQosServersForTitleResponse*)(std::dynamic_pointer_cast<ListQosServersForTitleResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListQosServersForTitleResponse*>(buffer);
 
     return S_OK;
 }
@@ -965,16 +1185,26 @@ HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListTitleMultiplayerServersQuotaChangesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListTitleMultiplayerServersQuotaChangesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListTitleMultiplayerServersQuotaChangesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListTitleMultiplayerServersQuotaChangesResponse*)(std::dynamic_pointer_cast<ListTitleMultiplayerServersQuotaChangesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListTitleMultiplayerServersQuotaChangesResponse*>(buffer);
 
     return S_OK;
 }
@@ -992,16 +1222,26 @@ HRESULT PFMultiplayerServerListVirtualMachineSummariesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerListVirtualMachineSummariesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerListVirtualMachineSummariesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerListVirtualMachineSummariesResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerListVirtualMachineSummariesResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerListVirtualMachineSummariesResponse*)(std::dynamic_pointer_cast<ListVirtualMachineSummariesResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerListVirtualMachineSummariesResponse*>(buffer);
 
     return S_OK;
 }
@@ -1019,16 +1259,26 @@ HRESULT PFMultiplayerServerRequestMultiplayerServerAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerRequestMultiplayerServerGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerRequestMultiplayerServerGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerRequestMultiplayerServerResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerRequestMultiplayerServerResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerRequestMultiplayerServerResponse*)(std::dynamic_pointer_cast<RequestMultiplayerServerResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerRequestMultiplayerServerResponse*>(buffer);
 
     return S_OK;
 }
@@ -1109,16 +1359,26 @@ HRESULT PFMultiplayerServerUpdateBuildAliasAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFMultiplayerServerUpdateBuildAliasGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFMultiplayerServerUpdateBuildAliasGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFMultiplayerServerBuildAliasDetailsResponse** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFMultiplayerServerBuildAliasDetailsResponse** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFMultiplayerServerBuildAliasDetailsResponse*)(std::dynamic_pointer_cast<BuildAliasDetailsResponse>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFMultiplayerServerBuildAliasDetailsResponse*>(buffer);
 
     return S_OK;
 }

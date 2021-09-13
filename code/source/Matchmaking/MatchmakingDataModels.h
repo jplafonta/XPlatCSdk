@@ -1,1297 +1,1079 @@
 #pragma once
 
-#include <playfab/PFMatchmakingDataModels.h>
+#include <playfab/cpp/PFMatchmakingDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace MatchmakingModels
+namespace Matchmaking
 {
 
 // Matchmaking Classes
-struct GetMatchmakerGameInfoRequest : public PFMatchmakingGetMatchmakerGameInfoRequest, public SerializableModel
-{
-    GetMatchmakerGameInfoRequest();
-    GetMatchmakerGameInfoRequest(const GetMatchmakerGameInfoRequest& src);
-    GetMatchmakerGameInfoRequest(GetMatchmakerGameInfoRequest&& src);
-    GetMatchmakerGameInfoRequest(const PFMatchmakingGetMatchmakerGameInfoRequest& src);
-    GetMatchmakerGameInfoRequest& operator=(const GetMatchmakerGameInfoRequest&) = delete;
-    ~GetMatchmakerGameInfoRequest() = default;
+class GetMatchmakerGameInfoRequest : public Wrappers::PFMatchmakingGetMatchmakerGameInfoRequestWrapper<Allocator>, public InputModel
+{
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchmakerGameInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGetMatchmakerGameInfoRequest& input);
 
-private:
-    String m_lobbyId;
 };
 
-struct GetMatchmakerGameInfoResult : public PFMatchmakingGetMatchmakerGameInfoResult, public BaseModel, public ApiResult
+class GetMatchmakerGameInfoResult : public Wrappers::PFMatchmakingGetMatchmakerGameInfoResultWrapper<Allocator>, public OutputModel<PFMatchmakingGetMatchmakerGameInfoResult>
 {
-    GetMatchmakerGameInfoResult();
-    GetMatchmakerGameInfoResult(const GetMatchmakerGameInfoResult& src);
-    GetMatchmakerGameInfoResult(GetMatchmakerGameInfoResult&& src);
-    GetMatchmakerGameInfoResult(const PFMatchmakingGetMatchmakerGameInfoResult& src);
-    GetMatchmakerGameInfoResult& operator=(const GetMatchmakerGameInfoResult&) = delete;
-    ~GetMatchmakerGameInfoResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchmakerGameInfoResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGetMatchmakerGameInfoResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_buildVersion;
-    StdExtra::optional<time_t> m_endTime;
-    String m_lobbyId;
-    String m_mode;
-    PointerArrayModel<char, String> m_players;
-    StdExtra::optional<PFRegion> m_region;
-    String m_serverIPV4Address;
-    String m_serverIPV6Address;
-    String m_serverPublicDNSName;
-    String m_titleId;
+    static size_t RequiredBufferSize(const PFMatchmakingGetMatchmakerGameInfoResult& model);
+    static HRESULT Copy(const PFMatchmakingGetMatchmakerGameInfoResult& input, PFMatchmakingGetMatchmakerGameInfoResult& output, ModelBuffer& buffer);
 };
 
-struct GetMatchmakerGameModesRequest : public PFMatchmakingGetMatchmakerGameModesRequest, public SerializableModel
+class GetMatchmakerGameModesRequest : public Wrappers::PFMatchmakingGetMatchmakerGameModesRequestWrapper<Allocator>, public InputModel
 {
-    GetMatchmakerGameModesRequest();
-    GetMatchmakerGameModesRequest(const GetMatchmakerGameModesRequest& src);
-    GetMatchmakerGameModesRequest(GetMatchmakerGameModesRequest&& src);
-    GetMatchmakerGameModesRequest(const PFMatchmakingGetMatchmakerGameModesRequest& src);
-    GetMatchmakerGameModesRequest& operator=(const GetMatchmakerGameModesRequest&) = delete;
-    ~GetMatchmakerGameModesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchmakerGameModesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGetMatchmakerGameModesRequest& input);
 
-private:
-    String m_buildVersion;
 };
 
-struct GameModeInfo : public PFMatchmakingGameModeInfo, public BaseModel
+class GameModeInfo : public Wrappers::PFMatchmakingGameModeInfoWrapper<Allocator>, public InputModel, public OutputModel<PFMatchmakingGameModeInfo>
 {
-    GameModeInfo();
-    GameModeInfo(const GameModeInfo& src);
-    GameModeInfo(GameModeInfo&& src);
-    GameModeInfo(const PFMatchmakingGameModeInfo& src);
-    GameModeInfo& operator=(const GameModeInfo&) = delete;
-    ~GameModeInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGameModeInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGameModeInfo& input);
 
-private:
-    String m_gamemode;
-    StdExtra::optional<bool> m_startOpen;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGameModeInfo const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFMatchmakingGameModeInfo& model);
+    static HRESULT Copy(const PFMatchmakingGameModeInfo& input, PFMatchmakingGameModeInfo& output, ModelBuffer& buffer);
 };
 
-struct GetMatchmakerGameModesResult : public PFMatchmakingGetMatchmakerGameModesResult, public BaseModel, public ApiResult
+class GetMatchmakerGameModesResult : public Wrappers::PFMatchmakingGetMatchmakerGameModesResultWrapper<Allocator>, public OutputModel<PFMatchmakingGetMatchmakerGameModesResult>
 {
-    GetMatchmakerGameModesResult();
-    GetMatchmakerGameModesResult(const GetMatchmakerGameModesResult& src);
-    GetMatchmakerGameModesResult(GetMatchmakerGameModesResult&& src);
-    GetMatchmakerGameModesResult(const PFMatchmakingGetMatchmakerGameModesResult& src);
-    GetMatchmakerGameModesResult& operator=(const GetMatchmakerGameModesResult&) = delete;
-    ~GetMatchmakerGameModesResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchmakerGameModesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGetMatchmakerGameModesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFMatchmakingGameModeInfo, GameModeInfo> m_gameModes;
+    static size_t RequiredBufferSize(const PFMatchmakingGetMatchmakerGameModesResult& model);
+    static HRESULT Copy(const PFMatchmakingGetMatchmakerGameModesResult& input, PFMatchmakingGetMatchmakerGameModesResult& output, ModelBuffer& buffer);
 };
 
-struct ModifyMatchmakerGameModesRequest : public PFMatchmakingModifyMatchmakerGameModesRequest, public BaseModel
+class ModifyMatchmakerGameModesRequest : public Wrappers::PFMatchmakingModifyMatchmakerGameModesRequestWrapper<Allocator>, public InputModel
 {
-    ModifyMatchmakerGameModesRequest();
-    ModifyMatchmakerGameModesRequest(const ModifyMatchmakerGameModesRequest& src);
-    ModifyMatchmakerGameModesRequest(ModifyMatchmakerGameModesRequest&& src);
-    ModifyMatchmakerGameModesRequest(const PFMatchmakingModifyMatchmakerGameModesRequest& src);
-    ModifyMatchmakerGameModesRequest& operator=(const ModifyMatchmakerGameModesRequest&) = delete;
-    ~ModifyMatchmakerGameModesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingModifyMatchmakerGameModesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingModifyMatchmakerGameModesRequest& input);
 
-private:
-    String m_buildVersion;
-    PointerArrayModel<PFMatchmakingGameModeInfo, GameModeInfo> m_gameModes;
 };
 
-struct Container_Dictionary_String_String : public PFMatchmakingContainer_Dictionary_String_String, public BaseModel
+class Container_Dictionary_String_String : public Wrappers::PFMatchmakingContainer_Dictionary_String_StringWrapper<Allocator>, public InputModel
 {
-    Container_Dictionary_String_String();
-    Container_Dictionary_String_String(const Container_Dictionary_String_String& src);
-    Container_Dictionary_String_String(Container_Dictionary_String_String&& src);
-    Container_Dictionary_String_String(const PFMatchmakingContainer_Dictionary_String_String& src);
-    Container_Dictionary_String_String& operator=(const Container_Dictionary_String_String&) = delete;
-    ~Container_Dictionary_String_String() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingContainer_Dictionary_String_StringWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingContainer_Dictionary_String_String& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
 };
 
-struct CollectionFilter : public PFMatchmakingCollectionFilter, public BaseModel
+class CollectionFilter : public Wrappers::PFMatchmakingCollectionFilterWrapper<Allocator>, public InputModel
 {
-    CollectionFilter();
-    CollectionFilter(const CollectionFilter& src);
-    CollectionFilter(CollectionFilter&& src);
-    CollectionFilter(const PFMatchmakingCollectionFilter& src);
-    CollectionFilter& operator=(const CollectionFilter&) = delete;
-    ~CollectionFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCollectionFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCollectionFilter& input);
 
-private:
-    PointerArrayModel<PFMatchmakingContainer_Dictionary_String_String, Container_Dictionary_String_String> m_excludes;
-    PointerArrayModel<PFMatchmakingContainer_Dictionary_String_String, Container_Dictionary_String_String> m_includes;
 };
 
-struct CurrentGamesRequest : public PFMatchmakingCurrentGamesRequest, public BaseModel
+class CurrentGamesRequest : public Wrappers::PFMatchmakingCurrentGamesRequestWrapper<Allocator>, public InputModel
 {
-    CurrentGamesRequest();
-    CurrentGamesRequest(const CurrentGamesRequest& src);
-    CurrentGamesRequest(CurrentGamesRequest&& src);
-    CurrentGamesRequest(const PFMatchmakingCurrentGamesRequest& src);
-    CurrentGamesRequest& operator=(const CurrentGamesRequest&) = delete;
-    ~CurrentGamesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCurrentGamesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCurrentGamesRequest& input);
 
-private:
-    String m_buildVersion;
-    String m_gameMode;
-    StdExtra::optional<PFRegion> m_region;
-    String m_statisticName;
-    StdExtra::optional<CollectionFilter> m_tagFilter;
 };
 
-struct GameInfo : public PFMatchmakingGameInfo, public BaseModel
+class GameInfo : public Wrappers::PFMatchmakingGameInfoWrapper<Allocator>, public OutputModel<PFMatchmakingGameInfo>
 {
-    GameInfo();
-    GameInfo(const GameInfo& src);
-    GameInfo(GameInfo&& src);
-    GameInfo(const PFMatchmakingGameInfo& src);
-    GameInfo& operator=(const GameInfo&) = delete;
-    ~GameInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGameInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGameInfo const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFMatchmakingGameInfo& model);
+    static HRESULT Copy(const PFMatchmakingGameInfo& input, PFMatchmakingGameInfo& output, ModelBuffer& buffer);
+};
+
+class CurrentGamesResult : public Wrappers::PFMatchmakingCurrentGamesResultWrapper<Allocator>, public OutputModel<PFMatchmakingCurrentGamesResult>
+{
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCurrentGamesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-private:
-    String m_buildVersion;
-    String m_gameMode;
-    String m_gameServerData;
-    StdExtra::optional<PFMatchmakingGameInstanceState> m_gameServerStateEnum;
-    StdExtra::optional<time_t> m_lastHeartbeat;
-    String m_lobbyID;
-    StdExtra::optional<int32_t> m_maxPlayers;
-    PointerArrayModel<char, String> m_playerUserIds;
-    StdExtra::optional<PFRegion> m_region;
-    String m_serverIPV4Address;
-    String m_serverIPV6Address;
-    StdExtra::optional<int32_t> m_serverPort;
-    String m_serverPublicDNSName;
-    String m_statisticName;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_tags;
-};
-
-struct CurrentGamesResult : public PFMatchmakingCurrentGamesResult, public BaseModel, public ApiResult
-{
-    CurrentGamesResult();
-    CurrentGamesResult(const CurrentGamesResult& src);
-    CurrentGamesResult(CurrentGamesResult&& src);
-    CurrentGamesResult(const PFMatchmakingCurrentGamesResult& src);
-    CurrentGamesResult& operator=(const CurrentGamesResult&) = delete;
-    ~CurrentGamesResult() = default;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingCurrentGamesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFMatchmakingGameInfo, GameInfo> m_games;
+    static size_t RequiredBufferSize(const PFMatchmakingCurrentGamesResult& model);
+    static HRESULT Copy(const PFMatchmakingCurrentGamesResult& input, PFMatchmakingCurrentGamesResult& output, ModelBuffer& buffer);
 };
 
-struct GameServerRegionsRequest : public PFMatchmakingGameServerRegionsRequest, public SerializableModel
+class GameServerRegionsRequest : public Wrappers::PFMatchmakingGameServerRegionsRequestWrapper<Allocator>, public InputModel
 {
-    GameServerRegionsRequest();
-    GameServerRegionsRequest(const GameServerRegionsRequest& src);
-    GameServerRegionsRequest(GameServerRegionsRequest&& src);
-    GameServerRegionsRequest(const PFMatchmakingGameServerRegionsRequest& src);
-    GameServerRegionsRequest& operator=(const GameServerRegionsRequest&) = delete;
-    ~GameServerRegionsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGameServerRegionsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGameServerRegionsRequest& input);
 
-private:
-    String m_buildVersion;
-    String m_titleId;
 };
 
-struct RegionInfo : public PFMatchmakingRegionInfo, public BaseModel
+class RegionInfo : public Wrappers::PFMatchmakingRegionInfoWrapper<Allocator>, public OutputModel<PFMatchmakingRegionInfo>
 {
-    RegionInfo();
-    RegionInfo(const RegionInfo& src);
-    RegionInfo(RegionInfo&& src);
-    RegionInfo(const PFMatchmakingRegionInfo& src);
-    RegionInfo& operator=(const RegionInfo&) = delete;
-    ~RegionInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingRegionInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingRegionInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_name;
-    String m_pingUrl;
-    StdExtra::optional<PFRegion> m_region;
+    static size_t RequiredBufferSize(const PFMatchmakingRegionInfo& model);
+    static HRESULT Copy(const PFMatchmakingRegionInfo& input, PFMatchmakingRegionInfo& output, ModelBuffer& buffer);
 };
 
-struct GameServerRegionsResult : public PFMatchmakingGameServerRegionsResult, public BaseModel, public ApiResult
+class GameServerRegionsResult : public Wrappers::PFMatchmakingGameServerRegionsResultWrapper<Allocator>, public OutputModel<PFMatchmakingGameServerRegionsResult>
 {
-    GameServerRegionsResult();
-    GameServerRegionsResult(const GameServerRegionsResult& src);
-    GameServerRegionsResult(GameServerRegionsResult&& src);
-    GameServerRegionsResult(const PFMatchmakingGameServerRegionsResult& src);
-    GameServerRegionsResult& operator=(const GameServerRegionsResult&) = delete;
-    ~GameServerRegionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGameServerRegionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGameServerRegionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFMatchmakingRegionInfo, RegionInfo> m_regions;
+    static size_t RequiredBufferSize(const PFMatchmakingGameServerRegionsResult& model);
+    static HRESULT Copy(const PFMatchmakingGameServerRegionsResult& input, PFMatchmakingGameServerRegionsResult& output, ModelBuffer& buffer);
 };
 
-struct MatchmakeRequest : public PFMatchmakingMatchmakeRequest, public BaseModel
+class MatchmakeRequest : public Wrappers::PFMatchmakingMatchmakeRequestWrapper<Allocator>, public InputModel
 {
-    MatchmakeRequest();
-    MatchmakeRequest(const MatchmakeRequest& src);
-    MatchmakeRequest(MatchmakeRequest&& src);
-    MatchmakeRequest(const PFMatchmakingMatchmakeRequest& src);
-    MatchmakeRequest& operator=(const MatchmakeRequest&) = delete;
-    ~MatchmakeRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingMatchmakeRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingMatchmakeRequest& input);
 
-private:
-    String m_buildVersion;
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_gameMode;
-    String m_lobbyId;
-    StdExtra::optional<PFRegion> m_region;
-    StdExtra::optional<bool> m_startNewIfNoneFound;
-    String m_statisticName;
-    StdExtra::optional<CollectionFilter> m_tagFilter;
 };
 
-struct MatchmakeResult : public PFMatchmakingMatchmakeResult, public BaseModel, public ApiResult
+class MatchmakeResult : public Wrappers::PFMatchmakingMatchmakeResultWrapper<Allocator>, public OutputModel<PFMatchmakingMatchmakeResult>
 {
-    MatchmakeResult();
-    MatchmakeResult(const MatchmakeResult& src);
-    MatchmakeResult(MatchmakeResult&& src);
-    MatchmakeResult(const PFMatchmakingMatchmakeResult& src);
-    MatchmakeResult& operator=(const MatchmakeResult&) = delete;
-    ~MatchmakeResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingMatchmakeResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingMatchmakeResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_expires;
-    String m_lobbyID;
-    StdExtra::optional<int32_t> m_pollWaitTimeMS;
-    String m_serverIPV4Address;
-    String m_serverIPV6Address;
-    StdExtra::optional<int32_t> m_serverPort;
-    String m_serverPublicDNSName;
-    StdExtra::optional<PFMatchmakingMatchmakeStatus> m_status;
-    String m_ticket;
+    static size_t RequiredBufferSize(const PFMatchmakingMatchmakeResult& model);
+    static HRESULT Copy(const PFMatchmakingMatchmakeResult& input, PFMatchmakingMatchmakeResult& output, ModelBuffer& buffer);
 };
 
-struct ClientStartGameRequest : public PFMatchmakingClientStartGameRequest, public BaseModel
+class ClientStartGameRequest : public Wrappers::PFMatchmakingClientStartGameRequestWrapper<Allocator>, public InputModel
 {
-    ClientStartGameRequest();
-    ClientStartGameRequest(const ClientStartGameRequest& src);
-    ClientStartGameRequest(ClientStartGameRequest&& src);
-    ClientStartGameRequest(const PFMatchmakingClientStartGameRequest& src);
-    ClientStartGameRequest& operator=(const ClientStartGameRequest&) = delete;
-    ~ClientStartGameRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingClientStartGameRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingClientStartGameRequest& input);
 
-private:
-    String m_buildVersion;
-    String m_characterId;
-    String m_customCommandLineData;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_gameMode;
-    String m_statisticName;
 };
 
-struct StartGameResult : public PFMatchmakingStartGameResult, public BaseModel, public ApiResult
+class StartGameResult : public Wrappers::PFMatchmakingStartGameResultWrapper<Allocator>, public OutputModel<PFMatchmakingStartGameResult>
 {
-    StartGameResult();
-    StartGameResult(const StartGameResult& src);
-    StartGameResult(StartGameResult&& src);
-    StartGameResult(const PFMatchmakingStartGameResult& src);
-    StartGameResult& operator=(const StartGameResult&) = delete;
-    ~StartGameResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingStartGameResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingStartGameResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_expires;
-    String m_lobbyID;
-    String m_password;
-    String m_serverIPV4Address;
-    String m_serverIPV6Address;
-    StdExtra::optional<int32_t> m_serverPort;
-    String m_serverPublicDNSName;
-    String m_ticket;
+    static size_t RequiredBufferSize(const PFMatchmakingStartGameResult& model);
+    static HRESULT Copy(const PFMatchmakingStartGameResult& input, PFMatchmakingStartGameResult& output, ModelBuffer& buffer);
 };
 
-struct AuthUserRequest : public PFMatchmakingAuthUserRequest, public SerializableModel
+class AuthUserRequest : public Wrappers::PFMatchmakingAuthUserRequestWrapper<Allocator>, public InputModel
 {
-    AuthUserRequest();
-    AuthUserRequest(const AuthUserRequest& src);
-    AuthUserRequest(AuthUserRequest&& src);
-    AuthUserRequest(const PFMatchmakingAuthUserRequest& src);
-    AuthUserRequest& operator=(const AuthUserRequest&) = delete;
-    ~AuthUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingAuthUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingAuthUserRequest& input);
 
-private:
-    String m_authorizationTicket;
 };
 
-struct AuthUserResponse : public PFMatchmakingAuthUserResponse, public SerializableModel, public ApiResult
+class AuthUserResponse : public Wrappers::PFMatchmakingAuthUserResponseWrapper<Allocator>, public OutputModel<PFMatchmakingAuthUserResponse>
 {
-    AuthUserResponse();
-    AuthUserResponse(const AuthUserResponse& src);
-    AuthUserResponse(AuthUserResponse&& src);
-    AuthUserResponse(const PFMatchmakingAuthUserResponse& src);
-    AuthUserResponse& operator=(const AuthUserResponse&) = delete;
-    ~AuthUserResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingAuthUserResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingAuthUserResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFMatchmakingAuthUserResponse& model);
+    static HRESULT Copy(const PFMatchmakingAuthUserResponse& input, PFMatchmakingAuthUserResponse& output, ModelBuffer& buffer);
 };
 
-struct PlayerJoinedRequest : public PFMatchmakingPlayerJoinedRequest, public BaseModel
+class PlayerJoinedRequest : public Wrappers::PFMatchmakingPlayerJoinedRequestWrapper<Allocator>, public InputModel
 {
-    PlayerJoinedRequest();
-    PlayerJoinedRequest(const PlayerJoinedRequest& src);
-    PlayerJoinedRequest(PlayerJoinedRequest&& src);
-    PlayerJoinedRequest(const PFMatchmakingPlayerJoinedRequest& src);
-    PlayerJoinedRequest& operator=(const PlayerJoinedRequest&) = delete;
-    ~PlayerJoinedRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingPlayerJoinedRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingPlayerJoinedRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_lobbyId;
-    String m_playFabId;
 };
 
-struct PlayerLeftRequest : public PFMatchmakingPlayerLeftRequest, public BaseModel
+class PlayerLeftRequest : public Wrappers::PFMatchmakingPlayerLeftRequestWrapper<Allocator>, public InputModel
 {
-    PlayerLeftRequest();
-    PlayerLeftRequest(const PlayerLeftRequest& src);
-    PlayerLeftRequest(PlayerLeftRequest&& src);
-    PlayerLeftRequest(const PFMatchmakingPlayerLeftRequest& src);
-    PlayerLeftRequest& operator=(const PlayerLeftRequest&) = delete;
-    ~PlayerLeftRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingPlayerLeftRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingPlayerLeftRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_lobbyId;
-    String m_playFabId;
 };
 
-struct MatchmakerStartGameRequest : public PFMatchmakingMatchmakerStartGameRequest, public BaseModel
+class MatchmakerStartGameRequest : public Wrappers::PFMatchmakingMatchmakerStartGameRequestWrapper<Allocator>, public InputModel
 {
-    MatchmakerStartGameRequest();
-    MatchmakerStartGameRequest(const MatchmakerStartGameRequest& src);
-    MatchmakerStartGameRequest(MatchmakerStartGameRequest&& src);
-    MatchmakerStartGameRequest(const PFMatchmakingMatchmakerStartGameRequest& src);
-    MatchmakerStartGameRequest& operator=(const MatchmakerStartGameRequest&) = delete;
-    ~MatchmakerStartGameRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingMatchmakerStartGameRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingMatchmakerStartGameRequest& input);
 
-private:
-    String m_build;
-    String m_customCommandLineData;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_externalMatchmakerEventEndpoint;
-    String m_gameMode;
 };
 
-struct StartGameResponse : public PFMatchmakingStartGameResponse, public SerializableModel, public ApiResult
+class StartGameResponse : public Wrappers::PFMatchmakingStartGameResponseWrapper<Allocator>, public OutputModel<PFMatchmakingStartGameResponse>
 {
-    StartGameResponse();
-    StartGameResponse(const StartGameResponse& src);
-    StartGameResponse(StartGameResponse&& src);
-    StartGameResponse(const PFMatchmakingStartGameResponse& src);
-    StartGameResponse& operator=(const StartGameResponse&) = delete;
-    ~StartGameResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingStartGameResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingStartGameResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_gameID;
-    String m_serverIPV4Address;
-    String m_serverIPV6Address;
-    String m_serverPublicDNSName;
+    static size_t RequiredBufferSize(const PFMatchmakingStartGameResponse& model);
+    static HRESULT Copy(const PFMatchmakingStartGameResponse& input, PFMatchmakingStartGameResponse& output, ModelBuffer& buffer);
 };
 
-struct UserInfoRequest : public PFMatchmakingUserInfoRequest, public BaseModel
+class UserInfoRequest : public Wrappers::PFMatchmakingUserInfoRequestWrapper<Allocator>, public InputModel
 {
-    UserInfoRequest();
-    UserInfoRequest(const UserInfoRequest& src);
-    UserInfoRequest(UserInfoRequest&& src);
-    UserInfoRequest(const PFMatchmakingUserInfoRequest& src);
-    UserInfoRequest& operator=(const UserInfoRequest&) = delete;
-    ~UserInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingUserInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingUserInfoRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct UserInfoResponse : public PFMatchmakingUserInfoResponse, public BaseModel, public ApiResult
+class UserInfoResponse : public Wrappers::PFMatchmakingUserInfoResponseWrapper<Allocator>, public OutputModel<PFMatchmakingUserInfoResponse>
 {
-    UserInfoResponse();
-    UserInfoResponse(const UserInfoResponse& src);
-    UserInfoResponse(UserInfoResponse&& src);
-    UserInfoResponse(const PFMatchmakingUserInfoResponse& src);
-    UserInfoResponse& operator=(const UserInfoResponse&) = delete;
-    ~UserInfoResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingUserInfoResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingUserInfoResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_inventory;
-    String m_playFabId;
-    String m_steamId;
-    String m_titleDisplayName;
-    String m_username;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_virtualCurrency;
-    AssociativeArrayModel<PFVirtualCurrencyRechargeTimeDictionaryEntry, VirtualCurrencyRechargeTime> m_virtualCurrencyRechargeTimes;
+    static size_t RequiredBufferSize(const PFMatchmakingUserInfoResponse& model);
+    static HRESULT Copy(const PFMatchmakingUserInfoResponse& input, PFMatchmakingUserInfoResponse& output, ModelBuffer& buffer);
 };
 
-struct DeregisterGameRequest : public PFMatchmakingDeregisterGameRequest, public BaseModel
+class DeregisterGameRequest : public Wrappers::PFMatchmakingDeregisterGameRequestWrapper<Allocator>, public InputModel
 {
-    DeregisterGameRequest();
-    DeregisterGameRequest(const DeregisterGameRequest& src);
-    DeregisterGameRequest(DeregisterGameRequest&& src);
-    DeregisterGameRequest(const PFMatchmakingDeregisterGameRequest& src);
-    DeregisterGameRequest& operator=(const DeregisterGameRequest&) = delete;
-    ~DeregisterGameRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingDeregisterGameRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingDeregisterGameRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_lobbyId;
 };
 
-struct NotifyMatchmakerPlayerLeftRequest : public PFMatchmakingNotifyMatchmakerPlayerLeftRequest, public BaseModel
+class NotifyMatchmakerPlayerLeftRequest : public Wrappers::PFMatchmakingNotifyMatchmakerPlayerLeftRequestWrapper<Allocator>, public InputModel
 {
-    NotifyMatchmakerPlayerLeftRequest();
-    NotifyMatchmakerPlayerLeftRequest(const NotifyMatchmakerPlayerLeftRequest& src);
-    NotifyMatchmakerPlayerLeftRequest(NotifyMatchmakerPlayerLeftRequest&& src);
-    NotifyMatchmakerPlayerLeftRequest(const PFMatchmakingNotifyMatchmakerPlayerLeftRequest& src);
-    NotifyMatchmakerPlayerLeftRequest& operator=(const NotifyMatchmakerPlayerLeftRequest&) = delete;
-    ~NotifyMatchmakerPlayerLeftRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingNotifyMatchmakerPlayerLeftRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingNotifyMatchmakerPlayerLeftRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_lobbyId;
-    String m_playFabId;
 };
 
-struct NotifyMatchmakerPlayerLeftResult : public PFMatchmakingNotifyMatchmakerPlayerLeftResult, public BaseModel, public ApiResult
+class NotifyMatchmakerPlayerLeftResult : public Wrappers::PFMatchmakingNotifyMatchmakerPlayerLeftResultWrapper<Allocator>, public OutputModel<PFMatchmakingNotifyMatchmakerPlayerLeftResult>
 {
-    NotifyMatchmakerPlayerLeftResult();
-    NotifyMatchmakerPlayerLeftResult(const NotifyMatchmakerPlayerLeftResult& src);
-    NotifyMatchmakerPlayerLeftResult(NotifyMatchmakerPlayerLeftResult&& src);
-    NotifyMatchmakerPlayerLeftResult(const PFMatchmakingNotifyMatchmakerPlayerLeftResult& src);
-    NotifyMatchmakerPlayerLeftResult& operator=(const NotifyMatchmakerPlayerLeftResult&) = delete;
-    ~NotifyMatchmakerPlayerLeftResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingNotifyMatchmakerPlayerLeftResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingNotifyMatchmakerPlayerLeftResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PFMatchmakingPlayerConnectionState> m_playerState;
+    static size_t RequiredBufferSize(const PFMatchmakingNotifyMatchmakerPlayerLeftResult& model);
+    static HRESULT Copy(const PFMatchmakingNotifyMatchmakerPlayerLeftResult& input, PFMatchmakingNotifyMatchmakerPlayerLeftResult& output, ModelBuffer& buffer);
 };
 
-struct RedeemMatchmakerTicketRequest : public PFMatchmakingRedeemMatchmakerTicketRequest, public BaseModel
+class RedeemMatchmakerTicketRequest : public Wrappers::PFMatchmakingRedeemMatchmakerTicketRequestWrapper<Allocator>, public InputModel
 {
-    RedeemMatchmakerTicketRequest();
-    RedeemMatchmakerTicketRequest(const RedeemMatchmakerTicketRequest& src);
-    RedeemMatchmakerTicketRequest(RedeemMatchmakerTicketRequest&& src);
-    RedeemMatchmakerTicketRequest(const PFMatchmakingRedeemMatchmakerTicketRequest& src);
-    RedeemMatchmakerTicketRequest& operator=(const RedeemMatchmakerTicketRequest&) = delete;
-    ~RedeemMatchmakerTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingRedeemMatchmakerTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingRedeemMatchmakerTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_lobbyId;
-    String m_ticket;
 };
 
-struct RedeemMatchmakerTicketResult : public PFMatchmakingRedeemMatchmakerTicketResult, public BaseModel, public ApiResult
+class RedeemMatchmakerTicketResult : public Wrappers::PFMatchmakingRedeemMatchmakerTicketResultWrapper<Allocator>, public OutputModel<PFMatchmakingRedeemMatchmakerTicketResult>
 {
-    RedeemMatchmakerTicketResult();
-    RedeemMatchmakerTicketResult(const RedeemMatchmakerTicketResult& src);
-    RedeemMatchmakerTicketResult(RedeemMatchmakerTicketResult&& src);
-    RedeemMatchmakerTicketResult(const PFMatchmakingRedeemMatchmakerTicketResult& src);
-    RedeemMatchmakerTicketResult& operator=(const RedeemMatchmakerTicketResult&) = delete;
-    ~RedeemMatchmakerTicketResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingRedeemMatchmakerTicketResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingRedeemMatchmakerTicketResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_error;
-    StdExtra::optional<UserAccountInfo> m_userInfo;
+    static size_t RequiredBufferSize(const PFMatchmakingRedeemMatchmakerTicketResult& model);
+    static HRESULT Copy(const PFMatchmakingRedeemMatchmakerTicketResult& input, PFMatchmakingRedeemMatchmakerTicketResult& output, ModelBuffer& buffer);
 };
 
-struct RefreshGameServerInstanceHeartbeatRequest : public PFMatchmakingRefreshGameServerInstanceHeartbeatRequest, public SerializableModel
+class RefreshGameServerInstanceHeartbeatRequest : public Wrappers::PFMatchmakingRefreshGameServerInstanceHeartbeatRequestWrapper<Allocator>, public InputModel
 {
-    RefreshGameServerInstanceHeartbeatRequest();
-    RefreshGameServerInstanceHeartbeatRequest(const RefreshGameServerInstanceHeartbeatRequest& src);
-    RefreshGameServerInstanceHeartbeatRequest(RefreshGameServerInstanceHeartbeatRequest&& src);
-    RefreshGameServerInstanceHeartbeatRequest(const PFMatchmakingRefreshGameServerInstanceHeartbeatRequest& src);
-    RefreshGameServerInstanceHeartbeatRequest& operator=(const RefreshGameServerInstanceHeartbeatRequest&) = delete;
-    ~RefreshGameServerInstanceHeartbeatRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingRefreshGameServerInstanceHeartbeatRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingRefreshGameServerInstanceHeartbeatRequest& input);
 
-private:
-    String m_lobbyId;
 };
 
-struct RegisterGameRequest : public PFMatchmakingRegisterGameRequest, public BaseModel
+class RegisterGameRequest : public Wrappers::PFMatchmakingRegisterGameRequestWrapper<Allocator>, public InputModel
 {
-    RegisterGameRequest();
-    RegisterGameRequest(const RegisterGameRequest& src);
-    RegisterGameRequest(RegisterGameRequest&& src);
-    RegisterGameRequest(const PFMatchmakingRegisterGameRequest& src);
-    RegisterGameRequest& operator=(const RegisterGameRequest&) = delete;
-    ~RegisterGameRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingRegisterGameRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingRegisterGameRequest& input);
 
-private:
-    String m_build;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_gameMode;
-    String m_lobbyId;
-    String m_serverIPV4Address;
-    String m_serverIPV6Address;
-    String m_serverPort;
-    String m_serverPublicDNSName;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_tags;
 };
 
-struct RegisterGameResponse : public PFMatchmakingRegisterGameResponse, public SerializableModel, public ApiResult
+class RegisterGameResponse : public Wrappers::PFMatchmakingRegisterGameResponseWrapper<Allocator>, public OutputModel<PFMatchmakingRegisterGameResponse>
 {
-    RegisterGameResponse();
-    RegisterGameResponse(const RegisterGameResponse& src);
-    RegisterGameResponse(RegisterGameResponse&& src);
-    RegisterGameResponse(const PFMatchmakingRegisterGameResponse& src);
-    RegisterGameResponse& operator=(const RegisterGameResponse&) = delete;
-    ~RegisterGameResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingRegisterGameResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingRegisterGameResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_lobbyId;
+    static size_t RequiredBufferSize(const PFMatchmakingRegisterGameResponse& model);
+    static HRESULT Copy(const PFMatchmakingRegisterGameResponse& input, PFMatchmakingRegisterGameResponse& output, ModelBuffer& buffer);
 };
 
-struct SetGameServerInstanceDataRequest : public PFMatchmakingSetGameServerInstanceDataRequest, public SerializableModel
+class SetGameServerInstanceDataRequest : public Wrappers::PFMatchmakingSetGameServerInstanceDataRequestWrapper<Allocator>, public InputModel
 {
-    SetGameServerInstanceDataRequest();
-    SetGameServerInstanceDataRequest(const SetGameServerInstanceDataRequest& src);
-    SetGameServerInstanceDataRequest(SetGameServerInstanceDataRequest&& src);
-    SetGameServerInstanceDataRequest(const PFMatchmakingSetGameServerInstanceDataRequest& src);
-    SetGameServerInstanceDataRequest& operator=(const SetGameServerInstanceDataRequest&) = delete;
-    ~SetGameServerInstanceDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingSetGameServerInstanceDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingSetGameServerInstanceDataRequest& input);
 
-private:
-    String m_gameServerData;
-    String m_lobbyId;
 };
 
-struct SetGameServerInstanceStateRequest : public PFMatchmakingSetGameServerInstanceStateRequest, public SerializableModel
+class SetGameServerInstanceStateRequest : public Wrappers::PFMatchmakingSetGameServerInstanceStateRequestWrapper<Allocator>, public InputModel
 {
-    SetGameServerInstanceStateRequest();
-    SetGameServerInstanceStateRequest(const SetGameServerInstanceStateRequest& src);
-    SetGameServerInstanceStateRequest(SetGameServerInstanceStateRequest&& src);
-    SetGameServerInstanceStateRequest(const PFMatchmakingSetGameServerInstanceStateRequest& src);
-    SetGameServerInstanceStateRequest& operator=(const SetGameServerInstanceStateRequest&) = delete;
-    ~SetGameServerInstanceStateRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingSetGameServerInstanceStateRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingSetGameServerInstanceStateRequest& input);
 
-private:
-    String m_lobbyId;
 };
 
-struct SetGameServerInstanceTagsRequest : public PFMatchmakingSetGameServerInstanceTagsRequest, public BaseModel
+class SetGameServerInstanceTagsRequest : public Wrappers::PFMatchmakingSetGameServerInstanceTagsRequestWrapper<Allocator>, public InputModel
 {
-    SetGameServerInstanceTagsRequest();
-    SetGameServerInstanceTagsRequest(const SetGameServerInstanceTagsRequest& src);
-    SetGameServerInstanceTagsRequest(SetGameServerInstanceTagsRequest&& src);
-    SetGameServerInstanceTagsRequest(const PFMatchmakingSetGameServerInstanceTagsRequest& src);
-    SetGameServerInstanceTagsRequest& operator=(const SetGameServerInstanceTagsRequest&) = delete;
-    ~SetGameServerInstanceTagsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingSetGameServerInstanceTagsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingSetGameServerInstanceTagsRequest& input);
 
-private:
-    String m_lobbyId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_tags;
 };
 
-struct CancelAllMatchmakingTicketsForPlayerRequest : public PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest, public BaseModel
+class CancelAllMatchmakingTicketsForPlayerRequest : public Wrappers::PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequestWrapper<Allocator>, public InputModel
 {
-    CancelAllMatchmakingTicketsForPlayerRequest();
-    CancelAllMatchmakingTicketsForPlayerRequest(const CancelAllMatchmakingTicketsForPlayerRequest& src);
-    CancelAllMatchmakingTicketsForPlayerRequest(CancelAllMatchmakingTicketsForPlayerRequest&& src);
-    CancelAllMatchmakingTicketsForPlayerRequest(const PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest& src);
-    CancelAllMatchmakingTicketsForPlayerRequest& operator=(const CancelAllMatchmakingTicketsForPlayerRequest&) = delete;
-    ~CancelAllMatchmakingTicketsForPlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_queueName;
 };
 
-struct CancelAllServerBackfillTicketsForPlayerRequest : public PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest, public BaseModel
+class CancelAllServerBackfillTicketsForPlayerRequest : public Wrappers::PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequestWrapper<Allocator>, public InputModel
 {
-    CancelAllServerBackfillTicketsForPlayerRequest();
-    CancelAllServerBackfillTicketsForPlayerRequest(const CancelAllServerBackfillTicketsForPlayerRequest& src);
-    CancelAllServerBackfillTicketsForPlayerRequest(CancelAllServerBackfillTicketsForPlayerRequest&& src);
-    CancelAllServerBackfillTicketsForPlayerRequest(const PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest& src);
-    CancelAllServerBackfillTicketsForPlayerRequest& operator=(const CancelAllServerBackfillTicketsForPlayerRequest&) = delete;
-    ~CancelAllServerBackfillTicketsForPlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    String m_queueName;
 };
 
-struct CancelMatchmakingTicketRequest : public PFMatchmakingCancelMatchmakingTicketRequest, public BaseModel
+class CancelMatchmakingTicketRequest : public Wrappers::PFMatchmakingCancelMatchmakingTicketRequestWrapper<Allocator>, public InputModel
 {
-    CancelMatchmakingTicketRequest();
-    CancelMatchmakingTicketRequest(const CancelMatchmakingTicketRequest& src);
-    CancelMatchmakingTicketRequest(CancelMatchmakingTicketRequest&& src);
-    CancelMatchmakingTicketRequest(const PFMatchmakingCancelMatchmakingTicketRequest& src);
-    CancelMatchmakingTicketRequest& operator=(const CancelMatchmakingTicketRequest&) = delete;
-    ~CancelMatchmakingTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCancelMatchmakingTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCancelMatchmakingTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_queueName;
-    String m_ticketId;
 };
 
-struct CancelServerBackfillTicketRequest : public PFMatchmakingCancelServerBackfillTicketRequest, public BaseModel
+class CancelServerBackfillTicketRequest : public Wrappers::PFMatchmakingCancelServerBackfillTicketRequestWrapper<Allocator>, public InputModel
 {
-    CancelServerBackfillTicketRequest();
-    CancelServerBackfillTicketRequest(const CancelServerBackfillTicketRequest& src);
-    CancelServerBackfillTicketRequest(CancelServerBackfillTicketRequest&& src);
-    CancelServerBackfillTicketRequest(const PFMatchmakingCancelServerBackfillTicketRequest& src);
-    CancelServerBackfillTicketRequest& operator=(const CancelServerBackfillTicketRequest&) = delete;
-    ~CancelServerBackfillTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCancelServerBackfillTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCancelServerBackfillTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_queueName;
-    String m_ticketId;
 };
 
-struct MatchmakingPlayerAttributes : public PFMatchmakingMatchmakingPlayerAttributes, public BaseModel
+class MatchmakingPlayerAttributes : public Wrappers::PFMatchmakingMatchmakingPlayerAttributesWrapper<Allocator>, public InputModel, public OutputModel<PFMatchmakingMatchmakingPlayerAttributes>
 {
-    MatchmakingPlayerAttributes();
-    MatchmakingPlayerAttributes(const MatchmakingPlayerAttributes& src);
-    MatchmakingPlayerAttributes(MatchmakingPlayerAttributes&& src);
-    MatchmakingPlayerAttributes(const PFMatchmakingMatchmakingPlayerAttributes& src);
-    MatchmakingPlayerAttributes& operator=(const MatchmakingPlayerAttributes&) = delete;
-    ~MatchmakingPlayerAttributes() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingMatchmakingPlayerAttributesWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingMatchmakingPlayerAttributes& input);
+
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingMatchmakingPlayerAttributes const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    JsonObject m_dataObject;
-    String m_escapedDataObject;
+    static size_t RequiredBufferSize(const PFMatchmakingMatchmakingPlayerAttributes& model);
+    static HRESULT Copy(const PFMatchmakingMatchmakingPlayerAttributes& input, PFMatchmakingMatchmakingPlayerAttributes& output, ModelBuffer& buffer);
 };
 
-struct MatchmakingPlayer : public PFMatchmakingMatchmakingPlayer, public BaseModel
+class MatchmakingPlayer : public Wrappers::PFMatchmakingMatchmakingPlayerWrapper<Allocator>, public InputModel, public OutputModel<PFMatchmakingMatchmakingPlayer>
 {
-    MatchmakingPlayer();
-    MatchmakingPlayer(const MatchmakingPlayer& src);
-    MatchmakingPlayer(MatchmakingPlayer&& src);
-    MatchmakingPlayer(const PFMatchmakingMatchmakingPlayer& src);
-    MatchmakingPlayer& operator=(const MatchmakingPlayer&) = delete;
-    ~MatchmakingPlayer() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingMatchmakingPlayerWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingMatchmakingPlayer& input);
 
-private:
-    StdExtra::optional<MatchmakingPlayerAttributes> m_attributes;
-    EntityKey m_entity;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingMatchmakingPlayer const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFMatchmakingMatchmakingPlayer& model);
+    static HRESULT Copy(const PFMatchmakingMatchmakingPlayer& input, PFMatchmakingMatchmakingPlayer& output, ModelBuffer& buffer);
 };
 
-struct CreateMatchmakingTicketRequest : public PFMatchmakingCreateMatchmakingTicketRequest, public BaseModel
+class CreateMatchmakingTicketRequest : public Wrappers::PFMatchmakingCreateMatchmakingTicketRequestWrapper<Allocator>, public InputModel
 {
-    CreateMatchmakingTicketRequest();
-    CreateMatchmakingTicketRequest(const CreateMatchmakingTicketRequest& src);
-    CreateMatchmakingTicketRequest(CreateMatchmakingTicketRequest&& src);
-    CreateMatchmakingTicketRequest(const PFMatchmakingCreateMatchmakingTicketRequest& src);
-    CreateMatchmakingTicketRequest& operator=(const CreateMatchmakingTicketRequest&) = delete;
-    ~CreateMatchmakingTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCreateMatchmakingTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCreateMatchmakingTicketRequest& input);
 
-private:
-    MatchmakingPlayer m_creator;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFEntityKey, EntityKey> m_membersToMatchWith;
-    String m_queueName;
 };
 
-struct CreateMatchmakingTicketResult : public PFMatchmakingCreateMatchmakingTicketResult, public SerializableModel, public ApiResult
+class CreateMatchmakingTicketResult : public Wrappers::PFMatchmakingCreateMatchmakingTicketResultWrapper<Allocator>, public OutputModel<PFMatchmakingCreateMatchmakingTicketResult>
 {
-    CreateMatchmakingTicketResult();
-    CreateMatchmakingTicketResult(const CreateMatchmakingTicketResult& src);
-    CreateMatchmakingTicketResult(CreateMatchmakingTicketResult&& src);
-    CreateMatchmakingTicketResult(const PFMatchmakingCreateMatchmakingTicketResult& src);
-    CreateMatchmakingTicketResult& operator=(const CreateMatchmakingTicketResult&) = delete;
-    ~CreateMatchmakingTicketResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCreateMatchmakingTicketResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingCreateMatchmakingTicketResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_ticketId;
+    static size_t RequiredBufferSize(const PFMatchmakingCreateMatchmakingTicketResult& model);
+    static HRESULT Copy(const PFMatchmakingCreateMatchmakingTicketResult& input, PFMatchmakingCreateMatchmakingTicketResult& output, ModelBuffer& buffer);
 };
 
-struct MatchmakingPlayerWithTeamAssignment : public PFMatchmakingMatchmakingPlayerWithTeamAssignment, public BaseModel
+class MatchmakingPlayerWithTeamAssignment : public Wrappers::PFMatchmakingMatchmakingPlayerWithTeamAssignmentWrapper<Allocator>, public InputModel, public OutputModel<PFMatchmakingMatchmakingPlayerWithTeamAssignment>
 {
-    MatchmakingPlayerWithTeamAssignment();
-    MatchmakingPlayerWithTeamAssignment(const MatchmakingPlayerWithTeamAssignment& src);
-    MatchmakingPlayerWithTeamAssignment(MatchmakingPlayerWithTeamAssignment&& src);
-    MatchmakingPlayerWithTeamAssignment(const PFMatchmakingMatchmakingPlayerWithTeamAssignment& src);
-    MatchmakingPlayerWithTeamAssignment& operator=(const MatchmakingPlayerWithTeamAssignment&) = delete;
-    ~MatchmakingPlayerWithTeamAssignment() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingMatchmakingPlayerWithTeamAssignmentWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingMatchmakingPlayerWithTeamAssignment& input);
+
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingMatchmakingPlayerWithTeamAssignment const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<MatchmakingPlayerAttributes> m_attributes;
-    EntityKey m_entity;
-    String m_teamId;
+    static size_t RequiredBufferSize(const PFMatchmakingMatchmakingPlayerWithTeamAssignment& model);
+    static HRESULT Copy(const PFMatchmakingMatchmakingPlayerWithTeamAssignment& input, PFMatchmakingMatchmakingPlayerWithTeamAssignment& output, ModelBuffer& buffer);
 };
 
-struct ServerDetails : public PFMatchmakingServerDetails, public BaseModel
+class ServerDetails : public Wrappers::PFMatchmakingServerDetailsWrapper<Allocator>, public InputModel, public OutputModel<PFMatchmakingServerDetails>
 {
-    ServerDetails();
-    ServerDetails(const ServerDetails& src);
-    ServerDetails(ServerDetails&& src);
-    ServerDetails(const PFMatchmakingServerDetails& src);
-    ServerDetails& operator=(const ServerDetails&) = delete;
-    ~ServerDetails() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingServerDetailsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingServerDetails& input);
 
-private:
-    String m_fqdn;
-    String m_iPV4Address;
-    PointerArrayModel<PFPort, Port> m_ports;
-    String m_region;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingServerDetails const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFMatchmakingServerDetails& model);
+    static HRESULT Copy(const PFMatchmakingServerDetails& input, PFMatchmakingServerDetails& output, ModelBuffer& buffer);
 };
 
-struct CreateServerBackfillTicketRequest : public PFMatchmakingCreateServerBackfillTicketRequest, public BaseModel
+class CreateServerBackfillTicketRequest : public Wrappers::PFMatchmakingCreateServerBackfillTicketRequestWrapper<Allocator>, public InputModel
 {
-    CreateServerBackfillTicketRequest();
-    CreateServerBackfillTicketRequest(const CreateServerBackfillTicketRequest& src);
-    CreateServerBackfillTicketRequest(CreateServerBackfillTicketRequest&& src);
-    CreateServerBackfillTicketRequest(const PFMatchmakingCreateServerBackfillTicketRequest& src);
-    CreateServerBackfillTicketRequest& operator=(const CreateServerBackfillTicketRequest&) = delete;
-    ~CreateServerBackfillTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCreateServerBackfillTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCreateServerBackfillTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFMatchmakingMatchmakingPlayerWithTeamAssignment, MatchmakingPlayerWithTeamAssignment> m_members;
-    String m_queueName;
-    StdExtra::optional<ServerDetails> m_serverDetails;
 };
 
-struct CreateServerBackfillTicketResult : public PFMatchmakingCreateServerBackfillTicketResult, public SerializableModel, public ApiResult
+class CreateServerBackfillTicketResult : public Wrappers::PFMatchmakingCreateServerBackfillTicketResultWrapper<Allocator>, public OutputModel<PFMatchmakingCreateServerBackfillTicketResult>
 {
-    CreateServerBackfillTicketResult();
-    CreateServerBackfillTicketResult(const CreateServerBackfillTicketResult& src);
-    CreateServerBackfillTicketResult(CreateServerBackfillTicketResult&& src);
-    CreateServerBackfillTicketResult(const PFMatchmakingCreateServerBackfillTicketResult& src);
-    CreateServerBackfillTicketResult& operator=(const CreateServerBackfillTicketResult&) = delete;
-    ~CreateServerBackfillTicketResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCreateServerBackfillTicketResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingCreateServerBackfillTicketResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_ticketId;
+    static size_t RequiredBufferSize(const PFMatchmakingCreateServerBackfillTicketResult& model);
+    static HRESULT Copy(const PFMatchmakingCreateServerBackfillTicketResult& input, PFMatchmakingCreateServerBackfillTicketResult& output, ModelBuffer& buffer);
 };
 
-struct CreateServerMatchmakingTicketRequest : public PFMatchmakingCreateServerMatchmakingTicketRequest, public BaseModel
+class CreateServerMatchmakingTicketRequest : public Wrappers::PFMatchmakingCreateServerMatchmakingTicketRequestWrapper<Allocator>, public InputModel
 {
-    CreateServerMatchmakingTicketRequest();
-    CreateServerMatchmakingTicketRequest(const CreateServerMatchmakingTicketRequest& src);
-    CreateServerMatchmakingTicketRequest(CreateServerMatchmakingTicketRequest&& src);
-    CreateServerMatchmakingTicketRequest(const PFMatchmakingCreateServerMatchmakingTicketRequest& src);
-    CreateServerMatchmakingTicketRequest& operator=(const CreateServerMatchmakingTicketRequest&) = delete;
-    ~CreateServerMatchmakingTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingCreateServerMatchmakingTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingCreateServerMatchmakingTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFMatchmakingMatchmakingPlayer, MatchmakingPlayer> m_members;
-    String m_queueName;
 };
 
-struct GetMatchRequest : public PFMatchmakingGetMatchRequest, public BaseModel
+class GetMatchRequest : public Wrappers::PFMatchmakingGetMatchRequestWrapper<Allocator>, public InputModel
 {
-    GetMatchRequest();
-    GetMatchRequest(const GetMatchRequest& src);
-    GetMatchRequest(GetMatchRequest&& src);
-    GetMatchRequest(const PFMatchmakingGetMatchRequest& src);
-    GetMatchRequest& operator=(const GetMatchRequest&) = delete;
-    ~GetMatchRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGetMatchRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_matchId;
-    String m_queueName;
 };
 
-struct GetMatchResult : public PFMatchmakingGetMatchResult, public BaseModel, public ApiResult
+class GetMatchResult : public Wrappers::PFMatchmakingGetMatchResultWrapper<Allocator>, public OutputModel<PFMatchmakingGetMatchResult>
 {
-    GetMatchResult();
-    GetMatchResult(const GetMatchResult& src);
-    GetMatchResult(GetMatchResult&& src);
-    GetMatchResult(const PFMatchmakingGetMatchResult& src);
-    GetMatchResult& operator=(const GetMatchResult&) = delete;
-    ~GetMatchResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGetMatchResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_matchId;
-    PointerArrayModel<PFMatchmakingMatchmakingPlayerWithTeamAssignment, MatchmakingPlayerWithTeamAssignment> m_members;
-    PointerArrayModel<char, String> m_regionPreferences;
-    StdExtra::optional<ServerDetails> m_serverDetails;
+    static size_t RequiredBufferSize(const PFMatchmakingGetMatchResult& model);
+    static HRESULT Copy(const PFMatchmakingGetMatchResult& input, PFMatchmakingGetMatchResult& output, ModelBuffer& buffer);
 };
 
-struct GetMatchmakingTicketRequest : public PFMatchmakingGetMatchmakingTicketRequest, public BaseModel
+class GetMatchmakingTicketRequest : public Wrappers::PFMatchmakingGetMatchmakingTicketRequestWrapper<Allocator>, public InputModel
 {
-    GetMatchmakingTicketRequest();
-    GetMatchmakingTicketRequest(const GetMatchmakingTicketRequest& src);
-    GetMatchmakingTicketRequest(GetMatchmakingTicketRequest&& src);
-    GetMatchmakingTicketRequest(const PFMatchmakingGetMatchmakingTicketRequest& src);
-    GetMatchmakingTicketRequest& operator=(const GetMatchmakingTicketRequest&) = delete;
-    ~GetMatchmakingTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchmakingTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGetMatchmakingTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_queueName;
-    String m_ticketId;
 };
 
-struct GetMatchmakingTicketResult : public PFMatchmakingGetMatchmakingTicketResult, public BaseModel, public ApiResult
+class GetMatchmakingTicketResult : public Wrappers::PFMatchmakingGetMatchmakingTicketResultWrapper<Allocator>, public OutputModel<PFMatchmakingGetMatchmakingTicketResult>
 {
-    GetMatchmakingTicketResult();
-    GetMatchmakingTicketResult(const GetMatchmakingTicketResult& src);
-    GetMatchmakingTicketResult(GetMatchmakingTicketResult&& src);
-    GetMatchmakingTicketResult(const PFMatchmakingGetMatchmakingTicketResult& src);
-    GetMatchmakingTicketResult& operator=(const GetMatchmakingTicketResult&) = delete;
-    ~GetMatchmakingTicketResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetMatchmakingTicketResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGetMatchmakingTicketResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_cancellationReasonString;
-    EntityKey m_creator;
-    String m_matchId;
-    PointerArrayModel<PFMatchmakingMatchmakingPlayer, MatchmakingPlayer> m_members;
-    PointerArrayModel<PFEntityKey, EntityKey> m_membersToMatchWith;
-    String m_queueName;
-    String m_status;
-    String m_ticketId;
+    static size_t RequiredBufferSize(const PFMatchmakingGetMatchmakingTicketResult& model);
+    static HRESULT Copy(const PFMatchmakingGetMatchmakingTicketResult& input, PFMatchmakingGetMatchmakingTicketResult& output, ModelBuffer& buffer);
 };
 
-struct GetQueueStatisticsRequest : public PFMatchmakingGetQueueStatisticsRequest, public BaseModel
+class GetQueueStatisticsRequest : public Wrappers::PFMatchmakingGetQueueStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    GetQueueStatisticsRequest();
-    GetQueueStatisticsRequest(const GetQueueStatisticsRequest& src);
-    GetQueueStatisticsRequest(GetQueueStatisticsRequest&& src);
-    GetQueueStatisticsRequest(const PFMatchmakingGetQueueStatisticsRequest& src);
-    GetQueueStatisticsRequest& operator=(const GetQueueStatisticsRequest&) = delete;
-    ~GetQueueStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetQueueStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGetQueueStatisticsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_queueName;
 };
 
-struct Statistics : public PFMatchmakingStatistics, public SerializableModel
+class Statistics : public Wrappers::PFMatchmakingStatisticsWrapper<Allocator>, public OutputModel<PFMatchmakingStatistics>
 {
-    Statistics();
-    Statistics(const Statistics&) = default;
-    Statistics(Statistics&&) = default;
-    Statistics(const PFMatchmakingStatistics& src);
-    Statistics& operator=(const Statistics&) = delete;
-    ~Statistics() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingStatisticsWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingStatistics const*> Copy(ModelBuffer& buffer) const override;
 
-private:
+    static size_t RequiredBufferSize(const PFMatchmakingStatistics& model);
+    static HRESULT Copy(const PFMatchmakingStatistics& input, PFMatchmakingStatistics& output, ModelBuffer& buffer);
 };
 
-struct GetQueueStatisticsResult : public PFMatchmakingGetQueueStatisticsResult, public BaseModel, public ApiResult
+class GetQueueStatisticsResult : public Wrappers::PFMatchmakingGetQueueStatisticsResultWrapper<Allocator>, public OutputModel<PFMatchmakingGetQueueStatisticsResult>
 {
-    GetQueueStatisticsResult();
-    GetQueueStatisticsResult(const GetQueueStatisticsResult& src);
-    GetQueueStatisticsResult(GetQueueStatisticsResult&& src);
-    GetQueueStatisticsResult(const PFMatchmakingGetQueueStatisticsResult& src);
-    GetQueueStatisticsResult& operator=(const GetQueueStatisticsResult&) = delete;
-    ~GetQueueStatisticsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetQueueStatisticsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGetQueueStatisticsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<uint32_t> m_numberOfPlayersMatching;
-    StdExtra::optional<Statistics> m_timeToMatchStatisticsInSeconds;
+    static size_t RequiredBufferSize(const PFMatchmakingGetQueueStatisticsResult& model);
+    static HRESULT Copy(const PFMatchmakingGetQueueStatisticsResult& input, PFMatchmakingGetQueueStatisticsResult& output, ModelBuffer& buffer);
 };
 
-struct GetServerBackfillTicketRequest : public PFMatchmakingGetServerBackfillTicketRequest, public BaseModel
+class GetServerBackfillTicketRequest : public Wrappers::PFMatchmakingGetServerBackfillTicketRequestWrapper<Allocator>, public InputModel
 {
-    GetServerBackfillTicketRequest();
-    GetServerBackfillTicketRequest(const GetServerBackfillTicketRequest& src);
-    GetServerBackfillTicketRequest(GetServerBackfillTicketRequest&& src);
-    GetServerBackfillTicketRequest(const PFMatchmakingGetServerBackfillTicketRequest& src);
-    GetServerBackfillTicketRequest& operator=(const GetServerBackfillTicketRequest&) = delete;
-    ~GetServerBackfillTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetServerBackfillTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingGetServerBackfillTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_queueName;
-    String m_ticketId;
 };
 
-struct GetServerBackfillTicketResult : public PFMatchmakingGetServerBackfillTicketResult, public BaseModel, public ApiResult
+class GetServerBackfillTicketResult : public Wrappers::PFMatchmakingGetServerBackfillTicketResultWrapper<Allocator>, public OutputModel<PFMatchmakingGetServerBackfillTicketResult>
 {
-    GetServerBackfillTicketResult();
-    GetServerBackfillTicketResult(const GetServerBackfillTicketResult& src);
-    GetServerBackfillTicketResult(GetServerBackfillTicketResult&& src);
-    GetServerBackfillTicketResult(const PFMatchmakingGetServerBackfillTicketResult& src);
-    GetServerBackfillTicketResult& operator=(const GetServerBackfillTicketResult&) = delete;
-    ~GetServerBackfillTicketResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingGetServerBackfillTicketResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingGetServerBackfillTicketResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_cancellationReasonString;
-    String m_matchId;
-    PointerArrayModel<PFMatchmakingMatchmakingPlayerWithTeamAssignment, MatchmakingPlayerWithTeamAssignment> m_members;
-    String m_queueName;
-    ServerDetails m_serverDetails;
-    String m_status;
-    String m_ticketId;
+    static size_t RequiredBufferSize(const PFMatchmakingGetServerBackfillTicketResult& model);
+    static HRESULT Copy(const PFMatchmakingGetServerBackfillTicketResult& input, PFMatchmakingGetServerBackfillTicketResult& output, ModelBuffer& buffer);
 };
 
-struct JoinMatchmakingTicketRequest : public PFMatchmakingJoinMatchmakingTicketRequest, public BaseModel
+class JoinMatchmakingTicketRequest : public Wrappers::PFMatchmakingJoinMatchmakingTicketRequestWrapper<Allocator>, public InputModel
 {
-    JoinMatchmakingTicketRequest();
-    JoinMatchmakingTicketRequest(const JoinMatchmakingTicketRequest& src);
-    JoinMatchmakingTicketRequest(JoinMatchmakingTicketRequest&& src);
-    JoinMatchmakingTicketRequest(const PFMatchmakingJoinMatchmakingTicketRequest& src);
-    JoinMatchmakingTicketRequest& operator=(const JoinMatchmakingTicketRequest&) = delete;
-    ~JoinMatchmakingTicketRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingJoinMatchmakingTicketRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingJoinMatchmakingTicketRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    MatchmakingPlayer m_member;
-    String m_queueName;
-    String m_ticketId;
 };
 
-struct ListMatchmakingTicketsForPlayerRequest : public PFMatchmakingListMatchmakingTicketsForPlayerRequest, public BaseModel
+class ListMatchmakingTicketsForPlayerRequest : public Wrappers::PFMatchmakingListMatchmakingTicketsForPlayerRequestWrapper<Allocator>, public InputModel
 {
-    ListMatchmakingTicketsForPlayerRequest();
-    ListMatchmakingTicketsForPlayerRequest(const ListMatchmakingTicketsForPlayerRequest& src);
-    ListMatchmakingTicketsForPlayerRequest(ListMatchmakingTicketsForPlayerRequest&& src);
-    ListMatchmakingTicketsForPlayerRequest(const PFMatchmakingListMatchmakingTicketsForPlayerRequest& src);
-    ListMatchmakingTicketsForPlayerRequest& operator=(const ListMatchmakingTicketsForPlayerRequest&) = delete;
-    ~ListMatchmakingTicketsForPlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingListMatchmakingTicketsForPlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingListMatchmakingTicketsForPlayerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_queueName;
 };
 
-struct ListMatchmakingTicketsForPlayerResult : public PFMatchmakingListMatchmakingTicketsForPlayerResult, public BaseModel, public ApiResult
+class ListMatchmakingTicketsForPlayerResult : public Wrappers::PFMatchmakingListMatchmakingTicketsForPlayerResultWrapper<Allocator>, public OutputModel<PFMatchmakingListMatchmakingTicketsForPlayerResult>
 {
-    ListMatchmakingTicketsForPlayerResult();
-    ListMatchmakingTicketsForPlayerResult(const ListMatchmakingTicketsForPlayerResult& src);
-    ListMatchmakingTicketsForPlayerResult(ListMatchmakingTicketsForPlayerResult&& src);
-    ListMatchmakingTicketsForPlayerResult(const PFMatchmakingListMatchmakingTicketsForPlayerResult& src);
-    ListMatchmakingTicketsForPlayerResult& operator=(const ListMatchmakingTicketsForPlayerResult&) = delete;
-    ~ListMatchmakingTicketsForPlayerResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingListMatchmakingTicketsForPlayerResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingListMatchmakingTicketsForPlayerResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<char, String> m_ticketIds;
+    static size_t RequiredBufferSize(const PFMatchmakingListMatchmakingTicketsForPlayerResult& model);
+    static HRESULT Copy(const PFMatchmakingListMatchmakingTicketsForPlayerResult& input, PFMatchmakingListMatchmakingTicketsForPlayerResult& output, ModelBuffer& buffer);
 };
 
-struct ListServerBackfillTicketsForPlayerRequest : public PFMatchmakingListServerBackfillTicketsForPlayerRequest, public BaseModel
+class ListServerBackfillTicketsForPlayerRequest : public Wrappers::PFMatchmakingListServerBackfillTicketsForPlayerRequestWrapper<Allocator>, public InputModel
 {
-    ListServerBackfillTicketsForPlayerRequest();
-    ListServerBackfillTicketsForPlayerRequest(const ListServerBackfillTicketsForPlayerRequest& src);
-    ListServerBackfillTicketsForPlayerRequest(ListServerBackfillTicketsForPlayerRequest&& src);
-    ListServerBackfillTicketsForPlayerRequest(const PFMatchmakingListServerBackfillTicketsForPlayerRequest& src);
-    ListServerBackfillTicketsForPlayerRequest& operator=(const ListServerBackfillTicketsForPlayerRequest&) = delete;
-    ~ListServerBackfillTicketsForPlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingListServerBackfillTicketsForPlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFMatchmakingListServerBackfillTicketsForPlayerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    String m_queueName;
 };
 
-struct ListServerBackfillTicketsForPlayerResult : public PFMatchmakingListServerBackfillTicketsForPlayerResult, public BaseModel, public ApiResult
+class ListServerBackfillTicketsForPlayerResult : public Wrappers::PFMatchmakingListServerBackfillTicketsForPlayerResultWrapper<Allocator>, public OutputModel<PFMatchmakingListServerBackfillTicketsForPlayerResult>
 {
-    ListServerBackfillTicketsForPlayerResult();
-    ListServerBackfillTicketsForPlayerResult(const ListServerBackfillTicketsForPlayerResult& src);
-    ListServerBackfillTicketsForPlayerResult(ListServerBackfillTicketsForPlayerResult&& src);
-    ListServerBackfillTicketsForPlayerResult(const PFMatchmakingListServerBackfillTicketsForPlayerResult& src);
-    ListServerBackfillTicketsForPlayerResult& operator=(const ListServerBackfillTicketsForPlayerResult&) = delete;
-    ~ListServerBackfillTicketsForPlayerResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFMatchmakingListServerBackfillTicketsForPlayerResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFMatchmakingListServerBackfillTicketsForPlayerResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<char, String> m_ticketIds;
-};
-
-} // namespace MatchmakingModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchmakerGameInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchmakerGameInfoResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchmakerGameModesRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGameModeInfo& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchmakerGameModesResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingModifyMatchmakerGameModesRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingContainer_Dictionary_String_String& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCollectionFilter& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCurrentGamesRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGameInfo& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCurrentGamesResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGameServerRegionsRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingRegionInfo& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGameServerRegionsResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingMatchmakeRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingMatchmakeResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingClientStartGameRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingStartGameResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingAuthUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingAuthUserResponse& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingPlayerJoinedRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingPlayerLeftRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingMatchmakerStartGameRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingStartGameResponse& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingUserInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingUserInfoResponse& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingDeregisterGameRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingNotifyMatchmakerPlayerLeftRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingNotifyMatchmakerPlayerLeftResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingRedeemMatchmakerTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingRedeemMatchmakerTicketResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingRefreshGameServerInstanceHeartbeatRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingRegisterGameRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingRegisterGameResponse& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingSetGameServerInstanceDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingSetGameServerInstanceStateRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingSetGameServerInstanceTagsRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCancelAllMatchmakingTicketsForPlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCancelAllServerBackfillTicketsForPlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCancelMatchmakingTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCancelServerBackfillTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingMatchmakingPlayerAttributes& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingMatchmakingPlayer& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCreateMatchmakingTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCreateMatchmakingTicketResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingMatchmakingPlayerWithTeamAssignment& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingServerDetails& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCreateServerBackfillTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCreateServerBackfillTicketResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingCreateServerMatchmakingTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchmakingTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetMatchmakingTicketResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetQueueStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingStatistics& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetQueueStatisticsResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetServerBackfillTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingGetServerBackfillTicketResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingJoinMatchmakingTicketRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingListMatchmakingTicketsForPlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingListMatchmakingTicketsForPlayerResult& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingListServerBackfillTicketsForPlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFMatchmakingListServerBackfillTicketsForPlayerResult& input);
-} // namespace JsonUtils
+    static size_t RequiredBufferSize(const PFMatchmakingListServerBackfillTicketsForPlayerResult& model);
+    static HRESULT Copy(const PFMatchmakingListServerBackfillTicketsForPlayerResult& input, PFMatchmakingListServerBackfillTicketsForPlayerResult& output, ModelBuffer& buffer);
+};
 
+} // namespace Matchmaking
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

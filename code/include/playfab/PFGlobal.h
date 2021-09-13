@@ -126,31 +126,6 @@ HRESULT PFUninitializeAsync(
 ) noexcept;
 
 /// <summary>
-/// Opaque handle to PlayFab API results. Lifetime of result objects may be tied to a PFResultHandle.
-/// </summary>
-typedef struct PFResult* PFResultHandle;
-
-/// <summary>
-/// Duplicate a result handle.
-/// </summary>
-/// <param name="resultHandle">PFResultHandle to duplicate.</param>
-/// <param name="duplicatedHandle">Pointer to duplicated handle.</param>
-/// <returns>Result code for this API operation.</returns>
-HRESULT PFResultDuplicateHandle(
-    _In_ PFResultHandle resultHandle,
-    _Out_ PFResultHandle* duplicatedHandle
-) noexcept;
-
-/// <summary>
-/// Close a result handle. If it is the last handle, the underlying result object will be destroyed.
-/// </summary>
-/// <param name="resultHandle">PFResultHandle to close.</param>
-/// <returns>Result code for this API operation.</returns>
-void PFResultCloseHandle(
-    _In_ PFResultHandle resultHandle
-) noexcept;
-
-/// <summary>
 /// A token returned when registering a callback to identify the registration. This token is later used 
 /// to unregister the callback.
 /// </summary>

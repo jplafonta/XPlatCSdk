@@ -708,7 +708,7 @@ typedef struct PFPlayStreamWriteEventsResponse
 typedef struct PFPlayStreamPlayerLocationDictionaryEntry
 {
     const char* key;
-    PFPlayStreamPlayerLocation* value;
+    PFPlayStreamPlayerLocation const* value;
 } PFPlayStreamPlayerLocationDictionaryEntry;
 
 #pragma pop_macro("IN")

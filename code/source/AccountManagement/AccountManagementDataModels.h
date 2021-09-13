@@ -1,2896 +1,2473 @@
 #pragma once
 
-#include <playfab/PFAccountManagementDataModels.h>
+#include <playfab/cpp/PFAccountManagementDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace AccountManagementModels
+namespace AccountManagement
 {
 
 // AccountManagement Classes
-struct BanRequest : public PFAccountManagementBanRequest, public BaseModel
-{
-    BanRequest();
-    BanRequest(const BanRequest& src);
-    BanRequest(BanRequest&& src);
-    BanRequest(const PFAccountManagementBanRequest& src);
-    BanRequest& operator=(const BanRequest&) = delete;
-    ~BanRequest() = default;
+class BanRequest : public Wrappers::PFAccountManagementBanRequestWrapper<Allocator>, public InputModel
+{
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementBanRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementBanRequest& input);
 
-private:
-    StdExtra::optional<uint32_t> m_durationInHours;
-    String m_IPAddress;
-    String m_MACAddress;
-    String m_playFabId;
-    String m_reason;
 };
 
-struct BanUsersRequest : public PFAccountManagementBanUsersRequest, public BaseModel
+class BanUsersRequest : public Wrappers::PFAccountManagementBanUsersRequestWrapper<Allocator>, public InputModel
 {
-    BanUsersRequest();
-    BanUsersRequest(const BanUsersRequest& src);
-    BanUsersRequest(BanUsersRequest&& src);
-    BanUsersRequest(const PFAccountManagementBanUsersRequest& src);
-    BanUsersRequest& operator=(const BanUsersRequest&) = delete;
-    ~BanUsersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementBanUsersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementBanUsersRequest& input);
 
-private:
-    PointerArrayModel<PFAccountManagementBanRequest, BanRequest> m_bans;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct BanInfo : public PFAccountManagementBanInfo, public BaseModel
+class BanInfo : public Wrappers::PFAccountManagementBanInfoWrapper<Allocator>, public OutputModel<PFAccountManagementBanInfo>
 {
-    BanInfo();
-    BanInfo(const BanInfo& src);
-    BanInfo(BanInfo&& src);
-    BanInfo(const PFAccountManagementBanInfo& src);
-    BanInfo& operator=(const BanInfo&) = delete;
-    ~BanInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementBanInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementBanInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_banId;
-    StdExtra::optional<time_t> m_created;
-    StdExtra::optional<time_t> m_expires;
-    String m_IPAddress;
-    String m_MACAddress;
-    String m_playFabId;
-    String m_reason;
+    static size_t RequiredBufferSize(const PFAccountManagementBanInfo& model);
+    static HRESULT Copy(const PFAccountManagementBanInfo& input, PFAccountManagementBanInfo& output, ModelBuffer& buffer);
 };
 
-struct BanUsersResult : public PFAccountManagementBanUsersResult, public BaseModel, public ApiResult
+class BanUsersResult : public Wrappers::PFAccountManagementBanUsersResultWrapper<Allocator>, public OutputModel<PFAccountManagementBanUsersResult>
 {
-    BanUsersResult();
-    BanUsersResult(const BanUsersResult& src);
-    BanUsersResult(BanUsersResult&& src);
-    BanUsersResult(const PFAccountManagementBanUsersResult& src);
-    BanUsersResult& operator=(const BanUsersResult&) = delete;
-    ~BanUsersResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementBanUsersResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementBanUsersResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementBanInfo, BanInfo> m_banData;
+    static size_t RequiredBufferSize(const PFAccountManagementBanUsersResult& model);
+    static HRESULT Copy(const PFAccountManagementBanUsersResult& input, PFAccountManagementBanUsersResult& output, ModelBuffer& buffer);
 };
 
-struct DeleteMasterPlayerAccountRequest : public PFAccountManagementDeleteMasterPlayerAccountRequest, public SerializableModel
+class DeleteMasterPlayerAccountRequest : public Wrappers::PFAccountManagementDeleteMasterPlayerAccountRequestWrapper<Allocator>, public InputModel
 {
-    DeleteMasterPlayerAccountRequest();
-    DeleteMasterPlayerAccountRequest(const DeleteMasterPlayerAccountRequest& src);
-    DeleteMasterPlayerAccountRequest(DeleteMasterPlayerAccountRequest&& src);
-    DeleteMasterPlayerAccountRequest(const PFAccountManagementDeleteMasterPlayerAccountRequest& src);
-    DeleteMasterPlayerAccountRequest& operator=(const DeleteMasterPlayerAccountRequest&) = delete;
-    ~DeleteMasterPlayerAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementDeleteMasterPlayerAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementDeleteMasterPlayerAccountRequest& input);
 
-private:
-    String m_metaData;
-    String m_playFabId;
 };
 
-struct DeleteMasterPlayerAccountResult : public PFAccountManagementDeleteMasterPlayerAccountResult, public BaseModel, public ApiResult
+class DeleteMasterPlayerAccountResult : public Wrappers::PFAccountManagementDeleteMasterPlayerAccountResultWrapper<Allocator>, public OutputModel<PFAccountManagementDeleteMasterPlayerAccountResult>
 {
-    DeleteMasterPlayerAccountResult();
-    DeleteMasterPlayerAccountResult(const DeleteMasterPlayerAccountResult& src);
-    DeleteMasterPlayerAccountResult(DeleteMasterPlayerAccountResult&& src);
-    DeleteMasterPlayerAccountResult(const PFAccountManagementDeleteMasterPlayerAccountResult& src);
-    DeleteMasterPlayerAccountResult& operator=(const DeleteMasterPlayerAccountResult&) = delete;
-    ~DeleteMasterPlayerAccountResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementDeleteMasterPlayerAccountResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementDeleteMasterPlayerAccountResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_jobReceiptId;
-    PointerArrayModel<char, String> m_titleIds;
+    static size_t RequiredBufferSize(const PFAccountManagementDeleteMasterPlayerAccountResult& model);
+    static HRESULT Copy(const PFAccountManagementDeleteMasterPlayerAccountResult& input, PFAccountManagementDeleteMasterPlayerAccountResult& output, ModelBuffer& buffer);
 };
 
-struct DeletePlayerRequest : public PFAccountManagementDeletePlayerRequest, public SerializableModel
+class DeletePlayerRequest : public Wrappers::PFAccountManagementDeletePlayerRequestWrapper<Allocator>, public InputModel
 {
-    DeletePlayerRequest();
-    DeletePlayerRequest(const DeletePlayerRequest& src);
-    DeletePlayerRequest(DeletePlayerRequest&& src);
-    DeletePlayerRequest(const PFAccountManagementDeletePlayerRequest& src);
-    DeletePlayerRequest& operator=(const DeletePlayerRequest&) = delete;
-    ~DeletePlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementDeletePlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementDeletePlayerRequest& input);
 
-private:
-    String m_playFabId;
 };
 
-struct ExportMasterPlayerDataRequest : public PFAccountManagementExportMasterPlayerDataRequest, public SerializableModel
+class ExportMasterPlayerDataRequest : public Wrappers::PFAccountManagementExportMasterPlayerDataRequestWrapper<Allocator>, public InputModel
 {
-    ExportMasterPlayerDataRequest();
-    ExportMasterPlayerDataRequest(const ExportMasterPlayerDataRequest& src);
-    ExportMasterPlayerDataRequest(ExportMasterPlayerDataRequest&& src);
-    ExportMasterPlayerDataRequest(const PFAccountManagementExportMasterPlayerDataRequest& src);
-    ExportMasterPlayerDataRequest& operator=(const ExportMasterPlayerDataRequest&) = delete;
-    ~ExportMasterPlayerDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementExportMasterPlayerDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementExportMasterPlayerDataRequest& input);
 
-private:
-    String m_playFabId;
 };
 
-struct ExportMasterPlayerDataResult : public PFAccountManagementExportMasterPlayerDataResult, public SerializableModel, public ApiResult
+class ExportMasterPlayerDataResult : public Wrappers::PFAccountManagementExportMasterPlayerDataResultWrapper<Allocator>, public OutputModel<PFAccountManagementExportMasterPlayerDataResult>
 {
-    ExportMasterPlayerDataResult();
-    ExportMasterPlayerDataResult(const ExportMasterPlayerDataResult& src);
-    ExportMasterPlayerDataResult(ExportMasterPlayerDataResult&& src);
-    ExportMasterPlayerDataResult(const PFAccountManagementExportMasterPlayerDataResult& src);
-    ExportMasterPlayerDataResult& operator=(const ExportMasterPlayerDataResult&) = delete;
-    ~ExportMasterPlayerDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementExportMasterPlayerDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementExportMasterPlayerDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_jobReceiptId;
+    static size_t RequiredBufferSize(const PFAccountManagementExportMasterPlayerDataResult& model);
+    static HRESULT Copy(const PFAccountManagementExportMasterPlayerDataResult& input, PFAccountManagementExportMasterPlayerDataResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayedTitleListRequest : public PFAccountManagementGetPlayedTitleListRequest, public SerializableModel
+class GetPlayedTitleListRequest : public Wrappers::PFAccountManagementGetPlayedTitleListRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayedTitleListRequest();
-    GetPlayedTitleListRequest(const GetPlayedTitleListRequest& src);
-    GetPlayedTitleListRequest(GetPlayedTitleListRequest&& src);
-    GetPlayedTitleListRequest(const PFAccountManagementGetPlayedTitleListRequest& src);
-    GetPlayedTitleListRequest& operator=(const GetPlayedTitleListRequest&) = delete;
-    ~GetPlayedTitleListRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayedTitleListRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayedTitleListRequest& input);
 
-private:
-    String m_playFabId;
 };
 
-struct GetPlayedTitleListResult : public PFAccountManagementGetPlayedTitleListResult, public BaseModel, public ApiResult
+class GetPlayedTitleListResult : public Wrappers::PFAccountManagementGetPlayedTitleListResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayedTitleListResult>
 {
-    GetPlayedTitleListResult();
-    GetPlayedTitleListResult(const GetPlayedTitleListResult& src);
-    GetPlayedTitleListResult(GetPlayedTitleListResult&& src);
-    GetPlayedTitleListResult(const PFAccountManagementGetPlayedTitleListResult& src);
-    GetPlayedTitleListResult& operator=(const GetPlayedTitleListResult&) = delete;
-    ~GetPlayedTitleListResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayedTitleListResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayedTitleListResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<char, String> m_titleIds;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayedTitleListResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayedTitleListResult& input, PFAccountManagementGetPlayedTitleListResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerIdFromAuthTokenRequest : public PFAccountManagementGetPlayerIdFromAuthTokenRequest, public SerializableModel
+class GetPlayerIdFromAuthTokenRequest : public Wrappers::PFAccountManagementGetPlayerIdFromAuthTokenRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayerIdFromAuthTokenRequest();
-    GetPlayerIdFromAuthTokenRequest(const GetPlayerIdFromAuthTokenRequest& src);
-    GetPlayerIdFromAuthTokenRequest(GetPlayerIdFromAuthTokenRequest&& src);
-    GetPlayerIdFromAuthTokenRequest(const PFAccountManagementGetPlayerIdFromAuthTokenRequest& src);
-    GetPlayerIdFromAuthTokenRequest& operator=(const GetPlayerIdFromAuthTokenRequest&) = delete;
-    ~GetPlayerIdFromAuthTokenRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayerIdFromAuthTokenRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayerIdFromAuthTokenRequest& input);
 
-private:
-    String m_token;
 };
 
-struct GetPlayerIdFromAuthTokenResult : public PFAccountManagementGetPlayerIdFromAuthTokenResult, public SerializableModel, public ApiResult
+class GetPlayerIdFromAuthTokenResult : public Wrappers::PFAccountManagementGetPlayerIdFromAuthTokenResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayerIdFromAuthTokenResult>
 {
-    GetPlayerIdFromAuthTokenResult();
-    GetPlayerIdFromAuthTokenResult(const GetPlayerIdFromAuthTokenResult& src);
-    GetPlayerIdFromAuthTokenResult(GetPlayerIdFromAuthTokenResult&& src);
-    GetPlayerIdFromAuthTokenResult(const PFAccountManagementGetPlayerIdFromAuthTokenResult& src);
-    GetPlayerIdFromAuthTokenResult& operator=(const GetPlayerIdFromAuthTokenResult&) = delete;
-    ~GetPlayerIdFromAuthTokenResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayerIdFromAuthTokenResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayerIdFromAuthTokenResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayerIdFromAuthTokenResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayerIdFromAuthTokenResult& input, PFAccountManagementGetPlayerIdFromAuthTokenResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerProfileRequest : public PFAccountManagementGetPlayerProfileRequest, public BaseModel
+class GetPlayerProfileRequest : public Wrappers::PFAccountManagementGetPlayerProfileRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayerProfileRequest();
-    GetPlayerProfileRequest(const GetPlayerProfileRequest& src);
-    GetPlayerProfileRequest(GetPlayerProfileRequest&& src);
-    GetPlayerProfileRequest(const PFAccountManagementGetPlayerProfileRequest& src);
-    GetPlayerProfileRequest& operator=(const GetPlayerProfileRequest&) = delete;
-    ~GetPlayerProfileRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayerProfileRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayerProfileRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
 };
 
-struct GetPlayerProfileResult : public PFAccountManagementGetPlayerProfileResult, public BaseModel, public ApiResult
+class GetPlayerProfileResult : public Wrappers::PFAccountManagementGetPlayerProfileResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayerProfileResult>
 {
-    GetPlayerProfileResult();
-    GetPlayerProfileResult(const GetPlayerProfileResult& src);
-    GetPlayerProfileResult(GetPlayerProfileResult&& src);
-    GetPlayerProfileResult(const PFAccountManagementGetPlayerProfileResult& src);
-    GetPlayerProfileResult& operator=(const GetPlayerProfileResult&) = delete;
-    ~GetPlayerProfileResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayerProfileResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayerProfileResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PlayerProfileModel> m_playerProfile;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayerProfileResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayerProfileResult& input, PFAccountManagementGetPlayerProfileResult& output, ModelBuffer& buffer);
 };
 
-struct LookupUserAccountInfoRequest : public PFAccountManagementLookupUserAccountInfoRequest, public SerializableModel
+class LookupUserAccountInfoRequest : public Wrappers::PFAccountManagementLookupUserAccountInfoRequestWrapper<Allocator>, public InputModel
 {
-    LookupUserAccountInfoRequest();
-    LookupUserAccountInfoRequest(const LookupUserAccountInfoRequest& src);
-    LookupUserAccountInfoRequest(LookupUserAccountInfoRequest&& src);
-    LookupUserAccountInfoRequest(const PFAccountManagementLookupUserAccountInfoRequest& src);
-    LookupUserAccountInfoRequest& operator=(const LookupUserAccountInfoRequest&) = delete;
-    ~LookupUserAccountInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLookupUserAccountInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLookupUserAccountInfoRequest& input);
 
-private:
-    String m_email;
-    String m_playFabId;
-    String m_titleDisplayName;
-    String m_username;
 };
 
-struct LookupUserAccountInfoResult : public PFAccountManagementLookupUserAccountInfoResult, public BaseModel, public ApiResult
+class LookupUserAccountInfoResult : public Wrappers::PFAccountManagementLookupUserAccountInfoResultWrapper<Allocator>, public OutputModel<PFAccountManagementLookupUserAccountInfoResult>
 {
-    LookupUserAccountInfoResult();
-    LookupUserAccountInfoResult(const LookupUserAccountInfoResult& src);
-    LookupUserAccountInfoResult(LookupUserAccountInfoResult&& src);
-    LookupUserAccountInfoResult(const PFAccountManagementLookupUserAccountInfoResult& src);
-    LookupUserAccountInfoResult& operator=(const LookupUserAccountInfoResult&) = delete;
-    ~LookupUserAccountInfoResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLookupUserAccountInfoResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementLookupUserAccountInfoResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<UserAccountInfo> m_userInfo;
+    static size_t RequiredBufferSize(const PFAccountManagementLookupUserAccountInfoResult& model);
+    static HRESULT Copy(const PFAccountManagementLookupUserAccountInfoResult& input, PFAccountManagementLookupUserAccountInfoResult& output, ModelBuffer& buffer);
 };
 
-struct GetUserBansRequest : public PFAccountManagementGetUserBansRequest, public SerializableModel
+class GetUserBansRequest : public Wrappers::PFAccountManagementGetUserBansRequestWrapper<Allocator>, public InputModel
 {
-    GetUserBansRequest();
-    GetUserBansRequest(const GetUserBansRequest& src);
-    GetUserBansRequest(GetUserBansRequest&& src);
-    GetUserBansRequest(const PFAccountManagementGetUserBansRequest& src);
-    GetUserBansRequest& operator=(const GetUserBansRequest&) = delete;
-    ~GetUserBansRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetUserBansRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetUserBansRequest& input);
 
-private:
-    String m_playFabId;
 };
 
-struct GetUserBansResult : public PFAccountManagementGetUserBansResult, public BaseModel, public ApiResult
+class GetUserBansResult : public Wrappers::PFAccountManagementGetUserBansResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetUserBansResult>
 {
-    GetUserBansResult();
-    GetUserBansResult(const GetUserBansResult& src);
-    GetUserBansResult(GetUserBansResult&& src);
-    GetUserBansResult(const PFAccountManagementGetUserBansResult& src);
-    GetUserBansResult& operator=(const GetUserBansResult&) = delete;
-    ~GetUserBansResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetUserBansResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetUserBansResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementBanInfo, BanInfo> m_banData;
+    static size_t RequiredBufferSize(const PFAccountManagementGetUserBansResult& model);
+    static HRESULT Copy(const PFAccountManagementGetUserBansResult& input, PFAccountManagementGetUserBansResult& output, ModelBuffer& buffer);
 };
 
-struct ResetPasswordRequest : public PFAccountManagementResetPasswordRequest, public BaseModel
+class ResetPasswordRequest : public Wrappers::PFAccountManagementResetPasswordRequestWrapper<Allocator>, public InputModel
 {
-    ResetPasswordRequest();
-    ResetPasswordRequest(const ResetPasswordRequest& src);
-    ResetPasswordRequest(ResetPasswordRequest&& src);
-    ResetPasswordRequest(const PFAccountManagementResetPasswordRequest& src);
-    ResetPasswordRequest& operator=(const ResetPasswordRequest&) = delete;
-    ~ResetPasswordRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementResetPasswordRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementResetPasswordRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_password;
-    String m_token;
 };
 
-struct RevokeAllBansForUserRequest : public PFAccountManagementRevokeAllBansForUserRequest, public SerializableModel
+class RevokeAllBansForUserRequest : public Wrappers::PFAccountManagementRevokeAllBansForUserRequestWrapper<Allocator>, public InputModel
 {
-    RevokeAllBansForUserRequest();
-    RevokeAllBansForUserRequest(const RevokeAllBansForUserRequest& src);
-    RevokeAllBansForUserRequest(RevokeAllBansForUserRequest&& src);
-    RevokeAllBansForUserRequest(const PFAccountManagementRevokeAllBansForUserRequest& src);
-    RevokeAllBansForUserRequest& operator=(const RevokeAllBansForUserRequest&) = delete;
-    ~RevokeAllBansForUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementRevokeAllBansForUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementRevokeAllBansForUserRequest& input);
 
-private:
-    String m_playFabId;
 };
 
-struct RevokeAllBansForUserResult : public PFAccountManagementRevokeAllBansForUserResult, public BaseModel, public ApiResult
+class RevokeAllBansForUserResult : public Wrappers::PFAccountManagementRevokeAllBansForUserResultWrapper<Allocator>, public OutputModel<PFAccountManagementRevokeAllBansForUserResult>
 {
-    RevokeAllBansForUserResult();
-    RevokeAllBansForUserResult(const RevokeAllBansForUserResult& src);
-    RevokeAllBansForUserResult(RevokeAllBansForUserResult&& src);
-    RevokeAllBansForUserResult(const PFAccountManagementRevokeAllBansForUserResult& src);
-    RevokeAllBansForUserResult& operator=(const RevokeAllBansForUserResult&) = delete;
-    ~RevokeAllBansForUserResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementRevokeAllBansForUserResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementRevokeAllBansForUserResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementBanInfo, BanInfo> m_banData;
+    static size_t RequiredBufferSize(const PFAccountManagementRevokeAllBansForUserResult& model);
+    static HRESULT Copy(const PFAccountManagementRevokeAllBansForUserResult& input, PFAccountManagementRevokeAllBansForUserResult& output, ModelBuffer& buffer);
 };
 
-struct RevokeBansRequest : public PFAccountManagementRevokeBansRequest, public BaseModel
+class RevokeBansRequest : public Wrappers::PFAccountManagementRevokeBansRequestWrapper<Allocator>, public InputModel
 {
-    RevokeBansRequest();
-    RevokeBansRequest(const RevokeBansRequest& src);
-    RevokeBansRequest(RevokeBansRequest&& src);
-    RevokeBansRequest(const PFAccountManagementRevokeBansRequest& src);
-    RevokeBansRequest& operator=(const RevokeBansRequest&) = delete;
-    ~RevokeBansRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementRevokeBansRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementRevokeBansRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_banIds;
 };
 
-struct RevokeBansResult : public PFAccountManagementRevokeBansResult, public BaseModel, public ApiResult
+class RevokeBansResult : public Wrappers::PFAccountManagementRevokeBansResultWrapper<Allocator>, public OutputModel<PFAccountManagementRevokeBansResult>
 {
-    RevokeBansResult();
-    RevokeBansResult(const RevokeBansResult& src);
-    RevokeBansResult(RevokeBansResult&& src);
-    RevokeBansResult(const PFAccountManagementRevokeBansResult& src);
-    RevokeBansResult& operator=(const RevokeBansResult&) = delete;
-    ~RevokeBansResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementRevokeBansResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementRevokeBansResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementBanInfo, BanInfo> m_banData;
+    static size_t RequiredBufferSize(const PFAccountManagementRevokeBansResult& model);
+    static HRESULT Copy(const PFAccountManagementRevokeBansResult& input, PFAccountManagementRevokeBansResult& output, ModelBuffer& buffer);
 };
 
-struct AdminSendAccountRecoveryEmailRequest : public PFAccountManagementAdminSendAccountRecoveryEmailRequest, public BaseModel
+class AdminSendAccountRecoveryEmailRequest : public Wrappers::PFAccountManagementAdminSendAccountRecoveryEmailRequestWrapper<Allocator>, public InputModel
 {
-    AdminSendAccountRecoveryEmailRequest();
-    AdminSendAccountRecoveryEmailRequest(const AdminSendAccountRecoveryEmailRequest& src);
-    AdminSendAccountRecoveryEmailRequest(AdminSendAccountRecoveryEmailRequest&& src);
-    AdminSendAccountRecoveryEmailRequest(const PFAccountManagementAdminSendAccountRecoveryEmailRequest& src);
-    AdminSendAccountRecoveryEmailRequest& operator=(const AdminSendAccountRecoveryEmailRequest&) = delete;
-    ~AdminSendAccountRecoveryEmailRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementAdminSendAccountRecoveryEmailRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementAdminSendAccountRecoveryEmailRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_email;
-    String m_emailTemplateId;
 };
 
-struct UpdateBanRequest : public PFAccountManagementUpdateBanRequest, public BaseModel
+class UpdateBanRequest : public Wrappers::PFAccountManagementUpdateBanRequestWrapper<Allocator>, public InputModel
 {
-    UpdateBanRequest();
-    UpdateBanRequest(const UpdateBanRequest& src);
-    UpdateBanRequest(UpdateBanRequest&& src);
-    UpdateBanRequest(const PFAccountManagementUpdateBanRequest& src);
-    UpdateBanRequest& operator=(const UpdateBanRequest&) = delete;
-    ~UpdateBanRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUpdateBanRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUpdateBanRequest& input);
 
-private:
-    StdExtra::optional<bool> m_active;
-    String m_banId;
-    StdExtra::optional<time_t> m_expires;
-    String m_IPAddress;
-    String m_MACAddress;
-    StdExtra::optional<bool> m_permanent;
-    String m_reason;
 };
 
-struct UpdateBansRequest : public PFAccountManagementUpdateBansRequest, public BaseModel
+class UpdateBansRequest : public Wrappers::PFAccountManagementUpdateBansRequestWrapper<Allocator>, public InputModel
 {
-    UpdateBansRequest();
-    UpdateBansRequest(const UpdateBansRequest& src);
-    UpdateBansRequest(UpdateBansRequest&& src);
-    UpdateBansRequest(const PFAccountManagementUpdateBansRequest& src);
-    UpdateBansRequest& operator=(const UpdateBansRequest&) = delete;
-    ~UpdateBansRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUpdateBansRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUpdateBansRequest& input);
 
-private:
-    PointerArrayModel<PFAccountManagementUpdateBanRequest, UpdateBanRequest> m_bans;
 };
 
-struct UpdateBansResult : public PFAccountManagementUpdateBansResult, public BaseModel, public ApiResult
+class UpdateBansResult : public Wrappers::PFAccountManagementUpdateBansResultWrapper<Allocator>, public OutputModel<PFAccountManagementUpdateBansResult>
 {
-    UpdateBansResult();
-    UpdateBansResult(const UpdateBansResult& src);
-    UpdateBansResult(UpdateBansResult&& src);
-    UpdateBansResult(const PFAccountManagementUpdateBansResult& src);
-    UpdateBansResult& operator=(const UpdateBansResult&) = delete;
-    ~UpdateBansResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUpdateBansResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementUpdateBansResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementBanInfo, BanInfo> m_banData;
+    static size_t RequiredBufferSize(const PFAccountManagementUpdateBansResult& model);
+    static HRESULT Copy(const PFAccountManagementUpdateBansResult& input, PFAccountManagementUpdateBansResult& output, ModelBuffer& buffer);
 };
 
-struct AdminUpdateUserTitleDisplayNameRequest : public PFAccountManagementAdminUpdateUserTitleDisplayNameRequest, public BaseModel
+class AdminUpdateUserTitleDisplayNameRequest : public Wrappers::PFAccountManagementAdminUpdateUserTitleDisplayNameRequestWrapper<Allocator>, public InputModel
 {
-    AdminUpdateUserTitleDisplayNameRequest();
-    AdminUpdateUserTitleDisplayNameRequest(const AdminUpdateUserTitleDisplayNameRequest& src);
-    AdminUpdateUserTitleDisplayNameRequest(AdminUpdateUserTitleDisplayNameRequest&& src);
-    AdminUpdateUserTitleDisplayNameRequest(const PFAccountManagementAdminUpdateUserTitleDisplayNameRequest& src);
-    AdminUpdateUserTitleDisplayNameRequest& operator=(const AdminUpdateUserTitleDisplayNameRequest&) = delete;
-    ~AdminUpdateUserTitleDisplayNameRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementAdminUpdateUserTitleDisplayNameRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementAdminUpdateUserTitleDisplayNameRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_displayName;
-    String m_playFabId;
 };
 
-struct UpdateUserTitleDisplayNameResult : public PFAccountManagementUpdateUserTitleDisplayNameResult, public SerializableModel, public ApiResult
+class UpdateUserTitleDisplayNameResult : public Wrappers::PFAccountManagementUpdateUserTitleDisplayNameResultWrapper<Allocator>, public OutputModel<PFAccountManagementUpdateUserTitleDisplayNameResult>
 {
-    UpdateUserTitleDisplayNameResult();
-    UpdateUserTitleDisplayNameResult(const UpdateUserTitleDisplayNameResult& src);
-    UpdateUserTitleDisplayNameResult(UpdateUserTitleDisplayNameResult&& src);
-    UpdateUserTitleDisplayNameResult(const PFAccountManagementUpdateUserTitleDisplayNameResult& src);
-    UpdateUserTitleDisplayNameResult& operator=(const UpdateUserTitleDisplayNameResult&) = delete;
-    ~UpdateUserTitleDisplayNameResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUpdateUserTitleDisplayNameResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementUpdateUserTitleDisplayNameResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_displayName;
+    static size_t RequiredBufferSize(const PFAccountManagementUpdateUserTitleDisplayNameResult& model);
+    static HRESULT Copy(const PFAccountManagementUpdateUserTitleDisplayNameResult& input, PFAccountManagementUpdateUserTitleDisplayNameResult& output, ModelBuffer& buffer);
 };
 
-struct GenericServiceId : public PFAccountManagementGenericServiceId, public SerializableModel
+class GenericServiceId : public Wrappers::PFAccountManagementGenericServiceIdWrapper<Allocator>, public InputModel, public OutputModel<PFAccountManagementGenericServiceId>
 {
-    GenericServiceId();
-    GenericServiceId(const GenericServiceId& src);
-    GenericServiceId(GenericServiceId&& src);
-    GenericServiceId(const PFAccountManagementGenericServiceId& src);
-    GenericServiceId& operator=(const GenericServiceId&) = delete;
-    ~GenericServiceId() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGenericServiceIdWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGenericServiceId& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGenericServiceId const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_serviceName;
-    String m_userId;
+    static size_t RequiredBufferSize(const PFAccountManagementGenericServiceId& model);
+    static HRESULT Copy(const PFAccountManagementGenericServiceId& input, PFAccountManagementGenericServiceId& output, ModelBuffer& buffer);
 };
 
-struct ClientAddGenericIDRequest : public PFAccountManagementClientAddGenericIDRequest, public BaseModel
+class ClientAddGenericIDRequest : public Wrappers::PFAccountManagementClientAddGenericIDRequestWrapper<Allocator>, public InputModel
 {
-    ClientAddGenericIDRequest();
-    ClientAddGenericIDRequest(const ClientAddGenericIDRequest& src);
-    ClientAddGenericIDRequest(ClientAddGenericIDRequest&& src);
-    ClientAddGenericIDRequest(const PFAccountManagementClientAddGenericIDRequest& src);
-    ClientAddGenericIDRequest& operator=(const ClientAddGenericIDRequest&) = delete;
-    ~ClientAddGenericIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientAddGenericIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientAddGenericIDRequest& input);
 
-private:
-    GenericServiceId m_genericId;
 };
 
-struct AddOrUpdateContactEmailRequest : public PFAccountManagementAddOrUpdateContactEmailRequest, public BaseModel
+class AddOrUpdateContactEmailRequest : public Wrappers::PFAccountManagementAddOrUpdateContactEmailRequestWrapper<Allocator>, public InputModel
 {
-    AddOrUpdateContactEmailRequest();
-    AddOrUpdateContactEmailRequest(const AddOrUpdateContactEmailRequest& src);
-    AddOrUpdateContactEmailRequest(AddOrUpdateContactEmailRequest&& src);
-    AddOrUpdateContactEmailRequest(const PFAccountManagementAddOrUpdateContactEmailRequest& src);
-    AddOrUpdateContactEmailRequest& operator=(const AddOrUpdateContactEmailRequest&) = delete;
-    ~AddOrUpdateContactEmailRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementAddOrUpdateContactEmailRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementAddOrUpdateContactEmailRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_emailAddress;
 };
 
-struct AddUsernamePasswordRequest : public PFAccountManagementAddUsernamePasswordRequest, public BaseModel
+class AddUsernamePasswordRequest : public Wrappers::PFAccountManagementAddUsernamePasswordRequestWrapper<Allocator>, public InputModel
 {
-    AddUsernamePasswordRequest();
-    AddUsernamePasswordRequest(const AddUsernamePasswordRequest& src);
-    AddUsernamePasswordRequest(AddUsernamePasswordRequest&& src);
-    AddUsernamePasswordRequest(const PFAccountManagementAddUsernamePasswordRequest& src);
-    AddUsernamePasswordRequest& operator=(const AddUsernamePasswordRequest&) = delete;
-    ~AddUsernamePasswordRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementAddUsernamePasswordRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementAddUsernamePasswordRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_email;
-    String m_password;
-    String m_username;
 };
 
-struct AddUsernamePasswordResult : public PFAccountManagementAddUsernamePasswordResult, public SerializableModel, public ApiResult
+class AddUsernamePasswordResult : public Wrappers::PFAccountManagementAddUsernamePasswordResultWrapper<Allocator>, public OutputModel<PFAccountManagementAddUsernamePasswordResult>
 {
-    AddUsernamePasswordResult();
-    AddUsernamePasswordResult(const AddUsernamePasswordResult& src);
-    AddUsernamePasswordResult(AddUsernamePasswordResult&& src);
-    AddUsernamePasswordResult(const PFAccountManagementAddUsernamePasswordResult& src);
-    AddUsernamePasswordResult& operator=(const AddUsernamePasswordResult&) = delete;
-    ~AddUsernamePasswordResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementAddUsernamePasswordResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementAddUsernamePasswordResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_username;
+    static size_t RequiredBufferSize(const PFAccountManagementAddUsernamePasswordResult& model);
+    static HRESULT Copy(const PFAccountManagementAddUsernamePasswordResult& input, PFAccountManagementAddUsernamePasswordResult& output, ModelBuffer& buffer);
 };
 
-struct GetAccountInfoRequest : public PFAccountManagementGetAccountInfoRequest, public SerializableModel
+class GetAccountInfoRequest : public Wrappers::PFAccountManagementGetAccountInfoRequestWrapper<Allocator>, public InputModel
 {
-    GetAccountInfoRequest();
-    GetAccountInfoRequest(const GetAccountInfoRequest& src);
-    GetAccountInfoRequest(GetAccountInfoRequest&& src);
-    GetAccountInfoRequest(const PFAccountManagementGetAccountInfoRequest& src);
-    GetAccountInfoRequest& operator=(const GetAccountInfoRequest&) = delete;
-    ~GetAccountInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetAccountInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetAccountInfoRequest& input);
 
-private:
-    String m_email;
-    String m_playFabId;
-    String m_titleDisplayName;
-    String m_username;
 };
 
-struct GetAccountInfoResult : public PFAccountManagementGetAccountInfoResult, public BaseModel, public ApiResult
+class GetAccountInfoResult : public Wrappers::PFAccountManagementGetAccountInfoResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetAccountInfoResult>
 {
-    GetAccountInfoResult();
-    GetAccountInfoResult(const GetAccountInfoResult& src);
-    GetAccountInfoResult(GetAccountInfoResult&& src);
-    GetAccountInfoResult(const PFAccountManagementGetAccountInfoResult& src);
-    GetAccountInfoResult& operator=(const GetAccountInfoResult&) = delete;
-    ~GetAccountInfoResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetAccountInfoResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetAccountInfoResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<UserAccountInfo> m_accountInfo;
+    static size_t RequiredBufferSize(const PFAccountManagementGetAccountInfoResult& model);
+    static HRESULT Copy(const PFAccountManagementGetAccountInfoResult& input, PFAccountManagementGetAccountInfoResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromFacebookIDsRequest : public PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest, public BaseModel
+class GetPlayFabIDsFromFacebookIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromFacebookIDsRequest();
-    GetPlayFabIDsFromFacebookIDsRequest(const GetPlayFabIDsFromFacebookIDsRequest& src);
-    GetPlayFabIDsFromFacebookIDsRequest(GetPlayFabIDsFromFacebookIDsRequest&& src);
-    GetPlayFabIDsFromFacebookIDsRequest(const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& src);
-    GetPlayFabIDsFromFacebookIDsRequest& operator=(const GetPlayFabIDsFromFacebookIDsRequest&) = delete;
-    ~GetPlayFabIDsFromFacebookIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_facebookIDs;
 };
 
-struct FacebookPlayFabIdPair : public PFAccountManagementFacebookPlayFabIdPair, public SerializableModel
+class FacebookPlayFabIdPair : public Wrappers::PFAccountManagementFacebookPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementFacebookPlayFabIdPair>
 {
-    FacebookPlayFabIdPair();
-    FacebookPlayFabIdPair(const FacebookPlayFabIdPair& src);
-    FacebookPlayFabIdPair(FacebookPlayFabIdPair&& src);
-    FacebookPlayFabIdPair(const PFAccountManagementFacebookPlayFabIdPair& src);
-    FacebookPlayFabIdPair& operator=(const FacebookPlayFabIdPair&) = delete;
-    ~FacebookPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementFacebookPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementFacebookPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_facebookId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementFacebookPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementFacebookPlayFabIdPair& input, PFAccountManagementFacebookPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromFacebookIDsResult : public PFAccountManagementGetPlayFabIDsFromFacebookIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromFacebookIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromFacebookIDsResult>
 {
-    GetPlayFabIDsFromFacebookIDsResult();
-    GetPlayFabIDsFromFacebookIDsResult(const GetPlayFabIDsFromFacebookIDsResult& src);
-    GetPlayFabIDsFromFacebookIDsResult(GetPlayFabIDsFromFacebookIDsResult&& src);
-    GetPlayFabIDsFromFacebookIDsResult(const PFAccountManagementGetPlayFabIDsFromFacebookIDsResult& src);
-    GetPlayFabIDsFromFacebookIDsResult& operator=(const GetPlayFabIDsFromFacebookIDsResult&) = delete;
-    ~GetPlayFabIDsFromFacebookIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromFacebookIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementFacebookPlayFabIdPair, FacebookPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromFacebookIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromFacebookIDsResult& input, PFAccountManagementGetPlayFabIDsFromFacebookIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromFacebookInstantGamesIdsRequest : public PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest, public BaseModel
+class GetPlayFabIDsFromFacebookInstantGamesIdsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromFacebookInstantGamesIdsRequest();
-    GetPlayFabIDsFromFacebookInstantGamesIdsRequest(const GetPlayFabIDsFromFacebookInstantGamesIdsRequest& src);
-    GetPlayFabIDsFromFacebookInstantGamesIdsRequest(GetPlayFabIDsFromFacebookInstantGamesIdsRequest&& src);
-    GetPlayFabIDsFromFacebookInstantGamesIdsRequest(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& src);
-    GetPlayFabIDsFromFacebookInstantGamesIdsRequest& operator=(const GetPlayFabIDsFromFacebookInstantGamesIdsRequest&) = delete;
-    ~GetPlayFabIDsFromFacebookInstantGamesIdsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_facebookInstantGamesIds;
 };
 
-struct FacebookInstantGamesPlayFabIdPair : public PFAccountManagementFacebookInstantGamesPlayFabIdPair, public SerializableModel
+class FacebookInstantGamesPlayFabIdPair : public Wrappers::PFAccountManagementFacebookInstantGamesPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementFacebookInstantGamesPlayFabIdPair>
 {
-    FacebookInstantGamesPlayFabIdPair();
-    FacebookInstantGamesPlayFabIdPair(const FacebookInstantGamesPlayFabIdPair& src);
-    FacebookInstantGamesPlayFabIdPair(FacebookInstantGamesPlayFabIdPair&& src);
-    FacebookInstantGamesPlayFabIdPair(const PFAccountManagementFacebookInstantGamesPlayFabIdPair& src);
-    FacebookInstantGamesPlayFabIdPair& operator=(const FacebookInstantGamesPlayFabIdPair&) = delete;
-    ~FacebookInstantGamesPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementFacebookInstantGamesPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementFacebookInstantGamesPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_facebookInstantGamesId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementFacebookInstantGamesPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementFacebookInstantGamesPlayFabIdPair& input, PFAccountManagementFacebookInstantGamesPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromFacebookInstantGamesIdsResult : public PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromFacebookInstantGamesIdsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult>
 {
-    GetPlayFabIDsFromFacebookInstantGamesIdsResult();
-    GetPlayFabIDsFromFacebookInstantGamesIdsResult(const GetPlayFabIDsFromFacebookInstantGamesIdsResult& src);
-    GetPlayFabIDsFromFacebookInstantGamesIdsResult(GetPlayFabIDsFromFacebookInstantGamesIdsResult&& src);
-    GetPlayFabIDsFromFacebookInstantGamesIdsResult(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult& src);
-    GetPlayFabIDsFromFacebookInstantGamesIdsResult& operator=(const GetPlayFabIDsFromFacebookInstantGamesIdsResult&) = delete;
-    ~GetPlayFabIDsFromFacebookInstantGamesIdsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementFacebookInstantGamesPlayFabIdPair, FacebookInstantGamesPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult& input, PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromGameCenterIDsRequest : public PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest, public BaseModel
+class GetPlayFabIDsFromGameCenterIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromGameCenterIDsRequest();
-    GetPlayFabIDsFromGameCenterIDsRequest(const GetPlayFabIDsFromGameCenterIDsRequest& src);
-    GetPlayFabIDsFromGameCenterIDsRequest(GetPlayFabIDsFromGameCenterIDsRequest&& src);
-    GetPlayFabIDsFromGameCenterIDsRequest(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest& src);
-    GetPlayFabIDsFromGameCenterIDsRequest& operator=(const GetPlayFabIDsFromGameCenterIDsRequest&) = delete;
-    ~GetPlayFabIDsFromGameCenterIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_gameCenterIDs;
 };
 
-struct GameCenterPlayFabIdPair : public PFAccountManagementGameCenterPlayFabIdPair, public SerializableModel
+class GameCenterPlayFabIdPair : public Wrappers::PFAccountManagementGameCenterPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementGameCenterPlayFabIdPair>
 {
-    GameCenterPlayFabIdPair();
-    GameCenterPlayFabIdPair(const GameCenterPlayFabIdPair& src);
-    GameCenterPlayFabIdPair(GameCenterPlayFabIdPair&& src);
-    GameCenterPlayFabIdPair(const PFAccountManagementGameCenterPlayFabIdPair& src);
-    GameCenterPlayFabIdPair& operator=(const GameCenterPlayFabIdPair&) = delete;
-    ~GameCenterPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGameCenterPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGameCenterPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_gameCenterId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementGameCenterPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementGameCenterPlayFabIdPair& input, PFAccountManagementGameCenterPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromGameCenterIDsResult : public PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromGameCenterIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromGameCenterIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult>
 {
-    GetPlayFabIDsFromGameCenterIDsResult();
-    GetPlayFabIDsFromGameCenterIDsResult(const GetPlayFabIDsFromGameCenterIDsResult& src);
-    GetPlayFabIDsFromGameCenterIDsResult(GetPlayFabIDsFromGameCenterIDsResult&& src);
-    GetPlayFabIDsFromGameCenterIDsResult(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult& src);
-    GetPlayFabIDsFromGameCenterIDsResult& operator=(const GetPlayFabIDsFromGameCenterIDsResult&) = delete;
-    ~GetPlayFabIDsFromGameCenterIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromGameCenterIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementGameCenterPlayFabIdPair, GameCenterPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult& input, PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromGenericIDsRequest : public PFAccountManagementGetPlayFabIDsFromGenericIDsRequest, public BaseModel
+class GetPlayFabIDsFromGenericIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromGenericIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromGenericIDsRequest();
-    GetPlayFabIDsFromGenericIDsRequest(const GetPlayFabIDsFromGenericIDsRequest& src);
-    GetPlayFabIDsFromGenericIDsRequest(GetPlayFabIDsFromGenericIDsRequest&& src);
-    GetPlayFabIDsFromGenericIDsRequest(const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& src);
-    GetPlayFabIDsFromGenericIDsRequest& operator=(const GetPlayFabIDsFromGenericIDsRequest&) = delete;
-    ~GetPlayFabIDsFromGenericIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromGenericIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& input);
 
-private:
-    PointerArrayModel<PFAccountManagementGenericServiceId, GenericServiceId> m_genericIDs;
 };
 
-struct GenericPlayFabIdPair : public PFAccountManagementGenericPlayFabIdPair, public BaseModel
+class GenericPlayFabIdPair : public Wrappers::PFAccountManagementGenericPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementGenericPlayFabIdPair>
 {
-    GenericPlayFabIdPair();
-    GenericPlayFabIdPair(const GenericPlayFabIdPair& src);
-    GenericPlayFabIdPair(GenericPlayFabIdPair&& src);
-    GenericPlayFabIdPair(const PFAccountManagementGenericPlayFabIdPair& src);
-    GenericPlayFabIdPair& operator=(const GenericPlayFabIdPair&) = delete;
-    ~GenericPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGenericPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGenericPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<GenericServiceId> m_genericId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementGenericPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementGenericPlayFabIdPair& input, PFAccountManagementGenericPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromGenericIDsResult : public PFAccountManagementGetPlayFabIDsFromGenericIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromGenericIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromGenericIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromGenericIDsResult>
 {
-    GetPlayFabIDsFromGenericIDsResult();
-    GetPlayFabIDsFromGenericIDsResult(const GetPlayFabIDsFromGenericIDsResult& src);
-    GetPlayFabIDsFromGenericIDsResult(GetPlayFabIDsFromGenericIDsResult&& src);
-    GetPlayFabIDsFromGenericIDsResult(const PFAccountManagementGetPlayFabIDsFromGenericIDsResult& src);
-    GetPlayFabIDsFromGenericIDsResult& operator=(const GetPlayFabIDsFromGenericIDsResult&) = delete;
-    ~GetPlayFabIDsFromGenericIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromGenericIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromGenericIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementGenericPlayFabIdPair, GenericPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromGenericIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromGenericIDsResult& input, PFAccountManagementGetPlayFabIDsFromGenericIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromGoogleIDsRequest : public PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest, public BaseModel
+class GetPlayFabIDsFromGoogleIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromGoogleIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromGoogleIDsRequest();
-    GetPlayFabIDsFromGoogleIDsRequest(const GetPlayFabIDsFromGoogleIDsRequest& src);
-    GetPlayFabIDsFromGoogleIDsRequest(GetPlayFabIDsFromGoogleIDsRequest&& src);
-    GetPlayFabIDsFromGoogleIDsRequest(const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest& src);
-    GetPlayFabIDsFromGoogleIDsRequest& operator=(const GetPlayFabIDsFromGoogleIDsRequest&) = delete;
-    ~GetPlayFabIDsFromGoogleIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromGoogleIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_googleIDs;
 };
 
-struct GooglePlayFabIdPair : public PFAccountManagementGooglePlayFabIdPair, public SerializableModel
+class GooglePlayFabIdPair : public Wrappers::PFAccountManagementGooglePlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementGooglePlayFabIdPair>
 {
-    GooglePlayFabIdPair();
-    GooglePlayFabIdPair(const GooglePlayFabIdPair& src);
-    GooglePlayFabIdPair(GooglePlayFabIdPair&& src);
-    GooglePlayFabIdPair(const PFAccountManagementGooglePlayFabIdPair& src);
-    GooglePlayFabIdPair& operator=(const GooglePlayFabIdPair&) = delete;
-    ~GooglePlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGooglePlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGooglePlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_googleId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementGooglePlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementGooglePlayFabIdPair& input, PFAccountManagementGooglePlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromGoogleIDsResult : public PFAccountManagementGetPlayFabIDsFromGoogleIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromGoogleIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromGoogleIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromGoogleIDsResult>
 {
-    GetPlayFabIDsFromGoogleIDsResult();
-    GetPlayFabIDsFromGoogleIDsResult(const GetPlayFabIDsFromGoogleIDsResult& src);
-    GetPlayFabIDsFromGoogleIDsResult(GetPlayFabIDsFromGoogleIDsResult&& src);
-    GetPlayFabIDsFromGoogleIDsResult(const PFAccountManagementGetPlayFabIDsFromGoogleIDsResult& src);
-    GetPlayFabIDsFromGoogleIDsResult& operator=(const GetPlayFabIDsFromGoogleIDsResult&) = delete;
-    ~GetPlayFabIDsFromGoogleIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromGoogleIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromGoogleIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementGooglePlayFabIdPair, GooglePlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromGoogleIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromGoogleIDsResult& input, PFAccountManagementGetPlayFabIDsFromGoogleIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromKongregateIDsRequest : public PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest, public BaseModel
+class GetPlayFabIDsFromKongregateIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromKongregateIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromKongregateIDsRequest();
-    GetPlayFabIDsFromKongregateIDsRequest(const GetPlayFabIDsFromKongregateIDsRequest& src);
-    GetPlayFabIDsFromKongregateIDsRequest(GetPlayFabIDsFromKongregateIDsRequest&& src);
-    GetPlayFabIDsFromKongregateIDsRequest(const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest& src);
-    GetPlayFabIDsFromKongregateIDsRequest& operator=(const GetPlayFabIDsFromKongregateIDsRequest&) = delete;
-    ~GetPlayFabIDsFromKongregateIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromKongregateIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_kongregateIDs;
 };
 
-struct KongregatePlayFabIdPair : public PFAccountManagementKongregatePlayFabIdPair, public SerializableModel
+class KongregatePlayFabIdPair : public Wrappers::PFAccountManagementKongregatePlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementKongregatePlayFabIdPair>
 {
-    KongregatePlayFabIdPair();
-    KongregatePlayFabIdPair(const KongregatePlayFabIdPair& src);
-    KongregatePlayFabIdPair(KongregatePlayFabIdPair&& src);
-    KongregatePlayFabIdPair(const PFAccountManagementKongregatePlayFabIdPair& src);
-    KongregatePlayFabIdPair& operator=(const KongregatePlayFabIdPair&) = delete;
-    ~KongregatePlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementKongregatePlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementKongregatePlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_kongregateId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementKongregatePlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementKongregatePlayFabIdPair& input, PFAccountManagementKongregatePlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromKongregateIDsResult : public PFAccountManagementGetPlayFabIDsFromKongregateIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromKongregateIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromKongregateIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromKongregateIDsResult>
 {
-    GetPlayFabIDsFromKongregateIDsResult();
-    GetPlayFabIDsFromKongregateIDsResult(const GetPlayFabIDsFromKongregateIDsResult& src);
-    GetPlayFabIDsFromKongregateIDsResult(GetPlayFabIDsFromKongregateIDsResult&& src);
-    GetPlayFabIDsFromKongregateIDsResult(const PFAccountManagementGetPlayFabIDsFromKongregateIDsResult& src);
-    GetPlayFabIDsFromKongregateIDsResult& operator=(const GetPlayFabIDsFromKongregateIDsResult&) = delete;
-    ~GetPlayFabIDsFromKongregateIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromKongregateIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromKongregateIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementKongregatePlayFabIdPair, KongregatePlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromKongregateIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromKongregateIDsResult& input, PFAccountManagementGetPlayFabIDsFromKongregateIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest, public BaseModel
+class GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest();
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest(const GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& src);
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest(GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest&& src);
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& src);
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& operator=(const GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest&) = delete;
-    ~GetPlayFabIDsFromNintendoSwitchDeviceIdsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_nintendoSwitchDeviceIds;
 };
 
-struct NintendoSwitchPlayFabIdPair : public PFAccountManagementNintendoSwitchPlayFabIdPair, public SerializableModel
+class NintendoSwitchPlayFabIdPair : public Wrappers::PFAccountManagementNintendoSwitchPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementNintendoSwitchPlayFabIdPair>
 {
-    NintendoSwitchPlayFabIdPair();
-    NintendoSwitchPlayFabIdPair(const NintendoSwitchPlayFabIdPair& src);
-    NintendoSwitchPlayFabIdPair(NintendoSwitchPlayFabIdPair&& src);
-    NintendoSwitchPlayFabIdPair(const PFAccountManagementNintendoSwitchPlayFabIdPair& src);
-    NintendoSwitchPlayFabIdPair& operator=(const NintendoSwitchPlayFabIdPair&) = delete;
-    ~NintendoSwitchPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementNintendoSwitchPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementNintendoSwitchPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_nintendoSwitchDeviceId;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFAccountManagementNintendoSwitchPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementNintendoSwitchPlayFabIdPair& input, PFAccountManagementNintendoSwitchPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromNintendoSwitchDeviceIdsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult>
 {
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsResult();
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsResult(const GetPlayFabIDsFromNintendoSwitchDeviceIdsResult& src);
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsResult(GetPlayFabIDsFromNintendoSwitchDeviceIdsResult&& src);
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsResult(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult& src);
-    GetPlayFabIDsFromNintendoSwitchDeviceIdsResult& operator=(const GetPlayFabIDsFromNintendoSwitchDeviceIdsResult&) = delete;
-    ~GetPlayFabIDsFromNintendoSwitchDeviceIdsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementNintendoSwitchPlayFabIdPair, NintendoSwitchPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult& input, PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromPSNAccountIDsRequest : public PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest, public BaseModel
+class GetPlayFabIDsFromPSNAccountIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromPSNAccountIDsRequest();
-    GetPlayFabIDsFromPSNAccountIDsRequest(const GetPlayFabIDsFromPSNAccountIDsRequest& src);
-    GetPlayFabIDsFromPSNAccountIDsRequest(GetPlayFabIDsFromPSNAccountIDsRequest&& src);
-    GetPlayFabIDsFromPSNAccountIDsRequest(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& src);
-    GetPlayFabIDsFromPSNAccountIDsRequest& operator=(const GetPlayFabIDsFromPSNAccountIDsRequest&) = delete;
-    ~GetPlayFabIDsFromPSNAccountIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& input);
 
-private:
-    StdExtra::optional<int32_t> m_issuerId;
-    PointerArrayModel<char, String> m_PSNAccountIDs;
 };
 
-struct PSNAccountPlayFabIdPair : public PFAccountManagementPSNAccountPlayFabIdPair, public SerializableModel
+class PSNAccountPlayFabIdPair : public Wrappers::PFAccountManagementPSNAccountPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementPSNAccountPlayFabIdPair>
 {
-    PSNAccountPlayFabIdPair();
-    PSNAccountPlayFabIdPair(const PSNAccountPlayFabIdPair& src);
-    PSNAccountPlayFabIdPair(PSNAccountPlayFabIdPair&& src);
-    PSNAccountPlayFabIdPair(const PFAccountManagementPSNAccountPlayFabIdPair& src);
-    PSNAccountPlayFabIdPair& operator=(const PSNAccountPlayFabIdPair&) = delete;
-    ~PSNAccountPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementPSNAccountPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementPSNAccountPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    String m_PSNAccountId;
+    static size_t RequiredBufferSize(const PFAccountManagementPSNAccountPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementPSNAccountPlayFabIdPair& input, PFAccountManagementPSNAccountPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromPSNAccountIDsResult : public PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromPSNAccountIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult>
 {
-    GetPlayFabIDsFromPSNAccountIDsResult();
-    GetPlayFabIDsFromPSNAccountIDsResult(const GetPlayFabIDsFromPSNAccountIDsResult& src);
-    GetPlayFabIDsFromPSNAccountIDsResult(GetPlayFabIDsFromPSNAccountIDsResult&& src);
-    GetPlayFabIDsFromPSNAccountIDsResult(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult& src);
-    GetPlayFabIDsFromPSNAccountIDsResult& operator=(const GetPlayFabIDsFromPSNAccountIDsResult&) = delete;
-    ~GetPlayFabIDsFromPSNAccountIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementPSNAccountPlayFabIdPair, PSNAccountPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult& input, PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromSteamIDsRequest : public PFAccountManagementGetPlayFabIDsFromSteamIDsRequest, public BaseModel
+class GetPlayFabIDsFromSteamIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromSteamIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromSteamIDsRequest();
-    GetPlayFabIDsFromSteamIDsRequest(const GetPlayFabIDsFromSteamIDsRequest& src);
-    GetPlayFabIDsFromSteamIDsRequest(GetPlayFabIDsFromSteamIDsRequest&& src);
-    GetPlayFabIDsFromSteamIDsRequest(const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& src);
-    GetPlayFabIDsFromSteamIDsRequest& operator=(const GetPlayFabIDsFromSteamIDsRequest&) = delete;
-    ~GetPlayFabIDsFromSteamIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromSteamIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_steamStringIDs;
 };
 
-struct SteamPlayFabIdPair : public PFAccountManagementSteamPlayFabIdPair, public SerializableModel
+class SteamPlayFabIdPair : public Wrappers::PFAccountManagementSteamPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementSteamPlayFabIdPair>
 {
-    SteamPlayFabIdPair();
-    SteamPlayFabIdPair(const SteamPlayFabIdPair& src);
-    SteamPlayFabIdPair(SteamPlayFabIdPair&& src);
-    SteamPlayFabIdPair(const PFAccountManagementSteamPlayFabIdPair& src);
-    SteamPlayFabIdPair& operator=(const SteamPlayFabIdPair&) = delete;
-    ~SteamPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSteamPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementSteamPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    String m_steamStringId;
+    static size_t RequiredBufferSize(const PFAccountManagementSteamPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementSteamPlayFabIdPair& input, PFAccountManagementSteamPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromSteamIDsResult : public PFAccountManagementGetPlayFabIDsFromSteamIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromSteamIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromSteamIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromSteamIDsResult>
 {
-    GetPlayFabIDsFromSteamIDsResult();
-    GetPlayFabIDsFromSteamIDsResult(const GetPlayFabIDsFromSteamIDsResult& src);
-    GetPlayFabIDsFromSteamIDsResult(GetPlayFabIDsFromSteamIDsResult&& src);
-    GetPlayFabIDsFromSteamIDsResult(const PFAccountManagementGetPlayFabIDsFromSteamIDsResult& src);
-    GetPlayFabIDsFromSteamIDsResult& operator=(const GetPlayFabIDsFromSteamIDsResult&) = delete;
-    ~GetPlayFabIDsFromSteamIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromSteamIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromSteamIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementSteamPlayFabIdPair, SteamPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromSteamIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromSteamIDsResult& input, PFAccountManagementGetPlayFabIDsFromSteamIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromTwitchIDsRequest : public PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest, public BaseModel
+class GetPlayFabIDsFromTwitchIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromTwitchIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromTwitchIDsRequest();
-    GetPlayFabIDsFromTwitchIDsRequest(const GetPlayFabIDsFromTwitchIDsRequest& src);
-    GetPlayFabIDsFromTwitchIDsRequest(GetPlayFabIDsFromTwitchIDsRequest&& src);
-    GetPlayFabIDsFromTwitchIDsRequest(const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest& src);
-    GetPlayFabIDsFromTwitchIDsRequest& operator=(const GetPlayFabIDsFromTwitchIDsRequest&) = delete;
-    ~GetPlayFabIDsFromTwitchIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromTwitchIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_twitchIds;
 };
 
-struct TwitchPlayFabIdPair : public PFAccountManagementTwitchPlayFabIdPair, public SerializableModel
+class TwitchPlayFabIdPair : public Wrappers::PFAccountManagementTwitchPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementTwitchPlayFabIdPair>
 {
-    TwitchPlayFabIdPair();
-    TwitchPlayFabIdPair(const TwitchPlayFabIdPair& src);
-    TwitchPlayFabIdPair(TwitchPlayFabIdPair&& src);
-    TwitchPlayFabIdPair(const PFAccountManagementTwitchPlayFabIdPair& src);
-    TwitchPlayFabIdPair& operator=(const TwitchPlayFabIdPair&) = delete;
-    ~TwitchPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementTwitchPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementTwitchPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    String m_twitchId;
+    static size_t RequiredBufferSize(const PFAccountManagementTwitchPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementTwitchPlayFabIdPair& input, PFAccountManagementTwitchPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromTwitchIDsResult : public PFAccountManagementGetPlayFabIDsFromTwitchIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromTwitchIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromTwitchIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromTwitchIDsResult>
 {
-    GetPlayFabIDsFromTwitchIDsResult();
-    GetPlayFabIDsFromTwitchIDsResult(const GetPlayFabIDsFromTwitchIDsResult& src);
-    GetPlayFabIDsFromTwitchIDsResult(GetPlayFabIDsFromTwitchIDsResult&& src);
-    GetPlayFabIDsFromTwitchIDsResult(const PFAccountManagementGetPlayFabIDsFromTwitchIDsResult& src);
-    GetPlayFabIDsFromTwitchIDsResult& operator=(const GetPlayFabIDsFromTwitchIDsResult&) = delete;
-    ~GetPlayFabIDsFromTwitchIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromTwitchIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromTwitchIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementTwitchPlayFabIdPair, TwitchPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromTwitchIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromTwitchIDsResult& input, PFAccountManagementGetPlayFabIDsFromTwitchIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromXboxLiveIDsRequest : public PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest, public BaseModel
+class GetPlayFabIDsFromXboxLiveIDsRequest : public Wrappers::PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayFabIDsFromXboxLiveIDsRequest();
-    GetPlayFabIDsFromXboxLiveIDsRequest(const GetPlayFabIDsFromXboxLiveIDsRequest& src);
-    GetPlayFabIDsFromXboxLiveIDsRequest(GetPlayFabIDsFromXboxLiveIDsRequest&& src);
-    GetPlayFabIDsFromXboxLiveIDsRequest(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& src);
-    GetPlayFabIDsFromXboxLiveIDsRequest& operator=(const GetPlayFabIDsFromXboxLiveIDsRequest&) = delete;
-    ~GetPlayFabIDsFromXboxLiveIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& input);
 
-private:
-    String m_sandbox;
-    PointerArrayModel<char, String> m_xboxLiveAccountIDs;
 };
 
-struct XboxLiveAccountPlayFabIdPair : public PFAccountManagementXboxLiveAccountPlayFabIdPair, public SerializableModel
+class XboxLiveAccountPlayFabIdPair : public Wrappers::PFAccountManagementXboxLiveAccountPlayFabIdPairWrapper<Allocator>, public OutputModel<PFAccountManagementXboxLiveAccountPlayFabIdPair>
 {
-    XboxLiveAccountPlayFabIdPair();
-    XboxLiveAccountPlayFabIdPair(const XboxLiveAccountPlayFabIdPair& src);
-    XboxLiveAccountPlayFabIdPair(XboxLiveAccountPlayFabIdPair&& src);
-    XboxLiveAccountPlayFabIdPair(const PFAccountManagementXboxLiveAccountPlayFabIdPair& src);
-    XboxLiveAccountPlayFabIdPair& operator=(const XboxLiveAccountPlayFabIdPair&) = delete;
-    ~XboxLiveAccountPlayFabIdPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementXboxLiveAccountPlayFabIdPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementXboxLiveAccountPlayFabIdPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    String m_xboxLiveAccountId;
+    static size_t RequiredBufferSize(const PFAccountManagementXboxLiveAccountPlayFabIdPair& model);
+    static HRESULT Copy(const PFAccountManagementXboxLiveAccountPlayFabIdPair& input, PFAccountManagementXboxLiveAccountPlayFabIdPair& output, ModelBuffer& buffer);
 };
 
-struct GetPlayFabIDsFromXboxLiveIDsResult : public PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult, public BaseModel, public ApiResult
+class GetPlayFabIDsFromXboxLiveIDsResult : public Wrappers::PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult>
 {
-    GetPlayFabIDsFromXboxLiveIDsResult();
-    GetPlayFabIDsFromXboxLiveIDsResult(const GetPlayFabIDsFromXboxLiveIDsResult& src);
-    GetPlayFabIDsFromXboxLiveIDsResult(GetPlayFabIDsFromXboxLiveIDsResult&& src);
-    GetPlayFabIDsFromXboxLiveIDsResult(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult& src);
-    GetPlayFabIDsFromXboxLiveIDsResult& operator=(const GetPlayFabIDsFromXboxLiveIDsResult&) = delete;
-    ~GetPlayFabIDsFromXboxLiveIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementXboxLiveAccountPlayFabIdPair, XboxLiveAccountPlayFabIdPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult& input, PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult& output, ModelBuffer& buffer);
 };
 
-struct LinkAndroidDeviceIDRequest : public PFAccountManagementLinkAndroidDeviceIDRequest, public BaseModel
+class LinkAndroidDeviceIDRequest : public Wrappers::PFAccountManagementLinkAndroidDeviceIDRequestWrapper<Allocator>, public InputModel
 {
-    LinkAndroidDeviceIDRequest();
-    LinkAndroidDeviceIDRequest(const LinkAndroidDeviceIDRequest& src);
-    LinkAndroidDeviceIDRequest(LinkAndroidDeviceIDRequest&& src);
-    LinkAndroidDeviceIDRequest(const PFAccountManagementLinkAndroidDeviceIDRequest& src);
-    LinkAndroidDeviceIDRequest& operator=(const LinkAndroidDeviceIDRequest&) = delete;
-    ~LinkAndroidDeviceIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkAndroidDeviceIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkAndroidDeviceIDRequest& input);
 
-private:
-    String m_androidDevice;
-    String m_androidDeviceId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_OS;
 };
 
-struct LinkAppleRequest : public PFAccountManagementLinkAppleRequest, public BaseModel
+class LinkAppleRequest : public Wrappers::PFAccountManagementLinkAppleRequestWrapper<Allocator>, public InputModel
 {
-    LinkAppleRequest();
-    LinkAppleRequest(const LinkAppleRequest& src);
-    LinkAppleRequest(LinkAppleRequest&& src);
-    LinkAppleRequest(const PFAccountManagementLinkAppleRequest& src);
-    LinkAppleRequest& operator=(const LinkAppleRequest&) = delete;
-    ~LinkAppleRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkAppleRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkAppleRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_identityToken;
 };
 
-struct LinkCustomIDRequest : public PFAccountManagementLinkCustomIDRequest, public BaseModel
+class LinkCustomIDRequest : public Wrappers::PFAccountManagementLinkCustomIDRequestWrapper<Allocator>, public InputModel
 {
-    LinkCustomIDRequest();
-    LinkCustomIDRequest(const LinkCustomIDRequest& src);
-    LinkCustomIDRequest(LinkCustomIDRequest&& src);
-    LinkCustomIDRequest(const PFAccountManagementLinkCustomIDRequest& src);
-    LinkCustomIDRequest& operator=(const LinkCustomIDRequest&) = delete;
-    ~LinkCustomIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkCustomIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkCustomIDRequest& input);
 
-private:
-    String m_customId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
 };
 
-struct LinkFacebookAccountRequest : public PFAccountManagementLinkFacebookAccountRequest, public BaseModel
+class LinkFacebookAccountRequest : public Wrappers::PFAccountManagementLinkFacebookAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkFacebookAccountRequest();
-    LinkFacebookAccountRequest(const LinkFacebookAccountRequest& src);
-    LinkFacebookAccountRequest(LinkFacebookAccountRequest&& src);
-    LinkFacebookAccountRequest(const PFAccountManagementLinkFacebookAccountRequest& src);
-    LinkFacebookAccountRequest& operator=(const LinkFacebookAccountRequest&) = delete;
-    ~LinkFacebookAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkFacebookAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkFacebookAccountRequest& input);
 
-private:
-    String m_accessToken;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
 };
 
-struct LinkFacebookInstantGamesIdRequest : public PFAccountManagementLinkFacebookInstantGamesIdRequest, public BaseModel
+class LinkFacebookInstantGamesIdRequest : public Wrappers::PFAccountManagementLinkFacebookInstantGamesIdRequestWrapper<Allocator>, public InputModel
 {
-    LinkFacebookInstantGamesIdRequest();
-    LinkFacebookInstantGamesIdRequest(const LinkFacebookInstantGamesIdRequest& src);
-    LinkFacebookInstantGamesIdRequest(LinkFacebookInstantGamesIdRequest&& src);
-    LinkFacebookInstantGamesIdRequest(const PFAccountManagementLinkFacebookInstantGamesIdRequest& src);
-    LinkFacebookInstantGamesIdRequest& operator=(const LinkFacebookInstantGamesIdRequest&) = delete;
-    ~LinkFacebookInstantGamesIdRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkFacebookInstantGamesIdRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkFacebookInstantGamesIdRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_facebookInstantGamesSignature;
-    StdExtra::optional<bool> m_forceLink;
 };
 
-struct LinkGameCenterAccountRequest : public PFAccountManagementLinkGameCenterAccountRequest, public BaseModel
+class LinkGameCenterAccountRequest : public Wrappers::PFAccountManagementLinkGameCenterAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkGameCenterAccountRequest();
-    LinkGameCenterAccountRequest(const LinkGameCenterAccountRequest& src);
-    LinkGameCenterAccountRequest(LinkGameCenterAccountRequest&& src);
-    LinkGameCenterAccountRequest(const PFAccountManagementLinkGameCenterAccountRequest& src);
-    LinkGameCenterAccountRequest& operator=(const LinkGameCenterAccountRequest&) = delete;
-    ~LinkGameCenterAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkGameCenterAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkGameCenterAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_gameCenterId;
-    String m_publicKeyUrl;
-    String m_salt;
-    String m_signature;
-    String m_timestamp;
 };
 
-struct LinkGoogleAccountRequest : public PFAccountManagementLinkGoogleAccountRequest, public BaseModel
+class LinkGoogleAccountRequest : public Wrappers::PFAccountManagementLinkGoogleAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkGoogleAccountRequest();
-    LinkGoogleAccountRequest(const LinkGoogleAccountRequest& src);
-    LinkGoogleAccountRequest(LinkGoogleAccountRequest&& src);
-    LinkGoogleAccountRequest(const PFAccountManagementLinkGoogleAccountRequest& src);
-    LinkGoogleAccountRequest& operator=(const LinkGoogleAccountRequest&) = delete;
-    ~LinkGoogleAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkGoogleAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkGoogleAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_serverAuthCode;
 };
 
-struct LinkIOSDeviceIDRequest : public PFAccountManagementLinkIOSDeviceIDRequest, public BaseModel
+class LinkIOSDeviceIDRequest : public Wrappers::PFAccountManagementLinkIOSDeviceIDRequestWrapper<Allocator>, public InputModel
 {
-    LinkIOSDeviceIDRequest();
-    LinkIOSDeviceIDRequest(const LinkIOSDeviceIDRequest& src);
-    LinkIOSDeviceIDRequest(LinkIOSDeviceIDRequest&& src);
-    LinkIOSDeviceIDRequest(const PFAccountManagementLinkIOSDeviceIDRequest& src);
-    LinkIOSDeviceIDRequest& operator=(const LinkIOSDeviceIDRequest&) = delete;
-    ~LinkIOSDeviceIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkIOSDeviceIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkIOSDeviceIDRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_deviceId;
-    String m_deviceModel;
-    StdExtra::optional<bool> m_forceLink;
-    String m_OS;
 };
 
-struct LinkKongregateAccountRequest : public PFAccountManagementLinkKongregateAccountRequest, public BaseModel
+class LinkKongregateAccountRequest : public Wrappers::PFAccountManagementLinkKongregateAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkKongregateAccountRequest();
-    LinkKongregateAccountRequest(const LinkKongregateAccountRequest& src);
-    LinkKongregateAccountRequest(LinkKongregateAccountRequest&& src);
-    LinkKongregateAccountRequest(const PFAccountManagementLinkKongregateAccountRequest& src);
-    LinkKongregateAccountRequest& operator=(const LinkKongregateAccountRequest&) = delete;
-    ~LinkKongregateAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkKongregateAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkKongregateAccountRequest& input);
 
-private:
-    String m_authTicket;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_kongregateId;
 };
 
-struct LinkNintendoServiceAccountRequest : public PFAccountManagementLinkNintendoServiceAccountRequest, public BaseModel
+class LinkNintendoServiceAccountRequest : public Wrappers::PFAccountManagementLinkNintendoServiceAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkNintendoServiceAccountRequest();
-    LinkNintendoServiceAccountRequest(const LinkNintendoServiceAccountRequest& src);
-    LinkNintendoServiceAccountRequest(LinkNintendoServiceAccountRequest&& src);
-    LinkNintendoServiceAccountRequest(const PFAccountManagementLinkNintendoServiceAccountRequest& src);
-    LinkNintendoServiceAccountRequest& operator=(const LinkNintendoServiceAccountRequest&) = delete;
-    ~LinkNintendoServiceAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkNintendoServiceAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkNintendoServiceAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_identityToken;
 };
 
-struct LinkNintendoSwitchDeviceIdRequest : public PFAccountManagementLinkNintendoSwitchDeviceIdRequest, public BaseModel
+class LinkNintendoSwitchDeviceIdRequest : public Wrappers::PFAccountManagementLinkNintendoSwitchDeviceIdRequestWrapper<Allocator>, public InputModel
 {
-    LinkNintendoSwitchDeviceIdRequest();
-    LinkNintendoSwitchDeviceIdRequest(const LinkNintendoSwitchDeviceIdRequest& src);
-    LinkNintendoSwitchDeviceIdRequest(LinkNintendoSwitchDeviceIdRequest&& src);
-    LinkNintendoSwitchDeviceIdRequest(const PFAccountManagementLinkNintendoSwitchDeviceIdRequest& src);
-    LinkNintendoSwitchDeviceIdRequest& operator=(const LinkNintendoSwitchDeviceIdRequest&) = delete;
-    ~LinkNintendoSwitchDeviceIdRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkNintendoSwitchDeviceIdRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkNintendoSwitchDeviceIdRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_nintendoSwitchDeviceId;
 };
 
-struct LinkOpenIdConnectRequest : public PFAccountManagementLinkOpenIdConnectRequest, public BaseModel
+class LinkOpenIdConnectRequest : public Wrappers::PFAccountManagementLinkOpenIdConnectRequestWrapper<Allocator>, public InputModel
 {
-    LinkOpenIdConnectRequest();
-    LinkOpenIdConnectRequest(const LinkOpenIdConnectRequest& src);
-    LinkOpenIdConnectRequest(LinkOpenIdConnectRequest&& src);
-    LinkOpenIdConnectRequest(const PFAccountManagementLinkOpenIdConnectRequest& src);
-    LinkOpenIdConnectRequest& operator=(const LinkOpenIdConnectRequest&) = delete;
-    ~LinkOpenIdConnectRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkOpenIdConnectRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkOpenIdConnectRequest& input);
 
-private:
-    String m_connectionId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_idToken;
 };
 
-struct ClientLinkPSNAccountRequest : public PFAccountManagementClientLinkPSNAccountRequest, public BaseModel
+class ClientLinkPSNAccountRequest : public Wrappers::PFAccountManagementClientLinkPSNAccountRequestWrapper<Allocator>, public InputModel
 {
-    ClientLinkPSNAccountRequest();
-    ClientLinkPSNAccountRequest(const ClientLinkPSNAccountRequest& src);
-    ClientLinkPSNAccountRequest(ClientLinkPSNAccountRequest&& src);
-    ClientLinkPSNAccountRequest(const PFAccountManagementClientLinkPSNAccountRequest& src);
-    ClientLinkPSNAccountRequest& operator=(const ClientLinkPSNAccountRequest&) = delete;
-    ~ClientLinkPSNAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientLinkPSNAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientLinkPSNAccountRequest& input);
 
-private:
-    String m_authCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    StdExtra::optional<int32_t> m_issuerId;
-    String m_redirectUri;
 };
 
-struct LinkSteamAccountRequest : public PFAccountManagementLinkSteamAccountRequest, public BaseModel
+class LinkSteamAccountRequest : public Wrappers::PFAccountManagementLinkSteamAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkSteamAccountRequest();
-    LinkSteamAccountRequest(const LinkSteamAccountRequest& src);
-    LinkSteamAccountRequest(LinkSteamAccountRequest&& src);
-    LinkSteamAccountRequest(const PFAccountManagementLinkSteamAccountRequest& src);
-    LinkSteamAccountRequest& operator=(const LinkSteamAccountRequest&) = delete;
-    ~LinkSteamAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkSteamAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkSteamAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_steamTicket;
 };
 
-struct LinkTwitchAccountRequest : public PFAccountManagementLinkTwitchAccountRequest, public BaseModel
+class LinkTwitchAccountRequest : public Wrappers::PFAccountManagementLinkTwitchAccountRequestWrapper<Allocator>, public InputModel
 {
-    LinkTwitchAccountRequest();
-    LinkTwitchAccountRequest(const LinkTwitchAccountRequest& src);
-    LinkTwitchAccountRequest(LinkTwitchAccountRequest&& src);
-    LinkTwitchAccountRequest(const PFAccountManagementLinkTwitchAccountRequest& src);
-    LinkTwitchAccountRequest& operator=(const LinkTwitchAccountRequest&) = delete;
-    ~LinkTwitchAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkTwitchAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkTwitchAccountRequest& input);
 
-private:
-    String m_accessToken;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
 };
 
-struct ClientLinkXboxAccountRequest : public PFAccountManagementClientLinkXboxAccountRequest, public BaseModel
+class ClientLinkXboxAccountRequest : public Wrappers::PFAccountManagementClientLinkXboxAccountRequestWrapper<Allocator>, public InputModel
 {
-    ClientLinkXboxAccountRequest();
-    ClientLinkXboxAccountRequest(const ClientLinkXboxAccountRequest& src);
-    ClientLinkXboxAccountRequest(ClientLinkXboxAccountRequest&& src);
-    ClientLinkXboxAccountRequest(const PFAccountManagementClientLinkXboxAccountRequest& src);
-    ClientLinkXboxAccountRequest& operator=(const ClientLinkXboxAccountRequest&) = delete;
-    ~ClientLinkXboxAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientLinkXboxAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientLinkXboxAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_xboxToken;
 };
 
-struct RemoveContactEmailRequest : public PFAccountManagementRemoveContactEmailRequest, public BaseModel
+class RemoveContactEmailRequest : public Wrappers::PFAccountManagementRemoveContactEmailRequestWrapper<Allocator>, public InputModel
 {
-    RemoveContactEmailRequest();
-    RemoveContactEmailRequest(const RemoveContactEmailRequest& src);
-    RemoveContactEmailRequest(RemoveContactEmailRequest&& src);
-    RemoveContactEmailRequest(const PFAccountManagementRemoveContactEmailRequest& src);
-    RemoveContactEmailRequest& operator=(const RemoveContactEmailRequest&) = delete;
-    ~RemoveContactEmailRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementRemoveContactEmailRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementRemoveContactEmailRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ClientRemoveGenericIDRequest : public PFAccountManagementClientRemoveGenericIDRequest, public BaseModel
+class ClientRemoveGenericIDRequest : public Wrappers::PFAccountManagementClientRemoveGenericIDRequestWrapper<Allocator>, public InputModel
 {
-    ClientRemoveGenericIDRequest();
-    ClientRemoveGenericIDRequest(const ClientRemoveGenericIDRequest& src);
-    ClientRemoveGenericIDRequest(ClientRemoveGenericIDRequest&& src);
-    ClientRemoveGenericIDRequest(const PFAccountManagementClientRemoveGenericIDRequest& src);
-    ClientRemoveGenericIDRequest& operator=(const ClientRemoveGenericIDRequest&) = delete;
-    ~ClientRemoveGenericIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientRemoveGenericIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientRemoveGenericIDRequest& input);
 
-private:
-    GenericServiceId m_genericId;
 };
 
-struct ReportPlayerClientRequest : public PFAccountManagementReportPlayerClientRequest, public BaseModel
+class ReportPlayerClientRequest : public Wrappers::PFAccountManagementReportPlayerClientRequestWrapper<Allocator>, public InputModel
 {
-    ReportPlayerClientRequest();
-    ReportPlayerClientRequest(const ReportPlayerClientRequest& src);
-    ReportPlayerClientRequest(ReportPlayerClientRequest&& src);
-    ReportPlayerClientRequest(const PFAccountManagementReportPlayerClientRequest& src);
-    ReportPlayerClientRequest& operator=(const ReportPlayerClientRequest&) = delete;
-    ~ReportPlayerClientRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementReportPlayerClientRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementReportPlayerClientRequest& input);
 
-private:
-    String m_comment;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_reporteeId;
 };
 
-struct ReportPlayerClientResult : public PFAccountManagementReportPlayerClientResult, public SerializableModel, public ApiResult
+class ReportPlayerClientResult : public Wrappers::PFAccountManagementReportPlayerClientResultWrapper<Allocator>, public OutputModel<PFAccountManagementReportPlayerClientResult>
 {
-    ReportPlayerClientResult();
-    ReportPlayerClientResult(const ReportPlayerClientResult&) = default;
-    ReportPlayerClientResult(ReportPlayerClientResult&&) = default;
-    ReportPlayerClientResult(const PFAccountManagementReportPlayerClientResult& src);
-    ReportPlayerClientResult& operator=(const ReportPlayerClientResult&) = delete;
-    ~ReportPlayerClientResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementReportPlayerClientResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementReportPlayerClientResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
+    static size_t RequiredBufferSize(const PFAccountManagementReportPlayerClientResult& model);
+    static HRESULT Copy(const PFAccountManagementReportPlayerClientResult& input, PFAccountManagementReportPlayerClientResult& output, ModelBuffer& buffer);
 };
 
-struct ClientSendAccountRecoveryEmailRequest : public PFAccountManagementClientSendAccountRecoveryEmailRequest, public BaseModel
+class ClientSendAccountRecoveryEmailRequest : public Wrappers::PFAccountManagementClientSendAccountRecoveryEmailRequestWrapper<Allocator>, public InputModel
 {
-    ClientSendAccountRecoveryEmailRequest();
-    ClientSendAccountRecoveryEmailRequest(const ClientSendAccountRecoveryEmailRequest& src);
-    ClientSendAccountRecoveryEmailRequest(ClientSendAccountRecoveryEmailRequest&& src);
-    ClientSendAccountRecoveryEmailRequest(const PFAccountManagementClientSendAccountRecoveryEmailRequest& src);
-    ClientSendAccountRecoveryEmailRequest& operator=(const ClientSendAccountRecoveryEmailRequest&) = delete;
-    ~ClientSendAccountRecoveryEmailRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientSendAccountRecoveryEmailRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientSendAccountRecoveryEmailRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_email;
-    String m_emailTemplateId;
-    String m_titleId;
 };
 
-struct UnlinkAndroidDeviceIDRequest : public PFAccountManagementUnlinkAndroidDeviceIDRequest, public BaseModel
+class UnlinkAndroidDeviceIDRequest : public Wrappers::PFAccountManagementUnlinkAndroidDeviceIDRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkAndroidDeviceIDRequest();
-    UnlinkAndroidDeviceIDRequest(const UnlinkAndroidDeviceIDRequest& src);
-    UnlinkAndroidDeviceIDRequest(UnlinkAndroidDeviceIDRequest&& src);
-    UnlinkAndroidDeviceIDRequest(const PFAccountManagementUnlinkAndroidDeviceIDRequest& src);
-    UnlinkAndroidDeviceIDRequest& operator=(const UnlinkAndroidDeviceIDRequest&) = delete;
-    ~UnlinkAndroidDeviceIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkAndroidDeviceIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkAndroidDeviceIDRequest& input);
 
-private:
-    String m_androidDeviceId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkAppleRequest : public PFAccountManagementUnlinkAppleRequest, public BaseModel
+class UnlinkAppleRequest : public Wrappers::PFAccountManagementUnlinkAppleRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkAppleRequest();
-    UnlinkAppleRequest(const UnlinkAppleRequest& src);
-    UnlinkAppleRequest(UnlinkAppleRequest&& src);
-    UnlinkAppleRequest(const PFAccountManagementUnlinkAppleRequest& src);
-    UnlinkAppleRequest& operator=(const UnlinkAppleRequest&) = delete;
-    ~UnlinkAppleRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkAppleRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkAppleRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkCustomIDRequest : public PFAccountManagementUnlinkCustomIDRequest, public BaseModel
+class UnlinkCustomIDRequest : public Wrappers::PFAccountManagementUnlinkCustomIDRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkCustomIDRequest();
-    UnlinkCustomIDRequest(const UnlinkCustomIDRequest& src);
-    UnlinkCustomIDRequest(UnlinkCustomIDRequest&& src);
-    UnlinkCustomIDRequest(const PFAccountManagementUnlinkCustomIDRequest& src);
-    UnlinkCustomIDRequest& operator=(const UnlinkCustomIDRequest&) = delete;
-    ~UnlinkCustomIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkCustomIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkCustomIDRequest& input);
 
-private:
-    String m_customId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkFacebookAccountRequest : public PFAccountManagementUnlinkFacebookAccountRequest, public BaseModel
+class UnlinkFacebookAccountRequest : public Wrappers::PFAccountManagementUnlinkFacebookAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkFacebookAccountRequest();
-    UnlinkFacebookAccountRequest(const UnlinkFacebookAccountRequest& src);
-    UnlinkFacebookAccountRequest(UnlinkFacebookAccountRequest&& src);
-    UnlinkFacebookAccountRequest(const PFAccountManagementUnlinkFacebookAccountRequest& src);
-    UnlinkFacebookAccountRequest& operator=(const UnlinkFacebookAccountRequest&) = delete;
-    ~UnlinkFacebookAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkFacebookAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkFacebookAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkFacebookInstantGamesIdRequest : public PFAccountManagementUnlinkFacebookInstantGamesIdRequest, public BaseModel
+class UnlinkFacebookInstantGamesIdRequest : public Wrappers::PFAccountManagementUnlinkFacebookInstantGamesIdRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkFacebookInstantGamesIdRequest();
-    UnlinkFacebookInstantGamesIdRequest(const UnlinkFacebookInstantGamesIdRequest& src);
-    UnlinkFacebookInstantGamesIdRequest(UnlinkFacebookInstantGamesIdRequest&& src);
-    UnlinkFacebookInstantGamesIdRequest(const PFAccountManagementUnlinkFacebookInstantGamesIdRequest& src);
-    UnlinkFacebookInstantGamesIdRequest& operator=(const UnlinkFacebookInstantGamesIdRequest&) = delete;
-    ~UnlinkFacebookInstantGamesIdRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkFacebookInstantGamesIdRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkFacebookInstantGamesIdRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_facebookInstantGamesId;
 };
 
-struct UnlinkGameCenterAccountRequest : public PFAccountManagementUnlinkGameCenterAccountRequest, public BaseModel
+class UnlinkGameCenterAccountRequest : public Wrappers::PFAccountManagementUnlinkGameCenterAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkGameCenterAccountRequest();
-    UnlinkGameCenterAccountRequest(const UnlinkGameCenterAccountRequest& src);
-    UnlinkGameCenterAccountRequest(UnlinkGameCenterAccountRequest&& src);
-    UnlinkGameCenterAccountRequest(const PFAccountManagementUnlinkGameCenterAccountRequest& src);
-    UnlinkGameCenterAccountRequest& operator=(const UnlinkGameCenterAccountRequest&) = delete;
-    ~UnlinkGameCenterAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkGameCenterAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkGameCenterAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkGoogleAccountRequest : public PFAccountManagementUnlinkGoogleAccountRequest, public BaseModel
+class UnlinkGoogleAccountRequest : public Wrappers::PFAccountManagementUnlinkGoogleAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkGoogleAccountRequest();
-    UnlinkGoogleAccountRequest(const UnlinkGoogleAccountRequest& src);
-    UnlinkGoogleAccountRequest(UnlinkGoogleAccountRequest&& src);
-    UnlinkGoogleAccountRequest(const PFAccountManagementUnlinkGoogleAccountRequest& src);
-    UnlinkGoogleAccountRequest& operator=(const UnlinkGoogleAccountRequest&) = delete;
-    ~UnlinkGoogleAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkGoogleAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkGoogleAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkIOSDeviceIDRequest : public PFAccountManagementUnlinkIOSDeviceIDRequest, public BaseModel
+class UnlinkIOSDeviceIDRequest : public Wrappers::PFAccountManagementUnlinkIOSDeviceIDRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkIOSDeviceIDRequest();
-    UnlinkIOSDeviceIDRequest(const UnlinkIOSDeviceIDRequest& src);
-    UnlinkIOSDeviceIDRequest(UnlinkIOSDeviceIDRequest&& src);
-    UnlinkIOSDeviceIDRequest(const PFAccountManagementUnlinkIOSDeviceIDRequest& src);
-    UnlinkIOSDeviceIDRequest& operator=(const UnlinkIOSDeviceIDRequest&) = delete;
-    ~UnlinkIOSDeviceIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkIOSDeviceIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkIOSDeviceIDRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_deviceId;
 };
 
-struct UnlinkKongregateAccountRequest : public PFAccountManagementUnlinkKongregateAccountRequest, public BaseModel
+class UnlinkKongregateAccountRequest : public Wrappers::PFAccountManagementUnlinkKongregateAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkKongregateAccountRequest();
-    UnlinkKongregateAccountRequest(const UnlinkKongregateAccountRequest& src);
-    UnlinkKongregateAccountRequest(UnlinkKongregateAccountRequest&& src);
-    UnlinkKongregateAccountRequest(const PFAccountManagementUnlinkKongregateAccountRequest& src);
-    UnlinkKongregateAccountRequest& operator=(const UnlinkKongregateAccountRequest&) = delete;
-    ~UnlinkKongregateAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkKongregateAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkKongregateAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkNintendoServiceAccountRequest : public PFAccountManagementUnlinkNintendoServiceAccountRequest, public BaseModel
+class UnlinkNintendoServiceAccountRequest : public Wrappers::PFAccountManagementUnlinkNintendoServiceAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkNintendoServiceAccountRequest();
-    UnlinkNintendoServiceAccountRequest(const UnlinkNintendoServiceAccountRequest& src);
-    UnlinkNintendoServiceAccountRequest(UnlinkNintendoServiceAccountRequest&& src);
-    UnlinkNintendoServiceAccountRequest(const PFAccountManagementUnlinkNintendoServiceAccountRequest& src);
-    UnlinkNintendoServiceAccountRequest& operator=(const UnlinkNintendoServiceAccountRequest&) = delete;
-    ~UnlinkNintendoServiceAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkNintendoServiceAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkNintendoServiceAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkNintendoSwitchDeviceIdRequest : public PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest, public BaseModel
+class UnlinkNintendoSwitchDeviceIdRequest : public Wrappers::PFAccountManagementUnlinkNintendoSwitchDeviceIdRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkNintendoSwitchDeviceIdRequest();
-    UnlinkNintendoSwitchDeviceIdRequest(const UnlinkNintendoSwitchDeviceIdRequest& src);
-    UnlinkNintendoSwitchDeviceIdRequest(UnlinkNintendoSwitchDeviceIdRequest&& src);
-    UnlinkNintendoSwitchDeviceIdRequest(const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest& src);
-    UnlinkNintendoSwitchDeviceIdRequest& operator=(const UnlinkNintendoSwitchDeviceIdRequest&) = delete;
-    ~UnlinkNintendoSwitchDeviceIdRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkNintendoSwitchDeviceIdRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_nintendoSwitchDeviceId;
 };
 
-struct UnlinkOpenIdConnectRequest : public PFAccountManagementUnlinkOpenIdConnectRequest, public BaseModel
+class UnlinkOpenIdConnectRequest : public Wrappers::PFAccountManagementUnlinkOpenIdConnectRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkOpenIdConnectRequest();
-    UnlinkOpenIdConnectRequest(const UnlinkOpenIdConnectRequest& src);
-    UnlinkOpenIdConnectRequest(UnlinkOpenIdConnectRequest&& src);
-    UnlinkOpenIdConnectRequest(const PFAccountManagementUnlinkOpenIdConnectRequest& src);
-    UnlinkOpenIdConnectRequest& operator=(const UnlinkOpenIdConnectRequest&) = delete;
-    ~UnlinkOpenIdConnectRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkOpenIdConnectRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkOpenIdConnectRequest& input);
 
-private:
-    String m_connectionId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ClientUnlinkPSNAccountRequest : public PFAccountManagementClientUnlinkPSNAccountRequest, public BaseModel
+class ClientUnlinkPSNAccountRequest : public Wrappers::PFAccountManagementClientUnlinkPSNAccountRequestWrapper<Allocator>, public InputModel
 {
-    ClientUnlinkPSNAccountRequest();
-    ClientUnlinkPSNAccountRequest(const ClientUnlinkPSNAccountRequest& src);
-    ClientUnlinkPSNAccountRequest(ClientUnlinkPSNAccountRequest&& src);
-    ClientUnlinkPSNAccountRequest(const PFAccountManagementClientUnlinkPSNAccountRequest& src);
-    ClientUnlinkPSNAccountRequest& operator=(const ClientUnlinkPSNAccountRequest&) = delete;
-    ~ClientUnlinkPSNAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientUnlinkPSNAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientUnlinkPSNAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkSteamAccountRequest : public PFAccountManagementUnlinkSteamAccountRequest, public BaseModel
+class UnlinkSteamAccountRequest : public Wrappers::PFAccountManagementUnlinkSteamAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkSteamAccountRequest();
-    UnlinkSteamAccountRequest(const UnlinkSteamAccountRequest& src);
-    UnlinkSteamAccountRequest(UnlinkSteamAccountRequest&& src);
-    UnlinkSteamAccountRequest(const PFAccountManagementUnlinkSteamAccountRequest& src);
-    UnlinkSteamAccountRequest& operator=(const UnlinkSteamAccountRequest&) = delete;
-    ~UnlinkSteamAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkSteamAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkSteamAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct UnlinkTwitchAccountRequest : public PFAccountManagementUnlinkTwitchAccountRequest, public BaseModel
+class UnlinkTwitchAccountRequest : public Wrappers::PFAccountManagementUnlinkTwitchAccountRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkTwitchAccountRequest();
-    UnlinkTwitchAccountRequest(const UnlinkTwitchAccountRequest& src);
-    UnlinkTwitchAccountRequest(UnlinkTwitchAccountRequest&& src);
-    UnlinkTwitchAccountRequest(const PFAccountManagementUnlinkTwitchAccountRequest& src);
-    UnlinkTwitchAccountRequest& operator=(const UnlinkTwitchAccountRequest&) = delete;
-    ~UnlinkTwitchAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkTwitchAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkTwitchAccountRequest& input);
 
-private:
-    String m_accessToken;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ClientUnlinkXboxAccountRequest : public PFAccountManagementClientUnlinkXboxAccountRequest, public BaseModel
+class ClientUnlinkXboxAccountRequest : public Wrappers::PFAccountManagementClientUnlinkXboxAccountRequestWrapper<Allocator>, public InputModel
 {
-    ClientUnlinkXboxAccountRequest();
-    ClientUnlinkXboxAccountRequest(const ClientUnlinkXboxAccountRequest& src);
-    ClientUnlinkXboxAccountRequest(ClientUnlinkXboxAccountRequest&& src);
-    ClientUnlinkXboxAccountRequest(const PFAccountManagementClientUnlinkXboxAccountRequest& src);
-    ClientUnlinkXboxAccountRequest& operator=(const ClientUnlinkXboxAccountRequest&) = delete;
-    ~ClientUnlinkXboxAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientUnlinkXboxAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientUnlinkXboxAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ClientUpdateAvatarUrlRequest : public PFAccountManagementClientUpdateAvatarUrlRequest, public SerializableModel
+class ClientUpdateAvatarUrlRequest : public Wrappers::PFAccountManagementClientUpdateAvatarUrlRequestWrapper<Allocator>, public InputModel
 {
-    ClientUpdateAvatarUrlRequest();
-    ClientUpdateAvatarUrlRequest(const ClientUpdateAvatarUrlRequest& src);
-    ClientUpdateAvatarUrlRequest(ClientUpdateAvatarUrlRequest&& src);
-    ClientUpdateAvatarUrlRequest(const PFAccountManagementClientUpdateAvatarUrlRequest& src);
-    ClientUpdateAvatarUrlRequest& operator=(const ClientUpdateAvatarUrlRequest&) = delete;
-    ~ClientUpdateAvatarUrlRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientUpdateAvatarUrlRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientUpdateAvatarUrlRequest& input);
 
-private:
-    String m_imageUrl;
 };
 
-struct ClientUpdateUserTitleDisplayNameRequest : public PFAccountManagementClientUpdateUserTitleDisplayNameRequest, public BaseModel
+class ClientUpdateUserTitleDisplayNameRequest : public Wrappers::PFAccountManagementClientUpdateUserTitleDisplayNameRequestWrapper<Allocator>, public InputModel
 {
-    ClientUpdateUserTitleDisplayNameRequest();
-    ClientUpdateUserTitleDisplayNameRequest(const ClientUpdateUserTitleDisplayNameRequest& src);
-    ClientUpdateUserTitleDisplayNameRequest(ClientUpdateUserTitleDisplayNameRequest&& src);
-    ClientUpdateUserTitleDisplayNameRequest(const PFAccountManagementClientUpdateUserTitleDisplayNameRequest& src);
-    ClientUpdateUserTitleDisplayNameRequest& operator=(const ClientUpdateUserTitleDisplayNameRequest&) = delete;
-    ~ClientUpdateUserTitleDisplayNameRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementClientUpdateUserTitleDisplayNameRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementClientUpdateUserTitleDisplayNameRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_displayName;
 };
 
-struct ServerAddGenericIDRequest : public PFAccountManagementServerAddGenericIDRequest, public BaseModel
+class ServerAddGenericIDRequest : public Wrappers::PFAccountManagementServerAddGenericIDRequestWrapper<Allocator>, public InputModel
 {
-    ServerAddGenericIDRequest();
-    ServerAddGenericIDRequest(const ServerAddGenericIDRequest& src);
-    ServerAddGenericIDRequest(ServerAddGenericIDRequest&& src);
-    ServerAddGenericIDRequest(const PFAccountManagementServerAddGenericIDRequest& src);
-    ServerAddGenericIDRequest& operator=(const ServerAddGenericIDRequest&) = delete;
-    ~ServerAddGenericIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerAddGenericIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerAddGenericIDRequest& input);
 
-private:
-    GenericServiceId m_genericId;
-    String m_playFabId;
 };
 
-struct DeletePushNotificationTemplateRequest : public PFAccountManagementDeletePushNotificationTemplateRequest, public SerializableModel
+class DeletePushNotificationTemplateRequest : public Wrappers::PFAccountManagementDeletePushNotificationTemplateRequestWrapper<Allocator>, public InputModel
 {
-    DeletePushNotificationTemplateRequest();
-    DeletePushNotificationTemplateRequest(const DeletePushNotificationTemplateRequest& src);
-    DeletePushNotificationTemplateRequest(DeletePushNotificationTemplateRequest&& src);
-    DeletePushNotificationTemplateRequest(const PFAccountManagementDeletePushNotificationTemplateRequest& src);
-    DeletePushNotificationTemplateRequest& operator=(const DeletePushNotificationTemplateRequest&) = delete;
-    ~DeletePushNotificationTemplateRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementDeletePushNotificationTemplateRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementDeletePushNotificationTemplateRequest& input);
 
-private:
-    String m_pushNotificationTemplateId;
 };
 
-struct GetServerCustomIDsFromPlayFabIDsRequest : public PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest, public BaseModel
+class GetServerCustomIDsFromPlayFabIDsRequest : public Wrappers::PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequestWrapper<Allocator>, public InputModel
 {
-    GetServerCustomIDsFromPlayFabIDsRequest();
-    GetServerCustomIDsFromPlayFabIDsRequest(const GetServerCustomIDsFromPlayFabIDsRequest& src);
-    GetServerCustomIDsFromPlayFabIDsRequest(GetServerCustomIDsFromPlayFabIDsRequest&& src);
-    GetServerCustomIDsFromPlayFabIDsRequest(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest& src);
-    GetServerCustomIDsFromPlayFabIDsRequest& operator=(const GetServerCustomIDsFromPlayFabIDsRequest&) = delete;
-    ~GetServerCustomIDsFromPlayFabIDsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_playFabIDs;
 };
 
-struct ServerCustomIDPlayFabIDPair : public PFAccountManagementServerCustomIDPlayFabIDPair, public SerializableModel
+class ServerCustomIDPlayFabIDPair : public Wrappers::PFAccountManagementServerCustomIDPlayFabIDPairWrapper<Allocator>, public OutputModel<PFAccountManagementServerCustomIDPlayFabIDPair>
 {
-    ServerCustomIDPlayFabIDPair();
-    ServerCustomIDPlayFabIDPair(const ServerCustomIDPlayFabIDPair& src);
-    ServerCustomIDPlayFabIDPair(ServerCustomIDPlayFabIDPair&& src);
-    ServerCustomIDPlayFabIDPair(const PFAccountManagementServerCustomIDPlayFabIDPair& src);
-    ServerCustomIDPlayFabIDPair& operator=(const ServerCustomIDPlayFabIDPair&) = delete;
-    ~ServerCustomIDPlayFabIDPair() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerCustomIDPlayFabIDPairWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementServerCustomIDPlayFabIDPair const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    String m_serverCustomId;
+    static size_t RequiredBufferSize(const PFAccountManagementServerCustomIDPlayFabIDPair& model);
+    static HRESULT Copy(const PFAccountManagementServerCustomIDPlayFabIDPair& input, PFAccountManagementServerCustomIDPlayFabIDPair& output, ModelBuffer& buffer);
 };
 
-struct GetServerCustomIDsFromPlayFabIDsResult : public PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult, public BaseModel, public ApiResult
+class GetServerCustomIDsFromPlayFabIDsResult : public Wrappers::PFAccountManagementGetServerCustomIDsFromPlayFabIDsResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult>
 {
-    GetServerCustomIDsFromPlayFabIDsResult();
-    GetServerCustomIDsFromPlayFabIDsResult(const GetServerCustomIDsFromPlayFabIDsResult& src);
-    GetServerCustomIDsFromPlayFabIDsResult(GetServerCustomIDsFromPlayFabIDsResult&& src);
-    GetServerCustomIDsFromPlayFabIDsResult(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult& src);
-    GetServerCustomIDsFromPlayFabIDsResult& operator=(const GetServerCustomIDsFromPlayFabIDsResult&) = delete;
-    ~GetServerCustomIDsFromPlayFabIDsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetServerCustomIDsFromPlayFabIDsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementServerCustomIDPlayFabIDPair, ServerCustomIDPlayFabIDPair> m_data;
+    static size_t RequiredBufferSize(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult& model);
+    static HRESULT Copy(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult& input, PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult& output, ModelBuffer& buffer);
 };
 
-struct GetUserAccountInfoRequest : public PFAccountManagementGetUserAccountInfoRequest, public SerializableModel
+class GetUserAccountInfoRequest : public Wrappers::PFAccountManagementGetUserAccountInfoRequestWrapper<Allocator>, public InputModel
 {
-    GetUserAccountInfoRequest();
-    GetUserAccountInfoRequest(const GetUserAccountInfoRequest& src);
-    GetUserAccountInfoRequest(GetUserAccountInfoRequest&& src);
-    GetUserAccountInfoRequest(const PFAccountManagementGetUserAccountInfoRequest& src);
-    GetUserAccountInfoRequest& operator=(const GetUserAccountInfoRequest&) = delete;
-    ~GetUserAccountInfoRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetUserAccountInfoRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetUserAccountInfoRequest& input);
 
-private:
-    String m_playFabId;
 };
 
-struct GetUserAccountInfoResult : public PFAccountManagementGetUserAccountInfoResult, public BaseModel, public ApiResult
+class GetUserAccountInfoResult : public Wrappers::PFAccountManagementGetUserAccountInfoResultWrapper<Allocator>, public OutputModel<PFAccountManagementGetUserAccountInfoResult>
 {
-    GetUserAccountInfoResult();
-    GetUserAccountInfoResult(const GetUserAccountInfoResult& src);
-    GetUserAccountInfoResult(GetUserAccountInfoResult&& src);
-    GetUserAccountInfoResult(const PFAccountManagementGetUserAccountInfoResult& src);
-    GetUserAccountInfoResult& operator=(const GetUserAccountInfoResult&) = delete;
-    ~GetUserAccountInfoResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetUserAccountInfoResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetUserAccountInfoResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<UserAccountInfo> m_userInfo;
+    static size_t RequiredBufferSize(const PFAccountManagementGetUserAccountInfoResult& model);
+    static HRESULT Copy(const PFAccountManagementGetUserAccountInfoResult& input, PFAccountManagementGetUserAccountInfoResult& output, ModelBuffer& buffer);
 };
 
-struct ServerLinkPSNAccountRequest : public PFAccountManagementServerLinkPSNAccountRequest, public BaseModel
+class ServerLinkPSNAccountRequest : public Wrappers::PFAccountManagementServerLinkPSNAccountRequestWrapper<Allocator>, public InputModel
 {
-    ServerLinkPSNAccountRequest();
-    ServerLinkPSNAccountRequest(const ServerLinkPSNAccountRequest& src);
-    ServerLinkPSNAccountRequest(ServerLinkPSNAccountRequest&& src);
-    ServerLinkPSNAccountRequest(const PFAccountManagementServerLinkPSNAccountRequest& src);
-    ServerLinkPSNAccountRequest& operator=(const ServerLinkPSNAccountRequest&) = delete;
-    ~ServerLinkPSNAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerLinkPSNAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerLinkPSNAccountRequest& input);
 
-private:
-    String m_authCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    StdExtra::optional<int32_t> m_issuerId;
-    String m_playFabId;
-    String m_redirectUri;
 };
 
-struct LinkServerCustomIdRequest : public PFAccountManagementLinkServerCustomIdRequest, public BaseModel
+class LinkServerCustomIdRequest : public Wrappers::PFAccountManagementLinkServerCustomIdRequestWrapper<Allocator>, public InputModel
 {
-    LinkServerCustomIdRequest();
-    LinkServerCustomIdRequest(const LinkServerCustomIdRequest& src);
-    LinkServerCustomIdRequest(LinkServerCustomIdRequest&& src);
-    LinkServerCustomIdRequest(const PFAccountManagementLinkServerCustomIdRequest& src);
-    LinkServerCustomIdRequest& operator=(const LinkServerCustomIdRequest&) = delete;
-    ~LinkServerCustomIdRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLinkServerCustomIdRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLinkServerCustomIdRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_playFabId;
-    String m_serverCustomId;
 };
 
-struct ServerLinkXboxAccountRequest : public PFAccountManagementServerLinkXboxAccountRequest, public BaseModel
+class ServerLinkXboxAccountRequest : public Wrappers::PFAccountManagementServerLinkXboxAccountRequestWrapper<Allocator>, public InputModel
 {
-    ServerLinkXboxAccountRequest();
-    ServerLinkXboxAccountRequest(const ServerLinkXboxAccountRequest& src);
-    ServerLinkXboxAccountRequest(ServerLinkXboxAccountRequest&& src);
-    ServerLinkXboxAccountRequest(const PFAccountManagementServerLinkXboxAccountRequest& src);
-    ServerLinkXboxAccountRequest& operator=(const ServerLinkXboxAccountRequest&) = delete;
-    ~ServerLinkXboxAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerLinkXboxAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerLinkXboxAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceLink;
-    String m_playFabId;
-    String m_xboxToken;
 };
 
-struct ServerRemoveGenericIDRequest : public PFAccountManagementServerRemoveGenericIDRequest, public BaseModel
+class ServerRemoveGenericIDRequest : public Wrappers::PFAccountManagementServerRemoveGenericIDRequestWrapper<Allocator>, public InputModel
 {
-    ServerRemoveGenericIDRequest();
-    ServerRemoveGenericIDRequest(const ServerRemoveGenericIDRequest& src);
-    ServerRemoveGenericIDRequest(ServerRemoveGenericIDRequest&& src);
-    ServerRemoveGenericIDRequest(const PFAccountManagementServerRemoveGenericIDRequest& src);
-    ServerRemoveGenericIDRequest& operator=(const ServerRemoveGenericIDRequest&) = delete;
-    ~ServerRemoveGenericIDRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerRemoveGenericIDRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerRemoveGenericIDRequest& input);
 
-private:
-    GenericServiceId m_genericId;
-    String m_playFabId;
 };
 
-struct LocalizedPushNotificationProperties : public PFAccountManagementLocalizedPushNotificationProperties, public SerializableModel
+class LocalizedPushNotificationProperties : public Wrappers::PFAccountManagementLocalizedPushNotificationPropertiesWrapper<Allocator>, public InputModel
 {
-    LocalizedPushNotificationProperties();
-    LocalizedPushNotificationProperties(const LocalizedPushNotificationProperties& src);
-    LocalizedPushNotificationProperties(LocalizedPushNotificationProperties&& src);
-    LocalizedPushNotificationProperties(const PFAccountManagementLocalizedPushNotificationProperties& src);
-    LocalizedPushNotificationProperties& operator=(const LocalizedPushNotificationProperties&) = delete;
-    ~LocalizedPushNotificationProperties() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementLocalizedPushNotificationPropertiesWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementLocalizedPushNotificationProperties& input);
 
-private:
-    String m_message;
-    String m_subject;
 };
 
-struct SavePushNotificationTemplateRequest : public PFAccountManagementSavePushNotificationTemplateRequest, public BaseModel
+class SavePushNotificationTemplateRequest : public Wrappers::PFAccountManagementSavePushNotificationTemplateRequestWrapper<Allocator>, public InputModel
 {
-    SavePushNotificationTemplateRequest();
-    SavePushNotificationTemplateRequest(const SavePushNotificationTemplateRequest& src);
-    SavePushNotificationTemplateRequest(SavePushNotificationTemplateRequest&& src);
-    SavePushNotificationTemplateRequest(const PFAccountManagementSavePushNotificationTemplateRequest& src);
-    SavePushNotificationTemplateRequest& operator=(const SavePushNotificationTemplateRequest&) = delete;
-    ~SavePushNotificationTemplateRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSavePushNotificationTemplateRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSavePushNotificationTemplateRequest& input);
 
-private:
-    String m_androidPayload;
-    String m_id;
-    String m_iOSPayload;
-    AssociativeArrayModel<PFAccountManagementLocalizedPushNotificationPropertiesDictionaryEntry, LocalizedPushNotificationProperties> m_localizedPushNotificationTemplates;
-    String m_name;
 };
 
-struct SavePushNotificationTemplateResult : public PFAccountManagementSavePushNotificationTemplateResult, public SerializableModel, public ApiResult
+class SavePushNotificationTemplateResult : public Wrappers::PFAccountManagementSavePushNotificationTemplateResultWrapper<Allocator>, public OutputModel<PFAccountManagementSavePushNotificationTemplateResult>
 {
-    SavePushNotificationTemplateResult();
-    SavePushNotificationTemplateResult(const SavePushNotificationTemplateResult& src);
-    SavePushNotificationTemplateResult(SavePushNotificationTemplateResult&& src);
-    SavePushNotificationTemplateResult(const PFAccountManagementSavePushNotificationTemplateResult& src);
-    SavePushNotificationTemplateResult& operator=(const SavePushNotificationTemplateResult&) = delete;
-    ~SavePushNotificationTemplateResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSavePushNotificationTemplateResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementSavePushNotificationTemplateResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_pushNotificationTemplateId;
+    static size_t RequiredBufferSize(const PFAccountManagementSavePushNotificationTemplateResult& model);
+    static HRESULT Copy(const PFAccountManagementSavePushNotificationTemplateResult& input, PFAccountManagementSavePushNotificationTemplateResult& output, ModelBuffer& buffer);
 };
 
-struct SendCustomAccountRecoveryEmailRequest : public PFAccountManagementSendCustomAccountRecoveryEmailRequest, public BaseModel
+class SendCustomAccountRecoveryEmailRequest : public Wrappers::PFAccountManagementSendCustomAccountRecoveryEmailRequestWrapper<Allocator>, public InputModel
 {
-    SendCustomAccountRecoveryEmailRequest();
-    SendCustomAccountRecoveryEmailRequest(const SendCustomAccountRecoveryEmailRequest& src);
-    SendCustomAccountRecoveryEmailRequest(SendCustomAccountRecoveryEmailRequest&& src);
-    SendCustomAccountRecoveryEmailRequest(const PFAccountManagementSendCustomAccountRecoveryEmailRequest& src);
-    SendCustomAccountRecoveryEmailRequest& operator=(const SendCustomAccountRecoveryEmailRequest&) = delete;
-    ~SendCustomAccountRecoveryEmailRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSendCustomAccountRecoveryEmailRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSendCustomAccountRecoveryEmailRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_email;
-    String m_emailTemplateId;
-    String m_username;
 };
 
-struct SendEmailFromTemplateRequest : public PFAccountManagementSendEmailFromTemplateRequest, public BaseModel
+class SendEmailFromTemplateRequest : public Wrappers::PFAccountManagementSendEmailFromTemplateRequestWrapper<Allocator>, public InputModel
 {
-    SendEmailFromTemplateRequest();
-    SendEmailFromTemplateRequest(const SendEmailFromTemplateRequest& src);
-    SendEmailFromTemplateRequest(SendEmailFromTemplateRequest&& src);
-    SendEmailFromTemplateRequest(const PFAccountManagementSendEmailFromTemplateRequest& src);
-    SendEmailFromTemplateRequest& operator=(const SendEmailFromTemplateRequest&) = delete;
-    ~SendEmailFromTemplateRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSendEmailFromTemplateRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSendEmailFromTemplateRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_emailTemplateId;
-    String m_playFabId;
 };
 
-struct AdvancedPushPlatformMsg : public PFAccountManagementAdvancedPushPlatformMsg, public BaseModel
+class AdvancedPushPlatformMsg : public Wrappers::PFAccountManagementAdvancedPushPlatformMsgWrapper<Allocator>, public InputModel
 {
-    AdvancedPushPlatformMsg();
-    AdvancedPushPlatformMsg(const AdvancedPushPlatformMsg& src);
-    AdvancedPushPlatformMsg(AdvancedPushPlatformMsg&& src);
-    AdvancedPushPlatformMsg(const PFAccountManagementAdvancedPushPlatformMsg& src);
-    AdvancedPushPlatformMsg& operator=(const AdvancedPushPlatformMsg&) = delete;
-    ~AdvancedPushPlatformMsg() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementAdvancedPushPlatformMsgWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementAdvancedPushPlatformMsg& input);
 
-private:
-    StdExtra::optional<bool> m_gCMDataOnly;
-    String m_json;
 };
 
-struct PushNotificationPackage : public PFAccountManagementPushNotificationPackage, public SerializableModel
+class PushNotificationPackage : public Wrappers::PFAccountManagementPushNotificationPackageWrapper<Allocator>, public InputModel
 {
-    PushNotificationPackage();
-    PushNotificationPackage(const PushNotificationPackage& src);
-    PushNotificationPackage(PushNotificationPackage&& src);
-    PushNotificationPackage(const PFAccountManagementPushNotificationPackage& src);
-    PushNotificationPackage& operator=(const PushNotificationPackage&) = delete;
-    ~PushNotificationPackage() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementPushNotificationPackageWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementPushNotificationPackage& input);
 
-private:
-    String m_customData;
-    String m_icon;
-    String m_message;
-    String m_sound;
-    String m_title;
 };
 
-struct SendPushNotificationRequest : public PFAccountManagementSendPushNotificationRequest, public BaseModel
+class SendPushNotificationRequest : public Wrappers::PFAccountManagementSendPushNotificationRequestWrapper<Allocator>, public InputModel
 {
-    SendPushNotificationRequest();
-    SendPushNotificationRequest(const SendPushNotificationRequest& src);
-    SendPushNotificationRequest(SendPushNotificationRequest&& src);
-    SendPushNotificationRequest(const PFAccountManagementSendPushNotificationRequest& src);
-    SendPushNotificationRequest& operator=(const SendPushNotificationRequest&) = delete;
-    ~SendPushNotificationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSendPushNotificationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSendPushNotificationRequest& input);
 
-private:
-    PointerArrayModel<PFAccountManagementAdvancedPushPlatformMsg, AdvancedPushPlatformMsg> m_advancedPlatformDelivery;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_message;
-    StdExtra::optional<PushNotificationPackage> m_package;
-    String m_recipient;
-    String m_subject;
-    Vector<PFPushNotificationPlatform> m_targetPlatforms;
 };
 
-struct SendPushNotificationFromTemplateRequest : public PFAccountManagementSendPushNotificationFromTemplateRequest, public BaseModel
+class SendPushNotificationFromTemplateRequest : public Wrappers::PFAccountManagementSendPushNotificationFromTemplateRequestWrapper<Allocator>, public InputModel
 {
-    SendPushNotificationFromTemplateRequest();
-    SendPushNotificationFromTemplateRequest(const SendPushNotificationFromTemplateRequest& src);
-    SendPushNotificationFromTemplateRequest(SendPushNotificationFromTemplateRequest&& src);
-    SendPushNotificationFromTemplateRequest(const PFAccountManagementSendPushNotificationFromTemplateRequest& src);
-    SendPushNotificationFromTemplateRequest& operator=(const SendPushNotificationFromTemplateRequest&) = delete;
-    ~SendPushNotificationFromTemplateRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSendPushNotificationFromTemplateRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSendPushNotificationFromTemplateRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_pushNotificationTemplateId;
-    String m_recipient;
 };
 
-struct ServerUnlinkPSNAccountRequest : public PFAccountManagementServerUnlinkPSNAccountRequest, public BaseModel
+class ServerUnlinkPSNAccountRequest : public Wrappers::PFAccountManagementServerUnlinkPSNAccountRequestWrapper<Allocator>, public InputModel
 {
-    ServerUnlinkPSNAccountRequest();
-    ServerUnlinkPSNAccountRequest(const ServerUnlinkPSNAccountRequest& src);
-    ServerUnlinkPSNAccountRequest(ServerUnlinkPSNAccountRequest&& src);
-    ServerUnlinkPSNAccountRequest(const PFAccountManagementServerUnlinkPSNAccountRequest& src);
-    ServerUnlinkPSNAccountRequest& operator=(const ServerUnlinkPSNAccountRequest&) = delete;
-    ~ServerUnlinkPSNAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerUnlinkPSNAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerUnlinkPSNAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct UnlinkServerCustomIdRequest : public PFAccountManagementUnlinkServerCustomIdRequest, public BaseModel
+class UnlinkServerCustomIdRequest : public Wrappers::PFAccountManagementUnlinkServerCustomIdRequestWrapper<Allocator>, public InputModel
 {
-    UnlinkServerCustomIdRequest();
-    UnlinkServerCustomIdRequest(const UnlinkServerCustomIdRequest& src);
-    UnlinkServerCustomIdRequest(UnlinkServerCustomIdRequest&& src);
-    UnlinkServerCustomIdRequest(const PFAccountManagementUnlinkServerCustomIdRequest& src);
-    UnlinkServerCustomIdRequest& operator=(const UnlinkServerCustomIdRequest&) = delete;
-    ~UnlinkServerCustomIdRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementUnlinkServerCustomIdRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementUnlinkServerCustomIdRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_serverCustomId;
 };
 
-struct ServerUnlinkXboxAccountRequest : public PFAccountManagementServerUnlinkXboxAccountRequest, public BaseModel
+class ServerUnlinkXboxAccountRequest : public Wrappers::PFAccountManagementServerUnlinkXboxAccountRequestWrapper<Allocator>, public InputModel
 {
-    ServerUnlinkXboxAccountRequest();
-    ServerUnlinkXboxAccountRequest(const ServerUnlinkXboxAccountRequest& src);
-    ServerUnlinkXboxAccountRequest(ServerUnlinkXboxAccountRequest&& src);
-    ServerUnlinkXboxAccountRequest(const PFAccountManagementServerUnlinkXboxAccountRequest& src);
-    ServerUnlinkXboxAccountRequest& operator=(const ServerUnlinkXboxAccountRequest&) = delete;
-    ~ServerUnlinkXboxAccountRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerUnlinkXboxAccountRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerUnlinkXboxAccountRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ServerUpdateAvatarUrlRequest : public PFAccountManagementServerUpdateAvatarUrlRequest, public SerializableModel
+class ServerUpdateAvatarUrlRequest : public Wrappers::PFAccountManagementServerUpdateAvatarUrlRequestWrapper<Allocator>, public InputModel
 {
-    ServerUpdateAvatarUrlRequest();
-    ServerUpdateAvatarUrlRequest(const ServerUpdateAvatarUrlRequest& src);
-    ServerUpdateAvatarUrlRequest(ServerUpdateAvatarUrlRequest&& src);
-    ServerUpdateAvatarUrlRequest(const PFAccountManagementServerUpdateAvatarUrlRequest& src);
-    ServerUpdateAvatarUrlRequest& operator=(const ServerUpdateAvatarUrlRequest&) = delete;
-    ~ServerUpdateAvatarUrlRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementServerUpdateAvatarUrlRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // InputModel
+    JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementServerUpdateAvatarUrlRequest& input);
 
-private:
-    String m_imageUrl;
-    String m_playFabId;
 };
 
-struct GetGlobalPolicyRequest : public PFAccountManagementGetGlobalPolicyRequest, public BaseModel
+class GetGlobalPolicyRequest : public Wrappers::PFAccountManagementGetGlobalPolicyRequestWrapper<Allocator>, public InputModel
 {
-    GetGlobalPolicyRequest();
-    GetGlobalPolicyRequest(const GetGlobalPolicyRequest& src);
-    GetGlobalPolicyRequest(GetGlobalPolicyRequest&& src);
-    GetGlobalPolicyRequest(const PFAccountManagementGetGlobalPolicyRequest& src);
-    GetGlobalPolicyRequest& operator=(const GetGlobalPolicyRequest&) = delete;
-    ~GetGlobalPolicyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetGlobalPolicyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetGlobalPolicyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct EntityPermissionStatement : public PFAccountManagementEntityPermissionStatement, public BaseModel
+class EntityPermissionStatement : public Wrappers::PFAccountManagementEntityPermissionStatementWrapper<Allocator>, public InputModel, public OutputModel<PFAccountManagementEntityPermissionStatement>
 {
-    EntityPermissionStatement();
-    EntityPermissionStatement(const EntityPermissionStatement& src);
-    EntityPermissionStatement(EntityPermissionStatement&& src);
-    EntityPermissionStatement(const PFAccountManagementEntityPermissionStatement& src);
-    EntityPermissionStatement& operator=(const EntityPermissionStatement&) = delete;
-    ~EntityPermissionStatement() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementEntityPermissionStatementWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementEntityPermissionStatement& input);
 
-private:
-    String m_action;
-    String m_comment;
-    JsonObject m_condition;
-    JsonObject m_principal;
-    String m_resource;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementEntityPermissionStatement const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFAccountManagementEntityPermissionStatement& model);
+    static HRESULT Copy(const PFAccountManagementEntityPermissionStatement& input, PFAccountManagementEntityPermissionStatement& output, ModelBuffer& buffer);
 };
 
-struct GetGlobalPolicyResponse : public PFAccountManagementGetGlobalPolicyResponse, public BaseModel, public ApiResult
+class GetGlobalPolicyResponse : public Wrappers::PFAccountManagementGetGlobalPolicyResponseWrapper<Allocator>, public OutputModel<PFAccountManagementGetGlobalPolicyResponse>
 {
-    GetGlobalPolicyResponse();
-    GetGlobalPolicyResponse(const GetGlobalPolicyResponse& src);
-    GetGlobalPolicyResponse(GetGlobalPolicyResponse&& src);
-    GetGlobalPolicyResponse(const PFAccountManagementGetGlobalPolicyResponse& src);
-    GetGlobalPolicyResponse& operator=(const GetGlobalPolicyResponse&) = delete;
-    ~GetGlobalPolicyResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetGlobalPolicyResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetGlobalPolicyResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementEntityPermissionStatement, EntityPermissionStatement> m_permissions;
+    static size_t RequiredBufferSize(const PFAccountManagementGetGlobalPolicyResponse& model);
+    static HRESULT Copy(const PFAccountManagementGetGlobalPolicyResponse& input, PFAccountManagementGetGlobalPolicyResponse& output, ModelBuffer& buffer);
 };
 
-struct GetEntityProfileRequest : public PFAccountManagementGetEntityProfileRequest, public BaseModel
+class GetEntityProfileRequest : public Wrappers::PFAccountManagementGetEntityProfileRequestWrapper<Allocator>, public InputModel
 {
-    GetEntityProfileRequest();
-    GetEntityProfileRequest(const GetEntityProfileRequest& src);
-    GetEntityProfileRequest(GetEntityProfileRequest&& src);
-    GetEntityProfileRequest(const PFAccountManagementGetEntityProfileRequest& src);
-    GetEntityProfileRequest& operator=(const GetEntityProfileRequest&) = delete;
-    ~GetEntityProfileRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetEntityProfileRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetEntityProfileRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_dataAsObject;
-    StdExtra::optional<EntityKey> m_entity;
 };
 
-struct EntityProfileFileMetadata : public PFAccountManagementEntityProfileFileMetadata, public SerializableModel
+class EntityProfileFileMetadata : public Wrappers::PFAccountManagementEntityProfileFileMetadataWrapper<Allocator>, public OutputModel<PFAccountManagementEntityProfileFileMetadata>
 {
-    EntityProfileFileMetadata();
-    EntityProfileFileMetadata(const EntityProfileFileMetadata& src);
-    EntityProfileFileMetadata(EntityProfileFileMetadata&& src);
-    EntityProfileFileMetadata(const PFAccountManagementEntityProfileFileMetadata& src);
-    EntityProfileFileMetadata& operator=(const EntityProfileFileMetadata&) = delete;
-    ~EntityProfileFileMetadata() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementEntityProfileFileMetadataWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementEntityProfileFileMetadata const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_checksum;
-    String m_fileName;
+    static size_t RequiredBufferSize(const PFAccountManagementEntityProfileFileMetadata& model);
+    static HRESULT Copy(const PFAccountManagementEntityProfileFileMetadata& input, PFAccountManagementEntityProfileFileMetadata& output, ModelBuffer& buffer);
 };
 
-struct EntityDataObject : public PFAccountManagementEntityDataObject, public BaseModel
+class EntityDataObject : public Wrappers::PFAccountManagementEntityDataObjectWrapper<Allocator>, public OutputModel<PFAccountManagementEntityDataObject>
 {
-    EntityDataObject();
-    EntityDataObject(const EntityDataObject& src);
-    EntityDataObject(EntityDataObject&& src);
-    EntityDataObject(const PFAccountManagementEntityDataObject& src);
-    EntityDataObject& operator=(const EntityDataObject&) = delete;
-    ~EntityDataObject() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementEntityDataObjectWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementEntityDataObject const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    JsonObject m_dataObject;
-    String m_escapedDataObject;
-    String m_objectName;
+    static size_t RequiredBufferSize(const PFAccountManagementEntityDataObject& model);
+    static HRESULT Copy(const PFAccountManagementEntityDataObject& input, PFAccountManagementEntityDataObject& output, ModelBuffer& buffer);
 };
 
-struct EntityStatisticChildValue : public PFAccountManagementEntityStatisticChildValue, public SerializableModel
+class EntityStatisticChildValue : public Wrappers::PFAccountManagementEntityStatisticChildValueWrapper<Allocator>, public OutputModel<PFAccountManagementEntityStatisticChildValue>
 {
-    EntityStatisticChildValue();
-    EntityStatisticChildValue(const EntityStatisticChildValue& src);
-    EntityStatisticChildValue(EntityStatisticChildValue&& src);
-    EntityStatisticChildValue(const PFAccountManagementEntityStatisticChildValue& src);
-    EntityStatisticChildValue& operator=(const EntityStatisticChildValue&) = delete;
-    ~EntityStatisticChildValue() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementEntityStatisticChildValueWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
-    void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementEntityStatisticChildValue const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_childName;
-    String m_metadata;
+    static size_t RequiredBufferSize(const PFAccountManagementEntityStatisticChildValue& model);
+    static HRESULT Copy(const PFAccountManagementEntityStatisticChildValue& input, PFAccountManagementEntityStatisticChildValue& output, ModelBuffer& buffer);
 };
 
-struct EntityStatisticValue : public PFAccountManagementEntityStatisticValue, public BaseModel
+class EntityStatisticValue : public Wrappers::PFAccountManagementEntityStatisticValueWrapper<Allocator>, public OutputModel<PFAccountManagementEntityStatisticValue>
 {
-    EntityStatisticValue();
-    EntityStatisticValue(const EntityStatisticValue& src);
-    EntityStatisticValue(EntityStatisticValue&& src);
-    EntityStatisticValue(const PFAccountManagementEntityStatisticValue& src);
-    EntityStatisticValue& operator=(const EntityStatisticValue&) = delete;
-    ~EntityStatisticValue() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementEntityStatisticValueWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementEntityStatisticValue const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFAccountManagementEntityStatisticChildValueDictionaryEntry, EntityStatisticChildValue> m_childStatistics;
-    String m_metadata;
-    String m_name;
-    StdExtra::optional<int32_t> m_value;
+    static size_t RequiredBufferSize(const PFAccountManagementEntityStatisticValue& model);
+    static HRESULT Copy(const PFAccountManagementEntityStatisticValue& input, PFAccountManagementEntityStatisticValue& output, ModelBuffer& buffer);
 };
 
-struct EntityProfileBody : public PFAccountManagementEntityProfileBody, public BaseModel
+class EntityProfileBody : public Wrappers::PFAccountManagementEntityProfileBodyWrapper<Allocator>, public OutputModel<PFAccountManagementEntityProfileBody>
 {
-    EntityProfileBody();
-    EntityProfileBody(const EntityProfileBody& src);
-    EntityProfileBody(EntityProfileBody&& src);
-    EntityProfileBody(const PFAccountManagementEntityProfileBody& src);
-    EntityProfileBody& operator=(const EntityProfileBody&) = delete;
-    ~EntityProfileBody() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementEntityProfileBodyWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementEntityProfileBody const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFAccountManagementEntityProfileBody& model);
+    static HRESULT Copy(const PFAccountManagementEntityProfileBody& input, PFAccountManagementEntityProfileBody& output, ModelBuffer& buffer);
+};
 
-private:
-    String m_avatarUrl;
-    String m_displayName;
-    StdExtra::optional<EntityKey> m_entity;
-    String m_entityChain;
-    PointerArrayModel<char, String> m_experimentVariants;
-    AssociativeArrayModel<PFAccountManagementEntityProfileFileMetadataDictionaryEntry, EntityProfileFileMetadata> m_files;
-    String m_language;
-    String m_leaderboardMetadata;
-    StdExtra::optional<EntityLineage> m_lineage;
-    AssociativeArrayModel<PFAccountManagementEntityDataObjectDictionaryEntry, EntityDataObject> m_objects;
-    PointerArrayModel<PFAccountManagementEntityPermissionStatement, EntityPermissionStatement> m_permissions;
-    AssociativeArrayModel<PFAccountManagementEntityStatisticValueDictionaryEntry, EntityStatisticValue> m_statistics;
-};
-
-struct GetEntityProfileResponse : public PFAccountManagementGetEntityProfileResponse, public BaseModel, public ApiResult
-{
-    GetEntityProfileResponse();
-    GetEntityProfileResponse(const GetEntityProfileResponse& src);
-    GetEntityProfileResponse(GetEntityProfileResponse&& src);
-    GetEntityProfileResponse(const PFAccountManagementGetEntityProfileResponse& src);
-    GetEntityProfileResponse& operator=(const GetEntityProfileResponse&) = delete;
-    ~GetEntityProfileResponse() = default;
+class GetEntityProfileResponse : public Wrappers::PFAccountManagementGetEntityProfileResponseWrapper<Allocator>, public OutputModel<PFAccountManagementGetEntityProfileResponse>
+{
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetEntityProfileResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetEntityProfileResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityProfileBody> m_profile;
+    static size_t RequiredBufferSize(const PFAccountManagementGetEntityProfileResponse& model);
+    static HRESULT Copy(const PFAccountManagementGetEntityProfileResponse& input, PFAccountManagementGetEntityProfileResponse& output, ModelBuffer& buffer);
 };
 
-struct GetEntityProfilesRequest : public PFAccountManagementGetEntityProfilesRequest, public BaseModel
+class GetEntityProfilesRequest : public Wrappers::PFAccountManagementGetEntityProfilesRequestWrapper<Allocator>, public InputModel
 {
-    GetEntityProfilesRequest();
-    GetEntityProfilesRequest(const GetEntityProfilesRequest& src);
-    GetEntityProfilesRequest(GetEntityProfilesRequest&& src);
-    GetEntityProfilesRequest(const PFAccountManagementGetEntityProfilesRequest& src);
-    GetEntityProfilesRequest& operator=(const GetEntityProfilesRequest&) = delete;
-    ~GetEntityProfilesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetEntityProfilesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetEntityProfilesRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_dataAsObject;
-    PointerArrayModel<PFEntityKey, EntityKey> m_entities;
 };
 
-struct GetEntityProfilesResponse : public PFAccountManagementGetEntityProfilesResponse, public BaseModel, public ApiResult
+class GetEntityProfilesResponse : public Wrappers::PFAccountManagementGetEntityProfilesResponseWrapper<Allocator>, public OutputModel<PFAccountManagementGetEntityProfilesResponse>
 {
-    GetEntityProfilesResponse();
-    GetEntityProfilesResponse(const GetEntityProfilesResponse& src);
-    GetEntityProfilesResponse(GetEntityProfilesResponse&& src);
-    GetEntityProfilesResponse(const PFAccountManagementGetEntityProfilesResponse& src);
-    GetEntityProfilesResponse& operator=(const GetEntityProfilesResponse&) = delete;
-    ~GetEntityProfilesResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetEntityProfilesResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetEntityProfilesResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementEntityProfileBody, EntityProfileBody> m_profiles;
+    static size_t RequiredBufferSize(const PFAccountManagementGetEntityProfilesResponse& model);
+    static HRESULT Copy(const PFAccountManagementGetEntityProfilesResponse& input, PFAccountManagementGetEntityProfilesResponse& output, ModelBuffer& buffer);
 };
 
-struct GetTitlePlayersFromMasterPlayerAccountIdsRequest : public PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest, public BaseModel
+class GetTitlePlayersFromMasterPlayerAccountIdsRequest : public Wrappers::PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequestWrapper<Allocator>, public InputModel
 {
-    GetTitlePlayersFromMasterPlayerAccountIdsRequest();
-    GetTitlePlayersFromMasterPlayerAccountIdsRequest(const GetTitlePlayersFromMasterPlayerAccountIdsRequest& src);
-    GetTitlePlayersFromMasterPlayerAccountIdsRequest(GetTitlePlayersFromMasterPlayerAccountIdsRequest&& src);
-    GetTitlePlayersFromMasterPlayerAccountIdsRequest(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest& src);
-    GetTitlePlayersFromMasterPlayerAccountIdsRequest& operator=(const GetTitlePlayersFromMasterPlayerAccountIdsRequest&) = delete;
-    ~GetTitlePlayersFromMasterPlayerAccountIdsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<char, String> m_masterPlayerAccountIds;
-    String m_titleId;
 };
 
-struct GetTitlePlayersFromMasterPlayerAccountIdsResponse : public PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse, public BaseModel, public ApiResult
+class GetTitlePlayersFromMasterPlayerAccountIdsResponse : public Wrappers::PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponseWrapper<Allocator>, public OutputModel<PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse>
 {
-    GetTitlePlayersFromMasterPlayerAccountIdsResponse();
-    GetTitlePlayersFromMasterPlayerAccountIdsResponse(const GetTitlePlayersFromMasterPlayerAccountIdsResponse& src);
-    GetTitlePlayersFromMasterPlayerAccountIdsResponse(GetTitlePlayersFromMasterPlayerAccountIdsResponse&& src);
-    GetTitlePlayersFromMasterPlayerAccountIdsResponse(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse& src);
-    GetTitlePlayersFromMasterPlayerAccountIdsResponse& operator=(const GetTitlePlayersFromMasterPlayerAccountIdsResponse&) = delete;
-    ~GetTitlePlayersFromMasterPlayerAccountIdsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_titleId;
-    AssociativeArrayModel<PFEntityKeyDictionaryEntry, EntityKey> m_titlePlayerAccounts;
+    static size_t RequiredBufferSize(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse& model);
+    static HRESULT Copy(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse& input, PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse& output, ModelBuffer& buffer);
 };
 
-struct SetGlobalPolicyRequest : public PFAccountManagementSetGlobalPolicyRequest, public BaseModel
+class SetGlobalPolicyRequest : public Wrappers::PFAccountManagementSetGlobalPolicyRequestWrapper<Allocator>, public InputModel
 {
-    SetGlobalPolicyRequest();
-    SetGlobalPolicyRequest(const SetGlobalPolicyRequest& src);
-    SetGlobalPolicyRequest(SetGlobalPolicyRequest&& src);
-    SetGlobalPolicyRequest(const PFAccountManagementSetGlobalPolicyRequest& src);
-    SetGlobalPolicyRequest& operator=(const SetGlobalPolicyRequest&) = delete;
-    ~SetGlobalPolicyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSetGlobalPolicyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSetGlobalPolicyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFAccountManagementEntityPermissionStatement, EntityPermissionStatement> m_permissions;
 };
 
-struct SetProfileLanguageRequest : public PFAccountManagementSetProfileLanguageRequest, public BaseModel
+class SetProfileLanguageRequest : public Wrappers::PFAccountManagementSetProfileLanguageRequestWrapper<Allocator>, public InputModel
 {
-    SetProfileLanguageRequest();
-    SetProfileLanguageRequest(const SetProfileLanguageRequest& src);
-    SetProfileLanguageRequest(SetProfileLanguageRequest&& src);
-    SetProfileLanguageRequest(const PFAccountManagementSetProfileLanguageRequest& src);
-    SetProfileLanguageRequest& operator=(const SetProfileLanguageRequest&) = delete;
-    ~SetProfileLanguageRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSetProfileLanguageRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSetProfileLanguageRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
-    StdExtra::optional<int32_t> m_expectedVersion;
-    String m_language;
 };
 
-struct SetProfileLanguageResponse : public PFAccountManagementSetProfileLanguageResponse, public BaseModel, public ApiResult
+class SetProfileLanguageResponse : public Wrappers::PFAccountManagementSetProfileLanguageResponseWrapper<Allocator>, public OutputModel<PFAccountManagementSetProfileLanguageResponse>
 {
-    SetProfileLanguageResponse();
-    SetProfileLanguageResponse(const SetProfileLanguageResponse& src);
-    SetProfileLanguageResponse(SetProfileLanguageResponse&& src);
-    SetProfileLanguageResponse(const PFAccountManagementSetProfileLanguageResponse& src);
-    SetProfileLanguageResponse& operator=(const SetProfileLanguageResponse&) = delete;
-    ~SetProfileLanguageResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSetProfileLanguageResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
 
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementSetProfileLanguageResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PFOperationTypes> m_operationResult;
-    StdExtra::optional<int32_t> m_versionNumber;
+    static size_t RequiredBufferSize(const PFAccountManagementSetProfileLanguageResponse& model);
+    static HRESULT Copy(const PFAccountManagementSetProfileLanguageResponse& input, PFAccountManagementSetProfileLanguageResponse& output, ModelBuffer& buffer);
 };
 
-struct SetEntityProfilePolicyRequest : public PFAccountManagementSetEntityProfilePolicyRequest, public BaseModel
+class SetEntityProfilePolicyRequest : public Wrappers::PFAccountManagementSetEntityProfilePolicyRequestWrapper<Allocator>, public InputModel
 {
-    SetEntityProfilePolicyRequest();
-    SetEntityProfilePolicyRequest(const SetEntityProfilePolicyRequest& src);
-    SetEntityProfilePolicyRequest(SetEntityProfilePolicyRequest&& src);
-    SetEntityProfilePolicyRequest(const PFAccountManagementSetEntityProfilePolicyRequest& src);
-    SetEntityProfilePolicyRequest& operator=(const SetEntityProfilePolicyRequest&) = delete;
-    ~SetEntityProfilePolicyRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSetEntityProfilePolicyRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFAccountManagementSetEntityProfilePolicyRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    PointerArrayModel<PFAccountManagementEntityPermissionStatement, EntityPermissionStatement> m_statements;
 };
 
-struct SetEntityProfilePolicyResponse : public PFAccountManagementSetEntityProfilePolicyResponse, public BaseModel, public ApiResult
+class SetEntityProfilePolicyResponse : public Wrappers::PFAccountManagementSetEntityProfilePolicyResponseWrapper<Allocator>, public OutputModel<PFAccountManagementSetEntityProfilePolicyResponse>
 {
-    SetEntityProfilePolicyResponse();
-    SetEntityProfilePolicyResponse(const SetEntityProfilePolicyResponse& src);
-    SetEntityProfilePolicyResponse(SetEntityProfilePolicyResponse&& src);
-    SetEntityProfilePolicyResponse(const PFAccountManagementSetEntityProfilePolicyResponse& src);
-    SetEntityProfilePolicyResponse& operator=(const SetEntityProfilePolicyResponse&) = delete;
-    ~SetEntityProfilePolicyResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFAccountManagementSetEntityProfilePolicyResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFAccountManagementSetEntityProfilePolicyResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFAccountManagementEntityPermissionStatement, EntityPermissionStatement> m_permissions;
-};
-
-} // namespace AccountManagementModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFAccountManagementBanRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementBanUsersRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementBanInfo& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementBanUsersResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementDeleteMasterPlayerAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementDeleteMasterPlayerAccountResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementDeletePlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementExportMasterPlayerDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementExportMasterPlayerDataResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayedTitleListRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayedTitleListResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayerIdFromAuthTokenRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayerIdFromAuthTokenResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayerProfileRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayerProfileResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLookupUserAccountInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLookupUserAccountInfoResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetUserBansRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetUserBansResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementResetPasswordRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementRevokeAllBansForUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementRevokeAllBansForUserResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementRevokeBansRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementRevokeBansResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementAdminSendAccountRecoveryEmailRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUpdateBanRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUpdateBansRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUpdateBansResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementAdminUpdateUserTitleDisplayNameRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUpdateUserTitleDisplayNameResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGenericServiceId& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientAddGenericIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementAddOrUpdateContactEmailRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementAddUsernamePasswordRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementAddUsernamePasswordResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetAccountInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetAccountInfoResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromFacebookIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementFacebookPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromFacebookIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementFacebookInstantGamesPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGameCenterPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromGenericIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGenericPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromGenericIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromGoogleIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGooglePlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromGoogleIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromKongregateIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementKongregatePlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromKongregateIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementNintendoSwitchPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementPSNAccountPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromSteamIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSteamPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromSteamIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromTwitchIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementTwitchPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromTwitchIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementXboxLiveAccountPlayFabIdPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkAndroidDeviceIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkAppleRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkCustomIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkFacebookAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkFacebookInstantGamesIdRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkGameCenterAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkGoogleAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkIOSDeviceIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkKongregateAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkNintendoServiceAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkNintendoSwitchDeviceIdRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkOpenIdConnectRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientLinkPSNAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkSteamAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkTwitchAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientLinkXboxAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementRemoveContactEmailRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientRemoveGenericIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementReportPlayerClientRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementReportPlayerClientResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientSendAccountRecoveryEmailRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkAndroidDeviceIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkAppleRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkCustomIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkFacebookAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkFacebookInstantGamesIdRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkGameCenterAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkGoogleAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkIOSDeviceIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkKongregateAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkNintendoServiceAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkNintendoSwitchDeviceIdRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkOpenIdConnectRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientUnlinkPSNAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkSteamAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkTwitchAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientUnlinkXboxAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientUpdateAvatarUrlRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementClientUpdateUserTitleDisplayNameRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerAddGenericIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementDeletePushNotificationTemplateRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerCustomIDPlayFabIDPair& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetUserAccountInfoRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetUserAccountInfoResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerLinkPSNAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLinkServerCustomIdRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerLinkXboxAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerRemoveGenericIDRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementLocalizedPushNotificationProperties& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSavePushNotificationTemplateRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSavePushNotificationTemplateResult& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSendCustomAccountRecoveryEmailRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSendEmailFromTemplateRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementAdvancedPushPlatformMsg& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementPushNotificationPackage& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSendPushNotificationRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSendPushNotificationFromTemplateRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerUnlinkPSNAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementUnlinkServerCustomIdRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerUnlinkXboxAccountRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementServerUpdateAvatarUrlRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetGlobalPolicyRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementEntityPermissionStatement& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetGlobalPolicyResponse& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetEntityProfileRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementEntityProfileFileMetadata& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementEntityDataObject& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementEntityStatisticChildValue& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementEntityStatisticValue& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementEntityProfileBody& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetEntityProfileResponse& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetEntityProfilesRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetEntityProfilesResponse& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSetGlobalPolicyRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSetProfileLanguageRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSetProfileLanguageResponse& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSetEntityProfilePolicyRequest& input);
-template<> inline JsonValue ToJson<>(const PFAccountManagementSetEntityProfilePolicyResponse& input);
-} // namespace JsonUtils
+    static size_t RequiredBufferSize(const PFAccountManagementSetEntityProfilePolicyResponse& model);
+    static HRESULT Copy(const PFAccountManagementSetEntityProfilePolicyResponse& input, PFAccountManagementSetEntityProfilePolicyResponse& output, ModelBuffer& buffer);
+};
 
+} // namespace AccountManagement
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

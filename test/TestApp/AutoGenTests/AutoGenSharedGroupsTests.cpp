@@ -285,7 +285,11 @@ void AutoGenSharedGroupsTests::TestSharedGroupsClientGetSharedGroupData(TestCont
         PFSharedGroupsGetSharedGroupDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFSharedGroupsClientGetSharedGroupDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFSharedGroupsClientGetSharedGroupDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFSharedGroupsClientGetSharedGroupDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -495,7 +499,11 @@ void AutoGenSharedGroupsTests::TestSharedGroupsServerGetSharedGroupData(TestCont
         PFSharedGroupsGetSharedGroupDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFSharedGroupsServerGetSharedGroupDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFSharedGroupsServerGetSharedGroupDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFSharedGroupsServerGetSharedGroupDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

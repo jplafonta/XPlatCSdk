@@ -101,7 +101,7 @@ HRESULT AutoGenContentTests::LogPFContentGetContentUploadUrlResult(PFContentGetC
     ss << "Response:"; Log(ss);
 
     // Found PlayFabContentGetContentUploadUrlResult
-    if( result->uRL ) { ss << "  uRL " << result->uRL; Log(ss); } else { ss << "  uRL = nullptr"; Log(ss); } // Class: const char* 
+    if( result->URL ) { ss << "  URL " << result->URL; Log(ss); } else { ss << "  URL = nullptr"; Log(ss); } // Class: const char* 
     return S_OK;
 }
 
@@ -137,7 +137,7 @@ HRESULT AutoGenContentTests::LogPFContentGetContentDownloadUrlResult(PFContentGe
     ss << "Response:"; Log(ss);
 
     // Found PlayFabContentGetContentDownloadUrlResult
-    if( result->uRL ) { ss << "  uRL " << result->uRL; Log(ss); } else { ss << "  uRL = nullptr"; Log(ss); } // Class: const char* 
+    if( result->URL ) { ss << "  URL " << result->URL; Log(ss); } else { ss << "  URL = nullptr"; Log(ss); } // Class: const char* 
     return S_OK;
 }
 

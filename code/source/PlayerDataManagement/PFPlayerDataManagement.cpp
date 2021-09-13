@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::PlayerDataManagementModels;
+using namespace PlayFab::PlayerDataManagement;
 
 HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionAsync(
     _In_ PFStateHandle contextHandle,
@@ -21,16 +21,26 @@ HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminCreatePlayerStatisticDefinitionGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementCreatePlayerStatisticDefinitionResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementCreatePlayerStatisticDefinitionResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementCreatePlayerStatisticDefinitionResult*)(std::dynamic_pointer_cast<CreatePlayerStatisticDefinitionResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementCreatePlayerStatisticDefinitionResult*>(buffer);
 
     return S_OK;
 }
@@ -83,16 +93,26 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetPlayerStatisticDefinitionsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticDefinitionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticDefinitionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetPlayerStatisticDefinitionsResult*)(std::dynamic_pointer_cast<GetPlayerStatisticDefinitionsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetPlayerStatisticDefinitionsResult*>(buffer);
 
     return S_OK;
 }
@@ -110,16 +130,26 @@ HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetPlayerStatisticVersionsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetPlayerStatisticVersionsResult*)(std::dynamic_pointer_cast<GetPlayerStatisticVersionsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetPlayerStatisticVersionsResult*>(buffer);
 
     return S_OK;
 }
@@ -137,16 +167,26 @@ HRESULT PFPlayerDataManagementAdminGetUserDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetUserDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetUserDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementAdminGetUserDataResult*)(std::dynamic_pointer_cast<AdminGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementAdminGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -164,16 +204,26 @@ HRESULT PFPlayerDataManagementAdminGetUserInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetUserInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetUserInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementAdminGetUserDataResult*)(std::dynamic_pointer_cast<AdminGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementAdminGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -191,16 +241,26 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetUserPublisherDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetUserPublisherDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementAdminGetUserDataResult*)(std::dynamic_pointer_cast<AdminGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementAdminGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -218,16 +278,26 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetUserPublisherInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementAdminGetUserDataResult*)(std::dynamic_pointer_cast<AdminGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementAdminGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -245,16 +315,26 @@ HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetUserPublisherReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementAdminGetUserDataResult*)(std::dynamic_pointer_cast<AdminGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementAdminGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -272,16 +352,26 @@ HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminGetUserReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementAdminGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementAdminGetUserDataResult*)(std::dynamic_pointer_cast<AdminGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementAdminGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -299,16 +389,26 @@ HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminIncrementPlayerStatisticVersionGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementIncrementPlayerStatisticVersionResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementIncrementPlayerStatisticVersionResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementIncrementPlayerStatisticVersionResult*)(std::dynamic_pointer_cast<IncrementPlayerStatisticVersionResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementIncrementPlayerStatisticVersionResult*>(buffer);
 
     return S_OK;
 }
@@ -413,16 +513,26 @@ HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementAdminUpdatePlayerStatisticDefinitionGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult*)(std::dynamic_pointer_cast<UpdatePlayerStatisticDefinitionResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult*>(buffer);
 
     return S_OK;
 }
@@ -566,16 +676,26 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetLeaderboardResult*)(std::dynamic_pointer_cast<GetLeaderboardResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetLeaderboardResult*>(buffer);
 
     return S_OK;
 }
@@ -593,16 +713,26 @@ HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetFriendLeaderboardAroundPlayerGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult*)(std::dynamic_pointer_cast<GetFriendLeaderboardAroundPlayerResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult*>(buffer);
 
     return S_OK;
 }
@@ -620,16 +750,26 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetLeaderboardGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetLeaderboardGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetLeaderboardResult*)(std::dynamic_pointer_cast<GetLeaderboardResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetLeaderboardResult*>(buffer);
 
     return S_OK;
 }
@@ -647,16 +787,26 @@ HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetLeaderboardAroundPlayerGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundPlayerResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundPlayerResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetLeaderboardAroundPlayerResult*)(std::dynamic_pointer_cast<GetLeaderboardAroundPlayerResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetLeaderboardAroundPlayerResult*>(buffer);
 
     return S_OK;
 }
@@ -674,16 +824,26 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetPlayerStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetPlayerStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementClientGetPlayerStatisticsResult*)(std::dynamic_pointer_cast<ClientGetPlayerStatisticsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementClientGetPlayerStatisticsResult*>(buffer);
 
     return S_OK;
 }
@@ -701,16 +861,26 @@ HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetPlayerStatisticVersionsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetPlayerStatisticVersionsResult*)(std::dynamic_pointer_cast<GetPlayerStatisticVersionsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetPlayerStatisticVersionsResult*>(buffer);
 
     return S_OK;
 }
@@ -728,16 +898,26 @@ HRESULT PFPlayerDataManagementClientGetUserDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetUserDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetUserDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementClientGetUserDataResult*)(std::dynamic_pointer_cast<ClientGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementClientGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -755,16 +935,26 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetUserPublisherDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementClientGetUserDataResult*)(std::dynamic_pointer_cast<ClientGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementClientGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -782,16 +972,26 @@ HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetUserPublisherReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementClientGetUserDataResult*)(std::dynamic_pointer_cast<ClientGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementClientGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -809,16 +1009,26 @@ HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementClientGetUserReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementClientGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementClientGetUserDataResult*)(std::dynamic_pointer_cast<ClientGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementClientGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -891,16 +1101,26 @@ HRESULT PFPlayerDataManagementServerGetFriendLeaderboardAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetFriendLeaderboardGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetFriendLeaderboardGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetLeaderboardResult*)(std::dynamic_pointer_cast<GetLeaderboardResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetLeaderboardResult*>(buffer);
 
     return S_OK;
 }
@@ -918,16 +1138,26 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetLeaderboardGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetLeaderboardGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetLeaderboardResult*)(std::dynamic_pointer_cast<GetLeaderboardResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetLeaderboardResult*>(buffer);
 
     return S_OK;
 }
@@ -945,16 +1175,26 @@ HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetLeaderboardAroundUserGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundUserResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetLeaderboardAroundUserResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetLeaderboardAroundUserResult*)(std::dynamic_pointer_cast<GetLeaderboardAroundUserResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetLeaderboardAroundUserResult*>(buffer);
 
     return S_OK;
 }
@@ -972,16 +1212,26 @@ HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetPlayerCombinedInfoGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFGetPlayerCombinedInfoResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFGetPlayerCombinedInfoResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFGetPlayerCombinedInfoResult*)(std::dynamic_pointer_cast<GetPlayerCombinedInfoResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFGetPlayerCombinedInfoResult*>(buffer);
 
     return S_OK;
 }
@@ -999,16 +1249,26 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetPlayerStatisticsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetPlayerStatisticsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetPlayerStatisticsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetPlayerStatisticsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetPlayerStatisticsResult*)(std::dynamic_pointer_cast<ServerGetPlayerStatisticsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetPlayerStatisticsResult*>(buffer);
 
     return S_OK;
 }
@@ -1026,16 +1286,26 @@ HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetPlayerStatisticVersionsGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementGetPlayerStatisticVersionsResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementGetPlayerStatisticVersionsResult*)(std::dynamic_pointer_cast<GetPlayerStatisticVersionsResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementGetPlayerStatisticVersionsResult*>(buffer);
 
     return S_OK;
 }
@@ -1053,16 +1323,26 @@ HRESULT PFPlayerDataManagementServerGetUserDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetUserDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetUserDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetUserDataResult*)(std::dynamic_pointer_cast<ServerGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -1080,16 +1360,26 @@ HRESULT PFPlayerDataManagementServerGetUserInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetUserInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetUserInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetUserDataResult*)(std::dynamic_pointer_cast<ServerGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -1107,16 +1397,26 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetUserPublisherDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetUserPublisherDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetUserDataResult*)(std::dynamic_pointer_cast<ServerGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -1134,16 +1434,26 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetUserPublisherInternalDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetUserDataResult*)(std::dynamic_pointer_cast<ServerGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -1161,16 +1471,26 @@ HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetUserPublisherReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetUserDataResult*)(std::dynamic_pointer_cast<ServerGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetUserDataResult*>(buffer);
 
     return S_OK;
 }
@@ -1188,16 +1508,26 @@ HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFPlayerDataManagementServerGetUserReadOnlyDataGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFPlayerDataManagementServerGetUserDataResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFPlayerDataManagementServerGetUserDataResult*)(std::dynamic_pointer_cast<ServerGetUserDataResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFPlayerDataManagementServerGetUserDataResult*>(buffer);
 
     return S_OK;
 }

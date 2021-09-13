@@ -1,552 +1,467 @@
 #pragma once
 
-#include <playfab/PFExperimentationDataModels.h>
+#include <playfab/cpp/PFExperimentationDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace ExperimentationModels
+namespace Experimentation
 {
 
 // Experimentation Classes
-struct CreateExclusionGroupRequest : public PFExperimentationCreateExclusionGroupRequest, public BaseModel
+class CreateExclusionGroupRequest : public Wrappers::PFExperimentationCreateExclusionGroupRequestWrapper<Allocator>, public InputModel
 {
-    CreateExclusionGroupRequest();
-    CreateExclusionGroupRequest(const CreateExclusionGroupRequest& src);
-    CreateExclusionGroupRequest(CreateExclusionGroupRequest&& src);
-    CreateExclusionGroupRequest(const PFExperimentationCreateExclusionGroupRequest& src);
-    CreateExclusionGroupRequest& operator=(const CreateExclusionGroupRequest&) = delete;
-    ~CreateExclusionGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationCreateExclusionGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationCreateExclusionGroupRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    String m_name;
 };
 
-struct CreateExclusionGroupResult : public PFExperimentationCreateExclusionGroupResult, public SerializableModel, public ApiResult
+class CreateExclusionGroupResult : public Wrappers::PFExperimentationCreateExclusionGroupResultWrapper<Allocator>, public OutputModel<PFExperimentationCreateExclusionGroupResult>
 {
-    CreateExclusionGroupResult();
-    CreateExclusionGroupResult(const CreateExclusionGroupResult& src);
-    CreateExclusionGroupResult(CreateExclusionGroupResult&& src);
-    CreateExclusionGroupResult(const PFExperimentationCreateExclusionGroupResult& src);
-    CreateExclusionGroupResult& operator=(const CreateExclusionGroupResult&) = delete;
-    ~CreateExclusionGroupResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationCreateExclusionGroupResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationCreateExclusionGroupResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_exclusionGroupId;
+    static size_t RequiredBufferSize(const PFExperimentationCreateExclusionGroupResult& model);
+    static HRESULT Copy(const PFExperimentationCreateExclusionGroupResult& input, PFExperimentationCreateExclusionGroupResult& output, ModelBuffer& buffer);
 };
 
-struct Variant : public PFExperimentationVariant, public BaseModel
+class Variant : public Wrappers::PFExperimentationVariantWrapper<Allocator>, public InputModel, public OutputModel<PFExperimentationVariant>
 {
-    Variant();
-    Variant(const Variant& src);
-    Variant(Variant&& src);
-    Variant(const PFExperimentationVariant& src);
-    Variant& operator=(const Variant&) = delete;
-    ~Variant() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationVariantWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationVariant& input);
 
-private:
-    String m_description;
-    String m_id;
-    String m_name;
-    String m_titleDataOverrideLabel;
-    PointerArrayModel<PFVariable, Variable> m_variables;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationVariant const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFExperimentationVariant& model);
+    static HRESULT Copy(const PFExperimentationVariant& input, PFExperimentationVariant& output, ModelBuffer& buffer);
 };
 
-struct CreateExperimentRequest : public PFExperimentationCreateExperimentRequest, public BaseModel
+class CreateExperimentRequest : public Wrappers::PFExperimentationCreateExperimentRequestWrapper<Allocator>, public InputModel
 {
-    CreateExperimentRequest();
-    CreateExperimentRequest(const CreateExperimentRequest& src);
-    CreateExperimentRequest(CreateExperimentRequest&& src);
-    CreateExperimentRequest(const PFExperimentationCreateExperimentRequest& src);
-    CreateExperimentRequest& operator=(const CreateExperimentRequest&) = delete;
-    ~CreateExperimentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationCreateExperimentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationCreateExperimentRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    StdExtra::optional<time_t> m_endDate;
-    String m_exclusionGroupId;
-    StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
-    StdExtra::optional<PFExperimentationExperimentType> m_experimentType;
-    String m_name;
-    String m_segmentId;
-    PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
-    PointerArrayModel<PFExperimentationVariant, Variant> m_variants;
 };
 
-struct CreateExperimentResult : public PFExperimentationCreateExperimentResult, public SerializableModel, public ApiResult
+class CreateExperimentResult : public Wrappers::PFExperimentationCreateExperimentResultWrapper<Allocator>, public OutputModel<PFExperimentationCreateExperimentResult>
 {
-    CreateExperimentResult();
-    CreateExperimentResult(const CreateExperimentResult& src);
-    CreateExperimentResult(CreateExperimentResult&& src);
-    CreateExperimentResult(const PFExperimentationCreateExperimentResult& src);
-    CreateExperimentResult& operator=(const CreateExperimentResult&) = delete;
-    ~CreateExperimentResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationCreateExperimentResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationCreateExperimentResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_experimentId;
+    static size_t RequiredBufferSize(const PFExperimentationCreateExperimentResult& model);
+    static HRESULT Copy(const PFExperimentationCreateExperimentResult& input, PFExperimentationCreateExperimentResult& output, ModelBuffer& buffer);
 };
 
-struct DeleteExclusionGroupRequest : public PFExperimentationDeleteExclusionGroupRequest, public BaseModel
+class DeleteExclusionGroupRequest : public Wrappers::PFExperimentationDeleteExclusionGroupRequestWrapper<Allocator>, public InputModel
 {
-    DeleteExclusionGroupRequest();
-    DeleteExclusionGroupRequest(const DeleteExclusionGroupRequest& src);
-    DeleteExclusionGroupRequest(DeleteExclusionGroupRequest&& src);
-    DeleteExclusionGroupRequest(const PFExperimentationDeleteExclusionGroupRequest& src);
-    DeleteExclusionGroupRequest& operator=(const DeleteExclusionGroupRequest&) = delete;
-    ~DeleteExclusionGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationDeleteExclusionGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationDeleteExclusionGroupRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_exclusionGroupId;
 };
 
-struct DeleteExperimentRequest : public PFExperimentationDeleteExperimentRequest, public BaseModel
+class DeleteExperimentRequest : public Wrappers::PFExperimentationDeleteExperimentRequestWrapper<Allocator>, public InputModel
 {
-    DeleteExperimentRequest();
-    DeleteExperimentRequest(const DeleteExperimentRequest& src);
-    DeleteExperimentRequest(DeleteExperimentRequest&& src);
-    DeleteExperimentRequest(const PFExperimentationDeleteExperimentRequest& src);
-    DeleteExperimentRequest& operator=(const DeleteExperimentRequest&) = delete;
-    ~DeleteExperimentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationDeleteExperimentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationDeleteExperimentRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_experimentId;
 };
 
-struct GetExclusionGroupsRequest : public PFExperimentationGetExclusionGroupsRequest, public BaseModel
+class GetExclusionGroupsRequest : public Wrappers::PFExperimentationGetExclusionGroupsRequestWrapper<Allocator>, public InputModel
 {
-    GetExclusionGroupsRequest();
-    GetExclusionGroupsRequest(const GetExclusionGroupsRequest& src);
-    GetExclusionGroupsRequest(GetExclusionGroupsRequest&& src);
-    GetExclusionGroupsRequest(const PFExperimentationGetExclusionGroupsRequest& src);
-    GetExclusionGroupsRequest& operator=(const GetExclusionGroupsRequest&) = delete;
-    ~GetExclusionGroupsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetExclusionGroupsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationGetExclusionGroupsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ExperimentExclusionGroup : public PFExperimentationExperimentExclusionGroup, public SerializableModel
+class ExperimentExclusionGroup : public Wrappers::PFExperimentationExperimentExclusionGroupWrapper<Allocator>, public OutputModel<PFExperimentationExperimentExclusionGroup>
 {
-    ExperimentExclusionGroup();
-    ExperimentExclusionGroup(const ExperimentExclusionGroup& src);
-    ExperimentExclusionGroup(ExperimentExclusionGroup&& src);
-    ExperimentExclusionGroup(const PFExperimentationExperimentExclusionGroup& src);
-    ExperimentExclusionGroup& operator=(const ExperimentExclusionGroup&) = delete;
-    ~ExperimentExclusionGroup() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationExperimentExclusionGroupWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationExperimentExclusionGroup const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_description;
-    String m_exclusionGroupId;
-    String m_name;
+    static size_t RequiredBufferSize(const PFExperimentationExperimentExclusionGroup& model);
+    static HRESULT Copy(const PFExperimentationExperimentExclusionGroup& input, PFExperimentationExperimentExclusionGroup& output, ModelBuffer& buffer);
 };
 
-struct GetExclusionGroupsResult : public PFExperimentationGetExclusionGroupsResult, public BaseModel, public ApiResult
+class GetExclusionGroupsResult : public Wrappers::PFExperimentationGetExclusionGroupsResultWrapper<Allocator>, public OutputModel<PFExperimentationGetExclusionGroupsResult>
 {
-    GetExclusionGroupsResult();
-    GetExclusionGroupsResult(const GetExclusionGroupsResult& src);
-    GetExclusionGroupsResult(GetExclusionGroupsResult&& src);
-    GetExclusionGroupsResult(const PFExperimentationGetExclusionGroupsResult& src);
-    GetExclusionGroupsResult& operator=(const GetExclusionGroupsResult&) = delete;
-    ~GetExclusionGroupsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetExclusionGroupsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationGetExclusionGroupsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFExperimentationExperimentExclusionGroup, ExperimentExclusionGroup> m_exclusionGroups;
+    static size_t RequiredBufferSize(const PFExperimentationGetExclusionGroupsResult& model);
+    static HRESULT Copy(const PFExperimentationGetExclusionGroupsResult& input, PFExperimentationGetExclusionGroupsResult& output, ModelBuffer& buffer);
 };
 
-struct GetExclusionGroupTrafficRequest : public PFExperimentationGetExclusionGroupTrafficRequest, public BaseModel
+class GetExclusionGroupTrafficRequest : public Wrappers::PFExperimentationGetExclusionGroupTrafficRequestWrapper<Allocator>, public InputModel
 {
-    GetExclusionGroupTrafficRequest();
-    GetExclusionGroupTrafficRequest(const GetExclusionGroupTrafficRequest& src);
-    GetExclusionGroupTrafficRequest(GetExclusionGroupTrafficRequest&& src);
-    GetExclusionGroupTrafficRequest(const PFExperimentationGetExclusionGroupTrafficRequest& src);
-    GetExclusionGroupTrafficRequest& operator=(const GetExclusionGroupTrafficRequest&) = delete;
-    ~GetExclusionGroupTrafficRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetExclusionGroupTrafficRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationGetExclusionGroupTrafficRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_exclusionGroupId;
 };
 
-struct ExclusionGroupTrafficAllocation : public PFExperimentationExclusionGroupTrafficAllocation, public SerializableModel
+class ExclusionGroupTrafficAllocation : public Wrappers::PFExperimentationExclusionGroupTrafficAllocationWrapper<Allocator>, public OutputModel<PFExperimentationExclusionGroupTrafficAllocation>
 {
-    ExclusionGroupTrafficAllocation();
-    ExclusionGroupTrafficAllocation(const ExclusionGroupTrafficAllocation& src);
-    ExclusionGroupTrafficAllocation(ExclusionGroupTrafficAllocation&& src);
-    ExclusionGroupTrafficAllocation(const PFExperimentationExclusionGroupTrafficAllocation& src);
-    ExclusionGroupTrafficAllocation& operator=(const ExclusionGroupTrafficAllocation&) = delete;
-    ~ExclusionGroupTrafficAllocation() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationExclusionGroupTrafficAllocationWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationExclusionGroupTrafficAllocation const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_experimentId;
+    static size_t RequiredBufferSize(const PFExperimentationExclusionGroupTrafficAllocation& model);
+    static HRESULT Copy(const PFExperimentationExclusionGroupTrafficAllocation& input, PFExperimentationExclusionGroupTrafficAllocation& output, ModelBuffer& buffer);
 };
 
-struct GetExclusionGroupTrafficResult : public PFExperimentationGetExclusionGroupTrafficResult, public BaseModel, public ApiResult
+class GetExclusionGroupTrafficResult : public Wrappers::PFExperimentationGetExclusionGroupTrafficResultWrapper<Allocator>, public OutputModel<PFExperimentationGetExclusionGroupTrafficResult>
 {
-    GetExclusionGroupTrafficResult();
-    GetExclusionGroupTrafficResult(const GetExclusionGroupTrafficResult& src);
-    GetExclusionGroupTrafficResult(GetExclusionGroupTrafficResult&& src);
-    GetExclusionGroupTrafficResult(const PFExperimentationGetExclusionGroupTrafficResult& src);
-    GetExclusionGroupTrafficResult& operator=(const GetExclusionGroupTrafficResult&) = delete;
-    ~GetExclusionGroupTrafficResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetExclusionGroupTrafficResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationGetExclusionGroupTrafficResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFExperimentationExclusionGroupTrafficAllocation, ExclusionGroupTrafficAllocation> m_trafficAllocations;
+    static size_t RequiredBufferSize(const PFExperimentationGetExclusionGroupTrafficResult& model);
+    static HRESULT Copy(const PFExperimentationGetExclusionGroupTrafficResult& input, PFExperimentationGetExclusionGroupTrafficResult& output, ModelBuffer& buffer);
 };
 
-struct GetExperimentsRequest : public PFExperimentationGetExperimentsRequest, public BaseModel
+class GetExperimentsRequest : public Wrappers::PFExperimentationGetExperimentsRequestWrapper<Allocator>, public InputModel
 {
-    GetExperimentsRequest();
-    GetExperimentsRequest(const GetExperimentsRequest& src);
-    GetExperimentsRequest(GetExperimentsRequest&& src);
-    GetExperimentsRequest(const PFExperimentationGetExperimentsRequest& src);
-    GetExperimentsRequest& operator=(const GetExperimentsRequest&) = delete;
-    ~GetExperimentsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetExperimentsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationGetExperimentsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct Experiment : public PFExperimentationExperiment, public BaseModel
+class Experiment : public Wrappers::PFExperimentationExperimentWrapper<Allocator>, public OutputModel<PFExperimentationExperiment>
 {
-    Experiment();
-    Experiment(const Experiment& src);
-    Experiment(Experiment&& src);
-    Experiment(const PFExperimentationExperiment& src);
-    Experiment& operator=(const Experiment&) = delete;
-    ~Experiment() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationExperimentWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationExperiment const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_description;
-    StdExtra::optional<time_t> m_endDate;
-    String m_exclusionGroupId;
-    StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
-    StdExtra::optional<PFExperimentationExperimentType> m_experimentType;
-    String m_id;
-    String m_name;
-    String m_segmentId;
-    StdExtra::optional<PFExperimentationExperimentState> m_state;
-    PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
-    PointerArrayModel<PFExperimentationVariant, Variant> m_variants;
+    static size_t RequiredBufferSize(const PFExperimentationExperiment& model);
+    static HRESULT Copy(const PFExperimentationExperiment& input, PFExperimentationExperiment& output, ModelBuffer& buffer);
 };
 
-struct GetExperimentsResult : public PFExperimentationGetExperimentsResult, public BaseModel, public ApiResult
+class GetExperimentsResult : public Wrappers::PFExperimentationGetExperimentsResultWrapper<Allocator>, public OutputModel<PFExperimentationGetExperimentsResult>
 {
-    GetExperimentsResult();
-    GetExperimentsResult(const GetExperimentsResult& src);
-    GetExperimentsResult(GetExperimentsResult&& src);
-    GetExperimentsResult(const PFExperimentationGetExperimentsResult& src);
-    GetExperimentsResult& operator=(const GetExperimentsResult&) = delete;
-    ~GetExperimentsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetExperimentsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationGetExperimentsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFExperimentationExperiment, Experiment> m_experiments;
+    static size_t RequiredBufferSize(const PFExperimentationGetExperimentsResult& model);
+    static HRESULT Copy(const PFExperimentationGetExperimentsResult& input, PFExperimentationGetExperimentsResult& output, ModelBuffer& buffer);
 };
 
-struct GetLatestScorecardRequest : public PFExperimentationGetLatestScorecardRequest, public BaseModel
+class GetLatestScorecardRequest : public Wrappers::PFExperimentationGetLatestScorecardRequestWrapper<Allocator>, public InputModel
 {
-    GetLatestScorecardRequest();
-    GetLatestScorecardRequest(const GetLatestScorecardRequest& src);
-    GetLatestScorecardRequest(GetLatestScorecardRequest&& src);
-    GetLatestScorecardRequest(const PFExperimentationGetLatestScorecardRequest& src);
-    GetLatestScorecardRequest& operator=(const GetLatestScorecardRequest&) = delete;
-    ~GetLatestScorecardRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetLatestScorecardRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationGetLatestScorecardRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_experimentId;
 };
 
-struct MetricData : public PFExperimentationMetricData, public SerializableModel
+class MetricData : public Wrappers::PFExperimentationMetricDataWrapper<Allocator>, public OutputModel<PFExperimentationMetricData>
 {
-    MetricData();
-    MetricData(const MetricData& src);
-    MetricData(MetricData&& src);
-    MetricData(const PFExperimentationMetricData& src);
-    MetricData& operator=(const MetricData&) = delete;
-    ~MetricData() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationMetricDataWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationMetricData const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_internalName;
-    String m_movement;
-    String m_name;
-    String m_statSigLevel;
+    static size_t RequiredBufferSize(const PFExperimentationMetricData& model);
+    static HRESULT Copy(const PFExperimentationMetricData& input, PFExperimentationMetricData& output, ModelBuffer& buffer);
 };
 
-struct ScorecardDataRow : public PFExperimentationScorecardDataRow, public BaseModel
+class ScorecardDataRow : public Wrappers::PFExperimentationScorecardDataRowWrapper<Allocator>, public OutputModel<PFExperimentationScorecardDataRow>
 {
-    ScorecardDataRow();
-    ScorecardDataRow(const ScorecardDataRow& src);
-    ScorecardDataRow(ScorecardDataRow&& src);
-    ScorecardDataRow(const PFExperimentationScorecardDataRow& src);
-    ScorecardDataRow& operator=(const ScorecardDataRow&) = delete;
-    ~ScorecardDataRow() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationScorecardDataRowWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationScorecardDataRow const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFExperimentationMetricDataDictionaryEntry, MetricData> m_metricDataRows;
-    String m_variantName;
+    static size_t RequiredBufferSize(const PFExperimentationScorecardDataRow& model);
+    static HRESULT Copy(const PFExperimentationScorecardDataRow& input, PFExperimentationScorecardDataRow& output, ModelBuffer& buffer);
 };
 
-struct Scorecard : public PFExperimentationScorecard, public BaseModel
+class Scorecard : public Wrappers::PFExperimentationScorecardWrapper<Allocator>, public OutputModel<PFExperimentationScorecard>
 {
-    Scorecard();
-    Scorecard(const Scorecard& src);
-    Scorecard(Scorecard&& src);
-    Scorecard(const PFExperimentationScorecard& src);
-    Scorecard& operator=(const Scorecard&) = delete;
-    ~Scorecard() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationScorecardWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationScorecard const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_dateGenerated;
-    String m_duration;
-    String m_experimentId;
-    String m_experimentName;
-    StdExtra::optional<PFExperimentationAnalysisTaskState> m_latestJobStatus;
-    PointerArrayModel<PFExperimentationScorecardDataRow, ScorecardDataRow> m_scorecardDataRows;
+    static size_t RequiredBufferSize(const PFExperimentationScorecard& model);
+    static HRESULT Copy(const PFExperimentationScorecard& input, PFExperimentationScorecard& output, ModelBuffer& buffer);
 };
 
-struct GetLatestScorecardResult : public PFExperimentationGetLatestScorecardResult, public BaseModel, public ApiResult
+class GetLatestScorecardResult : public Wrappers::PFExperimentationGetLatestScorecardResultWrapper<Allocator>, public OutputModel<PFExperimentationGetLatestScorecardResult>
 {
-    GetLatestScorecardResult();
-    GetLatestScorecardResult(const GetLatestScorecardResult& src);
-    GetLatestScorecardResult(GetLatestScorecardResult&& src);
-    GetLatestScorecardResult(const PFExperimentationGetLatestScorecardResult& src);
-    GetLatestScorecardResult& operator=(const GetLatestScorecardResult&) = delete;
-    ~GetLatestScorecardResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetLatestScorecardResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationGetLatestScorecardResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<Scorecard> m_scorecard;
+    static size_t RequiredBufferSize(const PFExperimentationGetLatestScorecardResult& model);
+    static HRESULT Copy(const PFExperimentationGetLatestScorecardResult& input, PFExperimentationGetLatestScorecardResult& output, ModelBuffer& buffer);
 };
 
-struct GetTreatmentAssignmentRequest : public PFExperimentationGetTreatmentAssignmentRequest, public BaseModel
+class GetTreatmentAssignmentRequest : public Wrappers::PFExperimentationGetTreatmentAssignmentRequestWrapper<Allocator>, public InputModel
 {
-    GetTreatmentAssignmentRequest();
-    GetTreatmentAssignmentRequest(const GetTreatmentAssignmentRequest& src);
-    GetTreatmentAssignmentRequest(GetTreatmentAssignmentRequest&& src);
-    GetTreatmentAssignmentRequest(const PFExperimentationGetTreatmentAssignmentRequest& src);
-    GetTreatmentAssignmentRequest& operator=(const GetTreatmentAssignmentRequest&) = delete;
-    ~GetTreatmentAssignmentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetTreatmentAssignmentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationGetTreatmentAssignmentRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<EntityKey> m_entity;
 };
 
-struct GetTreatmentAssignmentResult : public PFExperimentationGetTreatmentAssignmentResult, public BaseModel, public ApiResult
+class GetTreatmentAssignmentResult : public Wrappers::PFExperimentationGetTreatmentAssignmentResultWrapper<Allocator>, public OutputModel<PFExperimentationGetTreatmentAssignmentResult>
 {
-    GetTreatmentAssignmentResult();
-    GetTreatmentAssignmentResult(const GetTreatmentAssignmentResult& src);
-    GetTreatmentAssignmentResult(GetTreatmentAssignmentResult&& src);
-    GetTreatmentAssignmentResult(const PFExperimentationGetTreatmentAssignmentResult& src);
-    GetTreatmentAssignmentResult& operator=(const GetTreatmentAssignmentResult&) = delete;
-    ~GetTreatmentAssignmentResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationGetTreatmentAssignmentResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFExperimentationGetTreatmentAssignmentResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<TreatmentAssignment> m_treatmentAssignment;
+    static size_t RequiredBufferSize(const PFExperimentationGetTreatmentAssignmentResult& model);
+    static HRESULT Copy(const PFExperimentationGetTreatmentAssignmentResult& input, PFExperimentationGetTreatmentAssignmentResult& output, ModelBuffer& buffer);
 };
 
-struct StartExperimentRequest : public PFExperimentationStartExperimentRequest, public BaseModel
+class StartExperimentRequest : public Wrappers::PFExperimentationStartExperimentRequestWrapper<Allocator>, public InputModel
 {
-    StartExperimentRequest();
-    StartExperimentRequest(const StartExperimentRequest& src);
-    StartExperimentRequest(StartExperimentRequest&& src);
-    StartExperimentRequest(const PFExperimentationStartExperimentRequest& src);
-    StartExperimentRequest& operator=(const StartExperimentRequest&) = delete;
-    ~StartExperimentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationStartExperimentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationStartExperimentRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_experimentId;
 };
 
-struct StopExperimentRequest : public PFExperimentationStopExperimentRequest, public BaseModel
+class StopExperimentRequest : public Wrappers::PFExperimentationStopExperimentRequestWrapper<Allocator>, public InputModel
 {
-    StopExperimentRequest();
-    StopExperimentRequest(const StopExperimentRequest& src);
-    StopExperimentRequest(StopExperimentRequest&& src);
-    StopExperimentRequest(const PFExperimentationStopExperimentRequest& src);
-    StopExperimentRequest& operator=(const StopExperimentRequest&) = delete;
-    ~StopExperimentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationStopExperimentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationStopExperimentRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_experimentId;
 };
 
-struct UpdateExclusionGroupRequest : public PFExperimentationUpdateExclusionGroupRequest, public BaseModel
+class UpdateExclusionGroupRequest : public Wrappers::PFExperimentationUpdateExclusionGroupRequestWrapper<Allocator>, public InputModel
 {
-    UpdateExclusionGroupRequest();
-    UpdateExclusionGroupRequest(const UpdateExclusionGroupRequest& src);
-    UpdateExclusionGroupRequest(UpdateExclusionGroupRequest&& src);
-    UpdateExclusionGroupRequest(const PFExperimentationUpdateExclusionGroupRequest& src);
-    UpdateExclusionGroupRequest& operator=(const UpdateExclusionGroupRequest&) = delete;
-    ~UpdateExclusionGroupRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationUpdateExclusionGroupRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationUpdateExclusionGroupRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    String m_exclusionGroupId;
-    String m_name;
 };
 
-struct UpdateExperimentRequest : public PFExperimentationUpdateExperimentRequest, public BaseModel
+class UpdateExperimentRequest : public Wrappers::PFExperimentationUpdateExperimentRequestWrapper<Allocator>, public InputModel
 {
-    UpdateExperimentRequest();
-    UpdateExperimentRequest(const UpdateExperimentRequest& src);
-    UpdateExperimentRequest(UpdateExperimentRequest&& src);
-    UpdateExperimentRequest(const PFExperimentationUpdateExperimentRequest& src);
-    UpdateExperimentRequest& operator=(const UpdateExperimentRequest&) = delete;
-    ~UpdateExperimentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFExperimentationUpdateExperimentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFExperimentationUpdateExperimentRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_description;
-    StdExtra::optional<time_t> m_endDate;
-    String m_exclusionGroupId;
-    StdExtra::optional<uint32_t> m_exclusionGroupTrafficAllocation;
-    StdExtra::optional<PFExperimentationExperimentType> m_experimentType;
-    String m_id;
-    String m_name;
-    String m_segmentId;
-    PointerArrayModel<char, String> m_titlePlayerAccountTestIds;
-    PointerArrayModel<PFExperimentationVariant, Variant> m_variants;
 };
 
-} // namespace ExperimentationModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFExperimentationCreateExclusionGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationCreateExclusionGroupResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationVariant& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationCreateExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationCreateExperimentResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationDeleteExclusionGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationDeleteExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupsRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationExperimentExclusionGroup& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupsResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupTrafficRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationExclusionGroupTrafficAllocation& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetExclusionGroupTrafficResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetExperimentsRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationExperiment& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetExperimentsResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetLatestScorecardRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationMetricData& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationScorecardDataRow& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationScorecard& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetLatestScorecardResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetTreatmentAssignmentRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationGetTreatmentAssignmentResult& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationStartExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationStopExperimentRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationUpdateExclusionGroupRequest& input);
-template<> inline JsonValue ToJson<>(const PFExperimentationUpdateExperimentRequest& input);
-} // namespace JsonUtils
-
+} // namespace Experimentation
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

@@ -2457,7 +2457,7 @@ typedef struct PFDateTimeDictionaryEntry
 typedef struct PFUserDataRecordDictionaryEntry
 {
     const char* key;
-    PFUserDataRecord* value;
+    PFUserDataRecord const* value;
 } PFUserDataRecordDictionaryEntry;
 
 /// <summary>
@@ -2466,7 +2466,7 @@ typedef struct PFUserDataRecordDictionaryEntry
 typedef struct PFVirtualCurrencyRechargeTimeDictionaryEntry
 {
     const char* key;
-    PFVirtualCurrencyRechargeTime* value;
+    PFVirtualCurrencyRechargeTime const* value;
 } PFVirtualCurrencyRechargeTimeDictionaryEntry;
 
 /// <summary>
@@ -2475,7 +2475,7 @@ typedef struct PFVirtualCurrencyRechargeTimeDictionaryEntry
 typedef struct PFRandomResultTableListingDictionaryEntry
 {
     const char* key;
-    PFRandomResultTableListing* value;
+    PFRandomResultTableListing const* value;
 } PFRandomResultTableListingDictionaryEntry;
 
 /// <summary>
@@ -2484,7 +2484,7 @@ typedef struct PFRandomResultTableListingDictionaryEntry
 typedef struct PFEntityKeyDictionaryEntry
 {
     const char* key;
-    PFEntityKey* value;
+    PFEntityKey const* value;
 } PFEntityKeyDictionaryEntry;
 
 #pragma pop_macro("IN")

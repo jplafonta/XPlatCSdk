@@ -240,7 +240,11 @@ void AutoGenSegmentsTests::TestSegmentsAdminGetSegments(TestContext& testContext
         PFSegmentsGetSegmentsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFSegmentsAdminGetSegmentsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFSegmentsAdminGetSegmentsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFSegmentsAdminGetSegmentsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

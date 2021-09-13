@@ -1,712 +1,763 @@
 #pragma once
 
-#include <playfab/PFSegmentsDataModels.h>
+#include <playfab/cpp/PFSegmentsDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace SegmentsModels
+namespace Segments
 {
 
 // Segments Classes
-struct BanPlayerSegmentAction : public PFSegmentsBanPlayerSegmentAction, public BaseModel
+class BanPlayerSegmentAction : public Wrappers::PFSegmentsBanPlayerSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsBanPlayerSegmentAction>
 {
-    BanPlayerSegmentAction();
-    BanPlayerSegmentAction(const BanPlayerSegmentAction& src);
-    BanPlayerSegmentAction(BanPlayerSegmentAction&& src);
-    BanPlayerSegmentAction(const PFSegmentsBanPlayerSegmentAction& src);
-    BanPlayerSegmentAction& operator=(const BanPlayerSegmentAction&) = delete;
-    ~BanPlayerSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsBanPlayerSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsBanPlayerSegmentAction& input);
 
-private:
-    StdExtra::optional<uint32_t> m_banHours;
-    String m_reasonForBan;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsBanPlayerSegmentAction const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsBanPlayerSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsBanPlayerSegmentAction& input, PFSegmentsBanPlayerSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct DeletePlayerStatisticSegmentAction : public PFSegmentsDeletePlayerStatisticSegmentAction, public SerializableModel
+class DeletePlayerStatisticSegmentAction : public Wrappers::PFSegmentsDeletePlayerStatisticSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsDeletePlayerStatisticSegmentAction>
 {
-    DeletePlayerStatisticSegmentAction();
-    DeletePlayerStatisticSegmentAction(const DeletePlayerStatisticSegmentAction& src);
-    DeletePlayerStatisticSegmentAction(DeletePlayerStatisticSegmentAction&& src);
-    DeletePlayerStatisticSegmentAction(const PFSegmentsDeletePlayerStatisticSegmentAction& src);
-    DeletePlayerStatisticSegmentAction& operator=(const DeletePlayerStatisticSegmentAction&) = delete;
-    ~DeletePlayerStatisticSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsDeletePlayerStatisticSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsDeletePlayerStatisticSegmentAction& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsDeletePlayerStatisticSegmentAction const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_statisticName;
+    static size_t RequiredBufferSize(const PFSegmentsDeletePlayerStatisticSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsDeletePlayerStatisticSegmentAction& input, PFSegmentsDeletePlayerStatisticSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct EmailNotificationSegmentAction : public PFSegmentsEmailNotificationSegmentAction, public SerializableModel
+class EmailNotificationSegmentAction : public Wrappers::PFSegmentsEmailNotificationSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsEmailNotificationSegmentAction>
 {
-    EmailNotificationSegmentAction();
-    EmailNotificationSegmentAction(const EmailNotificationSegmentAction& src);
-    EmailNotificationSegmentAction(EmailNotificationSegmentAction&& src);
-    EmailNotificationSegmentAction(const PFSegmentsEmailNotificationSegmentAction& src);
-    EmailNotificationSegmentAction& operator=(const EmailNotificationSegmentAction&) = delete;
-    ~EmailNotificationSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsEmailNotificationSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsEmailNotificationSegmentAction& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsEmailNotificationSegmentAction const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_emailTemplateId;
-    String m_emailTemplateName;
+    static size_t RequiredBufferSize(const PFSegmentsEmailNotificationSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsEmailNotificationSegmentAction& input, PFSegmentsEmailNotificationSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct ExecuteAzureFunctionSegmentAction : public PFSegmentsExecuteAzureFunctionSegmentAction, public BaseModel
+class ExecuteAzureFunctionSegmentAction : public Wrappers::PFSegmentsExecuteAzureFunctionSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsExecuteAzureFunctionSegmentAction>
 {
-    ExecuteAzureFunctionSegmentAction();
-    ExecuteAzureFunctionSegmentAction(const ExecuteAzureFunctionSegmentAction& src);
-    ExecuteAzureFunctionSegmentAction(ExecuteAzureFunctionSegmentAction&& src);
-    ExecuteAzureFunctionSegmentAction(const PFSegmentsExecuteAzureFunctionSegmentAction& src);
-    ExecuteAzureFunctionSegmentAction& operator=(const ExecuteAzureFunctionSegmentAction&) = delete;
-    ~ExecuteAzureFunctionSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsExecuteAzureFunctionSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsExecuteAzureFunctionSegmentAction& input);
 
-private:
-    String m_azureFunction;
-    JsonObject m_functionParameter;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsExecuteAzureFunctionSegmentAction const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsExecuteAzureFunctionSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsExecuteAzureFunctionSegmentAction& input, PFSegmentsExecuteAzureFunctionSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct ExecuteCloudScriptSegmentAction : public PFSegmentsExecuteCloudScriptSegmentAction, public BaseModel
+class ExecuteCloudScriptSegmentAction : public Wrappers::PFSegmentsExecuteCloudScriptSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsExecuteCloudScriptSegmentAction>
 {
-    ExecuteCloudScriptSegmentAction();
-    ExecuteCloudScriptSegmentAction(const ExecuteCloudScriptSegmentAction& src);
-    ExecuteCloudScriptSegmentAction(ExecuteCloudScriptSegmentAction&& src);
-    ExecuteCloudScriptSegmentAction(const PFSegmentsExecuteCloudScriptSegmentAction& src);
-    ExecuteCloudScriptSegmentAction& operator=(const ExecuteCloudScriptSegmentAction&) = delete;
-    ~ExecuteCloudScriptSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsExecuteCloudScriptSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsExecuteCloudScriptSegmentAction& input);
 
-private:
-    String m_cloudScriptFunction;
-    JsonObject m_functionParameter;
-    String m_functionParameterJson;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsExecuteCloudScriptSegmentAction const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsExecuteCloudScriptSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsExecuteCloudScriptSegmentAction& input, PFSegmentsExecuteCloudScriptSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct GrantItemSegmentAction : public PFSegmentsGrantItemSegmentAction, public SerializableModel
+class GrantItemSegmentAction : public Wrappers::PFSegmentsGrantItemSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsGrantItemSegmentAction>
 {
-    GrantItemSegmentAction();
-    GrantItemSegmentAction(const GrantItemSegmentAction& src);
-    GrantItemSegmentAction(GrantItemSegmentAction&& src);
-    GrantItemSegmentAction(const PFSegmentsGrantItemSegmentAction& src);
-    GrantItemSegmentAction& operator=(const GrantItemSegmentAction&) = delete;
-    ~GrantItemSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsGrantItemSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsGrantItemSegmentAction& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsGrantItemSegmentAction const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_catelogId;
-    String m_itemId;
+    static size_t RequiredBufferSize(const PFSegmentsGrantItemSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsGrantItemSegmentAction& input, PFSegmentsGrantItemSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct GrantVirtualCurrencySegmentAction : public PFSegmentsGrantVirtualCurrencySegmentAction, public SerializableModel
+class GrantVirtualCurrencySegmentAction : public Wrappers::PFSegmentsGrantVirtualCurrencySegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsGrantVirtualCurrencySegmentAction>
 {
-    GrantVirtualCurrencySegmentAction();
-    GrantVirtualCurrencySegmentAction(const GrantVirtualCurrencySegmentAction& src);
-    GrantVirtualCurrencySegmentAction(GrantVirtualCurrencySegmentAction&& src);
-    GrantVirtualCurrencySegmentAction(const PFSegmentsGrantVirtualCurrencySegmentAction& src);
-    GrantVirtualCurrencySegmentAction& operator=(const GrantVirtualCurrencySegmentAction&) = delete;
-    ~GrantVirtualCurrencySegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsGrantVirtualCurrencySegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsGrantVirtualCurrencySegmentAction& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsGrantVirtualCurrencySegmentAction const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_currencyCode;
+    static size_t RequiredBufferSize(const PFSegmentsGrantVirtualCurrencySegmentAction& model);
+    static HRESULT Copy(const PFSegmentsGrantVirtualCurrencySegmentAction& input, PFSegmentsGrantVirtualCurrencySegmentAction& output, ModelBuffer& buffer);
 };
 
-struct IncrementPlayerStatisticSegmentAction : public PFSegmentsIncrementPlayerStatisticSegmentAction, public SerializableModel
+class IncrementPlayerStatisticSegmentAction : public Wrappers::PFSegmentsIncrementPlayerStatisticSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsIncrementPlayerStatisticSegmentAction>
 {
-    IncrementPlayerStatisticSegmentAction();
-    IncrementPlayerStatisticSegmentAction(const IncrementPlayerStatisticSegmentAction& src);
-    IncrementPlayerStatisticSegmentAction(IncrementPlayerStatisticSegmentAction&& src);
-    IncrementPlayerStatisticSegmentAction(const PFSegmentsIncrementPlayerStatisticSegmentAction& src);
-    IncrementPlayerStatisticSegmentAction& operator=(const IncrementPlayerStatisticSegmentAction&) = delete;
-    ~IncrementPlayerStatisticSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsIncrementPlayerStatisticSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsIncrementPlayerStatisticSegmentAction& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsIncrementPlayerStatisticSegmentAction const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_statisticName;
+    static size_t RequiredBufferSize(const PFSegmentsIncrementPlayerStatisticSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsIncrementPlayerStatisticSegmentAction& input, PFSegmentsIncrementPlayerStatisticSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct PushNotificationSegmentAction : public PFSegmentsPushNotificationSegmentAction, public SerializableModel
+class PushNotificationSegmentAction : public Wrappers::PFSegmentsPushNotificationSegmentActionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsPushNotificationSegmentAction>
 {
-    PushNotificationSegmentAction();
-    PushNotificationSegmentAction(const PushNotificationSegmentAction& src);
-    PushNotificationSegmentAction(PushNotificationSegmentAction&& src);
-    PushNotificationSegmentAction(const PFSegmentsPushNotificationSegmentAction& src);
-    PushNotificationSegmentAction& operator=(const PushNotificationSegmentAction&) = delete;
-    ~PushNotificationSegmentAction() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsPushNotificationSegmentActionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsPushNotificationSegmentAction& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsPushNotificationSegmentAction const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_pushNotificationTemplateId;
+    static size_t RequiredBufferSize(const PFSegmentsPushNotificationSegmentAction& model);
+    static HRESULT Copy(const PFSegmentsPushNotificationSegmentAction& input, PFSegmentsPushNotificationSegmentAction& output, ModelBuffer& buffer);
 };
 
-struct SegmentTrigger : public PFSegmentsSegmentTrigger, public BaseModel
+class SegmentTrigger : public Wrappers::PFSegmentsSegmentTriggerWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsSegmentTrigger>
 {
-    SegmentTrigger();
-    SegmentTrigger(const SegmentTrigger& src);
-    SegmentTrigger(SegmentTrigger&& src);
-    SegmentTrigger(const PFSegmentsSegmentTrigger& src);
-    SegmentTrigger& operator=(const SegmentTrigger&) = delete;
-    ~SegmentTrigger() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsSegmentTriggerWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsSegmentTrigger& input);
 
-private:
-    StdExtra::optional<BanPlayerSegmentAction> m_banPlayerAction;
-    StdExtra::optional<DeletePlayerStatisticSegmentAction> m_deletePlayerStatisticAction;
-    StdExtra::optional<EmailNotificationSegmentAction> m_emailNotificationAction;
-    StdExtra::optional<ExecuteAzureFunctionSegmentAction> m_executeAzureFunctionAction;
-    StdExtra::optional<ExecuteCloudScriptSegmentAction> m_executeCloudScriptAction;
-    StdExtra::optional<GrantItemSegmentAction> m_grantItemAction;
-    StdExtra::optional<GrantVirtualCurrencySegmentAction> m_grantVirtualCurrencyAction;
-    StdExtra::optional<IncrementPlayerStatisticSegmentAction> m_incrementPlayerStatisticAction;
-    StdExtra::optional<PushNotificationSegmentAction> m_pushNotificationAction;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsSegmentTrigger const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsSegmentTrigger& model);
+    static HRESULT Copy(const PFSegmentsSegmentTrigger& input, PFSegmentsSegmentTrigger& output, ModelBuffer& buffer);
 };
 
-struct AdCampaignSegmentFilter : public PFSegmentsAdCampaignSegmentFilter, public BaseModel
+class AdCampaignSegmentFilter : public Wrappers::PFSegmentsAdCampaignSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsAdCampaignSegmentFilter>
 {
-    AdCampaignSegmentFilter();
-    AdCampaignSegmentFilter(const AdCampaignSegmentFilter& src);
-    AdCampaignSegmentFilter(AdCampaignSegmentFilter&& src);
-    AdCampaignSegmentFilter(const PFSegmentsAdCampaignSegmentFilter& src);
-    AdCampaignSegmentFilter& operator=(const AdCampaignSegmentFilter&) = delete;
-    ~AdCampaignSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsAdCampaignSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsAdCampaignSegmentFilter& input);
 
-private:
-    String m_campaignId;
-    String m_campaignSource;
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsAdCampaignSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsAdCampaignSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsAdCampaignSegmentFilter& input, PFSegmentsAdCampaignSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct FirstLoginDateSegmentFilter : public PFSegmentsFirstLoginDateSegmentFilter, public BaseModel
+class FirstLoginDateSegmentFilter : public Wrappers::PFSegmentsFirstLoginDateSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsFirstLoginDateSegmentFilter>
 {
-    FirstLoginDateSegmentFilter();
-    FirstLoginDateSegmentFilter(const FirstLoginDateSegmentFilter& src);
-    FirstLoginDateSegmentFilter(FirstLoginDateSegmentFilter&& src);
-    FirstLoginDateSegmentFilter(const PFSegmentsFirstLoginDateSegmentFilter& src);
-    FirstLoginDateSegmentFilter& operator=(const FirstLoginDateSegmentFilter&) = delete;
-    ~FirstLoginDateSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsFirstLoginDateSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsFirstLoginDateSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsFirstLoginDateSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsFirstLoginDateSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsFirstLoginDateSegmentFilter& input, PFSegmentsFirstLoginDateSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct FirstLoginTimespanSegmentFilter : public PFSegmentsFirstLoginTimespanSegmentFilter, public BaseModel
+class FirstLoginTimespanSegmentFilter : public Wrappers::PFSegmentsFirstLoginTimespanSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsFirstLoginTimespanSegmentFilter>
 {
-    FirstLoginTimespanSegmentFilter();
-    FirstLoginTimespanSegmentFilter(const FirstLoginTimespanSegmentFilter& src);
-    FirstLoginTimespanSegmentFilter(FirstLoginTimespanSegmentFilter&& src);
-    FirstLoginTimespanSegmentFilter(const PFSegmentsFirstLoginTimespanSegmentFilter& src);
-    FirstLoginTimespanSegmentFilter& operator=(const FirstLoginTimespanSegmentFilter&) = delete;
-    ~FirstLoginTimespanSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsFirstLoginTimespanSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsFirstLoginTimespanSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsFirstLoginTimespanSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsFirstLoginTimespanSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsFirstLoginTimespanSegmentFilter& input, PFSegmentsFirstLoginTimespanSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct LastLoginDateSegmentFilter : public PFSegmentsLastLoginDateSegmentFilter, public BaseModel
+class LastLoginDateSegmentFilter : public Wrappers::PFSegmentsLastLoginDateSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsLastLoginDateSegmentFilter>
 {
-    LastLoginDateSegmentFilter();
-    LastLoginDateSegmentFilter(const LastLoginDateSegmentFilter& src);
-    LastLoginDateSegmentFilter(LastLoginDateSegmentFilter&& src);
-    LastLoginDateSegmentFilter(const PFSegmentsLastLoginDateSegmentFilter& src);
-    LastLoginDateSegmentFilter& operator=(const LastLoginDateSegmentFilter&) = delete;
-    ~LastLoginDateSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsLastLoginDateSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsLastLoginDateSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsLastLoginDateSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsLastLoginDateSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsLastLoginDateSegmentFilter& input, PFSegmentsLastLoginDateSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct LastLoginTimespanSegmentFilter : public PFSegmentsLastLoginTimespanSegmentFilter, public BaseModel
+class LastLoginTimespanSegmentFilter : public Wrappers::PFSegmentsLastLoginTimespanSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsLastLoginTimespanSegmentFilter>
 {
-    LastLoginTimespanSegmentFilter();
-    LastLoginTimespanSegmentFilter(const LastLoginTimespanSegmentFilter& src);
-    LastLoginTimespanSegmentFilter(LastLoginTimespanSegmentFilter&& src);
-    LastLoginTimespanSegmentFilter(const PFSegmentsLastLoginTimespanSegmentFilter& src);
-    LastLoginTimespanSegmentFilter& operator=(const LastLoginTimespanSegmentFilter&) = delete;
-    ~LastLoginTimespanSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsLastLoginTimespanSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsLastLoginTimespanSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsLastLoginTimespanSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsLastLoginTimespanSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsLastLoginTimespanSegmentFilter& input, PFSegmentsLastLoginTimespanSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct LinkedUserAccountSegmentFilter : public PFSegmentsLinkedUserAccountSegmentFilter, public BaseModel
+class LinkedUserAccountSegmentFilter : public Wrappers::PFSegmentsLinkedUserAccountSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsLinkedUserAccountSegmentFilter>
 {
-    LinkedUserAccountSegmentFilter();
-    LinkedUserAccountSegmentFilter(const LinkedUserAccountSegmentFilter& src);
-    LinkedUserAccountSegmentFilter(LinkedUserAccountSegmentFilter&& src);
-    LinkedUserAccountSegmentFilter(const PFSegmentsLinkedUserAccountSegmentFilter& src);
-    LinkedUserAccountSegmentFilter& operator=(const LinkedUserAccountSegmentFilter&) = delete;
-    ~LinkedUserAccountSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsLinkedUserAccountSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsLinkedUserAccountSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentLoginIdentityProvider> m_loginProvider;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsLinkedUserAccountSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsLinkedUserAccountSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsLinkedUserAccountSegmentFilter& input, PFSegmentsLinkedUserAccountSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct LinkedUserAccountHasEmailSegmentFilter : public PFSegmentsLinkedUserAccountHasEmailSegmentFilter, public BaseModel
+class LinkedUserAccountHasEmailSegmentFilter : public Wrappers::PFSegmentsLinkedUserAccountHasEmailSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsLinkedUserAccountHasEmailSegmentFilter>
 {
-    LinkedUserAccountHasEmailSegmentFilter();
-    LinkedUserAccountHasEmailSegmentFilter(const LinkedUserAccountHasEmailSegmentFilter& src);
-    LinkedUserAccountHasEmailSegmentFilter(LinkedUserAccountHasEmailSegmentFilter&& src);
-    LinkedUserAccountHasEmailSegmentFilter(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& src);
-    LinkedUserAccountHasEmailSegmentFilter& operator=(const LinkedUserAccountHasEmailSegmentFilter&) = delete;
-    ~LinkedUserAccountHasEmailSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsLinkedUserAccountHasEmailSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
-    StdExtra::optional<PFSegmentsSegmentLoginIdentityProvider> m_loginProvider;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsLinkedUserAccountHasEmailSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& input, PFSegmentsLinkedUserAccountHasEmailSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct LocationSegmentFilter : public PFSegmentsLocationSegmentFilter, public BaseModel
+class LocationSegmentFilter : public Wrappers::PFSegmentsLocationSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsLocationSegmentFilter>
 {
-    LocationSegmentFilter();
-    LocationSegmentFilter(const LocationSegmentFilter& src);
-    LocationSegmentFilter(LocationSegmentFilter&& src);
-    LocationSegmentFilter(const PFSegmentsLocationSegmentFilter& src);
-    LocationSegmentFilter& operator=(const LocationSegmentFilter&) = delete;
-    ~LocationSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsLocationSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsLocationSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentCountryCode> m_countryCode;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsLocationSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsLocationSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsLocationSegmentFilter& input, PFSegmentsLocationSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct PushNotificationSegmentFilter : public PFSegmentsPushNotificationSegmentFilter, public BaseModel
+class PushNotificationSegmentFilter : public Wrappers::PFSegmentsPushNotificationSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsPushNotificationSegmentFilter>
 {
-    PushNotificationSegmentFilter();
-    PushNotificationSegmentFilter(const PushNotificationSegmentFilter& src);
-    PushNotificationSegmentFilter(PushNotificationSegmentFilter&& src);
-    PushNotificationSegmentFilter(const PFSegmentsPushNotificationSegmentFilter& src);
-    PushNotificationSegmentFilter& operator=(const PushNotificationSegmentFilter&) = delete;
-    ~PushNotificationSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsPushNotificationSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsPushNotificationSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentPushNotificationDevicePlatform> m_pushNotificationDevicePlatform;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsPushNotificationSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsPushNotificationSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsPushNotificationSegmentFilter& input, PFSegmentsPushNotificationSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct StatisticSegmentFilter : public PFSegmentsStatisticSegmentFilter, public BaseModel
+class StatisticSegmentFilter : public Wrappers::PFSegmentsStatisticSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsStatisticSegmentFilter>
 {
-    StatisticSegmentFilter();
-    StatisticSegmentFilter(const StatisticSegmentFilter& src);
-    StatisticSegmentFilter(StatisticSegmentFilter&& src);
-    StatisticSegmentFilter(const PFSegmentsStatisticSegmentFilter& src);
-    StatisticSegmentFilter& operator=(const StatisticSegmentFilter&) = delete;
-    ~StatisticSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsStatisticSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsStatisticSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
-    String m_filterValue;
-    String m_name;
-    StdExtra::optional<bool> m_useCurrentVersion;
-    StdExtra::optional<int32_t> m_version;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsStatisticSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsStatisticSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsStatisticSegmentFilter& input, PFSegmentsStatisticSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct TagSegmentFilter : public PFSegmentsTagSegmentFilter, public BaseModel
+class TagSegmentFilter : public Wrappers::PFSegmentsTagSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsTagSegmentFilter>
 {
-    TagSegmentFilter();
-    TagSegmentFilter(const TagSegmentFilter& src);
-    TagSegmentFilter(TagSegmentFilter&& src);
-    TagSegmentFilter(const PFSegmentsTagSegmentFilter& src);
-    TagSegmentFilter& operator=(const TagSegmentFilter&) = delete;
-    ~TagSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsTagSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsTagSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
-    String m_tagValue;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsTagSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsTagSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsTagSegmentFilter& input, PFSegmentsTagSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct TotalValueToDateInUSDSegmentFilter : public PFSegmentsTotalValueToDateInUSDSegmentFilter, public BaseModel
+class TotalValueToDateInUSDSegmentFilter : public Wrappers::PFSegmentsTotalValueToDateInUSDSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsTotalValueToDateInUSDSegmentFilter>
 {
-    TotalValueToDateInUSDSegmentFilter();
-    TotalValueToDateInUSDSegmentFilter(const TotalValueToDateInUSDSegmentFilter& src);
-    TotalValueToDateInUSDSegmentFilter(TotalValueToDateInUSDSegmentFilter&& src);
-    TotalValueToDateInUSDSegmentFilter(const PFSegmentsTotalValueToDateInUSDSegmentFilter& src);
-    TotalValueToDateInUSDSegmentFilter& operator=(const TotalValueToDateInUSDSegmentFilter&) = delete;
-    ~TotalValueToDateInUSDSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsTotalValueToDateInUSDSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsTotalValueToDateInUSDSegmentFilter& input);
 
-private:
-    String m_amount;
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsTotalValueToDateInUSDSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsTotalValueToDateInUSDSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsTotalValueToDateInUSDSegmentFilter& input, PFSegmentsTotalValueToDateInUSDSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct UserOriginationSegmentFilter : public PFSegmentsUserOriginationSegmentFilter, public BaseModel
+class UserOriginationSegmentFilter : public Wrappers::PFSegmentsUserOriginationSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsUserOriginationSegmentFilter>
 {
-    UserOriginationSegmentFilter();
-    UserOriginationSegmentFilter(const UserOriginationSegmentFilter& src);
-    UserOriginationSegmentFilter(UserOriginationSegmentFilter&& src);
-    UserOriginationSegmentFilter(const PFSegmentsUserOriginationSegmentFilter& src);
-    UserOriginationSegmentFilter& operator=(const UserOriginationSegmentFilter&) = delete;
-    ~UserOriginationSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsUserOriginationSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsUserOriginationSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentLoginIdentityProvider> m_loginProvider;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsUserOriginationSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsUserOriginationSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsUserOriginationSegmentFilter& input, PFSegmentsUserOriginationSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct ValueToDateSegmentFilter : public PFSegmentsValueToDateSegmentFilter, public BaseModel
+class ValueToDateSegmentFilter : public Wrappers::PFSegmentsValueToDateSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsValueToDateSegmentFilter>
 {
-    ValueToDateSegmentFilter();
-    ValueToDateSegmentFilter(const ValueToDateSegmentFilter& src);
-    ValueToDateSegmentFilter(ValueToDateSegmentFilter&& src);
-    ValueToDateSegmentFilter(const PFSegmentsValueToDateSegmentFilter& src);
-    ValueToDateSegmentFilter& operator=(const ValueToDateSegmentFilter&) = delete;
-    ~ValueToDateSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsValueToDateSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsValueToDateSegmentFilter& input);
 
-private:
-    String m_amount;
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
-    StdExtra::optional<PFSegmentsSegmentCurrency> m_currency;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsValueToDateSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsValueToDateSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsValueToDateSegmentFilter& input, PFSegmentsValueToDateSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct VirtualCurrencyBalanceSegmentFilter : public PFSegmentsVirtualCurrencyBalanceSegmentFilter, public BaseModel
+class VirtualCurrencyBalanceSegmentFilter : public Wrappers::PFSegmentsVirtualCurrencyBalanceSegmentFilterWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsVirtualCurrencyBalanceSegmentFilter>
 {
-    VirtualCurrencyBalanceSegmentFilter();
-    VirtualCurrencyBalanceSegmentFilter(const VirtualCurrencyBalanceSegmentFilter& src);
-    VirtualCurrencyBalanceSegmentFilter(VirtualCurrencyBalanceSegmentFilter&& src);
-    VirtualCurrencyBalanceSegmentFilter(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& src);
-    VirtualCurrencyBalanceSegmentFilter& operator=(const VirtualCurrencyBalanceSegmentFilter&) = delete;
-    ~VirtualCurrencyBalanceSegmentFilter() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsVirtualCurrencyBalanceSegmentFilterWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& input);
 
-private:
-    StdExtra::optional<PFSegmentsSegmentFilterComparison> m_comparison;
-    String m_currencyCode;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsVirtualCurrencyBalanceSegmentFilter const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& model);
+    static HRESULT Copy(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& input, PFSegmentsVirtualCurrencyBalanceSegmentFilter& output, ModelBuffer& buffer);
 };
 
-struct SegmentAndDefinition : public PFSegmentsSegmentAndDefinition, public BaseModel
+class SegmentAndDefinition : public Wrappers::PFSegmentsSegmentAndDefinitionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsSegmentAndDefinition>
 {
-    SegmentAndDefinition();
-    SegmentAndDefinition(const SegmentAndDefinition& src);
-    SegmentAndDefinition(SegmentAndDefinition&& src);
-    SegmentAndDefinition(const PFSegmentsSegmentAndDefinition& src);
-    SegmentAndDefinition& operator=(const SegmentAndDefinition&) = delete;
-    ~SegmentAndDefinition() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsSegmentAndDefinitionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsSegmentAndDefinition& input);
 
-private:
-    StdExtra::optional<AdCampaignSegmentFilter> m_adCampaignFilter;
-    StdExtra::optional<FirstLoginDateSegmentFilter> m_firstLoginDateFilter;
-    StdExtra::optional<FirstLoginTimespanSegmentFilter> m_firstLoginFilter;
-    StdExtra::optional<LastLoginDateSegmentFilter> m_lastLoginDateFilter;
-    StdExtra::optional<LastLoginTimespanSegmentFilter> m_lastLoginFilter;
-    StdExtra::optional<LinkedUserAccountSegmentFilter> m_linkedUserAccountFilter;
-    StdExtra::optional<LinkedUserAccountHasEmailSegmentFilter> m_linkedUserAccountHasEmailFilter;
-    StdExtra::optional<LocationSegmentFilter> m_locationFilter;
-    StdExtra::optional<PushNotificationSegmentFilter> m_pushNotificationFilter;
-    StdExtra::optional<StatisticSegmentFilter> m_statisticFilter;
-    StdExtra::optional<TagSegmentFilter> m_tagFilter;
-    StdExtra::optional<TotalValueToDateInUSDSegmentFilter> m_totalValueToDateInUSDFilter;
-    StdExtra::optional<UserOriginationSegmentFilter> m_userOriginationFilter;
-    StdExtra::optional<ValueToDateSegmentFilter> m_valueToDateFilter;
-    StdExtra::optional<VirtualCurrencyBalanceSegmentFilter> m_virtualCurrencyBalanceFilter;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsSegmentAndDefinition const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsSegmentAndDefinition& model);
+    static HRESULT Copy(const PFSegmentsSegmentAndDefinition& input, PFSegmentsSegmentAndDefinition& output, ModelBuffer& buffer);
 };
 
-struct SegmentOrDefinition : public PFSegmentsSegmentOrDefinition, public BaseModel
+class SegmentOrDefinition : public Wrappers::PFSegmentsSegmentOrDefinitionWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsSegmentOrDefinition>
 {
-    SegmentOrDefinition();
-    SegmentOrDefinition(const SegmentOrDefinition& src);
-    SegmentOrDefinition(SegmentOrDefinition&& src);
-    SegmentOrDefinition(const PFSegmentsSegmentOrDefinition& src);
-    SegmentOrDefinition& operator=(const SegmentOrDefinition&) = delete;
-    ~SegmentOrDefinition() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsSegmentOrDefinitionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsSegmentOrDefinition& input);
 
-private:
-    PointerArrayModel<PFSegmentsSegmentAndDefinition, SegmentAndDefinition> m_segmentAndDefinitions;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsSegmentOrDefinition const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsSegmentOrDefinition& model);
+    static HRESULT Copy(const PFSegmentsSegmentOrDefinition& input, PFSegmentsSegmentOrDefinition& output, ModelBuffer& buffer);
 };
 
-struct SegmentModel : public PFSegmentsSegmentModel, public BaseModel
+class SegmentModel : public Wrappers::PFSegmentsSegmentModelWrapper<Allocator>, public InputModel, public OutputModel<PFSegmentsSegmentModel>
 {
-    SegmentModel();
-    SegmentModel(const SegmentModel& src);
-    SegmentModel(SegmentModel&& src);
-    SegmentModel(const PFSegmentsSegmentModel& src);
-    SegmentModel& operator=(const SegmentModel&) = delete;
-    ~SegmentModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsSegmentModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsSegmentModel& input);
 
-private:
-    String m_description;
-    PointerArrayModel<PFSegmentsSegmentTrigger, SegmentTrigger> m_enteredSegmentActions;
-    PointerArrayModel<PFSegmentsSegmentTrigger, SegmentTrigger> m_leftSegmentActions;
-    String m_name;
-    String m_segmentId;
-    PointerArrayModel<PFSegmentsSegmentOrDefinition, SegmentOrDefinition> m_segmentOrDefinitions;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsSegmentModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFSegmentsSegmentModel& model);
+    static HRESULT Copy(const PFSegmentsSegmentModel& input, PFSegmentsSegmentModel& output, ModelBuffer& buffer);
 };
 
-struct CreateSegmentRequest : public PFSegmentsCreateSegmentRequest, public BaseModel
+class CreateSegmentRequest : public Wrappers::PFSegmentsCreateSegmentRequestWrapper<Allocator>, public InputModel
 {
-    CreateSegmentRequest();
-    CreateSegmentRequest(const CreateSegmentRequest& src);
-    CreateSegmentRequest(CreateSegmentRequest&& src);
-    CreateSegmentRequest(const PFSegmentsCreateSegmentRequest& src);
-    CreateSegmentRequest& operator=(const CreateSegmentRequest&) = delete;
-    ~CreateSegmentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsCreateSegmentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsCreateSegmentRequest& input);
 
-private:
-    SegmentModel m_segmentModel;
 };
 
-struct CreateSegmentResponse : public PFSegmentsCreateSegmentResponse, public SerializableModel, public ApiResult
+class CreateSegmentResponse : public Wrappers::PFSegmentsCreateSegmentResponseWrapper<Allocator>, public OutputModel<PFSegmentsCreateSegmentResponse>
 {
-    CreateSegmentResponse();
-    CreateSegmentResponse(const CreateSegmentResponse& src);
-    CreateSegmentResponse(CreateSegmentResponse&& src);
-    CreateSegmentResponse(const PFSegmentsCreateSegmentResponse& src);
-    CreateSegmentResponse& operator=(const CreateSegmentResponse&) = delete;
-    ~CreateSegmentResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsCreateSegmentResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsCreateSegmentResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_errorMessage;
-    String m_segmentId;
+    static size_t RequiredBufferSize(const PFSegmentsCreateSegmentResponse& model);
+    static HRESULT Copy(const PFSegmentsCreateSegmentResponse& input, PFSegmentsCreateSegmentResponse& output, ModelBuffer& buffer);
 };
 
-struct DeleteSegmentRequest : public PFSegmentsDeleteSegmentRequest, public SerializableModel
+class DeleteSegmentRequest : public Wrappers::PFSegmentsDeleteSegmentRequestWrapper<Allocator>, public InputModel
 {
-    DeleteSegmentRequest();
-    DeleteSegmentRequest(const DeleteSegmentRequest& src);
-    DeleteSegmentRequest(DeleteSegmentRequest&& src);
-    DeleteSegmentRequest(const PFSegmentsDeleteSegmentRequest& src);
-    DeleteSegmentRequest& operator=(const DeleteSegmentRequest&) = delete;
-    ~DeleteSegmentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsDeleteSegmentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsDeleteSegmentRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_segmentId;
 };
 
-struct DeleteSegmentsResponse : public PFSegmentsDeleteSegmentsResponse, public SerializableModel, public ApiResult
+class DeleteSegmentsResponse : public Wrappers::PFSegmentsDeleteSegmentsResponseWrapper<Allocator>, public OutputModel<PFSegmentsDeleteSegmentsResponse>
 {
-    DeleteSegmentsResponse();
-    DeleteSegmentsResponse(const DeleteSegmentsResponse& src);
-    DeleteSegmentsResponse(DeleteSegmentsResponse&& src);
-    DeleteSegmentsResponse(const PFSegmentsDeleteSegmentsResponse& src);
-    DeleteSegmentsResponse& operator=(const DeleteSegmentsResponse&) = delete;
-    ~DeleteSegmentsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsDeleteSegmentsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsDeleteSegmentsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_errorMessage;
+    static size_t RequiredBufferSize(const PFSegmentsDeleteSegmentsResponse& model);
+    static HRESULT Copy(const PFSegmentsDeleteSegmentsResponse& input, PFSegmentsDeleteSegmentsResponse& output, ModelBuffer& buffer);
 };
 
-struct GetSegmentsRequest : public PFSegmentsGetSegmentsRequest, public BaseModel
+class GetSegmentsRequest : public Wrappers::PFSegmentsGetSegmentsRequestWrapper<Allocator>, public InputModel
 {
-    GetSegmentsRequest();
-    GetSegmentsRequest(const GetSegmentsRequest& src);
-    GetSegmentsRequest(GetSegmentsRequest&& src);
-    GetSegmentsRequest(const PFSegmentsGetSegmentsRequest& src);
-    GetSegmentsRequest& operator=(const GetSegmentsRequest&) = delete;
-    ~GetSegmentsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsGetSegmentsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsGetSegmentsRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_segmentIds;
 };
 
-struct GetSegmentsResponse : public PFSegmentsGetSegmentsResponse, public BaseModel, public ApiResult
+class GetSegmentsResponse : public Wrappers::PFSegmentsGetSegmentsResponseWrapper<Allocator>, public OutputModel<PFSegmentsGetSegmentsResponse>
 {
-    GetSegmentsResponse();
-    GetSegmentsResponse(const GetSegmentsResponse& src);
-    GetSegmentsResponse(GetSegmentsResponse&& src);
-    GetSegmentsResponse(const PFSegmentsGetSegmentsResponse& src);
-    GetSegmentsResponse& operator=(const GetSegmentsResponse&) = delete;
-    ~GetSegmentsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsGetSegmentsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsGetSegmentsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_errorMessage;
-    PointerArrayModel<PFSegmentsSegmentModel, SegmentModel> m_segments;
+    static size_t RequiredBufferSize(const PFSegmentsGetSegmentsResponse& model);
+    static HRESULT Copy(const PFSegmentsGetSegmentsResponse& input, PFSegmentsGetSegmentsResponse& output, ModelBuffer& buffer);
 };
 
-struct UpdateSegmentRequest : public PFSegmentsUpdateSegmentRequest, public BaseModel
+class UpdateSegmentRequest : public Wrappers::PFSegmentsUpdateSegmentRequestWrapper<Allocator>, public InputModel
 {
-    UpdateSegmentRequest();
-    UpdateSegmentRequest(const UpdateSegmentRequest& src);
-    UpdateSegmentRequest(UpdateSegmentRequest&& src);
-    UpdateSegmentRequest(const PFSegmentsUpdateSegmentRequest& src);
-    UpdateSegmentRequest& operator=(const UpdateSegmentRequest&) = delete;
-    ~UpdateSegmentRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsUpdateSegmentRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFSegmentsUpdateSegmentRequest& input);
 
-private:
-    SegmentModel m_segmentModel;
 };
 
-struct UpdateSegmentResponse : public PFSegmentsUpdateSegmentResponse, public SerializableModel, public ApiResult
+class UpdateSegmentResponse : public Wrappers::PFSegmentsUpdateSegmentResponseWrapper<Allocator>, public OutputModel<PFSegmentsUpdateSegmentResponse>
 {
-    UpdateSegmentResponse();
-    UpdateSegmentResponse(const UpdateSegmentResponse& src);
-    UpdateSegmentResponse(UpdateSegmentResponse&& src);
-    UpdateSegmentResponse(const PFSegmentsUpdateSegmentResponse& src);
-    UpdateSegmentResponse& operator=(const UpdateSegmentResponse&) = delete;
-    ~UpdateSegmentResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFSegmentsUpdateSegmentResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFSegmentsUpdateSegmentResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_errorMessage;
-    String m_segmentId;
+    static size_t RequiredBufferSize(const PFSegmentsUpdateSegmentResponse& model);
+    static HRESULT Copy(const PFSegmentsUpdateSegmentResponse& input, PFSegmentsUpdateSegmentResponse& output, ModelBuffer& buffer);
 };
 
-} // namespace SegmentsModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFSegmentsBanPlayerSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsDeletePlayerStatisticSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsEmailNotificationSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsExecuteAzureFunctionSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsExecuteCloudScriptSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsGrantItemSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsGrantVirtualCurrencySegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsIncrementPlayerStatisticSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsPushNotificationSegmentAction& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsSegmentTrigger& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsAdCampaignSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsFirstLoginDateSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsFirstLoginTimespanSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsLastLoginDateSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsLastLoginTimespanSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsLinkedUserAccountSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsLinkedUserAccountHasEmailSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsLocationSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsPushNotificationSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsStatisticSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsTagSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsTotalValueToDateInUSDSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsUserOriginationSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsValueToDateSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsVirtualCurrencyBalanceSegmentFilter& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsSegmentAndDefinition& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsSegmentOrDefinition& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsSegmentModel& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsCreateSegmentRequest& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsCreateSegmentResponse& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsDeleteSegmentRequest& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsDeleteSegmentsResponse& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsGetSegmentsRequest& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsGetSegmentsResponse& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsUpdateSegmentRequest& input);
-template<> inline JsonValue ToJson<>(const PFSegmentsUpdateSegmentResponse& input);
-} // namespace JsonUtils
-
+} // namespace Segments
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

@@ -1,14 +1,16 @@
 #include "stdafx.h"
 #include "QoS.h"
 #include "QoSSocket.h"
+#include "JsonUtils.h"
 #include <MultiplayerServer/MultiplayerServer.h>
 #include <PlayStream/PlayStream.h>
 
-using namespace PlayFab::MultiplayerServerModels;
-using namespace PlayFab::PlayStreamModels;
-
 namespace PlayFab
 {
+
+using namespace PlayStream;
+using namespace MultiplayerServer;
+
 namespace QoS
 {
 
@@ -32,9 +34,9 @@ AsyncOp<Measurements> QoSAPI::GetMeasurements(SharedPtr<Entity> entity, uint32_t
             auto& measurements{ result.Payload() };
             JsonValue regionResultsJson{ rapidjson::kArrayType };
 
-            for (auto i = 0u; i < measurements.regionResultsCount; ++i)
+            for (auto i = 0u; i < measurements.Model().regionResultsCount; ++i)
             {
-                auto& regionResult{ measurements.regionResults[i] };
+                auto& regionResult{ measurements.Model().regionResults[i] };
                 JsonValue regionResultJson{ rapidjson::kObjectType };
 
                 JsonUtils::ObjectAddMember(regionResultJson, "Region", regionResult->region);
@@ -84,9 +86,9 @@ AsyncOp<void> QoSAPI::GetServers(SharedPtr<Entity> entity, const TaskQueue& queu
         if (Succeeded(result))
         {
             auto& resultModel{ result.Payload() };
-            for (auto i = 0u; i < resultModel.qosServersCount; ++i)
+            for (auto i = 0u; i < resultModel.Model().qosServersCount; ++i)
             {
-                auto& server = resultModel.qosServers[i];
+                auto& server = resultModel.Model().qosServers[i];
                 m_servers.emplace_back(Server{ server->region, server->serverUrl });
             }
         }

@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace MultiplayerServerModels;
+namespace MultiplayerServer
+{
 
 
 AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::CreateBuildAlias(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerCreateBuildAliasRequest& request,
+    const CreateBuildAliasRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::CreateBuildAlias(
     }
 
     const char* path{ "/MultiplayerServer/CreateBuildAlias" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -53,7 +53,7 @@ AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::CreateBuildAlias(
 
 AsyncOp<CreateBuildWithCustomContainerResponse> MultiplayerServerAPI::CreateBuildWithCustomContainer(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerCreateBuildWithCustomContainerRequest& request,
+    const CreateBuildWithCustomContainerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -64,7 +64,7 @@ AsyncOp<CreateBuildWithCustomContainerResponse> MultiplayerServerAPI::CreateBuil
     }
 
     const char* path{ "/MultiplayerServer/CreateBuildWithCustomContainer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -95,7 +95,7 @@ AsyncOp<CreateBuildWithCustomContainerResponse> MultiplayerServerAPI::CreateBuil
 
 AsyncOp<CreateBuildWithManagedContainerResponse> MultiplayerServerAPI::CreateBuildWithManagedContainer(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerCreateBuildWithManagedContainerRequest& request,
+    const CreateBuildWithManagedContainerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -106,7 +106,7 @@ AsyncOp<CreateBuildWithManagedContainerResponse> MultiplayerServerAPI::CreateBui
     }
 
     const char* path{ "/MultiplayerServer/CreateBuildWithManagedContainer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -137,7 +137,7 @@ AsyncOp<CreateBuildWithManagedContainerResponse> MultiplayerServerAPI::CreateBui
 
 AsyncOp<CreateBuildWithProcessBasedServerResponse> MultiplayerServerAPI::CreateBuildWithProcessBasedServer(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerCreateBuildWithProcessBasedServerRequest& request,
+    const CreateBuildWithProcessBasedServerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -148,7 +148,7 @@ AsyncOp<CreateBuildWithProcessBasedServerResponse> MultiplayerServerAPI::CreateB
     }
 
     const char* path{ "/MultiplayerServer/CreateBuildWithProcessBasedServer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -179,7 +179,7 @@ AsyncOp<CreateBuildWithProcessBasedServerResponse> MultiplayerServerAPI::CreateB
 
 AsyncOp<CreateRemoteUserResponse> MultiplayerServerAPI::CreateRemoteUser(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerCreateRemoteUserRequest& request,
+    const CreateRemoteUserRequest& request,
     const TaskQueue& queue
 )
 {
@@ -190,7 +190,7 @@ AsyncOp<CreateRemoteUserResponse> MultiplayerServerAPI::CreateRemoteUser(
     }
 
     const char* path{ "/MultiplayerServer/CreateRemoteUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -221,7 +221,7 @@ AsyncOp<CreateRemoteUserResponse> MultiplayerServerAPI::CreateRemoteUser(
 
 AsyncOp<CreateTitleMultiplayerServersQuotaChangeResponse> MultiplayerServerAPI::CreateTitleMultiplayerServersQuotaChange(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerCreateTitleMultiplayerServersQuotaChangeRequest& request,
+    const CreateTitleMultiplayerServersQuotaChangeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -232,7 +232,7 @@ AsyncOp<CreateTitleMultiplayerServersQuotaChangeResponse> MultiplayerServerAPI::
     }
 
     const char* path{ "/MultiplayerServer/CreateTitleMultiplayerServersQuotaChange" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -263,7 +263,7 @@ AsyncOp<CreateTitleMultiplayerServersQuotaChangeResponse> MultiplayerServerAPI::
 
 AsyncOp<void> MultiplayerServerAPI::DeleteAsset(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteAssetRequest& request,
+    const DeleteAssetRequest& request,
     const TaskQueue& queue
 )
 {
@@ -274,7 +274,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteAsset(
     }
 
     const char* path{ "/MultiplayerServer/DeleteAsset" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -303,7 +303,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteAsset(
 
 AsyncOp<void> MultiplayerServerAPI::DeleteBuild(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteBuildRequest& request,
+    const DeleteBuildRequest& request,
     const TaskQueue& queue
 )
 {
@@ -314,7 +314,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteBuild(
     }
 
     const char* path{ "/MultiplayerServer/DeleteBuild" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -343,7 +343,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteBuild(
 
 AsyncOp<void> MultiplayerServerAPI::DeleteBuildAlias(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteBuildAliasRequest& request,
+    const DeleteBuildAliasRequest& request,
     const TaskQueue& queue
 )
 {
@@ -354,7 +354,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteBuildAlias(
     }
 
     const char* path{ "/MultiplayerServer/DeleteBuildAlias" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -383,7 +383,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteBuildAlias(
 
 AsyncOp<void> MultiplayerServerAPI::DeleteBuildRegion(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteBuildRegionRequest& request,
+    const DeleteBuildRegionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -394,7 +394,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteBuildRegion(
     }
 
     const char* path{ "/MultiplayerServer/DeleteBuildRegion" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -423,7 +423,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteBuildRegion(
 
 AsyncOp<void> MultiplayerServerAPI::DeleteCertificate(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteCertificateRequest& request,
+    const DeleteCertificateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -434,7 +434,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteCertificate(
     }
 
     const char* path{ "/MultiplayerServer/DeleteCertificate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -463,7 +463,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteCertificate(
 
 AsyncOp<void> MultiplayerServerAPI::DeleteContainerImageRepository(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteContainerImageRequest& request,
+    const DeleteContainerImageRequest& request,
     const TaskQueue& queue
 )
 {
@@ -474,7 +474,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteContainerImageRepository(
     }
 
     const char* path{ "/MultiplayerServer/DeleteContainerImageRepository" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -503,7 +503,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteContainerImageRepository(
 
 AsyncOp<void> MultiplayerServerAPI::DeleteRemoteUser(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerDeleteRemoteUserRequest& request,
+    const DeleteRemoteUserRequest& request,
     const TaskQueue& queue
 )
 {
@@ -514,7 +514,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteRemoteUser(
     }
 
     const char* path{ "/MultiplayerServer/DeleteRemoteUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -543,7 +543,7 @@ AsyncOp<void> MultiplayerServerAPI::DeleteRemoteUser(
 
 AsyncOp<EnableMultiplayerServersForTitleResponse> MultiplayerServerAPI::EnableMultiplayerServersForTitle(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerEnableMultiplayerServersForTitleRequest& request,
+    const EnableMultiplayerServersForTitleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -554,7 +554,7 @@ AsyncOp<EnableMultiplayerServersForTitleResponse> MultiplayerServerAPI::EnableMu
     }
 
     const char* path{ "/MultiplayerServer/EnableMultiplayerServersForTitle" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -585,7 +585,7 @@ AsyncOp<EnableMultiplayerServersForTitleResponse> MultiplayerServerAPI::EnableMu
 
 AsyncOp<GetAssetDownloadUrlResponse> MultiplayerServerAPI::GetAssetDownloadUrl(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetAssetDownloadUrlRequest& request,
+    const GetAssetDownloadUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -596,7 +596,7 @@ AsyncOp<GetAssetDownloadUrlResponse> MultiplayerServerAPI::GetAssetDownloadUrl(
     }
 
     const char* path{ "/MultiplayerServer/GetAssetDownloadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -627,7 +627,7 @@ AsyncOp<GetAssetDownloadUrlResponse> MultiplayerServerAPI::GetAssetDownloadUrl(
 
 AsyncOp<GetAssetUploadUrlResponse> MultiplayerServerAPI::GetAssetUploadUrl(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetAssetUploadUrlRequest& request,
+    const GetAssetUploadUrlRequest& request,
     const TaskQueue& queue
 )
 {
@@ -638,7 +638,7 @@ AsyncOp<GetAssetUploadUrlResponse> MultiplayerServerAPI::GetAssetUploadUrl(
     }
 
     const char* path{ "/MultiplayerServer/GetAssetUploadUrl" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -669,7 +669,7 @@ AsyncOp<GetAssetUploadUrlResponse> MultiplayerServerAPI::GetAssetUploadUrl(
 
 AsyncOp<GetBuildResponse> MultiplayerServerAPI::GetBuild(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetBuildRequest& request,
+    const GetBuildRequest& request,
     const TaskQueue& queue
 )
 {
@@ -680,7 +680,7 @@ AsyncOp<GetBuildResponse> MultiplayerServerAPI::GetBuild(
     }
 
     const char* path{ "/MultiplayerServer/GetBuild" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -711,7 +711,7 @@ AsyncOp<GetBuildResponse> MultiplayerServerAPI::GetBuild(
 
 AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::GetBuildAlias(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetBuildAliasRequest& request,
+    const GetBuildAliasRequest& request,
     const TaskQueue& queue
 )
 {
@@ -722,7 +722,7 @@ AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::GetBuildAlias(
     }
 
     const char* path{ "/MultiplayerServer/GetBuildAlias" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -753,7 +753,7 @@ AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::GetBuildAlias(
 
 AsyncOp<GetContainerRegistryCredentialsResponse> MultiplayerServerAPI::GetContainerRegistryCredentials(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetContainerRegistryCredentialsRequest& request,
+    const GetContainerRegistryCredentialsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -764,7 +764,7 @@ AsyncOp<GetContainerRegistryCredentialsResponse> MultiplayerServerAPI::GetContai
     }
 
     const char* path{ "/MultiplayerServer/GetContainerRegistryCredentials" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -795,7 +795,7 @@ AsyncOp<GetContainerRegistryCredentialsResponse> MultiplayerServerAPI::GetContai
 
 AsyncOp<GetMultiplayerServerDetailsResponse> MultiplayerServerAPI::GetMultiplayerServerDetails(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetMultiplayerServerDetailsRequest& request,
+    const GetMultiplayerServerDetailsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -806,7 +806,7 @@ AsyncOp<GetMultiplayerServerDetailsResponse> MultiplayerServerAPI::GetMultiplaye
     }
 
     const char* path{ "/MultiplayerServer/GetMultiplayerServerDetails" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -837,7 +837,7 @@ AsyncOp<GetMultiplayerServerDetailsResponse> MultiplayerServerAPI::GetMultiplaye
 
 AsyncOp<GetMultiplayerServerLogsResponse> MultiplayerServerAPI::GetMultiplayerServerLogs(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetMultiplayerServerLogsRequest& request,
+    const GetMultiplayerServerLogsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -848,7 +848,7 @@ AsyncOp<GetMultiplayerServerLogsResponse> MultiplayerServerAPI::GetMultiplayerSe
     }
 
     const char* path{ "/MultiplayerServer/GetMultiplayerServerLogs" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -879,7 +879,7 @@ AsyncOp<GetMultiplayerServerLogsResponse> MultiplayerServerAPI::GetMultiplayerSe
 
 AsyncOp<GetMultiplayerServerLogsResponse> MultiplayerServerAPI::GetMultiplayerSessionLogsBySessionId(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetMultiplayerSessionLogsBySessionIdRequest& request,
+    const GetMultiplayerSessionLogsBySessionIdRequest& request,
     const TaskQueue& queue
 )
 {
@@ -890,7 +890,7 @@ AsyncOp<GetMultiplayerServerLogsResponse> MultiplayerServerAPI::GetMultiplayerSe
     }
 
     const char* path{ "/MultiplayerServer/GetMultiplayerSessionLogsBySessionId" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -921,7 +921,7 @@ AsyncOp<GetMultiplayerServerLogsResponse> MultiplayerServerAPI::GetMultiplayerSe
 
 AsyncOp<GetRemoteLoginEndpointResponse> MultiplayerServerAPI::GetRemoteLoginEndpoint(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetRemoteLoginEndpointRequest& request,
+    const GetRemoteLoginEndpointRequest& request,
     const TaskQueue& queue
 )
 {
@@ -932,7 +932,7 @@ AsyncOp<GetRemoteLoginEndpointResponse> MultiplayerServerAPI::GetRemoteLoginEndp
     }
 
     const char* path{ "/MultiplayerServer/GetRemoteLoginEndpoint" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -963,7 +963,7 @@ AsyncOp<GetRemoteLoginEndpointResponse> MultiplayerServerAPI::GetRemoteLoginEndp
 
 AsyncOp<GetTitleEnabledForMultiplayerServersStatusResponse> MultiplayerServerAPI::GetTitleEnabledForMultiplayerServersStatus(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetTitleEnabledForMultiplayerServersStatusRequest& request,
+    const GetTitleEnabledForMultiplayerServersStatusRequest& request,
     const TaskQueue& queue
 )
 {
@@ -974,7 +974,7 @@ AsyncOp<GetTitleEnabledForMultiplayerServersStatusResponse> MultiplayerServerAPI
     }
 
     const char* path{ "/MultiplayerServer/GetTitleEnabledForMultiplayerServersStatus" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1005,7 +1005,7 @@ AsyncOp<GetTitleEnabledForMultiplayerServersStatusResponse> MultiplayerServerAPI
 
 AsyncOp<GetTitleMultiplayerServersQuotaChangeResponse> MultiplayerServerAPI::GetTitleMultiplayerServersQuotaChange(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetTitleMultiplayerServersQuotaChangeRequest& request,
+    const GetTitleMultiplayerServersQuotaChangeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1016,7 +1016,7 @@ AsyncOp<GetTitleMultiplayerServersQuotaChangeResponse> MultiplayerServerAPI::Get
     }
 
     const char* path{ "/MultiplayerServer/GetTitleMultiplayerServersQuotaChange" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1047,7 +1047,7 @@ AsyncOp<GetTitleMultiplayerServersQuotaChangeResponse> MultiplayerServerAPI::Get
 
 AsyncOp<GetTitleMultiplayerServersQuotasResponse> MultiplayerServerAPI::GetTitleMultiplayerServersQuotas(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerGetTitleMultiplayerServersQuotasRequest& request,
+    const GetTitleMultiplayerServersQuotasRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1058,7 +1058,7 @@ AsyncOp<GetTitleMultiplayerServersQuotasResponse> MultiplayerServerAPI::GetTitle
     }
 
     const char* path{ "/MultiplayerServer/GetTitleMultiplayerServersQuotas" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1089,7 +1089,7 @@ AsyncOp<GetTitleMultiplayerServersQuotasResponse> MultiplayerServerAPI::GetTitle
 
 AsyncOp<ListMultiplayerServersResponse> MultiplayerServerAPI::ListArchivedMultiplayerServers(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListMultiplayerServersRequest& request,
+    const ListMultiplayerServersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1100,7 +1100,7 @@ AsyncOp<ListMultiplayerServersResponse> MultiplayerServerAPI::ListArchivedMultip
     }
 
     const char* path{ "/MultiplayerServer/ListArchivedMultiplayerServers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1131,7 +1131,7 @@ AsyncOp<ListMultiplayerServersResponse> MultiplayerServerAPI::ListArchivedMultip
 
 AsyncOp<ListAssetSummariesResponse> MultiplayerServerAPI::ListAssetSummaries(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListAssetSummariesRequest& request,
+    const ListAssetSummariesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1142,7 +1142,7 @@ AsyncOp<ListAssetSummariesResponse> MultiplayerServerAPI::ListAssetSummaries(
     }
 
     const char* path{ "/MultiplayerServer/ListAssetSummaries" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1173,7 +1173,7 @@ AsyncOp<ListAssetSummariesResponse> MultiplayerServerAPI::ListAssetSummaries(
 
 AsyncOp<ListBuildAliasesResponse> MultiplayerServerAPI::ListBuildAliases(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListBuildAliasesRequest& request,
+    const ListBuildAliasesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1184,7 +1184,7 @@ AsyncOp<ListBuildAliasesResponse> MultiplayerServerAPI::ListBuildAliases(
     }
 
     const char* path{ "/MultiplayerServer/ListBuildAliases" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1215,7 +1215,7 @@ AsyncOp<ListBuildAliasesResponse> MultiplayerServerAPI::ListBuildAliases(
 
 AsyncOp<ListBuildSummariesResponse> MultiplayerServerAPI::ListBuildSummariesV2(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListBuildSummariesRequest& request,
+    const ListBuildSummariesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1226,7 +1226,7 @@ AsyncOp<ListBuildSummariesResponse> MultiplayerServerAPI::ListBuildSummariesV2(
     }
 
     const char* path{ "/MultiplayerServer/ListBuildSummariesV2" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1257,7 +1257,7 @@ AsyncOp<ListBuildSummariesResponse> MultiplayerServerAPI::ListBuildSummariesV2(
 
 AsyncOp<ListCertificateSummariesResponse> MultiplayerServerAPI::ListCertificateSummaries(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListCertificateSummariesRequest& request,
+    const ListCertificateSummariesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1268,7 +1268,7 @@ AsyncOp<ListCertificateSummariesResponse> MultiplayerServerAPI::ListCertificateS
     }
 
     const char* path{ "/MultiplayerServer/ListCertificateSummaries" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1299,7 +1299,7 @@ AsyncOp<ListCertificateSummariesResponse> MultiplayerServerAPI::ListCertificateS
 
 AsyncOp<ListContainerImagesResponse> MultiplayerServerAPI::ListContainerImages(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListContainerImagesRequest& request,
+    const ListContainerImagesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1310,7 +1310,7 @@ AsyncOp<ListContainerImagesResponse> MultiplayerServerAPI::ListContainerImages(
     }
 
     const char* path{ "/MultiplayerServer/ListContainerImages" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1341,7 +1341,7 @@ AsyncOp<ListContainerImagesResponse> MultiplayerServerAPI::ListContainerImages(
 
 AsyncOp<ListContainerImageTagsResponse> MultiplayerServerAPI::ListContainerImageTags(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListContainerImageTagsRequest& request,
+    const ListContainerImageTagsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1352,7 +1352,7 @@ AsyncOp<ListContainerImageTagsResponse> MultiplayerServerAPI::ListContainerImage
     }
 
     const char* path{ "/MultiplayerServer/ListContainerImageTags" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1383,7 +1383,7 @@ AsyncOp<ListContainerImageTagsResponse> MultiplayerServerAPI::ListContainerImage
 
 AsyncOp<ListMultiplayerServersResponse> MultiplayerServerAPI::ListMultiplayerServers(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListMultiplayerServersRequest& request,
+    const ListMultiplayerServersRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1394,7 +1394,7 @@ AsyncOp<ListMultiplayerServersResponse> MultiplayerServerAPI::ListMultiplayerSer
     }
 
     const char* path{ "/MultiplayerServer/ListMultiplayerServers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1425,12 +1425,12 @@ AsyncOp<ListMultiplayerServersResponse> MultiplayerServerAPI::ListMultiplayerSer
 
 AsyncOp<ListPartyQosServersResponse> MultiplayerServerAPI::ListPartyQosServers(
     SharedPtr<GlobalState const> state,
-    const PFMultiplayerServerListPartyQosServersRequest& request,
+    const ListPartyQosServersRequest& request,
     const TaskQueue& queue
 )
 {
     const char* path{ "/MultiplayerServer/ListPartyQosServers" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1460,7 +1460,7 @@ AsyncOp<ListPartyQosServersResponse> MultiplayerServerAPI::ListPartyQosServers(
 
 AsyncOp<ListQosServersForTitleResponse> MultiplayerServerAPI::ListQosServersForTitle(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListQosServersForTitleRequest& request,
+    const ListQosServersForTitleRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1471,7 +1471,7 @@ AsyncOp<ListQosServersForTitleResponse> MultiplayerServerAPI::ListQosServersForT
     }
 
     const char* path{ "/MultiplayerServer/ListQosServersForTitle" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1502,7 +1502,7 @@ AsyncOp<ListQosServersForTitleResponse> MultiplayerServerAPI::ListQosServersForT
 
 AsyncOp<ListTitleMultiplayerServersQuotaChangesResponse> MultiplayerServerAPI::ListTitleMultiplayerServersQuotaChanges(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListTitleMultiplayerServersQuotaChangesRequest& request,
+    const ListTitleMultiplayerServersQuotaChangesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1513,7 +1513,7 @@ AsyncOp<ListTitleMultiplayerServersQuotaChangesResponse> MultiplayerServerAPI::L
     }
 
     const char* path{ "/MultiplayerServer/ListTitleMultiplayerServersQuotaChanges" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1544,7 +1544,7 @@ AsyncOp<ListTitleMultiplayerServersQuotaChangesResponse> MultiplayerServerAPI::L
 
 AsyncOp<ListVirtualMachineSummariesResponse> MultiplayerServerAPI::ListVirtualMachineSummaries(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerListVirtualMachineSummariesRequest& request,
+    const ListVirtualMachineSummariesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1555,7 +1555,7 @@ AsyncOp<ListVirtualMachineSummariesResponse> MultiplayerServerAPI::ListVirtualMa
     }
 
     const char* path{ "/MultiplayerServer/ListVirtualMachineSummaries" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1586,7 +1586,7 @@ AsyncOp<ListVirtualMachineSummariesResponse> MultiplayerServerAPI::ListVirtualMa
 
 AsyncOp<RequestMultiplayerServerResponse> MultiplayerServerAPI::RequestMultiplayerServer(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerRequestMultiplayerServerRequest& request,
+    const RequestMultiplayerServerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1597,7 +1597,7 @@ AsyncOp<RequestMultiplayerServerResponse> MultiplayerServerAPI::RequestMultiplay
     }
 
     const char* path{ "/MultiplayerServer/RequestMultiplayerServer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1628,7 +1628,7 @@ AsyncOp<RequestMultiplayerServerResponse> MultiplayerServerAPI::RequestMultiplay
 
 AsyncOp<RolloverContainerRegistryCredentialsResponse> MultiplayerServerAPI::RolloverContainerRegistryCredentials(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerRolloverContainerRegistryCredentialsRequest& request,
+    const RolloverContainerRegistryCredentialsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1639,7 +1639,7 @@ AsyncOp<RolloverContainerRegistryCredentialsResponse> MultiplayerServerAPI::Roll
     }
 
     const char* path{ "/MultiplayerServer/RolloverContainerRegistryCredentials" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1670,7 +1670,7 @@ AsyncOp<RolloverContainerRegistryCredentialsResponse> MultiplayerServerAPI::Roll
 
 AsyncOp<void> MultiplayerServerAPI::ShutdownMultiplayerServer(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerShutdownMultiplayerServerRequest& request,
+    const ShutdownMultiplayerServerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1681,7 +1681,7 @@ AsyncOp<void> MultiplayerServerAPI::ShutdownMultiplayerServer(
     }
 
     const char* path{ "/MultiplayerServer/ShutdownMultiplayerServer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1710,7 +1710,7 @@ AsyncOp<void> MultiplayerServerAPI::ShutdownMultiplayerServer(
 
 AsyncOp<void> MultiplayerServerAPI::UntagContainerImage(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerUntagContainerImageRequest& request,
+    const UntagContainerImageRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1721,7 +1721,7 @@ AsyncOp<void> MultiplayerServerAPI::UntagContainerImage(
     }
 
     const char* path{ "/MultiplayerServer/UntagContainerImage" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1750,7 +1750,7 @@ AsyncOp<void> MultiplayerServerAPI::UntagContainerImage(
 
 AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::UpdateBuildAlias(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerUpdateBuildAliasRequest& request,
+    const UpdateBuildAliasRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1761,7 +1761,7 @@ AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::UpdateBuildAlias(
     }
 
     const char* path{ "/MultiplayerServer/UpdateBuildAlias" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1792,7 +1792,7 @@ AsyncOp<BuildAliasDetailsResponse> MultiplayerServerAPI::UpdateBuildAlias(
 
 AsyncOp<void> MultiplayerServerAPI::UpdateBuildName(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerUpdateBuildNameRequest& request,
+    const UpdateBuildNameRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1803,7 +1803,7 @@ AsyncOp<void> MultiplayerServerAPI::UpdateBuildName(
     }
 
     const char* path{ "/MultiplayerServer/UpdateBuildName" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1832,7 +1832,7 @@ AsyncOp<void> MultiplayerServerAPI::UpdateBuildName(
 
 AsyncOp<void> MultiplayerServerAPI::UpdateBuildRegion(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerUpdateBuildRegionRequest& request,
+    const UpdateBuildRegionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1843,7 +1843,7 @@ AsyncOp<void> MultiplayerServerAPI::UpdateBuildRegion(
     }
 
     const char* path{ "/MultiplayerServer/UpdateBuildRegion" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1872,7 +1872,7 @@ AsyncOp<void> MultiplayerServerAPI::UpdateBuildRegion(
 
 AsyncOp<void> MultiplayerServerAPI::UpdateBuildRegions(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerUpdateBuildRegionsRequest& request,
+    const UpdateBuildRegionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1883,7 +1883,7 @@ AsyncOp<void> MultiplayerServerAPI::UpdateBuildRegions(
     }
 
     const char* path{ "/MultiplayerServer/UpdateBuildRegions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1912,7 +1912,7 @@ AsyncOp<void> MultiplayerServerAPI::UpdateBuildRegions(
 
 AsyncOp<void> MultiplayerServerAPI::UploadCertificate(
     SharedPtr<Entity> entity,
-    const PFMultiplayerServerUploadCertificateRequest& request,
+    const UploadCertificateRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1923,7 +1923,7 @@ AsyncOp<void> MultiplayerServerAPI::UploadCertificate(
     }
 
     const char* path{ "/MultiplayerServer/UploadCertificate" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -1950,5 +1950,5 @@ AsyncOp<void> MultiplayerServerAPI::UploadCertificate(
     });
 }
 
-
-}
+} // namespace MultiplayerServer
+} // namespace PlayFab

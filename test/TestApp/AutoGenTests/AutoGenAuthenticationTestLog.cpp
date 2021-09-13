@@ -363,7 +363,7 @@ HRESULT AutoGenAuthenticationTests::LogPFAuthenticationGetTitlePublicKeyResult(P
     ss << "Response:"; Log(ss);
 
     // Found PlayFabAuthenticationGetTitlePublicKeyResult
-    if( result->rSAPublicKey ) { ss << "  rSAPublicKey " << result->rSAPublicKey; Log(ss); } else { ss << "  rSAPublicKey = nullptr"; Log(ss); } // Class: const char* 
+    if( result->RSAPublicKey ) { ss << "  RSAPublicKey " << result->RSAPublicKey; Log(ss); } else { ss << "  RSAPublicKey = nullptr"; Log(ss); } // Class: const char* 
     return S_OK;
 }
 

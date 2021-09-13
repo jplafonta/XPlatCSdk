@@ -117,7 +117,7 @@ typedef struct PFContentGetContentUploadUrlResult
     /// (Optional) URL for uploading content via HTTP PUT method. The URL requires the 'x-ms-blob-type'
     /// header to have the value 'BlockBlob'. The URL will expire in approximately one hour.
     /// </summary>
-    const char* uRL;
+    const char* URL;
 
 } PFContentGetContentUploadUrlResult;
 
@@ -155,7 +155,7 @@ typedef struct PFContentGetContentDownloadUrlResult
     /// (Optional) URL for downloading content via HTTP GET or HEAD method. The URL will expire in approximately
     /// one hour.
     /// </summary>
-    const char* uRL;
+    const char* URL;
 
 } PFContentGetContentDownloadUrlResult;
 

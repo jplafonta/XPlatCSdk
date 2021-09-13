@@ -372,7 +372,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminBanUsers(TestConte
         PFAccountManagementBanUsersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminBanUsersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminBanUsersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminBanUsersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -407,7 +411,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminDeleteMasterPlayer
         PFAccountManagementDeleteMasterPlayerAccountResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminDeleteMasterPlayerAccountGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminDeleteMasterPlayerAccountGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminDeleteMasterPlayerAccountGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -546,7 +554,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayedTitleList
         PFAccountManagementGetPlayedTitleListResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminGetPlayedTitleListGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminGetPlayedTitleListGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminGetPlayedTitleListGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -620,7 +632,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetPlayerProfile(T
         PFAccountManagementGetPlayerProfileResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminGetPlayerProfileGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminGetPlayerProfileGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminGetPlayerProfileGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -655,7 +671,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetUserAccountInfo
         PFAccountManagementLookupUserAccountInfoResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminGetUserAccountInfoGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminGetUserAccountInfoGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminGetUserAccountInfoGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -690,7 +710,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminGetUserBans(TestCo
         PFAccountManagementGetUserBansResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminGetUserBansGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminGetUserBansGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminGetUserBansGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -759,7 +783,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminRevokeAllBansForUs
         PFAccountManagementRevokeAllBansForUserResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminRevokeAllBansForUserGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminRevokeAllBansForUserGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminRevokeAllBansForUserGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -794,7 +822,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminRevokeBans(TestCon
         PFAccountManagementRevokeBansResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminRevokeBansGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminRevokeBansGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminRevokeBansGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -863,7 +895,11 @@ void AutoGenAccountManagementTests::TestAccountManagementAdminUpdateBans(TestCon
         PFAccountManagementUpdateBansResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementAdminUpdateBansGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementAdminUpdateBansGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementAdminUpdateBansGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1044,7 +1080,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetAccountInfo(Te
         PFAccountManagementGetAccountInfoResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetAccountInfoGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetAccountInfoGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetAccountInfoGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1079,7 +1119,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerCombined
         PFGetPlayerCombinedInfoResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayerCombinedInfoGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayerCombinedInfoGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayerCombinedInfoGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1114,7 +1158,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayerProfile(
         PFAccountManagementGetPlayerProfileResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayerProfileGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayerProfileGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayerProfileGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1149,7 +1197,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromFacebookIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromFacebookIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1184,7 +1236,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromFacebookInstantGamesIdsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1219,7 +1275,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromGameCenterIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromGameCenterIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1254,7 +1314,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromGenericIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromGenericIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1289,7 +1353,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromGoogleIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromGoogleIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1324,7 +1392,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromKongregateIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromKongregateIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1359,7 +1431,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1394,7 +1470,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromPSNAccountIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1429,7 +1509,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromSteamIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromSteamIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1464,7 +1548,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromTwitchIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromTwitchIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1499,7 +1587,11 @@ void AutoGenAccountManagementTests::TestAccountManagementClientGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementClientGetPlayFabIDsFromXboxLiveIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -2866,7 +2958,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerBanUsers(TestCont
         PFAccountManagementBanUsersResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerBanUsersGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerBanUsersGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerBanUsersGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -2969,7 +3065,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayerProfile(
         PFAccountManagementGetPlayerProfileResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayerProfileGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayerProfileGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayerProfileGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3004,7 +3104,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromFacebookIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromFacebookIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3039,7 +3143,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromFacebookInstantGamesIdsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromFacebookInstantGamesIdsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3074,7 +3182,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromGenericIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromGenericIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromGenericIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromGenericIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3109,7 +3221,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromNintendoSwitchDeviceIdsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromNintendoSwitchDeviceIdsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3144,7 +3260,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromPSNAccountIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromPSNAccountIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3179,7 +3299,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromSteamIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromSteamIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3214,7 +3338,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetPlayFabIDsFrom
         PFAccountManagementGetPlayFabIDsFromXboxLiveIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetPlayFabIDsFromXboxLiveIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3249,7 +3377,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetServerCustomID
         PFAccountManagementGetServerCustomIDsFromPlayFabIDsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetServerCustomIDsFromPlayFabIDsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3284,7 +3416,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetUserAccountInf
         PFAccountManagementGetUserAccountInfoResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetUserAccountInfoGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetUserAccountInfoGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetUserAccountInfoGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3319,7 +3455,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerGetUserBans(TestC
         PFAccountManagementGetUserBansResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerGetUserBansGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerGetUserBansGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerGetUserBansGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3490,7 +3630,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerRevokeAllBansForU
         PFAccountManagementRevokeAllBansForUserResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerRevokeAllBansForUserGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerRevokeAllBansForUserGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerRevokeAllBansForUserGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3525,7 +3669,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerRevokeBans(TestCo
         PFAccountManagementRevokeBansResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerRevokeBansGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerRevokeBansGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerRevokeBansGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3871,7 +4019,11 @@ void AutoGenAccountManagementTests::TestAccountManagementServerUpdateBans(TestCo
         PFAccountManagementUpdateBansResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementServerUpdateBansGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementServerUpdateBansGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementServerUpdateBansGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3906,7 +4058,11 @@ void AutoGenAccountManagementTests::TestAccountManagementGetGlobalPolicy(TestCon
         PFAccountManagementGetGlobalPolicyResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementGetGlobalPolicyGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementGetGlobalPolicyGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementGetGlobalPolicyGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3941,7 +4097,11 @@ void AutoGenAccountManagementTests::TestAccountManagementGetProfile(TestContext&
         PFAccountManagementGetEntityProfileResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementGetProfileGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementGetProfileGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementGetProfileGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -3976,7 +4136,11 @@ void AutoGenAccountManagementTests::TestAccountManagementGetProfiles(TestContext
         PFAccountManagementGetEntityProfilesResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementGetProfilesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementGetProfilesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementGetProfilesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -4011,7 +4175,11 @@ void AutoGenAccountManagementTests::TestAccountManagementGetTitlePlayersFromMast
         PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementGetTitlePlayersFromMasterPlayerAccountIdsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -4080,7 +4248,11 @@ void AutoGenAccountManagementTests::TestAccountManagementSetProfileLanguage(Test
         PFAccountManagementSetProfileLanguageResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementSetProfileLanguageGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementSetProfileLanguageGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementSetProfileLanguageGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -4115,7 +4287,11 @@ void AutoGenAccountManagementTests::TestAccountManagementSetProfilePolicy(TestCo
         PFAccountManagementSetEntityProfilePolicyResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAccountManagementSetProfilePolicyGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAccountManagementSetProfilePolicyGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAccountManagementSetProfilePolicyGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

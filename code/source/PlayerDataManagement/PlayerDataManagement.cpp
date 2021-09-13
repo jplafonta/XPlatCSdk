@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace PlayerDataManagementModels;
+namespace PlayerDataManagement
+{
 
 
 AsyncOp<CreatePlayerStatisticDefinitionResult> PlayerDataManagementAPI::AdminCreatePlayerStatisticDefinition(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& request,
+    const CreatePlayerStatisticDefinitionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<CreatePlayerStatisticDefinitionResult> PlayerDataManagementAPI::AdminCre
     }
 
     const char* path{ "/Admin/CreatePlayerStatisticDefinition" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -52,7 +52,7 @@ AsyncOp<CreatePlayerStatisticDefinitionResult> PlayerDataManagementAPI::AdminCre
 
 AsyncOp<GetDataReportResult> PlayerDataManagementAPI::AdminGetDataReport(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetDataReportRequest& request,
+    const GetDataReportRequest& request,
     const TaskQueue& queue
 )
 {
@@ -63,7 +63,7 @@ AsyncOp<GetDataReportResult> PlayerDataManagementAPI::AdminGetDataReport(
     }
 
     const char* path{ "/Admin/GetDataReport" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -133,7 +133,7 @@ AsyncOp<GetPlayerStatisticDefinitionsResult> PlayerDataManagementAPI::AdminGetPl
 
 AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::AdminGetPlayerStatisticVersions(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request,
+    const GetPlayerStatisticVersionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -144,7 +144,7 @@ AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::AdminGetPlaye
     }
 
     const char* path{ "/Admin/GetPlayerStatisticVersions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -174,7 +174,7 @@ AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::AdminGetPlaye
 
 AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -185,7 +185,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserData(
     }
 
     const char* path{ "/Admin/GetUserData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -215,7 +215,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserData(
 
 AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -226,7 +226,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserInternalDat
     }
 
     const char* path{ "/Admin/GetUserInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -256,7 +256,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserInternalDat
 
 AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -267,7 +267,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherDa
     }
 
     const char* path{ "/Admin/GetUserPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -297,7 +297,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherDa
 
 AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -308,7 +308,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherIn
     }
 
     const char* path{ "/Admin/GetUserPublisherInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -338,7 +338,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherIn
 
 AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -349,7 +349,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherRe
     }
 
     const char* path{ "/Admin/GetUserPublisherReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -379,7 +379,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserPublisherRe
 
 AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -390,7 +390,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserReadOnlyDat
     }
 
     const char* path{ "/Admin/GetUserReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -420,7 +420,7 @@ AsyncOp<AdminGetUserDataResult> PlayerDataManagementAPI::AdminGetUserReadOnlyDat
 
 AsyncOp<IncrementPlayerStatisticVersionResult> PlayerDataManagementAPI::AdminIncrementPlayerStatisticVersion(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& request,
+    const IncrementPlayerStatisticVersionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -431,7 +431,7 @@ AsyncOp<IncrementPlayerStatisticVersionResult> PlayerDataManagementAPI::AdminInc
     }
 
     const char* path{ "/Admin/IncrementPlayerStatisticVersion" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -461,7 +461,7 @@ AsyncOp<IncrementPlayerStatisticVersionResult> PlayerDataManagementAPI::AdminInc
 
 AsyncOp<RefundPurchaseResponse> PlayerDataManagementAPI::AdminRefundPurchase(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementRefundPurchaseRequest& request,
+    const RefundPurchaseRequest& request,
     const TaskQueue& queue
 )
 {
@@ -472,7 +472,7 @@ AsyncOp<RefundPurchaseResponse> PlayerDataManagementAPI::AdminRefundPurchase(
     }
 
     const char* path{ "/Admin/RefundPurchase" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -502,7 +502,7 @@ AsyncOp<RefundPurchaseResponse> PlayerDataManagementAPI::AdminRefundPurchase(
 
 AsyncOp<void> PlayerDataManagementAPI::AdminResetUserStatistics(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementResetUserStatisticsRequest& request,
+    const ResetUserStatisticsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -513,7 +513,7 @@ AsyncOp<void> PlayerDataManagementAPI::AdminResetUserStatistics(
     }
 
     const char* path{ "/Admin/ResetUserStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -541,7 +541,7 @@ AsyncOp<void> PlayerDataManagementAPI::AdminResetUserStatistics(
 
 AsyncOp<ResolvePurchaseDisputeResponse> PlayerDataManagementAPI::AdminResolvePurchaseDispute(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementResolvePurchaseDisputeRequest& request,
+    const ResolvePurchaseDisputeRequest& request,
     const TaskQueue& queue
 )
 {
@@ -552,7 +552,7 @@ AsyncOp<ResolvePurchaseDisputeResponse> PlayerDataManagementAPI::AdminResolvePur
     }
 
     const char* path{ "/Admin/ResolvePurchaseDispute" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -582,7 +582,7 @@ AsyncOp<ResolvePurchaseDisputeResponse> PlayerDataManagementAPI::AdminResolvePur
 
 AsyncOp<UpdatePlayerStatisticDefinitionResult> PlayerDataManagementAPI::AdminUpdatePlayerStatisticDefinition(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& request,
+    const UpdatePlayerStatisticDefinitionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -593,7 +593,7 @@ AsyncOp<UpdatePlayerStatisticDefinitionResult> PlayerDataManagementAPI::AdminUpd
     }
 
     const char* path{ "/Admin/UpdatePlayerStatisticDefinition" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -623,7 +623,7 @@ AsyncOp<UpdatePlayerStatisticDefinitionResult> PlayerDataManagementAPI::AdminUpd
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementAdminUpdateUserDataRequest& request,
+    const AdminUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -634,7 +634,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserData(
     }
 
     const char* path{ "/Admin/UpdateUserData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -664,7 +664,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserData(
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementUpdateUserInternalDataRequest& request,
+    const UpdateUserInternalDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -675,7 +675,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserInternalDa
     }
 
     const char* path{ "/Admin/UpdateUserInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -705,7 +705,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserInternalDa
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementAdminUpdateUserDataRequest& request,
+    const AdminUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -716,7 +716,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherD
     }
 
     const char* path{ "/Admin/UpdateUserPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -746,7 +746,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherD
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementUpdateUserInternalDataRequest& request,
+    const UpdateUserInternalDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -757,7 +757,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherI
     }
 
     const char* path{ "/Admin/UpdateUserPublisherInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -787,7 +787,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherI
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementAdminUpdateUserDataRequest& request,
+    const AdminUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -798,7 +798,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherR
     }
 
     const char* path{ "/Admin/UpdateUserPublisherReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -828,7 +828,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserPublisherR
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementAdminUpdateUserDataRequest& request,
+    const AdminUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -839,7 +839,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserReadOnlyDa
     }
 
     const char* path{ "/Admin/UpdateUserReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -869,7 +869,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::AdminUpdateUserReadOnlyDa
 
 AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ClientGetFriendLeaderboard(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementClientGetFriendLeaderboardRequest& request,
+    const ClientGetFriendLeaderboardRequest& request,
     const TaskQueue& queue
 )
 {
@@ -880,7 +880,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ClientGetFriendLeaderboar
     }
 
     const char* path{ "/Client/GetFriendLeaderboard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -911,7 +911,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ClientGetFriendLeaderboar
 
 AsyncOp<GetFriendLeaderboardAroundPlayerResult> PlayerDataManagementAPI::ClientGetFriendLeaderboardAroundPlayer(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& request,
+    const GetFriendLeaderboardAroundPlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -922,7 +922,7 @@ AsyncOp<GetFriendLeaderboardAroundPlayerResult> PlayerDataManagementAPI::ClientG
     }
 
     const char* path{ "/Client/GetFriendLeaderboardAroundPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -953,7 +953,7 @@ AsyncOp<GetFriendLeaderboardAroundPlayerResult> PlayerDataManagementAPI::ClientG
 
 AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ClientGetLeaderboard(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetLeaderboardRequest& request,
+    const GetLeaderboardRequest& request,
     const TaskQueue& queue
 )
 {
@@ -964,7 +964,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ClientGetLeaderboard(
     }
 
     const char* path{ "/Client/GetLeaderboard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -995,7 +995,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ClientGetLeaderboard(
 
 AsyncOp<GetLeaderboardAroundPlayerResult> PlayerDataManagementAPI::ClientGetLeaderboardAroundPlayer(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& request,
+    const GetLeaderboardAroundPlayerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1006,7 +1006,7 @@ AsyncOp<GetLeaderboardAroundPlayerResult> PlayerDataManagementAPI::ClientGetLead
     }
 
     const char* path{ "/Client/GetLeaderboardAroundPlayer" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1037,7 +1037,7 @@ AsyncOp<GetLeaderboardAroundPlayerResult> PlayerDataManagementAPI::ClientGetLead
 
 AsyncOp<ClientGetPlayerStatisticsResult> PlayerDataManagementAPI::ClientGetPlayerStatistics(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementClientGetPlayerStatisticsRequest& request,
+    const ClientGetPlayerStatisticsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1048,7 +1048,7 @@ AsyncOp<ClientGetPlayerStatisticsResult> PlayerDataManagementAPI::ClientGetPlaye
     }
 
     const char* path{ "/Client/GetPlayerStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1079,7 +1079,7 @@ AsyncOp<ClientGetPlayerStatisticsResult> PlayerDataManagementAPI::ClientGetPlaye
 
 AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::ClientGetPlayerStatisticVersions(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request,
+    const GetPlayerStatisticVersionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1090,7 +1090,7 @@ AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::ClientGetPlay
     }
 
     const char* path{ "/Client/GetPlayerStatisticVersions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1121,7 +1121,7 @@ AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::ClientGetPlay
 
 AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserData(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1132,7 +1132,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserData(
     }
 
     const char* path{ "/Client/GetUserData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1163,7 +1163,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserData(
 
 AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserPublisherData(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1174,7 +1174,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserPublisher
     }
 
     const char* path{ "/Client/GetUserPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1205,7 +1205,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserPublisher
 
 AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserPublisherReadOnlyData(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1216,7 +1216,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserPublisher
     }
 
     const char* path{ "/Client/GetUserPublisherReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1247,7 +1247,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserPublisher
 
 AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserReadOnlyData(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1258,7 +1258,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserReadOnlyD
     }
 
     const char* path{ "/Client/GetUserReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1289,7 +1289,7 @@ AsyncOp<ClientGetUserDataResult> PlayerDataManagementAPI::ClientGetUserReadOnlyD
 
 AsyncOp<void> PlayerDataManagementAPI::ClientUpdatePlayerStatistics(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& request,
+    const ClientUpdatePlayerStatisticsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1300,7 +1300,7 @@ AsyncOp<void> PlayerDataManagementAPI::ClientUpdatePlayerStatistics(
     }
 
     const char* path{ "/Client/UpdatePlayerStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1329,7 +1329,7 @@ AsyncOp<void> PlayerDataManagementAPI::ClientUpdatePlayerStatistics(
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ClientUpdateUserData(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementClientUpdateUserDataRequest& request,
+    const ClientUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1340,7 +1340,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ClientUpdateUserData(
     }
 
     const char* path{ "/Client/UpdateUserData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1371,7 +1371,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ClientUpdateUserData(
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ClientUpdateUserPublisherData(
     SharedPtr<TitlePlayer> entity,
-    const PFPlayerDataManagementClientUpdateUserDataRequest& request,
+    const ClientUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1382,7 +1382,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ClientUpdateUserPublisher
     }
 
     const char* path{ "/Client/UpdateUserPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -1413,7 +1413,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ClientUpdateUserPublisher
 
 AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ServerGetFriendLeaderboard(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerGetFriendLeaderboardRequest& request,
+    const ServerGetFriendLeaderboardRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1424,7 +1424,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ServerGetFriendLeaderboar
     }
 
     const char* path{ "/Server/GetFriendLeaderboard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1454,7 +1454,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ServerGetFriendLeaderboar
 
 AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ServerGetLeaderboard(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetLeaderboardRequest& request,
+    const GetLeaderboardRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1465,7 +1465,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ServerGetLeaderboard(
     }
 
     const char* path{ "/Server/GetLeaderboard" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1495,7 +1495,7 @@ AsyncOp<GetLeaderboardResult> PlayerDataManagementAPI::ServerGetLeaderboard(
 
 AsyncOp<GetLeaderboardAroundUserResult> PlayerDataManagementAPI::ServerGetLeaderboardAroundUser(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetLeaderboardAroundUserRequest& request,
+    const GetLeaderboardAroundUserRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1506,7 +1506,7 @@ AsyncOp<GetLeaderboardAroundUserResult> PlayerDataManagementAPI::ServerGetLeader
     }
 
     const char* path{ "/Server/GetLeaderboardAroundUser" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1536,7 +1536,7 @@ AsyncOp<GetLeaderboardAroundUserResult> PlayerDataManagementAPI::ServerGetLeader
 
 AsyncOp<GetPlayerCombinedInfoResult> PlayerDataManagementAPI::ServerGetPlayerCombinedInfo(
     SharedPtr<GlobalState const> state,
-    const PFGetPlayerCombinedInfoRequest& request,
+    const GetPlayerCombinedInfoRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1547,7 +1547,7 @@ AsyncOp<GetPlayerCombinedInfoResult> PlayerDataManagementAPI::ServerGetPlayerCom
     }
 
     const char* path{ "/Server/GetPlayerCombinedInfo" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1577,7 +1577,7 @@ AsyncOp<GetPlayerCombinedInfoResult> PlayerDataManagementAPI::ServerGetPlayerCom
 
 AsyncOp<ServerGetPlayerStatisticsResult> PlayerDataManagementAPI::ServerGetPlayerStatistics(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerGetPlayerStatisticsRequest& request,
+    const ServerGetPlayerStatisticsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1588,7 +1588,7 @@ AsyncOp<ServerGetPlayerStatisticsResult> PlayerDataManagementAPI::ServerGetPlaye
     }
 
     const char* path{ "/Server/GetPlayerStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1618,7 +1618,7 @@ AsyncOp<ServerGetPlayerStatisticsResult> PlayerDataManagementAPI::ServerGetPlaye
 
 AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::ServerGetPlayerStatisticVersions(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& request,
+    const GetPlayerStatisticVersionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1629,7 +1629,7 @@ AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::ServerGetPlay
     }
 
     const char* path{ "/Server/GetPlayerStatisticVersions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1659,7 +1659,7 @@ AsyncOp<GetPlayerStatisticVersionsResult> PlayerDataManagementAPI::ServerGetPlay
 
 AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1670,7 +1670,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserData(
     }
 
     const char* path{ "/Server/GetUserData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1700,7 +1700,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserData(
 
 AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1711,7 +1711,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserInternalD
     }
 
     const char* path{ "/Server/GetUserInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1741,7 +1741,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserInternalD
 
 AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1752,7 +1752,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisher
     }
 
     const char* path{ "/Server/GetUserPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1782,7 +1782,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisher
 
 AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisherInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1793,7 +1793,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisher
     }
 
     const char* path{ "/Server/GetUserPublisherInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1823,7 +1823,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisher
 
 AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisherReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1834,7 +1834,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisher
     }
 
     const char* path{ "/Server/GetUserPublisherReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1864,7 +1864,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserPublisher
 
 AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementGetUserDataRequest& request,
+    const GetUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1875,7 +1875,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserReadOnlyD
     }
 
     const char* path{ "/Server/GetUserReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1905,7 +1905,7 @@ AsyncOp<ServerGetUserDataResult> PlayerDataManagementAPI::ServerGetUserReadOnlyD
 
 AsyncOp<void> PlayerDataManagementAPI::ServerUpdatePlayerStatistics(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& request,
+    const ServerUpdatePlayerStatisticsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1916,7 +1916,7 @@ AsyncOp<void> PlayerDataManagementAPI::ServerUpdatePlayerStatistics(
     }
 
     const char* path{ "/Server/UpdatePlayerStatistics" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1944,7 +1944,7 @@ AsyncOp<void> PlayerDataManagementAPI::ServerUpdatePlayerStatistics(
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerUpdateUserDataRequest& request,
+    const ServerUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1955,7 +1955,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserData(
     }
 
     const char* path{ "/Server/UpdateUserData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -1985,7 +1985,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserData(
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementUpdateUserInternalDataRequest& request,
+    const UpdateUserInternalDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -1996,7 +1996,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserInternalD
     }
 
     const char* path{ "/Server/UpdateUserInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2026,7 +2026,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserInternalD
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisherData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerUpdateUserDataRequest& request,
+    const ServerUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2037,7 +2037,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisher
     }
 
     const char* path{ "/Server/UpdateUserPublisherData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2067,7 +2067,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisher
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisherInternalData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementUpdateUserInternalDataRequest& request,
+    const UpdateUserInternalDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2078,7 +2078,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisher
     }
 
     const char* path{ "/Server/UpdateUserPublisherInternalData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2108,7 +2108,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisher
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisherReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerUpdateUserDataRequest& request,
+    const ServerUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2119,7 +2119,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisher
     }
 
     const char* path{ "/Server/UpdateUserPublisherReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2149,7 +2149,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserPublisher
 
 AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserReadOnlyData(
     SharedPtr<GlobalState const> state,
-    const PFPlayerDataManagementServerUpdateUserDataRequest& request,
+    const ServerUpdateUserDataRequest& request,
     const TaskQueue& queue
 )
 {
@@ -2160,7 +2160,7 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserReadOnlyD
     }
 
     const char* path{ "/Server/UpdateUserReadOnlyData" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -2188,5 +2188,5 @@ AsyncOp<UpdateUserDataResult> PlayerDataManagementAPI::ServerUpdateUserReadOnlyD
     });
 }
 
-
-}
+} // namespace PlayerDataManagement
+} // namespace PlayFab

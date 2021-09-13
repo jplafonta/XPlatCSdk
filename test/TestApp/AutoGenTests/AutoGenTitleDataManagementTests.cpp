@@ -405,7 +405,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetCatalogItem
         PFTitleDataManagementGetCatalogItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminGetCatalogItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminGetCatalogItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminGetCatalogItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -440,7 +444,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetPublisherDa
         PFTitleDataManagementGetPublisherDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminGetPublisherDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminGetPublisherDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminGetPublisherDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -475,7 +483,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetRandomResul
         PFGetRandomResultTablesResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminGetRandomResultTablesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminGetRandomResultTablesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminGetRandomResultTablesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -510,7 +522,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetStoreItems(
         PFTitleDataManagementGetStoreItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminGetStoreItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminGetStoreItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminGetStoreItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -545,7 +561,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleData(T
         PFTitleDataManagementGetTitleDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminGetTitleDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminGetTitleDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminGetTitleDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -580,7 +600,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminGetTitleIntern
         PFTitleDataManagementGetTitleDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminGetTitleInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminGetTitleInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminGetTitleInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -615,7 +639,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementAdminListVirtualCur
         PFTitleDataManagementListVirtualCurrencyTypesResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementAdminListVirtualCurrencyTypesGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementAdminListVirtualCurrencyTypesGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementAdminListVirtualCurrencyTypesGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -992,7 +1020,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetCatalogIte
         PFTitleDataManagementGetCatalogItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementClientGetCatalogItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementClientGetCatalogItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementClientGetCatalogItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1027,7 +1059,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetPublisherD
         PFTitleDataManagementGetPublisherDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementClientGetPublisherDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementClientGetPublisherDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementClientGetPublisherDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1062,7 +1098,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetStoreItems
         PFTitleDataManagementGetStoreItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementClientGetStoreItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementClientGetStoreItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementClientGetStoreItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1129,7 +1169,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleData(
         PFTitleDataManagementGetTitleDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementClientGetTitleDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementClientGetTitleDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementClientGetTitleDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1164,7 +1208,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementClientGetTitleNews(
         PFTitleDataManagementGetTitleNewsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementClientGetTitleNewsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementClientGetTitleNewsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementClientGetTitleNewsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1199,7 +1247,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetCatalogIte
         PFTitleDataManagementGetCatalogItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementServerGetCatalogItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementServerGetCatalogItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementServerGetCatalogItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1234,7 +1286,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetPublisherD
         PFTitleDataManagementGetPublisherDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementServerGetPublisherDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementServerGetPublisherDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementServerGetPublisherDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1269,7 +1325,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetStoreItems
         PFTitleDataManagementGetStoreItemsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementServerGetStoreItemsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementServerGetStoreItemsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementServerGetStoreItemsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1336,7 +1396,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleData(
         PFTitleDataManagementGetTitleDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementServerGetTitleDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementServerGetTitleDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementServerGetTitleDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1371,7 +1435,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleInter
         PFTitleDataManagementGetTitleDataResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementServerGetTitleInternalDataGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementServerGetTitleInternalDataGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementServerGetTitleInternalDataGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -1406,7 +1474,11 @@ void AutoGenTitleDataManagementTests::TestTitleDataManagementServerGetTitleNews(
         PFTitleDataManagementGetTitleNewsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFTitleDataManagementServerGetTitleNewsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFTitleDataManagementServerGetTitleNewsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFTitleDataManagementServerGetTitleNewsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

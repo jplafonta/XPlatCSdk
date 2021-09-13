@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Content
+{
 
 class ContentAPI
 {
@@ -16,11 +18,12 @@ public:
     ~ContentAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<void> AdminDeleteContent(SharedPtr<GlobalState const> state, const PFContentDeleteContentRequest& request, const TaskQueue& queue);
-    static AsyncOp<ContentModels::GetContentListResult> AdminGetContentList(SharedPtr<GlobalState const> state, const PFContentGetContentListRequest& request, const TaskQueue& queue);
-    static AsyncOp<ContentModels::GetContentUploadUrlResult> AdminGetContentUploadUrl(SharedPtr<GlobalState const> state, const PFContentGetContentUploadUrlRequest& request, const TaskQueue& queue);
-    static AsyncOp<ContentModels::GetContentDownloadUrlResult> ClientGetContentDownloadUrl(SharedPtr<TitlePlayer> entity, const PFContentGetContentDownloadUrlRequest& request, const TaskQueue& queue);
-    static AsyncOp<ContentModels::GetContentDownloadUrlResult> ServerGetContentDownloadUrl(SharedPtr<GlobalState const> state, const PFContentGetContentDownloadUrlRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> AdminDeleteContent(SharedPtr<GlobalState const> state, const DeleteContentRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetContentListResult> AdminGetContentList(SharedPtr<GlobalState const> state, const GetContentListRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetContentUploadUrlResult> AdminGetContentUploadUrl(SharedPtr<GlobalState const> state, const GetContentUploadUrlRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetContentDownloadUrlResult> ClientGetContentDownloadUrl(SharedPtr<TitlePlayer> entity, const GetContentDownloadUrlRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetContentDownloadUrlResult> ServerGetContentDownloadUrl(SharedPtr<GlobalState const> state, const GetContentDownloadUrlRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Content
+} // namespace PlayFab

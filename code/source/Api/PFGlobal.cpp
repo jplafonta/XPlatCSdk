@@ -73,22 +73,3 @@ HRESULT PFUninitializeAsync(
     RETURN_HR_INVALIDARG_IF_NULL(stateHandle);
     return stateHandle->CleanupAsync(async);
 }
-
-HRESULT PFResultDuplicateHandle(
-    _In_ PFResultHandle resultHandle,
-    _Out_ PFResultHandle* duplicatedHandle
-) noexcept
-{
-    RETURN_HR_INVALIDARG_IF_NULL(resultHandle);
-    RETURN_HR_INVALIDARG_IF_NULL(duplicatedHandle);
-
-    *duplicatedHandle = MakeUnique<PFResult>(*resultHandle).release();
-    return S_OK;
-}
-
-void PFResultCloseHandle(
-    _In_ PFResultHandle resultHandle
-) noexcept
-{
-    UniquePtr<PFResult>{ resultHandle };
-}

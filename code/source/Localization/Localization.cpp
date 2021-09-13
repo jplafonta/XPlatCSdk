@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace LocalizationModels;
+namespace Localization
+{
 
 
 AsyncOp<GetLanguageListResponse> LocalizationAPI::GetLanguageList(
     SharedPtr<Entity> entity,
-    const PFLocalizationGetLanguageListRequest& request,
+    const GetLanguageListRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<GetLanguageListResponse> LocalizationAPI::GetLanguageList(
     }
 
     const char* path{ "/Locale/GetLanguageList" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -51,5 +51,5 @@ AsyncOp<GetLanguageListResponse> LocalizationAPI::GetLanguageList(
     });
 }
 
-
-}
+} // namespace Localization
+} // namespace PlayFab

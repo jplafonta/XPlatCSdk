@@ -241,7 +241,7 @@ typedef struct PFSharedGroupsDeleteSharedGroupRequest
 typedef struct PFSharedGroupsSharedGroupDataRecordDictionaryEntry
 {
     const char* key;
-    PFSharedGroupsSharedGroupDataRecord* value;
+    PFSharedGroupsSharedGroupDataRecord const* value;
 } PFSharedGroupsSharedGroupDataRecordDictionaryEntry;
 
 #pragma pop_macro("IN")

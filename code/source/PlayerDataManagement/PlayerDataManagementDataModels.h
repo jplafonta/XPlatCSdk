@@ -1,915 +1,768 @@
 #pragma once
 
-#include <playfab/PFPlayerDataManagementDataModels.h>
+#include <playfab/cpp/PFPlayerDataManagementDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace PlayerDataManagementModels
+namespace PlayerDataManagement
 {
 
 // PlayerDataManagement Classes
-struct CreatePlayerStatisticDefinitionRequest : public PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest, public BaseModel
+class CreatePlayerStatisticDefinitionRequest : public Wrappers::PFPlayerDataManagementCreatePlayerStatisticDefinitionRequestWrapper<Allocator>, public InputModel
 {
-    CreatePlayerStatisticDefinitionRequest();
-    CreatePlayerStatisticDefinitionRequest(const CreatePlayerStatisticDefinitionRequest& src);
-    CreatePlayerStatisticDefinitionRequest(CreatePlayerStatisticDefinitionRequest&& src);
-    CreatePlayerStatisticDefinitionRequest(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& src);
-    CreatePlayerStatisticDefinitionRequest& operator=(const CreatePlayerStatisticDefinitionRequest&) = delete;
-    ~CreatePlayerStatisticDefinitionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementCreatePlayerStatisticDefinitionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& input);
 
-private:
-    StdExtra::optional<PFPlayerDataManagementStatisticAggregationMethod> m_aggregationMethod;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_statisticName;
-    StdExtra::optional<PFPlayerDataManagementStatisticResetIntervalOption> m_versionChangeInterval;
 };
 
-struct PlayerStatisticDefinition : public PFPlayerDataManagementPlayerStatisticDefinition, public BaseModel
+class PlayerStatisticDefinition : public Wrappers::PFPlayerDataManagementPlayerStatisticDefinitionWrapper<Allocator>, public OutputModel<PFPlayerDataManagementPlayerStatisticDefinition>
 {
-    PlayerStatisticDefinition();
-    PlayerStatisticDefinition(const PlayerStatisticDefinition& src);
-    PlayerStatisticDefinition(PlayerStatisticDefinition&& src);
-    PlayerStatisticDefinition(const PFPlayerDataManagementPlayerStatisticDefinition& src);
-    PlayerStatisticDefinition& operator=(const PlayerStatisticDefinition&) = delete;
-    ~PlayerStatisticDefinition() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementPlayerStatisticDefinitionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementPlayerStatisticDefinition const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PFPlayerDataManagementStatisticAggregationMethod> m_aggregationMethod;
-    String m_statisticName;
-    StdExtra::optional<PFPlayerDataManagementStatisticResetIntervalOption> m_versionChangeInterval;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementPlayerStatisticDefinition& model);
+    static HRESULT Copy(const PFPlayerDataManagementPlayerStatisticDefinition& input, PFPlayerDataManagementPlayerStatisticDefinition& output, ModelBuffer& buffer);
 };
 
-struct CreatePlayerStatisticDefinitionResult : public PFPlayerDataManagementCreatePlayerStatisticDefinitionResult, public BaseModel, public ApiResult
+class CreatePlayerStatisticDefinitionResult : public Wrappers::PFPlayerDataManagementCreatePlayerStatisticDefinitionResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementCreatePlayerStatisticDefinitionResult>
 {
-    CreatePlayerStatisticDefinitionResult();
-    CreatePlayerStatisticDefinitionResult(const CreatePlayerStatisticDefinitionResult& src);
-    CreatePlayerStatisticDefinitionResult(CreatePlayerStatisticDefinitionResult&& src);
-    CreatePlayerStatisticDefinitionResult(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& src);
-    CreatePlayerStatisticDefinitionResult& operator=(const CreatePlayerStatisticDefinitionResult&) = delete;
-    ~CreatePlayerStatisticDefinitionResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementCreatePlayerStatisticDefinitionResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementCreatePlayerStatisticDefinitionResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PlayerStatisticDefinition> m_statistic;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& input, PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& output, ModelBuffer& buffer);
 };
 
-struct GetDataReportRequest : public PFPlayerDataManagementGetDataReportRequest, public SerializableModel
+class GetDataReportRequest : public Wrappers::PFPlayerDataManagementGetDataReportRequestWrapper<Allocator>, public InputModel
 {
-    GetDataReportRequest();
-    GetDataReportRequest(const GetDataReportRequest& src);
-    GetDataReportRequest(GetDataReportRequest&& src);
-    GetDataReportRequest(const PFPlayerDataManagementGetDataReportRequest& src);
-    GetDataReportRequest& operator=(const GetDataReportRequest&) = delete;
-    ~GetDataReportRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetDataReportRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetDataReportRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_reportName;
 };
 
-struct GetDataReportResult : public PFPlayerDataManagementGetDataReportResult, public SerializableModel, public ApiResult
+class GetDataReportResult : public Wrappers::PFPlayerDataManagementGetDataReportResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetDataReportResult>
 {
-    GetDataReportResult();
-    GetDataReportResult(const GetDataReportResult& src);
-    GetDataReportResult(GetDataReportResult&& src);
-    GetDataReportResult(const PFPlayerDataManagementGetDataReportResult& src);
-    GetDataReportResult& operator=(const GetDataReportResult&) = delete;
-    ~GetDataReportResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetDataReportResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetDataReportResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_downloadUrl;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetDataReportResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetDataReportResult& input, PFPlayerDataManagementGetDataReportResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerStatisticDefinitionsResult : public PFPlayerDataManagementGetPlayerStatisticDefinitionsResult, public BaseModel, public ApiResult
+class GetPlayerStatisticDefinitionsResult : public Wrappers::PFPlayerDataManagementGetPlayerStatisticDefinitionsResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetPlayerStatisticDefinitionsResult>
 {
-    GetPlayerStatisticDefinitionsResult();
-    GetPlayerStatisticDefinitionsResult(const GetPlayerStatisticDefinitionsResult& src);
-    GetPlayerStatisticDefinitionsResult(GetPlayerStatisticDefinitionsResult&& src);
-    GetPlayerStatisticDefinitionsResult(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& src);
-    GetPlayerStatisticDefinitionsResult& operator=(const GetPlayerStatisticDefinitionsResult&) = delete;
-    ~GetPlayerStatisticDefinitionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetPlayerStatisticDefinitionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetPlayerStatisticDefinitionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerDataManagementPlayerStatisticDefinition, PlayerStatisticDefinition> m_statistics;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& input, PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerStatisticVersionsRequest : public PFPlayerDataManagementGetPlayerStatisticVersionsRequest, public BaseModel
+class GetPlayerStatisticVersionsRequest : public Wrappers::PFPlayerDataManagementGetPlayerStatisticVersionsRequestWrapper<Allocator>, public InputModel
 {
-    GetPlayerStatisticVersionsRequest();
-    GetPlayerStatisticVersionsRequest(const GetPlayerStatisticVersionsRequest& src);
-    GetPlayerStatisticVersionsRequest(GetPlayerStatisticVersionsRequest&& src);
-    GetPlayerStatisticVersionsRequest(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& src);
-    GetPlayerStatisticVersionsRequest& operator=(const GetPlayerStatisticVersionsRequest&) = delete;
-    ~GetPlayerStatisticVersionsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetPlayerStatisticVersionsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_statisticName;
 };
 
-struct PlayerStatisticVersion : public PFPlayerDataManagementPlayerStatisticVersion, public BaseModel
+class PlayerStatisticVersion : public Wrappers::PFPlayerDataManagementPlayerStatisticVersionWrapper<Allocator>, public OutputModel<PFPlayerDataManagementPlayerStatisticVersion>
 {
-    PlayerStatisticVersion();
-    PlayerStatisticVersion(const PlayerStatisticVersion& src);
-    PlayerStatisticVersion(PlayerStatisticVersion&& src);
-    PlayerStatisticVersion(const PFPlayerDataManagementPlayerStatisticVersion& src);
-    PlayerStatisticVersion& operator=(const PlayerStatisticVersion&) = delete;
-    ~PlayerStatisticVersion() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementPlayerStatisticVersionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementPlayerStatisticVersion const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_archiveDownloadUrl;
-    StdExtra::optional<time_t> m_deactivationTime;
-    StdExtra::optional<time_t> m_scheduledActivationTime;
-    StdExtra::optional<time_t> m_scheduledDeactivationTime;
-    String m_statisticName;
-    StdExtra::optional<PFPlayerDataManagementStatisticVersionStatus> m_status;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementPlayerStatisticVersion& model);
+    static HRESULT Copy(const PFPlayerDataManagementPlayerStatisticVersion& input, PFPlayerDataManagementPlayerStatisticVersion& output, ModelBuffer& buffer);
 };
 
-struct GetPlayerStatisticVersionsResult : public PFPlayerDataManagementGetPlayerStatisticVersionsResult, public BaseModel, public ApiResult
+class GetPlayerStatisticVersionsResult : public Wrappers::PFPlayerDataManagementGetPlayerStatisticVersionsResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetPlayerStatisticVersionsResult>
 {
-    GetPlayerStatisticVersionsResult();
-    GetPlayerStatisticVersionsResult(const GetPlayerStatisticVersionsResult& src);
-    GetPlayerStatisticVersionsResult(GetPlayerStatisticVersionsResult&& src);
-    GetPlayerStatisticVersionsResult(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& src);
-    GetPlayerStatisticVersionsResult& operator=(const GetPlayerStatisticVersionsResult&) = delete;
-    ~GetPlayerStatisticVersionsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetPlayerStatisticVersionsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetPlayerStatisticVersionsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerDataManagementPlayerStatisticVersion, PlayerStatisticVersion> m_statisticVersions;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& input, PFPlayerDataManagementGetPlayerStatisticVersionsResult& output, ModelBuffer& buffer);
 };
 
-struct GetUserDataRequest : public PFPlayerDataManagementGetUserDataRequest, public BaseModel
+class GetUserDataRequest : public Wrappers::PFPlayerDataManagementGetUserDataRequestWrapper<Allocator>, public InputModel
 {
-    GetUserDataRequest();
-    GetUserDataRequest(const GetUserDataRequest& src);
-    GetUserDataRequest(GetUserDataRequest&& src);
-    GetUserDataRequest(const PFPlayerDataManagementGetUserDataRequest& src);
-    GetUserDataRequest& operator=(const GetUserDataRequest&) = delete;
-    ~GetUserDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetUserDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetUserDataRequest& input);
 
-private:
-    StdExtra::optional<uint32_t> m_ifChangedFromDataVersion;
-    PointerArrayModel<char, String> m_keys;
-    String m_playFabId;
 };
 
-struct AdminGetUserDataResult : public PFPlayerDataManagementAdminGetUserDataResult, public BaseModel, public ApiResult
+class AdminGetUserDataResult : public Wrappers::PFPlayerDataManagementAdminGetUserDataResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementAdminGetUserDataResult>
 {
-    AdminGetUserDataResult();
-    AdminGetUserDataResult(const AdminGetUserDataResult& src);
-    AdminGetUserDataResult(AdminGetUserDataResult&& src);
-    AdminGetUserDataResult(const PFPlayerDataManagementAdminGetUserDataResult& src);
-    AdminGetUserDataResult& operator=(const AdminGetUserDataResult&) = delete;
-    ~AdminGetUserDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementAdminGetUserDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementAdminGetUserDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_data;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementAdminGetUserDataResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementAdminGetUserDataResult& input, PFPlayerDataManagementAdminGetUserDataResult& output, ModelBuffer& buffer);
 };
 
-struct IncrementPlayerStatisticVersionRequest : public PFPlayerDataManagementIncrementPlayerStatisticVersionRequest, public BaseModel
+class IncrementPlayerStatisticVersionRequest : public Wrappers::PFPlayerDataManagementIncrementPlayerStatisticVersionRequestWrapper<Allocator>, public InputModel
 {
-    IncrementPlayerStatisticVersionRequest();
-    IncrementPlayerStatisticVersionRequest(const IncrementPlayerStatisticVersionRequest& src);
-    IncrementPlayerStatisticVersionRequest(IncrementPlayerStatisticVersionRequest&& src);
-    IncrementPlayerStatisticVersionRequest(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& src);
-    IncrementPlayerStatisticVersionRequest& operator=(const IncrementPlayerStatisticVersionRequest&) = delete;
-    ~IncrementPlayerStatisticVersionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementIncrementPlayerStatisticVersionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_statisticName;
 };
 
-struct IncrementPlayerStatisticVersionResult : public PFPlayerDataManagementIncrementPlayerStatisticVersionResult, public BaseModel, public ApiResult
+class IncrementPlayerStatisticVersionResult : public Wrappers::PFPlayerDataManagementIncrementPlayerStatisticVersionResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementIncrementPlayerStatisticVersionResult>
 {
-    IncrementPlayerStatisticVersionResult();
-    IncrementPlayerStatisticVersionResult(const IncrementPlayerStatisticVersionResult& src);
-    IncrementPlayerStatisticVersionResult(IncrementPlayerStatisticVersionResult&& src);
-    IncrementPlayerStatisticVersionResult(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& src);
-    IncrementPlayerStatisticVersionResult& operator=(const IncrementPlayerStatisticVersionResult&) = delete;
-    ~IncrementPlayerStatisticVersionResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementIncrementPlayerStatisticVersionResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementIncrementPlayerStatisticVersionResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PlayerStatisticVersion> m_statisticVersion;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& input, PFPlayerDataManagementIncrementPlayerStatisticVersionResult& output, ModelBuffer& buffer);
 };
 
-struct RefundPurchaseRequest : public PFPlayerDataManagementRefundPurchaseRequest, public SerializableModel
+class RefundPurchaseRequest : public Wrappers::PFPlayerDataManagementRefundPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    RefundPurchaseRequest();
-    RefundPurchaseRequest(const RefundPurchaseRequest& src);
-    RefundPurchaseRequest(RefundPurchaseRequest&& src);
-    RefundPurchaseRequest(const PFPlayerDataManagementRefundPurchaseRequest& src);
-    RefundPurchaseRequest& operator=(const RefundPurchaseRequest&) = delete;
-    ~RefundPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementRefundPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementRefundPurchaseRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_orderId;
-    String m_playFabId;
-    String m_reason;
 };
 
-struct RefundPurchaseResponse : public PFPlayerDataManagementRefundPurchaseResponse, public SerializableModel, public ApiResult
+class RefundPurchaseResponse : public Wrappers::PFPlayerDataManagementRefundPurchaseResponseWrapper<Allocator>, public OutputModel<PFPlayerDataManagementRefundPurchaseResponse>
 {
-    RefundPurchaseResponse();
-    RefundPurchaseResponse(const RefundPurchaseResponse& src);
-    RefundPurchaseResponse(RefundPurchaseResponse&& src);
-    RefundPurchaseResponse(const PFPlayerDataManagementRefundPurchaseResponse& src);
-    RefundPurchaseResponse& operator=(const RefundPurchaseResponse&) = delete;
-    ~RefundPurchaseResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementRefundPurchaseResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementRefundPurchaseResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_purchaseStatus;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementRefundPurchaseResponse& model);
+    static HRESULT Copy(const PFPlayerDataManagementRefundPurchaseResponse& input, PFPlayerDataManagementRefundPurchaseResponse& output, ModelBuffer& buffer);
 };
 
-struct ResetUserStatisticsRequest : public PFPlayerDataManagementResetUserStatisticsRequest, public BaseModel
+class ResetUserStatisticsRequest : public Wrappers::PFPlayerDataManagementResetUserStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ResetUserStatisticsRequest();
-    ResetUserStatisticsRequest(const ResetUserStatisticsRequest& src);
-    ResetUserStatisticsRequest(ResetUserStatisticsRequest&& src);
-    ResetUserStatisticsRequest(const PFPlayerDataManagementResetUserStatisticsRequest& src);
-    ResetUserStatisticsRequest& operator=(const ResetUserStatisticsRequest&) = delete;
-    ~ResetUserStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementResetUserStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementResetUserStatisticsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ResolvePurchaseDisputeRequest : public PFPlayerDataManagementResolvePurchaseDisputeRequest, public SerializableModel
+class ResolvePurchaseDisputeRequest : public Wrappers::PFPlayerDataManagementResolvePurchaseDisputeRequestWrapper<Allocator>, public InputModel
 {
-    ResolvePurchaseDisputeRequest();
-    ResolvePurchaseDisputeRequest(const ResolvePurchaseDisputeRequest& src);
-    ResolvePurchaseDisputeRequest(ResolvePurchaseDisputeRequest&& src);
-    ResolvePurchaseDisputeRequest(const PFPlayerDataManagementResolvePurchaseDisputeRequest& src);
-    ResolvePurchaseDisputeRequest& operator=(const ResolvePurchaseDisputeRequest&) = delete;
-    ~ResolvePurchaseDisputeRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementResolvePurchaseDisputeRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementResolvePurchaseDisputeRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_orderId;
-    String m_playFabId;
-    String m_reason;
 };
 
-struct ResolvePurchaseDisputeResponse : public PFPlayerDataManagementResolvePurchaseDisputeResponse, public SerializableModel, public ApiResult
+class ResolvePurchaseDisputeResponse : public Wrappers::PFPlayerDataManagementResolvePurchaseDisputeResponseWrapper<Allocator>, public OutputModel<PFPlayerDataManagementResolvePurchaseDisputeResponse>
 {
-    ResolvePurchaseDisputeResponse();
-    ResolvePurchaseDisputeResponse(const ResolvePurchaseDisputeResponse& src);
-    ResolvePurchaseDisputeResponse(ResolvePurchaseDisputeResponse&& src);
-    ResolvePurchaseDisputeResponse(const PFPlayerDataManagementResolvePurchaseDisputeResponse& src);
-    ResolvePurchaseDisputeResponse& operator=(const ResolvePurchaseDisputeResponse&) = delete;
-    ~ResolvePurchaseDisputeResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementResolvePurchaseDisputeResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementResolvePurchaseDisputeResponse const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_purchaseStatus;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementResolvePurchaseDisputeResponse& model);
+    static HRESULT Copy(const PFPlayerDataManagementResolvePurchaseDisputeResponse& input, PFPlayerDataManagementResolvePurchaseDisputeResponse& output, ModelBuffer& buffer);
 };
 
-struct UpdatePlayerStatisticDefinitionRequest : public PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest, public BaseModel
+class UpdatePlayerStatisticDefinitionRequest : public Wrappers::PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequestWrapper<Allocator>, public InputModel
 {
-    UpdatePlayerStatisticDefinitionRequest();
-    UpdatePlayerStatisticDefinitionRequest(const UpdatePlayerStatisticDefinitionRequest& src);
-    UpdatePlayerStatisticDefinitionRequest(UpdatePlayerStatisticDefinitionRequest&& src);
-    UpdatePlayerStatisticDefinitionRequest(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& src);
-    UpdatePlayerStatisticDefinitionRequest& operator=(const UpdatePlayerStatisticDefinitionRequest&) = delete;
-    ~UpdatePlayerStatisticDefinitionRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& input);
 
-private:
-    StdExtra::optional<PFPlayerDataManagementStatisticAggregationMethod> m_aggregationMethod;
-    String m_statisticName;
-    StdExtra::optional<PFPlayerDataManagementStatisticResetIntervalOption> m_versionChangeInterval;
 };
 
-struct UpdatePlayerStatisticDefinitionResult : public PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult, public BaseModel, public ApiResult
+class UpdatePlayerStatisticDefinitionResult : public Wrappers::PFPlayerDataManagementUpdatePlayerStatisticDefinitionResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult>
 {
-    UpdatePlayerStatisticDefinitionResult();
-    UpdatePlayerStatisticDefinitionResult(const UpdatePlayerStatisticDefinitionResult& src);
-    UpdatePlayerStatisticDefinitionResult(UpdatePlayerStatisticDefinitionResult&& src);
-    UpdatePlayerStatisticDefinitionResult(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& src);
-    UpdatePlayerStatisticDefinitionResult& operator=(const UpdatePlayerStatisticDefinitionResult&) = delete;
-    ~UpdatePlayerStatisticDefinitionResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementUpdatePlayerStatisticDefinitionResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<PlayerStatisticDefinition> m_statistic;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& input, PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& output, ModelBuffer& buffer);
 };
 
-struct AdminUpdateUserDataRequest : public PFPlayerDataManagementAdminUpdateUserDataRequest, public BaseModel
+class AdminUpdateUserDataRequest : public Wrappers::PFPlayerDataManagementAdminUpdateUserDataRequestWrapper<Allocator>, public InputModel
 {
-    AdminUpdateUserDataRequest();
-    AdminUpdateUserDataRequest(const AdminUpdateUserDataRequest& src);
-    AdminUpdateUserDataRequest(AdminUpdateUserDataRequest&& src);
-    AdminUpdateUserDataRequest(const PFPlayerDataManagementAdminUpdateUserDataRequest& src);
-    AdminUpdateUserDataRequest& operator=(const AdminUpdateUserDataRequest&) = delete;
-    ~AdminUpdateUserDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementAdminUpdateUserDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementAdminUpdateUserDataRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    PointerArrayModel<char, String> m_keysToRemove;
-    StdExtra::optional<PFUserDataPermission> m_permission;
-    String m_playFabId;
 };
 
-struct UpdateUserDataResult : public PFPlayerDataManagementUpdateUserDataResult, public SerializableModel, public ApiResult
+class UpdateUserDataResult : public Wrappers::PFPlayerDataManagementUpdateUserDataResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementUpdateUserDataResult>
 {
-    UpdateUserDataResult();
-    UpdateUserDataResult(const UpdateUserDataResult&) = default;
-    UpdateUserDataResult(UpdateUserDataResult&&) = default;
-    UpdateUserDataResult(const PFPlayerDataManagementUpdateUserDataResult& src);
-    UpdateUserDataResult& operator=(const UpdateUserDataResult&) = delete;
-    ~UpdateUserDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementUpdateUserDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementUpdateUserDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFPlayerDataManagementUpdateUserDataResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementUpdateUserDataResult& input, PFPlayerDataManagementUpdateUserDataResult& output, ModelBuffer& buffer);
 };
 
-struct UpdateUserInternalDataRequest : public PFPlayerDataManagementUpdateUserInternalDataRequest, public BaseModel
+class UpdateUserInternalDataRequest : public Wrappers::PFPlayerDataManagementUpdateUserInternalDataRequestWrapper<Allocator>, public InputModel
 {
-    UpdateUserInternalDataRequest();
-    UpdateUserInternalDataRequest(const UpdateUserInternalDataRequest& src);
-    UpdateUserInternalDataRequest(UpdateUserInternalDataRequest&& src);
-    UpdateUserInternalDataRequest(const PFPlayerDataManagementUpdateUserInternalDataRequest& src);
-    UpdateUserInternalDataRequest& operator=(const UpdateUserInternalDataRequest&) = delete;
-    ~UpdateUserInternalDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementUpdateUserInternalDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementUpdateUserInternalDataRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    PointerArrayModel<char, String> m_keysToRemove;
-    String m_playFabId;
 };
 
-struct ClientGetFriendLeaderboardRequest : public PFPlayerDataManagementClientGetFriendLeaderboardRequest, public BaseModel
+class ClientGetFriendLeaderboardRequest : public Wrappers::PFPlayerDataManagementClientGetFriendLeaderboardRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetFriendLeaderboardRequest();
-    ClientGetFriendLeaderboardRequest(const ClientGetFriendLeaderboardRequest& src);
-    ClientGetFriendLeaderboardRequest(ClientGetFriendLeaderboardRequest&& src);
-    ClientGetFriendLeaderboardRequest(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& src);
-    ClientGetFriendLeaderboardRequest& operator=(const ClientGetFriendLeaderboardRequest&) = delete;
-    ~ClientGetFriendLeaderboardRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementClientGetFriendLeaderboardRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_includeFacebookFriends;
-    StdExtra::optional<bool> m_includeSteamFriends;
-    StdExtra::optional<int32_t> m_maxResultsCount;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_statisticName;
-    StdExtra::optional<int32_t> m_version;
-    String m_xboxToken;
 };
 
-struct PlayerLeaderboardEntry : public PFPlayerDataManagementPlayerLeaderboardEntry, public BaseModel
+class PlayerLeaderboardEntry : public Wrappers::PFPlayerDataManagementPlayerLeaderboardEntryWrapper<Allocator>, public OutputModel<PFPlayerDataManagementPlayerLeaderboardEntry>
 {
-    PlayerLeaderboardEntry();
-    PlayerLeaderboardEntry(const PlayerLeaderboardEntry& src);
-    PlayerLeaderboardEntry(PlayerLeaderboardEntry&& src);
-    PlayerLeaderboardEntry(const PFPlayerDataManagementPlayerLeaderboardEntry& src);
-    PlayerLeaderboardEntry& operator=(const PlayerLeaderboardEntry&) = delete;
-    ~PlayerLeaderboardEntry() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementPlayerLeaderboardEntryWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementPlayerLeaderboardEntry const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_displayName;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileModel> m_profile;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementPlayerLeaderboardEntry& model);
+    static HRESULT Copy(const PFPlayerDataManagementPlayerLeaderboardEntry& input, PFPlayerDataManagementPlayerLeaderboardEntry& output, ModelBuffer& buffer);
 };
 
-struct GetLeaderboardResult : public PFPlayerDataManagementGetLeaderboardResult, public BaseModel, public ApiResult
+class GetLeaderboardResult : public Wrappers::PFPlayerDataManagementGetLeaderboardResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetLeaderboardResult>
 {
-    GetLeaderboardResult();
-    GetLeaderboardResult(const GetLeaderboardResult& src);
-    GetLeaderboardResult(GetLeaderboardResult&& src);
-    GetLeaderboardResult(const PFPlayerDataManagementGetLeaderboardResult& src);
-    GetLeaderboardResult& operator=(const GetLeaderboardResult&) = delete;
-    ~GetLeaderboardResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetLeaderboardResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetLeaderboardResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerDataManagementPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
-    StdExtra::optional<time_t> m_nextReset;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetLeaderboardResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetLeaderboardResult& input, PFPlayerDataManagementGetLeaderboardResult& output, ModelBuffer& buffer);
 };
 
-struct GetFriendLeaderboardAroundPlayerRequest : public PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest, public BaseModel
+class GetFriendLeaderboardAroundPlayerRequest : public Wrappers::PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequestWrapper<Allocator>, public InputModel
 {
-    GetFriendLeaderboardAroundPlayerRequest();
-    GetFriendLeaderboardAroundPlayerRequest(const GetFriendLeaderboardAroundPlayerRequest& src);
-    GetFriendLeaderboardAroundPlayerRequest(GetFriendLeaderboardAroundPlayerRequest&& src);
-    GetFriendLeaderboardAroundPlayerRequest(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& src);
-    GetFriendLeaderboardAroundPlayerRequest& operator=(const GetFriendLeaderboardAroundPlayerRequest&) = delete;
-    ~GetFriendLeaderboardAroundPlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_includeFacebookFriends;
-    StdExtra::optional<bool> m_includeSteamFriends;
-    StdExtra::optional<int32_t> m_maxResultsCount;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_statisticName;
-    StdExtra::optional<int32_t> m_version;
-    String m_xboxToken;
 };
 
-struct GetFriendLeaderboardAroundPlayerResult : public PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult, public BaseModel, public ApiResult
+class GetFriendLeaderboardAroundPlayerResult : public Wrappers::PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult>
 {
-    GetFriendLeaderboardAroundPlayerResult();
-    GetFriendLeaderboardAroundPlayerResult(const GetFriendLeaderboardAroundPlayerResult& src);
-    GetFriendLeaderboardAroundPlayerResult(GetFriendLeaderboardAroundPlayerResult&& src);
-    GetFriendLeaderboardAroundPlayerResult(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& src);
-    GetFriendLeaderboardAroundPlayerResult& operator=(const GetFriendLeaderboardAroundPlayerResult&) = delete;
-    ~GetFriendLeaderboardAroundPlayerResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerDataManagementPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
-    StdExtra::optional<time_t> m_nextReset;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& input, PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& output, ModelBuffer& buffer);
 };
 
-struct GetLeaderboardRequest : public PFPlayerDataManagementGetLeaderboardRequest, public BaseModel
+class GetLeaderboardRequest : public Wrappers::PFPlayerDataManagementGetLeaderboardRequestWrapper<Allocator>, public InputModel
 {
-    GetLeaderboardRequest();
-    GetLeaderboardRequest(const GetLeaderboardRequest& src);
-    GetLeaderboardRequest(GetLeaderboardRequest&& src);
-    GetLeaderboardRequest(const PFPlayerDataManagementGetLeaderboardRequest& src);
-    GetLeaderboardRequest& operator=(const GetLeaderboardRequest&) = delete;
-    ~GetLeaderboardRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetLeaderboardRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetLeaderboardRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_statisticName;
-    StdExtra::optional<int32_t> m_version;
 };
 
-struct GetLeaderboardAroundPlayerRequest : public PFPlayerDataManagementGetLeaderboardAroundPlayerRequest, public BaseModel
+class GetLeaderboardAroundPlayerRequest : public Wrappers::PFPlayerDataManagementGetLeaderboardAroundPlayerRequestWrapper<Allocator>, public InputModel
 {
-    GetLeaderboardAroundPlayerRequest();
-    GetLeaderboardAroundPlayerRequest(const GetLeaderboardAroundPlayerRequest& src);
-    GetLeaderboardAroundPlayerRequest(GetLeaderboardAroundPlayerRequest&& src);
-    GetLeaderboardAroundPlayerRequest(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& src);
-    GetLeaderboardAroundPlayerRequest& operator=(const GetLeaderboardAroundPlayerRequest&) = delete;
-    ~GetLeaderboardAroundPlayerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetLeaderboardAroundPlayerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<int32_t> m_maxResultsCount;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_statisticName;
-    StdExtra::optional<int32_t> m_version;
 };
 
-struct GetLeaderboardAroundPlayerResult : public PFPlayerDataManagementGetLeaderboardAroundPlayerResult, public BaseModel, public ApiResult
+class GetLeaderboardAroundPlayerResult : public Wrappers::PFPlayerDataManagementGetLeaderboardAroundPlayerResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetLeaderboardAroundPlayerResult>
 {
-    GetLeaderboardAroundPlayerResult();
-    GetLeaderboardAroundPlayerResult(const GetLeaderboardAroundPlayerResult& src);
-    GetLeaderboardAroundPlayerResult(GetLeaderboardAroundPlayerResult&& src);
-    GetLeaderboardAroundPlayerResult(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& src);
-    GetLeaderboardAroundPlayerResult& operator=(const GetLeaderboardAroundPlayerResult&) = delete;
-    ~GetLeaderboardAroundPlayerResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetLeaderboardAroundPlayerResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetLeaderboardAroundPlayerResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerDataManagementPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
-    StdExtra::optional<time_t> m_nextReset;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& input, PFPlayerDataManagementGetLeaderboardAroundPlayerResult& output, ModelBuffer& buffer);
 };
 
-struct StatisticNameVersion : public PFPlayerDataManagementStatisticNameVersion, public SerializableModel
+class StatisticNameVersion : public Wrappers::PFPlayerDataManagementStatisticNameVersionWrapper<Allocator>, public InputModel
 {
-    StatisticNameVersion();
-    StatisticNameVersion(const StatisticNameVersion& src);
-    StatisticNameVersion(StatisticNameVersion&& src);
-    StatisticNameVersion(const PFPlayerDataManagementStatisticNameVersion& src);
-    StatisticNameVersion& operator=(const StatisticNameVersion&) = delete;
-    ~StatisticNameVersion() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementStatisticNameVersionWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementStatisticNameVersion& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_statisticName;
 };
 
-struct ClientGetPlayerStatisticsRequest : public PFPlayerDataManagementClientGetPlayerStatisticsRequest, public BaseModel
+class ClientGetPlayerStatisticsRequest : public Wrappers::PFPlayerDataManagementClientGetPlayerStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetPlayerStatisticsRequest();
-    ClientGetPlayerStatisticsRequest(const ClientGetPlayerStatisticsRequest& src);
-    ClientGetPlayerStatisticsRequest(ClientGetPlayerStatisticsRequest&& src);
-    ClientGetPlayerStatisticsRequest(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& src);
-    ClientGetPlayerStatisticsRequest& operator=(const ClientGetPlayerStatisticsRequest&) = delete;
-    ~ClientGetPlayerStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementClientGetPlayerStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<char, String> m_statisticNames;
-    PointerArrayModel<PFPlayerDataManagementStatisticNameVersion, StatisticNameVersion> m_statisticNameVersions;
 };
 
-struct ClientGetPlayerStatisticsResult : public PFPlayerDataManagementClientGetPlayerStatisticsResult, public BaseModel, public ApiResult
+class ClientGetPlayerStatisticsResult : public Wrappers::PFPlayerDataManagementClientGetPlayerStatisticsResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementClientGetPlayerStatisticsResult>
 {
-    ClientGetPlayerStatisticsResult();
-    ClientGetPlayerStatisticsResult(const ClientGetPlayerStatisticsResult& src);
-    ClientGetPlayerStatisticsResult(ClientGetPlayerStatisticsResult&& src);
-    ClientGetPlayerStatisticsResult(const PFPlayerDataManagementClientGetPlayerStatisticsResult& src);
-    ClientGetPlayerStatisticsResult& operator=(const ClientGetPlayerStatisticsResult&) = delete;
-    ~ClientGetPlayerStatisticsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementClientGetPlayerStatisticsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementClientGetPlayerStatisticsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFStatisticValue, StatisticValue> m_statistics;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementClientGetPlayerStatisticsResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementClientGetPlayerStatisticsResult& input, PFPlayerDataManagementClientGetPlayerStatisticsResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetUserDataResult : public PFPlayerDataManagementClientGetUserDataResult, public BaseModel, public ApiResult
+class ClientGetUserDataResult : public Wrappers::PFPlayerDataManagementClientGetUserDataResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementClientGetUserDataResult>
 {
-    ClientGetUserDataResult();
-    ClientGetUserDataResult(const ClientGetUserDataResult& src);
-    ClientGetUserDataResult(ClientGetUserDataResult&& src);
-    ClientGetUserDataResult(const PFPlayerDataManagementClientGetUserDataResult& src);
-    ClientGetUserDataResult& operator=(const ClientGetUserDataResult&) = delete;
-    ~ClientGetUserDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementClientGetUserDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementClientGetUserDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_data;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementClientGetUserDataResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementClientGetUserDataResult& input, PFPlayerDataManagementClientGetUserDataResult& output, ModelBuffer& buffer);
 };
 
-struct StatisticUpdate : public PFPlayerDataManagementStatisticUpdate, public BaseModel
+class StatisticUpdate : public Wrappers::PFPlayerDataManagementStatisticUpdateWrapper<Allocator>, public InputModel
 {
-    StatisticUpdate();
-    StatisticUpdate(const StatisticUpdate& src);
-    StatisticUpdate(StatisticUpdate&& src);
-    StatisticUpdate(const PFPlayerDataManagementStatisticUpdate& src);
-    StatisticUpdate& operator=(const StatisticUpdate&) = delete;
-    ~StatisticUpdate() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementStatisticUpdateWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementStatisticUpdate& input);
 
-private:
-    String m_statisticName;
-    StdExtra::optional<uint32_t> m_version;
 };
 
-struct ClientUpdatePlayerStatisticsRequest : public PFPlayerDataManagementClientUpdatePlayerStatisticsRequest, public BaseModel
+class ClientUpdatePlayerStatisticsRequest : public Wrappers::PFPlayerDataManagementClientUpdatePlayerStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ClientUpdatePlayerStatisticsRequest();
-    ClientUpdatePlayerStatisticsRequest(const ClientUpdatePlayerStatisticsRequest& src);
-    ClientUpdatePlayerStatisticsRequest(ClientUpdatePlayerStatisticsRequest&& src);
-    ClientUpdatePlayerStatisticsRequest(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& src);
-    ClientUpdatePlayerStatisticsRequest& operator=(const ClientUpdatePlayerStatisticsRequest&) = delete;
-    ~ClientUpdatePlayerStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementClientUpdatePlayerStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFPlayerDataManagementStatisticUpdate, StatisticUpdate> m_statistics;
 };
 
-struct ClientUpdateUserDataRequest : public PFPlayerDataManagementClientUpdateUserDataRequest, public BaseModel
+class ClientUpdateUserDataRequest : public Wrappers::PFPlayerDataManagementClientUpdateUserDataRequestWrapper<Allocator>, public InputModel
 {
-    ClientUpdateUserDataRequest();
-    ClientUpdateUserDataRequest(const ClientUpdateUserDataRequest& src);
-    ClientUpdateUserDataRequest(ClientUpdateUserDataRequest&& src);
-    ClientUpdateUserDataRequest(const PFPlayerDataManagementClientUpdateUserDataRequest& src);
-    ClientUpdateUserDataRequest& operator=(const ClientUpdateUserDataRequest&) = delete;
-    ~ClientUpdateUserDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementClientUpdateUserDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementClientUpdateUserDataRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    PointerArrayModel<char, String> m_keysToRemove;
-    StdExtra::optional<PFUserDataPermission> m_permission;
 };
 
-struct ServerGetFriendLeaderboardRequest : public PFPlayerDataManagementServerGetFriendLeaderboardRequest, public BaseModel
+class ServerGetFriendLeaderboardRequest : public Wrappers::PFPlayerDataManagementServerGetFriendLeaderboardRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetFriendLeaderboardRequest();
-    ServerGetFriendLeaderboardRequest(const ServerGetFriendLeaderboardRequest& src);
-    ServerGetFriendLeaderboardRequest(ServerGetFriendLeaderboardRequest&& src);
-    ServerGetFriendLeaderboardRequest(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& src);
-    ServerGetFriendLeaderboardRequest& operator=(const ServerGetFriendLeaderboardRequest&) = delete;
-    ~ServerGetFriendLeaderboardRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementServerGetFriendLeaderboardRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_includeFacebookFriends;
-    StdExtra::optional<bool> m_includeSteamFriends;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_statisticName;
-    StdExtra::optional<int32_t> m_version;
-    String m_xboxToken;
 };
 
-struct GetLeaderboardAroundUserRequest : public PFPlayerDataManagementGetLeaderboardAroundUserRequest, public BaseModel
+class GetLeaderboardAroundUserRequest : public Wrappers::PFPlayerDataManagementGetLeaderboardAroundUserRequestWrapper<Allocator>, public InputModel
 {
-    GetLeaderboardAroundUserRequest();
-    GetLeaderboardAroundUserRequest(const GetLeaderboardAroundUserRequest& src);
-    GetLeaderboardAroundUserRequest(GetLeaderboardAroundUserRequest&& src);
-    GetLeaderboardAroundUserRequest(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& src);
-    GetLeaderboardAroundUserRequest& operator=(const GetLeaderboardAroundUserRequest&) = delete;
-    ~GetLeaderboardAroundUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetLeaderboardAroundUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    StdExtra::optional<PlayerProfileViewConstraints> m_profileConstraints;
-    String m_statisticName;
-    StdExtra::optional<int32_t> m_version;
 };
 
-struct GetLeaderboardAroundUserResult : public PFPlayerDataManagementGetLeaderboardAroundUserResult, public BaseModel, public ApiResult
+class GetLeaderboardAroundUserResult : public Wrappers::PFPlayerDataManagementGetLeaderboardAroundUserResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementGetLeaderboardAroundUserResult>
 {
-    GetLeaderboardAroundUserResult();
-    GetLeaderboardAroundUserResult(const GetLeaderboardAroundUserResult& src);
-    GetLeaderboardAroundUserResult(GetLeaderboardAroundUserResult&& src);
-    GetLeaderboardAroundUserResult(const PFPlayerDataManagementGetLeaderboardAroundUserResult& src);
-    GetLeaderboardAroundUserResult& operator=(const GetLeaderboardAroundUserResult&) = delete;
-    ~GetLeaderboardAroundUserResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementGetLeaderboardAroundUserResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementGetLeaderboardAroundUserResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlayerDataManagementPlayerLeaderboardEntry, PlayerLeaderboardEntry> m_leaderboard;
-    StdExtra::optional<time_t> m_nextReset;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementGetLeaderboardAroundUserResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementGetLeaderboardAroundUserResult& input, PFPlayerDataManagementGetLeaderboardAroundUserResult& output, ModelBuffer& buffer);
 };
 
-struct ServerGetPlayerStatisticsRequest : public PFPlayerDataManagementServerGetPlayerStatisticsRequest, public BaseModel
+class ServerGetPlayerStatisticsRequest : public Wrappers::PFPlayerDataManagementServerGetPlayerStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetPlayerStatisticsRequest();
-    ServerGetPlayerStatisticsRequest(const ServerGetPlayerStatisticsRequest& src);
-    ServerGetPlayerStatisticsRequest(ServerGetPlayerStatisticsRequest&& src);
-    ServerGetPlayerStatisticsRequest(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& src);
-    ServerGetPlayerStatisticsRequest& operator=(const ServerGetPlayerStatisticsRequest&) = delete;
-    ~ServerGetPlayerStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementServerGetPlayerStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    PointerArrayModel<char, String> m_statisticNames;
-    PointerArrayModel<PFPlayerDataManagementStatisticNameVersion, StatisticNameVersion> m_statisticNameVersions;
 };
 
-struct ServerGetPlayerStatisticsResult : public PFPlayerDataManagementServerGetPlayerStatisticsResult, public BaseModel, public ApiResult
+class ServerGetPlayerStatisticsResult : public Wrappers::PFPlayerDataManagementServerGetPlayerStatisticsResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementServerGetPlayerStatisticsResult>
 {
-    ServerGetPlayerStatisticsResult();
-    ServerGetPlayerStatisticsResult(const ServerGetPlayerStatisticsResult& src);
-    ServerGetPlayerStatisticsResult(ServerGetPlayerStatisticsResult&& src);
-    ServerGetPlayerStatisticsResult(const PFPlayerDataManagementServerGetPlayerStatisticsResult& src);
-    ServerGetPlayerStatisticsResult& operator=(const ServerGetPlayerStatisticsResult&) = delete;
-    ~ServerGetPlayerStatisticsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementServerGetPlayerStatisticsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementServerGetPlayerStatisticsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_playFabId;
-    PointerArrayModel<PFStatisticValue, StatisticValue> m_statistics;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementServerGetPlayerStatisticsResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementServerGetPlayerStatisticsResult& input, PFPlayerDataManagementServerGetPlayerStatisticsResult& output, ModelBuffer& buffer);
 };
 
-struct ServerGetUserDataResult : public PFPlayerDataManagementServerGetUserDataResult, public BaseModel, public ApiResult
+class ServerGetUserDataResult : public Wrappers::PFPlayerDataManagementServerGetUserDataResultWrapper<Allocator>, public OutputModel<PFPlayerDataManagementServerGetUserDataResult>
 {
-    ServerGetUserDataResult();
-    ServerGetUserDataResult(const ServerGetUserDataResult& src);
-    ServerGetUserDataResult(ServerGetUserDataResult&& src);
-    ServerGetUserDataResult(const PFPlayerDataManagementServerGetUserDataResult& src);
-    ServerGetUserDataResult& operator=(const ServerGetUserDataResult&) = delete;
-    ~ServerGetUserDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementServerGetUserDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlayerDataManagementServerGetUserDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_data;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFPlayerDataManagementServerGetUserDataResult& model);
+    static HRESULT Copy(const PFPlayerDataManagementServerGetUserDataResult& input, PFPlayerDataManagementServerGetUserDataResult& output, ModelBuffer& buffer);
 };
 
-struct ServerUpdatePlayerStatisticsRequest : public PFPlayerDataManagementServerUpdatePlayerStatisticsRequest, public BaseModel
+class ServerUpdatePlayerStatisticsRequest : public Wrappers::PFPlayerDataManagementServerUpdatePlayerStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ServerUpdatePlayerStatisticsRequest();
-    ServerUpdatePlayerStatisticsRequest(const ServerUpdatePlayerStatisticsRequest& src);
-    ServerUpdatePlayerStatisticsRequest(ServerUpdatePlayerStatisticsRequest&& src);
-    ServerUpdatePlayerStatisticsRequest(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& src);
-    ServerUpdatePlayerStatisticsRequest& operator=(const ServerUpdatePlayerStatisticsRequest&) = delete;
-    ~ServerUpdatePlayerStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementServerUpdatePlayerStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_forceUpdate;
-    String m_playFabId;
-    PointerArrayModel<PFPlayerDataManagementStatisticUpdate, StatisticUpdate> m_statistics;
 };
 
-struct ServerUpdateUserDataRequest : public PFPlayerDataManagementServerUpdateUserDataRequest, public BaseModel
+class ServerUpdateUserDataRequest : public Wrappers::PFPlayerDataManagementServerUpdateUserDataRequestWrapper<Allocator>, public InputModel
 {
-    ServerUpdateUserDataRequest();
-    ServerUpdateUserDataRequest(const ServerUpdateUserDataRequest& src);
-    ServerUpdateUserDataRequest(ServerUpdateUserDataRequest&& src);
-    ServerUpdateUserDataRequest(const PFPlayerDataManagementServerUpdateUserDataRequest& src);
-    ServerUpdateUserDataRequest& operator=(const ServerUpdateUserDataRequest&) = delete;
-    ~ServerUpdateUserDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlayerDataManagementServerUpdateUserDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlayerDataManagementServerUpdateUserDataRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    PointerArrayModel<char, String> m_keysToRemove;
-    StdExtra::optional<PFUserDataPermission> m_permission;
-    String m_playFabId;
 };
 
-} // namespace PlayerDataManagementModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementCreatePlayerStatisticDefinitionRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementPlayerStatisticDefinition& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementCreatePlayerStatisticDefinitionResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetDataReportRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetDataReportResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetPlayerStatisticDefinitionsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetPlayerStatisticVersionsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementPlayerStatisticVersion& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetPlayerStatisticVersionsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetUserDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementAdminGetUserDataResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementIncrementPlayerStatisticVersionRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementIncrementPlayerStatisticVersionResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementRefundPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementRefundPurchaseResponse& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementResetUserStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementResolvePurchaseDisputeRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementResolvePurchaseDisputeResponse& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementUpdatePlayerStatisticDefinitionResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementAdminUpdateUserDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementUpdateUserDataResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementUpdateUserInternalDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetFriendLeaderboardRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementPlayerLeaderboardEntry& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetFriendLeaderboardAroundPlayerResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundPlayerRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundPlayerResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementStatisticNameVersion& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetPlayerStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetPlayerStatisticsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementClientGetUserDataResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementStatisticUpdate& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementClientUpdatePlayerStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementClientUpdateUserDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetFriendLeaderboardRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementGetLeaderboardAroundUserResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetPlayerStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetPlayerStatisticsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementServerGetUserDataResult& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementServerUpdatePlayerStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlayerDataManagementServerUpdateUserDataRequest& input);
-} // namespace JsonUtils
-
+} // namespace PlayerDataManagement
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

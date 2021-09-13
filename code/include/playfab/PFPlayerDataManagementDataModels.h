@@ -782,8 +782,10 @@ typedef struct PFPlayerDataManagementPlayerLeaderboardEntry
 } PFPlayerDataManagementPlayerLeaderboardEntry;
 
 /// <summary>
-/// PFPlayerDataManagementGetLeaderboardResult data model. Note: the user's Position is relative to the
-/// overall leaderboard.
+/// PFPlayerDataManagementGetLeaderboardResult data model. Note that the Position of the user in the
+/// results is for the overall leaderboard. If Facebook friends are included, make sure the access token
+/// from previous LoginWithFacebook call is still valid and not expired. If Xbox Live friends are included,
+/// make sure the access token from the previous LoginWithXbox call is still valid and not expired. .
 /// </summary>
 typedef struct PFPlayerDataManagementGetLeaderboardResult
 {

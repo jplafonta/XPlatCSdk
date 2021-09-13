@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace ScheduledTaskModels;
+namespace ScheduledTask
+{
 
 
 AsyncOp<void> ScheduledTaskAPI::AdminAbortTaskInstance(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskAbortTaskInstanceRequest& request,
+    const AbortTaskInstanceRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<void> ScheduledTaskAPI::AdminAbortTaskInstance(
     }
 
     const char* path{ "/Admin/AbortTaskInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -50,7 +50,7 @@ AsyncOp<void> ScheduledTaskAPI::AdminAbortTaskInstance(
 
 AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateActionsOnPlayersInSegmentTask(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskCreateActionsOnPlayerSegmentTaskRequest& request,
+    const CreateActionsOnPlayerSegmentTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -61,7 +61,7 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateActionsOnPlayersInSegment
     }
 
     const char* path{ "/Admin/CreateActionsOnPlayersInSegmentTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -91,7 +91,7 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateActionsOnPlayersInSegment
 
 AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateCloudScriptTask(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskCreateCloudScriptTaskRequest& request,
+    const CreateCloudScriptTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -102,7 +102,7 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateCloudScriptTask(
     }
 
     const char* path{ "/Admin/CreateCloudScriptTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -132,7 +132,7 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateCloudScriptTask(
 
 AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateInsightsScheduledScalingTask(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskCreateInsightsScheduledScalingTaskRequest& request,
+    const CreateInsightsScheduledScalingTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -143,7 +143,7 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateInsightsScheduledScalingT
     }
 
     const char* path{ "/Admin/CreateInsightsScheduledScalingTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -173,7 +173,7 @@ AsyncOp<CreateTaskResult> ScheduledTaskAPI::AdminCreateInsightsScheduledScalingT
 
 AsyncOp<void> ScheduledTaskAPI::AdminDeleteTask(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskDeleteTaskRequest& request,
+    const DeleteTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -184,7 +184,7 @@ AsyncOp<void> ScheduledTaskAPI::AdminDeleteTask(
     }
 
     const char* path{ "/Admin/DeleteTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -212,7 +212,7 @@ AsyncOp<void> ScheduledTaskAPI::AdminDeleteTask(
 
 AsyncOp<GetActionsOnPlayersInSegmentTaskInstanceResult> ScheduledTaskAPI::AdminGetActionsOnPlayersInSegmentTaskInstance(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskGetTaskInstanceRequest& request,
+    const GetTaskInstanceRequest& request,
     const TaskQueue& queue
 )
 {
@@ -223,7 +223,7 @@ AsyncOp<GetActionsOnPlayersInSegmentTaskInstanceResult> ScheduledTaskAPI::AdminG
     }
 
     const char* path{ "/Admin/GetActionsOnPlayersInSegmentTaskInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -253,7 +253,7 @@ AsyncOp<GetActionsOnPlayersInSegmentTaskInstanceResult> ScheduledTaskAPI::AdminG
 
 AsyncOp<GetCloudScriptTaskInstanceResult> ScheduledTaskAPI::AdminGetCloudScriptTaskInstance(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskGetTaskInstanceRequest& request,
+    const GetTaskInstanceRequest& request,
     const TaskQueue& queue
 )
 {
@@ -264,7 +264,7 @@ AsyncOp<GetCloudScriptTaskInstanceResult> ScheduledTaskAPI::AdminGetCloudScriptT
     }
 
     const char* path{ "/Admin/GetCloudScriptTaskInstance" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -294,7 +294,7 @@ AsyncOp<GetCloudScriptTaskInstanceResult> ScheduledTaskAPI::AdminGetCloudScriptT
 
 AsyncOp<GetTaskInstancesResult> ScheduledTaskAPI::AdminGetTaskInstances(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskGetTaskInstancesRequest& request,
+    const GetTaskInstancesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -305,7 +305,7 @@ AsyncOp<GetTaskInstancesResult> ScheduledTaskAPI::AdminGetTaskInstances(
     }
 
     const char* path{ "/Admin/GetTaskInstances" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -335,7 +335,7 @@ AsyncOp<GetTaskInstancesResult> ScheduledTaskAPI::AdminGetTaskInstances(
 
 AsyncOp<GetTasksResult> ScheduledTaskAPI::AdminGetTasks(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskGetTasksRequest& request,
+    const GetTasksRequest& request,
     const TaskQueue& queue
 )
 {
@@ -346,7 +346,7 @@ AsyncOp<GetTasksResult> ScheduledTaskAPI::AdminGetTasks(
     }
 
     const char* path{ "/Admin/GetTasks" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -376,7 +376,7 @@ AsyncOp<GetTasksResult> ScheduledTaskAPI::AdminGetTasks(
 
 AsyncOp<RunTaskResult> ScheduledTaskAPI::AdminRunTask(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskRunTaskRequest& request,
+    const RunTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -387,7 +387,7 @@ AsyncOp<RunTaskResult> ScheduledTaskAPI::AdminRunTask(
     }
 
     const char* path{ "/Admin/RunTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -417,7 +417,7 @@ AsyncOp<RunTaskResult> ScheduledTaskAPI::AdminRunTask(
 
 AsyncOp<void> ScheduledTaskAPI::AdminUpdateTask(
     SharedPtr<GlobalState const> state,
-    const PFScheduledTaskUpdateTaskRequest& request,
+    const UpdateTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -428,7 +428,7 @@ AsyncOp<void> ScheduledTaskAPI::AdminUpdateTask(
     }
 
     const char* path{ "/Admin/UpdateTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -454,5 +454,5 @@ AsyncOp<void> ScheduledTaskAPI::AdminUpdateTask(
     });
 }
 
-
-}
+} // namespace ScheduledTask
+} // namespace PlayFab

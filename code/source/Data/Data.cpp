@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace DataModels;
+namespace Data
+{
 
 
 AsyncOp<AbortFileUploadsResponse> DataAPI::AbortFileUploads(
     SharedPtr<Entity> entity,
-    const PFDataAbortFileUploadsRequest& request,
+    const AbortFileUploadsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<AbortFileUploadsResponse> DataAPI::AbortFileUploads(
     }
 
     const char* path{ "/File/AbortFileUploads" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -53,7 +53,7 @@ AsyncOp<AbortFileUploadsResponse> DataAPI::AbortFileUploads(
 
 AsyncOp<DeleteFilesResponse> DataAPI::DeleteFiles(
     SharedPtr<Entity> entity,
-    const PFDataDeleteFilesRequest& request,
+    const DeleteFilesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -64,7 +64,7 @@ AsyncOp<DeleteFilesResponse> DataAPI::DeleteFiles(
     }
 
     const char* path{ "/File/DeleteFiles" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -95,7 +95,7 @@ AsyncOp<DeleteFilesResponse> DataAPI::DeleteFiles(
 
 AsyncOp<FinalizeFileUploadsResponse> DataAPI::FinalizeFileUploads(
     SharedPtr<Entity> entity,
-    const PFDataFinalizeFileUploadsRequest& request,
+    const FinalizeFileUploadsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -106,7 +106,7 @@ AsyncOp<FinalizeFileUploadsResponse> DataAPI::FinalizeFileUploads(
     }
 
     const char* path{ "/File/FinalizeFileUploads" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -137,7 +137,7 @@ AsyncOp<FinalizeFileUploadsResponse> DataAPI::FinalizeFileUploads(
 
 AsyncOp<GetFilesResponse> DataAPI::GetFiles(
     SharedPtr<Entity> entity,
-    const PFDataGetFilesRequest& request,
+    const GetFilesRequest& request,
     const TaskQueue& queue
 )
 {
@@ -148,7 +148,7 @@ AsyncOp<GetFilesResponse> DataAPI::GetFiles(
     }
 
     const char* path{ "/File/GetFiles" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -179,7 +179,7 @@ AsyncOp<GetFilesResponse> DataAPI::GetFiles(
 
 AsyncOp<GetObjectsResponse> DataAPI::GetObjects(
     SharedPtr<Entity> entity,
-    const PFDataGetObjectsRequest& request,
+    const GetObjectsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -190,7 +190,7 @@ AsyncOp<GetObjectsResponse> DataAPI::GetObjects(
     }
 
     const char* path{ "/Object/GetObjects" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -221,7 +221,7 @@ AsyncOp<GetObjectsResponse> DataAPI::GetObjects(
 
 AsyncOp<InitiateFileUploadsResponse> DataAPI::InitiateFileUploads(
     SharedPtr<Entity> entity,
-    const PFDataInitiateFileUploadsRequest& request,
+    const InitiateFileUploadsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -232,7 +232,7 @@ AsyncOp<InitiateFileUploadsResponse> DataAPI::InitiateFileUploads(
     }
 
     const char* path{ "/File/InitiateFileUploads" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -263,7 +263,7 @@ AsyncOp<InitiateFileUploadsResponse> DataAPI::InitiateFileUploads(
 
 AsyncOp<SetObjectsResponse> DataAPI::SetObjects(
     SharedPtr<Entity> entity,
-    const PFDataSetObjectsRequest& request,
+    const SetObjectsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -274,7 +274,7 @@ AsyncOp<SetObjectsResponse> DataAPI::SetObjects(
     }
 
     const char* path{ "/Object/SetObjects" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -303,5 +303,5 @@ AsyncOp<SetObjectsResponse> DataAPI::SetObjects(
     });
 }
 
-
-}
+} // namespace Data
+} // namespace PlayFab

@@ -532,7 +532,7 @@ typedef struct PFAuthenticationGetTitlePublicKeyResult
     /// <summary>
     /// (Optional) Base64 encoded RSA CSP byte array blob containing the title's public RSA key.
     /// </summary>
-    const char* rSAPublicKey;
+    const char* RSAPublicKey;
 
 } PFAuthenticationGetTitlePublicKeyResult;
 

@@ -15,8 +15,6 @@
 #include "ApiTests.h" 
 #include "EntityTests.h"
 
-#include "AutoGenTests/AutoGenDataTests.h" 
-#include "AutoGenTests/AutoGenGroupsTests.h" 
 
 using namespace PlayFab;
 
@@ -85,14 +83,6 @@ PFTestTraceLevel TestApp::traceLevel = PFTestTraceLevel::Important;
         apiTests.SetTitleInfo(testTitleData);
         testRunner.Add(apiTests);
 
-
-        AutoGenDataTests apiTests21;
-        apiTests21.SetTitleInfo(testTitleData);
-        testRunner.Add(apiTests21);
-
-        AutoGenGroupsTests apiTests23;
-        apiTests23.SetTitleInfo(testTitleData);
-        testRunner.Add(apiTests23);
 
 
         // Run the tests (blocks until all tests have finished).

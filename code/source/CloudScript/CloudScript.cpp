@@ -5,13 +5,13 @@
 
 namespace PlayFab
 {
-
-using namespace CloudScriptModels;
+namespace CloudScript
+{
 
 
 AsyncOp<GetCloudScriptRevisionResult> CloudScriptAPI::AdminGetCloudScriptRevision(
     SharedPtr<GlobalState const> state,
-    const PFCloudScriptGetCloudScriptRevisionRequest& request,
+    const GetCloudScriptRevisionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -22,7 +22,7 @@ AsyncOp<GetCloudScriptRevisionResult> CloudScriptAPI::AdminGetCloudScriptRevisio
     }
 
     const char* path{ "/Admin/GetCloudScriptRevision" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -92,7 +92,7 @@ AsyncOp<GetCloudScriptVersionsResult> CloudScriptAPI::AdminGetCloudScriptVersion
 
 AsyncOp<void> CloudScriptAPI::AdminSetPublishedRevision(
     SharedPtr<GlobalState const> state,
-    const PFCloudScriptSetPublishedRevisionRequest& request,
+    const SetPublishedRevisionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -103,7 +103,7 @@ AsyncOp<void> CloudScriptAPI::AdminSetPublishedRevision(
     }
 
     const char* path{ "/Admin/SetPublishedRevision" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -131,7 +131,7 @@ AsyncOp<void> CloudScriptAPI::AdminSetPublishedRevision(
 
 AsyncOp<UpdateCloudScriptResult> CloudScriptAPI::AdminUpdateCloudScript(
     SharedPtr<GlobalState const> state,
-    const PFCloudScriptUpdateCloudScriptRequest& request,
+    const UpdateCloudScriptRequest& request,
     const TaskQueue& queue
 )
 {
@@ -142,7 +142,7 @@ AsyncOp<UpdateCloudScriptResult> CloudScriptAPI::AdminUpdateCloudScript(
     }
 
     const char* path{ "/Admin/UpdateCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -172,7 +172,7 @@ AsyncOp<UpdateCloudScriptResult> CloudScriptAPI::AdminUpdateCloudScript(
 
 AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ClientExecuteCloudScript(
     SharedPtr<TitlePlayer> entity,
-    const PFCloudScriptExecuteCloudScriptRequest& request,
+    const ExecuteCloudScriptRequest& request,
     const TaskQueue& queue
 )
 {
@@ -183,7 +183,7 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ClientExecuteCloudScript(
     }
 
     const char* path{ "/Client/ExecuteCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSessionTicketHeaderName, *sessionTicket }};
 
     auto requestOp = entity->HttpClient()->MakeClassicRequest(
@@ -214,7 +214,7 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ClientExecuteCloudScript(
 
 AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ServerExecuteCloudScript(
     SharedPtr<GlobalState const> state,
-    const PFCloudScriptExecuteCloudScriptServerRequest& request,
+    const ExecuteCloudScriptServerRequest& request,
     const TaskQueue& queue
 )
 {
@@ -225,7 +225,7 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ServerExecuteCloudScript(
     }
 
     const char* path{ "/Server/ExecuteCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kSecretKeyHeaderName, *secretKey }};
 
     auto requestOp = state->HttpClient()->MakePostRequest(
@@ -255,7 +255,7 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ServerExecuteCloudScript(
 
 AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ExecuteEntityCloudScript(
     SharedPtr<Entity> entity,
-    const PFCloudScriptExecuteEntityCloudScriptRequest& request,
+    const ExecuteEntityCloudScriptRequest& request,
     const TaskQueue& queue
 )
 {
@@ -266,7 +266,7 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ExecuteEntityCloudScript(
     }
 
     const char* path{ "/CloudScript/ExecuteEntityCloudScript" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -297,7 +297,7 @@ AsyncOp<ExecuteCloudScriptResult> CloudScriptAPI::ExecuteEntityCloudScript(
 
 AsyncOp<ExecuteFunctionResult> CloudScriptAPI::ExecuteFunction(
     SharedPtr<Entity> entity,
-    const PFCloudScriptExecuteFunctionRequest& request,
+    const ExecuteFunctionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -308,7 +308,7 @@ AsyncOp<ExecuteFunctionResult> CloudScriptAPI::ExecuteFunction(
     }
 
     const char* path{ "/CloudScript/ExecuteFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -339,7 +339,7 @@ AsyncOp<ExecuteFunctionResult> CloudScriptAPI::ExecuteFunction(
 
 AsyncOp<ListFunctionsResult> CloudScriptAPI::ListFunctions(
     SharedPtr<Entity> entity,
-    const PFCloudScriptListFunctionsRequest& request,
+    const ListFunctionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -350,7 +350,7 @@ AsyncOp<ListFunctionsResult> CloudScriptAPI::ListFunctions(
     }
 
     const char* path{ "/CloudScript/ListFunctions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -381,7 +381,7 @@ AsyncOp<ListFunctionsResult> CloudScriptAPI::ListFunctions(
 
 AsyncOp<ListHttpFunctionsResult> CloudScriptAPI::ListHttpFunctions(
     SharedPtr<Entity> entity,
-    const PFCloudScriptListFunctionsRequest& request,
+    const ListFunctionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -392,7 +392,7 @@ AsyncOp<ListHttpFunctionsResult> CloudScriptAPI::ListHttpFunctions(
     }
 
     const char* path{ "/CloudScript/ListHttpFunctions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -423,7 +423,7 @@ AsyncOp<ListHttpFunctionsResult> CloudScriptAPI::ListHttpFunctions(
 
 AsyncOp<ListQueuedFunctionsResult> CloudScriptAPI::ListQueuedFunctions(
     SharedPtr<Entity> entity,
-    const PFCloudScriptListFunctionsRequest& request,
+    const ListFunctionsRequest& request,
     const TaskQueue& queue
 )
 {
@@ -434,7 +434,7 @@ AsyncOp<ListQueuedFunctionsResult> CloudScriptAPI::ListQueuedFunctions(
     }
 
     const char* path{ "/CloudScript/ListQueuedFunctions" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -465,7 +465,7 @@ AsyncOp<ListQueuedFunctionsResult> CloudScriptAPI::ListQueuedFunctions(
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForEntityTriggeredAction(
     SharedPtr<Entity> entity,
-    const PFCloudScriptPostFunctionResultForEntityTriggeredActionRequest& request,
+    const PostFunctionResultForEntityTriggeredActionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -476,7 +476,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForEntityTriggeredAction(
     }
 
     const char* path{ "/CloudScript/PostFunctionResultForEntityTriggeredAction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -505,7 +505,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForEntityTriggeredAction(
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForFunctionExecution(
     SharedPtr<Entity> entity,
-    const PFCloudScriptPostFunctionResultForFunctionExecutionRequest& request,
+    const PostFunctionResultForFunctionExecutionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -516,7 +516,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForFunctionExecution(
     }
 
     const char* path{ "/CloudScript/PostFunctionResultForFunctionExecution" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -545,7 +545,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForFunctionExecution(
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction(
     SharedPtr<Entity> entity,
-    const PFCloudScriptPostFunctionResultForPlayerTriggeredActionRequest& request,
+    const PostFunctionResultForPlayerTriggeredActionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -556,7 +556,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction(
     }
 
     const char* path{ "/CloudScript/PostFunctionResultForPlayerTriggeredAction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -585,7 +585,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForPlayerTriggeredAction(
 
 AsyncOp<void> CloudScriptAPI::PostFunctionResultForScheduledTask(
     SharedPtr<Entity> entity,
-    const PFCloudScriptPostFunctionResultForScheduledTaskRequest& request,
+    const PostFunctionResultForScheduledTaskRequest& request,
     const TaskQueue& queue
 )
 {
@@ -596,7 +596,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForScheduledTask(
     }
 
     const char* path{ "/CloudScript/PostFunctionResultForScheduledTask" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -625,7 +625,7 @@ AsyncOp<void> CloudScriptAPI::PostFunctionResultForScheduledTask(
 
 AsyncOp<void> CloudScriptAPI::RegisterHttpFunction(
     SharedPtr<Entity> entity,
-    const PFCloudScriptRegisterHttpFunctionRequest& request,
+    const RegisterHttpFunctionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -636,7 +636,7 @@ AsyncOp<void> CloudScriptAPI::RegisterHttpFunction(
     }
 
     const char* path{ "/CloudScript/RegisterHttpFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -665,7 +665,7 @@ AsyncOp<void> CloudScriptAPI::RegisterHttpFunction(
 
 AsyncOp<void> CloudScriptAPI::RegisterQueuedFunction(
     SharedPtr<Entity> entity,
-    const PFCloudScriptRegisterQueuedFunctionRequest& request,
+    const RegisterQueuedFunctionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -676,7 +676,7 @@ AsyncOp<void> CloudScriptAPI::RegisterQueuedFunction(
     }
 
     const char* path{ "/CloudScript/RegisterQueuedFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -705,7 +705,7 @@ AsyncOp<void> CloudScriptAPI::RegisterQueuedFunction(
 
 AsyncOp<void> CloudScriptAPI::UnregisterFunction(
     SharedPtr<Entity> entity,
-    const PFCloudScriptUnregisterFunctionRequest& request,
+    const UnregisterFunctionRequest& request,
     const TaskQueue& queue
 )
 {
@@ -716,7 +716,7 @@ AsyncOp<void> CloudScriptAPI::UnregisterFunction(
     }
 
     const char* path{ "/CloudScript/UnregisterFunction" };
-    JsonValue requestBody{ JsonUtils::ToJson(request) };
+    JsonValue requestBody{ request.ToJson() };
     UnorderedMap<String, String> headers{{ kEntityTokenHeaderName, entityToken->token }};
 
     auto requestOp = entity->HttpClient()->MakeEntityRequest(
@@ -743,5 +743,5 @@ AsyncOp<void> CloudScriptAPI::UnregisterFunction(
     });
 }
 
-
-}
+} // namespace CloudScript
+} // namespace PlayFab

@@ -1,593 +1,486 @@
 #pragma once
 
-#include <playfab/PFCharacterDataModels.h>
+#include <playfab/cpp/PFCharacterDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace CharacterModels
+namespace Character
 {
 
 // Character Classes
-struct ResetCharacterStatisticsRequest : public PFCharacterResetCharacterStatisticsRequest, public BaseModel
+class ResetCharacterStatisticsRequest : public Wrappers::PFCharacterResetCharacterStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ResetCharacterStatisticsRequest();
-    ResetCharacterStatisticsRequest(const ResetCharacterStatisticsRequest& src);
-    ResetCharacterStatisticsRequest(ResetCharacterStatisticsRequest&& src);
-    ResetCharacterStatisticsRequest(const PFCharacterResetCharacterStatisticsRequest& src);
-    ResetCharacterStatisticsRequest& operator=(const ResetCharacterStatisticsRequest&) = delete;
-    ~ResetCharacterStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterResetCharacterStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterResetCharacterStatisticsRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ListUsersCharactersRequest : public PFCharacterListUsersCharactersRequest, public SerializableModel
+class ListUsersCharactersRequest : public Wrappers::PFCharacterListUsersCharactersRequestWrapper<Allocator>, public InputModel
 {
-    ListUsersCharactersRequest();
-    ListUsersCharactersRequest(const ListUsersCharactersRequest& src);
-    ListUsersCharactersRequest(ListUsersCharactersRequest&& src);
-    ListUsersCharactersRequest(const PFCharacterListUsersCharactersRequest& src);
-    ListUsersCharactersRequest& operator=(const ListUsersCharactersRequest&) = delete;
-    ~ListUsersCharactersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterListUsersCharactersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterListUsersCharactersRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_playFabId;
 };
 
-struct ListUsersCharactersResult : public PFCharacterListUsersCharactersResult, public BaseModel, public ApiResult
+class ListUsersCharactersResult : public Wrappers::PFCharacterListUsersCharactersResultWrapper<Allocator>, public OutputModel<PFCharacterListUsersCharactersResult>
 {
-    ListUsersCharactersResult();
-    ListUsersCharactersResult(const ListUsersCharactersResult& src);
-    ListUsersCharactersResult(ListUsersCharactersResult&& src);
-    ListUsersCharactersResult(const PFCharacterListUsersCharactersResult& src);
-    ListUsersCharactersResult& operator=(const ListUsersCharactersResult&) = delete;
-    ~ListUsersCharactersResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterListUsersCharactersResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterListUsersCharactersResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCharacterResult, CharacterResult> m_characters;
+    static size_t RequiredBufferSize(const PFCharacterListUsersCharactersResult& model);
+    static HRESULT Copy(const PFCharacterListUsersCharactersResult& input, PFCharacterListUsersCharactersResult& output, ModelBuffer& buffer);
 };
 
-struct GetCharacterDataRequest : public PFCharacterGetCharacterDataRequest, public BaseModel
+class GetCharacterDataRequest : public Wrappers::PFCharacterGetCharacterDataRequestWrapper<Allocator>, public InputModel
 {
-    GetCharacterDataRequest();
-    GetCharacterDataRequest(const GetCharacterDataRequest& src);
-    GetCharacterDataRequest(GetCharacterDataRequest&& src);
-    GetCharacterDataRequest(const PFCharacterGetCharacterDataRequest& src);
-    GetCharacterDataRequest& operator=(const GetCharacterDataRequest&) = delete;
-    ~GetCharacterDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterGetCharacterDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterGetCharacterDataRequest& input);
 
-private:
-    String m_characterId;
-    StdExtra::optional<uint32_t> m_ifChangedFromDataVersion;
-    PointerArrayModel<char, String> m_keys;
-    String m_playFabId;
 };
 
-struct ClientGetCharacterDataResult : public PFCharacterClientGetCharacterDataResult, public BaseModel, public ApiResult
+class ClientGetCharacterDataResult : public Wrappers::PFCharacterClientGetCharacterDataResultWrapper<Allocator>, public OutputModel<PFCharacterClientGetCharacterDataResult>
 {
-    ClientGetCharacterDataResult();
-    ClientGetCharacterDataResult(const ClientGetCharacterDataResult& src);
-    ClientGetCharacterDataResult(ClientGetCharacterDataResult&& src);
-    ClientGetCharacterDataResult(const PFCharacterClientGetCharacterDataResult& src);
-    ClientGetCharacterDataResult& operator=(const ClientGetCharacterDataResult&) = delete;
-    ~ClientGetCharacterDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGetCharacterDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterClientGetCharacterDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_data;
+    static size_t RequiredBufferSize(const PFCharacterClientGetCharacterDataResult& model);
+    static HRESULT Copy(const PFCharacterClientGetCharacterDataResult& input, PFCharacterClientGetCharacterDataResult& output, ModelBuffer& buffer);
 };
 
-struct GetCharacterLeaderboardRequest : public PFCharacterGetCharacterLeaderboardRequest, public SerializableModel
+class GetCharacterLeaderboardRequest : public Wrappers::PFCharacterGetCharacterLeaderboardRequestWrapper<Allocator>, public InputModel
 {
-    GetCharacterLeaderboardRequest();
-    GetCharacterLeaderboardRequest(const GetCharacterLeaderboardRequest& src);
-    GetCharacterLeaderboardRequest(GetCharacterLeaderboardRequest&& src);
-    GetCharacterLeaderboardRequest(const PFCharacterGetCharacterLeaderboardRequest& src);
-    GetCharacterLeaderboardRequest& operator=(const GetCharacterLeaderboardRequest&) = delete;
-    ~GetCharacterLeaderboardRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterGetCharacterLeaderboardRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterGetCharacterLeaderboardRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterType;
-    String m_statisticName;
 };
 
-struct CharacterLeaderboardEntry : public PFCharacterCharacterLeaderboardEntry, public SerializableModel
+class CharacterLeaderboardEntry : public Wrappers::PFCharacterCharacterLeaderboardEntryWrapper<Allocator>, public OutputModel<PFCharacterCharacterLeaderboardEntry>
 {
-    CharacterLeaderboardEntry();
-    CharacterLeaderboardEntry(const CharacterLeaderboardEntry& src);
-    CharacterLeaderboardEntry(CharacterLeaderboardEntry&& src);
-    CharacterLeaderboardEntry(const PFCharacterCharacterLeaderboardEntry& src);
-    CharacterLeaderboardEntry& operator=(const CharacterLeaderboardEntry&) = delete;
-    ~CharacterLeaderboardEntry() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterCharacterLeaderboardEntryWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterCharacterLeaderboardEntry const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
-    String m_characterName;
-    String m_characterType;
-    String m_displayName;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFCharacterCharacterLeaderboardEntry& model);
+    static HRESULT Copy(const PFCharacterCharacterLeaderboardEntry& input, PFCharacterCharacterLeaderboardEntry& output, ModelBuffer& buffer);
 };
 
-struct GetCharacterLeaderboardResult : public PFCharacterGetCharacterLeaderboardResult, public BaseModel, public ApiResult
+class GetCharacterLeaderboardResult : public Wrappers::PFCharacterGetCharacterLeaderboardResultWrapper<Allocator>, public OutputModel<PFCharacterGetCharacterLeaderboardResult>
 {
-    GetCharacterLeaderboardResult();
-    GetCharacterLeaderboardResult(const GetCharacterLeaderboardResult& src);
-    GetCharacterLeaderboardResult(GetCharacterLeaderboardResult&& src);
-    GetCharacterLeaderboardResult(const PFCharacterGetCharacterLeaderboardResult& src);
-    GetCharacterLeaderboardResult& operator=(const GetCharacterLeaderboardResult&) = delete;
-    ~GetCharacterLeaderboardResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterGetCharacterLeaderboardResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterGetCharacterLeaderboardResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCharacterCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
+    static size_t RequiredBufferSize(const PFCharacterGetCharacterLeaderboardResult& model);
+    static HRESULT Copy(const PFCharacterGetCharacterLeaderboardResult& input, PFCharacterGetCharacterLeaderboardResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetCharacterStatisticsRequest : public PFCharacterClientGetCharacterStatisticsRequest, public SerializableModel
+class ClientGetCharacterStatisticsRequest : public Wrappers::PFCharacterClientGetCharacterStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetCharacterStatisticsRequest();
-    ClientGetCharacterStatisticsRequest(const ClientGetCharacterStatisticsRequest& src);
-    ClientGetCharacterStatisticsRequest(ClientGetCharacterStatisticsRequest&& src);
-    ClientGetCharacterStatisticsRequest(const PFCharacterClientGetCharacterStatisticsRequest& src);
-    ClientGetCharacterStatisticsRequest& operator=(const ClientGetCharacterStatisticsRequest&) = delete;
-    ~ClientGetCharacterStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGetCharacterStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterClientGetCharacterStatisticsRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
 };
 
-struct ClientGetCharacterStatisticsResult : public PFCharacterClientGetCharacterStatisticsResult, public BaseModel, public ApiResult
+class ClientGetCharacterStatisticsResult : public Wrappers::PFCharacterClientGetCharacterStatisticsResultWrapper<Allocator>, public OutputModel<PFCharacterClientGetCharacterStatisticsResult>
 {
-    ClientGetCharacterStatisticsResult();
-    ClientGetCharacterStatisticsResult(const ClientGetCharacterStatisticsResult& src);
-    ClientGetCharacterStatisticsResult(ClientGetCharacterStatisticsResult&& src);
-    ClientGetCharacterStatisticsResult(const PFCharacterClientGetCharacterStatisticsResult& src);
-    ClientGetCharacterStatisticsResult& operator=(const ClientGetCharacterStatisticsResult&) = delete;
-    ~ClientGetCharacterStatisticsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGetCharacterStatisticsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterClientGetCharacterStatisticsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_characterStatistics;
+    static size_t RequiredBufferSize(const PFCharacterClientGetCharacterStatisticsResult& model);
+    static HRESULT Copy(const PFCharacterClientGetCharacterStatisticsResult& input, PFCharacterClientGetCharacterStatisticsResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetLeaderboardAroundCharacterRequest : public PFCharacterClientGetLeaderboardAroundCharacterRequest, public BaseModel
+class ClientGetLeaderboardAroundCharacterRequest : public Wrappers::PFCharacterClientGetLeaderboardAroundCharacterRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetLeaderboardAroundCharacterRequest();
-    ClientGetLeaderboardAroundCharacterRequest(const ClientGetLeaderboardAroundCharacterRequest& src);
-    ClientGetLeaderboardAroundCharacterRequest(ClientGetLeaderboardAroundCharacterRequest&& src);
-    ClientGetLeaderboardAroundCharacterRequest(const PFCharacterClientGetLeaderboardAroundCharacterRequest& src);
-    ClientGetLeaderboardAroundCharacterRequest& operator=(const ClientGetLeaderboardAroundCharacterRequest&) = delete;
-    ~ClientGetLeaderboardAroundCharacterRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGetLeaderboardAroundCharacterRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterClientGetLeaderboardAroundCharacterRequest& input);
 
-private:
-    String m_characterId;
-    String m_characterType;
-    StdExtra::optional<int32_t> m_maxResultsCount;
-    String m_statisticName;
 };
 
-struct GetLeaderboardAroundCharacterResult : public PFCharacterGetLeaderboardAroundCharacterResult, public BaseModel, public ApiResult
+class GetLeaderboardAroundCharacterResult : public Wrappers::PFCharacterGetLeaderboardAroundCharacterResultWrapper<Allocator>, public OutputModel<PFCharacterGetLeaderboardAroundCharacterResult>
 {
-    GetLeaderboardAroundCharacterResult();
-    GetLeaderboardAroundCharacterResult(const GetLeaderboardAroundCharacterResult& src);
-    GetLeaderboardAroundCharacterResult(GetLeaderboardAroundCharacterResult&& src);
-    GetLeaderboardAroundCharacterResult(const PFCharacterGetLeaderboardAroundCharacterResult& src);
-    GetLeaderboardAroundCharacterResult& operator=(const GetLeaderboardAroundCharacterResult&) = delete;
-    ~GetLeaderboardAroundCharacterResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterGetLeaderboardAroundCharacterResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterGetLeaderboardAroundCharacterResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCharacterCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
+    static size_t RequiredBufferSize(const PFCharacterGetLeaderboardAroundCharacterResult& model);
+    static HRESULT Copy(const PFCharacterGetLeaderboardAroundCharacterResult& input, PFCharacterGetLeaderboardAroundCharacterResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGetLeaderboardForUsersCharactersRequest : public PFCharacterClientGetLeaderboardForUsersCharactersRequest, public SerializableModel
+class ClientGetLeaderboardForUsersCharactersRequest : public Wrappers::PFCharacterClientGetLeaderboardForUsersCharactersRequestWrapper<Allocator>, public InputModel
 {
-    ClientGetLeaderboardForUsersCharactersRequest();
-    ClientGetLeaderboardForUsersCharactersRequest(const ClientGetLeaderboardForUsersCharactersRequest& src);
-    ClientGetLeaderboardForUsersCharactersRequest(ClientGetLeaderboardForUsersCharactersRequest&& src);
-    ClientGetLeaderboardForUsersCharactersRequest(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& src);
-    ClientGetLeaderboardForUsersCharactersRequest& operator=(const ClientGetLeaderboardForUsersCharactersRequest&) = delete;
-    ~ClientGetLeaderboardForUsersCharactersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGetLeaderboardForUsersCharactersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_statisticName;
 };
 
-struct GetLeaderboardForUsersCharactersResult : public PFCharacterGetLeaderboardForUsersCharactersResult, public BaseModel, public ApiResult
+class GetLeaderboardForUsersCharactersResult : public Wrappers::PFCharacterGetLeaderboardForUsersCharactersResultWrapper<Allocator>, public OutputModel<PFCharacterGetLeaderboardForUsersCharactersResult>
 {
-    GetLeaderboardForUsersCharactersResult();
-    GetLeaderboardForUsersCharactersResult(const GetLeaderboardForUsersCharactersResult& src);
-    GetLeaderboardForUsersCharactersResult(GetLeaderboardForUsersCharactersResult&& src);
-    GetLeaderboardForUsersCharactersResult(const PFCharacterGetLeaderboardForUsersCharactersResult& src);
-    GetLeaderboardForUsersCharactersResult& operator=(const GetLeaderboardForUsersCharactersResult&) = delete;
-    ~GetLeaderboardForUsersCharactersResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterGetLeaderboardForUsersCharactersResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterGetLeaderboardForUsersCharactersResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFCharacterCharacterLeaderboardEntry, CharacterLeaderboardEntry> m_leaderboard;
+    static size_t RequiredBufferSize(const PFCharacterGetLeaderboardForUsersCharactersResult& model);
+    static HRESULT Copy(const PFCharacterGetLeaderboardForUsersCharactersResult& input, PFCharacterGetLeaderboardForUsersCharactersResult& output, ModelBuffer& buffer);
 };
 
-struct ClientGrantCharacterToUserRequest : public PFCharacterClientGrantCharacterToUserRequest, public BaseModel
+class ClientGrantCharacterToUserRequest : public Wrappers::PFCharacterClientGrantCharacterToUserRequestWrapper<Allocator>, public InputModel
 {
-    ClientGrantCharacterToUserRequest();
-    ClientGrantCharacterToUserRequest(const ClientGrantCharacterToUserRequest& src);
-    ClientGrantCharacterToUserRequest(ClientGrantCharacterToUserRequest&& src);
-    ClientGrantCharacterToUserRequest(const PFCharacterClientGrantCharacterToUserRequest& src);
-    ClientGrantCharacterToUserRequest& operator=(const ClientGrantCharacterToUserRequest&) = delete;
-    ~ClientGrantCharacterToUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGrantCharacterToUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterClientGrantCharacterToUserRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_characterName;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_itemId;
 };
 
-struct ClientGrantCharacterToUserResult : public PFCharacterClientGrantCharacterToUserResult, public SerializableModel, public ApiResult
+class ClientGrantCharacterToUserResult : public Wrappers::PFCharacterClientGrantCharacterToUserResultWrapper<Allocator>, public OutputModel<PFCharacterClientGrantCharacterToUserResult>
 {
-    ClientGrantCharacterToUserResult();
-    ClientGrantCharacterToUserResult(const ClientGrantCharacterToUserResult& src);
-    ClientGrantCharacterToUserResult(ClientGrantCharacterToUserResult&& src);
-    ClientGrantCharacterToUserResult(const PFCharacterClientGrantCharacterToUserResult& src);
-    ClientGrantCharacterToUserResult& operator=(const ClientGrantCharacterToUserResult&) = delete;
-    ~ClientGrantCharacterToUserResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientGrantCharacterToUserResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterClientGrantCharacterToUserResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
-    String m_characterType;
+    static size_t RequiredBufferSize(const PFCharacterClientGrantCharacterToUserResult& model);
+    static HRESULT Copy(const PFCharacterClientGrantCharacterToUserResult& input, PFCharacterClientGrantCharacterToUserResult& output, ModelBuffer& buffer);
 };
 
-struct ClientUpdateCharacterDataRequest : public PFCharacterClientUpdateCharacterDataRequest, public BaseModel
+class ClientUpdateCharacterDataRequest : public Wrappers::PFCharacterClientUpdateCharacterDataRequestWrapper<Allocator>, public InputModel
 {
-    ClientUpdateCharacterDataRequest();
-    ClientUpdateCharacterDataRequest(const ClientUpdateCharacterDataRequest& src);
-    ClientUpdateCharacterDataRequest(ClientUpdateCharacterDataRequest&& src);
-    ClientUpdateCharacterDataRequest(const PFCharacterClientUpdateCharacterDataRequest& src);
-    ClientUpdateCharacterDataRequest& operator=(const ClientUpdateCharacterDataRequest&) = delete;
-    ~ClientUpdateCharacterDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientUpdateCharacterDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterClientUpdateCharacterDataRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    PointerArrayModel<char, String> m_keysToRemove;
-    StdExtra::optional<PFUserDataPermission> m_permission;
 };
 
-struct UpdateCharacterDataResult : public PFCharacterUpdateCharacterDataResult, public SerializableModel, public ApiResult
+class UpdateCharacterDataResult : public Wrappers::PFCharacterUpdateCharacterDataResultWrapper<Allocator>, public OutputModel<PFCharacterUpdateCharacterDataResult>
 {
-    UpdateCharacterDataResult();
-    UpdateCharacterDataResult(const UpdateCharacterDataResult&) = default;
-    UpdateCharacterDataResult(UpdateCharacterDataResult&&) = default;
-    UpdateCharacterDataResult(const PFCharacterUpdateCharacterDataResult& src);
-    UpdateCharacterDataResult& operator=(const UpdateCharacterDataResult&) = delete;
-    ~UpdateCharacterDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterUpdateCharacterDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterUpdateCharacterDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFCharacterUpdateCharacterDataResult& model);
+    static HRESULT Copy(const PFCharacterUpdateCharacterDataResult& input, PFCharacterUpdateCharacterDataResult& output, ModelBuffer& buffer);
 };
 
-struct ClientUpdateCharacterStatisticsRequest : public PFCharacterClientUpdateCharacterStatisticsRequest, public BaseModel
+class ClientUpdateCharacterStatisticsRequest : public Wrappers::PFCharacterClientUpdateCharacterStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ClientUpdateCharacterStatisticsRequest();
-    ClientUpdateCharacterStatisticsRequest(const ClientUpdateCharacterStatisticsRequest& src);
-    ClientUpdateCharacterStatisticsRequest(ClientUpdateCharacterStatisticsRequest&& src);
-    ClientUpdateCharacterStatisticsRequest(const PFCharacterClientUpdateCharacterStatisticsRequest& src);
-    ClientUpdateCharacterStatisticsRequest& operator=(const ClientUpdateCharacterStatisticsRequest&) = delete;
-    ~ClientUpdateCharacterStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterClientUpdateCharacterStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterClientUpdateCharacterStatisticsRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_characterStatistics;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct DeleteCharacterFromUserRequest : public PFCharacterDeleteCharacterFromUserRequest, public BaseModel
+class DeleteCharacterFromUserRequest : public Wrappers::PFCharacterDeleteCharacterFromUserRequestWrapper<Allocator>, public InputModel
 {
-    DeleteCharacterFromUserRequest();
-    DeleteCharacterFromUserRequest(const DeleteCharacterFromUserRequest& src);
-    DeleteCharacterFromUserRequest(DeleteCharacterFromUserRequest&& src);
-    DeleteCharacterFromUserRequest(const PFCharacterDeleteCharacterFromUserRequest& src);
-    DeleteCharacterFromUserRequest& operator=(const DeleteCharacterFromUserRequest&) = delete;
-    ~DeleteCharacterFromUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterDeleteCharacterFromUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterDeleteCharacterFromUserRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ServerGetCharacterDataResult : public PFCharacterServerGetCharacterDataResult, public BaseModel, public ApiResult
+class ServerGetCharacterDataResult : public Wrappers::PFCharacterServerGetCharacterDataResultWrapper<Allocator>, public OutputModel<PFCharacterServerGetCharacterDataResult>
 {
-    ServerGetCharacterDataResult();
-    ServerGetCharacterDataResult(const ServerGetCharacterDataResult& src);
-    ServerGetCharacterDataResult(ServerGetCharacterDataResult&& src);
-    ServerGetCharacterDataResult(const PFCharacterServerGetCharacterDataResult& src);
-    ServerGetCharacterDataResult& operator=(const ServerGetCharacterDataResult&) = delete;
-    ~ServerGetCharacterDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGetCharacterDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterServerGetCharacterDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFUserDataRecordDictionaryEntry, UserDataRecord> m_data;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFCharacterServerGetCharacterDataResult& model);
+    static HRESULT Copy(const PFCharacterServerGetCharacterDataResult& input, PFCharacterServerGetCharacterDataResult& output, ModelBuffer& buffer);
 };
 
-struct ServerGetCharacterStatisticsRequest : public PFCharacterServerGetCharacterStatisticsRequest, public SerializableModel
+class ServerGetCharacterStatisticsRequest : public Wrappers::PFCharacterServerGetCharacterStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetCharacterStatisticsRequest();
-    ServerGetCharacterStatisticsRequest(const ServerGetCharacterStatisticsRequest& src);
-    ServerGetCharacterStatisticsRequest(ServerGetCharacterStatisticsRequest&& src);
-    ServerGetCharacterStatisticsRequest(const PFCharacterServerGetCharacterStatisticsRequest& src);
-    ServerGetCharacterStatisticsRequest& operator=(const ServerGetCharacterStatisticsRequest&) = delete;
-    ~ServerGetCharacterStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGetCharacterStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterServerGetCharacterStatisticsRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
-    String m_playFabId;
 };
 
-struct ServerGetCharacterStatisticsResult : public PFCharacterServerGetCharacterStatisticsResult, public BaseModel, public ApiResult
+class ServerGetCharacterStatisticsResult : public Wrappers::PFCharacterServerGetCharacterStatisticsResultWrapper<Allocator>, public OutputModel<PFCharacterServerGetCharacterStatisticsResult>
 {
-    ServerGetCharacterStatisticsResult();
-    ServerGetCharacterStatisticsResult(const ServerGetCharacterStatisticsResult& src);
-    ServerGetCharacterStatisticsResult(ServerGetCharacterStatisticsResult&& src);
-    ServerGetCharacterStatisticsResult(const PFCharacterServerGetCharacterStatisticsResult& src);
-    ServerGetCharacterStatisticsResult& operator=(const ServerGetCharacterStatisticsResult&) = delete;
-    ~ServerGetCharacterStatisticsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGetCharacterStatisticsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterServerGetCharacterStatisticsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_characterStatistics;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFCharacterServerGetCharacterStatisticsResult& model);
+    static HRESULT Copy(const PFCharacterServerGetCharacterStatisticsResult& input, PFCharacterServerGetCharacterStatisticsResult& output, ModelBuffer& buffer);
 };
 
-struct ServerGetLeaderboardAroundCharacterRequest : public PFCharacterServerGetLeaderboardAroundCharacterRequest, public SerializableModel
+class ServerGetLeaderboardAroundCharacterRequest : public Wrappers::PFCharacterServerGetLeaderboardAroundCharacterRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetLeaderboardAroundCharacterRequest();
-    ServerGetLeaderboardAroundCharacterRequest(const ServerGetLeaderboardAroundCharacterRequest& src);
-    ServerGetLeaderboardAroundCharacterRequest(ServerGetLeaderboardAroundCharacterRequest&& src);
-    ServerGetLeaderboardAroundCharacterRequest(const PFCharacterServerGetLeaderboardAroundCharacterRequest& src);
-    ServerGetLeaderboardAroundCharacterRequest& operator=(const ServerGetLeaderboardAroundCharacterRequest&) = delete;
-    ~ServerGetLeaderboardAroundCharacterRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGetLeaderboardAroundCharacterRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterServerGetLeaderboardAroundCharacterRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
-    String m_characterType;
-    String m_playFabId;
-    String m_statisticName;
 };
 
-struct ServerGetLeaderboardForUsersCharactersRequest : public PFCharacterServerGetLeaderboardForUsersCharactersRequest, public SerializableModel
+class ServerGetLeaderboardForUsersCharactersRequest : public Wrappers::PFCharacterServerGetLeaderboardForUsersCharactersRequestWrapper<Allocator>, public InputModel
 {
-    ServerGetLeaderboardForUsersCharactersRequest();
-    ServerGetLeaderboardForUsersCharactersRequest(const ServerGetLeaderboardForUsersCharactersRequest& src);
-    ServerGetLeaderboardForUsersCharactersRequest(ServerGetLeaderboardForUsersCharactersRequest&& src);
-    ServerGetLeaderboardForUsersCharactersRequest(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& src);
-    ServerGetLeaderboardForUsersCharactersRequest& operator=(const ServerGetLeaderboardForUsersCharactersRequest&) = delete;
-    ~ServerGetLeaderboardForUsersCharactersRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGetLeaderboardForUsersCharactersRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_playFabId;
-    String m_statisticName;
 };
 
-struct ServerGrantCharacterToUserRequest : public PFCharacterServerGrantCharacterToUserRequest, public BaseModel
+class ServerGrantCharacterToUserRequest : public Wrappers::PFCharacterServerGrantCharacterToUserRequestWrapper<Allocator>, public InputModel
 {
-    ServerGrantCharacterToUserRequest();
-    ServerGrantCharacterToUserRequest(const ServerGrantCharacterToUserRequest& src);
-    ServerGrantCharacterToUserRequest(ServerGrantCharacterToUserRequest&& src);
-    ServerGrantCharacterToUserRequest(const PFCharacterServerGrantCharacterToUserRequest& src);
-    ServerGrantCharacterToUserRequest& operator=(const ServerGrantCharacterToUserRequest&) = delete;
-    ~ServerGrantCharacterToUserRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGrantCharacterToUserRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterServerGrantCharacterToUserRequest& input);
 
-private:
-    String m_characterName;
-    String m_characterType;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-struct ServerGrantCharacterToUserResult : public PFCharacterServerGrantCharacterToUserResult, public SerializableModel, public ApiResult
+class ServerGrantCharacterToUserResult : public Wrappers::PFCharacterServerGrantCharacterToUserResultWrapper<Allocator>, public OutputModel<PFCharacterServerGrantCharacterToUserResult>
 {
-    ServerGrantCharacterToUserResult();
-    ServerGrantCharacterToUserResult(const ServerGrantCharacterToUserResult& src);
-    ServerGrantCharacterToUserResult(ServerGrantCharacterToUserResult&& src);
-    ServerGrantCharacterToUserResult(const PFCharacterServerGrantCharacterToUserResult& src);
-    ServerGrantCharacterToUserResult& operator=(const ServerGrantCharacterToUserResult&) = delete;
-    ~ServerGrantCharacterToUserResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerGrantCharacterToUserResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFCharacterServerGrantCharacterToUserResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_characterId;
+    static size_t RequiredBufferSize(const PFCharacterServerGrantCharacterToUserResult& model);
+    static HRESULT Copy(const PFCharacterServerGrantCharacterToUserResult& input, PFCharacterServerGrantCharacterToUserResult& output, ModelBuffer& buffer);
 };
 
-struct ServerUpdateCharacterDataRequest : public PFCharacterServerUpdateCharacterDataRequest, public BaseModel
+class ServerUpdateCharacterDataRequest : public Wrappers::PFCharacterServerUpdateCharacterDataRequestWrapper<Allocator>, public InputModel
 {
-    ServerUpdateCharacterDataRequest();
-    ServerUpdateCharacterDataRequest(const ServerUpdateCharacterDataRequest& src);
-    ServerUpdateCharacterDataRequest(ServerUpdateCharacterDataRequest&& src);
-    ServerUpdateCharacterDataRequest(const PFCharacterServerUpdateCharacterDataRequest& src);
-    ServerUpdateCharacterDataRequest& operator=(const ServerUpdateCharacterDataRequest&) = delete;
-    ~ServerUpdateCharacterDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerUpdateCharacterDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterServerUpdateCharacterDataRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
-    PointerArrayModel<char, String> m_keysToRemove;
-    StdExtra::optional<PFUserDataPermission> m_permission;
-    String m_playFabId;
 };
 
-struct ServerUpdateCharacterStatisticsRequest : public PFCharacterServerUpdateCharacterStatisticsRequest, public BaseModel
+class ServerUpdateCharacterStatisticsRequest : public Wrappers::PFCharacterServerUpdateCharacterStatisticsRequestWrapper<Allocator>, public InputModel
 {
-    ServerUpdateCharacterStatisticsRequest();
-    ServerUpdateCharacterStatisticsRequest(const ServerUpdateCharacterStatisticsRequest& src);
-    ServerUpdateCharacterStatisticsRequest(ServerUpdateCharacterStatisticsRequest&& src);
-    ServerUpdateCharacterStatisticsRequest(const PFCharacterServerUpdateCharacterStatisticsRequest& src);
-    ServerUpdateCharacterStatisticsRequest& operator=(const ServerUpdateCharacterStatisticsRequest&) = delete;
-    ~ServerUpdateCharacterStatisticsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFCharacterServerUpdateCharacterStatisticsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFCharacterServerUpdateCharacterStatisticsRequest& input);
 
-private:
-    String m_characterId;
-    AssociativeArrayModel<PFInt32DictionaryEntry, void> m_characterStatistics;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
 };
 
-} // namespace CharacterModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFCharacterResetCharacterStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterListUsersCharactersRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterListUsersCharactersResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterGetCharacterDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGetCharacterDataResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterGetCharacterLeaderboardRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterCharacterLeaderboardEntry& input);
-template<> inline JsonValue ToJson<>(const PFCharacterGetCharacterLeaderboardResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGetCharacterStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGetCharacterStatisticsResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGetLeaderboardAroundCharacterRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterGetLeaderboardAroundCharacterResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGetLeaderboardForUsersCharactersRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterGetLeaderboardForUsersCharactersResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGrantCharacterToUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientGrantCharacterToUserResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientUpdateCharacterDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterUpdateCharacterDataResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterClientUpdateCharacterStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterDeleteCharacterFromUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGetCharacterDataResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGetCharacterStatisticsRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGetCharacterStatisticsResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardAroundCharacterRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGetLeaderboardForUsersCharactersRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGrantCharacterToUserRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerGrantCharacterToUserResult& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerUpdateCharacterDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFCharacterServerUpdateCharacterStatisticsRequest& input);
-} // namespace JsonUtils
-
+} // namespace Character
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

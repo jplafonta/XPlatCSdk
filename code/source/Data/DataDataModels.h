@@ -1,382 +1,335 @@
 #pragma once
 
-#include <playfab/PFDataDataModels.h>
+#include <playfab/cpp/PFDataDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace DataModels
+namespace Data
 {
 
 // Data Classes
-struct AbortFileUploadsRequest : public PFDataAbortFileUploadsRequest, public BaseModel
+class AbortFileUploadsRequest : public Wrappers::PFDataAbortFileUploadsRequestWrapper<Allocator>, public InputModel
 {
-    AbortFileUploadsRequest();
-    AbortFileUploadsRequest(const AbortFileUploadsRequest& src);
-    AbortFileUploadsRequest(AbortFileUploadsRequest&& src);
-    AbortFileUploadsRequest(const PFDataAbortFileUploadsRequest& src);
-    AbortFileUploadsRequest& operator=(const AbortFileUploadsRequest&) = delete;
-    ~AbortFileUploadsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataAbortFileUploadsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataAbortFileUploadsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    PointerArrayModel<char, String> m_fileNames;
-    StdExtra::optional<int32_t> m_profileVersion;
 };
 
-struct AbortFileUploadsResponse : public PFDataAbortFileUploadsResponse, public BaseModel, public ApiResult
+class AbortFileUploadsResponse : public Wrappers::PFDataAbortFileUploadsResponseWrapper<Allocator>, public OutputModel<PFDataAbortFileUploadsResponse>
 {
-    AbortFileUploadsResponse();
-    AbortFileUploadsResponse(const AbortFileUploadsResponse& src);
-    AbortFileUploadsResponse(AbortFileUploadsResponse&& src);
-    AbortFileUploadsResponse(const PFDataAbortFileUploadsResponse& src);
-    AbortFileUploadsResponse& operator=(const AbortFileUploadsResponse&) = delete;
-    ~AbortFileUploadsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataAbortFileUploadsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataAbortFileUploadsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_entity;
+    static size_t RequiredBufferSize(const PFDataAbortFileUploadsResponse& model);
+    static HRESULT Copy(const PFDataAbortFileUploadsResponse& input, PFDataAbortFileUploadsResponse& output, ModelBuffer& buffer);
 };
 
-struct DeleteFilesRequest : public PFDataDeleteFilesRequest, public BaseModel
+class DeleteFilesRequest : public Wrappers::PFDataDeleteFilesRequestWrapper<Allocator>, public InputModel
 {
-    DeleteFilesRequest();
-    DeleteFilesRequest(const DeleteFilesRequest& src);
-    DeleteFilesRequest(DeleteFilesRequest&& src);
-    DeleteFilesRequest(const PFDataDeleteFilesRequest& src);
-    DeleteFilesRequest& operator=(const DeleteFilesRequest&) = delete;
-    ~DeleteFilesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataDeleteFilesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataDeleteFilesRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    PointerArrayModel<char, String> m_fileNames;
-    StdExtra::optional<int32_t> m_profileVersion;
 };
 
-struct DeleteFilesResponse : public PFDataDeleteFilesResponse, public BaseModel, public ApiResult
+class DeleteFilesResponse : public Wrappers::PFDataDeleteFilesResponseWrapper<Allocator>, public OutputModel<PFDataDeleteFilesResponse>
 {
-    DeleteFilesResponse();
-    DeleteFilesResponse(const DeleteFilesResponse& src);
-    DeleteFilesResponse(DeleteFilesResponse&& src);
-    DeleteFilesResponse(const PFDataDeleteFilesResponse& src);
-    DeleteFilesResponse& operator=(const DeleteFilesResponse&) = delete;
-    ~DeleteFilesResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataDeleteFilesResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataDeleteFilesResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_entity;
+    static size_t RequiredBufferSize(const PFDataDeleteFilesResponse& model);
+    static HRESULT Copy(const PFDataDeleteFilesResponse& input, PFDataDeleteFilesResponse& output, ModelBuffer& buffer);
 };
 
-struct FinalizeFileUploadsRequest : public PFDataFinalizeFileUploadsRequest, public BaseModel
+class FinalizeFileUploadsRequest : public Wrappers::PFDataFinalizeFileUploadsRequestWrapper<Allocator>, public InputModel
 {
-    FinalizeFileUploadsRequest();
-    FinalizeFileUploadsRequest(const FinalizeFileUploadsRequest& src);
-    FinalizeFileUploadsRequest(FinalizeFileUploadsRequest&& src);
-    FinalizeFileUploadsRequest(const PFDataFinalizeFileUploadsRequest& src);
-    FinalizeFileUploadsRequest& operator=(const FinalizeFileUploadsRequest&) = delete;
-    ~FinalizeFileUploadsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataFinalizeFileUploadsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataFinalizeFileUploadsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    PointerArrayModel<char, String> m_fileNames;
 };
 
-struct GetFileMetadata : public PFDataGetFileMetadata, public SerializableModel
+class GetFileMetadata : public Wrappers::PFDataGetFileMetadataWrapper<Allocator>, public OutputModel<PFDataGetFileMetadata>
 {
-    GetFileMetadata();
-    GetFileMetadata(const GetFileMetadata& src);
-    GetFileMetadata(GetFileMetadata&& src);
-    GetFileMetadata(const PFDataGetFileMetadata& src);
-    GetFileMetadata& operator=(const GetFileMetadata&) = delete;
-    ~GetFileMetadata() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataGetFileMetadataWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataGetFileMetadata const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_checksum;
-    String m_downloadUrl;
-    String m_fileName;
+    static size_t RequiredBufferSize(const PFDataGetFileMetadata& model);
+    static HRESULT Copy(const PFDataGetFileMetadata& input, PFDataGetFileMetadata& output, ModelBuffer& buffer);
 };
 
-struct FinalizeFileUploadsResponse : public PFDataFinalizeFileUploadsResponse, public BaseModel, public ApiResult
+class FinalizeFileUploadsResponse : public Wrappers::PFDataFinalizeFileUploadsResponseWrapper<Allocator>, public OutputModel<PFDataFinalizeFileUploadsResponse>
 {
-    FinalizeFileUploadsResponse();
-    FinalizeFileUploadsResponse(const FinalizeFileUploadsResponse& src);
-    FinalizeFileUploadsResponse(FinalizeFileUploadsResponse&& src);
-    FinalizeFileUploadsResponse(const PFDataFinalizeFileUploadsResponse& src);
-    FinalizeFileUploadsResponse& operator=(const FinalizeFileUploadsResponse&) = delete;
-    ~FinalizeFileUploadsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataFinalizeFileUploadsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataFinalizeFileUploadsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_entity;
-    AssociativeArrayModel<PFDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
+    static size_t RequiredBufferSize(const PFDataFinalizeFileUploadsResponse& model);
+    static HRESULT Copy(const PFDataFinalizeFileUploadsResponse& input, PFDataFinalizeFileUploadsResponse& output, ModelBuffer& buffer);
 };
 
-struct GetFilesRequest : public PFDataGetFilesRequest, public BaseModel
+class GetFilesRequest : public Wrappers::PFDataGetFilesRequestWrapper<Allocator>, public InputModel
 {
-    GetFilesRequest();
-    GetFilesRequest(const GetFilesRequest& src);
-    GetFilesRequest(GetFilesRequest&& src);
-    GetFilesRequest(const PFDataGetFilesRequest& src);
-    GetFilesRequest& operator=(const GetFilesRequest&) = delete;
-    ~GetFilesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataGetFilesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataGetFilesRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
 };
 
-struct GetFilesResponse : public PFDataGetFilesResponse, public BaseModel, public ApiResult
+class GetFilesResponse : public Wrappers::PFDataGetFilesResponseWrapper<Allocator>, public OutputModel<PFDataGetFilesResponse>
 {
-    GetFilesResponse();
-    GetFilesResponse(const GetFilesResponse& src);
-    GetFilesResponse(GetFilesResponse&& src);
-    GetFilesResponse(const PFDataGetFilesResponse& src);
-    GetFilesResponse& operator=(const GetFilesResponse&) = delete;
-    ~GetFilesResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataGetFilesResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataGetFilesResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_entity;
-    AssociativeArrayModel<PFDataGetFileMetadataDictionaryEntry, GetFileMetadata> m_metadata;
+    static size_t RequiredBufferSize(const PFDataGetFilesResponse& model);
+    static HRESULT Copy(const PFDataGetFilesResponse& input, PFDataGetFilesResponse& output, ModelBuffer& buffer);
 };
 
-struct GetObjectsRequest : public PFDataGetObjectsRequest, public BaseModel
+class GetObjectsRequest : public Wrappers::PFDataGetObjectsRequestWrapper<Allocator>, public InputModel
 {
-    GetObjectsRequest();
-    GetObjectsRequest(const GetObjectsRequest& src);
-    GetObjectsRequest(GetObjectsRequest&& src);
-    GetObjectsRequest(const PFDataGetObjectsRequest& src);
-    GetObjectsRequest& operator=(const GetObjectsRequest&) = delete;
-    ~GetObjectsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataGetObjectsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataGetObjectsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    StdExtra::optional<bool> m_escapeObject;
 };
 
-struct ObjectResult : public PFDataObjectResult, public BaseModel, public ApiResult
+class ObjectResult : public Wrappers::PFDataObjectResultWrapper<Allocator>, public OutputModel<PFDataObjectResult>
 {
-    ObjectResult();
-    ObjectResult(const ObjectResult& src);
-    ObjectResult(ObjectResult&& src);
-    ObjectResult(const PFDataObjectResult& src);
-    ObjectResult& operator=(const ObjectResult&) = delete;
-    ~ObjectResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataObjectResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
+    using DictionaryEntryType = ModelWrapperType::DictionaryEntryType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataObjectResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    JsonObject m_dataObject;
-    String m_escapedDataObject;
-    String m_objectName;
+    static size_t RequiredBufferSize(const PFDataObjectResult& model);
+    static HRESULT Copy(const PFDataObjectResult& input, PFDataObjectResult& output, ModelBuffer& buffer);
 };
 
-struct GetObjectsResponse : public PFDataGetObjectsResponse, public BaseModel, public ApiResult
+class GetObjectsResponse : public Wrappers::PFDataGetObjectsResponseWrapper<Allocator>, public OutputModel<PFDataGetObjectsResponse>
 {
-    GetObjectsResponse();
-    GetObjectsResponse(const GetObjectsResponse& src);
-    GetObjectsResponse(GetObjectsResponse&& src);
-    GetObjectsResponse(const PFDataGetObjectsResponse& src);
-    GetObjectsResponse& operator=(const GetObjectsResponse&) = delete;
-    ~GetObjectsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataGetObjectsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataGetObjectsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_entity;
-    AssociativeArrayModel<PFDataObjectResultDictionaryEntry, ObjectResult> m_objects;
+    static size_t RequiredBufferSize(const PFDataGetObjectsResponse& model);
+    static HRESULT Copy(const PFDataGetObjectsResponse& input, PFDataGetObjectsResponse& output, ModelBuffer& buffer);
 };
 
-struct InitiateFileUploadsRequest : public PFDataInitiateFileUploadsRequest, public BaseModel
+class InitiateFileUploadsRequest : public Wrappers::PFDataInitiateFileUploadsRequestWrapper<Allocator>, public InputModel
 {
-    InitiateFileUploadsRequest();
-    InitiateFileUploadsRequest(const InitiateFileUploadsRequest& src);
-    InitiateFileUploadsRequest(InitiateFileUploadsRequest&& src);
-    InitiateFileUploadsRequest(const PFDataInitiateFileUploadsRequest& src);
-    InitiateFileUploadsRequest& operator=(const InitiateFileUploadsRequest&) = delete;
-    ~InitiateFileUploadsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataInitiateFileUploadsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataInitiateFileUploadsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    PointerArrayModel<char, String> m_fileNames;
-    StdExtra::optional<int32_t> m_profileVersion;
 };
 
-struct InitiateFileUploadMetadata : public PFDataInitiateFileUploadMetadata, public SerializableModel
+class InitiateFileUploadMetadata : public Wrappers::PFDataInitiateFileUploadMetadataWrapper<Allocator>, public OutputModel<PFDataInitiateFileUploadMetadata>
 {
-    InitiateFileUploadMetadata();
-    InitiateFileUploadMetadata(const InitiateFileUploadMetadata& src);
-    InitiateFileUploadMetadata(InitiateFileUploadMetadata&& src);
-    InitiateFileUploadMetadata(const PFDataInitiateFileUploadMetadata& src);
-    InitiateFileUploadMetadata& operator=(const InitiateFileUploadMetadata&) = delete;
-    ~InitiateFileUploadMetadata() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataInitiateFileUploadMetadataWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataInitiateFileUploadMetadata const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_fileName;
-    String m_uploadUrl;
+    static size_t RequiredBufferSize(const PFDataInitiateFileUploadMetadata& model);
+    static HRESULT Copy(const PFDataInitiateFileUploadMetadata& input, PFDataInitiateFileUploadMetadata& output, ModelBuffer& buffer);
 };
 
-struct InitiateFileUploadsResponse : public PFDataInitiateFileUploadsResponse, public BaseModel, public ApiResult
+class InitiateFileUploadsResponse : public Wrappers::PFDataInitiateFileUploadsResponseWrapper<Allocator>, public OutputModel<PFDataInitiateFileUploadsResponse>
 {
-    InitiateFileUploadsResponse();
-    InitiateFileUploadsResponse(const InitiateFileUploadsResponse& src);
-    InitiateFileUploadsResponse(InitiateFileUploadsResponse&& src);
-    InitiateFileUploadsResponse(const PFDataInitiateFileUploadsResponse& src);
-    InitiateFileUploadsResponse& operator=(const InitiateFileUploadsResponse&) = delete;
-    ~InitiateFileUploadsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataInitiateFileUploadsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataInitiateFileUploadsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    StdExtra::optional<EntityKey> m_entity;
-    PointerArrayModel<PFDataInitiateFileUploadMetadata, InitiateFileUploadMetadata> m_uploadDetails;
+    static size_t RequiredBufferSize(const PFDataInitiateFileUploadsResponse& model);
+    static HRESULT Copy(const PFDataInitiateFileUploadsResponse& input, PFDataInitiateFileUploadsResponse& output, ModelBuffer& buffer);
 };
 
-struct SetObject : public PFDataSetObject, public BaseModel
+class SetObject : public Wrappers::PFDataSetObjectWrapper<Allocator>, public InputModel
 {
-    SetObject();
-    SetObject(const SetObject& src);
-    SetObject(SetObject&& src);
-    SetObject(const PFDataSetObject& src);
-    SetObject& operator=(const SetObject&) = delete;
-    ~SetObject() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataSetObjectWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataSetObject& input);
 
-private:
-    JsonObject m_dataObject;
-    StdExtra::optional<bool> m_deleteObject;
-    String m_escapedDataObject;
-    String m_objectName;
 };
 
-struct SetObjectsRequest : public PFDataSetObjectsRequest, public BaseModel
+class SetObjectsRequest : public Wrappers::PFDataSetObjectsRequestWrapper<Allocator>, public InputModel
 {
-    SetObjectsRequest();
-    SetObjectsRequest(const SetObjectsRequest& src);
-    SetObjectsRequest(SetObjectsRequest&& src);
-    SetObjectsRequest(const PFDataSetObjectsRequest& src);
-    SetObjectsRequest& operator=(const SetObjectsRequest&) = delete;
-    ~SetObjectsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataSetObjectsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFDataSetObjectsRequest& input);
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    EntityKey m_entity;
-    StdExtra::optional<int32_t> m_expectedProfileVersion;
-    PointerArrayModel<PFDataSetObject, SetObject> m_objects;
 };
 
-struct SetObjectInfo : public PFDataSetObjectInfo, public BaseModel
+class SetObjectInfo : public Wrappers::PFDataSetObjectInfoWrapper<Allocator>, public OutputModel<PFDataSetObjectInfo>
 {
-    SetObjectInfo();
-    SetObjectInfo(const SetObjectInfo& src);
-    SetObjectInfo(SetObjectInfo&& src);
-    SetObjectInfo(const PFDataSetObjectInfo& src);
-    SetObjectInfo& operator=(const SetObjectInfo&) = delete;
-    ~SetObjectInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataSetObjectInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataSetObjectInfo const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_objectName;
-    String m_operationReason;
-    StdExtra::optional<PFOperationTypes> m_setResult;
+    static size_t RequiredBufferSize(const PFDataSetObjectInfo& model);
+    static HRESULT Copy(const PFDataSetObjectInfo& input, PFDataSetObjectInfo& output, ModelBuffer& buffer);
 };
 
-struct SetObjectsResponse : public PFDataSetObjectsResponse, public BaseModel, public ApiResult
+class SetObjectsResponse : public Wrappers::PFDataSetObjectsResponseWrapper<Allocator>, public OutputModel<PFDataSetObjectsResponse>
 {
-    SetObjectsResponse();
-    SetObjectsResponse(const SetObjectsResponse& src);
-    SetObjectsResponse(SetObjectsResponse&& src);
-    SetObjectsResponse(const PFDataSetObjectsResponse& src);
-    SetObjectsResponse& operator=(const SetObjectsResponse&) = delete;
-    ~SetObjectsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFDataSetObjectsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFDataSetObjectsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFDataSetObjectInfo, SetObjectInfo> m_setResults;
+    static size_t RequiredBufferSize(const PFDataSetObjectsResponse& model);
+    static HRESULT Copy(const PFDataSetObjectsResponse& input, PFDataSetObjectsResponse& output, ModelBuffer& buffer);
 };
 
-} // namespace DataModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFDataAbortFileUploadsRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataAbortFileUploadsResponse& input);
-template<> inline JsonValue ToJson<>(const PFDataDeleteFilesRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataDeleteFilesResponse& input);
-template<> inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataGetFileMetadata& input);
-template<> inline JsonValue ToJson<>(const PFDataFinalizeFileUploadsResponse& input);
-template<> inline JsonValue ToJson<>(const PFDataGetFilesRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataGetFilesResponse& input);
-template<> inline JsonValue ToJson<>(const PFDataGetObjectsRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataObjectResult& input);
-template<> inline JsonValue ToJson<>(const PFDataGetObjectsResponse& input);
-template<> inline JsonValue ToJson<>(const PFDataInitiateFileUploadsRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataInitiateFileUploadMetadata& input);
-template<> inline JsonValue ToJson<>(const PFDataInitiateFileUploadsResponse& input);
-template<> inline JsonValue ToJson<>(const PFDataSetObject& input);
-template<> inline JsonValue ToJson<>(const PFDataSetObjectsRequest& input);
-template<> inline JsonValue ToJson<>(const PFDataSetObjectInfo& input);
-template<> inline JsonValue ToJson<>(const PFDataSetObjectsResponse& input);
-} // namespace JsonUtils
-
+} // namespace Data
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

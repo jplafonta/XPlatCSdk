@@ -166,7 +166,11 @@ void AutoGenGameServerTests::TestGameServerAdminAddServerBuild(TestContext& test
         PFGameServerAddServerBuildResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGameServerAdminAddServerBuildGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGameServerAdminAddServerBuildGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGameServerAdminAddServerBuildGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -201,7 +205,11 @@ void AutoGenGameServerTests::TestGameServerAdminGetServerBuildInfo(TestContext& 
         PFGameServerGetServerBuildInfoResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGameServerAdminGetServerBuildInfoGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGameServerAdminGetServerBuildInfoGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGameServerAdminGetServerBuildInfoGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -275,7 +283,11 @@ void AutoGenGameServerTests::TestGameServerAdminListServerBuilds(TestContext& te
         PFGameServerListBuildsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGameServerAdminListServerBuildsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGameServerAdminListServerBuildsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGameServerAdminListServerBuildsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -307,7 +319,11 @@ void AutoGenGameServerTests::TestGameServerAdminModifyServerBuild(TestContext& t
         PFGameServerModifyServerBuildResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFGameServerAdminModifyServerBuildGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFGameServerAdminModifyServerBuildGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFGameServerAdminModifyServerBuildGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

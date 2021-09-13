@@ -1,764 +1,664 @@
 #pragma once
 
-#include <playfab/PFTitleDataManagementDataModels.h>
+#include <playfab/cpp/PFTitleDataManagementDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace TitleDataManagementModels
+namespace TitleDataManagement
 {
 
 // TitleDataManagement Classes
-struct AddLocalizedNewsRequest : public PFTitleDataManagementAddLocalizedNewsRequest, public BaseModel
+class AddLocalizedNewsRequest : public Wrappers::PFTitleDataManagementAddLocalizedNewsRequestWrapper<Allocator>, public InputModel
 {
-    AddLocalizedNewsRequest();
-    AddLocalizedNewsRequest(const AddLocalizedNewsRequest& src);
-    AddLocalizedNewsRequest(AddLocalizedNewsRequest&& src);
-    AddLocalizedNewsRequest(const PFTitleDataManagementAddLocalizedNewsRequest& src);
-    AddLocalizedNewsRequest& operator=(const AddLocalizedNewsRequest&) = delete;
-    ~AddLocalizedNewsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementAddLocalizedNewsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementAddLocalizedNewsRequest& input);
 
-private:
-    String m_body;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_language;
-    String m_newsId;
-    String m_title;
 };
 
-struct AddNewsRequest : public PFTitleDataManagementAddNewsRequest, public BaseModel
+class AddNewsRequest : public Wrappers::PFTitleDataManagementAddNewsRequestWrapper<Allocator>, public InputModel
 {
-    AddNewsRequest();
-    AddNewsRequest(const AddNewsRequest& src);
-    AddNewsRequest(AddNewsRequest&& src);
-    AddNewsRequest(const PFTitleDataManagementAddNewsRequest& src);
-    AddNewsRequest& operator=(const AddNewsRequest&) = delete;
-    ~AddNewsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementAddNewsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementAddNewsRequest& input);
 
-private:
-    String m_body;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<time_t> m_timestamp;
-    String m_title;
 };
 
-struct AddNewsResult : public PFTitleDataManagementAddNewsResult, public SerializableModel, public ApiResult
+class AddNewsResult : public Wrappers::PFTitleDataManagementAddNewsResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementAddNewsResult>
 {
-    AddNewsResult();
-    AddNewsResult(const AddNewsResult& src);
-    AddNewsResult(AddNewsResult&& src);
-    AddNewsResult(const PFTitleDataManagementAddNewsResult& src);
-    AddNewsResult& operator=(const AddNewsResult&) = delete;
-    ~AddNewsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementAddNewsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementAddNewsResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_newsId;
+    static size_t RequiredBufferSize(const PFTitleDataManagementAddNewsResult& model);
+    static HRESULT Copy(const PFTitleDataManagementAddNewsResult& input, PFTitleDataManagementAddNewsResult& output, ModelBuffer& buffer);
 };
 
-struct VirtualCurrencyData : public PFTitleDataManagementVirtualCurrencyData, public BaseModel
+class VirtualCurrencyData : public Wrappers::PFTitleDataManagementVirtualCurrencyDataWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementVirtualCurrencyData>
 {
-    VirtualCurrencyData();
-    VirtualCurrencyData(const VirtualCurrencyData& src);
-    VirtualCurrencyData(VirtualCurrencyData&& src);
-    VirtualCurrencyData(const PFTitleDataManagementVirtualCurrencyData& src);
-    VirtualCurrencyData& operator=(const VirtualCurrencyData&) = delete;
-    ~VirtualCurrencyData() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementVirtualCurrencyDataWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementVirtualCurrencyData& input);
 
-private:
-    String m_currencyCode;
-    String m_displayName;
-    StdExtra::optional<int32_t> m_initialDeposit;
-    StdExtra::optional<int32_t> m_rechargeMax;
-    StdExtra::optional<int32_t> m_rechargeRate;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementVirtualCurrencyData const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementVirtualCurrencyData& model);
+    static HRESULT Copy(const PFTitleDataManagementVirtualCurrencyData& input, PFTitleDataManagementVirtualCurrencyData& output, ModelBuffer& buffer);
 };
 
-struct AddVirtualCurrencyTypesRequest : public PFTitleDataManagementAddVirtualCurrencyTypesRequest, public BaseModel
+class AddVirtualCurrencyTypesRequest : public Wrappers::PFTitleDataManagementAddVirtualCurrencyTypesRequestWrapper<Allocator>, public InputModel
 {
-    AddVirtualCurrencyTypesRequest();
-    AddVirtualCurrencyTypesRequest(const AddVirtualCurrencyTypesRequest& src);
-    AddVirtualCurrencyTypesRequest(AddVirtualCurrencyTypesRequest&& src);
-    AddVirtualCurrencyTypesRequest(const PFTitleDataManagementAddVirtualCurrencyTypesRequest& src);
-    AddVirtualCurrencyTypesRequest& operator=(const AddVirtualCurrencyTypesRequest&) = delete;
-    ~AddVirtualCurrencyTypesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementAddVirtualCurrencyTypesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementAddVirtualCurrencyTypesRequest& input);
 
-private:
-    PointerArrayModel<PFTitleDataManagementVirtualCurrencyData, VirtualCurrencyData> m_virtualCurrencies;
 };
 
-struct DeleteStoreRequest : public PFTitleDataManagementDeleteStoreRequest, public BaseModel
+class DeleteStoreRequest : public Wrappers::PFTitleDataManagementDeleteStoreRequestWrapper<Allocator>, public InputModel
 {
-    DeleteStoreRequest();
-    DeleteStoreRequest(const DeleteStoreRequest& src);
-    DeleteStoreRequest(DeleteStoreRequest&& src);
-    DeleteStoreRequest(const PFTitleDataManagementDeleteStoreRequest& src);
-    DeleteStoreRequest& operator=(const DeleteStoreRequest&) = delete;
-    ~DeleteStoreRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementDeleteStoreRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementDeleteStoreRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_storeId;
 };
 
-struct DeleteTitleDataOverrideRequest : public PFTitleDataManagementDeleteTitleDataOverrideRequest, public SerializableModel
+class DeleteTitleDataOverrideRequest : public Wrappers::PFTitleDataManagementDeleteTitleDataOverrideRequestWrapper<Allocator>, public InputModel
 {
-    DeleteTitleDataOverrideRequest();
-    DeleteTitleDataOverrideRequest(const DeleteTitleDataOverrideRequest& src);
-    DeleteTitleDataOverrideRequest(DeleteTitleDataOverrideRequest&& src);
-    DeleteTitleDataOverrideRequest(const PFTitleDataManagementDeleteTitleDataOverrideRequest& src);
-    DeleteTitleDataOverrideRequest& operator=(const DeleteTitleDataOverrideRequest&) = delete;
-    ~DeleteTitleDataOverrideRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementDeleteTitleDataOverrideRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementDeleteTitleDataOverrideRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_overrideLabel;
 };
 
-struct GetCatalogItemsRequest : public PFTitleDataManagementGetCatalogItemsRequest, public SerializableModel
+class GetCatalogItemsRequest : public Wrappers::PFTitleDataManagementGetCatalogItemsRequestWrapper<Allocator>, public InputModel
 {
-    GetCatalogItemsRequest();
-    GetCatalogItemsRequest(const GetCatalogItemsRequest& src);
-    GetCatalogItemsRequest(GetCatalogItemsRequest&& src);
-    GetCatalogItemsRequest(const PFTitleDataManagementGetCatalogItemsRequest& src);
-    GetCatalogItemsRequest& operator=(const GetCatalogItemsRequest&) = delete;
-    ~GetCatalogItemsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetCatalogItemsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetCatalogItemsRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_catalogVersion;
 };
 
-struct CatalogItemBundleInfo : public PFTitleDataManagementCatalogItemBundleInfo, public BaseModel
+class CatalogItemBundleInfo : public Wrappers::PFTitleDataManagementCatalogItemBundleInfoWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementCatalogItemBundleInfo>
 {
-    CatalogItemBundleInfo();
-    CatalogItemBundleInfo(const CatalogItemBundleInfo& src);
-    CatalogItemBundleInfo(CatalogItemBundleInfo&& src);
-    CatalogItemBundleInfo(const PFTitleDataManagementCatalogItemBundleInfo& src);
-    CatalogItemBundleInfo& operator=(const CatalogItemBundleInfo&) = delete;
-    ~CatalogItemBundleInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementCatalogItemBundleInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementCatalogItemBundleInfo& input);
 
-private:
-    PointerArrayModel<char, String> m_bundledItems;
-    PointerArrayModel<char, String> m_bundledResultTables;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_bundledVirtualCurrencies;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementCatalogItemBundleInfo const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementCatalogItemBundleInfo& model);
+    static HRESULT Copy(const PFTitleDataManagementCatalogItemBundleInfo& input, PFTitleDataManagementCatalogItemBundleInfo& output, ModelBuffer& buffer);
 };
 
-struct CatalogItemConsumableInfo : public PFTitleDataManagementCatalogItemConsumableInfo, public BaseModel
+class CatalogItemConsumableInfo : public Wrappers::PFTitleDataManagementCatalogItemConsumableInfoWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementCatalogItemConsumableInfo>
 {
-    CatalogItemConsumableInfo();
-    CatalogItemConsumableInfo(const CatalogItemConsumableInfo& src);
-    CatalogItemConsumableInfo(CatalogItemConsumableInfo&& src);
-    CatalogItemConsumableInfo(const PFTitleDataManagementCatalogItemConsumableInfo& src);
-    CatalogItemConsumableInfo& operator=(const CatalogItemConsumableInfo&) = delete;
-    ~CatalogItemConsumableInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementCatalogItemConsumableInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementCatalogItemConsumableInfo& input);
 
-private:
-    StdExtra::optional<uint32_t> m_usageCount;
-    StdExtra::optional<uint32_t> m_usagePeriod;
-    String m_usagePeriodGroup;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementCatalogItemConsumableInfo const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementCatalogItemConsumableInfo& model);
+    static HRESULT Copy(const PFTitleDataManagementCatalogItemConsumableInfo& input, PFTitleDataManagementCatalogItemConsumableInfo& output, ModelBuffer& buffer);
 };
 
-struct CatalogItemContainerInfo : public PFTitleDataManagementCatalogItemContainerInfo, public BaseModel
+class CatalogItemContainerInfo : public Wrappers::PFTitleDataManagementCatalogItemContainerInfoWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementCatalogItemContainerInfo>
 {
-    CatalogItemContainerInfo();
-    CatalogItemContainerInfo(const CatalogItemContainerInfo& src);
-    CatalogItemContainerInfo(CatalogItemContainerInfo&& src);
-    CatalogItemContainerInfo(const PFTitleDataManagementCatalogItemContainerInfo& src);
-    CatalogItemContainerInfo& operator=(const CatalogItemContainerInfo&) = delete;
-    ~CatalogItemContainerInfo() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementCatalogItemContainerInfoWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementCatalogItemContainerInfo& input);
 
-private:
-    PointerArrayModel<char, String> m_itemContents;
-    String m_keyItemId;
-    PointerArrayModel<char, String> m_resultTableContents;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_virtualCurrencyContents;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementCatalogItemContainerInfo const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementCatalogItemContainerInfo& model);
+    static HRESULT Copy(const PFTitleDataManagementCatalogItemContainerInfo& input, PFTitleDataManagementCatalogItemContainerInfo& output, ModelBuffer& buffer);
 };
 
-struct CatalogItem : public PFTitleDataManagementCatalogItem, public BaseModel
+class CatalogItem : public Wrappers::PFTitleDataManagementCatalogItemWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementCatalogItem>
 {
-    CatalogItem();
-    CatalogItem(const CatalogItem& src);
-    CatalogItem(CatalogItem&& src);
-    CatalogItem(const PFTitleDataManagementCatalogItem& src);
-    CatalogItem& operator=(const CatalogItem&) = delete;
-    ~CatalogItem() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementCatalogItemWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementCatalogItem& input);
 
-private:
-    StdExtra::optional<CatalogItemBundleInfo> m_bundle;
-    String m_catalogVersion;
-    StdExtra::optional<CatalogItemConsumableInfo> m_consumable;
-    StdExtra::optional<CatalogItemContainerInfo> m_container;
-    String m_customData;
-    String m_description;
-    String m_displayName;
-    String m_itemClass;
-    String m_itemId;
-    String m_itemImageUrl;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_realCurrencyPrices;
-    PointerArrayModel<char, String> m_tags;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_virtualCurrencyPrices;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementCatalogItem const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementCatalogItem& model);
+    static HRESULT Copy(const PFTitleDataManagementCatalogItem& input, PFTitleDataManagementCatalogItem& output, ModelBuffer& buffer);
 };
 
-struct GetCatalogItemsResult : public PFTitleDataManagementGetCatalogItemsResult, public BaseModel, public ApiResult
+class GetCatalogItemsResult : public Wrappers::PFTitleDataManagementGetCatalogItemsResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementGetCatalogItemsResult>
 {
-    GetCatalogItemsResult();
-    GetCatalogItemsResult(const GetCatalogItemsResult& src);
-    GetCatalogItemsResult(GetCatalogItemsResult&& src);
-    GetCatalogItemsResult(const PFTitleDataManagementGetCatalogItemsResult& src);
-    GetCatalogItemsResult& operator=(const GetCatalogItemsResult&) = delete;
-    ~GetCatalogItemsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetCatalogItemsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementGetCatalogItemsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFTitleDataManagementCatalogItem, CatalogItem> m_catalog;
+    static size_t RequiredBufferSize(const PFTitleDataManagementGetCatalogItemsResult& model);
+    static HRESULT Copy(const PFTitleDataManagementGetCatalogItemsResult& input, PFTitleDataManagementGetCatalogItemsResult& output, ModelBuffer& buffer);
 };
 
-struct GetPublisherDataRequest : public PFTitleDataManagementGetPublisherDataRequest, public BaseModel
+class GetPublisherDataRequest : public Wrappers::PFTitleDataManagementGetPublisherDataRequestWrapper<Allocator>, public InputModel
 {
-    GetPublisherDataRequest();
-    GetPublisherDataRequest(const GetPublisherDataRequest& src);
-    GetPublisherDataRequest(GetPublisherDataRequest&& src);
-    GetPublisherDataRequest(const PFTitleDataManagementGetPublisherDataRequest& src);
-    GetPublisherDataRequest& operator=(const GetPublisherDataRequest&) = delete;
-    ~GetPublisherDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetPublisherDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetPublisherDataRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_keys;
 };
 
-struct GetPublisherDataResult : public PFTitleDataManagementGetPublisherDataResult, public BaseModel, public ApiResult
+class GetPublisherDataResult : public Wrappers::PFTitleDataManagementGetPublisherDataResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementGetPublisherDataResult>
 {
-    GetPublisherDataResult();
-    GetPublisherDataResult(const GetPublisherDataResult& src);
-    GetPublisherDataResult(GetPublisherDataResult&& src);
-    GetPublisherDataResult(const PFTitleDataManagementGetPublisherDataResult& src);
-    GetPublisherDataResult& operator=(const GetPublisherDataResult&) = delete;
-    ~GetPublisherDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetPublisherDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementGetPublisherDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
+    static size_t RequiredBufferSize(const PFTitleDataManagementGetPublisherDataResult& model);
+    static HRESULT Copy(const PFTitleDataManagementGetPublisherDataResult& input, PFTitleDataManagementGetPublisherDataResult& output, ModelBuffer& buffer);
 };
 
-struct GetRandomResultTablesRequest : public PFTitleDataManagementGetRandomResultTablesRequest, public SerializableModel
+class GetRandomResultTablesRequest : public Wrappers::PFTitleDataManagementGetRandomResultTablesRequestWrapper<Allocator>, public InputModel
 {
-    GetRandomResultTablesRequest();
-    GetRandomResultTablesRequest(const GetRandomResultTablesRequest& src);
-    GetRandomResultTablesRequest(GetRandomResultTablesRequest&& src);
-    GetRandomResultTablesRequest(const PFTitleDataManagementGetRandomResultTablesRequest& src);
-    GetRandomResultTablesRequest& operator=(const GetRandomResultTablesRequest&) = delete;
-    ~GetRandomResultTablesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetRandomResultTablesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetRandomResultTablesRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_catalogVersion;
 };
 
-struct GetStoreItemsRequest : public PFTitleDataManagementGetStoreItemsRequest, public SerializableModel
+class GetStoreItemsRequest : public Wrappers::PFTitleDataManagementGetStoreItemsRequestWrapper<Allocator>, public InputModel
 {
-    GetStoreItemsRequest();
-    GetStoreItemsRequest(const GetStoreItemsRequest& src);
-    GetStoreItemsRequest(GetStoreItemsRequest&& src);
-    GetStoreItemsRequest(const PFTitleDataManagementGetStoreItemsRequest& src);
-    GetStoreItemsRequest& operator=(const GetStoreItemsRequest&) = delete;
-    ~GetStoreItemsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetStoreItemsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetStoreItemsRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_catalogVersion;
-    String m_storeId;
 };
 
-struct StoreMarketingModel : public PFTitleDataManagementStoreMarketingModel, public BaseModel
+class StoreMarketingModel : public Wrappers::PFTitleDataManagementStoreMarketingModelWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementStoreMarketingModel>
 {
-    StoreMarketingModel();
-    StoreMarketingModel(const StoreMarketingModel& src);
-    StoreMarketingModel(StoreMarketingModel&& src);
-    StoreMarketingModel(const PFTitleDataManagementStoreMarketingModel& src);
-    StoreMarketingModel& operator=(const StoreMarketingModel&) = delete;
-    ~StoreMarketingModel() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementStoreMarketingModelWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementStoreMarketingModel& input);
 
-private:
-    String m_description;
-    String m_displayName;
-    JsonObject m_metadata;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementStoreMarketingModel const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementStoreMarketingModel& model);
+    static HRESULT Copy(const PFTitleDataManagementStoreMarketingModel& input, PFTitleDataManagementStoreMarketingModel& output, ModelBuffer& buffer);
 };
 
-struct StoreItem : public PFTitleDataManagementStoreItem, public BaseModel
+class StoreItem : public Wrappers::PFTitleDataManagementStoreItemWrapper<Allocator>, public InputModel, public OutputModel<PFTitleDataManagementStoreItem>
 {
-    StoreItem();
-    StoreItem(const StoreItem& src);
-    StoreItem(StoreItem&& src);
-    StoreItem(const PFTitleDataManagementStoreItem& src);
-    StoreItem& operator=(const StoreItem&) = delete;
-    ~StoreItem() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementStoreItemWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementStoreItem& input);
 
-private:
-    JsonObject m_customData;
-    StdExtra::optional<uint32_t> m_displayPosition;
-    String m_itemId;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_realCurrencyPrices;
-    AssociativeArrayModel<PFUint32DictionaryEntry, void> m_virtualCurrencyPrices;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementStoreItem const*> Copy(ModelBuffer& buffer) const override;
+
+    static size_t RequiredBufferSize(const PFTitleDataManagementStoreItem& model);
+    static HRESULT Copy(const PFTitleDataManagementStoreItem& input, PFTitleDataManagementStoreItem& output, ModelBuffer& buffer);
 };
 
-struct GetStoreItemsResult : public PFTitleDataManagementGetStoreItemsResult, public BaseModel, public ApiResult
+class GetStoreItemsResult : public Wrappers::PFTitleDataManagementGetStoreItemsResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementGetStoreItemsResult>
 {
-    GetStoreItemsResult();
-    GetStoreItemsResult(const GetStoreItemsResult& src);
-    GetStoreItemsResult(GetStoreItemsResult&& src);
-    GetStoreItemsResult(const PFTitleDataManagementGetStoreItemsResult& src);
-    GetStoreItemsResult& operator=(const GetStoreItemsResult&) = delete;
-    ~GetStoreItemsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetStoreItemsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementGetStoreItemsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_catalogVersion;
-    StdExtra::optional<StoreMarketingModel> m_marketingData;
-    StdExtra::optional<PFTitleDataManagementSourceType> m_source;
-    PointerArrayModel<PFTitleDataManagementStoreItem, StoreItem> m_store;
-    String m_storeId;
+    static size_t RequiredBufferSize(const PFTitleDataManagementGetStoreItemsResult& model);
+    static HRESULT Copy(const PFTitleDataManagementGetStoreItemsResult& input, PFTitleDataManagementGetStoreItemsResult& output, ModelBuffer& buffer);
 };
 
-struct GetTitleDataRequest : public PFTitleDataManagementGetTitleDataRequest, public BaseModel
+class GetTitleDataRequest : public Wrappers::PFTitleDataManagementGetTitleDataRequestWrapper<Allocator>, public InputModel
 {
-    GetTitleDataRequest();
-    GetTitleDataRequest(const GetTitleDataRequest& src);
-    GetTitleDataRequest(GetTitleDataRequest&& src);
-    GetTitleDataRequest(const PFTitleDataManagementGetTitleDataRequest& src);
-    GetTitleDataRequest& operator=(const GetTitleDataRequest&) = delete;
-    ~GetTitleDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetTitleDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetTitleDataRequest& input);
 
-private:
-    PointerArrayModel<char, String> m_keys;
-    String m_overrideLabel;
 };
 
-struct GetTitleDataResult : public PFTitleDataManagementGetTitleDataResult, public BaseModel, public ApiResult
+class GetTitleDataResult : public Wrappers::PFTitleDataManagementGetTitleDataResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementGetTitleDataResult>
 {
-    GetTitleDataResult();
-    GetTitleDataResult(const GetTitleDataResult& src);
-    GetTitleDataResult(GetTitleDataResult&& src);
-    GetTitleDataResult(const PFTitleDataManagementGetTitleDataResult& src);
-    GetTitleDataResult& operator=(const GetTitleDataResult&) = delete;
-    ~GetTitleDataResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetTitleDataResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementGetTitleDataResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_data;
+    static size_t RequiredBufferSize(const PFTitleDataManagementGetTitleDataResult& model);
+    static HRESULT Copy(const PFTitleDataManagementGetTitleDataResult& input, PFTitleDataManagementGetTitleDataResult& output, ModelBuffer& buffer);
 };
 
-struct ListVirtualCurrencyTypesResult : public PFTitleDataManagementListVirtualCurrencyTypesResult, public BaseModel, public ApiResult
+class ListVirtualCurrencyTypesResult : public Wrappers::PFTitleDataManagementListVirtualCurrencyTypesResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementListVirtualCurrencyTypesResult>
 {
-    ListVirtualCurrencyTypesResult();
-    ListVirtualCurrencyTypesResult(const ListVirtualCurrencyTypesResult& src);
-    ListVirtualCurrencyTypesResult(ListVirtualCurrencyTypesResult&& src);
-    ListVirtualCurrencyTypesResult(const PFTitleDataManagementListVirtualCurrencyTypesResult& src);
-    ListVirtualCurrencyTypesResult& operator=(const ListVirtualCurrencyTypesResult&) = delete;
-    ~ListVirtualCurrencyTypesResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementListVirtualCurrencyTypesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementListVirtualCurrencyTypesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFTitleDataManagementVirtualCurrencyData, VirtualCurrencyData> m_virtualCurrencies;
+    static size_t RequiredBufferSize(const PFTitleDataManagementListVirtualCurrencyTypesResult& model);
+    static HRESULT Copy(const PFTitleDataManagementListVirtualCurrencyTypesResult& input, PFTitleDataManagementListVirtualCurrencyTypesResult& output, ModelBuffer& buffer);
 };
 
-struct RemoveVirtualCurrencyTypesRequest : public PFTitleDataManagementRemoveVirtualCurrencyTypesRequest, public BaseModel
+class RemoveVirtualCurrencyTypesRequest : public Wrappers::PFTitleDataManagementRemoveVirtualCurrencyTypesRequestWrapper<Allocator>, public InputModel
 {
-    RemoveVirtualCurrencyTypesRequest();
-    RemoveVirtualCurrencyTypesRequest(const RemoveVirtualCurrencyTypesRequest& src);
-    RemoveVirtualCurrencyTypesRequest(RemoveVirtualCurrencyTypesRequest&& src);
-    RemoveVirtualCurrencyTypesRequest(const PFTitleDataManagementRemoveVirtualCurrencyTypesRequest& src);
-    RemoveVirtualCurrencyTypesRequest& operator=(const RemoveVirtualCurrencyTypesRequest&) = delete;
-    ~RemoveVirtualCurrencyTypesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementRemoveVirtualCurrencyTypesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementRemoveVirtualCurrencyTypesRequest& input);
 
-private:
-    PointerArrayModel<PFTitleDataManagementVirtualCurrencyData, VirtualCurrencyData> m_virtualCurrencies;
 };
 
-struct UpdateCatalogItemsRequest : public PFTitleDataManagementUpdateCatalogItemsRequest, public BaseModel
+class UpdateCatalogItemsRequest : public Wrappers::PFTitleDataManagementUpdateCatalogItemsRequestWrapper<Allocator>, public InputModel
 {
-    UpdateCatalogItemsRequest();
-    UpdateCatalogItemsRequest(const UpdateCatalogItemsRequest& src);
-    UpdateCatalogItemsRequest(UpdateCatalogItemsRequest&& src);
-    UpdateCatalogItemsRequest(const PFTitleDataManagementUpdateCatalogItemsRequest& src);
-    UpdateCatalogItemsRequest& operator=(const UpdateCatalogItemsRequest&) = delete;
-    ~UpdateCatalogItemsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementUpdateCatalogItemsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementUpdateCatalogItemsRequest& input);
 
-private:
-    PointerArrayModel<PFTitleDataManagementCatalogItem, CatalogItem> m_catalog;
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<bool> m_setAsDefaultCatalog;
 };
 
-struct UpdateStoreItemsRequest : public PFTitleDataManagementUpdateStoreItemsRequest, public BaseModel
+class UpdateStoreItemsRequest : public Wrappers::PFTitleDataManagementUpdateStoreItemsRequestWrapper<Allocator>, public InputModel
 {
-    UpdateStoreItemsRequest();
-    UpdateStoreItemsRequest(const UpdateStoreItemsRequest& src);
-    UpdateStoreItemsRequest(UpdateStoreItemsRequest&& src);
-    UpdateStoreItemsRequest(const PFTitleDataManagementUpdateStoreItemsRequest& src);
-    UpdateStoreItemsRequest& operator=(const UpdateStoreItemsRequest&) = delete;
-    ~UpdateStoreItemsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementUpdateStoreItemsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementUpdateStoreItemsRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<StoreMarketingModel> m_marketingData;
-    PointerArrayModel<PFTitleDataManagementStoreItem, StoreItem> m_store;
-    String m_storeId;
 };
 
-struct SetTitleDataRequest : public PFTitleDataManagementSetTitleDataRequest, public SerializableModel
+class SetTitleDataRequest : public Wrappers::PFTitleDataManagementSetTitleDataRequestWrapper<Allocator>, public InputModel
 {
-    SetTitleDataRequest();
-    SetTitleDataRequest(const SetTitleDataRequest& src);
-    SetTitleDataRequest(SetTitleDataRequest&& src);
-    SetTitleDataRequest(const PFTitleDataManagementSetTitleDataRequest& src);
-    SetTitleDataRequest& operator=(const SetTitleDataRequest&) = delete;
-    ~SetTitleDataRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementSetTitleDataRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementSetTitleDataRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_key;
-    String m_value;
 };
 
-struct TitleDataKeyValue : public PFTitleDataManagementTitleDataKeyValue, public SerializableModel
+class TitleDataKeyValue : public Wrappers::PFTitleDataManagementTitleDataKeyValueWrapper<Allocator>, public InputModel
 {
-    TitleDataKeyValue();
-    TitleDataKeyValue(const TitleDataKeyValue& src);
-    TitleDataKeyValue(TitleDataKeyValue&& src);
-    TitleDataKeyValue(const PFTitleDataManagementTitleDataKeyValue& src);
-    TitleDataKeyValue& operator=(const TitleDataKeyValue&) = delete;
-    ~TitleDataKeyValue() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementTitleDataKeyValueWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementTitleDataKeyValue& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_key;
-    String m_value;
 };
 
-struct SetTitleDataAndOverridesRequest : public PFTitleDataManagementSetTitleDataAndOverridesRequest, public BaseModel
+class SetTitleDataAndOverridesRequest : public Wrappers::PFTitleDataManagementSetTitleDataAndOverridesRequestWrapper<Allocator>, public InputModel
 {
-    SetTitleDataAndOverridesRequest();
-    SetTitleDataAndOverridesRequest(const SetTitleDataAndOverridesRequest& src);
-    SetTitleDataAndOverridesRequest(SetTitleDataAndOverridesRequest&& src);
-    SetTitleDataAndOverridesRequest(const PFTitleDataManagementSetTitleDataAndOverridesRequest& src);
-    SetTitleDataAndOverridesRequest& operator=(const SetTitleDataAndOverridesRequest&) = delete;
-    ~SetTitleDataAndOverridesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementSetTitleDataAndOverridesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementSetTitleDataAndOverridesRequest& input);
 
-private:
-    PointerArrayModel<PFTitleDataManagementTitleDataKeyValue, TitleDataKeyValue> m_keyValues;
-    String m_overrideLabel;
 };
 
-struct SetupPushNotificationRequest : public PFTitleDataManagementSetupPushNotificationRequest, public SerializableModel
+class SetupPushNotificationRequest : public Wrappers::PFTitleDataManagementSetupPushNotificationRequestWrapper<Allocator>, public InputModel
 {
-    SetupPushNotificationRequest();
-    SetupPushNotificationRequest(const SetupPushNotificationRequest& src);
-    SetupPushNotificationRequest(SetupPushNotificationRequest&& src);
-    SetupPushNotificationRequest(const PFTitleDataManagementSetupPushNotificationRequest& src);
-    SetupPushNotificationRequest& operator=(const SetupPushNotificationRequest&) = delete;
-    ~SetupPushNotificationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementSetupPushNotificationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementSetupPushNotificationRequest& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_credential;
-    String m_key;
-    String m_name;
 };
 
-struct SetupPushNotificationResult : public PFTitleDataManagementSetupPushNotificationResult, public SerializableModel, public ApiResult
+class SetupPushNotificationResult : public Wrappers::PFTitleDataManagementSetupPushNotificationResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementSetupPushNotificationResult>
 {
-    SetupPushNotificationResult();
-    SetupPushNotificationResult(const SetupPushNotificationResult& src);
-    SetupPushNotificationResult(SetupPushNotificationResult&& src);
-    SetupPushNotificationResult(const PFTitleDataManagementSetupPushNotificationResult& src);
-    SetupPushNotificationResult& operator=(const SetupPushNotificationResult&) = delete;
-    ~SetupPushNotificationResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementSetupPushNotificationResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementSetupPushNotificationResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_aRN;
+    static size_t RequiredBufferSize(const PFTitleDataManagementSetupPushNotificationResult& model);
+    static HRESULT Copy(const PFTitleDataManagementSetupPushNotificationResult& input, PFTitleDataManagementSetupPushNotificationResult& output, ModelBuffer& buffer);
 };
 
-struct RandomResultTable : public PFTitleDataManagementRandomResultTable, public BaseModel
+class RandomResultTable : public Wrappers::PFTitleDataManagementRandomResultTableWrapper<Allocator>, public InputModel
 {
-    RandomResultTable();
-    RandomResultTable(const RandomResultTable& src);
-    RandomResultTable(RandomResultTable&& src);
-    RandomResultTable(const PFTitleDataManagementRandomResultTable& src);
-    RandomResultTable& operator=(const RandomResultTable&) = delete;
-    ~RandomResultTable() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementRandomResultTableWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementRandomResultTable& input);
 
-private:
-    PointerArrayModel<PFResultTableNode, ResultTableNode> m_nodes;
-    String m_tableId;
 };
 
-struct UpdateRandomResultTablesRequest : public PFTitleDataManagementUpdateRandomResultTablesRequest, public BaseModel
+class UpdateRandomResultTablesRequest : public Wrappers::PFTitleDataManagementUpdateRandomResultTablesRequestWrapper<Allocator>, public InputModel
 {
-    UpdateRandomResultTablesRequest();
-    UpdateRandomResultTablesRequest(const UpdateRandomResultTablesRequest& src);
-    UpdateRandomResultTablesRequest(UpdateRandomResultTablesRequest&& src);
-    UpdateRandomResultTablesRequest(const PFTitleDataManagementUpdateRandomResultTablesRequest& src);
-    UpdateRandomResultTablesRequest& operator=(const UpdateRandomResultTablesRequest&) = delete;
-    ~UpdateRandomResultTablesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementUpdateRandomResultTablesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementUpdateRandomResultTablesRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PointerArrayModel<PFTitleDataManagementRandomResultTable, RandomResultTable> m_tables;
 };
 
-struct GetTimeResult : public PFTitleDataManagementGetTimeResult, public SerializableModel, public ApiResult
+class GetTimeResult : public Wrappers::PFTitleDataManagementGetTimeResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementGetTimeResult>
 {
-    GetTimeResult();
-    GetTimeResult(const GetTimeResult&) = default;
-    GetTimeResult(GetTimeResult&&) = default;
-    GetTimeResult(const PFTitleDataManagementGetTimeResult& src);
-    GetTimeResult& operator=(const GetTimeResult&) = delete;
-    ~GetTimeResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetTimeResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementGetTimeResult const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
+    static size_t RequiredBufferSize(const PFTitleDataManagementGetTimeResult& model);
+    static HRESULT Copy(const PFTitleDataManagementGetTimeResult& input, PFTitleDataManagementGetTimeResult& output, ModelBuffer& buffer);
 };
 
-struct GetTitleNewsRequest : public PFTitleDataManagementGetTitleNewsRequest, public BaseModel
+class GetTitleNewsRequest : public Wrappers::PFTitleDataManagementGetTitleNewsRequestWrapper<Allocator>, public InputModel
 {
-    GetTitleNewsRequest();
-    GetTitleNewsRequest(const GetTitleNewsRequest& src);
-    GetTitleNewsRequest(GetTitleNewsRequest&& src);
-    GetTitleNewsRequest(const PFTitleDataManagementGetTitleNewsRequest& src);
-    GetTitleNewsRequest& operator=(const GetTitleNewsRequest&) = delete;
-    ~GetTitleNewsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetTitleNewsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetTitleNewsRequest& input);
 
-private:
-    StdExtra::optional<int32_t> m_count;
 };
 
-struct TitleNewsItem : public PFTitleDataManagementTitleNewsItem, public SerializableModel
+class TitleNewsItem : public Wrappers::PFTitleDataManagementTitleNewsItemWrapper<Allocator>, public OutputModel<PFTitleDataManagementTitleNewsItem>
 {
-    TitleNewsItem();
-    TitleNewsItem(const TitleNewsItem& src);
-    TitleNewsItem(TitleNewsItem&& src);
-    TitleNewsItem(const PFTitleDataManagementTitleNewsItem& src);
-    TitleNewsItem& operator=(const TitleNewsItem&) = delete;
-    ~TitleNewsItem() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementTitleNewsItemWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementTitleNewsItem const*> Copy(ModelBuffer& buffer) const override;
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_body;
-    String m_newsId;
-    String m_title;
+    static size_t RequiredBufferSize(const PFTitleDataManagementTitleNewsItem& model);
+    static HRESULT Copy(const PFTitleDataManagementTitleNewsItem& input, PFTitleDataManagementTitleNewsItem& output, ModelBuffer& buffer);
 };
 
-struct GetTitleNewsResult : public PFTitleDataManagementGetTitleNewsResult, public BaseModel, public ApiResult
+class GetTitleNewsResult : public Wrappers::PFTitleDataManagementGetTitleNewsResultWrapper<Allocator>, public OutputModel<PFTitleDataManagementGetTitleNewsResult>
 {
-    GetTitleNewsResult();
-    GetTitleNewsResult(const GetTitleNewsResult& src);
-    GetTitleNewsResult(GetTitleNewsResult&& src);
-    GetTitleNewsResult(const PFTitleDataManagementGetTitleNewsResult& src);
-    GetTitleNewsResult& operator=(const GetTitleNewsResult&) = delete;
-    ~GetTitleNewsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetTitleNewsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFTitleDataManagementGetTitleNewsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFTitleDataManagementTitleNewsItem, TitleNewsItem> m_news;
+    static size_t RequiredBufferSize(const PFTitleDataManagementGetTitleNewsResult& model);
+    static HRESULT Copy(const PFTitleDataManagementGetTitleNewsResult& input, PFTitleDataManagementGetTitleNewsResult& output, ModelBuffer& buffer);
 };
 
-struct GetStoreItemsServerRequest : public PFTitleDataManagementGetStoreItemsServerRequest, public BaseModel
+class GetStoreItemsServerRequest : public Wrappers::PFTitleDataManagementGetStoreItemsServerRequestWrapper<Allocator>, public InputModel
 {
-    GetStoreItemsServerRequest();
-    GetStoreItemsServerRequest(const GetStoreItemsServerRequest& src);
-    GetStoreItemsServerRequest(GetStoreItemsServerRequest&& src);
-    GetStoreItemsServerRequest(const PFTitleDataManagementGetStoreItemsServerRequest& src);
-    GetStoreItemsServerRequest& operator=(const GetStoreItemsServerRequest&) = delete;
-    ~GetStoreItemsServerRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFTitleDataManagementGetStoreItemsServerRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFTitleDataManagementGetStoreItemsServerRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_playFabId;
-    String m_storeId;
 };
 
-} // namespace TitleDataManagementModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementAddLocalizedNewsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementAddNewsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementAddNewsResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementVirtualCurrencyData& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementAddVirtualCurrencyTypesRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementDeleteStoreRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementDeleteTitleDataOverrideRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetCatalogItemsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementCatalogItemBundleInfo& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementCatalogItemConsumableInfo& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementCatalogItemContainerInfo& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementCatalogItem& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetCatalogItemsResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetPublisherDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetPublisherDataResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetRandomResultTablesRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetStoreItemsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementStoreMarketingModel& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementStoreItem& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetStoreItemsResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetTitleDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetTitleDataResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementListVirtualCurrencyTypesResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementRemoveVirtualCurrencyTypesRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementUpdateCatalogItemsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementUpdateStoreItemsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementSetTitleDataRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementTitleDataKeyValue& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementSetTitleDataAndOverridesRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementSetupPushNotificationRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementSetupPushNotificationResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementRandomResultTable& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementUpdateRandomResultTablesRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetTimeResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetTitleNewsRequest& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementTitleNewsItem& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetTitleNewsResult& input);
-template<> inline JsonValue ToJson<>(const PFTitleDataManagementGetStoreItemsServerRequest& input);
-} // namespace JsonUtils
-
+} // namespace TitleDataManagement
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

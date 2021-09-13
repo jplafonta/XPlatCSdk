@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Experimentation
+{
 
 class ExperimentationAPI
 {
@@ -16,19 +18,20 @@ public:
     ~ExperimentationAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<ExperimentationModels::CreateExclusionGroupResult> CreateExclusionGroup(SharedPtr<Entity> entity, const PFExperimentationCreateExclusionGroupRequest& request, const TaskQueue& queue);
-    static AsyncOp<ExperimentationModels::CreateExperimentResult> CreateExperiment(SharedPtr<Entity> entity, const PFExperimentationCreateExperimentRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> DeleteExclusionGroup(SharedPtr<Entity> entity, const PFExperimentationDeleteExclusionGroupRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> DeleteExperiment(SharedPtr<Entity> entity, const PFExperimentationDeleteExperimentRequest& request, const TaskQueue& queue);
-    static AsyncOp<ExperimentationModels::GetExclusionGroupsResult> GetExclusionGroups(SharedPtr<Entity> entity, const PFExperimentationGetExclusionGroupsRequest& request, const TaskQueue& queue);
-    static AsyncOp<ExperimentationModels::GetExclusionGroupTrafficResult> GetExclusionGroupTraffic(SharedPtr<Entity> entity, const PFExperimentationGetExclusionGroupTrafficRequest& request, const TaskQueue& queue);
-    static AsyncOp<ExperimentationModels::GetExperimentsResult> GetExperiments(SharedPtr<Entity> entity, const PFExperimentationGetExperimentsRequest& request, const TaskQueue& queue);
-    static AsyncOp<ExperimentationModels::GetLatestScorecardResult> GetLatestScorecard(SharedPtr<Entity> entity, const PFExperimentationGetLatestScorecardRequest& request, const TaskQueue& queue);
-    static AsyncOp<ExperimentationModels::GetTreatmentAssignmentResult> GetTreatmentAssignment(SharedPtr<Entity> entity, const PFExperimentationGetTreatmentAssignmentRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> StartExperiment(SharedPtr<Entity> entity, const PFExperimentationStartExperimentRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> StopExperiment(SharedPtr<Entity> entity, const PFExperimentationStopExperimentRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> UpdateExclusionGroup(SharedPtr<Entity> entity, const PFExperimentationUpdateExclusionGroupRequest& request, const TaskQueue& queue);
-    static AsyncOp<void> UpdateExperiment(SharedPtr<Entity> entity, const PFExperimentationUpdateExperimentRequest& request, const TaskQueue& queue);
+    static AsyncOp<CreateExclusionGroupResult> CreateExclusionGroup(SharedPtr<Entity> entity, const CreateExclusionGroupRequest& request, const TaskQueue& queue);
+    static AsyncOp<CreateExperimentResult> CreateExperiment(SharedPtr<Entity> entity, const CreateExperimentRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> DeleteExclusionGroup(SharedPtr<Entity> entity, const DeleteExclusionGroupRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> DeleteExperiment(SharedPtr<Entity> entity, const DeleteExperimentRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetExclusionGroupsResult> GetExclusionGroups(SharedPtr<Entity> entity, const GetExclusionGroupsRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetExclusionGroupTrafficResult> GetExclusionGroupTraffic(SharedPtr<Entity> entity, const GetExclusionGroupTrafficRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetExperimentsResult> GetExperiments(SharedPtr<Entity> entity, const GetExperimentsRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetLatestScorecardResult> GetLatestScorecard(SharedPtr<Entity> entity, const GetLatestScorecardRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetTreatmentAssignmentResult> GetTreatmentAssignment(SharedPtr<Entity> entity, const GetTreatmentAssignmentRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> StartExperiment(SharedPtr<Entity> entity, const StartExperimentRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> StopExperiment(SharedPtr<Entity> entity, const StopExperimentRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> UpdateExclusionGroup(SharedPtr<Entity> entity, const UpdateExclusionGroupRequest& request, const TaskQueue& queue);
+    static AsyncOp<void> UpdateExperiment(SharedPtr<Entity> entity, const UpdateExperimentRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Experimentation
+} // namespace PlayFab

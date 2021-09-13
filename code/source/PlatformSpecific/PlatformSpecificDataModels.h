@@ -1,524 +1,460 @@
 #pragma once
 
-#include <playfab/PFPlatformSpecificDataModels.h>
+#include <playfab/cpp/PFPlatformSpecificDataModelWrappers.h>
 #include <Shared/SharedDataModels.h>
 #include "BaseModel.h"
 
 namespace PlayFab
 {
-namespace PlatformSpecificModels
+namespace PlatformSpecific
 {
 
 // PlatformSpecific Classes
-struct AndroidDevicePushNotificationRegistrationRequest : public PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest, public BaseModel
+class AndroidDevicePushNotificationRegistrationRequest : public Wrappers::PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequestWrapper<Allocator>, public InputModel
 {
-    AndroidDevicePushNotificationRegistrationRequest();
-    AndroidDevicePushNotificationRegistrationRequest(const AndroidDevicePushNotificationRegistrationRequest& src);
-    AndroidDevicePushNotificationRegistrationRequest(AndroidDevicePushNotificationRegistrationRequest&& src);
-    AndroidDevicePushNotificationRegistrationRequest(const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest& src);
-    AndroidDevicePushNotificationRegistrationRequest& operator=(const AndroidDevicePushNotificationRegistrationRequest&) = delete;
-    ~AndroidDevicePushNotificationRegistrationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest& input);
 
-private:
-    String m_confirmationMessage;
-    String m_deviceToken;
-    StdExtra::optional<bool> m_sendPushNotificationConfirmation;
 };
 
-struct MicrosoftStorePayload : public PFPlatformSpecificMicrosoftStorePayload, public SerializableModel
+class MicrosoftStorePayload : public Wrappers::PFPlatformSpecificMicrosoftStorePayloadWrapper<Allocator>, public InputModel
 {
-    MicrosoftStorePayload();
-    MicrosoftStorePayload(const MicrosoftStorePayload& src);
-    MicrosoftStorePayload(MicrosoftStorePayload&& src);
-    MicrosoftStorePayload(const PFPlatformSpecificMicrosoftStorePayload& src);
-    MicrosoftStorePayload& operator=(const MicrosoftStorePayload&) = delete;
-    ~MicrosoftStorePayload() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificMicrosoftStorePayloadWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificMicrosoftStorePayload& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
-
-private:
-    String m_collectionsMsIdKey;
-    String m_userId;
-    String m_xboxToken;
 };
 
-struct ConsumeMicrosoftStoreEntitlementsRequest : public PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest, public BaseModel
+class ConsumeMicrosoftStoreEntitlementsRequest : public Wrappers::PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequestWrapper<Allocator>, public InputModel
 {
-    ConsumeMicrosoftStoreEntitlementsRequest();
-    ConsumeMicrosoftStoreEntitlementsRequest(const ConsumeMicrosoftStoreEntitlementsRequest& src);
-    ConsumeMicrosoftStoreEntitlementsRequest(ConsumeMicrosoftStoreEntitlementsRequest&& src);
-    ConsumeMicrosoftStoreEntitlementsRequest(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest& src);
-    ConsumeMicrosoftStoreEntitlementsRequest& operator=(const ConsumeMicrosoftStoreEntitlementsRequest&) = delete;
-    ~ConsumeMicrosoftStoreEntitlementsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    MicrosoftStorePayload m_marketplaceSpecificData;
 };
 
-struct ConsumeMicrosoftStoreEntitlementsResponse : public PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse, public BaseModel, public ApiResult
+class ConsumeMicrosoftStoreEntitlementsResponse : public Wrappers::PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponseWrapper<Allocator>, public OutputModel<PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse>
 {
-    ConsumeMicrosoftStoreEntitlementsResponse();
-    ConsumeMicrosoftStoreEntitlementsResponse(const ConsumeMicrosoftStoreEntitlementsResponse& src);
-    ConsumeMicrosoftStoreEntitlementsResponse(ConsumeMicrosoftStoreEntitlementsResponse&& src);
-    ConsumeMicrosoftStoreEntitlementsResponse(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse& src);
-    ConsumeMicrosoftStoreEntitlementsResponse& operator=(const ConsumeMicrosoftStoreEntitlementsResponse&) = delete;
-    ~ConsumeMicrosoftStoreEntitlementsResponse() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponseWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_items;
+    static size_t RequiredBufferSize(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse& model);
+    static HRESULT Copy(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse& input, PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse& output, ModelBuffer& buffer);
 };
 
-struct PlayStation5Payload : public PFPlatformSpecificPlayStation5Payload, public BaseModel
+class PlayStation5Payload : public Wrappers::PFPlatformSpecificPlayStation5PayloadWrapper<Allocator>, public InputModel
 {
-    PlayStation5Payload();
-    PlayStation5Payload(const PlayStation5Payload& src);
-    PlayStation5Payload(PlayStation5Payload&& src);
-    PlayStation5Payload(const PFPlatformSpecificPlayStation5Payload& src);
-    PlayStation5Payload& operator=(const PlayStation5Payload&) = delete;
-    ~PlayStation5Payload() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificPlayStation5PayloadWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificPlayStation5Payload& input);
 
-private:
-    PointerArrayModel<char, String> m_ids;
-    String m_serviceLabel;
 };
 
-struct ConsumePS5EntitlementsRequest : public PFPlatformSpecificConsumePS5EntitlementsRequest, public BaseModel
+class ConsumePS5EntitlementsRequest : public Wrappers::PFPlatformSpecificConsumePS5EntitlementsRequestWrapper<Allocator>, public InputModel
 {
-    ConsumePS5EntitlementsRequest();
-    ConsumePS5EntitlementsRequest(const ConsumePS5EntitlementsRequest& src);
-    ConsumePS5EntitlementsRequest(ConsumePS5EntitlementsRequest&& src);
-    ConsumePS5EntitlementsRequest(const PFPlatformSpecificConsumePS5EntitlementsRequest& src);
-    ConsumePS5EntitlementsRequest& operator=(const ConsumePS5EntitlementsRequest&) = delete;
-    ~ConsumePS5EntitlementsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumePS5EntitlementsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificConsumePS5EntitlementsRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    PlayStation5Payload m_marketplaceSpecificData;
 };
 
-struct ConsumePS5EntitlementsResult : public PFPlatformSpecificConsumePS5EntitlementsResult, public BaseModel, public ApiResult
+class ConsumePS5EntitlementsResult : public Wrappers::PFPlatformSpecificConsumePS5EntitlementsResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificConsumePS5EntitlementsResult>
 {
-    ConsumePS5EntitlementsResult();
-    ConsumePS5EntitlementsResult(const ConsumePS5EntitlementsResult& src);
-    ConsumePS5EntitlementsResult(ConsumePS5EntitlementsResult&& src);
-    ConsumePS5EntitlementsResult(const PFPlatformSpecificConsumePS5EntitlementsResult& src);
-    ConsumePS5EntitlementsResult& operator=(const ConsumePS5EntitlementsResult&) = delete;
-    ~ConsumePS5EntitlementsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumePS5EntitlementsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificConsumePS5EntitlementsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_items;
+    static size_t RequiredBufferSize(const PFPlatformSpecificConsumePS5EntitlementsResult& model);
+    static HRESULT Copy(const PFPlatformSpecificConsumePS5EntitlementsResult& input, PFPlatformSpecificConsumePS5EntitlementsResult& output, ModelBuffer& buffer);
 };
 
-struct ConsumePSNEntitlementsRequest : public PFPlatformSpecificConsumePSNEntitlementsRequest, public BaseModel
+class ConsumePSNEntitlementsRequest : public Wrappers::PFPlatformSpecificConsumePSNEntitlementsRequestWrapper<Allocator>, public InputModel
 {
-    ConsumePSNEntitlementsRequest();
-    ConsumePSNEntitlementsRequest(const ConsumePSNEntitlementsRequest& src);
-    ConsumePSNEntitlementsRequest(ConsumePSNEntitlementsRequest&& src);
-    ConsumePSNEntitlementsRequest(const PFPlatformSpecificConsumePSNEntitlementsRequest& src);
-    ConsumePSNEntitlementsRequest& operator=(const ConsumePSNEntitlementsRequest&) = delete;
-    ~ConsumePSNEntitlementsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumePSNEntitlementsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificConsumePSNEntitlementsRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
 };
 
-struct ConsumePSNEntitlementsResult : public PFPlatformSpecificConsumePSNEntitlementsResult, public BaseModel, public ApiResult
+class ConsumePSNEntitlementsResult : public Wrappers::PFPlatformSpecificConsumePSNEntitlementsResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificConsumePSNEntitlementsResult>
 {
-    ConsumePSNEntitlementsResult();
-    ConsumePSNEntitlementsResult(const ConsumePSNEntitlementsResult& src);
-    ConsumePSNEntitlementsResult(ConsumePSNEntitlementsResult&& src);
-    ConsumePSNEntitlementsResult(const PFPlatformSpecificConsumePSNEntitlementsResult& src);
-    ConsumePSNEntitlementsResult& operator=(const ConsumePSNEntitlementsResult&) = delete;
-    ~ConsumePSNEntitlementsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumePSNEntitlementsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificConsumePSNEntitlementsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_itemsGranted;
+    static size_t RequiredBufferSize(const PFPlatformSpecificConsumePSNEntitlementsResult& model);
+    static HRESULT Copy(const PFPlatformSpecificConsumePSNEntitlementsResult& input, PFPlatformSpecificConsumePSNEntitlementsResult& output, ModelBuffer& buffer);
 };
 
-struct ConsumeXboxEntitlementsRequest : public PFPlatformSpecificConsumeXboxEntitlementsRequest, public BaseModel
+class ConsumeXboxEntitlementsRequest : public Wrappers::PFPlatformSpecificConsumeXboxEntitlementsRequestWrapper<Allocator>, public InputModel
 {
-    ConsumeXboxEntitlementsRequest();
-    ConsumeXboxEntitlementsRequest(const ConsumeXboxEntitlementsRequest& src);
-    ConsumeXboxEntitlementsRequest(ConsumeXboxEntitlementsRequest&& src);
-    ConsumeXboxEntitlementsRequest(const PFPlatformSpecificConsumeXboxEntitlementsRequest& src);
-    ConsumeXboxEntitlementsRequest& operator=(const ConsumeXboxEntitlementsRequest&) = delete;
-    ~ConsumeXboxEntitlementsRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumeXboxEntitlementsRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificConsumeXboxEntitlementsRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_xboxToken;
 };
 
-struct ConsumeXboxEntitlementsResult : public PFPlatformSpecificConsumeXboxEntitlementsResult, public BaseModel, public ApiResult
+class ConsumeXboxEntitlementsResult : public Wrappers::PFPlatformSpecificConsumeXboxEntitlementsResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificConsumeXboxEntitlementsResult>
 {
-    ConsumeXboxEntitlementsResult();
-    ConsumeXboxEntitlementsResult(const ConsumeXboxEntitlementsResult& src);
-    ConsumeXboxEntitlementsResult(ConsumeXboxEntitlementsResult&& src);
-    ConsumeXboxEntitlementsResult(const PFPlatformSpecificConsumeXboxEntitlementsResult& src);
-    ConsumeXboxEntitlementsResult& operator=(const ConsumeXboxEntitlementsResult&) = delete;
-    ~ConsumeXboxEntitlementsResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificConsumeXboxEntitlementsResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificConsumeXboxEntitlementsResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_items;
+    static size_t RequiredBufferSize(const PFPlatformSpecificConsumeXboxEntitlementsResult& model);
+    static HRESULT Copy(const PFPlatformSpecificConsumeXboxEntitlementsResult& input, PFPlatformSpecificConsumeXboxEntitlementsResult& output, ModelBuffer& buffer);
 };
 
-struct RefreshPSNAuthTokenRequest : public PFPlatformSpecificRefreshPSNAuthTokenRequest, public BaseModel
+class RefreshPSNAuthTokenRequest : public Wrappers::PFPlatformSpecificRefreshPSNAuthTokenRequestWrapper<Allocator>, public InputModel
 {
-    RefreshPSNAuthTokenRequest();
-    RefreshPSNAuthTokenRequest(const RefreshPSNAuthTokenRequest& src);
-    RefreshPSNAuthTokenRequest(RefreshPSNAuthTokenRequest&& src);
-    RefreshPSNAuthTokenRequest(const PFPlatformSpecificRefreshPSNAuthTokenRequest& src);
-    RefreshPSNAuthTokenRequest& operator=(const RefreshPSNAuthTokenRequest&) = delete;
-    ~RefreshPSNAuthTokenRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificRefreshPSNAuthTokenRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificRefreshPSNAuthTokenRequest& input);
 
-private:
-    String m_authCode;
-    StdExtra::optional<int32_t> m_issuerId;
-    String m_redirectUri;
 };
 
-struct RegisterForIOSPushNotificationRequest : public PFPlatformSpecificRegisterForIOSPushNotificationRequest, public BaseModel
+class RegisterForIOSPushNotificationRequest : public Wrappers::PFPlatformSpecificRegisterForIOSPushNotificationRequestWrapper<Allocator>, public InputModel
 {
-    RegisterForIOSPushNotificationRequest();
-    RegisterForIOSPushNotificationRequest(const RegisterForIOSPushNotificationRequest& src);
-    RegisterForIOSPushNotificationRequest(RegisterForIOSPushNotificationRequest&& src);
-    RegisterForIOSPushNotificationRequest(const PFPlatformSpecificRegisterForIOSPushNotificationRequest& src);
-    RegisterForIOSPushNotificationRequest& operator=(const RegisterForIOSPushNotificationRequest&) = delete;
-    ~RegisterForIOSPushNotificationRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificRegisterForIOSPushNotificationRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificRegisterForIOSPushNotificationRequest& input);
 
-private:
-    String m_confirmationMessage;
-    String m_deviceToken;
-    StdExtra::optional<bool> m_sendPushNotificationConfirmation;
 };
 
-struct RestoreIOSPurchasesRequest : public PFPlatformSpecificRestoreIOSPurchasesRequest, public BaseModel
+class RestoreIOSPurchasesRequest : public Wrappers::PFPlatformSpecificRestoreIOSPurchasesRequestWrapper<Allocator>, public InputModel
 {
-    RestoreIOSPurchasesRequest();
-    RestoreIOSPurchasesRequest(const RestoreIOSPurchasesRequest& src);
-    RestoreIOSPurchasesRequest(RestoreIOSPurchasesRequest&& src);
-    RestoreIOSPurchasesRequest(const PFPlatformSpecificRestoreIOSPurchasesRequest& src);
-    RestoreIOSPurchasesRequest& operator=(const RestoreIOSPurchasesRequest&) = delete;
-    ~RestoreIOSPurchasesRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificRestoreIOSPurchasesRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificRestoreIOSPurchasesRequest& input);
 
-private:
-    String m_catalogVersion;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_receiptData;
 };
 
-struct PurchaseReceiptFulfillment : public PFPlatformSpecificPurchaseReceiptFulfillment, public BaseModel
+class PurchaseReceiptFulfillment : public Wrappers::PFPlatformSpecificPurchaseReceiptFulfillmentWrapper<Allocator>, public OutputModel<PFPlatformSpecificPurchaseReceiptFulfillment>
 {
-    PurchaseReceiptFulfillment();
-    PurchaseReceiptFulfillment(const PurchaseReceiptFulfillment& src);
-    PurchaseReceiptFulfillment(PurchaseReceiptFulfillment&& src);
-    PurchaseReceiptFulfillment(const PFPlatformSpecificPurchaseReceiptFulfillment& src);
-    PurchaseReceiptFulfillment& operator=(const PurchaseReceiptFulfillment&) = delete;
-    ~PurchaseReceiptFulfillment() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificPurchaseReceiptFulfillmentWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificPurchaseReceiptFulfillment const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFItemInstance, ItemInstance> m_fulfilledItems;
-    String m_recordedPriceSource;
-    String m_recordedTransactionCurrency;
-    StdExtra::optional<uint32_t> m_recordedTransactionTotal;
+    static size_t RequiredBufferSize(const PFPlatformSpecificPurchaseReceiptFulfillment& model);
+    static HRESULT Copy(const PFPlatformSpecificPurchaseReceiptFulfillment& input, PFPlatformSpecificPurchaseReceiptFulfillment& output, ModelBuffer& buffer);
 };
 
-struct RestoreIOSPurchasesResult : public PFPlatformSpecificRestoreIOSPurchasesResult, public BaseModel, public ApiResult
+class RestoreIOSPurchasesResult : public Wrappers::PFPlatformSpecificRestoreIOSPurchasesResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificRestoreIOSPurchasesResult>
 {
-    RestoreIOSPurchasesResult();
-    RestoreIOSPurchasesResult(const RestoreIOSPurchasesResult& src);
-    RestoreIOSPurchasesResult(RestoreIOSPurchasesResult&& src);
-    RestoreIOSPurchasesResult(const PFPlatformSpecificRestoreIOSPurchasesResult& src);
-    RestoreIOSPurchasesResult& operator=(const RestoreIOSPurchasesResult&) = delete;
-    ~RestoreIOSPurchasesResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificRestoreIOSPurchasesResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificRestoreIOSPurchasesResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlatformSpecificPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
+    static size_t RequiredBufferSize(const PFPlatformSpecificRestoreIOSPurchasesResult& model);
+    static HRESULT Copy(const PFPlatformSpecificRestoreIOSPurchasesResult& input, PFPlatformSpecificRestoreIOSPurchasesResult& output, ModelBuffer& buffer);
 };
 
-struct ValidateAmazonReceiptRequest : public PFPlatformSpecificValidateAmazonReceiptRequest, public BaseModel
+class ValidateAmazonReceiptRequest : public Wrappers::PFPlatformSpecificValidateAmazonReceiptRequestWrapper<Allocator>, public InputModel
 {
-    ValidateAmazonReceiptRequest();
-    ValidateAmazonReceiptRequest(const ValidateAmazonReceiptRequest& src);
-    ValidateAmazonReceiptRequest(ValidateAmazonReceiptRequest&& src);
-    ValidateAmazonReceiptRequest(const PFPlatformSpecificValidateAmazonReceiptRequest& src);
-    ValidateAmazonReceiptRequest& operator=(const ValidateAmazonReceiptRequest&) = delete;
-    ~ValidateAmazonReceiptRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateAmazonReceiptRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificValidateAmazonReceiptRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_currencyCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_receiptId;
-    String m_userId;
 };
 
-struct ValidateAmazonReceiptResult : public PFPlatformSpecificValidateAmazonReceiptResult, public BaseModel, public ApiResult
+class ValidateAmazonReceiptResult : public Wrappers::PFPlatformSpecificValidateAmazonReceiptResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificValidateAmazonReceiptResult>
 {
-    ValidateAmazonReceiptResult();
-    ValidateAmazonReceiptResult(const ValidateAmazonReceiptResult& src);
-    ValidateAmazonReceiptResult(ValidateAmazonReceiptResult&& src);
-    ValidateAmazonReceiptResult(const PFPlatformSpecificValidateAmazonReceiptResult& src);
-    ValidateAmazonReceiptResult& operator=(const ValidateAmazonReceiptResult&) = delete;
-    ~ValidateAmazonReceiptResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateAmazonReceiptResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificValidateAmazonReceiptResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlatformSpecificPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
+    static size_t RequiredBufferSize(const PFPlatformSpecificValidateAmazonReceiptResult& model);
+    static HRESULT Copy(const PFPlatformSpecificValidateAmazonReceiptResult& input, PFPlatformSpecificValidateAmazonReceiptResult& output, ModelBuffer& buffer);
 };
 
-struct ValidateGooglePlayPurchaseRequest : public PFPlatformSpecificValidateGooglePlayPurchaseRequest, public BaseModel
+class ValidateGooglePlayPurchaseRequest : public Wrappers::PFPlatformSpecificValidateGooglePlayPurchaseRequestWrapper<Allocator>, public InputModel
 {
-    ValidateGooglePlayPurchaseRequest();
-    ValidateGooglePlayPurchaseRequest(const ValidateGooglePlayPurchaseRequest& src);
-    ValidateGooglePlayPurchaseRequest(ValidateGooglePlayPurchaseRequest&& src);
-    ValidateGooglePlayPurchaseRequest(const PFPlatformSpecificValidateGooglePlayPurchaseRequest& src);
-    ValidateGooglePlayPurchaseRequest& operator=(const ValidateGooglePlayPurchaseRequest&) = delete;
-    ~ValidateGooglePlayPurchaseRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateGooglePlayPurchaseRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificValidateGooglePlayPurchaseRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_currencyCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    StdExtra::optional<uint32_t> m_purchasePrice;
-    String m_receiptJson;
-    String m_signature;
 };
 
-struct ValidateGooglePlayPurchaseResult : public PFPlatformSpecificValidateGooglePlayPurchaseResult, public BaseModel, public ApiResult
+class ValidateGooglePlayPurchaseResult : public Wrappers::PFPlatformSpecificValidateGooglePlayPurchaseResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificValidateGooglePlayPurchaseResult>
 {
-    ValidateGooglePlayPurchaseResult();
-    ValidateGooglePlayPurchaseResult(const ValidateGooglePlayPurchaseResult& src);
-    ValidateGooglePlayPurchaseResult(ValidateGooglePlayPurchaseResult&& src);
-    ValidateGooglePlayPurchaseResult(const PFPlatformSpecificValidateGooglePlayPurchaseResult& src);
-    ValidateGooglePlayPurchaseResult& operator=(const ValidateGooglePlayPurchaseResult&) = delete;
-    ~ValidateGooglePlayPurchaseResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateGooglePlayPurchaseResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificValidateGooglePlayPurchaseResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlatformSpecificPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
+    static size_t RequiredBufferSize(const PFPlatformSpecificValidateGooglePlayPurchaseResult& model);
+    static HRESULT Copy(const PFPlatformSpecificValidateGooglePlayPurchaseResult& input, PFPlatformSpecificValidateGooglePlayPurchaseResult& output, ModelBuffer& buffer);
 };
 
-struct ValidateIOSReceiptRequest : public PFPlatformSpecificValidateIOSReceiptRequest, public BaseModel
+class ValidateIOSReceiptRequest : public Wrappers::PFPlatformSpecificValidateIOSReceiptRequestWrapper<Allocator>, public InputModel
 {
-    ValidateIOSReceiptRequest();
-    ValidateIOSReceiptRequest(const ValidateIOSReceiptRequest& src);
-    ValidateIOSReceiptRequest(ValidateIOSReceiptRequest&& src);
-    ValidateIOSReceiptRequest(const PFPlatformSpecificValidateIOSReceiptRequest& src);
-    ValidateIOSReceiptRequest& operator=(const ValidateIOSReceiptRequest&) = delete;
-    ~ValidateIOSReceiptRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateIOSReceiptRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificValidateIOSReceiptRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_currencyCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_receiptData;
 };
 
-struct ValidateIOSReceiptResult : public PFPlatformSpecificValidateIOSReceiptResult, public BaseModel, public ApiResult
+class ValidateIOSReceiptResult : public Wrappers::PFPlatformSpecificValidateIOSReceiptResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificValidateIOSReceiptResult>
 {
-    ValidateIOSReceiptResult();
-    ValidateIOSReceiptResult(const ValidateIOSReceiptResult& src);
-    ValidateIOSReceiptResult(ValidateIOSReceiptResult&& src);
-    ValidateIOSReceiptResult(const PFPlatformSpecificValidateIOSReceiptResult& src);
-    ValidateIOSReceiptResult& operator=(const ValidateIOSReceiptResult&) = delete;
-    ~ValidateIOSReceiptResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateIOSReceiptResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificValidateIOSReceiptResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlatformSpecificPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
+    static size_t RequiredBufferSize(const PFPlatformSpecificValidateIOSReceiptResult& model);
+    static HRESULT Copy(const PFPlatformSpecificValidateIOSReceiptResult& input, PFPlatformSpecificValidateIOSReceiptResult& output, ModelBuffer& buffer);
 };
 
-struct ValidateWindowsReceiptRequest : public PFPlatformSpecificValidateWindowsReceiptRequest, public BaseModel
+class ValidateWindowsReceiptRequest : public Wrappers::PFPlatformSpecificValidateWindowsReceiptRequestWrapper<Allocator>, public InputModel
 {
-    ValidateWindowsReceiptRequest();
-    ValidateWindowsReceiptRequest(const ValidateWindowsReceiptRequest& src);
-    ValidateWindowsReceiptRequest(ValidateWindowsReceiptRequest&& src);
-    ValidateWindowsReceiptRequest(const PFPlatformSpecificValidateWindowsReceiptRequest& src);
-    ValidateWindowsReceiptRequest& operator=(const ValidateWindowsReceiptRequest&) = delete;
-    ~ValidateWindowsReceiptRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateWindowsReceiptRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificValidateWindowsReceiptRequest& input);
 
-private:
-    String m_catalogVersion;
-    String m_currencyCode;
-    AssociativeArrayModel<PFStringDictionaryEntry, String> m_customTags;
-    String m_receipt;
 };
 
-struct ValidateWindowsReceiptResult : public PFPlatformSpecificValidateWindowsReceiptResult, public BaseModel, public ApiResult
+class ValidateWindowsReceiptResult : public Wrappers::PFPlatformSpecificValidateWindowsReceiptResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificValidateWindowsReceiptResult>
 {
-    ValidateWindowsReceiptResult();
-    ValidateWindowsReceiptResult(const ValidateWindowsReceiptResult& src);
-    ValidateWindowsReceiptResult(ValidateWindowsReceiptResult&& src);
-    ValidateWindowsReceiptResult(const PFPlatformSpecificValidateWindowsReceiptResult& src);
-    ValidateWindowsReceiptResult& operator=(const ValidateWindowsReceiptResult&) = delete;
-    ~ValidateWindowsReceiptResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificValidateWindowsReceiptResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificValidateWindowsReceiptResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlatformSpecificPurchaseReceiptFulfillment, PurchaseReceiptFulfillment> m_fulfillments;
+    static size_t RequiredBufferSize(const PFPlatformSpecificValidateWindowsReceiptResult& model);
+    static HRESULT Copy(const PFPlatformSpecificValidateWindowsReceiptResult& input, PFPlatformSpecificValidateWindowsReceiptResult& output, ModelBuffer& buffer);
 };
 
-struct AwardSteamAchievementItem : public PFPlatformSpecificAwardSteamAchievementItem, public SerializableModel
+class AwardSteamAchievementItem : public Wrappers::PFPlatformSpecificAwardSteamAchievementItemWrapper<Allocator>, public InputModel, public OutputModel<PFPlatformSpecificAwardSteamAchievementItem>
 {
-    AwardSteamAchievementItem();
-    AwardSteamAchievementItem(const AwardSteamAchievementItem& src);
-    AwardSteamAchievementItem(AwardSteamAchievementItem&& src);
-    AwardSteamAchievementItem(const PFPlatformSpecificAwardSteamAchievementItem& src);
-    AwardSteamAchievementItem& operator=(const AwardSteamAchievementItem&) = delete;
-    ~AwardSteamAchievementItem() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificAwardSteamAchievementItemWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificAwardSteamAchievementItem& input);
 
-    size_t SerializedSize() const override;
-    void Serialize(void* buffer, size_t bufferSize) const override;
+    // OutputModel
+    void FromJson(const JsonValue& input) override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificAwardSteamAchievementItem const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    String m_achievementName;
-    String m_playFabId;
+    static size_t RequiredBufferSize(const PFPlatformSpecificAwardSteamAchievementItem& model);
+    static HRESULT Copy(const PFPlatformSpecificAwardSteamAchievementItem& input, PFPlatformSpecificAwardSteamAchievementItem& output, ModelBuffer& buffer);
 };
 
-struct AwardSteamAchievementRequest : public PFPlatformSpecificAwardSteamAchievementRequest, public BaseModel
+class AwardSteamAchievementRequest : public Wrappers::PFPlatformSpecificAwardSteamAchievementRequestWrapper<Allocator>, public InputModel
 {
-    AwardSteamAchievementRequest();
-    AwardSteamAchievementRequest(const AwardSteamAchievementRequest& src);
-    AwardSteamAchievementRequest(AwardSteamAchievementRequest&& src);
-    AwardSteamAchievementRequest(const PFPlatformSpecificAwardSteamAchievementRequest& src);
-    AwardSteamAchievementRequest& operator=(const AwardSteamAchievementRequest&) = delete;
-    ~AwardSteamAchievementRequest() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificAwardSteamAchievementRequestWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
-    void FromJson(const JsonValue& input) override;
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // InputModel
     JsonValue ToJson() const override;
+    static JsonValue ToJson(const PFPlatformSpecificAwardSteamAchievementRequest& input);
 
-private:
-    PointerArrayModel<PFPlatformSpecificAwardSteamAchievementItem, AwardSteamAchievementItem> m_achievements;
 };
 
-struct AwardSteamAchievementResult : public PFPlatformSpecificAwardSteamAchievementResult, public BaseModel, public ApiResult
+class AwardSteamAchievementResult : public Wrappers::PFPlatformSpecificAwardSteamAchievementResultWrapper<Allocator>, public OutputModel<PFPlatformSpecificAwardSteamAchievementResult>
 {
-    AwardSteamAchievementResult();
-    AwardSteamAchievementResult(const AwardSteamAchievementResult& src);
-    AwardSteamAchievementResult(AwardSteamAchievementResult&& src);
-    AwardSteamAchievementResult(const PFPlatformSpecificAwardSteamAchievementResult& src);
-    AwardSteamAchievementResult& operator=(const AwardSteamAchievementResult&) = delete;
-    ~AwardSteamAchievementResult() = default;
+public:
+    using ModelWrapperType = typename Wrappers::PFPlatformSpecificAwardSteamAchievementResultWrapper<Allocator>;
+    using ModelWrapperType::ModelType;
 
+    // Constructors
+    using ModelWrapperType::ModelWrapperType;
+
+    // OutputModel
     void FromJson(const JsonValue& input) override;
-    JsonValue ToJson() const override;
+    size_t RequiredBufferSize() const override;
+    Result<PFPlatformSpecificAwardSteamAchievementResult const*> Copy(ModelBuffer& buffer) const override;
 
-private:
-    PointerArrayModel<PFPlatformSpecificAwardSteamAchievementItem, AwardSteamAchievementItem> m_achievementResults;
+    static size_t RequiredBufferSize(const PFPlatformSpecificAwardSteamAchievementResult& model);
+    static HRESULT Copy(const PFPlatformSpecificAwardSteamAchievementResult& input, PFPlatformSpecificAwardSteamAchievementResult& output, ModelBuffer& buffer);
 };
 
-} // namespace PlatformSpecificModels
-
-namespace JsonUtils
-{
-// Serialization methods for public models
-
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificAndroidDevicePushNotificationRegistrationRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificMicrosoftStorePayload& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumeMicrosoftStoreEntitlementsResponse& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificPlayStation5Payload& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumePS5EntitlementsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumePS5EntitlementsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumePSNEntitlementsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumePSNEntitlementsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumeXboxEntitlementsRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificConsumeXboxEntitlementsResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificRefreshPSNAuthTokenRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificRegisterForIOSPushNotificationRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificRestoreIOSPurchasesRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificPurchaseReceiptFulfillment& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificRestoreIOSPurchasesResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateAmazonReceiptRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateAmazonReceiptResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateGooglePlayPurchaseRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateGooglePlayPurchaseResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateIOSReceiptRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateIOSReceiptResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateWindowsReceiptRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificValidateWindowsReceiptResult& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificAwardSteamAchievementItem& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificAwardSteamAchievementRequest& input);
-template<> inline JsonValue ToJson<>(const PFPlatformSpecificAwardSteamAchievementResult& input);
-} // namespace JsonUtils
-
+} // namespace PlatformSpecific
 // EnumRange definitions used for Enum (de)serialization
 } // namespace PlayFab

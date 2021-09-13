@@ -156,7 +156,11 @@ void AutoGenLocalizationTests::TestLocalizationGetLanguageList(TestContext& test
         PFLocalizationGetLanguageListResponse* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFLocalizationGetLanguageListGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFLocalizationGetLanguageListGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFLocalizationGetLanguageListGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

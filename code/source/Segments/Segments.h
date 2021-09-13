@@ -6,6 +6,8 @@
 
 namespace PlayFab
 {
+namespace Segments
+{
 
 class SegmentsAPI
 {
@@ -16,10 +18,11 @@ public:
     ~SegmentsAPI() = default;
 
     // ------------ Generated API calls
-    static AsyncOp<SegmentsModels::CreateSegmentResponse> AdminCreateSegment(SharedPtr<GlobalState const> state, const PFSegmentsCreateSegmentRequest& request, const TaskQueue& queue);
-    static AsyncOp<SegmentsModels::DeleteSegmentsResponse> AdminDeleteSegment(SharedPtr<GlobalState const> state, const PFSegmentsDeleteSegmentRequest& request, const TaskQueue& queue);
-    static AsyncOp<SegmentsModels::GetSegmentsResponse> AdminGetSegments(SharedPtr<GlobalState const> state, const PFSegmentsGetSegmentsRequest& request, const TaskQueue& queue);
-    static AsyncOp<SegmentsModels::UpdateSegmentResponse> AdminUpdateSegment(SharedPtr<GlobalState const> state, const PFSegmentsUpdateSegmentRequest& request, const TaskQueue& queue);
+    static AsyncOp<CreateSegmentResponse> AdminCreateSegment(SharedPtr<GlobalState const> state, const CreateSegmentRequest& request, const TaskQueue& queue);
+    static AsyncOp<DeleteSegmentsResponse> AdminDeleteSegment(SharedPtr<GlobalState const> state, const DeleteSegmentRequest& request, const TaskQueue& queue);
+    static AsyncOp<GetSegmentsResponse> AdminGetSegments(SharedPtr<GlobalState const> state, const GetSegmentsRequest& request, const TaskQueue& queue);
+    static AsyncOp<UpdateSegmentResponse> AdminUpdateSegment(SharedPtr<GlobalState const> state, const UpdateSegmentRequest& request, const TaskQueue& queue);
 };
 
-}
+} // namespace Segments
+} // namespace PlayFab

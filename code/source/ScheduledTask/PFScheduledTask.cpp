@@ -6,7 +6,7 @@
 #include "Entity.h"
 
 using namespace PlayFab;
-using namespace PlayFab::ScheduledTaskModels;
+using namespace PlayFab::ScheduledTask;
 
 HRESULT PFScheduledTaskAdminAbortTaskInstanceAsync(
     _In_ PFStateHandle contextHandle,
@@ -158,16 +158,26 @@ HRESULT PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFScheduledTaskAdminGetActionsOnPlayersInSegmentTaskInstanceGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult*)(std::dynamic_pointer_cast<GetActionsOnPlayersInSegmentTaskInstanceResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFScheduledTaskGetActionsOnPlayersInSegmentTaskInstanceResult*>(buffer);
 
     return S_OK;
 }
@@ -185,16 +195,26 @@ HRESULT PFScheduledTaskAdminGetCloudScriptTaskInstanceAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFScheduledTaskAdminGetCloudScriptTaskInstanceGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFScheduledTaskGetCloudScriptTaskInstanceResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFScheduledTaskGetCloudScriptTaskInstanceResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFScheduledTaskGetCloudScriptTaskInstanceResult*)(std::dynamic_pointer_cast<GetCloudScriptTaskInstanceResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFScheduledTaskGetCloudScriptTaskInstanceResult*>(buffer);
 
     return S_OK;
 }
@@ -212,16 +232,26 @@ HRESULT PFScheduledTaskAdminGetTaskInstancesAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFScheduledTaskAdminGetTaskInstancesGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFScheduledTaskAdminGetTaskInstancesGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFScheduledTaskGetTaskInstancesResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFScheduledTaskGetTaskInstancesResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFScheduledTaskGetTaskInstancesResult*)(std::dynamic_pointer_cast<GetTaskInstancesResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFScheduledTaskGetTaskInstancesResult*>(buffer);
 
     return S_OK;
 }
@@ -239,16 +269,26 @@ HRESULT PFScheduledTaskAdminGetTasksAsync(
     return Provider::Run(UniquePtr<Provider>(provider.release()));
 }
 
+HRESULT PFScheduledTaskAdminGetTasksGetResultSize(
+    _In_ XAsyncBlock* async,
+    _Out_ size_t* bufferSize
+) noexcept
+{
+    return XAsyncGetResultSize(async, bufferSize);
+}
+
 HRESULT PFScheduledTaskAdminGetTasksGetResult(
     _In_ XAsyncBlock* async,
-    _Out_ PFResultHandle* resultHandle,
-    _Outptr_ PFScheduledTaskGetTasksResult** result
+    _In_ size_t bufferSize,
+    _Out_writes_bytes_to_(bufferSize, *bufferUsed) void* buffer,
+    _Outptr_ PFScheduledTaskGetTasksResult** result,
+    _Out_opt_ size_t* bufferUsed
 ) noexcept
 {
     RETURN_HR_INVALIDARG_IF_NULL(result);
 
-    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, sizeof(PFResultHandle), resultHandle, nullptr));
-    *result = (PFScheduledTaskGetTasksResult*)(std::dynamic_pointer_cast<GetTasksResult>((*resultHandle)->result).get());
+    RETURN_IF_FAILED(XAsyncGetResult(async, nullptr, bufferSize, buffer, bufferUsed));
+    *result = static_cast<PFScheduledTaskGetTasksResult*>(buffer);
 
     return S_OK;
 }

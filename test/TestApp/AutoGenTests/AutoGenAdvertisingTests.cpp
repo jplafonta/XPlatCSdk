@@ -196,7 +196,11 @@ void AutoGenAdvertisingTests::TestAdvertisingClientGetAdPlacements(TestContext& 
         PFAdvertisingGetAdPlacementsResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAdvertisingClientGetAdPlacementsGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAdvertisingClientGetAdPlacementsGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAdvertisingClientGetAdPlacementsGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()
@@ -265,7 +269,11 @@ void AutoGenAdvertisingTests::TestAdvertisingClientRewardAdActivity(TestContext&
         PFAdvertisingRewardAdActivityResult* result = nullptr;
         HRESULT Get(XAsyncBlock* async) override
         { 
-            return LogHR(PFAdvertisingClientRewardAdActivityGetResult(async, &resultHandle, &result)); 
+            size_t requiredBufferSize;
+            RETURN_IF_FAILED(LogHR(PFAdvertisingClientRewardAdActivityGetResultSize(async, &requiredBufferSize)));
+
+            resultBuffer.resize(requiredBufferSize);
+            return LogHR(PFAdvertisingClientRewardAdActivityGetResult(async, resultBuffer.size(), resultBuffer.data(), &result, nullptr)); 
         }
 
         HRESULT Validate()

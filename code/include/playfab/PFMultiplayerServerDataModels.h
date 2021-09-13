@@ -403,6 +403,12 @@ typedef struct PFMultiplayerServerBuildRegionParams
     int32_t maxServers;
 
     /// <summary>
+    /// (Optional) Regional override for the number of multiplayer servers to host on a single VM of
+    /// the build.
+    /// </summary>
+    int32_t const* multiplayerServerCountPerVm;
+
+    /// <summary>
     /// The build region.
     /// </summary>
     const char* region;
@@ -417,6 +423,11 @@ typedef struct PFMultiplayerServerBuildRegionParams
     /// The number of standby multiplayer servers for the region.
     /// </summary>
     int32_t standbyServers;
+
+    /// <summary>
+    /// (Optional) Regional override for the VM size the build was created on.
+    /// </summary>
+    PFMultiplayerServerAzureVmSize const* vmSize;
 
 } PFMultiplayerServerBuildRegionParams;
 
@@ -625,6 +636,12 @@ typedef struct PFMultiplayerServerBuildRegion
     int32_t maxServers;
 
     /// <summary>
+    /// (Optional) Regional override for the number of multiplayer servers to host on a single VM of
+    /// the build.
+    /// </summary>
+    int32_t const* multiplayerServerCountPerVm;
+
+    /// <summary>
     /// (Optional) The build region.
     /// </summary>
     const char* region;
@@ -645,6 +662,11 @@ typedef struct PFMultiplayerServerBuildRegion
     /// Initialized, Deploying, Deployed, Unhealthy, Deleting, Deleted.
     /// </summary>
     const char* status;
+
+    /// <summary>
+    /// (Optional) Regional override for the VM size the build was created on.
+    /// </summary>
+    PFMultiplayerServerAzureVmSize const* vmSize;
 
 } PFMultiplayerServerBuildRegion;
 

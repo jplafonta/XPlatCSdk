@@ -3654,7 +3654,7 @@ typedef struct PFAccountManagementSetEntityProfilePolicyResponse
 typedef struct PFAccountManagementLocalizedPushNotificationPropertiesDictionaryEntry
 {
     const char* key;
-    PFAccountManagementLocalizedPushNotificationProperties* value;
+    PFAccountManagementLocalizedPushNotificationProperties const* value;
 } PFAccountManagementLocalizedPushNotificationPropertiesDictionaryEntry;
 
 /// <summary>
@@ -3663,7 +3663,7 @@ typedef struct PFAccountManagementLocalizedPushNotificationPropertiesDictionaryE
 typedef struct PFAccountManagementEntityProfileFileMetadataDictionaryEntry
 {
     const char* key;
-    PFAccountManagementEntityProfileFileMetadata* value;
+    PFAccountManagementEntityProfileFileMetadata const* value;
 } PFAccountManagementEntityProfileFileMetadataDictionaryEntry;
 
 /// <summary>
@@ -3672,7 +3672,7 @@ typedef struct PFAccountManagementEntityProfileFileMetadataDictionaryEntry
 typedef struct PFAccountManagementEntityDataObjectDictionaryEntry
 {
     const char* key;
-    PFAccountManagementEntityDataObject* value;
+    PFAccountManagementEntityDataObject const* value;
 } PFAccountManagementEntityDataObjectDictionaryEntry;
 
 /// <summary>
@@ -3681,7 +3681,7 @@ typedef struct PFAccountManagementEntityDataObjectDictionaryEntry
 typedef struct PFAccountManagementEntityStatisticValueDictionaryEntry
 {
     const char* key;
-    PFAccountManagementEntityStatisticValue* value;
+    PFAccountManagementEntityStatisticValue const* value;
 } PFAccountManagementEntityStatisticValueDictionaryEntry;
 
 /// <summary>
@@ -3690,7 +3690,7 @@ typedef struct PFAccountManagementEntityStatisticValueDictionaryEntry
 typedef struct PFAccountManagementEntityStatisticChildValueDictionaryEntry
 {
     const char* key;
-    PFAccountManagementEntityStatisticChildValue* value;
+    PFAccountManagementEntityStatisticChildValue const* value;
 } PFAccountManagementEntityStatisticChildValueDictionaryEntry;
 
 #pragma pop_macro("IN")

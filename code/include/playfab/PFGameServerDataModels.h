@@ -245,7 +245,7 @@ typedef struct PFGameServerGetServerBuildUploadURLResult
     /// <summary>
     /// (Optional) Pre-authorized URL for uploading the game server build package.
     /// </summary>
-    const char* uRL;
+    const char* URL;
 
 } PFGameServerGetServerBuildUploadURLResult;
 
